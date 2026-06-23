@@ -1,0 +1,8 @@
+.DS_Store
+.idea/
+
+**/target/
+**/node_modules/
+**/.m2repo/
+**/.idea/
+**/dist/
