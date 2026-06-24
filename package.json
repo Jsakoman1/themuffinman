@@ -1,0 +1,22 @@
+{
+  "name": "themuffinman",
+  "private": true,
+  "scripts": {
+    "themuffinman:dev": "node scripts/themuffinman-dev.mjs",
+    "themuffinman:backend": "cd apps/themuffinman && ./mvnw spring-boot:run",
+    "themuffinman:test": "cd apps/themuffinman && ./mvnw test",
+    "themuffinman:build:backend": "cd apps/themuffinman && ./mvnw package",
+    "themuffinman:frontend:install": "npm --prefix apps/themuffinman/frontend install",
+    "themuffinman:frontend": "npm --prefix apps/themuffinman/frontend run dev",
+    "themuffinman:build:frontend": "npm --prefix apps/themuffinman/frontend run build",
+    "themuffinman:type-check": "npm --prefix apps/themuffinman/frontend run type-check",
+    "sidequest:dev": "npm run themuffinman:dev",
+    "sidequest:backend": "npm run themuffinman:backend",
+    "sidequest:test": "npm run themuffinman:test",
+    "sidequest:build:backend": "npm run themuffinman:build:backend",
+    "sidequest:frontend:install": "npm run themuffinman:frontend:install",
+    "sidequest:frontend": "npm run themuffinman:frontend",
+    "sidequest:build:frontend": "npm run themuffinman:build:frontend",
+    "sidequest:type-check": "npm run themuffinman:type-check"
+  }
+}

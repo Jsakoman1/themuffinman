@@ -1,0 +1,172 @@
+package com.themuffinman.app.workmarket.service;
+
+import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
+import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.social.model.CircleGroup;
+import com.themuffinman.app.common.validation.RichTextInputValidator;
+import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.workmarket.model.QuestAudience;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class QuestValidationService {
+
+    private final QuestVisibilityService questVisibilityService;
+
+    public QuestValidationService(QuestVisibilityService questVisibilityService) {
+        this.questVisibilityService = questVisibilityService;
+    }
+
+    public void validateCreateRequest(QuestRequestDTO dto) {
+        validateQuestBasics(dto);
+        validateQuestCreationTermInput(dto.getScheduledAt(), dto.getEndsAt(), dto.getTermFixed());
+        validateAssigneeTarget(dto.getAssigneeTarget());
+        validateQuestImages(dto.getImages());
+    }
+
+    public void validateUpdateRequest(QuestRequestDTO dto) {
+        validateQuestBasics(dto);
+        validateAssigneeTarget(dto.getAssigneeTarget());
+        validateQuestImages(dto.getImages());
+    }
+
+    public void validateQuestBasics(QuestRequestDTO dto) {
+        if (dto == null) {
+            throw ServiceErrors.badRequest("Quest request is required");
+        }
+
+        validateQuestTitle(dto.getTitle());
+        validateQuestDescription(dto.getDescription());
+        validateQuestAwardAmount(dto.getAwardAmount());
+    }
+
+    public void validateQuestCreationTermInput(Instant scheduledAt, Instant endsAt, Boolean termFixed) {
+        if (termFixed == null) {
+            throw ServiceErrors.badRequest("Term fixed flag is required");
+        }
+
+        if (Boolean.TRUE.equals(termFixed) && scheduledAt == null) {
+            throw ServiceErrors.badRequest("Scheduled time is required when the term is fixed");
+        }
+
+        validateTermRange(scheduledAt, endsAt);
+    }
+
+    public void validateTermInput(Instant scheduledAt, Instant endsAt, Boolean termFixed) {
+        if ((scheduledAt != null || endsAt != null) && termFixed == null) {
+            throw ServiceErrors.badRequest("Term fixed flag is required when providing a time");
+        }
+
+        if (Boolean.TRUE.equals(termFixed) && scheduledAt == null) {
+            throw ServiceErrors.badRequest("Scheduled time is required when the term is fixed");
+        }
+
+        if (endsAt != null && scheduledAt == null) {
+            throw ServiceErrors.badRequest("Start time is required when providing an end time");
+        }
+
+        validateTermRange(scheduledAt, endsAt);
+    }
+
+    public void applyQuestVisibilityCircles(Quest quest, QuestAudience audience, List<Long> selectedCircleIds, AppUser owner) {
+        if (audience != QuestAudience.CIRCLES) {
+            quest.getVisibleToCircles().clear();
+            return;
+        }
+
+        if (selectedCircleIds == null) {
+            return;
+        }
+
+        List<CircleGroup> selectedCircles = questVisibilityService.getVisibleCircles(owner, selectedCircleIds);
+        if (selectedCircleIds.size() != selectedCircles.size()) {
+            throw ServiceErrors.badRequest("One or more selected circles are invalid");
+        }
+
+        quest.getVisibleToCircles().clear();
+        quest.getVisibleToCircles().addAll(selectedCircles);
+    }
+
+    public Integer normalizeAssigneeTarget(Integer assigneeTarget) {
+        return assigneeTarget == null ? 1 : assigneeTarget;
+    }
+
+    public String normalizeQuestText(String value) {
+        if (value == null) {
+            return null;
+        }
+
+        return value.trim();
+    }
+
+    public List<String> copyImages(List<String> images) {
+        return images == null ? null : new ArrayList<>(images);
+    }
+
+    private void validateQuestImages(List<String> images) {
+        if (images == null) {
+            return;
+        }
+
+        if (images.size() > 10) {
+            throw ServiceErrors.badRequest("A quest can have at most 10 images");
+        }
+
+        for (String image : images) {
+            if (image == null || image.isBlank()) {
+                throw ServiceErrors.badRequest("Quest images must not be empty");
+            }
+            if (!image.startsWith("data:image/")) {
+                throw ServiceErrors.badRequest("Quest images must be image data URLs");
+            }
+            if (image.length() > 12_000) {
+                throw ServiceErrors.badRequest("Quest images must be 12000 characters or less");
+            }
+        }
+    }
+
+    private void validateQuestDescription(String description) {
+        if (!RichTextInputValidator.hasContent(description)) {
+            throw ServiceErrors.badRequest("Quest description is required");
+        }
+    }
+
+    private void validateQuestTitle(String title) {
+        String normalizedTitle = normalizeQuestText(title);
+        if (normalizedTitle == null || normalizedTitle.isBlank()) {
+            throw ServiceErrors.badRequest("Quest title is required");
+        }
+
+        if (normalizedTitle.length() > 255) {
+            throw ServiceErrors.badRequest("Quest title must be 255 characters or less");
+        }
+    }
+
+    private void validateQuestAwardAmount(BigDecimal awardAmount) {
+        if (awardAmount == null) {
+            throw ServiceErrors.badRequest("Award amount is required");
+        }
+
+        if (awardAmount.compareTo(BigDecimal.valueOf(0.01)) < 0) {
+            throw ServiceErrors.badRequest("Award amount must be at least 0.01");
+        }
+    }
+
+    private void validateAssigneeTarget(Integer assigneeTarget) {
+        if (assigneeTarget != null && assigneeTarget < 1) {
+            throw ServiceErrors.badRequest("Assignee target must be at least 1 when provided");
+        }
+    }
+
+    private void validateTermRange(Instant scheduledAt, Instant endsAt) {
+        if (scheduledAt != null && endsAt != null && !endsAt.isAfter(scheduledAt)) {
+            throw ServiceErrors.badRequest("End time must be after the start time");
+        }
+    }
+}

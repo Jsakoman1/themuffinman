@@ -1,0 +1,19 @@
+package com.themuffinman.app.workmarket.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
+
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class QuestDetailExecutionSectionDTO {
+    private boolean visible;
+    @Nullable
+    private QuestDetailExecutionAction primaryAction;
+    @Nullable
+    private String helperText;
+}

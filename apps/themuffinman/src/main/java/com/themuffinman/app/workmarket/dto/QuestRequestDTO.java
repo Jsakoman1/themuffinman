@@ -1,0 +1,59 @@
+package com.themuffinman.app.workmarket.dto;
+
+import com.themuffinman.app.common.contract.ContractOptional;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+import org.springframework.lang.Nullable;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+
+import com.themuffinman.app.workmarket.model.QuestAudience;
+import com.themuffinman.app.workmarket.model.QuestStatus;
+
+import java.util.List;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class QuestRequestDTO {
+
+    private @NotBlank(message = "Quest title is required") @Size(max = 255, message = "Quest title must be 255 characters or less") String title;
+    private @NotBlank(message = "Quest description is required") @Size(max = 2000, message = "Quest description must be 2000 characters or less") String description;
+    private @NotNull(message = "Award amount is required") @DecimalMin(value = "0.01", message = "Award amount must be at least 0.01") @Digits(integer = 8, fraction = 2) BigDecimal awardAmount;
+    @ContractOptional
+    @Nullable
+    private @Positive Integer assigneeTarget;
+    @ContractOptional
+    @Nullable
+    private Instant scheduledAt;
+    @ContractOptional
+    @Nullable
+    private Instant endsAt;
+    @ContractOptional
+    @Nullable
+    private Boolean termFixed;
+    @ContractOptional
+    private QuestAudience audience;
+    @ContractOptional
+    private List<@Positive Long> selectedCircleIds;
+    @ContractOptional
+    private @Positive Long creatorId;
+    @ContractOptional
+    private QuestStatus status;
+    @ContractOptional
+    private @Size(max = 10, message = "A quest can have at most 10 images") List<
+            @NotBlank(message = "Quest images must not be empty")
+            @Size(max = 12000, message = "Quest images must be 12000 characters or less")
+            @Pattern(regexp = "^data:image/.*", message = "Quest images must be image data URLs")
+            String
+            > images;
+}
