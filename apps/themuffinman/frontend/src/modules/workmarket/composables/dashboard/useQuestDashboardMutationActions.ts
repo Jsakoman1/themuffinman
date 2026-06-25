@@ -1,7 +1,6 @@
 import type {QuestDashboardState} from "../useQuestDashboardState.ts"
 import {useQuestDashboardApplicationMutations} from "./useQuestDashboardApplicationMutations.ts"
 import {useQuestDashboardDialogActions} from "./useQuestDashboardDialogActions.ts"
-import {useQuestDashboardProfileMutations} from "./useQuestDashboardProfileMutations.ts"
 import {useQuestDashboardQuestMutations} from "./useQuestDashboardQuestMutations.ts"
 
 export const useQuestDashboardMutationActions = (
@@ -13,7 +12,6 @@ export const useQuestDashboardMutationActions = (
 ) => {
   const questMutations = useQuestDashboardQuestMutations(state, helpers)
   const applicationMutations = useQuestDashboardApplicationMutations(state, helpers)
-  const profileMutations = useQuestDashboardProfileMutations(state)
   const dialogActions = useQuestDashboardDialogActions(state, {
     loadApplicationsForQuest: helpers.loadApplicationsForQuest
   })
@@ -21,7 +19,6 @@ export const useQuestDashboardMutationActions = (
   return {
     ...dialogActions,
     ...questMutations,
-    ...applicationMutations,
-    ...profileMutations
+    ...applicationMutations
   }
 }

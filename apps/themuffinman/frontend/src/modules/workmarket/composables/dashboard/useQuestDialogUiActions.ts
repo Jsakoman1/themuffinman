@@ -12,15 +12,6 @@ export const useQuestDialogUiActions = (
     state.actionBanner.show(message, tone)
   }
 
-  const beginEditQuest = () => {
-    if (!state.quest.value) {
-      return
-    }
-
-    dashboard.startEditingQuest(state.quest.value)
-    state.isEditing.value = true
-  }
-
   const closeQuest = () => {
     if (!state.quest.value) {
       return
@@ -149,7 +140,6 @@ export const useQuestDialogUiActions = (
   }
 
   return {
-    beginEditQuest,
     closeQuest,
     cancelDeleteQuest,
     confirmDeleteQuest,

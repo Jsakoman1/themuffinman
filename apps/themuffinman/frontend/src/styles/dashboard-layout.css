@@ -233,10 +233,40 @@
   background: #ffffff;
 }
 
+.dashboard-main .quest-list {
+  justify-items: stretch;
+  gap: 10px;
+}
+
+.dashboard-main .compact-disclosure--launch {
+  width: 100%;
+  max-width: none;
+  justify-self: stretch;
+}
+
 .dialog-panel .dashboard-work-panel--dialog .ui-edit-sheet {
   background: transparent;
   border: 0;
   padding: 0;
+}
+
+.dialog-panel .ui-edit-sheet {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.dialog-panel .ui-edit-sheet__header {
+  padding: 0;
+}
+
+.dialog-panel .ui-edit-sheet__body {
+  gap: 10px;
+}
+
+.dialog-panel .ui-edit-sheet__actions {
+  padding-top: 8px;
 }
 
 .ui-amount-input--compact {

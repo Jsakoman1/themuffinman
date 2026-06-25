@@ -8,6 +8,8 @@ export const createQuestDetailDataState = () => {
   const applications = ref<QuestApplication[]>([])
   const applicationsView = ref<QuestApplicationsView | null>(null)
   const review = ref<UserReview | null>(null)
+  const applicationMessage = ref("")
+  const proposedPrice = ref("")
   const isLoading = ref(false)
   const isSaving = ref(false)
   const error = ref("")
@@ -20,6 +22,8 @@ export const createQuestDetailDataState = () => {
     applications,
     applicationsView,
     review,
+    applicationMessage,
+    proposedPrice,
     isLoading,
     isSaving,
     error,

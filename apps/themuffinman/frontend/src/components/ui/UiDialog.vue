@@ -9,12 +9,14 @@ const props = withDefaults(defineProps<{
   position?: "center" | "drawer"
   size?: "sm" | "md" | "lg" | "xl"
   defaultExpanded?: boolean
+  chromeOnlyHeader?: boolean
 }>(), {
   subtitle: "",
   leading: "",
   position: "center",
   size: "md",
   defaultExpanded: false,
+  chromeOnlyHeader: false,
 })
 
 const emit = defineEmits<{
@@ -32,6 +34,13 @@ const panelClasses = computed(() => [
     "dialog-panel--expanded": isExpanded.value,
   },
   `dialog-panel--${props.size}`,
+])
+
+const headerClasses = computed(() => [
+  "dialog-panel__header",
+  {
+    "dialog-panel__header--chrome-only": props.chromeOnlyHeader,
+  }
 ])
 
 const closeDialog = () => emit("close")
@@ -71,7 +80,7 @@ watch(() => props.open, (open) => {
 
   isExpanded.value = props.defaultExpanded && canExpand.value
   document.body.style.setProperty("overflow", "hidden")
-})
+}, {immediate: true})
 
 onBeforeUnmount(() => {
   document.body.style.removeProperty("overflow")
@@ -91,11 +100,11 @@ if (typeof window !== "undefined") {
       @click.self="closeDialog"
     >
       <div :class="panelClasses">
-        <div v-if="title || subtitle || leading || $slots.actions" class="dialog-panel__header">
+        <div v-if="title || subtitle || leading || $slots.actions || chromeOnlyHeader" :class="headerClasses">
           <div class="dialog-panel__header-main">
             <span v-if="leading" class="card__header-leading">{{ leading }}</span>
-            <h2 v-if="title" class="card__title card__title--dialog">{{ title }}</h2>
-            <p v-if="subtitle" class="dialog-panel__subtitle">{{ subtitle }}</p>
+            <h2 v-if="title && !chromeOnlyHeader" class="card__title card__title--dialog">{{ title }}</h2>
+            <p v-if="subtitle && !chromeOnlyHeader" class="dialog-panel__subtitle">{{ subtitle }}</p>
           </div>
 
           <div class="dialog-panel__header-actions">

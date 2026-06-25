@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import type {RouteLocationRaw} from "vue-router"
+
 type AppModuleNavItem = {
   key: string
   shortTitle: string
-  path: string
+  path: RouteLocationRaw
   state: "live" | "planned"
   active: boolean
 }

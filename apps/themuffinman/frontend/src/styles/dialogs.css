@@ -11,7 +11,7 @@
 
 .dialog-panel {
   width: min(calc(100vw - 40px), 760px);
-  max-height: min(calc(100vh - 40px), 920px);
+  max-height: min(calc(100dvh - 48px), 920px);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   padding: 0;
@@ -36,13 +36,14 @@
 }
 
 .dialog-panel--xl {
-  width: min(calc(100vw - 40px), 1200px);
+  width: min(calc(100vw - 32px), 1360px);
+  max-height: min(calc(100dvh - 48px), 940px);
 }
 
 .dialog-panel--expanded {
-  width: min(calc(100vw - 24px), 1280px);
-  max-height: calc(100vh - 24px);
-  height: calc(100vh - 24px);
+  width: min(calc(100vw - 16px), 1440px);
+  max-height: calc(100dvh - 48px);
+  height: calc(100dvh - 48px);
 }
 
 .dialog-backdrop--drawer {
@@ -92,6 +93,22 @@
   border-bottom: 1px solid var(--border);
   background: var(--surface-muted);
   backdrop-filter: none;
+}
+
+.dialog-panel__header--chrome-only {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+
+.dialog-panel__header--chrome-only .dialog-panel__header-main {
+  min-height: 14px;
+}
+
+.dialog-panel__header--chrome-only .dialog-panel__header-actions {
+  min-height: 14px;
 }
 
 .dialog-panel__window-controls {
@@ -177,12 +194,12 @@
   .dialog-panel--lg,
   .dialog-panel--xl {
     width: 100%;
-    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
     height: auto;
   }
 
   .dialog-panel--expanded {
-    height: calc(100vh - 24px);
+    height: calc(100dvh - 24px);
   }
 }
 

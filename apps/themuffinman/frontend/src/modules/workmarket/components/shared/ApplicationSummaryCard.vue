@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import UiMetricPills from "../../../../components/ui/UiMetricPills.vue"
-import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 import type {QuestApplication} from "../../api/workmarketApi.ts"
 
 withDefaults(defineProps<{
@@ -14,24 +12,34 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <UiSurfaceSection soft>
-    <div class="surface-inline-spread">
-      <span :class="application.presentation.statusBadgeClass">
-        {{ application.presentation.statusLabel }}
-      </span>
-      <span class="surface-kicker">{{ kicker }}</span>
-    </div>
+  <section class="quest-overview-panel">
+    <div class="quest-overview-aside">
+      <div class="surface-inline-spread">
+        <span class="surface-kicker">{{ kicker }}</span>
+        <span :class="application.presentation.statusBadgeClass">
+          {{ application.presentation.statusLabel }}
+        </span>
+      </div>
 
-    <div class="surface-title">
-      {{ application.questTitle }}
-    </div>
+      <div class="surface-price-pill surface-price-pill--hero quest-overview-aside__reward">
+        <span class="surface-price-pill__label">Proposed price</span>
+        <span class="surface-price-pill__amount">$ {{ application.proposedPrice }}</span>
+      </div>
 
-    <UiMetricPills
-      :items="[
-        { label: 'Price', value: `$ ${application.proposedPrice}` },
-        { label: 'Quest status', value: application.presentation.questStatusLabel },
-        ...(includeTerm ? [{ label: 'Term', value: application.presentation.questTermLabel }] : []),
-      ]"
-    />
-  </UiSurfaceSection>
+      <div class="quest-overview-aside__row quest-overview-aside__row--stack">
+        <span class="quest-overview-aside__label">Quest</span>
+        <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ application.questTitle }}</span>
+      </div>
+
+      <div class="quest-overview-aside__row">
+        <span class="quest-overview-aside__label">Quest status</span>
+        <span class="quest-overview-aside__value">{{ application.presentation.questStatusLabel }}</span>
+      </div>
+
+      <div v-if="includeTerm" class="quest-overview-aside__row quest-overview-aside__row--stack">
+        <span class="quest-overview-aside__label">Time</span>
+        <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ application.presentation.questTermLabel }}</span>
+      </div>
+    </div>
+  </section>
 </template>

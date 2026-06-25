@@ -704,7 +704,7 @@ button {
 }
 
 .ui-workspace--detail {
-  grid-template-columns: minmax(0, 1.72fr) minmax(280px, 0.88fr);
+  grid-template-columns: minmax(0, 1.28fr) minmax(360px, 420px);
 }
 
 .ui-workspace--triad {

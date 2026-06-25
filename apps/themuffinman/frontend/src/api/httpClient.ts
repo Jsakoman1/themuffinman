@@ -12,7 +12,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response?.status
-    if (token.value && (status === 401 || status === 403)) {
+    const requestUrl = String(error.config?.url ?? "")
+    const isAuthSessionCheck = requestUrl.includes("/auth/me")
+
+    if (token.value && status === 401 && isAuthSessionCheck) {
       clearSession()
 
       const currentPath = window.location.pathname

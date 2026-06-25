@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import {computed, ref} from "vue"
+import {computed, onBeforeUnmount, onMounted, ref} from "vue"
 import QuestDetailAsidePanels from "./QuestDetailAsidePanels.vue"
 import QuestDetailHero from "./QuestDetailHero.vue"
-import UiDialog from "../../../../components/ui/UiDialog.vue"
-import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
-import UiWorkspace from "../../../../components/ui/UiWorkspace.vue"
+import DetailDialogFrame from "./DetailDialogFrame.vue"
 import type {Quest, QuestApplication, QuestDetail} from "../../api/workmarketApi.ts"
 
 const props = withDefaults(defineProps<{
   quest: Quest
   myApplication?: QuestApplication | null
   showTitle?: boolean
+  showOverview?: boolean
   showMyApplication?: boolean
+  mainSectionEyebrow?: string
+  mainSectionTitle?: string
+  mainSectionSubtitle?: string
   canOpenApplication?: boolean
   applicationOpenLabel?: string
   showTermChangeDetails?: boolean
@@ -27,7 +29,11 @@ const props = withDefaults(defineProps<{
 }>(), {
   myApplication: null,
   showTitle: true,
+  showOverview: true,
   showMyApplication: true,
+  mainSectionEyebrow: "Quest",
+  mainSectionTitle: "What they need",
+  mainSectionSubtitle: "",
   canOpenApplication: false,
   applicationOpenLabel: "Open application",
   showTermChangeDetails: false,
@@ -50,7 +56,6 @@ const emit = defineEmits<{
   (event: "submit-review"): void
   (event: "start-work"): void
   (event: "complete-work"): void
-  (event: "edit-quest"): void
   (event: "delete-quest"): void
   (event: "confirm-term-change"): void
   (event: "reject-term-change"): void
@@ -75,6 +80,7 @@ const previewLabel = computed(() => {
 })
 
 const hasMultipleImages = computed(() => (props.quest.images?.length ?? 0) > 1)
+const isPreviewOpen = computed(() => previewIndex.value !== null && !!previewImage.value)
 
 const openPreview = (index: number) => {
   previewIndex.value = index
@@ -99,18 +105,42 @@ const showNextImage = () => {
 
   previewIndex.value = (previewIndex.value + 1) % props.quest.images.length
 }
+
+const handlePreviewKeydown = (event: KeyboardEvent) => {
+  if (!isPreviewOpen.value) {
+    return
+  }
+
+  if (event.key === "Escape") {
+    closePreview()
+    return
+  }
+
+  if (event.key === "ArrowLeft") {
+    showPreviousImage()
+    return
+  }
+
+  if (event.key === "ArrowRight") {
+    showNextImage()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("keydown", handlePreviewKeydown)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", handlePreviewKeydown)
+})
 </script>
 
 <template>
-  <UiWorkspace variant="detail">
-    <section class="surface-stack surface-stack--content">
+  <DetailDialogFrame>
+    <template #main>
       <QuestDetailHero :quest="quest" :show-title="showTitle" />
 
-      <UiSurfaceSection v-if="quest.images?.length" tag="article" class="card ui-detail-panel ui-detail-panel--gallery" compact title="Photos">
-        <template v-if="hasMultipleImages" #actions>
-          <span class="quest-gallery__hint">{{ quest.images.length }} photos · swipe or scroll</span>
-        </template>
-
+      <section v-if="quest.images?.length" class="quest-detail-gallery">
         <div class="quest-gallery quest-gallery--dialog">
           <button
             v-for="(image, index) in quest.images"
@@ -118,20 +148,22 @@ const showNextImage = () => {
             class="ui-media-tile ui-media-tile--dialog quest-gallery__preview-trigger"
             type="button"
             :aria-label="`Open photo ${index + 1}`"
-            @click="openPreview(index)"
+            @click.stop="openPreview(index)"
           >
             <img class="quest-gallery__image" :src="image" :alt="`Quest photo ${index + 1}`">
             <span v-if="hasMultipleImages" class="quest-gallery__badge">{{ index + 1 }} / {{ quest.images.length }}</span>
           </button>
         </div>
-      </UiSurfaceSection>
+      </section>
 
       <slot name="main-after" />
-    </section>
+    </template>
 
-    <QuestDetailAsidePanels
+    <template #side>
+      <QuestDetailAsidePanels
       :quest="quest"
       :my-application="myApplication"
+      :show-overview="showOverview"
       :show-my-application="showMyApplication"
       :can-open-application="canOpenApplication"
       :application-open-label="applicationOpenLabel"
@@ -152,26 +184,49 @@ const showNextImage = () => {
       @submit-review="emit('submit-review')"
       @start-work="emit('start-work')"
       @complete-work="emit('complete-work')"
-      @edit-quest="emit('edit-quest')"
       @delete-quest="emit('delete-quest')"
       @confirm-term-change="emit('confirm-term-change')"
       @reject-term-change="emit('reject-term-change')"
-    >
-      <slot name="side-after" />
-    </QuestDetailAsidePanels>
+      >
+        <slot name="side-after" />
+      </QuestDetailAsidePanels>
+    </template>
 
-    <UiDialog :open="!!previewImage" :title="previewLabel" size="lg" @close="closePreview">
-      <div v-if="previewImage" class="quest-gallery__preview-dialog">
-        <div class="quest-gallery__preview-frame">
-          <img class="quest-gallery__preview-image" :src="previewImage" :alt="previewLabel">
-        </div>
+    <Teleport to="body">
+      <div v-if="previewImage" class="quest-gallery__preview-backdrop" @click.self="closePreview">
+        <div class="quest-gallery__preview-panel">
+          <div class="quest-gallery__preview-toolbar">
+            <span class="quest-gallery__preview-count">{{ previewLabel }}</span>
+            <button class="button button--ghost" type="button" @click="closePreview">Close</button>
+          </div>
 
-        <div v-if="hasMultipleImages" class="quest-gallery__preview-actions">
-          <button class="button button--ghost" type="button" @click="showPreviousImage">Previous</button>
-          <span class="quest-gallery__preview-count">{{ previewLabel }}</span>
-          <button class="button button--ghost" type="button" @click="showNextImage">Next</button>
+          <div class="quest-gallery__preview-dialog">
+            <button
+              v-if="hasMultipleImages"
+              class="button button--ghost quest-gallery__preview-nav"
+              type="button"
+              aria-label="Previous image"
+              @click.stop="showPreviousImage"
+            >
+              Previous
+            </button>
+
+            <div class="quest-gallery__preview-frame">
+              <img class="quest-gallery__preview-image" :src="previewImage" :alt="previewLabel">
+            </div>
+
+            <button
+              v-if="hasMultipleImages"
+              class="button button--ghost quest-gallery__preview-nav"
+              type="button"
+              aria-label="Next image"
+              @click.stop="showNextImage"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
-    </UiDialog>
-  </UiWorkspace>
+    </Teleport>
+  </DetailDialogFrame>
 </template>

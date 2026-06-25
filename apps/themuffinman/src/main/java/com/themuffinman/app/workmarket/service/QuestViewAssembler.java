@@ -20,11 +20,13 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
+import com.themuffinman.app.workmarket.model.QuestAudience;
 import com.themuffinman.app.workmarket.model.QuestStatus;
 import com.themuffinman.app.workmarket.repository.UserReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -156,10 +158,25 @@ public class QuestViewAssembler {
                 .build();
     }
 
-    public QuestDetailManagementSectionDTO buildQuestDetailManagementSection(List<QuestAllowedAction> allowedActions) {
+    public QuestDetailManagementSectionDTO buildQuestDetailManagementSection(QuestResponseDTO questResponse) {
+        boolean canManageQuest = questResponse.getViewerRelation() == QuestViewerRelation.OWNER;
+        String visibleToCirclesLabel = null;
+        if (canManageQuest && questResponse.getAudience() == QuestAudience.CIRCLES) {
+            List<String> circleNames = questResponse.getVisibleToCircles() == null
+                    ? List.of()
+                    : questResponse.getVisibleToCircles().stream()
+                    .map(circle -> circle.getName())
+                    .filter(name -> name != null && !name.isBlank())
+                    .toList();
+            visibleToCirclesLabel = circleNames.isEmpty() ? "Selected circles" : String.join(", ", circleNames);
+        }
+
         return QuestDetailManagementSectionDTO.builder()
-                .editVisible(allowedActions.contains(QuestAllowedAction.EDIT))
-                .deleteVisible(allowedActions.contains(QuestAllowedAction.DELETE))
+                .editVisible(questResponse.getAllowedActions().contains(QuestAllowedAction.EDIT))
+                .deleteVisible(questResponse.getAllowedActions().contains(QuestAllowedAction.DELETE))
+                .postingSettingsVisible(canManageQuest)
+                .audienceLabel(canManageQuest ? presentationHelper.formatAudience(questResponse.getAudience()) : null)
+                .visibleToCirclesLabel(visibleToCirclesLabel)
                 .build();
     }
 
@@ -256,7 +273,7 @@ public class QuestViewAssembler {
     }
 
     private List<LabelValueDTO> buildDetailMeta(QuestResponseDTO questResponse) {
-        List<LabelValueDTO> items = new java.util.ArrayList<>();
+        List<LabelValueDTO> items = new ArrayList<>();
         items.add(LabelValueDTO.builder()
                 .label("When")
                 .value(presentationHelper.formatQuestTerm(
@@ -271,7 +288,7 @@ public class QuestViewAssembler {
                 .build());
         if (presentationHelper.showAssigneeTarget(questResponse.getAssigneeTarget())) {
             items.add(LabelValueDTO.builder()
-                    .label("Audience")
+                    .label("Workers")
                     .value(presentationHelper.formatAssigneeTarget(questResponse.getAssigneeTarget()))
                     .build());
         }

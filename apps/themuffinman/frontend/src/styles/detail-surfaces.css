@@ -15,6 +15,13 @@
   overflow: hidden;
 }
 
+.ui-detail-panel--hero-plain {
+  gap: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
 .ui-detail-panel--aside {
   padding: 16px 18px;
   border-color: var(--border);
@@ -32,35 +39,45 @@
   background: var(--surface-strong);
 }
 
+.quest-detail-gallery {
+  display: grid;
+  gap: 10px;
+}
+
 .ui-detail-panel--review {
   gap: 10px;
 }
 
+.ui-utility-section {
+  border-color: var(--border);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.ui-utility-section--summary {
+  background: var(--surface-strong);
+}
+
+.ui-utility-section--actions {
+  background: var(--surface-muted);
+}
+
 .surface-hero {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-  align-items: start;
+  display: block;
 }
 
 .surface-hero__copy {
   position: relative;
   display: grid;
-  gap: 20px;
-}
-
-.surface-hero__summary {
-  display: grid;
-  grid-template-columns: minmax(0, 180px) minmax(0, 1fr);
   gap: 16px;
-  align-items: start;
 }
 
 .surface-hero__title {
-  max-width: 18ch;
-  font-size: clamp(2rem, 2.5vw, 2.7rem);
+  max-width: none;
+  margin: 0;
+  font-size: clamp(2rem, 2.4vw, 2.6rem);
   letter-spacing: -0.06em;
-  line-height: 0.94;
+  line-height: 0.98;
 }
 
 .surface-price-pill {
@@ -93,34 +110,6 @@
   width: 100%;
 }
 
-.surface-term-block {
-  display: grid;
-  gap: 4px;
-  align-content: start;
-  padding: 10px 0 0;
-}
-
-.surface-term-block__label {
-  color: var(--text-muted);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.surface-term-block__value {
-  color: var(--text);
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.surface-term-block__type {
-  color: var(--text-muted);
-  font-size: 0.82rem;
-  font-weight: 600;
-}
-
 .ui-copy-prose {
   max-width: 86ch;
   color: var(--text);
@@ -129,10 +118,10 @@
 }
 
 .ui-copy-prose--hero {
-  padding: 22px 24px;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--border);
-  background: var(--surface-strong);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .ui-copy-block {
@@ -142,6 +131,19 @@
 .quest-overview-aside {
   display: grid;
   gap: 10px;
+}
+
+.quest-overview-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.quest-overview-aside__reward {
+  margin-bottom: 2px;
+}
+
+.quest-overview-aside--compact {
+  gap: 8px;
 }
 
 .quest-overview-aside__row {
@@ -184,6 +186,13 @@
 
 .ui-action-stack .button {
   width: 100%;
+  justify-content: center;
+}
+
+.ui-utility-badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .ui-review-stack {
@@ -251,11 +260,6 @@
   .ui-detail-panel--aside {
     padding: 16px;
   }
-
-  .surface-hero__summary {
-    grid-template-columns: 1fr;
-  }
-
   .surface-hero__title {
     max-width: none;
     font-size: clamp(1.7rem, 8vw, 2.3rem);

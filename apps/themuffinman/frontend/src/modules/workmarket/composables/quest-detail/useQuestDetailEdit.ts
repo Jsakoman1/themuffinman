@@ -1,4 +1,4 @@
-import {computed, ref, type Ref} from "vue"
+import {computed, ref, watch, type Ref} from "vue"
 import {getApiErrorMessage} from "../../../../api/apiErrors.ts"
 import {QUEST_IMAGE_PROCESSING_ERROR_MESSAGE, QUEST_IMAGE_TOO_LARGE_MESSAGE} from "../../../../shared/clientMessages.ts"
 import {compressQuestImageFile} from "../../../../shared/imageCompression.ts"
@@ -161,6 +161,16 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
       // Keep quest detail usable even if supplemental edit metadata fails to load.
     }
   }
+
+  watch(() => state.quest.value?.id, () => {
+    if (!state.quest.value) {
+      isEditing.value = false
+      return
+    }
+
+    syncEditStateFromQuest()
+    isEditing.value = false
+  }, {immediate: true})
 
   return {
     isEditing,

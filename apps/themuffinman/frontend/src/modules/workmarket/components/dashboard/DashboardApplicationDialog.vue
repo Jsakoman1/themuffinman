@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import {watch} from "vue"
 import UiDialog from "../../../../components/ui/UiDialog.vue"
-import UiFormActions from "../../../../components/ui/UiFormActions.vue"
 import DashboardEditSheet from "./DashboardEditSheet.vue"
 import UiStatusBanner from "../../../../components/ui/UiStatusBanner.vue"
 import ApplicationEditFields from "../shared/ApplicationEditFields.vue"
+import DetailDialogFrame from "../shared/DetailDialogFrame.vue"
+import DetailUtilitySection from "../shared/DetailUtilitySection.vue"
 import type {DashboardApplicationEditFacade} from "../../composables/dashboard/dashboardFacades.ts"
 import {createApplicationDialogViewState} from "../../composables/dashboard/createApplicationDialogViewState.ts"
 import {useApplicationDialogUiActions} from "../../composables/dashboard/useApplicationDialogUiActions.ts"
@@ -31,6 +33,14 @@ const {
   openQuest,
   withdrawApplication
 } = useApplicationDialogUiActions(props.dashboard, viewState)
+
+watch(() => application.value?.id, (applicationId) => {
+  if (applicationId !== undefined && applicationId !== null && canEdit.value) {
+    props.dashboard.editApplicationMessage = application.value?.message ?? ""
+    props.dashboard.editApplicationPrice = String(application.value?.proposedPrice ?? "")
+    startEditing()
+  }
+}, {immediate: true})
 </script>
 
 <template>
@@ -38,57 +48,61 @@ const {
     :open="!!application"
     :title="application?.questTitle ?? 'Application'"
     subtitle=""
-    size="lg"
+    size="xl"
     @close="props.dashboard.closeApplicationDialog()"
   >
-    <template #actions>
-      <button v-if="canEdit && !isEditing" class="button button--secondary" type="button" @click="startEditing">Edit</button>
-    </template>
-
     <div v-if="application" class="surface-stack">
-      <ApplicationSummaryCard :application="application" kicker="Your application" />
-
       <UiStatusBanner :message="actionMessage" :tone="actionMessageTone" />
 
-      <ApplicationDetailSections
-        v-if="quest"
-        :application="application"
-        context-eyebrow="Quest context"
-        :posted-by-label="quest.creatorUsername"
-        @open-posted-by="props.dashboard.openUserProfileDialog(quest.creatorId)"
-      />
-
-      <form v-if="canEdit && isEditing" class="form-stack form-stack--compact calendar-application-form" @submit.prevent="props.dashboard.saveEditedApplication(application!.questId)">
-        <DashboardEditSheet :minimal="true">
-          <ApplicationEditFields
-            :message="props.dashboard.editApplicationMessage"
-            :price="props.dashboard.editApplicationPrice"
-            price-placeholder="50"
-            @update:message="props.dashboard.editApplicationMessage = $event"
-            @update:price="props.dashboard.editApplicationPrice = $event"
+      <DetailDialogFrame>
+        <template #main>
+          <ApplicationDetailSections
+            v-if="quest"
+            :application="application"
+            context-eyebrow="Quest context"
+            :posted-by-label="quest.creatorUsername"
+            @open-posted-by="props.dashboard.openUserProfileDialog(quest.creatorId)"
           />
 
-          <template #actions>
-            <button class="button button--action" type="submit">Save changes</button>
-            <button class="button button--ghost" type="button" @click="discardEditing">Discard changes</button>
-          </template>
-        </DashboardEditSheet>
-      </form>
+          <form v-if="canEdit && isEditing" class="form-stack form-stack--compact calendar-application-form" @submit.prevent="props.dashboard.saveEditedApplication(application!.questId)">
+            <DashboardEditSheet :minimal="true">
+              <ApplicationEditFields
+                :message="props.dashboard.editApplicationMessage"
+                :price="props.dashboard.editApplicationPrice"
+                price-placeholder="50"
+                @update:message="props.dashboard.editApplicationMessage = $event"
+                @update:price="props.dashboard.editApplicationPrice = $event"
+              />
 
-      <UiFormActions v-else align="end">
-        <button class="button button--secondary" type="button" @click="openQuest">
-          Open quest
-        </button>
-        <button
-          v-if="canWithdraw"
-          class="button button--danger"
-          type="button"
-          :disabled="isWithdrawing"
-          @click="withdrawApplication"
-        >
-          Withdraw application
-        </button>
-      </UiFormActions>
+              <template #actions>
+                <button class="button button--action" type="submit">Save changes</button>
+                <button class="button button--ghost" type="button" @click="discardEditing">Discard changes</button>
+              </template>
+            </DashboardEditSheet>
+          </form>
+        </template>
+
+        <template #side>
+          <ApplicationSummaryCard :application="application" kicker="Your application" />
+
+          <DetailUtilitySection title="Actions" tone="actions">
+            <div class="ui-action-stack">
+              <button class="button button--secondary" type="button" @click="openQuest">
+                Open quest
+              </button>
+              <button
+                v-if="canWithdraw"
+                class="button button--danger"
+                type="button"
+                :disabled="isWithdrawing"
+                @click="withdrawApplication"
+              >
+                Withdraw application
+              </button>
+            </div>
+          </DetailUtilitySection>
+        </template>
+      </DetailDialogFrame>
     </div>
   </UiDialog>
 </template>

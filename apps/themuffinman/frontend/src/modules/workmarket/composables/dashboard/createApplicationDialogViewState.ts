@@ -7,7 +7,7 @@ export const createApplicationDialogViewState = (dashboard: DashboardApplication
   const isEditing = ref(false)
   const isWithdrawing = ref(false)
   const actionBanner = useDialogActionState(application, () => {
-    isEditing.value = application.value?.presentation.autoOpenEditForm ?? false
+    isEditing.value = canEdit.value
     isWithdrawing.value = false
   })
   const actionMessage = actionBanner.message

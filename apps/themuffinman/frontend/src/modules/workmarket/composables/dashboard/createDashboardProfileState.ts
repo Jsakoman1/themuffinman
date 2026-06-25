@@ -10,13 +10,8 @@ export const createDashboardProfileState = () => {
   const feedbackState = useAutoDismissFeedback<"error" | "success">(5000, "success")
   const feedback = feedbackState.message
   const feedbackType = feedbackState.tone
-  const isProfileEditDialogOpen = ref(false)
   const isNotificationsDialogOpen = ref(false)
   const successPulseTarget = ref("")
-
-  const profileUsername = ref("")
-  const profileDescription = ref(currentUser.value?.profileDescription ?? "")
-  const profileAvatarDataUrl = ref(currentUser.value?.profileAvatarDataUrl ?? "")
   const accountCreatedAt = computed(() => currentUser.value?.createdAt ?? new Date().toISOString())
 
   return {
@@ -25,12 +20,8 @@ export const createDashboardProfileState = () => {
     feedback,
     feedbackType,
     showFeedback: feedbackState.show,
-    isProfileEditDialogOpen,
     isNotificationsDialogOpen,
     successPulseTarget,
-    profileUsername,
-    profileDescription,
-    profileAvatarDataUrl,
     accountCreatedAt
   }
 }

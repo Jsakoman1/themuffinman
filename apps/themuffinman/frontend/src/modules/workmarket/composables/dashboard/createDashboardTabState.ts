@@ -3,7 +3,7 @@ import type {RouteLocationNormalizedLoaded} from "vue-router"
 import {dashboardTabs, type DashboardTab} from "../../domain/workmarketDomain.ts"
 
 export const createDashboardTabState = (route: RouteLocationNormalizedLoaded) => {
-  const activeTab = ref<DashboardTab>("overview")
+  const activeTab = ref<DashboardTab>("calendar")
 
   watch(() => route.query.tab, (value) => {
     if (typeof value !== "string") {

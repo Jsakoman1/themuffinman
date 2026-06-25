@@ -1,16 +1,24 @@
 <script setup lang="ts">
+import {computed} from "vue"
 import type {QuestApplication} from "../../api/workmarketApi.ts"
 import type {DashboardQuestApplicationsFacade} from "../../composables/dashboard/dashboardFacades.ts"
 import ApplicationManagementCard from "../shared/ApplicationManagementCard.vue"
 import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 
-defineProps<{
+const props = defineProps<{
   dashboard: DashboardQuestApplicationsFacade
   questId: number
   applications: QuestApplication[]
   featuredApplication: QuestApplication | null
   canShowApplications: boolean
+  eyebrow?: string
+  title?: string
 }>()
+
+const remainingApplications = computed(() => {
+  const featuredId = props.featuredApplication?.id ?? null
+  return props.applications.filter((application) => application.id !== featuredId)
+})
 
 defineEmits<{
   approve: [id: number]
@@ -19,18 +27,23 @@ defineEmits<{
 </script>
 
 <template>
-  <ApplicationManagementCard
-    v-if="featuredApplication"
-    :application="featuredApplication"
-    :selected="true"
-    :show-status="false"
-    @open-applicant="dashboard.openUserProfileDialog(featuredApplication.applicantId)"
-  />
-
-  <UiSurfaceSection v-if="canShowApplications" compact title="Applications">
-    <div v-if="applications.length" class="surface-stack surface-stack--compact">
+  <UiSurfaceSection
+    v-if="canShowApplications || featuredApplication || dashboard.canRevealHiddenApplicationsForQuest(questId)"
+    compact
+    :eyebrow="eyebrow ?? 'Applications'"
+    :title="title ?? 'What people offer'"
+  >
+    <div class="surface-stack surface-stack--compact">
       <ApplicationManagementCard
-        v-for="application in applications"
+        v-if="featuredApplication"
+        :application="featuredApplication"
+        :selected="true"
+        :show-status="false"
+        @open-applicant="dashboard.openUserProfileDialog(featuredApplication.applicantId)"
+      />
+
+      <ApplicationManagementCard
+        v-for="application in remainingApplications"
         :key="application.id"
         :application="application"
         @open-applicant="dashboard.openUserProfileDialog(application.applicantId)"
@@ -40,16 +53,17 @@ defineEmits<{
           <button v-if="application.presentation.canDecline" class="button button--danger" type="button" @click="$emit('decline', application.id)">Decline</button>
         </template>
       </ApplicationManagementCard>
-    </div>
-    <div v-else class="empty-state">Nothing here yet.</div>
-  </UiSurfaceSection>
 
-  <div v-if="dashboard.canRevealHiddenApplicationsForQuest(questId)" class="button-row">
-    <button class="button button--secondary" type="button" @click="dashboard.toggleApplicationRevealForQuest(questId)">
-      {{ dashboard.applicationRevealLabel(questId) }}
-      <span v-if="dashboard.hiddenApplicationsCountForQuest(questId) > 0">
-        ({{ dashboard.hiddenApplicationsCountForQuest(questId) }})
-      </span>
-    </button>
-  </div>
+      <div v-if="!featuredApplication && !remainingApplications.length" class="empty-state">Nothing here yet.</div>
+
+      <div v-if="dashboard.canRevealHiddenApplicationsForQuest(questId)" class="button-row">
+        <button class="button button--secondary" type="button" @click="dashboard.toggleApplicationRevealForQuest(questId)">
+          {{ dashboard.applicationRevealLabel(questId) }}
+          <span v-if="dashboard.hiddenApplicationsCountForQuest(questId) > 0">
+            ({{ dashboard.hiddenApplicationsCountForQuest(questId) }})
+          </span>
+        </button>
+      </div>
+    </div>
+  </UiSurfaceSection>
 </template>

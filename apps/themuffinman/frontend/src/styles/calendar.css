@@ -23,7 +23,7 @@
   flex: 1;
   min-height: 0;
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   overflow: hidden;
   background: var(--surface-strong);
 }
@@ -31,7 +31,7 @@
 .dashboard-calendar__head {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  background: var(--surface-muted);
+  background: #f5f7fb;
   border-bottom: 1px solid var(--border);
 }
 
@@ -59,13 +59,15 @@
 .dashboard-calendar__cell {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding: 8px 8px 8px;
+  gap: 6px;
+  padding: 10px 10px 9px;
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   background: var(--surface-strong);
   cursor: pointer;
-  transition: background 160ms ease;
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease;
   min-width: 0;
   overflow: hidden;
 }
@@ -73,6 +75,7 @@
 .dashboard-calendar__cell:hover,
 .dashboard-calendar__cell:focus-visible {
   background: var(--surface-muted);
+  box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.08);
 }
 
 .dashboard-calendar__cell:nth-child(7n) {
@@ -182,6 +185,7 @@
 
 .dashboard-calendar__flexible {
   background: var(--surface-muted);
+  border-radius: var(--radius-xl);
 }
 
 .dashboard-calendar__flexible-list {
@@ -238,6 +242,26 @@
 .calendar-application-form {
   display: grid;
   gap: 10px;
+}
+
+.quest-apply-form .ui-edit-sheet__body {
+  gap: 12px;
+}
+
+.quest-apply-form .ui-edit-sheet__actions {
+  padding-top: 4px;
+}
+
+.quest-apply-form .ui-edit-sheet__actions .button {
+  min-height: 44px;
+}
+
+.quest-apply-trigger {
+  width: 100%;
+  min-height: 46px;
+  font-size: 0.96rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .calendar-application-form__quickfill {

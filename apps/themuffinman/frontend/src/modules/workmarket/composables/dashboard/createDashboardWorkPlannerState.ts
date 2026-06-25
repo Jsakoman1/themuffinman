@@ -226,8 +226,17 @@ export const createDashboardWorkPlannerState = (dashboard: DashboardWorkPlannerF
     closeDayDialog()
   }
 
-  const openItem = async (navigation: NavigationTarget | null) => {
+  const openRouteItem = async (navigation: NavigationTarget | null) => {
     await router.push(routeForNavigationTarget(navigation))
+  }
+
+  const openPlannerItem = async (item: CalendarEntry) => {
+    if (dashboard.questForId(item.questId)) {
+      await dashboard.openQuestDialog(item.questId)
+      return
+    }
+
+    await openRouteItem(item.navigation)
   }
 
   return {
@@ -246,6 +255,6 @@ export const createDashboardWorkPlannerState = (dashboard: DashboardWorkPlannerF
     openDayDialog,
     closeDayDialog,
     openCreateOnSelectedDay,
-    openItem
+    openItem: openPlannerItem
   }
 }

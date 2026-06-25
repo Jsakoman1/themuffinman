@@ -338,8 +338,6 @@ onBeforeUnmount(() => {
             </button>
           </div>
         </div>
-
-        <div class="rich-text-editor__toolbar-spacer" />
       </div>
 
       <div class="rich-text-editor__canvas">

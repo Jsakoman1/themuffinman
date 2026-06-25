@@ -20,21 +20,12 @@ const closeProfile = async () => {
   await router.push("/circles")
 }
 
-const openProfileEditor = async () => {
-  await router.push({
-    path: "/circles",
-    query: {profile: "edit"}
-  })
-}
 </script>
 
 <template>
-  <div class="page">
-    <UserProfileDialog
-      :open="true"
-      :user-id="userId"
-      @close="closeProfile"
-      @edit-profile="openProfileEditor"
-    />
-  </div>
+  <UserProfileDialog
+    :open="true"
+    :user-id="userId"
+    @close="closeProfile"
+  />
 </template>

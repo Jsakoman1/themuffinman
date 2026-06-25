@@ -11,7 +11,7 @@
   gap: 12px;
   padding: 14px 16px;
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   background: var(--surface);
   color: inherit;
   text-align: left;
@@ -26,7 +26,7 @@
 .ui-directory-list__card {
   display: grid;
   gap: 10px;
-  padding: 12px;
+  padding: 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   background: var(--surface-strong);
@@ -52,6 +52,7 @@
 
 .ui-directory-list__delete {
   width: 100%;
+  justify-content: center;
 }
 
 .circles-chip-cloud {

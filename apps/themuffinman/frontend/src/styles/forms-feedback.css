@@ -258,6 +258,12 @@
   border-radius: var(--radius-pill);
 }
 
+.button--icon-compact {
+  width: 28px;
+  height: 28px;
+  font-size: 0.86rem;
+}
+
 .button--danger {
   background: var(--surface-strong);
   color: var(--danger);

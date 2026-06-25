@@ -12,6 +12,13 @@ export const useDashboardPostWorkState = (dashboard: DashboardQuestCreateFacade)
 
   const toggleQuestAudience = (audience: DashboardQuestCreateFacade["questAudience"]) => {
     dashboard.questAudience = audience
+
+    if (audience === "CIRCLES") {
+      dashboard.questSelectedCircleIds = []
+      return
+    }
+
+    dashboard.questSelectedCircleIds = []
   }
 
   const toggleQuestCircle = (circleId: number) => {

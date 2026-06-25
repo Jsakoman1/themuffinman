@@ -36,7 +36,14 @@ export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade
 
     return dashboard.applicationMessages[quest.value.id] ?? ""
   })
-  const canSubmitApplication = computed(() => richTextHasContent(applicationMessage.value))
+  const applicationPrice = computed(() => {
+    if (!quest.value) {
+      return ""
+    }
+
+    return dashboard.proposedPrices[quest.value.id] ?? ""
+  })
+  const canSubmitApplication = computed(() => richTextHasContent(applicationMessage.value) && Number(applicationPrice.value) >= 0.01)
   const myApplication = computed(() => {
     const selectedQuest = quest.value
     if (!selectedQuest) {
@@ -54,6 +61,38 @@ export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade
   const deleteVisible = computed(() => quest.value?.presentation.deleteVisible ?? false)
   const executionPrimaryAction = computed(() => quest.value?.presentation.primaryExecutionAction ?? null)
   const executionHelperText = computed(() => quest.value?.presentation.executionHelperText ?? "")
+  const executionSection = computed(() => ({
+    visible: !!executionPrimaryAction.value || !!executionHelperText.value,
+    primaryAction: executionPrimaryAction.value,
+    primaryActionLabel: executionPrimaryAction.value === "START"
+      ? "Start work"
+      : (executionPrimaryAction.value === "COMPLETE" ? "Mark complete" : null),
+    helperText: executionHelperText.value || null,
+  }))
+  const termChangeSection = computed(() => ({
+    visible: termChangeVisible.value,
+    actionable: canRespondToTermChange.value,
+    summaryLabel: "Term change waiting",
+    confirmLabel: "Confirm term change",
+    rejectLabel: "Reject term change",
+    currentTermLabel: quest.value?.presentation.termLabel ?? "",
+    pendingTermLabel: quest.value?.presentation.pendingTermLabel ?? null,
+    currentScheduledAt: quest.value?.scheduledAt ?? null,
+    currentEndsAt: quest.value?.endsAt ?? null,
+    currentTermFixed: quest.value?.termFixed ?? false,
+    pendingScheduledAt: quest.value?.pendingScheduledAt ?? null,
+    pendingEndsAt: quest.value?.pendingEndsAt ?? null,
+    pendingTermFixed: quest.value?.pendingTermFixed ?? null,
+  }))
+  const managementSection = computed(() => ({
+    editVisible: canEdit.value,
+    deleteVisible: deleteVisible.value,
+    postingSettingsVisible: canEdit.value,
+    audienceLabel: quest.value?.presentation.audienceLabel ?? null,
+    visibleToCirclesLabel: quest.value?.visibleToCircles?.length
+      ? quest.value.visibleToCircles.map((circle) => circle.name).join(", ")
+      : null,
+  }))
 
   return {
     quest,
@@ -79,6 +118,9 @@ export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade
     canOpenMyApplication,
     deleteVisible,
     executionPrimaryAction,
-    executionHelperText
+    executionHelperText,
+    executionSection,
+    termChangeSection,
+    managementSection
   }
 }

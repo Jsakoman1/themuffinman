@@ -40,6 +40,8 @@ Treat the user as a junior developer. Prefer simple, readable, incremental imple
 - Use shared field, button, card, list, and section primitives before adding page-specific markup or styles.
 - When a new shared component is introduced, remove or consolidate older duplicate implementations instead of keeping parallel UI patterns alive.
 - Standardize forms, popups, panels, and detail screens so spacing, labels, actions, and hierarchy feel like one system.
+- For popup/detail dialogs, default to a two-column layout when the content supports it: left column for main content, right column for utility metadata and actions. Only keep dialogs single-column when they are intentionally simple forms, confirmations, or small pickers.
+- When the user is already on a full profile/detail surface, prefer inline editing within that same surface over opening a second edit popup on top of it.
 - Prefer shared CSS tokens and component classes over one-off page selectors, and delete dead styles during the same refactor when safe.
 - Prefer a high-contrast, sharper, more rectangular UI language over soft glassmorphism, oversized rounding, and decorative gradients unless a specific screen has a strong product reason to differ.
 - Drive visual changes through shared tokens, shared primitives, and shared layout components first so one redesign propagates consistently across all routes and dialogs.

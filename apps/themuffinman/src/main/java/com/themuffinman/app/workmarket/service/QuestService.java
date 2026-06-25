@@ -197,7 +197,7 @@ public class QuestService {
                 .review(questViewAssembler.buildQuestDetailReviewSection(quest, currentUser, myApplication, applicationsView))
                 .execution(questViewAssembler.buildQuestDetailExecutionSection(questResponse))
                 .termChange(questViewAssembler.buildQuestDetailTermChangeSection(quest, questResponse.getAllowedActions()))
-                .management(questViewAssembler.buildQuestDetailManagementSection(questResponse.getAllowedActions()))
+                .management(questViewAssembler.buildQuestDetailManagementSection(questResponse))
                 .build();
         return QuestDetailResponseDTO.builder()
                 .summary(questResponse)

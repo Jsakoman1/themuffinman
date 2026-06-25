@@ -4,10 +4,7 @@ import CircleCandidateCard from "../components/circles/CircleCandidateCard.vue"
 import CirclesConnectionsPanel from "../components/circles/CirclesConnectionsPanel.vue"
 import CirclesDirectoryPanel from "../components/circles/CirclesDirectoryPanel.vue"
 import CirclesInboxPanel from "../components/circles/CirclesInboxPanel.vue"
-import DashboardProfileDialog from "../../workmarket/components/dashboard/DashboardProfileDialog.vue"
 import UserProfileDialog from "../components/profile/UserProfileDialog.vue"
-import UiInfoGrid from "../../../components/ui/UiInfoGrid.vue"
-import UiStatCard from "../../../components/ui/UiStatCard.vue"
 import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
 import UiSplitLayout from "../../../components/ui/UiSplitLayout.vue"
 import UiSurfaceSection from "../../../components/ui/UiSurfaceSection.vue"
@@ -28,10 +25,7 @@ const {
   error,
   message,
   messageTone,
-  circlesCount,
   connectionsCount,
-  incomingCount,
-  outgoingCount,
   suggestions,
   connectionsItems,
   connectionsPages,
@@ -64,68 +58,65 @@ const {
 <template>
   <UiDashboardPage>
         <section class="surface-stack">
-          <UiSurfaceSection class="card app-hero-surface app-hero-surface--circles" soft>
-            <UiSplitLayout>
-              <div class="surface-stack">
-                <AppPageHeader
-                  eyebrow="Relationship map"
-                  title="Circles"
-                />
-              </div>
-
-              <form class="ui-inline-form" @submit.prevent="createCircle">
-                <input v-model="newCircleName" class="input" maxlength="80" placeholder="Create a new circle" />
-                <button class="button" type="submit" :disabled="isSaving">Add circle</button>
-              </form>
-            </UiSplitLayout>
-
-            <UiInfoGrid :columns="4">
-              <UiStatCard label="Circles" :value="circlesCount" />
-              <UiStatCard label="Connections" :value="connectionsCount" />
-              <UiStatCard label="Incoming" :value="incomingCount" />
-              <UiStatCard label="Outgoing" :value="outgoingCount" />
-            </UiInfoGrid>
-          </UiSurfaceSection>
-
           <UiStatusBanner :message="message" :tone="messageTone" />
 
           <div v-if="isLoading" class="empty-state">Loading circles...</div>
           <div v-else-if="error" class="alert alert--error">{{ error }}</div>
 
-          <UiWorkspace v-else variant="triad">
-            <CirclesDirectoryPanel
-              :circles="circles"
-              :active-circle-filter="activeCircleFilter"
-              :connections-count="connectionsCount"
-              :overview-unassigned-connection-count="overviewUnassignedConnectionCount"
-              :is-saving="isSaving"
-              @select-filter="activeCircleFilter = $event"
-              @open-user="dashboard.openUserProfileDialog($event)"
-              @delete-circle="deleteCircle($event)"
-            />
+          <UiWorkspace v-else variant="detail">
+            <div class="surface-stack">
+              <UiSurfaceSection class="card app-hero-surface app-hero-surface--circles" soft>
+                <UiSplitLayout>
+                  <div class="surface-stack">
+                    <AppPageHeader
+                      eyebrow="Relationship map"
+                      title="Circles"
+                    />
+                  </div>
+                </UiSplitLayout>
+              </UiSurfaceSection>
 
-            <CirclesConnectionsPanel
-              :title="activeCircleName"
-              :search-query="searchQuery"
-              :circles="circles"
-              :connections-items="connectionsItems"
-              :connections-pages="connectionsPages"
-              :connections-page="connectionsPage"
-              :is-saving="isSaving"
-              :get-selected-circle-ids="getSelectedCircleIds"
-              :has-pending-circle-changes="hasPendingCircleChanges"
-              @update:search-query="searchQuery = $event"
-              @open-user="dashboard.openUserProfileDialog($event)"
-              @toggle-circle="toggleConnectionCircle($event.connection, $event.circleId)"
-              @save-connection="saveConnectionCircles($event)"
-              @reset-connection="resetConnectionCircles($event)"
-              @remove-connection="removeRequest($event, 'warning')"
-              @block-user="blockUser($event)"
-              @previous-page="previousConnectionsPage"
-              @next-page="nextConnectionsPage"
-            />
+              <CirclesConnectionsPanel
+                :title="activeCircleName"
+                :search-query="searchQuery"
+                :circles="circles"
+                :connections-items="connectionsItems"
+                :connections-pages="connectionsPages"
+                :connections-page="connectionsPage"
+                :is-saving="isSaving"
+                :get-selected-circle-ids="getSelectedCircleIds"
+                :has-pending-circle-changes="hasPendingCircleChanges"
+                @update:search-query="searchQuery = $event"
+                @open-user="dashboard.openUserProfileDialog($event)"
+                @toggle-circle="toggleConnectionCircle($event.connection, $event.circleId)"
+                @save-connection="saveConnectionCircles($event)"
+                @reset-connection="resetConnectionCircles($event)"
+                @remove-connection="removeRequest($event, 'warning')"
+                @block-user="blockUser($event)"
+                @previous-page="previousConnectionsPage"
+                @next-page="nextConnectionsPage"
+              />
+            </div>
 
             <aside class="surface-stack ui-sticky">
+              <UiSurfaceSection compact title="Create circle" subtitle="Add a group when you want to organize people into a new bucket.">
+                <form class="ui-inline-form" @submit.prevent="createCircle">
+                  <input v-model="newCircleName" class="input" maxlength="80" placeholder="Create a new circle" />
+                  <button class="button" type="submit" :disabled="isSaving">Add circle</button>
+                </form>
+              </UiSurfaceSection>
+
+              <CirclesDirectoryPanel
+                :circles="circles"
+                :active-circle-filter="activeCircleFilter"
+                :connections-count="connectionsCount"
+                :overview-unassigned-connection-count="overviewUnassignedConnectionCount"
+                :is-saving="isSaving"
+                @select-filter="activeCircleFilter = $event"
+                @open-user="dashboard.openUserProfileDialog($event)"
+                @delete-circle="deleteCircle($event)"
+              />
+
               <UiSurfaceSection
                 tag="section"
                 class="surface-stack"
@@ -166,12 +157,10 @@ const {
             </aside>
           </UiWorkspace>
 
-          <DashboardProfileDialog :dashboard="dashboard" />
           <UserProfileDialog
             :open="dashboard.userProfileDialogId !== null"
             :user-id="dashboard.userProfileDialogId"
             @close="dashboard.closeUserProfileDialog()"
-            @edit-profile="dashboard.openProfileEditDialog()"
           />
         </section>
   </UiDashboardPage>

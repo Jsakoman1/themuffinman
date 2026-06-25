@@ -27,6 +27,7 @@ export type DashboardQuestEditFacade = Pick<
   QuestDashboard,
   | "saveEditedQuest"
   | "cancelEditingQuest"
+  | "selectedQuestDialog"
   | "editQuestTitle"
   | "editQuestDescription"
   | "editQuestAwardAmount"
@@ -67,25 +68,6 @@ export type DashboardApplicationApplyFacade = Pick<
   | "applyForQuest"
 >
 
-export type DashboardProfileEditFacade = Pick<
-  QuestDashboard,
-  | "isProfileEditDialogOpen"
-  | "closeProfileEditDialog"
-  | "saveProfile"
-  | "currentUser"
-  | "profileUsername"
-  | "profileDescription"
-  | "profileAvatarDataUrl"
-  | "updateProfileAvatarFromFile"
-  | "clearProfileAvatar"
->
-
-export type DashboardProfileSummaryFacade = Pick<
-  QuestDashboard,
-  | "currentUser"
-  | "openProfileEditDialog"
->
-
 export type DashboardQuestApplicationsFacade = Pick<
   QuestDashboard,
   | "openUserProfileDialog"
@@ -93,17 +75,6 @@ export type DashboardQuestApplicationsFacade = Pick<
   | "toggleApplicationRevealForQuest"
   | "applicationRevealLabel"
   | "hiddenApplicationsCountForQuest"
->
-
-export type DashboardOverviewFacade = Pick<
-  QuestDashboard,
-  | "dashboardSections"
-  | "openCreateJobDialog"
-  | "openFindWorkDialog"
-  | "accountCreatedAt"
-  | "questScheduledAt"
-  | "questEndsAt"
-  | "setQuestTermMode"
 >
 
 export type DashboardQuestListFacade = Pick<
@@ -137,6 +108,8 @@ export type DashboardWorkPlannerFacade = Pick<
   | "questEndsAt"
   | "setQuestTermMode"
   | "openCreateJobDialog"
+  | "openQuestDialog"
+  | "questForId"
 >
 
 export type DashboardQuestDialogFacade = Pick<

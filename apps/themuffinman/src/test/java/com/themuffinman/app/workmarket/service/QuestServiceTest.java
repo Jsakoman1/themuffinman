@@ -19,6 +19,8 @@ import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import com.themuffinman.app.workmarket.model.QuestStatus;
+import com.themuffinman.app.social.model.CircleGroup;
+import com.themuffinman.app.social.dto.CircleSummaryDTO;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.workmarket.repository.QuestApplicationRepository;
 import com.themuffinman.app.workmarket.repository.QuestRepository;
@@ -399,7 +401,12 @@ class QuestServiceTest {
         when(questRepository.findByIdWithCreator(31L)).thenReturn(Optional.of(quest));
         when(questVisibilityService.canViewQuest(currentUser, quest)).thenReturn(true);
         when(questApplicationRepository.findByApplicantId(currentUser.getId())).thenReturn(List.of(application));
-        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder().id(quest.getId()).status(quest.getStatus()).build());
+        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
+                .id(quest.getId())
+                .status(quest.getStatus())
+                .audience(QuestAudience.CIRCLES)
+                .visibleToCircles(List.of(CircleSummaryDTO.builder().id(9L).name("Trusted neighbours").build()))
+                .build());
 
         QuestResponseDTO result = questService.getQuestResponseById(31L, currentUser);
 
@@ -425,7 +432,12 @@ class QuestServiceTest {
         when(questRepository.findByIdWithCreator(32L)).thenReturn(Optional.of(quest));
         when(questVisibilityService.canViewQuest(currentUser, quest)).thenReturn(true);
         when(questApplicationRepository.findByApplicantId(currentUser.getId())).thenReturn(List.of());
-        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder().id(quest.getId()).status(quest.getStatus()).build());
+        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
+                .id(quest.getId())
+                .status(quest.getStatus())
+                .audience(QuestAudience.CIRCLES)
+                .visibleToCircles(List.of(CircleSummaryDTO.builder().id(9L).name("Trusted neighbours").build()))
+                .build());
 
         QuestResponseDTO result = questService.getQuestResponseById(32L, currentUser);
 
@@ -448,7 +460,12 @@ class QuestServiceTest {
         when(questRepository.findByIdWithCreator(34L)).thenReturn(Optional.of(quest));
         when(questVisibilityService.canViewQuest(currentUser, quest)).thenReturn(true);
         when(questApplicationRepository.findByApplicantId(currentUser.getId())).thenReturn(List.of());
-        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder().id(quest.getId()).status(quest.getStatus()).build());
+        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
+                .id(quest.getId())
+                .status(quest.getStatus())
+                .audience(QuestAudience.CIRCLES)
+                .visibleToCircles(List.of(CircleSummaryDTO.builder().id(9L).name("Trusted neighbours").build()))
+                .build());
 
         QuestResponseDTO result = questService.getQuestResponseById(34L, currentUser);
 
@@ -468,6 +485,11 @@ class QuestServiceTest {
         quest.setCreator(currentUser);
         quest.setTitle("Assemble shelf");
         quest.setStatus(QuestStatus.OPEN);
+        quest.setAudience(QuestAudience.CIRCLES);
+        CircleGroup trustedNeighbours = new CircleGroup();
+        trustedNeighbours.setId(9L);
+        trustedNeighbours.setName("Trusted neighbours");
+        quest.getVisibleToCircles().add(trustedNeighbours);
 
         AppUser applicant = createUser(6L, "worker");
         QuestApplication visibleApplication = new QuestApplication();
@@ -485,7 +507,12 @@ class QuestServiceTest {
         when(questRepository.findByIdWithCreator(33L)).thenReturn(Optional.of(quest));
         when(questVisibilityService.canViewQuest(currentUser, quest)).thenReturn(true);
         when(questApplicationRepository.findByApplicantId(currentUser.getId())).thenReturn(List.of(myApplication));
-        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder().id(quest.getId()).status(quest.getStatus()).build());
+        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
+                .id(quest.getId())
+                .status(quest.getStatus())
+                .audience(QuestAudience.CIRCLES)
+                .visibleToCircles(List.of(CircleSummaryDTO.builder().id(9L).name("Trusted neighbours").build()))
+                .build());
         when(questApplicationMgr.toDto(myApplication)).thenReturn(QuestApplicationResponseDTO.builder().id(52L).build());
         when(questApplicationService.getApplicationsViewForQuest(33L, currentUser, false)).thenReturn(
                 com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO.builder()
@@ -505,6 +532,9 @@ class QuestServiceTest {
         assertEquals(false, result.getSections().getReview().isVisible());
         assertEquals(false, result.getSections().getExecution().isVisible());
         assertEquals(true, result.getSections().getManagement().isDeleteVisible());
+        assertEquals(true, result.getSections().getManagement().isPostingSettingsVisible());
+        assertEquals("Circles", result.getSections().getManagement().getAudienceLabel());
+        assertEquals("Trusted neighbours", result.getSections().getManagement().getVisibleToCirclesLabel());
     }
 
     @Test
@@ -545,6 +575,8 @@ class QuestServiceTest {
         assertEquals(false, result.getSections().getTermChange().isVisible());
         assertEquals(true, result.getSections().getExecution().isVisible());
         assertEquals("You are the approved applicant for this quest.", result.getSections().getExecution().getHelperText());
+        assertEquals(false, result.getSections().getManagement().isPostingSettingsVisible());
+        assertEquals(null, result.getSections().getManagement().getVisibleToCirclesLabel());
     }
 
     @Test

@@ -1,9 +1,8 @@
-import {nextTick, onBeforeUnmount, onMounted, watch, type Ref} from "vue"
+import {nextTick, onBeforeUnmount, onMounted, type Ref} from "vue"
 import type {RouteLocationRaw} from "vue-router"
-import {currentUser} from "../../../../auth.ts"
 import {formatDebugInfo} from "../../../../httpDebug.ts"
 import type {Quest, QuestApplication} from "../../api/workmarketApi.ts"
-import type {DashboardTab, OverviewFocus} from "../../domain/workmarketDomain.ts"
+import type {DashboardTab} from "../../domain/workmarketDomain.ts"
 import {populateCreateQuestDraft, populateEditQuestDraft} from "./questDraftState.ts"
 
 export const createDashboardInteractions = (state: {
@@ -11,11 +10,6 @@ export const createDashboardInteractions = (state: {
   router: {push: (location: RouteLocationRaw) => Promise<unknown>}
   adminModeEnabled: Ref<boolean>
   activeTab: Ref<DashboardTab>
-  overviewFocus: Ref<OverviewFocus | null>
-  profileUsername: Ref<string>
-  profileDescription: Ref<string>
-  profileAvatarDataUrl: Ref<string>
-  isProfileEditDialogOpen: Ref<boolean>
   isNotificationsDialogOpen: Ref<boolean>
   questDialogId: Ref<number | null>
   applicationDialogId: Ref<number | null>
@@ -114,29 +108,6 @@ export const createDashboardInteractions = (state: {
     })
   }
 
-  const toggleOverviewFocus = (focus: OverviewFocus) => {
-    state.overviewFocus.value = state.overviewFocus.value === focus ? null : focus
-  }
-
-  const clearOverviewFocus = () => {
-    state.overviewFocus.value = null
-  }
-
-  const openProfileEditDialog = () => {
-    if (!currentUser.value) {
-      return
-    }
-
-    state.profileUsername.value = currentUser.value.username
-    state.profileDescription.value = currentUser.value.profileDescription ?? ""
-    state.profileAvatarDataUrl.value = currentUser.value.profileAvatarDataUrl ?? ""
-    state.isProfileEditDialogOpen.value = true
-  }
-
-  const closeProfileEditDialog = () => {
-    state.isProfileEditDialogOpen.value = false
-  }
-
   const openNotificationsDialog = () => {
     state.isNotificationsDialogOpen.value = true
   }
@@ -230,12 +201,6 @@ export const createDashboardInteractions = (state: {
     state.isApplicationsDialogOpen.value = false
   }
 
-  watch(() => state.route.query.profile, (value) => {
-    if (value === "edit") {
-      openProfileEditDialog()
-    }
-  }, {immediate: true})
-
   const scrollQuestDisclosureIntoView = async (questId: number) => {
     await nextTick()
     const element = state.questDisclosureRefs.value[questId]
@@ -298,15 +263,10 @@ export const createDashboardInteractions = (state: {
     }
 
     element.open = true
-    const quest = state.questForId(questId)
     const currentEditingQuest = state.editingQuestId.value === null ? null : state.questForId(state.editingQuestId.value)
 
     if (currentEditingQuest && currentEditingQuest.id !== questId) {
       cancelEditingQuest()
-    }
-
-    if (quest?.presentation.autoOpenEditForm) {
-      startEditingQuest(quest)
     }
 
     void scrollQuestDisclosureIntoView(questId)
@@ -355,7 +315,7 @@ export const createDashboardInteractions = (state: {
         cancelEditingApplication()
       }
 
-      if (application.presentation.autoOpenEditForm) {
+      if (application.presentation.canEdit) {
         startEditingApplication(application)
       }
       return
@@ -389,10 +349,6 @@ export const createDashboardInteractions = (state: {
     triggerSuccessPulse,
     setActiveTab,
     goToTab,
-    toggleOverviewFocus,
-    clearOverviewFocus,
-    openProfileEditDialog,
-    closeProfileEditDialog,
     openNotificationsDialog,
     closeNotificationsDialog,
     closeQuestDialog,

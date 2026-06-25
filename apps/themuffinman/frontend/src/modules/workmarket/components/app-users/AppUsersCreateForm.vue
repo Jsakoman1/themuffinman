@@ -4,13 +4,18 @@ import UiFormActions from "../../../../components/ui/UiFormActions.vue"
 import type {AppUserRole} from "../../domain/workmarketDomain.ts"
 import type {AppUserRoleOption} from "../../api/workmarketApi.ts"
 
-defineProps<{
+withDefaults(defineProps<{
   email: string
   username: string
   password: string
   role: AppUserRole
   roleOptions: AppUserRoleOption[]
-}>()
+  formId?: string
+  showSubmit?: boolean
+}>(), {
+  formId: "",
+  showSubmit: true,
+})
 
 defineEmits<{
   (event: "update:email", value: string): void
@@ -22,7 +27,7 @@ defineEmits<{
 </script>
 
 <template>
-  <form class="form-stack" @submit.prevent="$emit('submit')">
+  <form :id="formId || undefined" class="form-stack" @submit.prevent="$emit('submit')">
     <div class="grid grid--two">
       <UiFieldGroup label="Email">
         <input :value="email" class="input" @input="$emit('update:email', ($event.target as HTMLInputElement).value)" />
@@ -50,7 +55,7 @@ defineEmits<{
       </UiFieldGroup>
     </div>
 
-    <UiFormActions>
+    <UiFormActions v-if="showSubmit">
       <button class="button" type="submit">Create user</button>
     </UiFormActions>
   </form>

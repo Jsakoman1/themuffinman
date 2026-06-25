@@ -27,11 +27,33 @@ export const createTopbarNavState = (route: RouteLocationNormalizedLoaded) => {
   }
 
   const topbarNavItems = computed(() => {
-    const workModule = productModules.find((module) => module.key === "work")
     const remainingModules = productModules.filter((module) => module.key !== "work")
 
     return [
-      ...(workModule ? [workModule] : []),
+      {
+        key: "calendar",
+        title: "Calendar",
+        shortTitle: "Calendar",
+        path: "/work?tab=calendar",
+        description: "Scheduled work and your planner.",
+        state: "live" as const
+      },
+      {
+        key: "create-job",
+        title: "Create job",
+        shortTitle: "Create job",
+        path: "/work?tab=create-job",
+        description: "Post and manage your jobs.",
+        state: "live" as const
+      },
+      {
+        key: "find-work",
+        title: "Find job",
+        shortTitle: "Find job",
+        path: "/work?tab=find-work",
+        description: "Browse open jobs.",
+        state: "live" as const
+      },
       {
         key: "circles",
         title: "Circles",
@@ -43,7 +65,13 @@ export const createTopbarNavState = (route: RouteLocationNormalizedLoaded) => {
       ...remainingModules
     ].map((item) => ({
       ...item,
-      active: isModuleActive(item.path)
+      active: item.key === "calendar"
+        ? route.path.startsWith("/work") && (route.query.tab === undefined || route.query.tab === "calendar")
+        : item.key === "create-job"
+          ? route.path.startsWith("/work") && route.query.tab === "create-job"
+          : item.key === "find-work"
+            ? route.path.startsWith("/work") && route.query.tab === "find-work"
+            : isModuleActive(item.path)
     }))
   })
 

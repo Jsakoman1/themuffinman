@@ -94,6 +94,10 @@ easily for native iPhone and Android applications.
 Avoid pushing important domain rules into frontend-only code. Frontend code should mainly orchestrate API calls, render
 state, and handle UI-specific concerns.
 
+Standardize dialogs and detail surfaces around a consistent two-column pattern when the content supports it: main
+content on the left, utility metadata and actions on the right. For profile/detail views that are already open, prefer
+inline editing inside the same surface instead of opening a second nested edit popup.
+
 ## Collaboration Rules
 
 Do not commit or push changes. Only modify files in the workspace. Write all code, comments, API text, and user-facing

@@ -521,6 +521,9 @@ export interface QuestDetailExecutionSectionDTO {
 export interface QuestDetailManagementSectionDTO {
   editVisible: boolean
   deleteVisible: boolean
+  postingSettingsVisible: boolean
+  audienceLabel: string | null
+  visibleToCirclesLabel: string | null
 }
 
 export interface QuestDetailNavigationSectionDTO {

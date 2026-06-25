@@ -11,6 +11,8 @@ import UiDialog from "../../../components/ui/UiDialog.vue"
 import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
 import UiRequestError from "../../../components/ui/UiRequestError.vue"
 import UiToast from "../../../components/ui/UiToast.vue"
+import DetailDialogFrame from "../components/shared/DetailDialogFrame.vue"
+import DetailUtilitySection from "../components/shared/DetailUtilitySection.vue"
 import {useAppUsersPage} from "../composables/useAppUsersPage.ts"
 
 const usersPage = useAppUsersPage()
@@ -72,16 +74,49 @@ useMountedAsync(usersPage.init)
         <UiDialog
           :open="usersPage.isCreateUserDialogOpen"
           title="Create user"
+          size="xl"
           @close="usersPage.closeCreateUserDialog"
         >
-          <AppUsersCreateForm
-            v-model:email="usersPage.email"
-            v-model:username="usersPage.username"
-            v-model:password="usersPage.password"
-            v-model:role="usersPage.role"
-            :role-options="usersPage.roleOptions"
-            @submit="usersPage.createAppUser"
-          />
+          <DetailDialogFrame>
+            <template #main>
+              <AppUsersCreateForm
+                form-id="create-user-form"
+                :show-submit="false"
+                v-model:email="usersPage.email"
+                v-model:username="usersPage.username"
+                v-model:password="usersPage.password"
+                v-model:role="usersPage.role"
+                :role-options="usersPage.roleOptions"
+                @submit="usersPage.createAppUser"
+              />
+            </template>
+
+            <template #side>
+              <DetailUtilitySection title="Summary" tone="summary">
+                <div class="quest-overview-aside quest-overview-aside--compact">
+                  <div class="quest-overview-aside__row">
+                    <span class="quest-overview-aside__label">Users</span>
+                    <span class="quest-overview-aside__value">{{ usersPage.appUsers.length }}</span>
+                  </div>
+                  <div class="quest-overview-aside__row">
+                    <span class="quest-overview-aside__label">Role</span>
+                    <span class="quest-overview-aside__value">{{ usersPage.roleOptions.find((option) => option.value === usersPage.role)?.label ?? usersPage.role }}</span>
+                  </div>
+                </div>
+              </DetailUtilitySection>
+
+              <DetailUtilitySection title="Actions" tone="actions">
+                <div class="ui-action-stack">
+                  <button class="button button--action" type="submit" form="create-user-form">
+                    Create user
+                  </button>
+                  <button class="button button--ghost" type="button" @click="usersPage.closeCreateUserDialog">
+                    Cancel
+                  </button>
+                </div>
+              </DetailUtilitySection>
+            </template>
+          </DetailDialogFrame>
         </UiDialog>
 
         <UiConfirmDialog

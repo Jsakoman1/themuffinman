@@ -17,7 +17,7 @@ export const useQuestDashboardDialogActions = (
     state.applicationDialogId.value = null
     state.questDialogId.value = questId
 
-    if (quest.presentation.autoOpenEditForm) {
+    if (quest.presentation.canEdit) {
       state.startEditingQuest(quest)
     } else {
       state.cancelEditingQuest()
@@ -44,7 +44,7 @@ export const useQuestDashboardDialogActions = (
     state.questDialogId.value = null
     state.applicationDialogId.value = applicationId
 
-    if (application.presentation.autoOpenEditForm) {
+    if (application.presentation.canEdit) {
       state.startEditingApplication(application)
     } else {
       state.cancelEditingApplication()

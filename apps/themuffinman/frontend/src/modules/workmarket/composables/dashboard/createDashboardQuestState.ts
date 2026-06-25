@@ -1,5 +1,5 @@
 import {ref} from "vue"
-import type {QuestAudience, QuestStatus, QuestStatusFilter, OverviewFocus} from "../../domain/workmarketDomain.ts"
+import type {QuestAudience, QuestStatus, QuestStatusFilter} from "../../domain/workmarketDomain.ts"
 
 export const createDashboardQuestState = () => {
   const questTitle = ref("")
@@ -9,7 +9,7 @@ export const createDashboardQuestState = () => {
   const questEndsAt = ref("")
   const questTermMode = ref<"flexible" | "start-only" | "start-end">("flexible")
   const questTermFixed = ref(false)
-  const questAudience = ref<QuestAudience>("CIRCLES")
+  const questAudience = ref<QuestAudience>("EVERYONE")
   const questSelectedCircleIds = ref<number[]>([])
   const questCreatorId = ref("")
   const questImages = ref<string[]>([])
@@ -40,7 +40,6 @@ export const createDashboardQuestState = () => {
   const editApplicationMessage = ref("")
   const editApplicationPrice = ref("")
 
-  const overviewFocus = ref<OverviewFocus | null>(null)
   const questDialogId = ref<number | null>(null)
   const applicationDialogId = ref<number | null>(null)
   const userProfileDialogId = ref<number | null>(null)
@@ -83,7 +82,6 @@ export const createDashboardQuestState = () => {
     editingApplicationId,
     editApplicationMessage,
     editApplicationPrice,
-    overviewFocus,
     questDialogId,
     applicationDialogId,
     userProfileDialogId,

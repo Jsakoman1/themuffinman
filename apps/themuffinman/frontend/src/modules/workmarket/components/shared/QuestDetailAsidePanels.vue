@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import {computed} from "vue"
+import DetailUtilitySection from "./DetailUtilitySection.vue"
 import ProfileBio from "../../../../components/profile/ProfileBio.vue"
 import UiFieldGroup from "../../../../components/ui/UiFieldGroup.vue"
 import UiStarRatingInput from "../../../../components/ui/UiStarRatingInput.vue"
-import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 import {richTextHasContent} from "../../../../shared/richText.ts"
 import type {Quest, QuestApplication, QuestDetail} from "../../api/workmarketApi.ts"
 
 const props = withDefaults(defineProps<{
   quest?: Quest | null
   myApplication?: QuestApplication | null
+  showOverview?: boolean
+  showOverviewStatus?: boolean
   showMyApplication?: boolean
   canOpenApplication?: boolean
   applicationOpenLabel?: string
@@ -26,6 +28,8 @@ const props = withDefaults(defineProps<{
 }>(), {
   quest: null,
   myApplication: null,
+  showOverview: true,
+  showOverviewStatus: true,
   showMyApplication: true,
   canOpenApplication: false,
   applicationOpenLabel: "Open application",
@@ -41,18 +45,8 @@ const props = withDefaults(defineProps<{
   reviewComment: "",
 })
 
-const visibleCirclesLabel = computed(() => {
-  if (!props.quest || props.quest.audience !== "CIRCLES") {
-    return ""
-  }
-
-  const names = props.quest.visibleToCircles.map((circle) => circle.name)
-  return names.length ? names.join(", ") : "Selected circles"
-})
-
 const hasVisibleActions = computed(() => {
   return Boolean(
-    props.managementSection?.editVisible ||
     props.managementSection?.deleteVisible ||
     props.executionSection?.primaryAction ||
     props.termChangeSection?.actionable,
@@ -67,6 +61,8 @@ const actionHelperText = computed(() => {
   return props.executionSection.helperText ?? ""
 })
 
+const showPostingSettings = computed(() => props.managementSection?.postingSettingsVisible ?? false)
+
 const emit = defineEmits<{
   (event: "toggle-term-change"): void
   (event: "open-application"): void
@@ -75,7 +71,6 @@ const emit = defineEmits<{
   (event: "submit-review"): void
   (event: "start-work"): void
   (event: "complete-work"): void
-  (event: "edit-quest"): void
   (event: "delete-quest"): void
   (event: "confirm-term-change"): void
   (event: "reject-term-change"): void
@@ -84,28 +79,50 @@ const emit = defineEmits<{
 
 <template>
   <aside class="surface-stack surface-stack--aside">
-    <UiSurfaceSection v-if="quest" tag="article" class="card ui-detail-panel ui-detail-panel--aside ui-detail-panel--summary" compact title="Overview">
+    <section v-if="quest && showOverview" class="quest-overview-panel">
       <div class="quest-overview-aside">
-        <div class="quest-overview-aside__row">
-          <span class="quest-overview-aside__label">Status</span>
-          <span :class="quest.presentation.statusBadgeClass">
-            {{ quest.presentation.statusLabel }}
-          </span>
+        <div class="surface-price-pill surface-price-pill--hero quest-overview-aside__reward">
+          <span class="surface-price-pill__label">Reward</span>
+          <span class="surface-price-pill__amount">$ {{ quest.awardAmount }}</span>
         </div>
 
-        <div class="quest-overview-aside__row">
-          <span class="quest-overview-aside__label">Visibility</span>
-          <span class="quest-overview-aside__value">{{ quest.presentation.audienceLabel }}</span>
+        <div class="quest-overview-aside__row quest-overview-aside__row--stack">
+          <span class="quest-overview-aside__label">When</span>
+          <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ quest.presentation.termScheduleLabel }}</span>
         </div>
 
-        <div v-if="quest.audience === 'CIRCLES'" class="quest-overview-aside__row quest-overview-aside__row--stack">
-          <span class="quest-overview-aside__label">Visible to circles</span>
-          <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ visibleCirclesLabel }}</span>
+        <div v-if="quest.presentation.assigneeTargetVisible" class="quest-overview-aside__row">
+          <span class="quest-overview-aside__label">Workers</span>
+          <span class="quest-overview-aside__value">{{ quest.presentation.assigneeTargetLabel }}</span>
+        </div>
+
+        <div class="quest-overview-aside__row quest-overview-aside__row--stack">
+          <span class="quest-overview-aside__label">Time</span>
+          <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ quest.presentation.timeTypeLabel }}</span>
         </div>
       </div>
-    </UiSurfaceSection>
+    </section>
 
-    <UiSurfaceSection v-if="showMyApplication && myApplication" tag="article" class="card ui-detail-panel ui-detail-panel--aside" compact title="Your application">
+    <DetailUtilitySection v-if="showPostingSettings" title="Posting settings">
+      <div class="quest-overview-aside">
+        <div class="quest-overview-aside__row">
+          <span class="quest-overview-aside__label">Visibility</span>
+          <span class="quest-overview-aside__value">{{ managementSection?.audienceLabel }}</span>
+        </div>
+
+        <div
+          v-if="managementSection?.visibleToCirclesLabel"
+          class="quest-overview-aside__row quest-overview-aside__row--stack"
+        >
+          <span class="quest-overview-aside__label">Visible to circles</span>
+          <span class="quest-overview-aside__value quest-overview-aside__value--multiline">
+            {{ managementSection.visibleToCirclesLabel }}
+          </span>
+        </div>
+      </div>
+    </DetailUtilitySection>
+
+    <DetailUtilitySection v-if="showMyApplication && myApplication" title="Your application" tone="summary">
       <template #actions>
         <span :class="myApplication.presentation.statusBadgeClass">
           {{ myApplication.presentation.statusLabel }}
@@ -125,9 +142,9 @@ const emit = defineEmits<{
           {{ applicationOpenLabel }}
         </button>
       </div>
-    </UiSurfaceSection>
+    </DetailUtilitySection>
 
-    <UiSurfaceSection v-if="termChangeSection?.visible" tag="article" class="card ui-detail-panel ui-detail-panel--aside" compact title="Term change">
+    <DetailUtilitySection v-if="termChangeSection?.visible" title="Term change">
       <div class="compact-disclosure">
         <button class="compact-disclosure--launch" type="button" @click="emit('toggle-term-change')">
           {{ termChangeSection.summaryLabel }}
@@ -139,13 +156,10 @@ const emit = defineEmits<{
           </div>
         </div>
       </div>
-    </UiSurfaceSection>
+    </DetailUtilitySection>
 
-    <UiSurfaceSection v-if="hasVisibleActions" tag="article" class="card ui-detail-panel ui-detail-panel--aside ui-detail-panel--muted" compact title="Actions">
+    <DetailUtilitySection v-if="hasVisibleActions" title="Actions" tone="actions">
       <div class="ui-action-stack">
-        <button v-if="managementSection?.editVisible" class="button button--secondary" type="button" :disabled="isSaving || isActionInProgress" @click="emit('edit-quest')">
-          Edit
-        </button>
         <button v-if="executionSection?.primaryAction" class="button" type="button" :disabled="isSaving" @click="executionSection.primaryAction === 'START' ? emit('start-work') : emit('complete-work')">
           {{ executionSection.primaryActionLabel }}
         </button>
@@ -162,9 +176,9 @@ const emit = defineEmits<{
           Delete
         </button>
       </div>
-    </UiSurfaceSection>
+    </DetailUtilitySection>
 
-    <UiSurfaceSection v-if="reviewSection?.visible" tag="section" class="card ui-detail-panel ui-detail-panel--aside ui-detail-panel--review" compact title="Review">
+    <DetailUtilitySection v-if="reviewSection?.visible" title="Review">
       <template #actions>
         <span v-if="hasSubmittedReview" class="badge badge--success">Saved</span>
       </template>
@@ -198,7 +212,7 @@ const emit = defineEmits<{
       <div v-else class="empty-state empty-state--soft">
         {{ reviewSection.emptyStateMessage }}
       </div>
-    </UiSurfaceSection>
+    </DetailUtilitySection>
 
     <slot />
   </aside>

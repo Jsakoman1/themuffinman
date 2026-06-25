@@ -34,7 +34,7 @@ export const useQuestDashboardApplicationMutations = (
       state.proposedPrices.value[questId] = ""
       await refreshDashboardData()
       state.closeQuestDialog()
-      state.goToTab("overview")
+      state.goToTab("calendar")
       }
     })
 

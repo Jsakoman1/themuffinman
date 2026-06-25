@@ -3,6 +3,8 @@ import UiEventPill from "../../../../components/ui/UiEventPill.vue"
 import UiDialog from "../../../../components/ui/UiDialog.vue"
 import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 import {createDashboardWorkPlannerState} from "../../composables/dashboard/createDashboardWorkPlannerState.ts"
+import DetailDialogFrame from "../shared/DetailDialogFrame.vue"
+import DetailUtilitySection from "../shared/DetailUtilitySection.vue"
 import type {DashboardWorkPlannerFacade} from "../../composables/dashboard/dashboardFacades.ts"
 
 const props = defineProps<{
@@ -86,7 +88,7 @@ const {
               :key="item.id"
               class="button-reset"
               type="button"
-              @click.stop="openItem(item.navigation)"
+              @click.stop="openItem(item)"
             >
               <UiEventPill
                 :time="item.timeLabel"
@@ -113,7 +115,7 @@ const {
           :key="item.id"
           class="button-reset"
           type="button"
-          @click="openItem(item.navigation)"
+          @click="openItem(item)"
         >
           <UiEventPill
             :time="item.timeLabel"
@@ -125,48 +127,69 @@ const {
       </div>
     </UiSurfaceSection>
 
-    <UiDialog :open="!!selectedDay" :title="selectedDayLabel" @close="closeDayDialog">
-      <div class="dashboard-calendar__day-dialog">
-        <div class="dashboard-calendar__day-header">
-          <span class="dashboard-calendar__day-kicker">Schedule</span>
-          <span v-if="selectedDayLocked" class="badge badge--danger">Past day</span>
-          <span v-else-if="selectedDayItems.length" class="badge badge--neutral">{{ selectedDayItems.length }} item{{ selectedDayItems.length === 1 ? '' : 's' }}</span>
-        </div>
+    <UiDialog :open="!!selectedDay" :title="selectedDayLabel" size="xl" @close="closeDayDialog">
+      <DetailDialogFrame>
+        <template #main>
+          <div class="dashboard-calendar__day-dialog">
+            <div class="dashboard-calendar__day-header">
+              <span class="dashboard-calendar__day-kicker">Schedule</span>
+              <span v-if="selectedDayLocked" class="badge badge--danger">Past day</span>
+              <span v-else-if="selectedDayItems.length" class="badge badge--neutral">{{ selectedDayItems.length }} item{{ selectedDayItems.length === 1 ? '' : 's' }}</span>
+            </div>
 
-        <div v-if="selectedDayItems.length" class="dashboard-calendar__day-list">
-          <button
-            v-for="item in selectedDayItems"
-            :key="item.id"
-            class="button-reset"
-            type="button"
-            @click="openItem(item.navigation)"
-          >
-            <UiEventPill
-              :time="item.timeLabel"
-              :title="item.title"
-              :tone="item.kind === 'managed' ? 'outgoing' : 'incoming'"
-              dialog
-              :range="item.hasRange"
-            />
-          </button>
-        </div>
+            <div v-if="selectedDayItems.length" class="dashboard-calendar__day-list">
+              <button
+              v-for="item in selectedDayItems"
+              :key="item.id"
+              class="button-reset"
+              type="button"
+              @click="openItem(item)"
+              >
+                <UiEventPill
+                  :time="item.timeLabel"
+                  :title="item.title"
+                  :tone="item.kind === 'managed' ? 'outgoing' : 'incoming'"
+                  dialog
+                  :range="item.hasRange"
+                />
+              </button>
+            </div>
 
-        <p v-else class="dashboard-calendar__day-empty">
-          Quiet day.
-        </p>
+            <p v-else class="dashboard-calendar__day-empty">
+              Quiet day.
+            </p>
+          </div>
+        </template>
 
-        <div class="dashboard-calendar__day-actions">
-          <button
-            class="button button--secondary"
-            type="button"
-            :disabled="selectedDayLocked || !selectedDayCanCreate"
-            @click="openCreateOnSelectedDay"
-          >
-            Create new
-          </button>
-          <button class="button button--ghost" type="button" @click="closeDayDialog">Close</button>
-        </div>
-      </div>
+        <template #side>
+          <DetailUtilitySection title="Summary" tone="summary">
+            <div class="quest-overview-aside quest-overview-aside--compact">
+              <div class="quest-overview-aside__row">
+                <span class="quest-overview-aside__label">Items</span>
+                <span class="quest-overview-aside__value">{{ selectedDayItems.length }}</span>
+              </div>
+              <div class="quest-overview-aside__row">
+                <span class="quest-overview-aside__label">Create new</span>
+                <span class="quest-overview-aside__value">{{ selectedDayCanCreate && !selectedDayLocked ? "Available" : "Locked" }}</span>
+              </div>
+            </div>
+          </DetailUtilitySection>
+
+          <DetailUtilitySection title="Actions" tone="actions">
+            <div class="ui-action-stack">
+              <button
+                class="button button--secondary"
+                type="button"
+                :disabled="selectedDayLocked || !selectedDayCanCreate"
+                @click="openCreateOnSelectedDay"
+              >
+                Create new
+              </button>
+              <button class="button button--ghost" type="button" @click="closeDayDialog">Close</button>
+            </div>
+          </DetailUtilitySection>
+        </template>
+      </DetailDialogFrame>
     </UiDialog>
   </UiSurfaceSection>
 </template>

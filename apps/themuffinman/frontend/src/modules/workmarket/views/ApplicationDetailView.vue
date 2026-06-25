@@ -6,6 +6,8 @@ import UiRequestError from "../../../components/ui/UiRequestError.vue"
 import {getApiErrorMessage} from "../../../api/apiErrors.ts"
 import {invalidEntityMessage} from "../../../shared/clientMessages.ts"
 import {workmarketApi, type QuestApplication, type QuestApplicationDetail} from "../api/workmarketApi.ts"
+import DetailDialogFrame from "../components/shared/DetailDialogFrame.vue"
+import DetailUtilitySection from "../components/shared/DetailUtilitySection.vue"
 import {routeForNavigationTarget} from "../shared/navigationTargets.ts"
 import ApplicationDetailSections from "../components/shared/ApplicationDetailSections.vue"
 import ApplicationSummaryCard from "../components/shared/ApplicationSummaryCard.vue"
@@ -72,8 +74,7 @@ onMounted(() => {
     <UiDialog
       :open="true"
       :title="application?.questTitle ?? 'Application details'"
-      size="lg"
-      :default-expanded="true"
+      size="xl"
       @close="closeApplicationDetail"
     >
       <UiRequestError :message="error" :details="[]" summary="Debug details" :copied="false" />
@@ -81,19 +82,27 @@ onMounted(() => {
       <div v-if="isLoading" class="empty-state">Loading application...</div>
 
       <div v-else-if="application" class="surface-stack">
-        <ApplicationSummaryCard :application="application" include-term />
+        <DetailDialogFrame>
+          <template #main>
+            <ApplicationDetailSections
+              :application="application"
+              :quest-path="questPath"
+              :quest-label="application.questTitle"
+              :show-status="true"
+              :show-workers="!!contextSection?.showWorkers"
+            />
+          </template>
 
-        <ApplicationDetailSections
-          :application="application"
-          :quest-path="questPath"
-          :quest-label="application.questTitle"
-          :show-status="true"
-          :show-workers="!!contextSection?.showWorkers"
-        />
+          <template #side>
+            <ApplicationSummaryCard :application="application" include-term />
 
-        <div class="button-row button-row--end">
-          <RouterLink v-if="questPath" class="button button--secondary" :to="questPath">Open quest</RouterLink>
-        </div>
+            <DetailUtilitySection v-if="questPath" title="Actions" tone="actions">
+              <div class="ui-action-stack">
+                <RouterLink class="button button--secondary" :to="questPath">Open quest</RouterLink>
+              </div>
+            </DetailUtilitySection>
+          </template>
+        </DetailDialogFrame>
       </div>
     </UiDialog>
   </div>

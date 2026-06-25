@@ -1,3 +1,4 @@
+import axios from "axios"
 import {getApiErrorMessage} from "../../../../api/apiErrors.ts"
 import {workmarketApi} from "../../api/workmarketApi.ts"
 import type {QuestDetailPageState} from "../useQuestDetailPageState.ts"
@@ -13,7 +14,9 @@ export const useQuestDetailDataActions = (state: QuestDetailPageState) => {
       replaceQuestDetailState(state, await workmarketApi.getQuestDetail(state.questId.value))
     } catch (error) {
       resetQuestDetailState(state)
-      state.error.value = getApiErrorMessage(error, "Quest not found.")
+      state.error.value = axios.isAxiosError(error) && (error.response?.status === 401 || error.response?.status === 403)
+        ? "You no longer have access to this quest."
+        : getApiErrorMessage(error, "Quest not found.")
       state.setNotFoundErrorDetails(error)
     } finally {
       state.isLoading.value = false

@@ -32,6 +32,33 @@ export const useQuestDetailMutationActions = (state: QuestDetailPageState) => {
     return result
   }
 
+  const applyForQuest = async () => {
+    const applied = await runQuestMutation(
+      () => workmarketApi.applyForQuest(state.questId.value, {
+        message: state.applicationMessage.value,
+        proposedPrice: Number(state.proposedPrice.value)
+      }),
+      "Could not send application."
+    )
+
+    if (!applied) {
+      return false
+    }
+
+    state.applicationMessage.value = ""
+    const detail = await runQuestMutation(
+      () => workmarketApi.getQuestDetail(state.questId.value),
+      "Could not refresh quest."
+    )
+
+    if (!detail) {
+      return false
+    }
+
+    replaceQuestDetailState(state, detail)
+    return true
+  }
+
   const confirmQuestTermChange = async () => {
     const updatedQuest = await runQuestMutation(
       () => workmarketApi.confirmQuestTermChange(state.questId.value),
@@ -88,6 +115,7 @@ export const useQuestDetailMutationActions = (state: QuestDetailPageState) => {
   }
 
   return {
+    applyForQuest,
     updateStatus,
     confirmQuestTermChange,
     rejectQuestTermChange,

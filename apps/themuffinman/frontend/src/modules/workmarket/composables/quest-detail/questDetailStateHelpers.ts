@@ -9,6 +9,8 @@ export const resetQuestDetailState = (state: QuestDetailPageState) => {
   state.applications.value = []
   state.applicationsView.value = null
   state.review.value = null
+  state.applicationMessage.value = ""
+  state.proposedPrice.value = ""
 }
 
 export const replaceQuestDetailState = (
@@ -16,4 +18,8 @@ export const replaceQuestDetailState = (
   detail: QuestDetail
 ) => {
   applyQuestDetailState(state, detail)
+
+  if (detail.summary.presentation.canApply && !state.proposedPrice.value.trim()) {
+    state.proposedPrice.value = String(detail.summary.awardAmount ?? "")
+  }
 }
