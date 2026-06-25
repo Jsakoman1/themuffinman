@@ -1,7 +1,7 @@
 import {computed} from "vue"
-import type {QuestDashboard} from "../useQuestDashboard.ts"
+import type {DashboardOpenWorkDialogFacade} from "./dashboardFacades.ts"
 
-export const createDashboardOpenWorkState = (dashboard: QuestDashboard) => {
+export const createDashboardOpenWorkState = (dashboard: DashboardOpenWorkDialogFacade) => {
   const openQuests = computed(() => dashboard.dashboardSections?.openWork?.openQuests ?? [])
   const waitingQuests = computed(() => dashboard.dashboardSections?.openWork?.waitingQuests ?? [])
 

@@ -11,7 +11,7 @@ withDefaults(
 </script>
 
 <template>
-  <div v-if="message" :class="['dialog-status-banner', `dialog-status-banner--${tone}`]" role="status" aria-live="polite">
+  <div v-if="message" :class="['ui-status-banner', `ui-status-banner--${tone}`]" role="status" aria-live="polite">
     <strong>{{ message }}</strong>
   </div>
 </template>

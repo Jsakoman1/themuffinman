@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import type {QuestDashboard} from "../../composables/useQuestDashboard.ts"
+import UiFieldGroup from "../../../../components/ui/UiFieldGroup.vue"
 import UiFilterBar from "../../../../components/ui/UiFilterBar.vue"
+import UiListItem from "../../../../components/ui/UiListItem.vue"
 import UiPagination from "../../../../components/ui/UiPagination.vue"
-import UiSectionHeader from "../../../../components/ui/UiSectionHeader.vue"
+import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 import {useDashboardFindQuestsBrowser} from "../../composables/dashboard/useDashboardFindQuestsBrowser.ts"
+import type {DashboardFindQuestsFacade} from "../../composables/dashboard/dashboardFacades.ts"
 
 const props = withDefaults(defineProps<{
-  dashboard: QuestDashboard
+  dashboard: DashboardFindQuestsFacade
   showHeader?: boolean
   boxed?: boolean
 }>(), {
@@ -39,44 +41,42 @@ const {
 </script>
 
 <template>
-  <section class="stack">
-    <div :class="['dashboard-work-panel', 'dashboard-work-panel--find', { card: props.boxed, 'dashboard-work-panel--dialog': !props.boxed }]">
-      <UiSectionHeader v-if="props.showHeader" title="Find work" />
-
+  <section class="surface-stack">
+    <UiSurfaceSection
+      :class="['dashboard-work-panel', 'dashboard-work-panel--find', { card: props.boxed }]"
+      :soft="true"
+      :title="props.showHeader ? 'Find work' : ''"
+      :compact="false"
+    >
       <div class="dashboard-find-work-browser">
         <UiFilterBar :columns="5">
-          <label class="field dashboard-find-work__search">
-            <span class="label">Search</span>
+          <UiFieldGroup label="Search" field-class="dashboard-find-work__search">
             <input v-model="searchQuery" class="input" placeholder="Title, person, keyword" />
-          </label>
+          </UiFieldGroup>
 
-          <label class="field dashboard-find-work__sort">
-            <span class="label">Sort</span>
+          <UiFieldGroup label="Sort" field-class="dashboard-find-work__sort">
             <select v-model="sortMode" class="input">
               <option v-for="option in props.dashboard.questSortOptions" :key="option.value" :value="option.value">
                 {{ option.label }}
               </option>
             </select>
-          </label>
+          </UiFieldGroup>
 
-          <label class="field">
-            <span class="label">Audience</span>
+          <UiFieldGroup label="Audience">
             <select v-model="audienceFilter" class="input">
               <option v-for="option in props.dashboard.questAudienceFilterOptions" :key="option.value" :value="option.value">
                 {{ option.label }}
               </option>
             </select>
-          </label>
+          </UiFieldGroup>
 
-          <label class="field">
-            <span class="label">From</span>
+          <UiFieldGroup label="From">
             <input v-model="dateFrom" class="input" type="date" />
-          </label>
+          </UiFieldGroup>
 
-          <label class="field">
-            <span class="label">To</span>
+          <UiFieldGroup label="To">
             <input v-model="dateTo" class="input" type="date" />
-          </label>
+          </UiFieldGroup>
         </UiFilterBar>
 
         <div class="dashboard-find-work__filters">
@@ -98,36 +98,35 @@ const {
 
           <template v-else>
             <div class="find-work-list">
-              <button
+              <UiListItem
                 v-for="quest in pagedQuests"
                 :key="quest.id"
-                type="button"
-                class="find-work-row"
+                tag="button"
+                clickable
                 @click="openQuest(quest.questNavigation)"
               >
-                <div class="find-work-row__main">
-                  <div class="find-work-row__titlebar">
-                    <strong class="find-work-row__title">{{ quest.title }}</strong>
-                    <div class="find-work-row__badges">
-                      <span class="badge badge--accent">$ {{ quest.awardAmount }}</span>
-                      <span v-if="quest.presentation.assigneeTargetVisible" class="badge badge--secondary">
-                        {{ quest.presentation.assigneeTargetLabel }}
-                      </span>
-                    </div>
-                  </div>
+                <template #header>
+                  <strong class="find-work-row__title">{{ quest.title }}</strong>
+                </template>
 
-                  <div class="find-work-row__meta">
-                    <span>{{ quest.creatorUsername }}</span>
-                    <span>{{ quest.presentation.termLabel }}</span>
-                    <span>{{ quest.presentation.audienceLabel }}</span>
-                    <span v-if="quest.images?.length">{{ quest.images.length }} photo{{ quest.images.length === 1 ? "" : "s" }}</span>
-                  </div>
+                <template #badges>
+                  <span class="badge badge--accent">$ {{ quest.awardAmount }}</span>
+                  <span v-if="quest.presentation.assigneeTargetVisible" class="badge badge--secondary">
+                    {{ quest.presentation.assigneeTargetLabel }}
+                  </span>
+                </template>
 
-                  <p v-if="previewText(quest.description)" class="find-work-row__description">
-                    {{ previewText(quest.description) }}
-                  </p>
-                </div>
-              </button>
+                <template #meta>
+                  <span>{{ quest.creatorUsername }}</span>
+                  <span>{{ quest.presentation.termLabel }}</span>
+                  <span>{{ quest.presentation.audienceLabel }}</span>
+                  <span v-if="quest.images?.length">{{ quest.images.length }} photo{{ quest.images.length === 1 ? "" : "s" }}</span>
+                </template>
+
+                <p v-if="previewText(quest.description)" class="find-work-row__description">
+                  {{ previewText(quest.description) }}
+                </p>
+              </UiListItem>
             </div>
 
             <UiPagination
@@ -142,6 +141,6 @@ const {
           </template>
         </template>
       </div>
-    </div>
+    </UiSurfaceSection>
   </section>
 </template>

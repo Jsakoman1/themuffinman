@@ -51,6 +51,13 @@ export interface ActionResultDTO {
   message: string
 }
 
+export interface AdminApplicationsQueryDTO {
+  q: string | null
+  status: QuestApplicationStatus | null
+  page: number | null
+  size: number | null
+}
+
 export interface AdminCircleGroupResponseDTO {
   id: number
   name: string
@@ -136,6 +143,14 @@ export interface CircleCandidateDTO {
   profileDescription: string
   profileAvatarDataUrl: string
   email: string
+}
+
+export interface CircleConnectionsQueryDTO {
+  q: string | null
+  circleId: number | null
+  unassigned: boolean | null
+  page: number | null
+  size: number | null
 }
 
 export interface CircleContactDTO {
@@ -366,6 +381,11 @@ export interface DashboardSummaryDTO {
   adminUserCount: number
 }
 
+export interface LabelValueDTO {
+  label: string
+  value: string
+}
+
 export interface LoginRequest {
   email: string
   password: string
@@ -374,6 +394,11 @@ export interface LoginRequest {
 export interface NavigationTargetDTO {
   type: NavigationTargetType
   entityId: number | null
+}
+
+export interface PageQueryDTO {
+  page: number | null
+  size: number | null
 }
 
 export interface ProfilePrimaryActionDTO {
@@ -489,10 +514,12 @@ export interface QuestAudienceOptionDTO {
 export interface QuestDetailExecutionSectionDTO {
   visible: boolean
   primaryAction: QuestDetailExecutionAction | null
+  primaryActionLabel: string | null
   helperText: string | null
 }
 
 export interface QuestDetailManagementSectionDTO {
+  editVisible: boolean
   deleteVisible: boolean
 }
 
@@ -511,7 +538,11 @@ export interface QuestDetailResponseDTO {
 export interface QuestDetailReviewSectionDTO {
   visible: boolean
   canSubmit: boolean
+  introTitle: string
+  introSubtitle: string | null
   placeholder: string
+  submitLabel: string
+  emptyStateMessage: string
   target: QuestDetailReviewTargetDTO | null
   submittedReview: UserReviewResponseDTO | null
 }
@@ -535,6 +566,9 @@ export interface QuestDetailSectionsDTO {
 export interface QuestDetailTermChangeSectionDTO {
   visible: boolean
   actionable: boolean
+  summaryLabel: string
+  confirmLabel: string
+  rejectLabel: string
   currentTermLabel: string
   pendingTermLabel: string | null
   currentScheduledAt: string | null
@@ -577,11 +611,14 @@ export interface QuestPresentationDTO {
   statusBadgeClass: string
   statusSurfaceClass: string
   termLabel: string
+  termScheduleLabel: string
   timeTypeLabel: string
   audienceLabel: string
   assigneeTargetVisible: boolean
   assigneeTargetLabel: string
+  detailMeta: LabelValueDTO[]
   pendingTermLabel: string | null
+  pendingTermScheduleLabel: string | null
   canEdit: boolean
   canApply: boolean
   canViewApplications: boolean
@@ -642,6 +679,20 @@ export interface QuestResponseDTO {
   presentation: QuestPresentationDTO
 }
 
+export interface QuestSearchRequestDTO {
+  q: string | null
+  status: QuestStatus | null
+  audience: QuestAudience | null
+  dateFrom: string | null
+  dateTo: string | null
+  excludeMine: boolean | null
+  withImages: boolean | null
+  scheduledOnly: boolean | null
+  sort: string | null
+  page: number | null
+  size: number | null
+}
+
 export interface QuestSortOptionDTO {
   value: string
   label: string
@@ -661,6 +712,12 @@ export interface RegisterRequest {
   email: string
   username: string
   password: string
+}
+
+export interface TextPageQueryDTO {
+  q: string | null
+  page: number | null
+  size: number | null
 }
 
 export interface UserProfileViewDTO {
@@ -712,6 +769,7 @@ export interface WorkmarketOptionsDTO {
   questSortOptions: QuestSortOptionDTO[]
 }
 
+export type AdminApplicationsQuery = AdminApplicationsQueryDTO
 export type AdminCircleGroup = AdminCircleGroupResponseDTO
 export type AdminCircleOverview = AdminCircleOverviewDTO
 export type AppUser = AppUserResponseDTO
@@ -720,6 +778,7 @@ export type AppUserRoleOption = AppUserRoleOptionDTO
 export type CircleBlockCreate = CircleBlockCreateDTO
 export type CircleCandidate = CircleSearchResultDTO
 export type CircleCandidateListResponse = CircleSearchResultListResponseDTO
+export type CircleConnectionsQuery = CircleConnectionsQueryDTO
 export type CircleContact = CircleContactDTO
 export type CircleContactListResponse = CircleContactListResponseDTO
 export type CircleGroup = CircleGroupResponseDTO
@@ -736,6 +795,7 @@ export type DashboardResponse = DashboardResponseDTO
 export type DashboardSections = DashboardSectionsDTO
 export type DashboardSummary = DashboardSummaryDTO
 export type NavigationTarget = NavigationTargetDTO
+export type PageQuery = PageQueryDTO
 export type ProfilePrimaryAction = ProfilePrimaryActionDTO
 export type Quest = QuestResponseDTO
 export type QuestApplication = QuestApplicationResponseDTO
@@ -751,8 +811,10 @@ export type QuestDetailSections = QuestDetailSectionsDTO
 export type QuestListResponse = QuestListResponseDTO
 export type QuestNewsItem = QuestNewsItemResponseDTO
 export type QuestRequest = QuestRequestDTO
+export type QuestSearchRequest = QuestSearchRequestDTO
 export type QuestStatusFilterOption = QuestStatusFilterOptionDTO
 export type QuestStatusOption = QuestStatusOptionDTO
+export type TextPageQuery = TextPageQueryDTO
 export type UserProfileView = UserProfileViewDTO
 export type UserRatingSummary = UserRatingSummaryDTO
 export type UserReview = UserReviewResponseDTO

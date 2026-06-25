@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import {ref} from "vue"
 import {useRouter} from "vue-router"
+import AppBrand from "../../../components/app/AppBrand.vue"
+import UiAuthCard from "../../../components/ui/UiAuthCard.vue"
+import UiFieldGroup from "../../../components/ui/UiFieldGroup.vue"
 import {authApi} from "../api/authApi.ts"
 import {loginUser} from "../auth.ts"
 
@@ -33,45 +36,33 @@ const register = async () => {
 
 <template>
   <div class="auth-layout">
-    <div class="card auth-card">
-      <div class="auth-brand">
-        <div class="brand brand--logo auth-brand__mark">
-          <div class="brand__mark" aria-hidden="true">
-            <span></span>
-            <span></span>
-          </div>
-          <div class="brand__title">TheMuffinMan</div>
-        </div>
+    <UiAuthCard title="Register">
+      <template #brand>
+        <AppBrand class="auth-brand__mark" to="/" />
         <p class="auth-brand__subtitle">Start once, use every module.</p>
-      </div>
+      </template>
 
-      <h1 class="auth-card__title">Register</h1>
-      <p class="auth-card__subtitle">Create a new account in a minute.</p>
-
-      <form class="stack" @submit.prevent="register">
-        <label class="field">
-          <span class="label">Email</span>
+      <form class="form-stack" @submit.prevent="register">
+        <UiFieldGroup label="Email">
           <input v-model="email" class="input" />
-        </label>
+        </UiFieldGroup>
 
-        <label class="field">
-          <span class="label">Username</span>
+        <UiFieldGroup label="Username">
           <input v-model="username" class="input" />
-        </label>
+        </UiFieldGroup>
 
-        <label class="field">
-          <span class="label">Password</span>
+        <UiFieldGroup label="Password">
           <input v-model="password" class="input" type="password" />
-        </label>
+        </UiFieldGroup>
 
         <button class="button" type="submit">Register</button>
       </form>
 
       <div v-if="error" class="alert alert--error mt-4">{{ error }}</div>
 
-      <div class="auth-footer">
+      <template #footer>
         Already have an account? <RouterLink to="/login">Login here</RouterLink>
-      </div>
-    </div>
+      </template>
+    </UiAuthCard>
   </div>
 </template>

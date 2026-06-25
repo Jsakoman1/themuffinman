@@ -18,6 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "quest")
 public class Quest {
+    private static final int QUEST_IMAGE_MAX_LENGTH = 350000;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +37,7 @@ public class Quest {
     @ElementCollection
     @CollectionTable(name = "quest_image", joinColumns = @JoinColumn(name = "quest_id"))
     @OrderColumn(name = "sort_order")
-    @Column(name = "image_data_url", nullable = false, length = 12000)
+    @Column(name = "image_data_url", nullable = false, length = QUEST_IMAGE_MAX_LENGTH)
     private List<String> images = new ArrayList<>();
 
     @Column(precision = 10, scale = 2)

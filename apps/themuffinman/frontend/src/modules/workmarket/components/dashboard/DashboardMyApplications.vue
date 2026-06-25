@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import DashboardQuestSummaryRow from "./DashboardQuestSummaryRow.vue"
 import type {QuestApplication} from "../../api/workmarketApi.ts"
-import type {QuestDashboard} from "../../composables/useQuestDashboard.ts"
-import UiSectionHeader from "../../../../components/ui/UiSectionHeader.vue"
 import {createDashboardQuestListState} from "../../composables/dashboard/createDashboardQuestListState.ts"
+import type {DashboardQuestListFacade} from "../../composables/dashboard/dashboardFacades.ts"
+import DashboardSummaryListButton from "../shared/DashboardSummaryListButton.vue"
+import DashboardSummaryListSection from "../shared/DashboardSummaryListSection.vue"
 
 const props = withDefaults(defineProps<{
-  dashboard: QuestDashboard
+  dashboard: DashboardQuestListFacade
   title?: string
   subtitle?: string
   emptyMessage?: string
@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<{
   boxed?: boolean
 }>(), {
   title: "My applications",
-  subtitle: "Jobs you have already applied to.",
+  subtitle: "",
   emptyMessage: "No applications yet.",
   applications: undefined,
   showHeader: true,
@@ -26,35 +26,28 @@ const {applications} = createDashboardQuestListState(props.dashboard, {applicati
 </script>
 
 <template>
-  <section class="stack">
-    <div :class="{ card: props.boxed }">
-      <UiSectionHeader v-if="props.showHeader" :title="props.title" :subtitle="props.subtitle" />
-
-      <div v-if="!applications.length" class="empty-state">
-        {{ props.emptyMessage }}
-      </div>
-
-      <div v-else class="quest-list mt-4">
-        <button
-          v-for="application in applications"
-          :key="application.id"
-          type="button"
-          class="compact-disclosure compact-disclosure--tight compact-disclosure--launch"
-          :class="[application.presentation.statusSurfaceClass, { 'ui-pulse': dashboard.successPulseTarget === `application-${application.id}` }]"
-          @click="dashboard.openApplicationDialog(application.id)"
-        >
-          <DashboardQuestSummaryRow
-            primary-label="Creator"
-            :primary-value="dashboard.questCreatorUsernameForQuest(application.questId)"
-            secondary-label="Price"
-            :secondary-value="application.proposedPrice"
-            secondary-icon="$"
-            money-tone="income"
-            :title="application.questTitle"
-            :description="application.questDescription"
-          />
-        </button>
-      </div>
-    </div>
-  </section>
+  <DashboardSummaryListSection
+    :title="props.title"
+    :subtitle="props.subtitle"
+    :empty-message="props.emptyMessage"
+    :has-items="applications.length > 0"
+    :show-header="props.showHeader"
+    :boxed="props.boxed"
+  >
+    <DashboardSummaryListButton
+      v-for="application in applications"
+      :key="application.id"
+      primary-label="Creator"
+      :primary-value="dashboard.questCreatorUsernameForQuest(application.questId)"
+      secondary-label="Price"
+      :secondary-value="application.proposedPrice"
+      secondary-icon="$"
+      money-tone="income"
+      :title="application.questTitle"
+      :description="application.questDescription"
+      :status-surface-class="application.presentation.statusSurfaceClass"
+      :pulse="dashboard.successPulseTarget === `application-${application.id}`"
+      @click="dashboard.openApplicationDialog(application.id)"
+    />
+  </DashboardSummaryListSection>
 </template>

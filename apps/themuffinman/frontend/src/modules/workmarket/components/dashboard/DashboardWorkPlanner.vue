@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import UiEventPill from "../../../../components/ui/UiEventPill.vue"
 import UiDialog from "../../../../components/ui/UiDialog.vue"
-import type {QuestDashboard} from "../../composables/useQuestDashboard.ts"
+import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 import {createDashboardWorkPlannerState} from "../../composables/dashboard/createDashboardWorkPlannerState.ts"
+import type {DashboardWorkPlannerFacade} from "../../composables/dashboard/dashboardFacades.ts"
 
 const props = defineProps<{
-  dashboard: QuestDashboard
+  dashboard: DashboardWorkPlannerFacade
 }>()
 const {
   weekdayLabels,
@@ -27,11 +29,11 @@ const {
 </script>
 
 <template>
-  <article class="card overview-panel overview-panel--planner">
-    <div class="calendar-toolbar">
-      <div class="calendar-toolbar__month">
+  <UiSurfaceSection tag="article" class="dashboard-overview__planner" compact eyebrow="Planner" title="Calendar">
+    <template #actions>
+      <div class="dashboard-calendar__toolbar">
         <button
-          class="button button--ghost calendar-nav-button"
+          class="button button--ghost dashboard-calendar__nav-button"
           type="button"
           :disabled="!canGoPrevious"
           aria-label="Previous"
@@ -40,59 +42,63 @@ const {
           <span aria-hidden="true">←</span>
         </button>
 
-        <div class="calendar-toolbar__title">
+        <div class="dashboard-calendar__title">
           <strong>{{ monthLabel }}</strong>
         </div>
 
-        <button class="button button--ghost calendar-nav-button" type="button" aria-label="Next" @click="shiftForward">
+        <button class="button button--ghost dashboard-calendar__nav-button" type="button" aria-label="Next" @click="shiftForward">
           <span aria-hidden="true">→</span>
         </button>
       </div>
-    </div>
+    </template>
 
-    <div class="calendar-month-frame mt-3">
-      <div class="calendar-month-head">
-        <div v-for="weekday in weekdayLabels" :key="weekday" class="calendar-month-head__cell">
+    <div class="dashboard-calendar__frame">
+      <div class="dashboard-calendar__head">
+        <div v-for="weekday in weekdayLabels" :key="weekday" class="dashboard-calendar__head-cell">
           {{ weekday }}
         </div>
       </div>
 
-      <div class="calendar-month-grid">
+      <div class="dashboard-calendar__grid">
         <article
           v-for="cell in monthCells"
           :key="cell.key"
-          class="calendar-month-cell"
+          class="dashboard-calendar__cell"
           role="button"
           tabindex="0"
           :class="{
-            'calendar-month-cell--outside': !cell.inMonth,
-            'calendar-month-cell--today': cell.isToday,
-            'calendar-month-cell--past': cell.isPast && cell.inMonth,
-            'calendar-month-cell--locked': cell.isLocked
+            'dashboard-calendar__cell--outside': !cell.inMonth,
+            'dashboard-calendar__cell--today': cell.isToday,
+            'dashboard-calendar__cell--past': cell.isPast && cell.inMonth,
+            'dashboard-calendar__cell--locked': cell.isLocked
           }"
           @click="openDayDialog(cell.key)"
           @keydown.enter.prevent="openDayDialog(cell.key)"
           @keydown.space.prevent="openDayDialog(cell.key)"
         >
-          <div class="calendar-month-cell__top">
-            <span class="calendar-month-cell__day">{{ cell.dayNumber }}</span>
-            <span v-if="cell.items.length" class="calendar-month-cell__count">{{ cell.items.length }}</span>
+          <div class="dashboard-calendar__cell-top">
+            <span class="dashboard-calendar__cell-day">{{ cell.dayNumber }}</span>
           </div>
 
-          <div v-if="cell.items.length" class="calendar-month-cell__items">
+          <div v-if="cell.items.length" class="dashboard-calendar__cell-items">
             <button
               v-for="item in cell.items.slice(0, 2)"
               :key="item.id"
-              class="calendar-event calendar-event--month"
-              :class="[item.kind === 'incoming' ? 'calendar-event--incoming' : 'calendar-event--outgoing', { 'calendar-event--muted': cell.isPast, 'calendar-event--range': item.hasRange }]"
+              class="button-reset"
               type="button"
               @click.stop="openItem(item.navigation)"
             >
-              <span class="calendar-event__time">{{ item.timeLabel }}</span>
-              <span class="calendar-event__title">{{ item.title }}</span>
+              <UiEventPill
+                :time="item.timeLabel"
+                :title="item.title"
+                :tone="item.kind === 'managed' ? 'outgoing' : 'incoming'"
+                month
+                :muted="cell.isPast"
+                :range="item.hasRange"
+              />
             </button>
 
-            <div v-if="cell.items.length > 2" class="calendar-month-cell__more">
+            <div v-if="cell.items.length > 2" class="dashboard-calendar__cell-more">
               +{{ cell.items.length - 2 }}
             </div>
           </div>
@@ -100,56 +106,56 @@ const {
       </div>
     </div>
 
-    <div v-if="flexibleItems.length" class="calendar-flexible mt-3">
-      <div class="calendar-flexible__header">
-        <span class="badge">Flexible</span>
-        <span class="badge">{{ flexibleItems.length }}</span>
-      </div>
-
-      <div class="calendar-flexible__list">
+    <UiSurfaceSection v-if="flexibleItems.length" class="dashboard-calendar__flexible" compact title="Flexible">
+      <div class="dashboard-calendar__flexible-list">
         <button
           v-for="item in flexibleItems"
           :key="item.id"
-          class="calendar-event calendar-event--month"
-          :class="[item.kind === 'incoming' ? 'calendar-event--incoming' : 'calendar-event--outgoing']"
+          class="button-reset"
           type="button"
           @click="openItem(item.navigation)"
         >
-          <span class="calendar-event__time">{{ item.timeLabel }}</span>
-          <span class="calendar-event__title">{{ item.title }}</span>
+          <UiEventPill
+            :time="item.timeLabel"
+            :title="item.title"
+            :tone="item.kind === 'managed' ? 'outgoing' : 'incoming'"
+            month
+          />
         </button>
       </div>
-    </div>
+    </UiSurfaceSection>
 
-    <UiDialog :open="!!selectedDay" :title="selectedDayLabel" :subtitle="''" @close="closeDayDialog">
-      <div class="calendar-day-dialog">
-        <div class="calendar-day-dialog__header">
-          <span class="calendar-day-dialog__kicker">
-            {{ selectedDayItems.length ? `${selectedDayItems.length} event${selectedDayItems.length === 1 ? '' : 's'}` : 'No events' }}
-          </span>
-          <span v-if="selectedDayLocked" class="badge badge--danger">Locked</span>
-          <span v-else class="badge badge--success">Open</span>
+    <UiDialog :open="!!selectedDay" :title="selectedDayLabel" @close="closeDayDialog">
+      <div class="dashboard-calendar__day-dialog">
+        <div class="dashboard-calendar__day-header">
+          <span class="dashboard-calendar__day-kicker">Schedule</span>
+          <span v-if="selectedDayLocked" class="badge badge--danger">Past day</span>
+          <span v-else-if="selectedDayItems.length" class="badge badge--neutral">{{ selectedDayItems.length }} item{{ selectedDayItems.length === 1 ? '' : 's' }}</span>
         </div>
 
-        <div v-if="selectedDayItems.length" class="calendar-day-dialog__list">
+        <div v-if="selectedDayItems.length" class="dashboard-calendar__day-list">
           <button
             v-for="item in selectedDayItems"
             :key="item.id"
-            class="calendar-event calendar-event--dialog"
-            :class="[item.kind === 'incoming' ? 'calendar-event--incoming' : 'calendar-event--outgoing', { 'calendar-event--range': item.hasRange }]"
+            class="button-reset"
             type="button"
             @click="openItem(item.navigation)"
           >
-            <span class="calendar-event__time">{{ item.timeLabel }}</span>
-            <span class="calendar-event__title">{{ item.title }}</span>
+            <UiEventPill
+              :time="item.timeLabel"
+              :title="item.title"
+              :tone="item.kind === 'managed' ? 'outgoing' : 'incoming'"
+              dialog
+              :range="item.hasRange"
+            />
           </button>
         </div>
 
-        <p v-else class="calendar-day-dialog__empty">
+        <p v-else class="dashboard-calendar__day-empty">
           Quiet day.
         </p>
 
-        <div class="calendar-day-dialog__actions">
+        <div class="dashboard-calendar__day-actions">
           <button
             class="button button--secondary"
             type="button"
@@ -162,5 +168,5 @@ const {
         </div>
       </div>
     </UiDialog>
-  </article>
+  </UiSurfaceSection>
 </template>

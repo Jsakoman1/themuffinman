@@ -24,8 +24,8 @@ export const useDashboardFindQuestsBrowser = () => {
     audience: toOptionalFilterValue(audienceFilter.value),
     dateFrom: dateFrom.value || null,
     dateTo: dateTo.value || null,
-    withImages: photoOnly.value || undefined,
-    scheduledOnly: scheduledOnly.value || undefined,
+    withImages: photoOnly.value || null,
+    scheduledOnly: scheduledOnly.value || null,
     sort: sortMode.value,
     page,
     size: itemsPerPage

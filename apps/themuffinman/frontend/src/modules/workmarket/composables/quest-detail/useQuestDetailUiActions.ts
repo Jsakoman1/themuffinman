@@ -6,7 +6,7 @@ import {routeForNavigationTarget} from "../../shared/navigationTargets.ts"
 export const useQuestDetailUiActions = (
   state: QuestDetailPageState & {
     isActionInProgress: {value: boolean}
-    reviewTarget: {value: {userId: number} | null}
+    reviewSection: {value: {target?: {userId: number} | null} | null}
     reviewStars: {value: number}
     reviewComment: {value: string}
     isSubmittingReview: {value: boolean}
@@ -31,7 +31,7 @@ export const useQuestDetailUiActions = (
   }
 
   const handleSubmitReview = () => {
-    const target = state.reviewTarget.value
+    const target = state.reviewSection.value?.target ?? null
     if (!target) {
       return
     }

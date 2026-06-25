@@ -15,5 +15,7 @@ public class QuestDetailExecutionSectionDTO {
     @Nullable
     private QuestDetailExecutionAction primaryAction;
     @Nullable
+    private String primaryActionLabel;
+    @Nullable
     private String helperText;
 }

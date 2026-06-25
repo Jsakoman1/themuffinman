@@ -2,6 +2,7 @@ package com.themuffinman.app.workmarket.mapper;
 
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
+import com.themuffinman.app.common.dto.LabelValueDTO;
 import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestPresentationDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
@@ -75,11 +76,18 @@ public class QuestMgr {
                         .statusBadgeClass(presentationHelper.badgeClassForQuestStatus(quest.getStatus()))
                         .statusSurfaceClass(presentationHelper.surfaceClassForQuestStatus(quest.getStatus()))
                         .termLabel(presentationHelper.formatQuestTerm(quest.getScheduledAt(), quest.getEndsAt(), quest.isTermFixed()))
+                        .termScheduleLabel(presentationHelper.formatQuestSchedule(quest.getScheduledAt(), quest.getEndsAt(), quest.isTermFixed()))
                         .timeTypeLabel(presentationHelper.formatTimeType(quest.isTermFixed()))
                         .audienceLabel(presentationHelper.formatAudience(quest.getAudience()))
                         .assigneeTargetVisible(presentationHelper.showAssigneeTarget(quest.getAssigneeTarget()))
                         .assigneeTargetLabel(presentationHelper.formatAssigneeTarget(quest.getAssigneeTarget()))
+                        .detailMeta(buildDetailMeta(quest))
                         .pendingTermLabel(presentationHelper.formatQuestTerm(
+                                quest.getPendingScheduledAt(),
+                                quest.getPendingEndsAt(),
+                                quest.getPendingTermFixed() == null ? quest.isTermFixed() : quest.getPendingTermFixed()
+                        ))
+                        .pendingTermScheduleLabel(presentationHelper.formatQuestSchedule(
                                 quest.getPendingScheduledAt(),
                                 quest.getPendingEndsAt(),
                                 quest.getPendingTermFixed() == null ? quest.isTermFixed() : quest.getPendingTermFixed()
@@ -137,5 +145,24 @@ public class QuestMgr {
         quest.setStatus(QuestStatus.OPEN);
 
         return quest;
+    }
+
+    private List<LabelValueDTO> buildDetailMeta(Quest quest) {
+        List<LabelValueDTO> items = new java.util.ArrayList<>();
+        items.add(LabelValueDTO.builder()
+                .label("When")
+                .value(presentationHelper.formatQuestTerm(quest.getScheduledAt(), quest.getEndsAt(), quest.isTermFixed()))
+                .build());
+        items.add(LabelValueDTO.builder()
+                .label("Type")
+                .value(presentationHelper.formatTimeType(quest.isTermFixed()))
+                .build());
+        if (presentationHelper.showAssigneeTarget(quest.getAssigneeTarget())) {
+            items.add(LabelValueDTO.builder()
+                    .label("Audience")
+                    .value(presentationHelper.formatAssigneeTarget(quest.getAssigneeTarget()))
+                    .build());
+        }
+        return List.copyOf(items);
     }
 }

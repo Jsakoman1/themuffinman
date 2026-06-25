@@ -1,8 +1,4 @@
-import type {
-  QuestAudience,
-  QuestApplicationStatus,
-  QuestStatus
-} from "../domain/workmarketDomain.ts"
+import type {QuestApplicationStatus} from "../domain/workmarketDomain.ts"
 
 export type {
   ActionResultDTO,
@@ -62,36 +58,12 @@ export type ActionResult = import("../../../contracts/index.ts").ActionResultDTO
 export type QuestRequest = import("../../../contracts/index.ts").QuestRequestDTO & {
   images?: string[]
 }
-
-export interface QuestSearchRequest {
-  q?: string
-  status?: QuestStatus | null
-  audience?: QuestAudience | null
-  dateFrom?: string | null
-  dateTo?: string | null
-  excludeMine?: boolean
-  withImages?: boolean
-  scheduledOnly?: boolean
-  sort?: import("../domain/workmarketDomain.ts").QuestSortMode
-  page?: number
-  size?: number
-}
-
-export interface PageQuery {
-  page?: number
-  size?: number
-}
-
-export interface TextPageQuery extends PageQuery {
-  q?: string
-}
-
-export interface CircleConnectionsQuery extends TextPageQuery {
-  circleId?: number
-  unassigned?: boolean
-}
-
-export interface AdminApplicationsQuery extends PageQuery {
-  q?: string
+export type AdminApplicationsQuery = Partial<Omit<import("../../../contracts/index.ts").AdminApplicationsQueryDTO, "status">> & {
   status?: QuestApplicationStatus | "ALL"
 }
+export type CircleConnectionsQuery = Partial<import("../../../contracts/index.ts").CircleConnectionsQueryDTO>
+export type PageQuery = Partial<import("../../../contracts/index.ts").PageQueryDTO>
+export type QuestSearchRequest = Partial<import("../../../contracts/index.ts").QuestSearchRequestDTO> & {
+  sort?: import("../domain/workmarketDomain.ts").QuestSortMode
+}
+export type TextPageQuery = Partial<import("../../../contracts/index.ts").TextPageQueryDTO>

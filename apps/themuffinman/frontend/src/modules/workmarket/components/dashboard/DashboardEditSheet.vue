@@ -16,11 +16,11 @@ withDefaults(
 </script>
 
 <template>
-  <section :class="['dashboard-edit-sheet', { 'dashboard-edit-sheet--minimal': minimal }]">
-    <div v-if="!minimal && (title || subtitle || badge)" class="dashboard-edit-sheet__header">
-      <div class="dashboard-edit-sheet__heading">
-        <h3 v-if="title" class="dashboard-edit-sheet__title">{{ title }}</h3>
-        <p v-if="subtitle" class="dashboard-edit-sheet__subtitle">
+  <section :class="['ui-edit-sheet', { 'ui-edit-sheet--minimal': minimal }]">
+    <div v-if="!minimal && (title || subtitle || badge)" class="ui-edit-sheet__header">
+      <div class="ui-edit-sheet__heading">
+        <h3 v-if="title" class="ui-edit-sheet__title">{{ title }}</h3>
+        <p v-if="subtitle" class="ui-edit-sheet__subtitle">
           {{ subtitle }}
         </p>
       </div>
@@ -28,11 +28,11 @@ withDefaults(
       <span v-if="badge" class="badge badge--accent">{{ badge }}</span>
     </div>
 
-    <div class="dashboard-edit-sheet__body">
+    <div class="ui-edit-sheet__body">
       <slot />
     </div>
 
-    <div class="dashboard-edit-sheet__actions">
+    <div class="ui-edit-sheet__actions">
       <slot name="actions" />
     </div>
   </section>

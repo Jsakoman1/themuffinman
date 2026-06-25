@@ -2,9 +2,9 @@ import {nextTick, onBeforeUnmount, onMounted, watch, type Ref} from "vue"
 import type {RouteLocationRaw} from "vue-router"
 import {currentUser} from "../../../../auth.ts"
 import {formatDebugInfo} from "../../../../httpDebug.ts"
-import {formatInstantForInput} from "../../../../shared/questSchedule.ts"
 import type {Quest, QuestApplication} from "../../api/workmarketApi.ts"
 import type {DashboardTab, OverviewFocus} from "../../domain/workmarketDomain.ts"
+import {populateCreateQuestDraft, populateEditQuestDraft} from "./questDraftState.ts"
 
 export const createDashboardInteractions = (state: {
   route: {query: Record<string, unknown>}
@@ -44,6 +44,7 @@ export const createDashboardInteractions = (state: {
   editQuestSelectedCircleIds: Ref<number[]>
   editQuestCreatorId: Ref<string>
   editQuestStatus: Ref<Quest["status"]>
+  editQuestImages: Ref<string[]>
   questTitle: Ref<string>
   questDescription: Ref<string>
   questAwardAmount: Ref<string>
@@ -54,6 +55,7 @@ export const createDashboardInteractions = (state: {
   questAudience: Ref<Quest["audience"]>
   questSelectedCircleIds: Ref<number[]>
   questCreatorId: Ref<string>
+  questImages: Ref<string[]>
   showFeedback: (message: string, type: "error" | "success") => void
   successPulseTarget: Ref<string>
   copiedDebugBanner: {show: (value: string) => void}
@@ -278,17 +280,7 @@ export const createDashboardInteractions = (state: {
 
   const startEditingQuest = (quest: Quest) => {
     state.editingQuestId.value = quest.id
-    state.editQuestTitle.value = quest.title
-    state.editQuestDescription.value = quest.description
-    state.editQuestAwardAmount.value = String(quest.awardAmount ?? "")
-    state.editQuestScheduledAt.value = formatInstantForInput(quest.scheduledAt)
-    state.editQuestEndsAt.value = formatInstantForInput(quest.endsAt)
-    state.editQuestTermMode.value = quest.termFixed ? (quest.endsAt ? "start-end" : "start-only") : "flexible"
-    state.editQuestTermFixed.value = quest.termFixed
-    state.editQuestAudience.value = quest.audience
-    state.editQuestSelectedCircleIds.value = quest.visibleToCircles.map((circle) => circle.id)
-    state.editQuestCreatorId.value = String(quest.creatorId)
-    state.editQuestStatus.value = quest.status
+    populateEditQuestDraft(state, quest)
     state.openApplicationsQuestIds.value[quest.id] = false
     state.showAllApplicationsQuestIds.value[quest.id] = false
     void scrollQuestDisclosureIntoView(quest.id)
@@ -375,16 +367,7 @@ export const createDashboardInteractions = (state: {
   }
 
   const reopenQuest = (quest: Quest) => {
-    state.questTitle.value = quest.title
-    state.questDescription.value = quest.description
-    state.questAwardAmount.value = String(quest.awardAmount ?? "")
-    state.questScheduledAt.value = formatInstantForInput(quest.scheduledAt)
-    state.questEndsAt.value = formatInstantForInput(quest.endsAt)
-    state.questTermMode.value = quest.termFixed ? (quest.endsAt ? "start-end" : "start-only") : "flexible"
-    state.questTermFixed.value = quest.termFixed
-    state.questAudience.value = quest.audience
-    state.questSelectedCircleIds.value = quest.visibleToCircles.map((circle) => circle.id)
-    state.questCreatorId.value = state.adminModeEnabled.value ? String(quest.creatorId) : ""
+    populateCreateQuestDraft(state, quest, state.adminModeEnabled.value)
     state.editingQuestId.value = null
     closeQuestDisclosure(quest.id)
     goToTab("create-job")

@@ -1,9 +1,9 @@
 import {computed, ref} from "vue"
 import {richTextHasContent} from "../../../../shared/richText.ts"
 import {useDialogActionState} from "../../../../composables/useDialogActionState.ts"
-import type {QuestDashboard} from "../useQuestDashboard.ts"
+import type {DashboardQuestDialogFacade} from "./dashboardFacades.ts"
 
-export const createQuestDialogViewState = (dashboard: QuestDashboard) => {
+export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade) => {
   const quest = computed(() => dashboard.selectedQuestDialog)
   const applications = computed(() => {
     if (!quest.value) {

@@ -40,6 +40,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -151,11 +152,12 @@ class QuestServiceTest {
     @Test
     void createQuestUsesAuthenticatedUserAsCreator() {
         AppUser currentUser = createUser(5L, "creator");
+        Instant scheduledAt = Instant.now().plusSeconds(7 * 24 * 3600);
         QuestRequestDTO requestDTO = QuestRequestDTO.builder()
                 .title("Fix garden fence")
                 .description("Need help with a small repair")
                 .awardAmount(BigDecimal.valueOf(45))
-                .scheduledAt(Instant.parse("2026-01-10T10:00:00Z"))
+                .scheduledAt(scheduledAt)
                 .termFixed(true)
                 .build();
         Quest mappedQuest = new Quest();
@@ -168,7 +170,7 @@ class QuestServiceTest {
         Quest result = questService.createQuest(requestDTO, currentUser);
 
         assertEquals(10L, result.getId());
-        assertEquals(Instant.parse("2026-01-10T10:00:00Z"), mappedQuest.getScheduledAt());
+        assertEquals(scheduledAt, mappedQuest.getScheduledAt());
         assertEquals(true, mappedQuest.isTermFixed());
         assertEquals(QuestAudience.CIRCLES, mappedQuest.getAudience());
         verify(questMgr).toEntity(requestDTO, currentUser);
@@ -178,17 +180,35 @@ class QuestServiceTest {
     @Test
     void createQuestRejectsEmptyRichTextDescription() {
         AppUser currentUser = createUser(5L, "creator");
+        Instant scheduledAt = Instant.now().plusSeconds(7 * 24 * 3600);
         QuestRequestDTO requestDTO = QuestRequestDTO.builder()
                 .title("Fix garden fence")
                 .description("<p><br></p>")
                 .awardAmount(BigDecimal.valueOf(45))
-                .scheduledAt(Instant.parse("2026-01-10T10:00:00Z"))
+                .scheduledAt(scheduledAt)
                 .termFixed(true)
                 .build();
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> questService.createQuest(requestDTO, currentUser));
 
         assertEquals(org.springframework.http.HttpStatus.BAD_REQUEST, exception.getStatusCode());
+    }
+
+    @Test
+    void createQuestRejectsPastScheduledTime() {
+        AppUser currentUser = createUser(5L, "creator");
+        QuestRequestDTO requestDTO = QuestRequestDTO.builder()
+                .title("Fix garden fence")
+                .description("Need help with a small repair")
+                .awardAmount(BigDecimal.valueOf(45))
+                .scheduledAt(Instant.now().minusSeconds(3600))
+                .termFixed(true)
+                .build();
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> questService.createQuest(requestDTO, currentUser));
+
+        assertEquals(org.springframework.http.HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        assertTrue(exception.getReason().contains("cannot be in the past"));
     }
 
     @Test
@@ -776,18 +796,20 @@ class QuestServiceTest {
     @Test
     void updateQuestQueuesTermChangeWhenQuestIsAssigned() {
         AppUser creator = createUser(1L, "creator");
+        Instant originalScheduledAt = Instant.now().plusSeconds(7 * 24 * 3600);
+        Instant updatedScheduledAt = Instant.now().plusSeconds(9 * 24 * 3600);
         Quest quest = new Quest();
         quest.setId(15L);
         quest.setCreator(creator);
         quest.setStatus(QuestStatus.ASSIGNED);
-        quest.setScheduledAt(Instant.parse("2026-01-10T10:00:00Z"));
+        quest.setScheduledAt(originalScheduledAt);
         quest.setTermFixed(true);
 
         QuestRequestDTO requestDTO = QuestRequestDTO.builder()
                 .title("Updated title")
                 .description("Updated description")
                 .awardAmount(BigDecimal.valueOf(80))
-                .scheduledAt(Instant.parse("2026-01-12T11:00:00Z"))
+                .scheduledAt(updatedScheduledAt)
                 .termFixed(false)
                 .build();
 
@@ -797,7 +819,7 @@ class QuestServiceTest {
         questService.updateQuest(15L, requestDTO, creator);
 
         assertEquals(QuestStatus.WAITING_CONFIRMATION, quest.getStatus());
-        assertEquals(Instant.parse("2026-01-12T11:00:00Z"), quest.getPendingScheduledAt());
+        assertEquals(updatedScheduledAt, quest.getPendingScheduledAt());
         assertEquals(Boolean.FALSE, quest.getPendingTermFixed());
         assertEquals(QuestStatus.ASSIGNED, quest.getTermChangePreviousStatus());
     }
@@ -806,14 +828,17 @@ class QuestServiceTest {
     void updateQuestRestoresPreviousStatusWhenAdminEditsWaitingConfirmationQuest() {
         AppUser admin = createUser(1L, "admin");
         admin.setRole(AppUserRole.ADMIN);
+        Instant originalScheduledAt = Instant.now().plusSeconds(7 * 24 * 3600);
+        Instant pendingScheduledAt = Instant.now().plusSeconds(9 * 24 * 3600);
+        Instant updatedScheduledAt = Instant.now().plusSeconds(12 * 24 * 3600);
 
         Quest quest = new Quest();
         quest.setId(18L);
         quest.setCreator(admin);
         quest.setStatus(QuestStatus.WAITING_CONFIRMATION);
-        quest.setScheduledAt(Instant.parse("2026-01-10T10:00:00Z"));
+        quest.setScheduledAt(originalScheduledAt);
         quest.setTermFixed(true);
-        quest.setPendingScheduledAt(Instant.parse("2026-01-12T11:00:00Z"));
+        quest.setPendingScheduledAt(pendingScheduledAt);
         quest.setPendingTermFixed(false);
         quest.setTermChangePreviousStatus(QuestStatus.ASSIGNED);
 
@@ -821,7 +846,7 @@ class QuestServiceTest {
                 .title("Updated title")
                 .description("Updated description")
                 .awardAmount(BigDecimal.valueOf(80))
-                .scheduledAt(Instant.parse("2026-01-15T12:00:00Z"))
+                .scheduledAt(updatedScheduledAt)
                 .termFixed(true)
                 .status(QuestStatus.WAITING_CONFIRMATION)
                 .build();
@@ -832,7 +857,7 @@ class QuestServiceTest {
         questService.updateQuest(18L, requestDTO, admin);
 
         assertEquals(QuestStatus.ASSIGNED, quest.getStatus());
-        assertEquals(Instant.parse("2026-01-15T12:00:00Z"), quest.getScheduledAt());
+        assertEquals(updatedScheduledAt, quest.getScheduledAt());
         assertEquals(true, quest.isTermFixed());
         assertEquals(null, quest.getPendingScheduledAt());
         assertEquals(null, quest.getPendingTermFixed());

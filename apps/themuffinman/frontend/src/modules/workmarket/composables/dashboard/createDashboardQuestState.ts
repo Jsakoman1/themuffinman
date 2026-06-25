@@ -34,6 +34,7 @@ export const createDashboardQuestState = () => {
   const editQuestSelectedCircleIds = ref<number[]>([])
   const editQuestCreatorId = ref("")
   const editQuestStatus = ref<QuestStatus>("OPEN")
+  const editQuestImages = ref<string[]>([])
 
   const editingApplicationId = ref<number | null>(null)
   const editApplicationMessage = ref("")
@@ -78,6 +79,7 @@ export const createDashboardQuestState = () => {
     editQuestSelectedCircleIds,
     editQuestCreatorId,
     editQuestStatus,
+    editQuestImages,
     editingApplicationId,
     editApplicationMessage,
     editApplicationPrice,

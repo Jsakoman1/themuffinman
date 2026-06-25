@@ -1,4 +1,4 @@
-import {getApiErrorMessage} from "../../../../api/apiErrors.ts"
+import {createFeedbackMutationRunner} from "../../../../composables/createFeedbackMutationRunner.ts"
 import type {AppUser} from "../../api/workmarketApi.ts"
 import {workmarketApi} from "../../api/workmarketApi.ts"
 import type {AppUsersPageState} from "../useAppUsersPageState.ts"
@@ -7,6 +7,8 @@ export const useAppUsersMutationActions = (
   state: AppUsersPageState,
   dependencies: {fetchAppUsers: () => Promise<void>}
 ) => {
+  const {runWithFeedback} = createFeedbackMutationRunner(state)
+
   const resetCreateForm = () => {
     state.email.value = ""
     state.username.value = ""
@@ -23,31 +25,30 @@ export const useAppUsersMutationActions = (
   }
 
   const createAppUser = async () => {
-    try {
-      const result = await workmarketApi.createAppUser({
+    return runWithFeedback({
+      run: () => workmarketApi.createAppUser({
         email: state.email.value.trim(),
         username: state.username.value.trim(),
         password: state.password.value,
         role: state.role.value
-      })
-
-      resetCreateForm()
-      state.showFeedback(result.message, "success")
-      state.closeCreateUserDialog()
-      await dependencies.fetchAppUsers()
-    } catch (requestError) {
-      state.showFeedback(getApiErrorMessage(requestError, "Could not create user."), "error")
-    }
+      }),
+      successMessage: (result) => result.message,
+      errorMessage: "Could not create user.",
+      afterSuccess: async () => {
+        resetCreateForm()
+        state.closeCreateUserDialog()
+        await dependencies.fetchAppUsers()
+      }
+    })
   }
 
   const deleteAppUser = async (id: number) => {
-    try {
-      const result = await workmarketApi.deleteAppUser(id)
-      state.showFeedback(result.message, "success")
-      await dependencies.fetchAppUsers()
-    } catch (requestError) {
-      state.showFeedback(getApiErrorMessage(requestError, "Could not delete user."), "error")
-    }
+    return runWithFeedback({
+      run: () => workmarketApi.deleteAppUser(id),
+      successMessage: (result) => result.message,
+      errorMessage: "Could not delete user.",
+      afterSuccess: dependencies.fetchAppUsers
+    })
   }
 
   const handleDelete = async (id: number) => {
@@ -81,20 +82,20 @@ export const useAppUsersMutationActions = (
       return
     }
 
-    try {
-      const result = await workmarketApi.updateAppUser(state.editingAppUserId.value, {
+    return runWithFeedback({
+      run: () => workmarketApi.updateAppUser(state.editingAppUserId.value!, {
         email: state.editAppUserEmail.value.trim(),
         username: state.editAppUserUsername.value.trim(),
         role: state.editAppUserRole.value,
         password: state.editAppUserPassword.value || undefined
-      })
-
-      resetEditForm()
-      state.showFeedback(result.message, "success")
-      await dependencies.fetchAppUsers()
-    } catch (requestError) {
-      state.showFeedback(getApiErrorMessage(requestError, "Could not update user."), "error")
-    }
+      }),
+      successMessage: (result) => result.message,
+      errorMessage: "Could not update user.",
+      afterSuccess: async () => {
+        resetEditForm()
+        await dependencies.fetchAppUsers()
+      }
+    })
   }
 
   const cancelEdit = () => {

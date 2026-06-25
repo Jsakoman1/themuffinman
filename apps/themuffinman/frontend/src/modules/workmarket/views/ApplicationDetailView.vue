@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from "vue"
 import {RouterLink, useRoute, useRouter} from "vue-router"
-import AppPageHeader from "../../../components/app/AppPageHeader.vue"
-import ProfileBio from "../../../components/profile/ProfileBio.vue"
+import UiDialog from "../../../components/ui/UiDialog.vue"
+import UiRequestError from "../../../components/ui/UiRequestError.vue"
 import {getApiErrorMessage} from "../../../api/apiErrors.ts"
 import {invalidEntityMessage} from "../../../shared/clientMessages.ts"
 import {workmarketApi, type QuestApplication, type QuestApplicationDetail} from "../api/workmarketApi.ts"
-import {richTextHasContent} from "../../../shared/richText.ts"
 import {routeForNavigationTarget} from "../shared/navigationTargets.ts"
+import ApplicationDetailSections from "../components/shared/ApplicationDetailSections.vue"
+import ApplicationSummaryCard from "../components/shared/ApplicationSummaryCard.vue"
 
 const route = useRoute()
 const router = useRouter()
@@ -43,6 +44,20 @@ const loadApplication = async () => {
   }
 }
 
+const closeApplicationDetail = async () => {
+  if (questPath.value) {
+    await router.push(questPath.value)
+    return
+  }
+
+  if (window.history.length > 1) {
+    await router.back()
+    return
+  }
+
+  await router.push("/work")
+}
+
 watch(() => route.params.id, () => {
   void loadApplication()
 })
@@ -54,68 +69,32 @@ onMounted(() => {
 
 <template>
   <div class="page">
-    <AppPageHeader title="Application details" subtitle="Review the application and jump back to the quest.">
-      <template #actions>
-        <button class="button button--secondary" type="button" @click="router.back()">Back</button>
-        <RouterLink class="button button--secondary" :to="questPath">Open quest</RouterLink>
-      </template>
-    </AppPageHeader>
+    <UiDialog
+      :open="true"
+      :title="application?.questTitle ?? 'Application details'"
+      size="lg"
+      :default-expanded="true"
+      @close="closeApplicationDetail"
+    >
+      <UiRequestError :message="error" :details="[]" summary="Debug details" :copied="false" />
 
-    <div v-if="isLoading" class="empty-state">Loading application...</div>
-    <div v-else-if="error" class="alert alert--error">{{ error }}</div>
+      <div v-if="isLoading" class="empty-state">Loading application...</div>
 
-    <div v-else-if="application" class="card">
-      <div class="dialog-focus-card dialog-focus-card--primary">
-        <div class="dialog-focus-card__top u-row-between u-items-center u-wrap u-gap-8">
-          <span :class="application.presentation.statusBadgeClass">
-            {{ application.presentation.statusLabel }}
-          </span>
-          <span class="dialog-focus-card__kicker">Application</span>
-        </div>
+      <div v-else-if="application" class="surface-stack">
+        <ApplicationSummaryCard :application="application" include-term />
 
-        <div class="dialog-focus-card__title">
-          {{ application.questTitle }}
-        </div>
-
-          <div class="dialog-focus-card__meta">
-            <span>$ {{ application.proposedPrice }}</span>
-            <span>Quest status: {{ application.presentation.questStatusLabel }}</span>
-            <span>{{ application.presentation.questTermLabel }}</span>
-          </div>
-      </div>
-
-      <section class="dialog-focus-card dialog-focus-card--soft mt-4">
-        <div class="dialog-focus-card__section-title">Message</div>
-        <ProfileBio
-          v-if="richTextHasContent(application.message)"
-          class="dialog-sheet__description dialog-sheet__description--flat"
-          :text="application.message"
+        <ApplicationDetailSections
+          :application="application"
+          :quest-path="questPath"
+          :quest-label="application.questTitle"
+          :show-status="true"
+          :show-workers="!!contextSection?.showWorkers"
         />
-      </section>
 
-      <section class="dialog-focus-card dialog-focus-card--soft mt-4">
-        <div class="dialog-focus-card__section-title">Context</div>
-        <div class="dialog-focus-grid">
-          <div class="field">
-            <span class="label">Quest</span>
-            <RouterLink class="profile-link profile-link--text" :to="questPath">
-              {{ application.questTitle }}
-            </RouterLink>
-          </div>
-          <div class="field">
-            <span class="label">Status</span>
-            <strong>{{ application.presentation.statusLabel }}</strong>
-          </div>
-          <div class="field">
-            <span class="label">Term</span>
-            <strong>{{ application.presentation.questTermLabel }}</strong>
-          </div>
-          <div v-if="contextSection?.showWorkers && application.presentation.questAssigneeTargetVisible" class="field">
-            <span class="label">Workers</span>
-            <strong>{{ application.presentation.questAssigneeTargetLabel }}</strong>
-          </div>
+        <div class="button-row button-row--end">
+          <RouterLink v-if="questPath" class="button button--secondary" :to="questPath">Open quest</RouterLink>
         </div>
-      </section>
-    </div>
+      </div>
+    </UiDialog>
   </div>
 </template>

@@ -11,7 +11,7 @@ export const createQuestDetailViewState = (state: {
   const isActionInProgress = ref(false)
   const isDeleteConfirmDialogOpen = ref(false)
   const showTermChangeDetails = ref(false)
-  const reviewStars = ref(5)
+  const reviewStars = ref(0)
   const reviewComment = ref("")
   const isSubmittingReview = ref(false)
 
@@ -29,13 +29,7 @@ export const createQuestDetailViewState = (state: {
   const termChangeSection = computed(() => state.detail.value?.sections.termChange ?? null)
   const managementSection = computed(() => state.detail.value?.sections.management ?? null)
 
-  const isCompletedQuest = computed(() => reviewSection.value?.visible ?? false)
-  const reviewTarget = computed(() => reviewSection.value?.target ?? null)
-  const canLeaveReview = computed(() => reviewSection.value?.canSubmit ?? false)
   const hasSubmittedReview = computed(() => !!(state.review.value ?? reviewSection.value?.submittedReview))
-  const reviewPlaceholder = computed(() => {
-    return reviewSection.value?.placeholder ?? "Add a short comment."
-  })
 
   return {
     isActionInProgress,
@@ -44,14 +38,10 @@ export const createQuestDetailViewState = (state: {
     reviewStars,
     reviewComment,
     isSubmittingReview,
-    isCompletedQuest,
     reviewSection,
     executionSection,
     termChangeSection,
     managementSection,
-    reviewTarget,
-    canLeaveReview,
-    hasSubmittedReview,
-    reviewPlaceholder
+    hasSubmittedReview
   }
 }

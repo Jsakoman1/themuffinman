@@ -1,13 +1,13 @@
 import {useRouter} from "vue-router"
 import {closeAfterDelay} from "../../../../lib/dialogFlow.ts"
-import type {QuestDashboard} from "../useQuestDashboard.ts"
+import type {DashboardApplicationEditFacade} from "./dashboardFacades.ts"
 import type {createApplicationDialogViewState} from "./createApplicationDialogViewState.ts"
 import {routeForNavigationTarget} from "../../shared/navigationTargets.ts"
 
 type ApplicationDialogViewState = ReturnType<typeof createApplicationDialogViewState>
 
 export const useApplicationDialogUiActions = (
-  dashboard: QuestDashboard,
+  dashboard: DashboardApplicationEditFacade,
   state: ApplicationDialogViewState
 ) => {
   const router = useRouter()

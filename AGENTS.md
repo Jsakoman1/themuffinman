@@ -37,7 +37,12 @@ Treat the user as a junior developer. Prefer simple, readable, incremental imple
 - Use one reusable header/navbar pattern across authenticated pages unless a route is intentionally public or intentionally isolated for a strong product reason.
 - Use one reusable footer pattern across the app unless a route is intentionally public or intentionally isolated for a strong product reason.
 - Use shared modal, dialog, toast, error, and empty-state components instead of per-page variants.
+- Use shared field, button, card, list, and section primitives before adding page-specific markup or styles.
 - When a new shared component is introduced, remove or consolidate older duplicate implementations instead of keeping parallel UI patterns alive.
+- Standardize forms, popups, panels, and detail screens so spacing, labels, actions, and hierarchy feel like one system.
+- Prefer shared CSS tokens and component classes over one-off page selectors, and delete dead styles during the same refactor when safe.
+- Prefer a high-contrast, sharper, more rectangular UI language over soft glassmorphism, oversized rounding, and decorative gradients unless a specific screen has a strong product reason to differ.
+- Drive visual changes through shared tokens, shared primitives, and shared layout components first so one redesign propagates consistently across all routes and dialogs.
 - Reduce frontend-only layout and presentation branching where possible; prefer reusable sections, route metadata, and backend-prepared view contracts over duplicated page-specific orchestration.
 - Favor small helpers and explicit service boundaries over large smart components or broad utility layers.
 - Add or extend JUnit tests whenever backend behavior, presentation mapping, validation, permission checks, or workflow transitions change.

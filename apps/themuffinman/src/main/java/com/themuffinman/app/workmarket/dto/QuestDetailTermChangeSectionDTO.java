@@ -15,6 +15,9 @@ import java.time.Instant;
 public class QuestDetailTermChangeSectionDTO {
     private boolean visible;
     private boolean actionable;
+    private String summaryLabel;
+    private String confirmLabel;
+    private String rejectLabel;
     private String currentTermLabel;
     @Nullable
     private String pendingTermLabel;

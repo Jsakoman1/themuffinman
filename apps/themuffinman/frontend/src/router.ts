@@ -1,17 +1,18 @@
 import {createRouter, createWebHistory} from "vue-router";
-import AdminQuestsPage from "./modules/workmarket/pages/AdminQuestsPage.vue";
-import AdminApplicationsPage from "./modules/workmarket/pages/AdminApplicationsPage.vue";
-import AdminCirclesPage from "./modules/social/pages/AdminCirclesPage.vue";
-import AdminUsersPage from "./modules/workmarket/pages/AdminUsersPage.vue";
-import CirclesView from "./modules/social/views/CirclesView.vue";
-import QuestsPage from "./modules/workmarket/pages/QuestsPage.vue";
-import QuestDetailView from "./modules/workmarket/views/QuestDetailView.vue";
-import ApplicationDetailView from "./modules/workmarket/views/ApplicationDetailView.vue";
-import LoginView from "./modules/identity/views/LoginView.vue";
-import RegisterView from "./modules/identity/views/RegisterView.vue";
-import UserProfileView from "./modules/social/views/UserProfileView.vue";
-import ModulePlaceholderView from "./views/ModulePlaceholderView.vue";
 import {isAdmin, isLoggedIn} from "./auth.ts";
+
+const AdminQuestsPage = () => import("./modules/workmarket/pages/AdminQuestsPage.vue");
+const AdminApplicationsPage = () => import("./modules/workmarket/pages/AdminApplicationsPage.vue");
+const AdminCirclesPage = () => import("./modules/social/pages/AdminCirclesPage.vue");
+const AdminUsersPage = () => import("./modules/workmarket/pages/AdminUsersPage.vue");
+const CirclesView = () => import("./modules/social/views/CirclesView.vue");
+const QuestsPage = () => import("./modules/workmarket/pages/QuestsPage.vue");
+const QuestDetailView = () => import("./modules/workmarket/views/QuestDetailView.vue");
+const ApplicationDetailView = () => import("./modules/workmarket/views/ApplicationDetailView.vue");
+const LoginView = () => import("./modules/identity/views/LoginView.vue");
+const RegisterView = () => import("./modules/identity/views/RegisterView.vue");
+const UserProfileView = () => import("./modules/social/views/UserProfileView.vue");
+const ModulePlaceholderView = () => import("./views/ModulePlaceholderView.vue");
 
 
 const routes = [

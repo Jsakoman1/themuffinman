@@ -1,11 +1,11 @@
 import {closeAfterDelay} from "../../../../lib/dialogFlow.ts"
-import type {QuestDashboard} from "../useQuestDashboard.ts"
+import type {DashboardQuestDialogFacade} from "./dashboardFacades.ts"
 import type {createQuestDialogViewState} from "./createQuestDialogViewState.ts"
 
 type QuestDialogViewState = ReturnType<typeof createQuestDialogViewState>
 
 export const useQuestDialogUiActions = (
-  dashboard: QuestDashboard,
+  dashboard: DashboardQuestDialogFacade,
   state: QuestDialogViewState
 ) => {
   const setActionMessage = (message: string, tone: "success" | "warning" = "success") => {

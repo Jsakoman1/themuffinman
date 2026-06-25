@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import UiDialog from "../../../../components/ui/UiDialog.vue"
 import DashboardMyQuests from "./DashboardMyQuests.vue"
-import type {QuestDashboard} from "../../composables/useQuestDashboard.ts"
 import {createDashboardOpenWorkState} from "../../composables/dashboard/createDashboardOpenWorkState.ts"
+import type {DashboardOpenWorkDialogFacade} from "../../composables/dashboard/dashboardFacades.ts"
 
 const props = defineProps<{
-  dashboard: QuestDashboard
+  dashboard: DashboardOpenWorkDialogFacade
 }>()
 
 const {openQuests, waitingQuests} = createDashboardOpenWorkState(props.dashboard)
@@ -15,7 +15,7 @@ const {openQuests, waitingQuests} = createDashboardOpenWorkState(props.dashboard
   <UiDialog
     :open="dashboard.isOpenWorkDialogOpen"
     title="Open work"
-    subtitle="Jobs that still need a reply or confirmation."
+    subtitle=""
     size="xl"
     @close="dashboard.closeOpenWorkDialog()"
   >

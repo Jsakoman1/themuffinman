@@ -1,27 +1,24 @@
 <script setup lang="ts">
-import {onMounted} from "vue"
 import AdminShellHeader from "../components/admin/AdminShellHeader.vue"
 import DashboardAdmin from "../components/dashboard/DashboardAdmin.vue"
 import DashboardApplicationDialog from "../components/dashboard/DashboardApplicationDialog.vue"
 import DashboardQuestDialog from "../components/dashboard/DashboardQuestDialog.vue"
+import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
+import {useMountedAsync} from "../../../composables/useMountedAsync.ts"
 import UiRequestError from "../../../components/ui/UiRequestError.vue"
 import UiToast from "../../../components/ui/UiToast.vue"
 import {useQuestDashboard} from "../composables/useQuestDashboard.ts"
 
 const dashboard = useQuestDashboard()
 
-onMounted(() => {
-  void dashboard.init()
-})
+useMountedAsync(dashboard.init)
 </script>
 
 <template>
-  <div class="page page--dashboard">
-    <div class="dashboard-shell">
-      <main class="dashboard-main dashboard-main--admin">
+  <UiDashboardPage admin>
         <AdminShellHeader
           title="Quests"
-          subtitle="Review, edit, reopen, approve, and manage every quest from a single admin workspace."
+          subtitle=""
         />
 
         <UiToast :message="dashboard.feedback" :tone="dashboard.feedbackType" />
@@ -37,7 +34,5 @@ onMounted(() => {
 
         <DashboardQuestDialog :dashboard="dashboard" />
         <DashboardApplicationDialog :dashboard="dashboard" />
-      </main>
-    </div>
-  </div>
+  </UiDashboardPage>
 </template>

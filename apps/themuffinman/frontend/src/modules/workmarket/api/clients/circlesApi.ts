@@ -9,6 +9,7 @@ import type {
   CircleGroup,
   CircleGroupRequest,
   CircleOverview,
+  PageQuery,
   CircleRelation,
   CircleRequest,
   CircleRequestCreate,
@@ -57,7 +58,7 @@ export const circlesApi = {
     return (await api.get<CircleCandidateListResponse>("/circles/candidates", withAuth())).data.items
   },
 
-  async getInviteCandidatesPage(params: {page?: number; size?: number}): Promise<CircleCandidateListResponse> {
+  async getInviteCandidatesPage(params: PageQuery): Promise<CircleCandidateListResponse> {
     return (await api.get<CircleCandidateListResponse>("/circles/candidates", {
       ...withAuth(),
       params: buildQueryParams(params)

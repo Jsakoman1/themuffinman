@@ -3,15 +3,15 @@ import UiDialog from "../../../../components/ui/UiDialog.vue"
 import UiFormActions from "../../../../components/ui/UiFormActions.vue"
 import DashboardEditSheet from "./DashboardEditSheet.vue"
 import UiStatusBanner from "../../../../components/ui/UiStatusBanner.vue"
-import RichTextEditor from "../../../../components/editor/RichTextEditor.vue"
-import ProfileBio from "../../../../components/profile/ProfileBio.vue"
-import {richTextHasContent} from "../../../../shared/richText.ts"
-import type {QuestDashboard} from "../../composables/useQuestDashboard.ts"
+import ApplicationEditFields from "../shared/ApplicationEditFields.vue"
+import type {DashboardApplicationEditFacade} from "../../composables/dashboard/dashboardFacades.ts"
 import {createApplicationDialogViewState} from "../../composables/dashboard/createApplicationDialogViewState.ts"
 import {useApplicationDialogUiActions} from "../../composables/dashboard/useApplicationDialogUiActions.ts"
+import ApplicationDetailSections from "../shared/ApplicationDetailSections.vue"
+import ApplicationSummaryCard from "../shared/ApplicationSummaryCard.vue"
 
 const props = defineProps<{
-  dashboard: QuestDashboard
+  dashboard: DashboardApplicationEditFacade
 }>()
 
 const viewState = createApplicationDialogViewState(props.dashboard)
@@ -45,77 +45,28 @@ const {
       <button v-if="canEdit && !isEditing" class="button button--secondary" type="button" @click="startEditing">Edit</button>
     </template>
 
-    <div v-if="application" class="stack dialog-sheet">
-      <section class="dialog-focus-card dialog-focus-card--primary">
-        <div class="dialog-focus-card__top u-row-between u-items-center u-wrap u-gap-8">
-          <span :class="application.presentation.statusBadgeClass">
-            {{ application.presentation.statusLabel }}
-          </span>
-          <span class="dialog-focus-card__kicker">Your application</span>
-        </div>
-
-        <div class="dialog-focus-card__title">
-          {{ application!.questTitle }}
-        </div>
-
-        <div class="dialog-focus-card__meta">
-          <span>$ {{ application!.proposedPrice }}</span>
-          <span>Quest status: {{ application.presentation.questStatusLabel }}</span>
-        </div>
-      </section>
+    <div v-if="application" class="surface-stack">
+      <ApplicationSummaryCard :application="application" kicker="Your application" />
 
       <UiStatusBanner :message="actionMessage" :tone="actionMessageTone" />
 
-      <section class="dialog-focus-card dialog-focus-card--soft">
-        <div class="dialog-focus-card__section-title">Message</div>
-        <ProfileBio
-          v-if="richTextHasContent(application!.message)"
-          class="dialog-sheet__description dialog-sheet__description--flat"
-          :text="application!.message"
-        />
-      </section>
+      <ApplicationDetailSections
+        v-if="quest"
+        :application="application"
+        context-eyebrow="Quest context"
+        :posted-by-label="quest.creatorUsername"
+        @open-posted-by="props.dashboard.openUserProfileDialog(quest.creatorId)"
+      />
 
-      <section v-if="quest" class="dialog-focus-card dialog-focus-card--soft">
-        <div class="dialog-focus-card__section-title">Quest context</div>
-        <div class="dialog-focus-grid">
-          <div class="field">
-            <span class="label">Scheduled time</span>
-            <strong>{{ application.presentation.questTermLabel }}</strong>
-          </div>
-          <div class="field">
-            <span class="label">Posted by</span>
-            <button class="dialog-inline-link" type="button" @click="props.dashboard.openUserProfileDialog(quest.creatorId)">
-              {{ quest.creatorUsername }}
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <form v-if="canEdit && isEditing" class="stack calendar-application-form" @submit.prevent="props.dashboard.saveEditedApplication(application!.questId)">
+      <form v-if="canEdit && isEditing" class="form-stack form-stack--compact calendar-application-form" @submit.prevent="props.dashboard.saveEditedApplication(application!.questId)">
         <DashboardEditSheet :minimal="true">
-          <div class="dashboard-edit-form dashboard-edit-form--dialog dashboard-edit-form--application">
-            <label class="field dashboard-edit-field dashboard-edit-field--message">
-              <span class="label">Message</span>
-              <RichTextEditor
-                v-model="props.dashboard.editApplicationMessage"
-                placeholder=""
-                toolbar-label="Message tools"
-              />
-            </label>
-
-            <label class="field dashboard-edit-field dashboard-edit-field--price">
-              <span class="label">Proposed price</span>
-              <div class="dashboard-edit-amount">
-                <span class="dashboard-edit-amount__symbol" aria-hidden="true">$</span>
-                <input
-                  v-model="props.dashboard.editApplicationPrice"
-                  class="input dashboard-edit-amount__input"
-                  inputmode="decimal"
-                  placeholder="50"
-                />
-              </div>
-            </label>
-          </div>
+          <ApplicationEditFields
+            :message="props.dashboard.editApplicationMessage"
+            :price="props.dashboard.editApplicationPrice"
+            price-placeholder="50"
+            @update:message="props.dashboard.editApplicationMessage = $event"
+            @update:price="props.dashboard.editApplicationPrice = $event"
+          />
 
           <template #actions>
             <button class="button button--action" type="submit">Save changes</button>
@@ -124,8 +75,7 @@ const {
         </DashboardEditSheet>
       </form>
 
-      <div v-else class="dialog-sheet__footer">
-        <UiFormActions>
+      <UiFormActions v-else align="end">
         <button class="button button--secondary" type="button" @click="openQuest">
           Open quest
         </button>
@@ -138,8 +88,7 @@ const {
         >
           Withdraw application
         </button>
-        </UiFormActions>
-      </div>
+      </UiFormActions>
     </div>
   </UiDialog>
 </template>

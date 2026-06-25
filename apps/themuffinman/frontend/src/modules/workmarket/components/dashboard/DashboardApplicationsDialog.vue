@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import UiDialog from "../../../../components/ui/UiDialog.vue"
 import DashboardMyApplications from "./DashboardMyApplications.vue"
-import type {QuestDashboard} from "../../composables/useQuestDashboard.ts"
+import type {DashboardApplicationsDialogFacade} from "../../composables/dashboard/dashboardFacades.ts"
 
 defineProps<{
-  dashboard: QuestDashboard
+  dashboard: DashboardApplicationsDialogFacade
 }>()
 </script>
 
@@ -12,14 +12,14 @@ defineProps<{
   <UiDialog
     :open="dashboard.isApplicationsDialogOpen"
     title="Pending applications"
-    subtitle="Applications that are still waiting for a response."
+    subtitle=""
     size="lg"
     @close="dashboard.closeApplicationsDialog()"
   >
     <DashboardMyApplications
       :dashboard="dashboard"
       title="Pending applications"
-      subtitle="Review the applications that still need action."
+      subtitle=""
       empty-message="No pending applications right now."
       :applications="dashboard.pendingWorkApplications"
       :show-header="false"

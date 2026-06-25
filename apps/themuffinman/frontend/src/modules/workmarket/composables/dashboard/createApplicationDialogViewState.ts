@@ -1,8 +1,8 @@
 import {computed, ref} from "vue"
 import {useDialogActionState} from "../../../../composables/useDialogActionState.ts"
-import type {QuestDashboard} from "../useQuestDashboard.ts"
+import type {DashboardApplicationEditFacade} from "./dashboardFacades.ts"
 
-export const createApplicationDialogViewState = (dashboard: QuestDashboard) => {
+export const createApplicationDialogViewState = (dashboard: DashboardApplicationEditFacade) => {
   const application = computed(() => dashboard.selectedApplicationDialog)
   const isEditing = ref(false)
   const isWithdrawing = ref(false)

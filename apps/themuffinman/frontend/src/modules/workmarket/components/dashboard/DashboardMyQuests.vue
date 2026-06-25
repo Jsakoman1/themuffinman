@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router"
-import UiSectionHeader from "../../../../components/ui/UiSectionHeader.vue"
-import DashboardQuestSummaryRow from "./DashboardQuestSummaryRow.vue"
 import type {Quest} from "../../api/workmarketApi.ts"
-import type {QuestDashboard} from "../../composables/useQuestDashboard.ts"
 import {createDashboardQuestListState} from "../../composables/dashboard/createDashboardQuestListState.ts"
+import type {DashboardQuestListFacade} from "../../composables/dashboard/dashboardFacades.ts"
 import {routeForNavigationTarget} from "../../shared/navigationTargets.ts"
+import DashboardSummaryListButton from "../shared/DashboardSummaryListButton.vue"
+import DashboardSummaryListSection from "../shared/DashboardSummaryListSection.vue"
 
 const props = withDefaults(defineProps<{
-  dashboard: QuestDashboard
+  dashboard: DashboardQuestListFacade
   title?: string
   subtitle?: string
   emptyMessage?: string
@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<{
   boxed?: boolean
 }>(), {
   title: "Your work",
-  subtitle: "Manage your quests.",
+  subtitle: "",
   emptyMessage: "No quests here yet.",
   quests: undefined,
   showHeader: true,
@@ -33,35 +33,28 @@ const openQuest = async (quest: Quest) => {
 </script>
 
 <template>
-  <section class="stack">
-    <div :class="{ card: props.boxed }">
-      <UiSectionHeader v-if="props.showHeader" :title="props.title" :subtitle="props.subtitle" />
-
-      <div v-if="!quests.length" class="empty-state">
-        {{ props.emptyMessage }}
-      </div>
-
-      <div v-else class="quest-list mt-4">
-        <button
-          v-for="quest in quests"
-          :key="quest.id"
-          type="button"
-          class="compact-disclosure compact-disclosure--tight compact-disclosure--launch"
-          :class="[quest.presentation.statusSurfaceClass, { 'ui-pulse': dashboard.successPulseTarget === `quest-${quest.id}` }]"
-          @click="openQuest(quest)"
-        >
-          <DashboardQuestSummaryRow
-            primary-label="Amount"
-            :primary-value="quest.awardAmount"
-            primary-icon="$"
-            money-tone="expense"
-            secondary-label="Term"
-            :secondary-value="quest.presentation.termLabel"
-            :title="quest.title"
-            :description="quest.description"
-          />
-        </button>
-      </div>
-    </div>
-  </section>
+  <DashboardSummaryListSection
+    :title="props.title"
+    :subtitle="props.subtitle"
+    :empty-message="props.emptyMessage"
+    :has-items="quests.length > 0"
+    :show-header="props.showHeader"
+    :boxed="props.boxed"
+  >
+    <DashboardSummaryListButton
+      v-for="quest in quests"
+      :key="quest.id"
+      primary-label="Amount"
+      :primary-value="quest.awardAmount"
+      primary-icon="$"
+      money-tone="expense"
+      secondary-label="Term"
+      :secondary-value="quest.presentation.termLabel"
+      :title="quest.title"
+      :description="quest.description"
+      :status-surface-class="quest.presentation.statusSurfaceClass"
+      :pulse="dashboard.successPulseTarget === `quest-${quest.id}`"
+      @click="openQuest(quest)"
+    />
+  </DashboardSummaryListSection>
 </template>

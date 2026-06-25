@@ -1,45 +1,30 @@
 <script setup lang="ts">
-import type {QuestDashboard} from "../../composables/useQuestDashboard.ts"
+import type {DashboardProfileSummaryFacade} from "../../composables/dashboard/dashboardFacades.ts"
+import ProfileSummaryCard from "../../../../components/profile/ProfileSummaryCard.vue"
 import UiFormActions from "../../../../components/ui/UiFormActions.vue"
-import UiSectionHeader from "../../../../components/ui/UiSectionHeader.vue"
-import ProfileAvatar from "../../../../components/profile/ProfileAvatar.vue"
-import ProfileBio from "../../../../components/profile/ProfileBio.vue"
+import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 
 defineProps<{
-  dashboard: QuestDashboard
+  dashboard: DashboardProfileSummaryFacade
 }>()
 </script>
 
 <template>
-  <section class="card">
-    <UiSectionHeader title="Profile" subtitle="Your details." />
-
-    <UiFormActions align="end" class="mt-2">
-      <button class="button button--icon button--secondary" type="button" aria-label="Edit profile" @click="dashboard.openProfileEditDialog()">✎</button>
-    </UiFormActions>
-
-    <div class="profile-card">
-      <ProfileAvatar
-        :username="dashboard.currentUser?.username"
-        :avatar-data-url="dashboard.currentUser?.profileAvatarDataUrl"
-        :size="88"
-      />
-
-      <div class="stack">
-        <div class="field">
-          <span class="label">Username</span>
-          <strong>{{ dashboard.currentUser?.username }}</strong>
-        </div>
-        <div class="field">
-          <span class="label">Email</span>
-          <strong>{{ dashboard.currentUser?.email }}</strong>
-        </div>
-      </div>
-    </div>
-
-    <div class="field mt-4">
-      <span class="label">Profile description</span>
-      <ProfileBio :text="dashboard.currentUser?.profileDescription" />
-    </div>
-  </section>
+  <UiSurfaceSection class="card" soft title="Profile">
+    <ProfileSummaryCard
+      :username="dashboard.currentUser?.username ?? ''"
+      :avatar-data-url="dashboard.currentUser?.profileAvatarDataUrl"
+      :email="dashboard.currentUser?.email ?? ''"
+      :description="dashboard.currentUser?.profileDescription ?? ''"
+      description-placeholder="Add a profile description."
+      :size="88"
+      :soft="false"
+    >
+      <template #actions>
+        <UiFormActions align="end">
+          <button class="button button--icon button--secondary" type="button" aria-label="Edit profile" @click="dashboard.openProfileEditDialog()">✎</button>
+        </UiFormActions>
+      </template>
+    </ProfileSummaryCard>
+  </UiSurfaceSection>
 </template>

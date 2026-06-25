@@ -75,7 +75,7 @@ public class DashboardSectionsFactory {
                 .visibleMyQuests(visibleMyQuests)
                 .visibleMyApplications(visibleMyApplications)
                 .recentIncomingCircleRequests(incomingCircleRequests.stream().limit(4).toList())
-                .overview(buildOverviewSection(myQuestDtos, activeWorkApplications))
+                .overview(buildOverviewSection(myQuestDtos, sortedApplications, activeWorkApplications))
                 .openWork(DashboardOpenWorkSectionDTO.builder()
                         .waitingQuests(waitingOpenWorkQuests)
                         .openQuests(openWorkQuests)
@@ -104,18 +104,23 @@ public class DashboardSectionsFactory {
 
     private DashboardOverviewSectionDTO buildOverviewSection(
             List<QuestResponseDTO> myQuestDtos,
+            List<QuestApplicationResponseDTO> sortedApplications,
             List<QuestApplicationResponseDTO> activeWorkApplications
     ) {
         return DashboardOverviewSectionDTO.builder()
                 .postedBuckets(List.of(
+                        buildQuestBucket("posted-open", "Open", "accent", myQuestDtos, QuestStatus.OPEN),
                         buildQuestBucket("posted-waiting", "Need confirmation", "warning", myQuestDtos, QuestStatus.WAITING_CONFIRMATION),
                         buildQuestBucket("posted-assigned", "Ready to start", "success", myQuestDtos, QuestStatus.ASSIGNED),
-                        buildQuestBucket("posted-progress", "In progress", "accent", myQuestDtos, QuestStatus.IN_PROGRESS)
+                        buildQuestBucket("posted-progress", "In progress", "accent", myQuestDtos, QuestStatus.IN_PROGRESS),
+                        buildQuestBucket("posted-completed", "Completed", "success", myQuestDtos, QuestStatus.COMPLETED)
                 ))
                 .workBuckets(List.of(
+                        buildApplicationStatusBucket("work-applied", "Applied", "accent", sortedApplications, QuestApplicationStatus.PENDING),
                         buildApplicationBucket("work-waiting", "Waiting on agreement", "warning", activeWorkApplications, QuestStatus.WAITING_CONFIRMATION),
                         buildApplicationBucket("work-assigned", "Agreed and ready", "success", activeWorkApplications, QuestStatus.ASSIGNED),
-                        buildApplicationBucket("work-progress", "Doing now", "accent", activeWorkApplications, QuestStatus.IN_PROGRESS)
+                        buildApplicationBucket("work-progress", "Doing now", "accent", activeWorkApplications, QuestStatus.IN_PROGRESS),
+                        buildApplicationStatusAndQuestBucket("work-completed", "Completed", "success", sortedApplications, QuestApplicationStatus.APPROVED, QuestStatus.COMPLETED)
                 ))
                 .build();
     }
@@ -128,11 +133,11 @@ public class DashboardSectionsFactory {
         List<DashboardPlannerItemDTO> flexibleItems = new java.util.ArrayList<>();
 
         for (QuestResponseDTO quest : incomingWorkQuests) {
-            addPlannerItem(scheduledItems, flexibleItems, buildQuestPlannerItem(quest, "incoming"));
+            addPlannerItem(scheduledItems, flexibleItems, buildQuestPlannerItem(quest, "managed"));
         }
 
         for (QuestApplicationResponseDTO application : outgoingWorkApplications) {
-            addPlannerItem(scheduledItems, flexibleItems, buildApplicationPlannerItem(application, "outgoing"));
+            addPlannerItem(scheduledItems, flexibleItems, buildApplicationPlannerItem(application, "accepted"));
         }
 
         scheduledItems.sort(Comparator
@@ -189,6 +194,44 @@ public class DashboardSectionsFactory {
                 .label(label)
                 .tone(tone)
                 .items(applications.stream()
+                        .filter(application -> application.getQuestStatus() == questStatus)
+                        .map(this::toApplicationRailItem)
+                        .toList())
+                .build();
+    }
+
+    private DashboardRailBucketDTO buildApplicationStatusBucket(
+            String key,
+            String label,
+            String tone,
+            List<QuestApplicationResponseDTO> applications,
+            QuestApplicationStatus applicationStatus
+    ) {
+        return DashboardRailBucketDTO.builder()
+                .key(key)
+                .label(label)
+                .tone(tone)
+                .items(applications.stream()
+                        .filter(application -> application.getStatus() == applicationStatus)
+                        .map(this::toApplicationRailItem)
+                        .toList())
+                .build();
+    }
+
+    private DashboardRailBucketDTO buildApplicationStatusAndQuestBucket(
+            String key,
+            String label,
+            String tone,
+            List<QuestApplicationResponseDTO> applications,
+            QuestApplicationStatus applicationStatus,
+            QuestStatus questStatus
+    ) {
+        return DashboardRailBucketDTO.builder()
+                .key(key)
+                .label(label)
+                .tone(tone)
+                .items(applications.stream()
+                        .filter(application -> application.getStatus() == applicationStatus)
                         .filter(application -> application.getQuestStatus() == questStatus)
                         .map(this::toApplicationRailItem)
                         .toList())

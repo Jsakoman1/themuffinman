@@ -1,0 +1,145 @@
+import {getApiErrorMessage} from "../../../../api/apiErrors.ts"
+import {workmarketApi, type CircleCandidate, type CircleContactListResponse, type CircleGroup, type CircleRequestListResponse} from "../../../workmarket/api/workmarketApi.ts"
+
+type CirclesDataLoaderState = {
+  pageSize: number
+  normalizedSearchQuery: {value: string}
+  searchHasQuery: {value: boolean}
+  activeCircleFilter: {value: number | "all" | "unassigned"}
+  connectionsPage: {value: number}
+  incomingPage: {value: number}
+  outgoingPage: {value: number}
+  circles: {value: CircleGroup[]}
+  inviteCandidates: {value: CircleCandidate[]}
+  searchResults: {value: CircleCandidate[]}
+  connectionsPageData: {value: CircleContactListResponse | null}
+  incomingPageData: {value: CircleRequestListResponse | null}
+  outgoingPageData: {value: CircleRequestListResponse | null}
+  overviewConnectionCount: {value: number}
+  overviewUnassignedConnectionCount: {value: number}
+  overviewIncomingRequestCount: {value: number}
+  overviewOutgoingRequestCount: {value: number}
+  isSearching: {value: boolean}
+  error: {value: string}
+}
+
+export const useCirclesDataLoader = (state: CirclesDataLoaderState) => {
+  const loadOverview = async () => {
+    try {
+      const overview = await workmarketApi.getCircleOverview()
+      state.overviewConnectionCount.value = overview.connectionCount
+      state.overviewUnassignedConnectionCount.value = overview.unassignedConnectionCount
+      state.overviewIncomingRequestCount.value = overview.incomingRequestCount
+      state.overviewOutgoingRequestCount.value = overview.outgoingRequestCount
+    } catch (requestError) {
+      state.error.value = getApiErrorMessage(requestError, "Could not load circles.")
+    }
+  }
+
+  const loadCircles = async () => {
+    try {
+      state.circles.value = await workmarketApi.getCircleGroups()
+    } catch (requestError) {
+      state.error.value = getApiErrorMessage(requestError, "Could not load circles.")
+    }
+  }
+
+  const loadConnectionsPage = async () => {
+    const query = state.searchHasQuery.value ? state.normalizedSearchQuery.value : null
+    const circleId = state.activeCircleFilter.value === "all" || state.activeCircleFilter.value === "unassigned"
+      ? null
+      : state.activeCircleFilter.value
+    const unassigned = state.activeCircleFilter.value === "unassigned"
+
+    try {
+      state.connectionsPageData.value = await workmarketApi.getCircleConnectionsPage({
+        q: query,
+        circleId,
+        unassigned,
+        page: state.connectionsPage.value - 1,
+        size: state.pageSize
+      })
+    } catch (requestError) {
+      state.error.value = getApiErrorMessage(requestError, "Could not load connections.")
+    }
+  }
+
+  const loadInboxPage = async () => {
+    const query = state.searchHasQuery.value ? state.normalizedSearchQuery.value : null
+
+    try {
+      const [incomingResponse, outgoingResponse] = await Promise.all([
+        workmarketApi.getIncomingCircleRequestsPage({
+          q: query,
+          page: state.incomingPage.value - 1,
+          size: state.pageSize
+        }),
+        workmarketApi.getOutgoingCircleRequestsPage({
+          q: query,
+          page: state.outgoingPage.value - 1,
+          size: state.pageSize
+        })
+      ])
+
+      state.incomingPageData.value = incomingResponse
+      state.outgoingPageData.value = outgoingResponse
+    } catch (requestError) {
+      state.error.value = getApiErrorMessage(requestError, "Could not load requests.")
+    }
+  }
+
+  const loadSuggestions = async () => {
+    state.isSearching.value = true
+    state.error.value = ""
+
+    try {
+      if (state.searchHasQuery.value) {
+        state.searchResults.value = (await workmarketApi.searchCircleUsersPage({
+          q: state.normalizedSearchQuery.value,
+          page: 0,
+          size: 12
+        })).items
+        return
+      }
+
+      state.inviteCandidates.value = (await workmarketApi.getInviteCandidatesPage({
+        page: 0,
+        size: 12
+      })).items
+      state.searchResults.value = []
+    } catch (requestError) {
+      state.error.value = getApiErrorMessage(requestError, "Could not search users.")
+      state.searchResults.value = []
+      state.inviteCandidates.value = []
+    } finally {
+      state.isSearching.value = false
+    }
+  }
+
+  const refreshCircleData = async () => {
+    await Promise.all([
+      loadConnectionsPage(),
+      loadInboxPage(),
+      loadSuggestions()
+    ])
+  }
+
+  const refreshOverviewAndData = async () => {
+    await Promise.all([loadOverview(), refreshCircleData()])
+  }
+
+  const refreshWorkspace = async () => {
+    await Promise.all([loadOverview(), loadCircles(), refreshCircleData()])
+  }
+
+  return {
+    loadOverview,
+    loadCircles,
+    loadConnectionsPage,
+    loadInboxPage,
+    loadSuggestions,
+    refreshCircleData,
+    refreshOverviewAndData,
+    refreshWorkspace
+  }
+}

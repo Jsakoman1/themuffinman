@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import {RouterLink} from "vue-router"
 import UiFormActions from "../../../../components/ui/UiFormActions.vue"
+import UiFieldGroup from "../../../../components/ui/UiFieldGroup.vue"
 import DashboardEditSheet from "../dashboard/DashboardEditSheet.vue"
 import type {AppUser, AppUserRoleOption} from "../../api/workmarketApi.ts"
 import type {AppUserRole} from "../../domain/workmarketDomain.ts"
-import ProfileAvatar from "../../../../components/profile/ProfileAvatar.vue"
-import ProfileBio from "../../../../components/profile/ProfileBio.vue"
+import ProfileEntityCard from "../../../../components/profile/ProfileEntityCard.vue"
 import {routeForNavigationTarget} from "../../shared/navigationTargets.ts"
 
 defineProps<{
@@ -34,53 +33,47 @@ defineEmits<{
   <div class="quest-list">
     <article v-for="user in users" :key="user.id" class="card">
         <div v-if="editingUserId !== user.id" class="split-actions">
-          <div class="profile-card__identity">
-          <RouterLink class="profile-link" :to="routeForNavigationTarget(user.profileNavigation)">
-            <ProfileAvatar
-              :username="user.username"
-              :avatar-data-url="user.profileAvatarDataUrl"
-              :size="56"
-            />
-            <strong>{{ user.username }}</strong>
-          </RouterLink>
-          <div class="stack">
-            <div class="muted mt-1">{{ user.email }}</div>
-            <div class="badge badge--accent mt-2">{{ user.role }}</div>
-            <ProfileBio :text="user.profileDescription" />
-          </div>
+          <ProfileEntityCard
+            :username="user.username"
+            :avatar-data-url="user.profileAvatarDataUrl"
+            :meta="user.email"
+            :description="user.profileDescription"
+            :size="56"
+            :link-to="routeForNavigationTarget(user.profileNavigation)"
+          >
+            <template #badge>
+              <div class="badge badge--accent">{{ user.role }}</div>
+            </template>
+          </ProfileEntityCard>
+
+          <UiFormActions>
+            <button class="button button--icon button--secondary" type="button" aria-label="Edit user" @click="$emit('edit', user)">✎</button>
+            <button class="button button--icon button--danger" type="button" aria-label="Delete user" @click="$emit('delete', user.id)">×</button>
+          </UiFormActions>
         </div>
 
-        <UiFormActions>
-          <button class="button button--icon button--secondary" type="button" aria-label="Edit user" @click="$emit('edit', user)">✎</button>
-          <button class="button button--icon button--danger" type="button" aria-label="Delete user" @click="$emit('delete', user.id)">×</button>
-        </UiFormActions>
-      </div>
-
-      <form v-else @submit.prevent="$emit('save')">
+      <form v-else class="form-stack" @submit.prevent="$emit('save')">
         <DashboardEditSheet
           :minimal="true"
         >
-          <div class="dashboard-edit-form dashboard-edit-form--user-admin">
-            <label class="field dashboard-edit-field dashboard-edit-field--message">
-              <span class="label">Email</span>
+          <div class="ui-edit-form ui-edit-form--user-admin">
+            <UiFieldGroup label="Email" field-class="ui-edit-field ui-edit-field--message">
               <input
                 :value="editEmail"
                 class="input"
                 @input="$emit('update:editEmail', ($event.target as HTMLInputElement).value)"
               />
-            </label>
+            </UiFieldGroup>
 
-            <label class="field dashboard-edit-field dashboard-edit-field--price">
-              <span class="label">Username</span>
+            <UiFieldGroup label="Username" field-class="ui-edit-field ui-edit-field--price">
               <input
                 :value="editUsername"
                 class="input"
                 @input="$emit('update:editUsername', ($event.target as HTMLInputElement).value)"
               />
-            </label>
+            </UiFieldGroup>
 
-            <label class="field dashboard-edit-field dashboard-edit-field--price">
-              <span class="label">Role</span>
+            <UiFieldGroup label="Role" field-class="ui-edit-field ui-edit-field--price">
               <select
                 :value="editRole"
                 class="input"
@@ -90,10 +83,9 @@ defineEmits<{
                   {{ option.label }}
                 </option>
               </select>
-            </label>
+            </UiFieldGroup>
 
-            <label class="field dashboard-edit-field dashboard-edit-field--message">
-              <span class="label">Reset password</span>
+            <UiFieldGroup label="Reset password" field-class="ui-edit-field ui-edit-field--message">
               <input
                 :value="editPassword"
                 class="input"
@@ -101,7 +93,7 @@ defineEmits<{
                 placeholder="Leave blank to keep current password"
                 @input="$emit('update:editPassword', ($event.target as HTMLInputElement).value)"
               />
-            </label>
+            </UiFieldGroup>
           </div>
 
           <template #actions>

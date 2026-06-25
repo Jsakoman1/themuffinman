@@ -1,21 +1,10 @@
-import {getApiErrorMessage} from "../../../../api/apiErrors.ts"
 import {workmarketApi} from "../../api/workmarketApi.ts"
 import type {QuestDetailPageState} from "../useQuestDetailPageState.ts"
+import {createQuestDetailMutationRunner} from "./createQuestDetailMutationRunner.ts"
+import {replaceQuestDetailState} from "./questDetailStateHelpers.ts"
 
 export const useQuestDetailMutationActions = (state: QuestDetailPageState) => {
-  const runQuestMutation = async <T>(mutation: () => Promise<T>, errorMessage: string) => {
-    state.isSaving.value = true
-    state.error.value = ""
-
-    try {
-      return await mutation()
-    } catch (requestError) {
-      state.error.value = getApiErrorMessage(requestError, errorMessage)
-      return null
-    } finally {
-      state.isSaving.value = false
-    }
-  }
+  const {runQuestMutation} = createQuestDetailMutationRunner(state)
 
   const updateStatus = async (action: "start" | "complete") => {
     const result = await runQuestMutation(
@@ -38,12 +27,7 @@ export const useQuestDetailMutationActions = (state: QuestDetailPageState) => {
       return null
     }
 
-    state.detail.value = detail
-    state.quest.value = detail.summary
-    state.myApplication.value = detail.sections.myApplication
-    state.applicationsView.value = detail.sections.applicationsView
-    state.applications.value = detail.sections.applicationsView?.visibleApplications ?? []
-    state.review.value = detail.sections.review?.submittedReview ?? null
+    replaceQuestDetailState(state, detail)
 
     return result
   }

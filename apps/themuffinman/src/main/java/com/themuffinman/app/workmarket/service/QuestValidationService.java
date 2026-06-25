@@ -16,6 +16,7 @@ import java.util.List;
 
 @Service
 public class QuestValidationService {
+    private static final int QUEST_IMAGE_MAX_LENGTH = 350000;
 
     private final QuestVisibilityService questVisibilityService;
 
@@ -125,8 +126,8 @@ public class QuestValidationService {
             if (!image.startsWith("data:image/")) {
                 throw ServiceErrors.badRequest("Quest images must be image data URLs");
             }
-            if (image.length() > 12_000) {
-                throw ServiceErrors.badRequest("Quest images must be 12000 characters or less");
+            if (image.length() > QUEST_IMAGE_MAX_LENGTH) {
+                throw ServiceErrors.badRequest("Quest images must be 350000 characters or less");
             }
         }
     }
@@ -165,6 +166,10 @@ public class QuestValidationService {
     }
 
     private void validateTermRange(Instant scheduledAt, Instant endsAt) {
+        if (scheduledAt != null && scheduledAt.isBefore(Instant.now())) {
+            throw ServiceErrors.badRequest("Start time cannot be in the past");
+        }
+
         if (scheduledAt != null && endsAt != null && !endsAt.isAfter(scheduledAt)) {
             throw ServiceErrors.badRequest("End time must be after the start time");
         }

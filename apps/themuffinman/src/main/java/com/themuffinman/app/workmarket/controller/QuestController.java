@@ -2,21 +2,19 @@ package com.themuffinman.app.workmarket.controller;
 
 import com.themuffinman.app.common.dto.ActionResultDTO;
 import com.themuffinman.app.common.dto.ActionResults;
-import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
-import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestDetailResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestListPreset;
+import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestSearchRequestDTO;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.workmarket.model.QuestAudience;
-import com.themuffinman.app.workmarket.model.QuestStatus;
 import com.themuffinman.app.workmarket.service.QuestService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -40,36 +38,43 @@ public class QuestController {
     @GetMapping("/search")
     public QuestListResponseDTO searchQuests(
             @AuthenticationPrincipal AppUser currentUser,
-            @RequestParam(required = false) String q,
-            @RequestParam(required = false) QuestStatus status,
-            @RequestParam(required = false) QuestAudience audience,
-            @RequestParam(required = false) LocalDate dateFrom,
-            @RequestParam(required = false) LocalDate dateTo,
-            @RequestParam(required = false) Boolean excludeMine,
-            @RequestParam(required = false) Boolean withImages,
-            @RequestParam(required = false) Boolean scheduledOnly,
-            @RequestParam(required = false) String sort,
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size
+            @ModelAttribute QuestSearchRequestDTO query
     ) {
-        return questService.searchQuests(currentUser, q, status, audience, dateFrom, dateTo, excludeMine, withImages, scheduledOnly, sort, page, size);
+        return questService.searchQuests(
+                currentUser,
+                query.getQ(),
+                query.getStatus(),
+                query.getAudience(),
+                query.getDateFrom(),
+                query.getDateTo(),
+                query.getExcludeMine(),
+                query.getWithImages(),
+                query.getScheduledOnly(),
+                query.getSort(),
+                query.getPage(),
+                query.getSize()
+        );
     }
 
     @GetMapping("/presets/{preset}")
     public QuestListResponseDTO getQuestPreset(
             @PathVariable QuestListPreset preset,
             @AuthenticationPrincipal AppUser currentUser,
-            @RequestParam(required = false) String q,
-            @RequestParam(required = false) QuestAudience audience,
-            @RequestParam(required = false) LocalDate dateFrom,
-            @RequestParam(required = false) LocalDate dateTo,
-            @RequestParam(required = false) Boolean withImages,
-            @RequestParam(required = false) Boolean scheduledOnly,
-            @RequestParam(required = false) String sort,
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size
+            @ModelAttribute QuestSearchRequestDTO query
     ) {
-        return questService.getQuestListPreset(preset, currentUser, q, audience, dateFrom, dateTo, withImages, scheduledOnly, sort, page, size);
+        return questService.getQuestListPreset(
+                preset,
+                currentUser,
+                query.getQ(),
+                query.getAudience(),
+                query.getDateFrom(),
+                query.getDateTo(),
+                query.getWithImages(),
+                query.getScheduledOnly(),
+                query.getSort(),
+                query.getPage(),
+                query.getSize()
+        );
     }
 
     @GetMapping("/{id}")

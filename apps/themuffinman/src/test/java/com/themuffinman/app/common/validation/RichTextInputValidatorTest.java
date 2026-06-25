@@ -15,6 +15,11 @@ class RichTextInputValidatorTest {
     }
 
     @Test
+    void sanitizeKeepsMarkdownLikePlainTextAsIs() {
+        assertEquals("**Play** _harder_", RichTextInputValidator.sanitize("**Play** _harder_"));
+    }
+
+    @Test
     void sanitizeRemovesUnsafeHtml() {
         assertEquals("<p>Hello</p>", RichTextInputValidator.sanitize("<p>Hello</p><script>alert(1)</script>"));
     }
@@ -32,5 +37,10 @@ class RichTextInputValidatorTest {
     @Test
     void hasContentKeepsPlainTextContent() {
         assertTrue(RichTextInputValidator.hasContent("Need help"));
+    }
+
+    @Test
+    void extractPlainTextReadsSanitizedHtmlContent() {
+        assertEquals("Need help today", RichTextInputValidator.extractPlainText("<p><strong>Need</strong> help <em>today</em></p>"));
     }
 }

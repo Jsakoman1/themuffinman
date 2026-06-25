@@ -1,6 +1,6 @@
-import type {QuestDashboard} from "../useQuestDashboard.ts"
+import type {DashboardQuestCreateFacade} from "./dashboardFacades.ts"
 
-export const useDashboardPostWorkState = (dashboard: QuestDashboard) => {
+export const useDashboardPostWorkState = (dashboard: DashboardQuestCreateFacade) => {
   const handleQuestImagesChange = (event: Event) => {
     const input = event.target as HTMLInputElement | null
     dashboard.addQuestImages(input?.files ?? null)
@@ -10,7 +10,7 @@ export const useDashboardPostWorkState = (dashboard: QuestDashboard) => {
     }
   }
 
-  const toggleQuestAudience = (audience: QuestDashboard["questAudience"]) => {
+  const toggleQuestAudience = (audience: DashboardQuestCreateFacade["questAudience"]) => {
     dashboard.questAudience = audience
   }
 

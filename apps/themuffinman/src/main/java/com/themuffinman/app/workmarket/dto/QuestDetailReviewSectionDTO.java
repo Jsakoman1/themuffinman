@@ -13,7 +13,12 @@ import org.springframework.lang.Nullable;
 public class QuestDetailReviewSectionDTO {
     private boolean visible;
     private boolean canSubmit;
+    private String introTitle;
+    @Nullable
+    private String introSubtitle;
     private String placeholder;
+    private String submitLabel;
+    private String emptyStateMessage;
     @Nullable
     private QuestDetailReviewTargetDTO target;
     @Nullable

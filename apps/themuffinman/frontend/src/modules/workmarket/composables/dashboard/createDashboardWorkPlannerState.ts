@@ -2,7 +2,7 @@ import {computed, ref} from "vue"
 import {useRouter} from "vue-router"
 import {formatInstantForInput} from "../../../../shared/questSchedule.ts"
 import type {NavigationTarget} from "../../api/workmarketApi.ts"
-import type {QuestDashboard} from "../useQuestDashboard.ts"
+import type {DashboardWorkPlannerFacade} from "./dashboardFacades.ts"
 import {
   endOfMonth,
   parseDate,
@@ -23,7 +23,7 @@ type CalendarEntry = {
   timeLabel: string
   minuteOfDay: number
   dateKey: string
-  kind: "incoming" | "outgoing"
+  kind: "managed" | "accepted"
   hasRange: boolean
 }
 
@@ -38,14 +38,17 @@ type MonthCell = {
 }
 
 const isPlannerKind = (value: string): value is CalendarEntry["kind"] => {
-  return value === "incoming" || value === "outgoing"
+  return value === "managed" || value === "accepted"
 }
 
-export const createDashboardWorkPlannerState = (dashboard: QuestDashboard) => {
+type ScheduledPlannerItem = NonNullable<DashboardWorkPlannerFacade["dashboardSections"]>["planner"]["scheduledItems"][number]
+type FlexiblePlannerItem = NonNullable<DashboardWorkPlannerFacade["dashboardSections"]>["planner"]["flexibleItems"][number]
+
+export const createDashboardWorkPlannerState = (dashboard: DashboardWorkPlannerFacade) => {
   const router = useRouter()
 
   const mapPlannerItem = (
-    item: NonNullable<QuestDashboard["dashboardSections"]>["planner"]["scheduledItems"][number]
+    item: ScheduledPlannerItem
   ): CalendarEntry | null => {
     const scheduled = parseDate(item.scheduledAt)
     if (!scheduled || !item.dateKey) {
@@ -62,13 +65,13 @@ export const createDashboardWorkPlannerState = (dashboard: QuestDashboard) => {
       timeLabel: item.timeLabel,
       minuteOfDay: scheduled.getHours() * 60 + scheduled.getMinutes(),
       dateKey: item.dateKey,
-      kind: isPlannerKind(item.kind) ? item.kind : "incoming",
+      kind: isPlannerKind(item.kind) ? item.kind : "managed",
       hasRange: item.hasRange
     }
   }
 
   const mapFlexiblePlannerItem = (
-    item: NonNullable<QuestDashboard["dashboardSections"]>["planner"]["flexibleItems"][number]
+    item: FlexiblePlannerItem
   ): CalendarEntry => ({
     id: item.id,
     questId: item.questId,
@@ -79,22 +82,12 @@ export const createDashboardWorkPlannerState = (dashboard: QuestDashboard) => {
     timeLabel: item.timeLabel,
     minuteOfDay: 0,
     dateKey: item.dateKey ?? "flexible",
-    kind: isPlannerKind(item.kind) ? item.kind : "incoming",
+    kind: isPlannerKind(item.kind) ? item.kind : "managed",
     hasRange: item.hasRange
   })
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-
-  const accountCreatedAt = computed(() => {
-    const createdAt = parseDate(dashboard.accountCreatedAt)
-    if (!createdAt) {
-      return new Date(today)
-    }
-
-    createdAt.setHours(0, 0, 0, 0)
-    return createdAt
-  })
 
   const focusDate = ref(new Date(today))
   const selectedDateKey = ref<string | null>(null)
@@ -114,19 +107,12 @@ export const createDashboardWorkPlannerState = (dashboard: QuestDashboard) => {
     }).format(focusDate.value)
   )
 
-  const canGoPrevious = computed(() => {
-    const previousMonth = startOfMonth(new Date(focusDate.value))
-    previousMonth.setMonth(previousMonth.getMonth() - 1)
-    const previousMonthEnd = endOfMonth(previousMonth)
-    return previousMonthEnd.getTime() >= accountCreatedAt.value.getTime()
-  })
+  const canGoPrevious = computed(() => true)
 
   const shiftBack = () => {
     const next = startOfMonth(new Date(focusDate.value))
     next.setMonth(next.getMonth() - 1)
-    if (endOfMonth(next).getTime() >= accountCreatedAt.value.getTime()) {
-      focusDate.value = next
-    }
+    focusDate.value = next
   }
 
   const shiftForward = () => {
@@ -169,16 +155,14 @@ export const createDashboardWorkPlannerState = (dashboard: QuestDashboard) => {
       current.setHours(0, 0, 0, 0)
       const key = toDateKey(current)
       const inMonth = current.getMonth() === visibleMonth.value.getMonth() && current.getFullYear() === visibleMonth.value.getFullYear()
-      const isLocked = current.getTime() < accountCreatedAt.value.getTime()
-
       cells.push({
         key,
         dayNumber: String(current.getDate()),
         inMonth,
         isToday: key === toDateKey(today),
         isPast: current.getTime() < today.getTime(),
-        isLocked,
-        items: isLocked ? [] : entriesByDate.value[key] ?? []
+        isLocked: false,
+        items: entriesByDate.value[key] ?? []
       })
 
       cursor.setDate(cursor.getDate() + 1)
@@ -209,11 +193,7 @@ export const createDashboardWorkPlannerState = (dashboard: QuestDashboard) => {
   })
 
   const selectedDayLocked = computed(() => {
-    if (!selectedDay.value) {
-      return false
-    }
-
-    return selectedDay.value.getTime() < accountCreatedAt.value.getTime()
+    return false
   })
 
   const selectedDayCanCreate = computed(() => {
@@ -221,7 +201,7 @@ export const createDashboardWorkPlannerState = (dashboard: QuestDashboard) => {
       return false
     }
 
-    return selectedDay.value.getTime() >= accountCreatedAt.value.getTime()
+    return selectedDay.value.getTime() >= today.getTime()
   })
 
   const openDayDialog = (dateKey: string) => {

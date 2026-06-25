@@ -1,14 +1,14 @@
 import {computed, ref} from "vue"
 import {useRouter} from "vue-router"
 import {workmarketApi, type NavigationTarget} from "../../api/workmarketApi.ts"
-import type {QuestDashboard} from "../useQuestDashboard.ts"
 import type {QuestAudience} from "../../domain/workmarketDomain.ts"
 import {normalizeSearchQuery} from "../../../../lib/searchQuery.ts"
 import {useQuestSearchResults} from "../useQuestSearchResults.ts"
 import {routeForNavigationTarget} from "../../shared/navigationTargets.ts"
 import {ALL_FILTER_VALUE, toOptionalFilterValue} from "../../shared/filterValues.ts"
+import type {DashboardAdminFacade} from "./dashboardFacades.ts"
 
-export const useDashboardAdminQuestBrowser = (dashboard: QuestDashboard) => {
+export const useDashboardAdminQuestBrowser = (dashboard: DashboardAdminFacade) => {
   const router = useRouter()
   const questSearch = ref("")
   const audienceFilter = ref<QuestAudience | typeof ALL_FILTER_VALUE>(ALL_FILTER_VALUE)

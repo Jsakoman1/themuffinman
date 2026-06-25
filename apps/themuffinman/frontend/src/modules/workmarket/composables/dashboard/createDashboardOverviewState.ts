@@ -1,7 +1,7 @@
 import {computed} from "vue"
 import {useRouter} from "vue-router"
 import type {NavigationTarget} from "../../api/workmarketApi.ts"
-import type {QuestDashboard} from "../useQuestDashboard.ts"
+import type {DashboardOverviewFacade} from "./dashboardFacades.ts"
 import {routeForNavigationTarget} from "../../shared/navigationTargets.ts"
 
 type RailItem = {
@@ -23,10 +23,12 @@ const isRailTone = (value: string): value is RailBucket["tone"] => {
   return value === "success" || value === "warning" || value === "accent"
 }
 
-export const createDashboardOverviewState = (dashboard: QuestDashboard) => {
+type OverviewBucket = NonNullable<DashboardOverviewFacade["dashboardSections"]>["overview"]["postedBuckets"][number]
+
+export const createDashboardOverviewState = (dashboard: DashboardOverviewFacade) => {
   const router = useRouter()
 
-  const mapSectionBucket = (bucket: NonNullable<QuestDashboard["dashboardSections"]>["overview"]["postedBuckets"][number]): RailBucket => ({
+  const mapSectionBucket = (bucket: OverviewBucket): RailBucket => ({
     key: bucket.key,
     label: bucket.label,
     tone: isRailTone(bucket.tone) ? bucket.tone : "accent",

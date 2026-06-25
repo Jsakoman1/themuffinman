@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import UiFieldGroup from "../../../../components/ui/UiFieldGroup.vue"
 import UiFormActions from "../../../../components/ui/UiFormActions.vue"
 import type {AppUserRole} from "../../domain/workmarketDomain.ts"
 import type {AppUserRoleOption} from "../../api/workmarketApi.ts"
@@ -21,36 +22,32 @@ defineEmits<{
 </script>
 
 <template>
-  <form class="stack" @submit.prevent="$emit('submit')">
+  <form class="form-stack" @submit.prevent="$emit('submit')">
     <div class="grid grid--two">
-      <label class="field">
-        <span class="label">Email</span>
+      <UiFieldGroup label="Email">
         <input :value="email" class="input" @input="$emit('update:email', ($event.target as HTMLInputElement).value)" />
-      </label>
+      </UiFieldGroup>
 
-      <label class="field">
-        <span class="label">Username</span>
+      <UiFieldGroup label="Username">
         <input :value="username" class="input" @input="$emit('update:username', ($event.target as HTMLInputElement).value)" />
-      </label>
+      </UiFieldGroup>
 
-      <label class="field">
-        <span class="label">Password</span>
+      <UiFieldGroup label="Password">
         <input
           :value="password"
           class="input"
           type="password"
           @input="$emit('update:password', ($event.target as HTMLInputElement).value)"
         />
-      </label>
+      </UiFieldGroup>
 
-      <label class="field">
-        <span class="label">Role</span>
+      <UiFieldGroup label="Role">
         <select :value="role" class="input" @change="$emit('update:role', ($event.target as HTMLSelectElement).value as AppUserRole)">
           <option v-for="option in roleOptions" :key="option.value" :value="option.value">
             {{ option.label }}
           </option>
         </select>
-      </label>
+      </UiFieldGroup>
     </div>
 
     <UiFormActions>

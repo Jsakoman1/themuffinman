@@ -1,5 +1,6 @@
 package com.themuffinman.app.workmarket.service;
 
+import com.themuffinman.app.common.dto.LabelValueDTO;
 import com.themuffinman.app.workmarket.dto.QuestAllowedAction;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
@@ -67,7 +68,11 @@ public class QuestViewAssembler {
             return QuestDetailReviewSectionDTO.builder()
                     .visible(false)
                     .canSubmit(false)
+                    .introTitle("Review")
+                    .introSubtitle(null)
                     .placeholder("Add a short comment.")
+                    .submitLabel("Submit")
+                    .emptyStateMessage("Reviews become available here after the quest is completed.")
                     .build();
         }
 
@@ -76,22 +81,32 @@ public class QuestViewAssembler {
             return QuestDetailReviewSectionDTO.builder()
                     .visible(true)
                     .canSubmit(false)
+                    .introTitle("Review")
+                    .introSubtitle(null)
                     .placeholder("Add a short comment.")
+                    .submitLabel("Submit")
+                    .emptyStateMessage("Reviews become available here after the quest is completed.")
                     .build();
         }
+
+        var submittedReview = userReviewRepository.findByQuestIdAndReviewerIdAndReviewedUserId(
+                        quest.getId(),
+                        currentUser.getId(),
+                        target.getUserId()
+                )
+                .map(userReviewMgr::toDto)
+                .orElse(null);
 
         return QuestDetailReviewSectionDTO.builder()
                 .visible(true)
                 .canSubmit(true)
+                .introTitle("Rate " + target.getUsername())
+                .introSubtitle(target.getRoleLabel())
                 .placeholder("Write a short comment about this " + target.getRoleLabel() + ".")
+                .submitLabel(submittedReview == null ? "Submit" : "Update")
+                .emptyStateMessage("Reviews become available here after the quest is completed.")
                 .target(target)
-                .submittedReview(userReviewRepository.findByQuestIdAndReviewerIdAndReviewedUserId(
-                                quest.getId(),
-                                currentUser.getId(),
-                                target.getUserId()
-                        )
-                        .map(userReviewMgr::toDto)
-                        .orElse(null))
+                .submittedReview(submittedReview)
                 .build();
     }
 
@@ -107,6 +122,7 @@ public class QuestViewAssembler {
                 .primaryAction(canStart
                         ? QuestDetailExecutionAction.START
                         : (canComplete ? QuestDetailExecutionAction.COMPLETE : null))
+                .primaryActionLabel(canStart ? "Start work" : (canComplete ? "Mark complete" : null))
                 .helperText(helperText)
                 .build();
     }
@@ -118,6 +134,9 @@ public class QuestViewAssembler {
                         allowedActions.contains(QuestAllowedAction.CONFIRM_TERM_CHANGE)
                                 || allowedActions.contains(QuestAllowedAction.REJECT_TERM_CHANGE)
                 )
+                .summaryLabel("Term change waiting")
+                .confirmLabel("Confirm term change")
+                .rejectLabel("Reject term change")
                 .currentTermLabel(presentationHelper.formatQuestTerm(
                         quest.getScheduledAt(),
                         quest.getEndsAt(),
@@ -139,6 +158,7 @@ public class QuestViewAssembler {
 
     public QuestDetailManagementSectionDTO buildQuestDetailManagementSection(List<QuestAllowedAction> allowedActions) {
         return QuestDetailManagementSectionDTO.builder()
+                .editVisible(allowedActions.contains(QuestAllowedAction.EDIT))
                 .deleteVisible(allowedActions.contains(QuestAllowedAction.DELETE))
                 .build();
     }
@@ -192,11 +212,22 @@ public class QuestViewAssembler {
                         questResponse.getEndsAt(),
                         questResponse.isTermFixed()
                 ))
+                .termScheduleLabel(presentationHelper.formatQuestSchedule(
+                        questResponse.getScheduledAt(),
+                        questResponse.getEndsAt(),
+                        questResponse.isTermFixed()
+                ))
                 .timeTypeLabel(presentationHelper.formatTimeType(questResponse.isTermFixed()))
                 .audienceLabel(presentationHelper.formatAudience(questResponse.getAudience()))
                 .assigneeTargetVisible(presentationHelper.showAssigneeTarget(questResponse.getAssigneeTarget()))
                 .assigneeTargetLabel(presentationHelper.formatAssigneeTarget(questResponse.getAssigneeTarget()))
+                .detailMeta(buildDetailMeta(questResponse))
                 .pendingTermLabel(presentationHelper.formatQuestTerm(
+                        questResponse.getPendingScheduledAt(),
+                        questResponse.getPendingEndsAt(),
+                        questResponse.getPendingTermFixed() == null ? questResponse.isTermFixed() : questResponse.getPendingTermFixed()
+                ))
+                .pendingTermScheduleLabel(presentationHelper.formatQuestSchedule(
                         questResponse.getPendingScheduledAt(),
                         questResponse.getPendingEndsAt(),
                         questResponse.getPendingTermFixed() == null ? questResponse.isTermFixed() : questResponse.getPendingTermFixed()
@@ -222,5 +253,28 @@ public class QuestViewAssembler {
                         ? "You are the approved applicant for this quest."
                         : null)
                 .build();
+    }
+
+    private List<LabelValueDTO> buildDetailMeta(QuestResponseDTO questResponse) {
+        List<LabelValueDTO> items = new java.util.ArrayList<>();
+        items.add(LabelValueDTO.builder()
+                .label("When")
+                .value(presentationHelper.formatQuestTerm(
+                        questResponse.getScheduledAt(),
+                        questResponse.getEndsAt(),
+                        questResponse.isTermFixed()
+                ))
+                .build());
+        items.add(LabelValueDTO.builder()
+                .label("Type")
+                .value(presentationHelper.formatTimeType(questResponse.isTermFixed()))
+                .build());
+        if (presentationHelper.showAssigneeTarget(questResponse.getAssigneeTarget())) {
+            items.add(LabelValueDTO.builder()
+                    .label("Audience")
+                    .value(presentationHelper.formatAssigneeTarget(questResponse.getAssigneeTarget()))
+                    .build());
+        }
+        return List.copyOf(items);
     }
 }

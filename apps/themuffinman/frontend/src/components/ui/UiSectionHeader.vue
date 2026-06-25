@@ -7,14 +7,14 @@ defineProps<{
 </script>
 
 <template>
-  <div class="card__header">
-    <div class="card__header-main">
-      <span v-if="leading" class="card__header-leading">{{ leading }}</span>
-      <h2 class="card__title">{{ title }}</h2>
-      <p v-if="subtitle" class="page-subtitle">{{ subtitle }}</p>
+  <div class="surface-section__header">
+    <div class="surface-section__heading">
+      <div v-if="leading" class="surface-section__eyebrow">{{ leading }}</div>
+      <h2 class="surface-section__title">{{ title }}</h2>
+      <p v-if="subtitle" class="surface-section__subtitle">{{ subtitle }}</p>
     </div>
 
-    <div v-if="$slots.actions" class="card__header-actions">
+    <div v-if="$slots.actions" class="surface-section__actions">
       <slot name="actions" />
     </div>
   </div>

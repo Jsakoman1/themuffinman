@@ -114,6 +114,19 @@ public class WorkmarketPresentationHelper {
                 : "Proposed from " + startLabel + " to " + endLabel;
     }
 
+    public String formatQuestSchedule(@Nullable Instant scheduledAt, @Nullable Instant endsAt, boolean termFixed) {
+        if (scheduledAt == null) {
+            return termFixed ? "Time not set" : "By agreement";
+        }
+
+        String startLabel = DATE_TIME_FORMATTER.format(scheduledAt);
+        String endLabel = endsAt == null ? null : DATE_TIME_FORMATTER.format(endsAt);
+
+        return endLabel == null
+                ? startLabel
+                : startLabel + " to " + endLabel;
+    }
+
     public String formatTimeType(boolean termFixed) {
         return termFixed ? "Fixed time" : "By agreement";
     }

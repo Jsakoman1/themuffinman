@@ -5,7 +5,7 @@ import {useTimedBanner} from "../../../../composables/useTimedBanner.ts"
 export const createAppUsersUiState = () => {
   const copiedDebugBanner = useTimedBanner(1500)
   const copiedDebug = computed(() => !!copiedDebugBanner.message.value)
-  const feedbackState = useAutoDismissFeedback<"error" | "success">(5000, "success")
+  const feedbackState = useAutoDismissFeedback<"error" | "success" | "warning">(5000, "success")
   const feedback = feedbackState.message
   const feedbackType = feedbackState.tone
   const isCreateUserDialogOpen = ref(false)

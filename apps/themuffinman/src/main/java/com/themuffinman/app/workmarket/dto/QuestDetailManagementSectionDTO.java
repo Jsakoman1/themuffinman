@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestDetailManagementSectionDTO {
+    private boolean editVisible;
     private boolean deleteVisible;
 }

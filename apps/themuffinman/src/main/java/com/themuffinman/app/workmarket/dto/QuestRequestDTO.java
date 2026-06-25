@@ -25,6 +25,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestRequestDTO {
+    private static final int QUEST_IMAGE_MAX_LENGTH = 350000;
 
     private @NotBlank(message = "Quest title is required") @Size(max = 255, message = "Quest title must be 255 characters or less") String title;
     private @NotBlank(message = "Quest description is required") @Size(max = 2000, message = "Quest description must be 2000 characters or less") String description;
@@ -52,7 +53,7 @@ public class QuestRequestDTO {
     @ContractOptional
     private @Size(max = 10, message = "A quest can have at most 10 images") List<
             @NotBlank(message = "Quest images must not be empty")
-            @Size(max = 12000, message = "Quest images must be 12000 characters or less")
+            @Size(max = QUEST_IMAGE_MAX_LENGTH, message = "Quest images must be 350000 characters or less")
             @Pattern(regexp = "^data:image/.*", message = "Quest images must be image data URLs")
             String
             > images;

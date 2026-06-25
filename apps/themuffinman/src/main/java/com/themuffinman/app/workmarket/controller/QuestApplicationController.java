@@ -2,12 +2,12 @@ package com.themuffinman.app.workmarket.controller;
 
 import com.themuffinman.app.common.dto.ActionResultDTO;
 import com.themuffinman.app.common.dto.ActionResults;
+import com.themuffinman.app.workmarket.dto.AdminApplicationsQueryDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationDetailResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
-import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.service.QuestService;
 import com.themuffinman.app.workmarket.service.QuestApplicationService;
@@ -65,12 +65,15 @@ public class QuestApplicationController {
     @GetMapping("/admin/applications")
     public QuestApplicationListResponseDTO getAllApplicationsForAdmin(
             @AuthenticationPrincipal AppUser currentUser,
-            @RequestParam(required = false, value = "q") String query,
-            @RequestParam(required = false) QuestApplicationStatus status,
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size
+            @ModelAttribute AdminApplicationsQueryDTO query
     ) {
-        return questApplicationService.searchApplicationsForAdmin(currentUser, query, status, page, size);
+        return questApplicationService.searchApplicationsForAdmin(
+                currentUser,
+                query.getQ(),
+                query.getStatus(),
+                query.getPage(),
+                query.getSize()
+        );
     }
 
     @PutMapping("/quests/{questId}/applications/me")

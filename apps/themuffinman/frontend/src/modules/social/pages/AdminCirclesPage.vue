@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue"
 import AdminShellHeader from "../../workmarket/components/admin/AdminShellHeader.vue"
+import UiAdminPageSection from "../../../components/ui/UiAdminPageSection.vue"
+import UiAdminTableShell from "../../../components/ui/UiAdminTableShell.vue"
+import UiAdminTableSection from "../../../components/ui/UiAdminTableSection.vue"
+import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
+import UiFieldGroup from "../../../components/ui/UiFieldGroup.vue"
 import UiFilterBar from "../../../components/ui/UiFilterBar.vue"
-import UiSectionHeader from "../../../components/ui/UiSectionHeader.vue"
 import UiToast from "../../../components/ui/UiToast.vue"
 import {useAutoDismissFeedback} from "../../../composables/useAutoDismissFeedback.ts"
 import {useDebouncedWatch} from "../../../composables/useDebouncedWatch.ts"
+import {createFeedbackMutationRunner} from "../../../composables/createFeedbackMutationRunner.ts"
 import {workmarketApi, type AdminCircleOverview} from "../../workmarket/api/workmarketApi.ts"
 import {getApiErrorMessage} from "../../../api/apiErrors.ts"
 
@@ -13,10 +18,32 @@ const overview = ref<AdminCircleOverview | null>(null)
 const isLoading = ref(false)
 const error = ref("")
 const searchQuery = ref("")
-const feedbackState = useAutoDismissFeedback<"success" | "error">(5000, "success")
+const feedbackState = useAutoDismissFeedback<"success" | "error" | "warning">(5000, "success")
 const feedback = feedbackState.message
 const feedbackTone = feedbackState.tone
 const setFeedback = feedbackState.show
+const {runWithFeedback} = createFeedbackMutationRunner({showFeedback: setFeedback})
+
+const relationSections = [
+  {
+    key: "accepted",
+    title: "Accepted connections",
+    emptyMessage: "No accepted connections match this search.",
+    items: () => overview.value?.acceptedConnections ?? [],
+  },
+  {
+    key: "pending",
+    title: "Pending requests",
+    emptyMessage: "No pending requests match this search.",
+    items: () => overview.value?.pendingRequests ?? [],
+  },
+  {
+    key: "blocked",
+    title: "Blocked relations",
+    emptyMessage: "No blocked relations match this search.",
+    items: () => overview.value?.blockedRelations ?? [],
+  },
+] as const
 
 const loadOverview = async () => {
   isLoading.value = true
@@ -32,23 +59,21 @@ const loadOverview = async () => {
 }
 
 const deleteCircle = async (id: number) => {
-  try {
-    const result = await workmarketApi.deleteAdminCircle(id)
-    setFeedback(result.message, "success")
-    await loadOverview()
-  } catch (requestError) {
-    setFeedback(getApiErrorMessage(requestError, "Could not delete circle."), "error")
-  }
+  await runWithFeedback({
+    run: () => workmarketApi.deleteAdminCircle(id),
+    successMessage: (result) => result.message,
+    errorMessage: "Could not delete circle.",
+    afterSuccess: loadOverview
+  })
 }
 
 const deleteRequest = async (id: number) => {
-  try {
-    const result = await workmarketApi.deleteAdminCircleRequest(id)
-    setFeedback(result.message, "success")
-    await loadOverview()
-  } catch (requestError) {
-    setFeedback(getApiErrorMessage(requestError, "Could not delete relation."), "error")
-  }
+  await runWithFeedback({
+    run: () => workmarketApi.deleteAdminCircleRequest(id),
+    successMessage: (result) => result.message,
+    errorMessage: "Could not delete relation.",
+    afterSuccess: loadOverview
+  })
 }
 
 onMounted(() => {
@@ -61,31 +86,28 @@ useDebouncedWatch(searchQuery, () => {
 </script>
 
 <template>
-  <div class="page page--dashboard">
-    <div class="dashboard-shell">
-      <main class="dashboard-main dashboard-main--admin">
+  <UiDashboardPage admin>
         <AdminShellHeader
           title="Circles"
-          subtitle="Review every circle and every relation from one admin workspace."
+          subtitle=""
         />
 
         <UiToast :message="feedback" :tone="feedbackTone" />
 
-        <article class="card admin-users-card">
-          <UiFilterBar :columns="2">
-            <label class="field">
-              <span class="label">Search</span>
-              <input v-model="searchQuery" class="input" placeholder="Circle, owner, member..." />
-            </label>
-          </UiFilterBar>
+        <UiAdminPageSection title="Circles">
+          <template #filters>
+            <UiFilterBar :columns="2">
+              <UiFieldGroup label="Search">
+                <input v-model="searchQuery" class="input" placeholder="Circle, owner, member..." />
+              </UiFieldGroup>
+            </UiFilterBar>
+          </template>
 
           <div v-if="isLoading" class="empty-state">Loading circles...</div>
           <div v-else-if="error" class="alert alert--error">{{ error }}</div>
-          <div v-else class="stack">
-            <section class="stack">
-              <UiSectionHeader title="Circles" />
-
-              <div v-if="overview?.circles.length" class="admin-table-shell">
+          <div v-else class="surface-stack">
+            <UiAdminTableSection title="Circles" :has-items="!!overview?.circles.length" empty-message="No circles match this search.">
+              <UiAdminTableShell v-if="overview?.circles.length" :has-previous="false" :has-next="false" :show-bottom-pagination="false">
                 <table class="admin-table">
                   <thead>
                     <tr>
@@ -110,13 +132,17 @@ useDebouncedWatch(searchQuery, () => {
                     </tr>
                   </tbody>
                 </table>
-              </div>
-              <div v-else class="empty-state">No circles match this search.</div>
-            </section>
+              </UiAdminTableShell>
+            </UiAdminTableSection>
 
-            <section class="stack">
-              <UiSectionHeader title="Accepted connections" />
-              <div v-if="overview?.acceptedConnections.length" class="admin-table-shell">
+            <UiAdminTableSection
+              v-for="section in relationSections"
+              :key="section.key"
+              :title="section.title"
+              :has-items="section.items().length > 0"
+              :empty-message="section.emptyMessage"
+            >
+              <UiAdminTableShell v-if="section.items().length" :has-previous="false" :has-next="false" :show-bottom-pagination="false">
                 <table class="admin-table">
                   <thead>
                     <tr>
@@ -127,7 +153,7 @@ useDebouncedWatch(searchQuery, () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="item in overview.acceptedConnections" :key="item.id">
+                    <tr v-for="item in section.items()" :key="item.id">
                       <td>{{ item.requesterUsername }}</td>
                       <td>{{ item.recipientUsername }}</td>
                       <td><span :class="['badge', item.statusBadgeClass]">{{ item.statusLabel }}</span></td>
@@ -135,62 +161,9 @@ useDebouncedWatch(searchQuery, () => {
                     </tr>
                   </tbody>
                 </table>
-              </div>
-              <div v-else class="empty-state">No accepted connections match this search.</div>
-            </section>
-
-            <section class="stack">
-              <UiSectionHeader title="Pending requests" />
-              <div v-if="overview?.pendingRequests.length" class="admin-table-shell">
-                <table class="admin-table">
-                  <thead>
-                    <tr>
-                      <th>Requester</th>
-                      <th>Recipient</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="item in overview.pendingRequests" :key="item.id">
-                      <td>{{ item.requesterUsername }}</td>
-                      <td>{{ item.recipientUsername }}</td>
-                      <td><span :class="['badge', item.statusBadgeClass]">{{ item.statusLabel }}</span></td>
-                      <td><div class="admin-table__actions"><button class="button button--ghost" type="button" @click="deleteRequest(item.id)">Delete</button></div></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div v-else class="empty-state">No pending requests match this search.</div>
-            </section>
-
-            <section class="stack">
-              <UiSectionHeader title="Blocked relations" />
-              <div v-if="overview?.blockedRelations.length" class="admin-table-shell">
-                <table class="admin-table">
-                  <thead>
-                    <tr>
-                      <th>Requester</th>
-                      <th>Recipient</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="item in overview.blockedRelations" :key="item.id">
-                      <td>{{ item.requesterUsername }}</td>
-                      <td>{{ item.recipientUsername }}</td>
-                      <td><span :class="['badge', item.statusBadgeClass]">{{ item.statusLabel }}</span></td>
-                      <td><div class="admin-table__actions"><button class="button button--ghost" type="button" @click="deleteRequest(item.id)">Delete</button></div></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div v-else class="empty-state">No blocked relations match this search.</div>
-            </section>
+              </UiAdminTableShell>
+            </UiAdminTableSection>
           </div>
-        </article>
-      </main>
-    </div>
-  </div>
+        </UiAdminPageSection>
+  </UiDashboardPage>
 </template>

@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import type {QuestDashboard} from "../../composables/useQuestDashboard.ts"
+import UiAdminTableShell from "../../../../components/ui/UiAdminTableShell.vue"
+import UiFieldGroup from "../../../../components/ui/UiFieldGroup.vue"
 import UiFilterBar from "../../../../components/ui/UiFilterBar.vue"
 import UiFormActions from "../../../../components/ui/UiFormActions.vue"
-import UiPagination from "../../../../components/ui/UiPagination.vue"
-import UiSectionHeader from "../../../../components/ui/UiSectionHeader.vue"
+import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 import {useDashboardAdminQuestBrowser} from "../../composables/dashboard/useDashboardAdminQuestBrowser.ts"
+import type {DashboardAdminFacade} from "../../composables/dashboard/dashboardFacades.ts"
 
 const props = defineProps<{
-  dashboard: QuestDashboard
+  dashboard: DashboardAdminFacade
 }>()
 
 const {
@@ -32,28 +33,20 @@ const {
 
 <template>
   <section class="stack">
-    <article class="card admin-hero-card">
-      <UiSectionHeader
-        title="Admin control center"
-        subtitle="Quest workspace for approvals, editing, status control, and term confirmations."
-      />
+    <UiSurfaceSection title="Admin control center" soft>
 
       <UiFormActions>
         <button class="button" type="button" @click="dashboard.refreshDashboardData">Refresh data</button>
       </UiFormActions>
-    </article>
+    </UiSurfaceSection>
 
-    <article class="card" id="quests">
-      <UiSectionHeader title="All quests" subtitle="Edit any quest from the list." />
-
+    <UiSurfaceSection id="quests" title="All quests">
       <UiFilterBar :columns="2">
-        <label class="field">
-          <span class="label">Search</span>
+        <UiFieldGroup label="Search">
           <input v-model="questSearch" class="input" placeholder="Title, creator, status, award..." />
-        </label>
+        </UiFieldGroup>
 
-        <label class="field">
-          <span class="label">Status</span>
+        <UiFieldGroup label="Status">
           <select v-model="dashboard.adminQuestStatusFilter" class="input">
             <option
               v-for="option in dashboard.questStatusFilterOptions"
@@ -63,28 +56,25 @@ const {
               {{ option.label }}
             </option>
           </select>
-        </label>
+        </UiFieldGroup>
       </UiFilterBar>
 
       <UiFilterBar :columns="3">
-        <label class="field">
-          <span class="label">Audience</span>
+        <UiFieldGroup label="Audience">
           <select v-model="audienceFilter" class="input">
             <option v-for="option in props.dashboard.questAudienceFilterOptions" :key="option.value" :value="option.value">
               {{ option.label }}
             </option>
           </select>
-        </label>
+        </UiFieldGroup>
 
-        <label class="field">
-          <span class="label">From date</span>
+        <UiFieldGroup label="From date">
           <input v-model="dateFrom" class="input" type="date" />
-        </label>
+        </UiFieldGroup>
 
-        <label class="field">
-          <span class="label">To date</span>
+        <UiFieldGroup label="To date">
           <input v-model="dateTo" class="input" type="date" />
-        </label>
+        </UiFieldGroup>
       </UiFilterBar>
 
       <div v-if="isLoading" class="empty-state mt-4">
@@ -97,9 +87,16 @@ const {
         </div>
 
         <template v-else>
-          <UiPagination class="mt-4" :label="`Showing ${pageStart}-${pageEnd} of ${totalItems}`" :has-previous="hasPreviousPage" :has-next="hasNextPage" @previous="previousPage" @next="nextPage" />
-
-          <div class="admin-table-shell mt-4">
+          <UiAdminTableShell
+            class="mt-4"
+            :top-label="`Showing ${pageStart}-${pageEnd} of ${totalItems}`"
+            :bottom-label="`Page ${currentPage} of ${totalPages}`"
+            :has-previous="hasPreviousPage"
+            :has-next="hasNextPage"
+            :show-bottom-pagination="totalPages > 1"
+            @previous="previousPage"
+            @next="nextPage"
+          >
             <table class="admin-table">
               <thead>
                 <tr>
@@ -145,11 +142,9 @@ const {
                 </tr>
               </tbody>
             </table>
-          </div>
-
-          <UiPagination class="dashboard-find-work__pagination--bottom mt-4" :label="`Page ${currentPage} of ${totalPages}`" :has-previous="hasPreviousPage" :has-next="hasNextPage" @previous="previousPage" @next="nextPage" />
+          </UiAdminTableShell>
         </template>
       </template>
-    </article>
+    </UiSurfaceSection>
   </section>
 </template>

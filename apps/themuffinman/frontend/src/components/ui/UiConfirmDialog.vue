@@ -26,7 +26,7 @@ const emit = defineEmits<{
 
 <template>
   <UiDialog :open="open" :title="title" size="sm" @close="emit('close')">
-    <div class="stack dialog-sheet">
+    <div class="surface-stack">
       <p class="dialog-panel__subtitle">{{ message }}</p>
 
       <UiFormActions>

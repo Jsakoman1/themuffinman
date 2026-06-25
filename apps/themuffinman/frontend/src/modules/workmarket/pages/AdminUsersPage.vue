@@ -1,30 +1,28 @@
 <script setup lang="ts">
-import {onMounted} from "vue"
-import AppPageHeader from "../../../components/app/AppPageHeader.vue"
 import AppUsersCreateForm from "../components/app-users/AppUsersCreateForm.vue"
 import AppUsersList from "../components/app-users/AppUsersList.vue"
 import AdminShellHeader from "../components/admin/AdminShellHeader.vue"
+import {useMountedAsync} from "../../../composables/useMountedAsync.ts"
+import UiAdminPageSection from "../../../components/ui/UiAdminPageSection.vue"
+import UiFieldGroup from "../../../components/ui/UiFieldGroup.vue"
 import UiFilterBar from "../../../components/ui/UiFilterBar.vue"
 import UiConfirmDialog from "../../../components/ui/UiConfirmDialog.vue"
 import UiDialog from "../../../components/ui/UiDialog.vue"
+import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
 import UiRequestError from "../../../components/ui/UiRequestError.vue"
 import UiToast from "../../../components/ui/UiToast.vue"
 import {useAppUsersPage} from "../composables/useAppUsersPage.ts"
 
 const usersPage = useAppUsersPage()
 
-onMounted(() => {
-  void usersPage.init()
-})
+useMountedAsync(usersPage.init)
 </script>
 
 <template>
-  <div class="page page--dashboard">
-    <div class="dashboard-shell">
-      <main class="dashboard-main dashboard-main--admin">
+  <UiDashboardPage admin>
         <AdminShellHeader
           title="Users"
-          subtitle="Search, edit, create, promote, reset passwords, or delete accounts."
+          subtitle=""
         />
 
         <UiToast :message="usersPage.feedback" :tone="usersPage.feedbackType" />
@@ -35,22 +33,17 @@ onMounted(() => {
           Loading users...
         </div>
 
-        <article class="card admin-users-card">
-          <AppPageHeader
-            title="All users"
-            subtitle="Search, edit, create, promote, reset passwords, or delete accounts."
-          />
-
-          <UiFilterBar :columns="2">
-            <label class="field">
-              <span class="label">Search</span>
-              <input v-model="usersPage.userSearch" class="input" placeholder="Username, email, role..." />
-            </label>
-
-            <div class="button-row admin-users-actions">
-              <button class="button" type="button" @click="usersPage.openCreateUserDialog">Create user</button>
-            </div>
-          </UiFilterBar>
+        <UiAdminPageSection title="All users">
+          <template #actions>
+            <button class="button" type="button" @click="usersPage.openCreateUserDialog">Create user</button>
+          </template>
+          <template #filters>
+            <UiFilterBar :columns="2">
+              <UiFieldGroup label="Search">
+                <input v-model="usersPage.userSearch" class="input" placeholder="Username, email, role..." />
+              </UiFieldGroup>
+            </UiFilterBar>
+          </template>
 
           <div v-if="!usersPage.isLoadingUsers && !usersPage.pageError && !usersPage.appUsers.length" class="empty-state">
             No users match this search.
@@ -74,12 +67,11 @@ onMounted(() => {
             @update:edit-role="usersPage.editAppUserRole = $event"
             @update:edit-password="usersPage.editAppUserPassword = $event"
           />
-        </article>
+        </UiAdminPageSection>
 
         <UiDialog
           :open="usersPage.isCreateUserDialogOpen"
           title="Create user"
-          subtitle="Create a new admin-managed account."
           @close="usersPage.closeCreateUserDialog"
         >
           <AppUsersCreateForm
@@ -102,7 +94,5 @@ onMounted(() => {
           @cancel="usersPage.cancelDelete"
           @close="usersPage.cancelDelete"
         />
-      </main>
-    </div>
-  </div>
+  </UiDashboardPage>
 </template>

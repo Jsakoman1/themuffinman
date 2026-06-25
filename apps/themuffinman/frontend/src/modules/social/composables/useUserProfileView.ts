@@ -1,5 +1,6 @@
 import {computed, ref, toValue, type MaybeRefOrGetter} from "vue"
 import {workmarketApi, type AppUser, type UserProfileView, type UserRatingSummary, type UserReview} from "../../workmarket/api/workmarketApi.ts"
+import {createFeedbackMutationRunner} from "../../../composables/createFeedbackMutationRunner.ts"
 import {useTimedBanner} from "../../../composables/useTimedBanner.ts"
 import {getApiErrorMessage} from "../../../api/apiErrors.ts"
 
@@ -40,6 +41,9 @@ export const useUserProfileView = (options: UseUserProfileViewOptions) => {
   const showMessage = (message: string, tone: "success" | "warning" = "success") => {
     circleBanner.show(message, tone)
   }
+  const {runWithFeedback} = createFeedbackMutationRunner({
+    showFeedback: (message, tone) => showMessage(message, tone === "error" ? "warning" : tone)
+  })
 
   const loadProfileView = async () => {
     const userId = currentUserId()
@@ -90,11 +94,13 @@ export const useUserProfileView = (options: UseUserProfileViewOptions) => {
 
     isSaving.value = true
     try {
-      const result = await action(userId)
-      showMessage(result.message)
-      await loadProfileView()
-    } catch (requestError) {
-      showMessage(getApiErrorMessage(requestError, fallbackMessage), "warning")
+      await runWithFeedback({
+        run: () => action(userId),
+        successMessage: (result) => result.message,
+        errorMessage: fallbackMessage,
+        successTone: "success",
+        afterSuccess: loadProfileView
+      })
     } finally {
       isSaving.value = false
     }

@@ -11,11 +11,14 @@ import com.themuffinman.app.social.dto.CircleSearchResultListResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestListResponseDTO;
 import com.themuffinman.app.social.dto.AdminCircleOverviewDTO;
+import com.themuffinman.app.social.dto.CircleConnectionsQueryDTO;
 import com.themuffinman.app.social.dto.CircleContactDTO;
 import com.themuffinman.app.social.dto.CircleContactListResponseDTO;
 import com.themuffinman.app.social.dto.ConnectionCircleUpdateDTO;
 import com.themuffinman.app.social.dto.CircleGroupRequestDTO;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
+import com.themuffinman.app.social.dto.PageQueryDTO;
+import com.themuffinman.app.social.dto.TextPageQueryDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.social.service.CircleService;
 import jakarta.validation.Valid;
@@ -100,43 +103,55 @@ public class CircleController {
 
     @GetMapping("/requests/incoming")
     public CircleRequestListResponseDTO getIncomingRequests(
-            @RequestParam(value = "q", required = false) String query,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "8") int size,
+            @ModelAttribute TextPageQueryDTO query,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.getIncomingRequests(currentUser, query, page, size);
+        return circleService.getIncomingRequests(
+                currentUser,
+                query.getQ(),
+                query.getPage() == null ? 0 : query.getPage(),
+                query.getSize() == null ? 8 : query.getSize()
+        );
     }
 
     @GetMapping("/requests/outgoing")
     public CircleRequestListResponseDTO getOutgoingRequests(
-            @RequestParam(value = "q", required = false) String query,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "8") int size,
+            @ModelAttribute TextPageQueryDTO query,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.getOutgoingRequests(currentUser, query, page, size);
+        return circleService.getOutgoingRequests(
+                currentUser,
+                query.getQ(),
+                query.getPage() == null ? 0 : query.getPage(),
+                query.getSize() == null ? 8 : query.getSize()
+        );
     }
 
     @GetMapping("/candidates")
     public CircleSearchResultListResponseDTO getInviteCandidates(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "12") int size,
+            @ModelAttribute PageQueryDTO query,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.getInviteCandidatesPage(currentUser, page, size);
+        return circleService.getInviteCandidatesPage(
+                currentUser,
+                query.getPage() == null ? 0 : query.getPage(),
+                query.getSize() == null ? 12 : query.getSize()
+        );
     }
 
     @GetMapping("/connections")
     public CircleContactListResponseDTO getConnections(
-            @RequestParam(value = "q", required = false) String query,
-            @RequestParam(value = "circleId", required = false) Long circleId,
-            @RequestParam(value = "unassigned", defaultValue = "false") boolean unassigned,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "8") int size,
+            @ModelAttribute CircleConnectionsQueryDTO query,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.getConnections(currentUser, query, circleId, unassigned, page, size);
+        return circleService.getConnections(
+                currentUser,
+                query.getQ(),
+                query.getCircleId(),
+                Boolean.TRUE.equals(query.getUnassigned()),
+                query.getPage() == null ? 0 : query.getPage(),
+                query.getSize() == null ? 8 : query.getSize()
+        );
     }
 
     @GetMapping("/relations/{userId}")
@@ -149,12 +164,15 @@ public class CircleController {
 
     @GetMapping("/search")
     public CircleSearchResultListResponseDTO searchCircleUsers(
-            @RequestParam(value = "q", required = false) String query,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "12") int size,
+            @ModelAttribute TextPageQueryDTO query,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.searchCircleUsers(currentUser, query, page, size);
+        return circleService.searchCircleUsers(
+                currentUser,
+                query.getQ(),
+                query.getPage() == null ? 0 : query.getPage(),
+                query.getSize() == null ? 12 : query.getSize()
+        );
     }
 
     @PostMapping("/requests")
