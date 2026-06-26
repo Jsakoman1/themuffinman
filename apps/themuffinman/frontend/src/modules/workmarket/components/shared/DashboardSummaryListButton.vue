@@ -13,6 +13,7 @@ withDefaults(defineProps<{
   secondaryValue?: string | number | null
   secondaryIcon?: string
   moneyTone?: "income" | "expense" | "neutral"
+  compactInline?: boolean
 }>(), {
   pulse: false,
   statusSurfaceClass: "",
@@ -22,6 +23,7 @@ withDefaults(defineProps<{
   secondaryValue: null,
   secondaryIcon: "",
   moneyTone: "neutral",
+  compactInline: false,
 })
 
 const emit = defineEmits<{
@@ -46,6 +48,7 @@ const emit = defineEmits<{
       :money-tone="moneyTone"
       :title="title"
       :description="description"
+      :compact-inline="compactInline"
     >
       <template v-if="$slots.meta" #meta>
         <slot name="meta" />

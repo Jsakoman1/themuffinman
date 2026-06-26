@@ -29,14 +29,21 @@ const handleAction = (action: ProfilePrimaryAction | null | undefined) => {
       return
   }
 }
+
+const meta = [
+  props.user.distanceLabel,
+  props.user.locationLabel,
+  props.user.email
+].filter((value, index, values) => Boolean(value) && values.indexOf(value) === index).join(" • ")
 </script>
 
 <template>
   <ProfileEntityCard
     :username="props.user.username"
     :avatar-data-url="props.user.profileAvatarDataUrl"
-    :meta="props.user.email"
-    :description="props.user.profileDescription"
+    :meta="meta"
+    :description="''"
+    description-placeholder=""
     @open="emit('openProfile', user.id)"
   >
     <template #badge>

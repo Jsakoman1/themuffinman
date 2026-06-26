@@ -3,16 +3,21 @@ package com.themuffinman.app.identity.mapper;
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
+import com.themuffinman.app.location.service.LocationSettingsService;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class AppUserMgr {
+    private final LocationSettingsService locationSettingsService;
+
     public AppUserResponseDTO toDto(AppUser appUser) {
         if (appUser == null) {
             return null;
@@ -28,6 +33,7 @@ public class AppUserMgr {
                         .build())
                 .profileDescription(RichTextInputValidator.sanitize(appUser.getProfileDescription()))
                 .profileAvatarDataUrl(appUser.getProfileAvatarDataUrl())
+                .locationSettings(locationSettingsService.toDto(appUser))
                 .createdAt(appUser.getCreatedAt())
                 .role(appUser.getRole() == null ? AppUserRole.USER.name() : appUser.getRole().name())
                 .build();

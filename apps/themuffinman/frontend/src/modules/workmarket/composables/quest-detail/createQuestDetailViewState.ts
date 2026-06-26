@@ -1,6 +1,6 @@
 import {computed, ref, watch} from "vue"
-import {richTextHasContent} from "../../../../shared/richText.ts"
 import type {Quest, QuestApplication, QuestApplicationsView, QuestDetail, UserReview} from "../../api/workmarketApi.ts"
+import {canSubmitQuestApplicationDraft} from "../../shared/applicationDraft.ts"
 
 export const createQuestDetailViewState = (state: {
   detail: {value: QuestDetail | null}
@@ -33,7 +33,7 @@ export const createQuestDetailViewState = (state: {
   const managementSection = computed(() => state.detail.value?.sections.management ?? null)
   const canApply = computed(() => state.quest.value?.presentation.canApply ?? false)
   const applicationSentVisible = computed(() => state.quest.value?.presentation.applicationSentVisible ?? false)
-  const canSubmitApplication = computed(() => richTextHasContent(state.applicationMessage.value) && Number(state.proposedPrice.value) >= 0.01)
+  const canSubmitApplication = computed(() => canSubmitQuestApplicationDraft(state.applicationMessage.value, state.proposedPrice.value))
 
   const hasSubmittedReview = computed(() => !!(state.review.value ?? reviewSection.value?.submittedReview))
 

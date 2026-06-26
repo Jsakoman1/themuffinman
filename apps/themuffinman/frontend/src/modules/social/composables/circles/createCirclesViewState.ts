@@ -10,23 +10,29 @@ export const createCirclesViewState = (state: {
   circles: Ref<CircleGroup[]>
   inviteCandidates: Ref<CircleCandidate[]>
   searchResults: Ref<CircleCandidate[]>
+  blockedResults: Ref<CircleCandidate[]>
+  nearbyResults: Ref<CircleCandidate[]>
   connectionsPageData: Ref<CircleContactListResponse | null>
   incomingPageData: Ref<CircleRequestListResponse | null>
   outgoingPageData: Ref<CircleRequestListResponse | null>
+  blockedPageData: Ref<import("../../../workmarket/api/workmarketApi.ts").CircleCandidateListResponse | null>
+  nearbyPageData: Ref<import("../../../workmarket/api/workmarketApi.ts").CircleCandidateListResponse | null>
   overviewConnectionCount: Ref<number>
   overviewIncomingRequestCount: Ref<number>
   overviewOutgoingRequestCount: Ref<number>
   activeCircleFilter: Ref<number | "all" | "unassigned">
   inboxTab: Ref<"incoming" | "outgoing">
-  searchHasQuery: Ref<boolean>
+  discoverHasQuery: Ref<boolean>
   incomingPage: Ref<number>
   outgoingPage: Ref<number>
+  blockedPage: Ref<number>
+  nearbyPage: Ref<number>
 }) => {
   const circlesCount = computed(() => state.circles.value.length)
   const connectionsCount = computed(() => state.overviewConnectionCount.value)
   const incomingCount = computed(() => state.overviewIncomingRequestCount.value)
   const outgoingCount = computed(() => state.overviewOutgoingRequestCount.value)
-  const suggestions = computed(() => state.searchHasQuery.value ? state.searchResults.value : state.inviteCandidates.value)
+  const suggestions = computed(() => state.discoverHasQuery.value ? state.searchResults.value : state.inviteCandidates.value)
   const connectionsItems = computed(() => state.connectionsPageData.value?.items ?? [])
   const connectionsPages = computed(() => state.connectionsPageData.value?.totalPages ?? 1)
   const connectionsTotalItems = computed(() => state.connectionsPageData.value?.totalItems ?? 0)
@@ -36,6 +42,12 @@ export const createCirclesViewState = (state: {
   const outgoingItems = computed(() => state.outgoingPageData.value?.items ?? [])
   const outgoingPages = computed(() => state.outgoingPageData.value?.totalPages ?? 1)
   const outgoingTotalItems = computed(() => state.outgoingPageData.value?.totalItems ?? 0)
+  const blockedItems = computed(() => state.blockedPageData.value?.items ?? state.blockedResults.value ?? [])
+  const blockedPages = computed(() => state.blockedPageData.value?.totalPages ?? 1)
+  const blockedTotalItems = computed(() => state.blockedPageData.value?.totalItems ?? blockedItems.value.length)
+  const nearbyItems = computed(() => state.nearbyPageData.value?.items ?? state.nearbyResults.value ?? [])
+  const nearbyPages = computed(() => state.nearbyPageData.value?.totalPages ?? 1)
+  const nearbyTotalItems = computed(() => state.nearbyPageData.value?.totalItems ?? nearbyItems.value.length)
   const activeCircleName = computed(() => {
     if (state.activeCircleFilter.value === "all") {
       return "All connections"
@@ -67,6 +79,12 @@ export const createCirclesViewState = (state: {
     outgoingItems,
     outgoingPages,
     outgoingTotalItems,
+    blockedItems,
+    blockedPages,
+    blockedTotalItems,
+    nearbyItems,
+    nearbyPages,
+    nearbyTotalItems,
     activeCircleName,
     currentInboxItems,
     currentInboxPage,

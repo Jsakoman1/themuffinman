@@ -1,6 +1,8 @@
 package com.themuffinman.app.workmarket.dto;
 
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
+import com.themuffinman.app.location.model.QuestLocationVisibility;
+import com.themuffinman.app.location.model.QuestLocationSource;
 import com.themuffinman.app.social.dto.CircleSummaryDTO;
 import com.themuffinman.app.workmarket.model.QuestStatus;
 import com.themuffinman.app.workmarket.model.QuestAudience;
@@ -48,6 +50,20 @@ public class QuestResponseDTO {
     @Nullable
     private Instant reopenedAt;
     private QuestAudience audience;
+    private QuestLocationVisibility locationVisibility;
+    private QuestLocationSource locationSource;
+    @Nullable
+    private String locationLabel;
+    @Nullable
+    private String locationCountry;
+    @Nullable
+    private String locationLocality;
+    @Nullable
+    private String locationPostalCode;
+    @Nullable
+    private String locationStreet;
+    @Nullable
+    private String locationHouseNumber;
     private List<CircleSummaryDTO> visibleToCircles;
     private List<String> images;
 

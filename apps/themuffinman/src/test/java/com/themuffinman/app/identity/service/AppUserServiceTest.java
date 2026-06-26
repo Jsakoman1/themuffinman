@@ -4,6 +4,7 @@ import com.themuffinman.app.identity.dto.AppUserRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
+import com.themuffinman.app.location.service.LocationSettingsService;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestStatus;
 import com.themuffinman.app.identity.repository.AppUserRepository;
@@ -43,6 +44,9 @@ class AppUserServiceTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
+
+    @Mock
+    private LocationSettingsService locationSettingsService;
 
     @InjectMocks
     private AppUserService appUserService;

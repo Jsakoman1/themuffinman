@@ -5,10 +5,11 @@ import ProfileBio from "../../../../components/profile/ProfileBio.vue"
 import UiChoiceChips from "../../../../components/ui/UiChoiceChips.vue"
 import UiFieldGroup from "../../../../components/ui/UiFieldGroup.vue"
 import DetailDialogFrame from "./DetailDialogFrame.vue"
-import type {CircleGroup, QuestAudienceOption} from "../../api/workmarketApi.ts"
+import {workmarketApi, type CircleGroup, type LocationLookupCandidate, type Quest, type QuestAudienceOption, type QuestLocationVisibilityOption} from "../../api/workmarketApi.ts"
 import type {QuestStatus} from "../../domain/workmarketDomain.ts"
 import {formatInstantForDisplay} from "../../../../shared/questSchedule.ts"
 import InlineEditableField from "./InlineEditableField.vue"
+import {useDebouncedWatch} from "../../../../composables/useDebouncedWatch.ts"
 
 const props = withDefaults(defineProps<{
   formId?: string
@@ -22,6 +23,14 @@ const props = withDefaults(defineProps<{
   audienceOptions: QuestAudienceOption[]
   circles: CircleGroup[]
   selectedCircleIds: number[]
+  locationSource: NonNullable<Quest["locationSource"]>
+  locationCountry: string
+  locationLocality: string
+  locationPostalCode: string
+  locationStreet: string
+  locationHouseNumber: string
+  locationVisibility: NonNullable<Quest["locationVisibility"]>
+  locationVisibilityOptions: QuestLocationVisibilityOption[]
   images: string[]
   inlineEditable?: boolean
   submitVisible?: boolean
@@ -52,20 +61,27 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  (event: "update:title", value: string): void
-  (event: "update:description", value: string): void
-  (event: "update:awardAmount", value: string): void
-  (event: "update:termMode", value: "flexible" | "start-only" | "start-end"): void
-  (event: "update:scheduledAt", value: string): void
-  (event: "update:endsAt", value: string): void
-  (event: "update:audience", value: "EVERYONE" | "CIRCLES"): void
-  (event: "toggle:circle", circleId: number): void
-  (event: "change:images", payload: Event): void
-  (event: "remove:image", index: number): void
-  (event: "update:creatorId", value: string): void
-  (event: "update:status", value: QuestStatus): void
-  (event: "submit"): void
-  (event: "cancel"): void
+  "update:title": [value: string]
+  "update:description": [value: string]
+  "update:awardAmount": [value: string]
+  "update:termMode": [value: "flexible" | "start-only" | "start-end"]
+  "update:scheduledAt": [value: string]
+  "update:endsAt": [value: string]
+  "update:audience": [value: "EVERYONE" | "CIRCLES"]
+  "toggle:circle": [circleId: number]
+  "update:locationSource": [value: NonNullable<Quest["locationSource"]>]
+  "update:locationCountry": [value: string]
+  "update:locationLocality": [value: string]
+  "update:locationPostalCode": [value: string]
+  "update:locationStreet": [value: string]
+  "update:locationHouseNumber": [value: string]
+  "update:locationVisibility": [value: NonNullable<Quest["locationVisibility"]>]
+  "change:images": [payload: Event]
+  "remove:image": [index: number]
+  "update:creatorId": [value: string]
+  "update:status": [value: QuestStatus]
+  "save": []
+  "cancel": []
 }>()
 
 const visibilityOptions = computed(() => {
@@ -95,8 +111,10 @@ const editing = reactive({
   audience: false,
   circles: false,
   photos: false,
+  locationSource: false,
   creator: false,
-  status: false
+  status: false,
+  locationVisibility: false
 })
 
 const resetEditing = () => {
@@ -109,8 +127,10 @@ const resetEditing = () => {
   editing.audience = false
   editing.circles = false
   editing.photos = false
+  editing.locationSource = false
   editing.creator = false
   editing.status = false
+  editing.locationVisibility = false
 }
 
 const termModeLabel = computed(() => ({
@@ -122,6 +142,46 @@ const termModeLabel = computed(() => ({
 const audienceLabel = computed(() =>
   props.audienceOptions.find((option) => option.value === props.audience)?.label ?? props.audience
 )
+
+const locationVisibilityLabel = computed(() =>
+  props.locationVisibilityOptions.find((option) => option.value === props.locationVisibility)?.label ?? props.locationVisibility
+)
+
+const locationSourceLabel = computed(() => (
+  props.locationSource === "CUSTOM" ? "Custom quest location" : "Use my profile location"
+))
+
+const customLocationPending = computed(() => (
+  props.locationSource === "CUSTOM"
+  && Boolean(
+    props.locationStreet.trim()
+    || props.locationHouseNumber.trim()
+    || props.locationPostalCode.trim()
+    || props.locationLocality.trim()
+    || props.locationCountry.trim()
+  )
+))
+
+const customLocationQuery = computed(() => [
+  props.locationStreet,
+  props.locationHouseNumber,
+  props.locationPostalCode,
+  props.locationLocality,
+  props.locationCountry
+]
+  .map((value) => value.trim())
+  .filter(Boolean)
+  .join(", "))
+
+const customLocationSuggestions = reactive<{
+  items: LocationLookupCandidate[]
+  loading: boolean
+  error: string
+}>({
+  items: [],
+  loading: false,
+  error: ""
+})
 
 const selectedCircleNames = computed(() => props.circles
   .filter((circle) => props.selectedCircleIds.includes(circle.id))
@@ -136,13 +196,58 @@ const creatorLabel = computed(() => {
 const statusLabel = computed(() =>
   props.statusOptions.find((option) => option.value === props.status)?.label ?? props.status ?? "Not set"
 )
+
+const handleLocationVisibilityChange = (event: Event) => {
+  emit("update:locationVisibility", (event.target as HTMLSelectElement).value as NonNullable<Quest["locationVisibility"]>)
+}
+
+const handleLocationSourceChange = (event: Event) => {
+  emit("update:locationSource", (event.target as HTMLSelectElement).value as NonNullable<Quest["locationSource"]>)
+}
+
+const applyCustomLocationSuggestion = (candidate: LocationLookupCandidate) => {
+  emit("update:locationStreet", candidate.street ?? "")
+  emit("update:locationHouseNumber", candidate.houseNumber ?? "")
+  emit("update:locationPostalCode", candidate.postalCode ?? "")
+  emit("update:locationLocality", candidate.locality ?? "")
+  emit("update:locationCountry", candidate.country ?? "")
+  customLocationSuggestions.items = []
+  customLocationSuggestions.error = ""
+}
+
+const searchCustomLocationSuggestions = async () => {
+  if (props.locationSource !== "CUSTOM" || customLocationQuery.value.length < 3) {
+    customLocationSuggestions.items = []
+    customLocationSuggestions.error = ""
+    return
+  }
+
+  customLocationSuggestions.loading = true
+  customLocationSuggestions.error = ""
+  try {
+    const response = await workmarketApi.lookupLocation({query: customLocationQuery.value})
+    customLocationSuggestions.items = response.items
+    if (!response.configured) {
+      customLocationSuggestions.error = "Location search is not configured yet."
+    }
+  } catch {
+    customLocationSuggestions.items = []
+    customLocationSuggestions.error = "Could not load address suggestions."
+  } finally {
+    customLocationSuggestions.loading = false
+  }
+}
+
+useDebouncedWatch(customLocationQuery, () => {
+  void searchCustomLocationSuggestions()
+}, 350)
 </script>
 
 <template>
   <form
     :id="formId"
     :class="['form-stack', {'quest-composer-form--inline': inlineEditable}]"
-    @submit.prevent="emit('submit')"
+    @submit.prevent="emit('save')"
   >
     <DetailDialogFrame>
       <template #main>
@@ -306,11 +411,7 @@ const statusLabel = computed(() =>
               </div>
               </template>
               <template #display>
-              <div v-if="awardAmount?.trim()" class="surface-price-pill surface-price-pill--hero quest-composer-form__reward-display">
-                <span class="surface-price-pill__label">Reward</span>
-                <span class="surface-price-pill__amount">$ {{ awardAmount.trim() }}</span>
-              </div>
-              <div v-else class="ui-inline-readonly-text">Not set</div>
+              <div class="ui-inline-readonly-text">{{ awardAmount?.trim() ? `$ ${awardAmount.trim()}` : "Not set" }}</div>
               </template>
             </InlineEditableField>
 
@@ -429,6 +530,148 @@ const statusLabel = computed(() =>
                 @update:model-value="emit('update:audience', $event as 'EVERYONE' | 'CIRCLES')"
               />
             </div>
+          </UiFieldGroup>
+
+          <InlineEditableField
+            v-if="inlineEditable"
+            label="Location source"
+            :editing="editing.locationSource"
+            @toggle="editing.locationSource = !editing.locationSource"
+          >
+            <template #editor>
+              <select :value="locationSource" class="input" @change="handleLocationSourceChange">
+                <option value="PROFILE">Use my profile location</option>
+                <option value="CUSTOM">Set different location</option>
+              </select>
+            </template>
+            <template #display>
+              <div class="ui-inline-readonly-text">{{ locationSourceLabel }}</div>
+            </template>
+          </InlineEditableField>
+
+          <UiFieldGroup v-else label="Location source">
+            <select :value="locationSource" class="input" @change="handleLocationSourceChange">
+              <option value="PROFILE">Use my profile location</option>
+              <option value="CUSTOM">Set different location</option>
+            </select>
+          </UiFieldGroup>
+
+          <template v-if="locationSource === 'CUSTOM'">
+            <div v-if="customLocationPending" class="quest-composer-form__location-note">
+              Custom address will be resolved on save.
+            </div>
+
+            <InlineEditableField v-if="inlineEditable" label="Street" :editing="editing.locationSource" @toggle="editing.locationSource = true">
+              <template #editor>
+                <input :value="locationStreet" class="input" @input="emit('update:locationStreet', ($event.target as HTMLInputElement).value)" />
+              </template>
+              <template #display>
+                <div class="ui-inline-readonly-text">{{ locationStreet || "Not set" }}</div>
+              </template>
+            </InlineEditableField>
+
+            <UiFieldGroup v-else label="Street">
+              <input :value="locationStreet" class="input" @input="emit('update:locationStreet', ($event.target as HTMLInputElement).value)" />
+            </UiFieldGroup>
+
+            <InlineEditableField v-if="inlineEditable" label="House number" :editing="editing.locationSource" @toggle="editing.locationSource = true">
+              <template #editor>
+                <input :value="locationHouseNumber" class="input" @input="emit('update:locationHouseNumber', ($event.target as HTMLInputElement).value)" />
+              </template>
+              <template #display>
+                <div class="ui-inline-readonly-text">{{ locationHouseNumber || "Not set" }}</div>
+              </template>
+            </InlineEditableField>
+
+            <UiFieldGroup v-else label="House number">
+              <input :value="locationHouseNumber" class="input" @input="emit('update:locationHouseNumber', ($event.target as HTMLInputElement).value)" />
+            </UiFieldGroup>
+
+            <InlineEditableField v-if="inlineEditable" label="Postal code" :editing="editing.locationSource" @toggle="editing.locationSource = true">
+              <template #editor>
+                <input :value="locationPostalCode" class="input" @input="emit('update:locationPostalCode', ($event.target as HTMLInputElement).value)" />
+              </template>
+              <template #display>
+                <div class="ui-inline-readonly-text">{{ locationPostalCode || "Not set" }}</div>
+              </template>
+            </InlineEditableField>
+
+            <UiFieldGroup v-else label="Postal code">
+              <input :value="locationPostalCode" class="input" @input="emit('update:locationPostalCode', ($event.target as HTMLInputElement).value)" />
+            </UiFieldGroup>
+
+            <InlineEditableField v-if="inlineEditable" label="City" :editing="editing.locationSource" @toggle="editing.locationSource = true">
+              <template #editor>
+                <input :value="locationLocality" class="input" @input="emit('update:locationLocality', ($event.target as HTMLInputElement).value)" />
+              </template>
+              <template #display>
+                <div class="ui-inline-readonly-text">{{ locationLocality || "Not set" }}</div>
+              </template>
+            </InlineEditableField>
+
+            <UiFieldGroup v-else label="City">
+              <input :value="locationLocality" class="input" @input="emit('update:locationLocality', ($event.target as HTMLInputElement).value)" />
+            </UiFieldGroup>
+
+            <InlineEditableField v-if="inlineEditable" label="Country" :editing="editing.locationSource" @toggle="editing.locationSource = true">
+              <template #editor>
+                <input :value="locationCountry" class="input" @input="emit('update:locationCountry', ($event.target as HTMLInputElement).value)" />
+              </template>
+              <template #display>
+                <div class="ui-inline-readonly-text">{{ locationCountry || "Not set" }}</div>
+              </template>
+            </InlineEditableField>
+
+            <UiFieldGroup v-else label="Country">
+              <input :value="locationCountry" class="input" @input="emit('update:locationCountry', ($event.target as HTMLInputElement).value)" />
+            </UiFieldGroup>
+
+            <div v-if="customLocationSuggestions.loading" class="muted">
+              Searching address suggestions...
+            </div>
+
+            <div v-else-if="customLocationSuggestions.error" class="muted">
+              {{ customLocationSuggestions.error }}
+            </div>
+
+            <div v-else-if="customLocationSuggestions.items.length" class="quest-composer-form__location-suggestions">
+              <button
+                v-for="candidate in customLocationSuggestions.items"
+                :key="`${candidate.latitude}:${candidate.longitude}:${candidate.label}`"
+                class="quest-composer-form__location-suggestion"
+                type="button"
+                @click="applyCustomLocationSuggestion(candidate)"
+              >
+                <strong>{{ candidate.label }}</strong>
+                <small>{{ candidate.locality || candidate.country || "Address suggestion" }}</small>
+              </button>
+            </div>
+          </template>
+
+          <InlineEditableField
+            v-if="inlineEditable"
+            label="Quest location"
+            :editing="editing.locationVisibility"
+            @toggle="editing.locationVisibility = !editing.locationVisibility"
+          >
+            <template #editor>
+              <select :value="locationVisibility" class="input" @change="handleLocationVisibilityChange">
+                <option v-for="option in locationVisibilityOptions" :key="option.value" :value="option.value">
+                  {{ option.label }}
+                </option>
+              </select>
+            </template>
+            <template #display>
+              <div class="ui-inline-readonly-text">{{ locationVisibilityLabel }}</div>
+            </template>
+          </InlineEditableField>
+
+          <UiFieldGroup v-else label="Quest location">
+            <select :value="locationVisibility" class="input" @change="handleLocationVisibilityChange">
+              <option v-for="option in locationVisibilityOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
           </UiFieldGroup>
 
           <InlineEditableField
@@ -569,7 +812,13 @@ const statusLabel = computed(() =>
             </select>
           </UiFieldGroup>
 
-          <button v-if="submitVisible" class="button button--action button--flat-primary" type="submit" :disabled="isSubmitDisabled">
+          <button
+            v-if="submitVisible"
+            class="button button--action button--flat-primary"
+            type="button"
+            :disabled="isSubmitDisabled"
+            @click="emit('save')"
+          >
             {{ submitLabel }}
           </button>
 
@@ -583,3 +832,35 @@ const statusLabel = computed(() =>
     </DetailDialogFrame>
   </form>
 </template>
+
+<style scoped>
+.quest-composer-form__location-note {
+  color: #b45309;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.quest-composer-form__location-suggestions {
+  display: grid;
+  gap: 6px;
+}
+
+.quest-composer-form__location-suggestion {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.quest-composer-form__location-suggestion small {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+</style>

@@ -2,6 +2,7 @@
 import {computed} from "vue"
 import {useRoute, useRouter} from "vue-router"
 import AppPageHeader from "../../../../components/app/AppPageHeader.vue"
+import {logoutUser} from "../../../identity/auth.ts"
 
 withDefaults(defineProps<{
   title: string
@@ -15,10 +16,16 @@ const router = useRouter()
 
 const adminSections = [
   {
-    key: "work",
-    label: "Work",
-    isActive: () => route.path.startsWith("/admin/work") || route.path.startsWith("/admin/quests"),
+    key: "overview",
+    label: "Overview",
+    isActive: () => route.path.startsWith("/admin/work"),
     target: "/admin/work",
+  },
+  {
+    key: "quests",
+    label: "Quests",
+    isActive: () => route.path.startsWith("/admin/quests"),
+    target: "/admin/quests",
   },
   {
     key: "users",
@@ -45,6 +52,11 @@ const activeSections = computed(() => new Set(adminSections.filter((section) => 
 const goToSection = (target: string) => {
   void router.push(target)
 }
+
+const logout = async () => {
+  logoutUser()
+  await router.push("/login")
+}
 </script>
 
 <template>
@@ -65,6 +77,9 @@ const goToSection = (target: string) => {
             {{ section.label }}
           </button>
         </div>
+        <button class="button button--secondary admin-shell-header__logout" type="button" @click="logout">
+          Log out
+        </button>
       </div>
     </template>
   </AppPageHeader>

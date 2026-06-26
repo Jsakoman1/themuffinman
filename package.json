@@ -2,8 +2,8 @@
   "name": "themuffinman",
   "private": true,
   "scripts": {
-    "themuffinman:dev": "node scripts/themuffinman-dev.mjs",
-    "themuffinman:backend": "cd apps/themuffinman && ./mvnw spring-boot:run",
+    "themuffinman:dev": "make -C apps/themuffinman dev",
+    "themuffinman:backend": "make -C apps/themuffinman backend-dev",
     "themuffinman:test": "cd apps/themuffinman && ./mvnw test",
     "themuffinman:build:backend": "cd apps/themuffinman && ./mvnw package",
     "themuffinman:frontend:install": "npm --prefix apps/themuffinman/frontend install",

@@ -48,7 +48,7 @@ const emit = defineEmits<{
       </div>
     </div>
 
-    <ProfileBio :text="description" :placeholder="descriptionPlaceholder" />
+    <ProfileBio v-if="description || descriptionPlaceholder" :text="description" :placeholder="descriptionPlaceholder" />
 
     <div v-if="$slots.default" class="profile-entity-card__body">
       <slot />

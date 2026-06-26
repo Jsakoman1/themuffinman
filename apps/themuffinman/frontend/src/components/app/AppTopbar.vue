@@ -20,6 +20,7 @@ const {
   toggleAccountMenu,
   toggleNotifications,
   openProfile,
+  openSettings,
   markAllNotificationsRead,
   openNotificationItem,
   handleLogout
@@ -88,6 +89,9 @@ void topbarRef
                 <div v-if="accountMenuOpen" class="dashboard-account-menu__panel dashboard-account-menu__panel--topbar">
                   <button class="dashboard-account-menu__item" type="button" @click="openProfile">
                     Profile
+                  </button>
+                  <button class="dashboard-account-menu__item" type="button" @click="openSettings">
+                    Settings
                   </button>
                   <button class="dashboard-account-menu__item dashboard-account-menu__item--danger" type="button" @click="handleLogout">
                     Logout

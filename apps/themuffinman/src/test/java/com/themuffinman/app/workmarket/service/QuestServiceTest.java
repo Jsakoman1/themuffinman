@@ -8,6 +8,7 @@ import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestViewerRelation;
+import com.themuffinman.app.location.service.LocationSettingsService;
 import com.themuffinman.app.workmarket.mapper.QuestApplicationMgr;
 import com.themuffinman.app.workmarket.mapper.QuestMgr;
 import com.themuffinman.app.workmarket.mapper.UserReviewMgr;
@@ -85,6 +86,9 @@ class QuestServiceTest {
     @Mock
     private QuestWorkflowNotificationService questWorkflowNotificationService;
 
+    @Mock
+    private LocationSettingsService locationSettingsService;
+
     private QuestAccessPolicyService questAccessPolicyService;
     private QuestQueryService questQueryService;
     private QuestUpdateService questUpdateService;
@@ -98,7 +102,7 @@ class QuestServiceTest {
     @BeforeEach
     void setUp() {
         questAccessPolicyService = new QuestAccessPolicyService();
-        questQueryService = new QuestQueryService();
+        questQueryService = new QuestQueryService(locationSettingsService);
         questValidationService = new QuestValidationService(questVisibilityService);
         questStateTransitionService = new QuestStateTransitionService(
                 questApplicationRepository,
@@ -109,7 +113,8 @@ class QuestServiceTest {
                 appUserLookupService,
                 questValidationService,
                 questStateTransitionService,
-                questAccessPolicyService
+                questAccessPolicyService,
+                locationSettingsService
         );
         workmarketPresentationHelper = new WorkmarketPresentationHelper();
         questViewAssembler = new QuestViewAssembler(
@@ -118,7 +123,8 @@ class QuestServiceTest {
                 questAccessPolicyService,
                 userReviewRepository,
                 userReviewMgr,
-                workmarketPresentationHelper
+                workmarketPresentationHelper,
+                locationSettingsService
         );
         questService = new QuestService(
                 questRepository,
@@ -134,7 +140,8 @@ class QuestServiceTest {
                 questQueryService,
                 questUpdateService,
                 questMgr,
-                questViewAssembler
+                questViewAssembler,
+                locationSettingsService
         );
     }
 
@@ -317,9 +324,12 @@ class QuestServiceTest {
                 QuestAudience.EVERYONE,
                 LocalDate.parse("2026-01-01"),
                 LocalDate.parse("2026-01-31"),
+                null,
+                null,
                 true,
                 false,
                 false,
+                null,
                 "highest",
                 0,
                 10
@@ -367,9 +377,12 @@ class QuestServiceTest {
                 null,
                 null,
                 null,
+                null,
+                null,
                 false,
                 false,
                 false,
+                null,
                 "recommended",
                 1,
                 1
@@ -702,6 +715,63 @@ class QuestServiceTest {
         assertEquals("Updated description", savedQuest.getDescription());
         assertEquals(BigDecimal.valueOf(80), savedQuest.getAwardAmount());
         assertEquals(3, savedQuest.getAssigneeTarget());
+    }
+
+    @Test
+    void updateQuestAllowsOwnerToEditPastQuestWithoutChangingTerm() {
+        AppUser creator = createUser(1L, "creator");
+        Instant pastScheduledAt = Instant.now().minusSeconds(2 * 24 * 3600);
+
+        Quest quest = new Quest();
+        quest.setId(21L);
+        quest.setCreator(creator);
+        quest.setTitle("Original title");
+        quest.setDescription("Original description");
+        quest.setAwardAmount(BigDecimal.valueOf(40));
+        quest.setScheduledAt(pastScheduledAt);
+        quest.setTermFixed(true);
+
+        QuestRequestDTO requestDTO = QuestRequestDTO.builder()
+                .title("Updated title")
+                .description("Updated description")
+                .awardAmount(BigDecimal.valueOf(55))
+                .scheduledAt(pastScheduledAt)
+                .termFixed(true)
+                .build();
+
+        when(questRepository.findByIdWithCreator(21L)).thenReturn(Optional.of(quest));
+        when(questRepository.save(quest)).thenReturn(quest);
+
+        questService.updateQuest(21L, requestDTO, creator);
+
+        assertEquals("Updated title", quest.getTitle());
+        assertEquals("Updated description", quest.getDescription());
+        assertEquals(BigDecimal.valueOf(55), quest.getAwardAmount());
+        assertEquals(pastScheduledAt, quest.getScheduledAt());
+        assertTrue(quest.isTermFixed());
+    }
+
+    @Test
+    void updateQuestPreservesRichTextDescriptionWhitespace() {
+        AppUser creator = createUser(1L, "creator");
+        Quest quest = new Quest();
+        quest.setId(22L);
+        quest.setCreator(creator);
+        quest.setDescription("<p>Original</p>");
+        quest.setAwardAmount(BigDecimal.valueOf(40));
+
+        QuestRequestDTO requestDTO = QuestRequestDTO.builder()
+                .title("Updated title")
+                .description("<p>  Indented</p>")
+                .awardAmount(BigDecimal.valueOf(40))
+                .build();
+
+        when(questRepository.findByIdWithCreator(22L)).thenReturn(Optional.of(quest));
+        when(questRepository.save(quest)).thenReturn(quest);
+
+        questService.updateQuest(22L, requestDTO, creator);
+
+        assertEquals("<p>&nbsp;&nbsp;Indented</p>", quest.getDescription());
     }
 
     @Test

@@ -1,5 +1,8 @@
 package com.themuffinman.app.workmarket.dto;
 
+import com.themuffinman.app.location.dto.ExactLocationVisibilityScopeOptionDTO;
+import com.themuffinman.app.location.dto.LocationModeOptionDTO;
+import com.themuffinman.app.location.dto.QuestLocationVisibilityOptionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,4 +22,8 @@ public class WorkmarketOptionsDTO {
     private List<QuestAudienceOptionDTO> questAudiences;
     private List<QuestAudienceFilterOptionDTO> questAudienceFilters;
     private List<QuestSortOptionDTO> questSortOptions;
+    private QuestSearchDefaultsDTO questSearchDefaults;
+    private List<LocationModeOptionDTO> locationModes;
+    private List<ExactLocationVisibilityScopeOptionDTO> exactLocationVisibilityScopes;
+    private List<QuestLocationVisibilityOptionDTO> questLocationVisibilities;
 }

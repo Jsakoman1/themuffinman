@@ -8,6 +8,7 @@ const props = withDefaults(defineProps<{
   subtitle?: string
   soft?: boolean
   compact?: boolean
+  plain?: boolean
 }>(), {
   tag: "section",
   eyebrow: "",
@@ -15,6 +16,7 @@ const props = withDefaults(defineProps<{
   subtitle: "",
   soft: false,
   compact: false,
+  plain: false,
 })
 
 const sectionClass = computed(() => [
@@ -22,6 +24,7 @@ const sectionClass = computed(() => [
   {
     "surface-section--soft": props.soft,
     "surface-section--compact": props.compact,
+    "surface-section--plain": props.plain,
   },
 ])
 </script>

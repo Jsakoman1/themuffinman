@@ -1,8 +1,12 @@
 import {api, withAuth} from "../../../../api/httpClient.ts"
-import type {ActionResult, AdminApplicationsQuery, AdminCircleOverview, QuestApplicationListResponse} from "../contracts.ts"
+import type {ActionResult, AdminApplicationsQuery, AdminCircleOverview, AdminUserDetail, LocationDebugStatus, QuestApplicationListResponse} from "../contracts.ts"
 import {buildQueryParams} from "../shared/queryParams.ts"
 
 export const adminApi = {
+  async getAdminUserDetail(id: number): Promise<AdminUserDetail> {
+    return (await api.get<AdminUserDetail>(`/app_users/${id}/admin-detail`, withAuth())).data
+  },
+
   async getAdminApplications(params: AdminApplicationsQuery): Promise<QuestApplicationListResponse> {
     return (await api.get<QuestApplicationListResponse>("/admin/applications", {
       ...withAuth(),
@@ -28,5 +32,9 @@ export const adminApi = {
 
   async deleteAdminCircleRequest(id: number): Promise<ActionResult> {
     return (await api.delete<ActionResult>(`/circles/requests/${id}`, withAuth())).data
+  },
+
+  async getAdminLocationStatus(): Promise<LocationDebugStatus> {
+    return (await api.get<LocationDebugStatus>("/location/admin/status", withAuth())).data
   }
 }

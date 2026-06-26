@@ -18,6 +18,13 @@ const transportAliases = {
   CircleBlockCreate: "CircleBlockCreateDTO",
   CircleCandidate: "CircleSearchResultDTO",
   CircleCandidateListResponse: "CircleSearchResultListResponseDTO",
+  ChatCircleOption: "ChatCircleOptionDTO",
+  ChatContact: "ChatContactDTO",
+  ChatConversationSummary: "ChatConversationSummaryDTO",
+  ChatMessage: "ChatMessageDTO",
+  ChatMessageRequest: "ChatMessageRequestDTO",
+  ChatOpenConversationRequest: "ChatOpenConversationRequestDTO",
+  ChatWorkspace: "ChatWorkspaceDTO",
   CircleConnectionsQuery: "CircleConnectionsQueryDTO",
   CircleContact: "CircleContactDTO",
   CircleContactListResponse: "CircleContactListResponseDTO",
@@ -34,6 +41,11 @@ const transportAliases = {
   DashboardResponse: "DashboardResponseDTO",
   DashboardSections: "DashboardSectionsDTO",
   DashboardSummary: "DashboardSummaryDTO",
+  LocationLookupCandidate: "LocationLookupCandidateDTO",
+  LocationLookupRequest: "LocationLookupRequestDTO",
+  LocationLookupResponse: "LocationLookupResponseDTO",
+  LocationReverseLookupRequest: "LocationReverseLookupRequestDTO",
+  LocationModeOption: "LocationModeOptionDTO",
   NavigationTarget: "NavigationTargetDTO",
   QuestApplicationAllowedAction: "ApplicationAllowedAction",
   PageQuery: "PageQueryDTO",
@@ -48,6 +60,7 @@ const transportAliases = {
   QuestApplicationsView: "QuestApplicationsViewDTO",
   QuestDetail: "QuestDetailResponseDTO",
   QuestDetailSections: "QuestDetailSectionsDTO",
+  QuestLocationVisibilityOption: "QuestLocationVisibilityOptionDTO",
   QuestListResponse: "QuestListResponseDTO",
   QuestNewsItem: "QuestNewsItemResponseDTO",
   QuestRequest: "QuestRequestDTO",
@@ -55,6 +68,7 @@ const transportAliases = {
   QuestStatusFilterOption: "QuestStatusFilterOptionDTO",
   QuestStatusOption: "QuestStatusOptionDTO",
   TextPageQuery: "TextPageQueryDTO",
+  UserLocationSettings: "UserLocationSettingsDTO",
   UserProfileView: "UserProfileViewDTO",
   UserRatingSummary: "UserRatingSummaryDTO",
   UserReview: "UserReviewResponseDTO",
@@ -251,8 +265,11 @@ function extractClassBody(source, startIndex) {
 
 function parseFieldsFromClassBody(body) {
   const matches = [...body.matchAll(/((?:\s*@[\w.]+(?:\([^)]*\))?\s+)*)\s*private\s+([^;\n]+?)\s+([A-Za-z0-9_]+)\s*;/g)]
-  return matches.map((match) => {
+  return matches.flatMap((match) => {
     const annotationSource = `${match[1]} ${match[2]}`
+    if (/\bstatic\b/.test(match[2])) {
+      return []
+    }
     return {
       name: match[3],
       type: mapJavaTypeToTs(match[2]),

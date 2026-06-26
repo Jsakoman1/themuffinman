@@ -13,6 +13,13 @@ export type DashboardQuestCreateFacade = Pick<
   | "questAudience"
   | "questAudienceOptions"
   | "questSelectedCircleIds"
+  | "questLocationSource"
+  | "questLocationCountry"
+  | "questLocationLocality"
+  | "questLocationPostalCode"
+  | "questLocationStreet"
+  | "questLocationHouseNumber"
+  | "questLocationVisibility"
   | "questCreatorId"
   | "questImages"
   | "circles"
@@ -21,6 +28,7 @@ export type DashboardQuestCreateFacade = Pick<
   | "setQuestTermMode"
   | "addQuestImages"
   | "removeQuestImage"
+  | "questLocationVisibilityOptions"
 >
 
 export type DashboardQuestEditFacade = Pick<
@@ -36,10 +44,18 @@ export type DashboardQuestEditFacade = Pick<
   | "editQuestTermMode"
   | "editQuestAudience"
   | "editQuestSelectedCircleIds"
+  | "editQuestLocationSource"
+  | "editQuestLocationCountry"
+  | "editQuestLocationLocality"
+  | "editQuestLocationPostalCode"
+  | "editQuestLocationStreet"
+  | "editQuestLocationHouseNumber"
+  | "editQuestLocationVisibility"
   | "editQuestCreatorId"
   | "editQuestStatus"
   | "editQuestImages"
   | "questAudienceOptions"
+  | "questLocationVisibilityOptions"
   | "circles"
   | "appUsers"
   | "questStatusOptions"
@@ -80,6 +96,7 @@ export type DashboardQuestApplicationsFacade = Pick<
 export type DashboardQuestListFacade = Pick<
   QuestDashboard,
   | "dashboardMyQuests"
+  | "dashboardSections"
   | "myApplications"
   | "successPulseTarget"
   | "questCreatorUsernameForQuest"
@@ -138,10 +155,12 @@ export type DashboardAdminFacade = Pick<
   | "questStatusFilterOptions"
   | "questAudienceFilterOptions"
   | "successPulseTarget"
+  | "deleteQuest"
 >
 
 export type DashboardFindQuestsFacade = Pick<
   QuestDashboard,
   | "questSortOptions"
+  | "questSearchDefaults"
   | "questAudienceFilterOptions"
 >

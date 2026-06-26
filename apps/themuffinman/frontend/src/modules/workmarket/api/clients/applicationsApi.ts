@@ -1,6 +1,7 @@
 import {api, withAuth} from "../../../../api/httpClient.ts"
 import type {
   ActionResult,
+  AdminQuestApplicationUpdateRequest,
   QuestApplication,
   QuestApplicationDetail,
   QuestApplicationRequest,
@@ -47,6 +48,14 @@ export const applicationsApi = {
 
   async declineApplication(questId: number, applicationId: number): Promise<ActionResult> {
     return (await api.patch<ActionResult>(`/quests/${questId}/applications/${applicationId}/decline`, {}, withAuth())).data
+  },
+
+  async updateAdminApplication(applicationId: number, dto: AdminQuestApplicationUpdateRequest): Promise<ActionResult> {
+    return (await api.put<ActionResult>(`/admin/applications/${applicationId}`, dto, withAuth())).data
+  },
+
+  async deleteAdminApplication(applicationId: number): Promise<ActionResult> {
+    return (await api.delete<ActionResult>(`/admin/applications/${applicationId}`, withAuth())).data
   },
 
   async createQuestReview(questId: number, dto: UserReviewRequest): Promise<UserReview> {

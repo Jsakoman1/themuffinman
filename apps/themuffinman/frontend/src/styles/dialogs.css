@@ -37,6 +37,7 @@
 
 .dialog-panel--xl {
   width: min(calc(100vw - 32px), 1360px);
+  height: min(calc(100dvh - 48px), 940px);
   max-height: min(calc(100dvh - 48px), 940px);
 }
 
@@ -91,7 +92,7 @@
   gap: 14px;
   padding: 20px 22px 18px;
   border-bottom: 1px solid var(--border);
-  background: var(--surface-muted);
+  background: color-mix(in srgb, var(--accent) 12%, #ffffff);
   backdrop-filter: none;
 }
 
@@ -100,7 +101,7 @@
   gap: 0;
   padding: 10px 14px 8px;
   border-bottom: 1px solid var(--border);
-  background: var(--surface-muted);
+  background: color-mix(in srgb, var(--accent) 12%, #ffffff);
 }
 
 .dialog-panel__header--chrome-only .dialog-panel__header-main {

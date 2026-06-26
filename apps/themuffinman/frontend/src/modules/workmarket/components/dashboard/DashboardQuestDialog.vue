@@ -12,13 +12,13 @@ import QuestDetailContent from "../shared/QuestDetailContent.vue"
 import {createQuestDialogViewState} from "../../composables/dashboard/createQuestDialogViewState.ts"
 import type {DashboardQuestDialogFacade} from "../../composables/dashboard/dashboardFacades.ts"
 import {useQuestDialogUiActions} from "../../composables/dashboard/useQuestDialogUiActions.ts"
-import {routeForNavigationTarget} from "../../shared/navigationTargets.ts"
 
 const props = defineProps<{
   dashboard: DashboardQuestDialogFacade
 }>()
 
 const isApplyFormVisible = ref(false)
+const isPreviewOpen = ref(false)
 
 const viewState = createQuestDialogViewState(props.dashboard)
 const {
@@ -55,6 +55,11 @@ const {
 
 watch(() => quest.value?.id, () => {
   isApplyFormVisible.value = false
+  isPreviewOpen.value = false
+
+  if (quest.value && canEdit.value) {
+    props.dashboard.startEditingQuest(quest.value)
+  }
 }, {immediate: true})
 
 watch(canApply, (value) => {
@@ -62,12 +67,16 @@ watch(canApply, (value) => {
     isApplyFormVisible.value = false
   }
 })
+
+const openPreview = () => {
+  isPreviewOpen.value = true
+}
 </script>
 
 <template>
   <UiDialog
     :open="!!quest"
-    :title="quest?.title ?? 'Quest'"
+    title=""
     subtitle=""
     size="xl"
     :chrome-only-header="true"
@@ -89,6 +98,18 @@ watch(canApply, (value) => {
 
       <DashboardQuestEditForm
         v-if="canEdit"
+        :key="[
+          quest.id,
+          quest.title,
+          quest.description,
+          quest.awardAmount,
+          quest.scheduledAt ?? '',
+          quest.endsAt ?? '',
+          quest.audience,
+          quest.status,
+          quest.images.join('|'),
+          quest.visibleToCircles.map((circle) => circle.id).join(',')
+        ].join(':')"
         :dashboard="props.dashboard"
         @discard="props.dashboard.startEditingQuest(quest)"
       >
@@ -116,9 +137,9 @@ watch(canApply, (value) => {
 
         <template #side-after>
           <div class="ui-action-stretch">
-            <RouterLink class="button button--ghost" :to="routeForNavigationTarget(quest.questNavigation)">
-              Open quest page
-            </RouterLink>
+            <button class="button button--ghost" type="button" @click="openPreview">
+              Preview Quest
+            </button>
           </div>
         </template>
       </DashboardQuestEditForm>
@@ -196,12 +217,37 @@ watch(canApply, (value) => {
           </div>
 
           <div class="ui-action-stretch">
-            <RouterLink class="button button--ghost" :to="routeForNavigationTarget(quest.questNavigation)">
-              Open quest page
-            </RouterLink>
+            <button class="button button--ghost" type="button" @click="openPreview">
+              Preview Quest
+            </button>
           </div>
         </template>
       </QuestDetailContent>
     </div>
+  </UiDialog>
+
+  <UiDialog
+    v-if="quest"
+    :open="isPreviewOpen"
+    title=""
+    subtitle=""
+    size="lg"
+    :allow-expand="false"
+    :chrome-only-header="true"
+    @close="isPreviewOpen = false"
+  >
+    <QuestDetailContent
+      :quest="quest"
+      :show-title="true"
+      :show-overview="true"
+      :show-my-application="false"
+      :can-open-application="false"
+      :show-term-change-details="false"
+      :term-change-section="null"
+      :execution-section="null"
+      :management-section="null"
+      :is-saving="false"
+      :is-action-in-progress="false"
+    />
   </UiDialog>
 </template>

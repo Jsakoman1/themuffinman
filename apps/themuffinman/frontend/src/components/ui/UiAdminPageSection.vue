@@ -11,7 +11,7 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <UiSurfaceSection soft>
+  <UiSurfaceSection plain>
     <AppPageHeader :title="title" :subtitle="subtitle">
       <template v-if="$slots.actions" #actions>
         <slot name="actions" />

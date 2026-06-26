@@ -3,6 +3,8 @@ package com.themuffinman.app.social.service;
 import com.themuffinman.app.social.dto.CircleRequestCreateDTO;
 import com.themuffinman.app.social.dto.CircleBlockCreateDTO;
 import com.themuffinman.app.social.dto.AdminCircleOverviewDTO;
+import com.themuffinman.app.social.dto.BulkCircleMembershipAction;
+import com.themuffinman.app.social.dto.BulkCircleMembershipUpdateDTO;
 import com.themuffinman.app.social.dto.CircleOverviewDTO;
 import com.themuffinman.app.social.dto.CircleRelationDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
@@ -633,6 +635,36 @@ class CircleServiceTest {
         assertEquals(List.of(10L), result.getCircleIds());
         assertEquals(List.of("Friends"), result.getCircleNames());
     }
+
+    @Test
+    void updateConnectionCirclesBulkAddsSelectedCircleToMultipleUsers() {
+        AppUser owner = createUser(1L, "owner");
+        AppUser alice = createUser(2L, "alice");
+        AppUser bob = createUser(3L, "bob");
+
+        CircleGroup circle = new CircleGroup();
+        circle.setId(10L);
+        circle.setOwner(owner);
+        circle.setName("Friends");
+
+        when(circleGroupRepository.findByIdAndOwnerId(10L, 1L)).thenReturn(Optional.of(circle));
+        when(appUserLookupService.requireById(2L)).thenReturn(alice);
+        when(appUserLookupService.requireById(3L)).thenReturn(bob);
+        when(circleRelationService.isCircleBetween(owner, alice)).thenReturn(true);
+        when(circleRelationService.isCircleBetween(owner, bob)).thenReturn(true);
+        when(circleMembershipService.getMembershipsForContact(2L, 1L)).thenReturn(List.of());
+        when(circleMembershipService.getMembershipsForContact(3L, 1L)).thenReturn(List.of());
+
+        circleService.updateConnectionCirclesBulk(BulkCircleMembershipUpdateDTO.builder()
+                .circleId(10L)
+                .userIds(List.of(2L, 3L))
+                .action(BulkCircleMembershipAction.ADD)
+                .build(), owner);
+
+        verify(circleMembershipService).syncConnectionCircles(owner, alice, List.of(10L));
+        verify(circleMembershipService).syncConnectionCircles(owner, bob, List.of(10L));
+    }
+
 
     private AppUser createUser(Long id, String username) {
         AppUser appUser = new AppUser();

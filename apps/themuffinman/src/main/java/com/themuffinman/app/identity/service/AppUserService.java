@@ -4,6 +4,7 @@ import com.themuffinman.app.identity.dto.AppUserRequestDTO;
 import com.themuffinman.app.workmarket.mapper.QuestMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
+import com.themuffinman.app.location.service.LocationSettingsService;
 import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
 import com.themuffinman.app.workmarket.model.QuestStatus;
 import com.themuffinman.app.identity.repository.AppUserRepository;
@@ -28,6 +29,7 @@ public class AppUserService {
     private final QuestRepository questRepository;
     private final PasswordEncoder passwordEncoder;
     private final QuestMgr questMgr;
+    private final LocationSettingsService locationSettingsService;
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
 
     public AppUser createAppUser(AppUserRequestDTO dto) {
@@ -158,6 +160,10 @@ public class AppUserService {
 
         if (overwriteExisting || dto.getProfileAvatarDataUrl() != null) {
             appUser.setProfileAvatarDataUrl(ProfileValueNormalizer.normalizeAvatarDataUrl(dto.getProfileAvatarDataUrl()));
+        }
+
+        if (overwriteExisting || dto.getLocationSettings() != null) {
+            locationSettingsService.applyUserLocationSettings(appUser, dto.getLocationSettings());
         }
     }
 

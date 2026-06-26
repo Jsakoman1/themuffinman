@@ -69,9 +69,13 @@ Run commands from `apps/themuffinman` unless stated otherwise.
 
 The backend expects PostgreSQL at:
 - `jdbc:postgresql://localhost:5432/side_quest_db`
+- with `PostGIS` available for nearby quest search
 
 Current local configuration is defined in:
 - `src/main/resources/application.properties`
+- optional local env overrides:
+  - `.env.backend.dev`
+  - `.env.backend.dev.local`
 
 Important notes:
 - Flyway is enabled and manages schema changes
@@ -79,6 +83,9 @@ Important notes:
 - when changing the database schema, add a new Flyway migration instead of editing an old one
 - the base `application.properties` is production-oriented and expects security env vars
 - for local development, run with `SPRING_PROFILES_ACTIVE=dev`
+- `make dev` and `make backend-dev` provide local JWT/CORS defaults
+- `make dev` auto-loads values from `.env.backend.dev` and `.env.backend.dev.local` and skips starting another backend if port `8080` is already in use
+- `make backend-dev` also auto-loads values from `.env.backend.dev` and `.env.backend.dev.local`
 - production should not run with the `dev` profile
 
 ### Frontend

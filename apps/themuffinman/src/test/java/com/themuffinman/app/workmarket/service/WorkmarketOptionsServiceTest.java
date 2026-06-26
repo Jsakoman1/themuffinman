@@ -1,17 +1,26 @@
 package com.themuffinman.app.workmarket.service;
 
+import com.themuffinman.app.location.service.LocationSettingsService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(MockitoExtension.class)
 class WorkmarketOptionsServiceTest {
 
-    private final WorkmarketOptionsService workmarketOptionsService = new WorkmarketOptionsService();
+    @Mock
+    private LocationSettingsService locationSettingsService;
 
     @Test
     void getOptionsReturnsGeneratedFilterCollections() {
-        var result = workmarketOptionsService.getOptions();
+        var workmarketOptionsService = new WorkmarketOptionsService(locationSettingsService);
+        var result = workmarketOptionsService.getOptions(null);
 
         assertTrue(result.getQuestStatusFilters().stream().anyMatch(option -> "ALL".equals(option.getValue())));
         assertTrue(result.getQuestApplicationStatusFilters().stream().anyMatch(option -> "PENDING".equals(option.getValue())));
@@ -26,5 +35,11 @@ class WorkmarketOptionsServiceTest {
                 .findFirst()
                 .orElseThrow()
                 .getLabel());
+        assertEquals("Best match", result.getQuestSortOptions().stream()
+                .filter(option -> "recommended".equals(option.getValue()))
+                .findFirst()
+                .orElseThrow()
+                .getLabel());
+        assertEquals(List.of(5, 10, 20, 30), result.getQuestSearchDefaults().getRadiusOptionsKm());
     }
 }

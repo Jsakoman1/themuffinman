@@ -1,6 +1,6 @@
 import {createFeedbackMutationRunner} from "../../../../composables/createFeedbackMutationRunner.ts"
 import {normalizeSearchQuery} from "../../../../lib/searchQuery.ts"
-import {workmarketApi, type ActionResult, type CircleContact} from "../../../workmarket/api/workmarketApi.ts"
+import {workmarketApi, type CircleContact} from "../../../workmarket/api/workmarketApi.ts"
 
 type CirclesMutationState = {
   isSaving: {value: boolean}
@@ -25,25 +25,32 @@ export const useCirclesMutationActions = (
     }
   })
 
-  const runCircleMutation = async (
-    action: () => Promise<ActionResult>,
+  const toMessage = (result: unknown, fallback: string) => {
+    if (typeof result === "object" && result !== null && "message" in result && typeof result.message === "string") {
+      return result.message
+    }
+    return fallback
+  }
+
+  const runCircleMutation = async <TResult>(
+    action: () => Promise<TResult>,
     fallbackMessage: string,
     options: {
       tone?: "success" | "warning"
       refresh?: () => Promise<void>
-      onSuccess?: () => void
+      successMessage?: string
+      onSuccess?: (result: TResult | null) => void
     } = {}
   ) => {
     state.isSaving.value = true
     try {
       await runWithFeedback({
         run: action,
-        successMessage: (result) => result.message,
+        successMessage: (result) => toMessage(result, options.successMessage ?? "Saved."),
         errorMessage: fallbackMessage,
         successTone: options.tone ?? "success",
         afterSuccess: async (result) => {
-          void result
-          options.onSuccess?.()
+          options.onSuccess?.(result)
           await (options.refresh ?? helpers.refreshOverviewAndData)()
         }
       })
@@ -80,11 +87,27 @@ export const useCirclesMutationActions = (
     )
   }
 
+  const renameCircle = async (circleId: number, name: string) => {
+    await runCircleMutation(
+      () => workmarketApi.updateCircle(circleId, {name: normalizeSearchQuery(name)}),
+      "Could not rename circle.",
+      {refresh: helpers.refreshWorkspace, successMessage: "Circle renamed."}
+    )
+  }
+
   const saveConnectionCircles = async (connection: CircleContact) => {
     const nextCircleIds = helpers.getSelectedCircleIds(connection)
     await runCircleMutation(
       () => workmarketApi.updateConnectionCircles(connection.userId, {circleIds: nextCircleIds}),
       "Could not update circles.",
+      {refresh: helpers.refreshWorkspace}
+    )
+  }
+
+  const bulkUpdateConnections = async (circleId: number, userIds: number[], action: "ADD" | "REMOVE") => {
+    await runCircleMutation(
+      () => workmarketApi.updateConnectionCirclesBulk({circleId, userIds, action}),
+      "Could not update people.",
       {refresh: helpers.refreshWorkspace}
     )
   }
@@ -116,7 +139,9 @@ export const useCirclesMutationActions = (
   return {
     createCircle,
     deleteCircle,
+    renameCircle,
     saveConnectionCircles,
+    bulkUpdateConnections,
     sendRequest,
     blockUser,
     unblockUser,

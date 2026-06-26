@@ -20,12 +20,19 @@ const hasChanges = computed(() => {
   }
 
   return props.dashboard.editQuestTitle.trim() !== quest.title.trim()
-    || props.dashboard.editQuestDescription.trim() !== quest.description.trim()
+    || props.dashboard.editQuestDescription !== quest.description
     || props.dashboard.editQuestAwardAmount.trim() !== String(quest.awardAmount ?? "").trim()
     || props.dashboard.editQuestScheduledAt !== formatInstantForInput(quest.scheduledAt)
     || props.dashboard.editQuestEndsAt !== formatInstantForInput(quest.endsAt)
     || props.dashboard.editQuestTermMode !== normalizedTermMode.value
     || props.dashboard.editQuestAudience !== quest.audience
+    || props.dashboard.editQuestLocationSource !== (quest.locationSource ?? "PROFILE")
+    || props.dashboard.editQuestLocationCountry !== (quest.locationCountry ?? "")
+    || props.dashboard.editQuestLocationLocality !== (quest.locationLocality ?? "")
+    || props.dashboard.editQuestLocationPostalCode !== (quest.locationPostalCode ?? "")
+    || props.dashboard.editQuestLocationStreet !== (quest.locationStreet ?? "")
+    || props.dashboard.editQuestLocationHouseNumber !== (quest.locationHouseNumber ?? "")
+    || props.dashboard.editQuestLocationVisibility !== quest.locationVisibility
     || props.dashboard.editQuestCreatorId !== String(quest.creatorId)
     || props.dashboard.editQuestStatus !== quest.status
     || props.dashboard.editQuestSelectedCircleIds.length !== quest.visibleToCircles.length
@@ -48,6 +55,14 @@ const hasChanges = computed(() => {
     :audience-options="dashboard.questAudienceOptions"
     :circles="dashboard.circles"
     :selected-circle-ids="dashboard.editQuestSelectedCircleIds"
+    :location-source="dashboard.editQuestLocationSource"
+    :location-country="dashboard.editQuestLocationCountry"
+    :location-locality="dashboard.editQuestLocationLocality"
+    :location-postal-code="dashboard.editQuestLocationPostalCode"
+    :location-street="dashboard.editQuestLocationStreet"
+    :location-house-number="dashboard.editQuestLocationHouseNumber"
+    :location-visibility="dashboard.editQuestLocationVisibility"
+    :location-visibility-options="dashboard.questLocationVisibilityOptions"
     :images="dashboard.editQuestImages"
     inline-editable
     :submit-visible="hasChanges"
@@ -67,6 +82,13 @@ const hasChanges = computed(() => {
     @update:scheduled-at="dashboard.editQuestScheduledAt = $event"
     @update:ends-at="dashboard.editQuestEndsAt = $event"
     @update:audience="dashboard.editQuestAudience = $event"
+    @update:location-source="dashboard.editQuestLocationSource = $event"
+    @update:location-country="dashboard.editQuestLocationCountry = $event"
+    @update:location-locality="dashboard.editQuestLocationLocality = $event"
+    @update:location-postal-code="dashboard.editQuestLocationPostalCode = $event"
+    @update:location-street="dashboard.editQuestLocationStreet = $event"
+    @update:location-house-number="dashboard.editQuestLocationHouseNumber = $event"
+    @update:location-visibility="dashboard.editQuestLocationVisibility = $event"
     @toggle:circle="dashboard.editQuestSelectedCircleIds = dashboard.editQuestSelectedCircleIds.includes($event)
       ? dashboard.editQuestSelectedCircleIds.filter((id) => id !== $event)
       : [...dashboard.editQuestSelectedCircleIds, $event]"
@@ -74,7 +96,7 @@ const hasChanges = computed(() => {
     @remove:image="dashboard.removeEditQuestImage($event)"
     @update:creator-id="dashboard.editQuestCreatorId = $event"
     @update:status="dashboard.editQuestStatus = $event"
-    @submit="dashboard.saveEditedQuest"
+    @save="dashboard.saveEditedQuest"
     @cancel="$emit('discard')"
   >
     <template #main-after>

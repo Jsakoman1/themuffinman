@@ -8,6 +8,8 @@ export const createDashboardOptionState = (dashboardOptions: Ref<WorkmarketOptio
   const questAudienceOptions = computed(() => dashboardOptions.value?.questAudiences ?? [])
   const questAudienceFilterOptions = computed(() => dashboardOptions.value?.questAudienceFilters ?? [])
   const questSortOptions = computed(() => dashboardOptions.value?.questSortOptions ?? [])
+  const questSearchDefaults = computed(() => dashboardOptions.value?.questSearchDefaults ?? null)
+  const questLocationVisibilityOptions = computed(() => dashboardOptions.value?.questLocationVisibilities ?? [])
 
   return {
     questStatusFilterOptions,
@@ -15,6 +17,8 @@ export const createDashboardOptionState = (dashboardOptions: Ref<WorkmarketOptio
     questStatusOptions,
     questAudienceOptions,
     questAudienceFilterOptions,
-    questSortOptions
+    questSortOptions,
+    questSearchDefaults,
+    questLocationVisibilityOptions
   }
 }

@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router";
 import {isAdmin, isLoggedIn} from "./auth.ts";
 
+const AdminOverviewPage = () => import("./modules/workmarket/pages/AdminOverviewPage.vue");
 const AdminQuestsPage = () => import("./modules/workmarket/pages/AdminQuestsPage.vue");
 const AdminApplicationsPage = () => import("./modules/workmarket/pages/AdminApplicationsPage.vue");
 const AdminCirclesPage = () => import("./modules/social/pages/AdminCirclesPage.vue");
@@ -12,6 +13,7 @@ const ApplicationDetailView = () => import("./modules/workmarket/views/Applicati
 const LoginView = () => import("./modules/identity/views/LoginView.vue");
 const RegisterView = () => import("./modules/identity/views/RegisterView.vue");
 const UserProfileView = () => import("./modules/social/views/UserProfileView.vue");
+const UserSettingsView = () => import("./modules/social/views/UserSettingsView.vue");
 const ModulePlaceholderView = () => import("./views/ModulePlaceholderView.vue");
 
 
@@ -63,18 +65,24 @@ const routes = [
         meta: {requiresAuth: true}
     },
     {
+        path: '/settings',
+        component: UserSettingsView,
+        meta: {requiresAuth: true}
+    },
+    {
         path: '/admin',
         redirect: '/admin/work',
         meta: {requiresAuth: true, requiresAdmin: true}
     },
     {
         path: '/admin/work',
-        component: AdminQuestsPage,
+        component: AdminOverviewPage,
         meta: {requiresAuth: true, requiresAdmin: true}
     },
     {
         path: '/admin/quests',
-        redirect: '/admin/work'
+        component: AdminQuestsPage,
+        meta: {requiresAuth: true, requiresAdmin: true}
     },
     {
         path: '/admin/users',

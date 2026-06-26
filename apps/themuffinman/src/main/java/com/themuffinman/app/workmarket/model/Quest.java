@@ -1,6 +1,8 @@
 package com.themuffinman.app.workmarket.model;
 
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.location.model.QuestLocationVisibility;
+import com.themuffinman.app.location.model.QuestLocationSource;
 import com.themuffinman.app.social.model.CircleGroup;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -86,5 +88,49 @@ public class Quest {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private QuestStatus status = QuestStatus.OPEN;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "location_visibility", nullable = false)
+    private QuestLocationVisibility locationVisibility = QuestLocationVisibility.INHERIT;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "location_source", nullable = false)
+    private QuestLocationSource locationSource = QuestLocationSource.PROFILE;
+
+    @Column(name = "location_label")
+    private String locationLabel;
+
+    @Column(name = "location_provider")
+    private String locationProvider;
+
+    @Column(name = "location_provider_place_id")
+    private String locationProviderPlaceId;
+
+    @Column(name = "location_country_code")
+    private String locationCountryCode;
+
+    @Column(name = "location_country")
+    private String locationCountry;
+
+    @Column(name = "location_locality")
+    private String locationLocality;
+
+    @Column(name = "location_postal_code")
+    private String locationPostalCode;
+
+    @Column(name = "location_street")
+    private String locationStreet;
+
+    @Column(name = "location_house_number")
+    private String locationHouseNumber;
+
+    @Column(name = "location_latitude", precision = 9, scale = 6)
+    private BigDecimal locationLatitude;
+
+    @Column(name = "location_longitude", precision = 9, scale = 6)
+    private BigDecimal locationLongitude;
+
+    @Column(name = "location_resolved_at")
+    private Instant locationResolvedAt;
 
 }

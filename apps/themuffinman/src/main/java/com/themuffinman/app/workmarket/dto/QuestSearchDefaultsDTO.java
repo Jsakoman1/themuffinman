@@ -11,7 +11,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DashboardOverviewSectionDTO {
-    private List<DashboardRailBucketDTO> postedBuckets;
-    private List<DashboardRailBucketDTO> workBuckets;
+public class QuestSearchDefaultsDTO {
+    private String defaultSort;
+    private Integer defaultRadiusKm;
+    private List<Integer> radiusOptionsKm;
+    private boolean hasViewerLocation;
+    private boolean nearbyDefaultEnabled;
 }

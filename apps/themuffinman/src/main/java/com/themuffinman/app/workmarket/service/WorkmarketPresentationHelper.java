@@ -7,16 +7,8 @@ import com.themuffinman.app.workmarket.model.QuestStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-
 @Component
 public class WorkmarketPresentationHelper {
-
-    private static final ZoneId DEFAULT_ZONE = ZoneId.of("Europe/Zurich");
-    private static final DateTimeFormatter DATE_TIME_FORMATTER =
-            DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm").withZone(DEFAULT_ZONE);
 
     public String formatQuestStatus(@Nullable QuestStatus status) {
         if (status == QuestStatus.WAITING_CONFIRMATION) {
@@ -93,38 +85,6 @@ public class WorkmarketPresentationHelper {
         }
 
         return "status-surface status-surface--open";
-    }
-
-    public String formatQuestTerm(@Nullable Instant scheduledAt, @Nullable Instant endsAt, boolean termFixed) {
-        if (scheduledAt == null) {
-            return termFixed ? "Fixed time not set" : "By agreement";
-        }
-
-        String startLabel = DATE_TIME_FORMATTER.format(scheduledAt);
-        String endLabel = endsAt == null ? null : DATE_TIME_FORMATTER.format(endsAt);
-
-        if (termFixed) {
-            return endLabel == null
-                    ? "Fixed for " + startLabel
-                    : "Fixed from " + startLabel + " to " + endLabel;
-        }
-
-        return endLabel == null
-                ? "Proposed for " + startLabel
-                : "Proposed from " + startLabel + " to " + endLabel;
-    }
-
-    public String formatQuestSchedule(@Nullable Instant scheduledAt, @Nullable Instant endsAt, boolean termFixed) {
-        if (scheduledAt == null) {
-            return termFixed ? "Time not set" : "By agreement";
-        }
-
-        String startLabel = DATE_TIME_FORMATTER.format(scheduledAt);
-        String endLabel = endsAt == null ? null : DATE_TIME_FORMATTER.format(endsAt);
-
-        return endLabel == null
-                ? startLabel
-                : startLabel + " to " + endLabel;
     }
 
     public String formatTimeType(boolean termFixed) {

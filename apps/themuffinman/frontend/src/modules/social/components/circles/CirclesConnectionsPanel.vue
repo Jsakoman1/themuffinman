@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import ProfileEntityCard from "../../../../components/profile/ProfileEntityCard.vue"
-import UiFieldGroup from "../../../../components/ui/UiFieldGroup.vue"
+import {computed, ref} from "vue"
+import ProfileAvatar from "../../../../components/profile/ProfileAvatar.vue"
 import UiPagination from "../../../../components/ui/UiPagination.vue"
 import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 import type {CircleContact, CircleGroup} from "../../../workmarket/api/workmarketApi.ts"
 
-defineProps<{
+const props = defineProps<{
   title: string
-  searchQuery: string
   circles: CircleGroup[]
   connectionsItems: CircleContact[]
   connectionsPages: number
@@ -18,48 +17,59 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (event: "update:search-query", value: string): void
   (event: "open-user", userId: number): void
   (event: "toggle-circle", payload: {connection: CircleContact; circleId: number}): void
   (event: "save-connection", connection: CircleContact): void
   (event: "reset-connection", connection: CircleContact): void
+  (event: "bulk-assign", payload: {circleId: number; userIds: number[]; action: "ADD" | "REMOVE"}): void
   (event: "remove-connection", relationId: number): void
   (event: "block-user", userId: number): void
   (event: "previous-page"): void
   (event: "next-page"): void
 }>()
+
+const bulkCircleId = ref<number | null>(null)
+const visibleUserIds = computed(() => props.connectionsItems.map((connection) => connection.userId))
+
+const runBulkAssign = (action: "ADD" | "REMOVE") => {
+  if (bulkCircleId.value === null || visibleUserIds.value.length === 0) {
+    return
+  }
+
+  emit("bulk-assign", {circleId: bulkCircleId.value, userIds: visibleUserIds.value, action})
+}
 </script>
 
 <template>
   <UiSurfaceSection
-    soft
+    plain
     :title="title"
   >
-    <template #actions>
-      <UiFieldGroup label="Search people" field-class="ui-search-field">
-        <input
-          :value="searchQuery"
-          class="input"
-          placeholder="Username, bio, or circle"
-          @input="emit('update:search-query', ($event.target as HTMLInputElement).value)"
-        />
-      </UiFieldGroup>
-    </template>
+    <div v-if="circles.length && connectionsItems.length" class="circles-bulk-bar">
+      <select v-model="bulkCircleId" class="input circles-bulk-bar__select">
+        <option :value="null" disabled>Choose circle</option>
+        <option v-for="circle in circles" :key="circle.id" :value="circle.id">{{ circle.name }}</option>
+      </select>
+      <button class="button" type="button" :disabled="isSaving || bulkCircleId === null" @click="runBulkAssign('ADD')">Add shown</button>
+      <button class="button button--ghost" type="button" :disabled="isSaving || bulkCircleId === null" @click="runBulkAssign('REMOVE')">Remove shown</button>
+    </div>
 
     <div v-if="connectionsItems.length" class="surface-list">
-      <ProfileEntityCard
-        v-for="connection in connectionsItems"
-        :key="connection.relationId"
-        :username="connection.username"
-        :avatar-data-url="connection.profileAvatarDataUrl"
-        :meta="connection.circleSummaryLabel"
-        :description="connection.profileDescription"
-        :size="52"
-        @open="emit('open-user', connection.userId)"
-      >
-        <template #badge>
-          <span v-if="hasPendingCircleChanges(connection)" class="badge badge--warning">Unsaved</span>
-        </template>
+      <article v-for="connection in connectionsItems" :key="connection.relationId" class="circles-connection-row">
+        <button class="circles-connection-row__identity" type="button" @click="emit('open-user', connection.userId)">
+          <ProfileAvatar
+            :username="connection.username"
+            :avatar-data-url="connection.profileAvatarDataUrl"
+            :size="46"
+          />
+          <div class="stack stack--xs">
+            <div class="circles-connection-row__title">
+              <strong>{{ connection.username }}</strong>
+              <span v-if="hasPendingCircleChanges(connection)" class="badge badge--warning">Unsaved</span>
+            </div>
+            <div class="muted">{{ connection.circleSummaryLabel }}</div>
+          </div>
+        </button>
 
         <div v-if="circles.length" class="circles-chip-cloud">
           <button
@@ -75,18 +85,13 @@ const emit = defineEmits<{
           </button>
         </div>
 
-        <template #actions>
-          <div class="button-row">
-            <button class="button" type="button" :disabled="isSaving || !hasPendingCircleChanges(connection)" @click="emit('save-connection', connection)">Save</button>
-            <button class="button button--ghost" type="button" :disabled="isSaving || !hasPendingCircleChanges(connection)" @click="emit('reset-connection', connection)">Reset</button>
-          </div>
-
-          <div class="button-row">
-            <button class="button button--secondary" type="button" :disabled="isSaving" @click="emit('remove-connection', connection.relationId)">Remove</button>
-            <button class="button button--secondary" type="button" :disabled="isSaving" @click="emit('block-user', connection.userId)">Block</button>
-          </div>
-        </template>
-      </ProfileEntityCard>
+        <div class="circles-connection-row__actions">
+          <button class="button" type="button" :disabled="isSaving || !hasPendingCircleChanges(connection)" @click="emit('save-connection', connection)">Save</button>
+          <button class="button button--ghost" type="button" :disabled="isSaving || !hasPendingCircleChanges(connection)" @click="emit('reset-connection', connection)">Reset</button>
+          <button class="button button--secondary" type="button" :disabled="isSaving" @click="emit('remove-connection', connection.relationId)">Remove</button>
+          <button class="button button--secondary" type="button" :disabled="isSaving" @click="emit('block-user', connection.userId)">Block</button>
+        </div>
+      </article>
     </div>
 
     <div v-else class="empty-state surface-empty-panel">

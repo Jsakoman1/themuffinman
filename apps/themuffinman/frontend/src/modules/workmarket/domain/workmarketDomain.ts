@@ -16,7 +16,7 @@ export type {
 
 const values = <T extends readonly string[]>(...items: T) => items
 
-const DASHBOARD_TABS = values("calendar", "create-job", "find-work", "circles")
+const DASHBOARD_TABS = values("calendar", "side-job")
 const QUEST_SORT_MODES = values("recommended", "newest", "highest")
 
 export type DashboardTab = typeof DASHBOARD_TABS[number]
@@ -25,7 +25,5 @@ export type QuestStatusFilter = QuestStatus | "ALL"
 
 export const dashboardTabs: Array<{id: DashboardTab; title: string; description: string}> = [
   {id: "calendar", title: "Calendar", description: "See scheduled work and open days"},
-  {id: "create-job", title: "Create job", description: "Post and manage your jobs"},
-  {id: "find-work", title: "Find work", description: "Browse open jobs"},
-  {id: "circles", title: "Circles", description: "Organize connections into private work groups"}
+  {id: "side-job", title: "SideJob", description: "Offer jobs, track applications, and open the right flow when needed"}
 ]

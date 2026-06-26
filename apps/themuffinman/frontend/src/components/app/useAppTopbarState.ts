@@ -23,6 +23,16 @@ export const useAppTopbarState = () => {
     await router.push(`/users/${currentUser.value.id}`)
   }
 
+  const openSettings = async () => {
+    menus.closeMenus()
+    notifications.notificationsOpen.value = false
+    if (!currentUser.value) {
+      return
+    }
+
+    await router.push("/settings")
+  }
+
   const handleLogout = async () => {
     menus.closeMenus()
     notifications.notificationsOpen.value = false
@@ -54,6 +64,7 @@ export const useAppTopbarState = () => {
       await notifications.toggleNotifications()
     },
     openProfile,
+    openSettings,
     markAllNotificationsRead: notifications.markAllNotificationsRead,
     openNotificationItem: notifications.openNotificationItem,
     handleLogout

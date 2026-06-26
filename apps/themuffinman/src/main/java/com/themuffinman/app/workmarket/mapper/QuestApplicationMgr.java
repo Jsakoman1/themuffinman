@@ -45,6 +45,7 @@ public class QuestApplicationMgr {
                 .id(application.getId())
                 .questId(application.getQuest().getId())
                 .questTitle(application.getQuest().getTitle())
+                .questCreatorUsername(application.getQuest().getCreator().getUsername())
                 .questDescription(application.getQuest().getDescription())
                 .questStatus(application.getQuest().getStatus())
                 .questAssigneeTarget(application.getQuest().getAssigneeTarget())
@@ -73,11 +74,6 @@ public class QuestApplicationMgr {
                         .statusSurfaceClass(presentationHelper.surfaceClassForApplicationStatus(application.getStatus()))
                         .questStatusLabel(presentationHelper.formatQuestStatus(application.getQuest().getStatus()))
                         .questStatusBadgeClass(presentationHelper.badgeClassForQuestStatus(application.getQuest().getStatus()))
-                        .questTermLabel(presentationHelper.formatQuestTerm(
-                                application.getQuest().getScheduledAt(),
-                                application.getQuest().getEndsAt(),
-                                application.getQuest().isTermFixed()
-                        ))
                         .canEdit(false)
                         .canWithdraw(false)
                         .autoOpenEditForm(false)

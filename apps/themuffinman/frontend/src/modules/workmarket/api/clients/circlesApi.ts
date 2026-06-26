@@ -83,6 +83,20 @@ export const circlesApi = {
     })).data
   },
 
+  async getBlockedCircleUsersPage(params: TextPageQuery): Promise<CircleCandidateListResponse> {
+    return (await api.get<CircleCandidateListResponse>("/circles/blocked", {
+      ...withAuth(),
+      params: buildQueryParams(params)
+    })).data
+  },
+
+  async getNearbyCircleUsersPage(params: PageQuery & {radiusKm?: number}): Promise<CircleCandidateListResponse> {
+    return (await api.get<CircleCandidateListResponse>("/circles/nearby", {
+      ...withAuth(),
+      params: buildQueryParams(params)
+    })).data
+  },
+
   async getCircleConnectionsPage(params: CircleConnectionsQuery): Promise<CircleContactListResponse> {
     return (await api.get<CircleContactListResponse>("/circles/connections", {
       ...withAuth(),
@@ -124,5 +138,9 @@ export const circlesApi = {
 
   async updateConnectionCircles(userId: number, dto: ConnectionCircleUpdateRequest): Promise<ActionResult> {
     return (await api.put<ActionResult>(`/circles/connections/${userId}/circles`, dto, withAuth())).data
+  },
+
+  async updateConnectionCirclesBulk(dto: {circleId: number; userIds: number[]; action: "ADD" | "REMOVE"}): Promise<ActionResult> {
+    return (await api.put<ActionResult>("/circles/connections/circles/bulk", dto, withAuth())).data
   }
 }

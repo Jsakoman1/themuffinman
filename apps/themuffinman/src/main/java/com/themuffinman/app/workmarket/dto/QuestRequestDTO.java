@@ -1,6 +1,8 @@
 package com.themuffinman.app.workmarket.dto;
 
 import com.themuffinman.app.common.contract.ContractOptional;
+import com.themuffinman.app.location.model.QuestLocationVisibility;
+import com.themuffinman.app.location.model.QuestLocationSource;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -57,4 +59,31 @@ public class QuestRequestDTO {
             @Pattern(regexp = "^data:image/.*", message = "Quest images must be image data URLs")
             String
             > images;
+    @ContractOptional
+    @Nullable
+    private QuestLocationVisibility locationVisibility;
+    @ContractOptional
+    @Nullable
+    private QuestLocationSource locationSource;
+    @ContractOptional
+    @Nullable
+    private String locationLabel;
+    @ContractOptional
+    @Nullable
+    private String locationCountryCode;
+    @ContractOptional
+    @Nullable
+    private String locationCountry;
+    @ContractOptional
+    @Nullable
+    private String locationLocality;
+    @ContractOptional
+    @Nullable
+    private String locationPostalCode;
+    @ContractOptional
+    @Nullable
+    private String locationStreet;
+    @ContractOptional
+    @Nullable
+    private String locationHouseNumber;
 }

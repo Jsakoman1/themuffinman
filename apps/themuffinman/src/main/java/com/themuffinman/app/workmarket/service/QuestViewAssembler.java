@@ -1,6 +1,5 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.common.dto.LabelValueDTO;
 import com.themuffinman.app.workmarket.dto.QuestAllowedAction;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
@@ -17,6 +16,7 @@ import com.themuffinman.app.workmarket.mapper.QuestApplicationMgr;
 import com.themuffinman.app.workmarket.mapper.QuestMgr;
 import com.themuffinman.app.workmarket.mapper.UserReviewMgr;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.location.service.LocationSettingsService;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
@@ -40,6 +40,7 @@ public class QuestViewAssembler {
     private final UserReviewRepository userReviewRepository;
     private final UserReviewMgr userReviewMgr;
     private final WorkmarketPresentationHelper presentationHelper;
+    private final LocationSettingsService locationSettingsService;
 
     public QuestResponseDTO toResponse(Quest quest, AppUser currentUser, Map<Long, QuestApplication> applicationsByQuestId) {
         QuestResponseDTO dto = questMgr.toDto(quest);
@@ -56,7 +57,7 @@ public class QuestViewAssembler {
                 viewerApplication == null ? null : viewerApplication.getId(),
                 canViewApplications
         );
-        response.setPresentation(buildQuestPresentation(response));
+        response.setPresentation(buildQuestPresentation(quest, response, currentUser));
         return response;
     }
 
@@ -139,16 +140,6 @@ public class QuestViewAssembler {
                 .summaryLabel("Term change waiting")
                 .confirmLabel("Confirm term change")
                 .rejectLabel("Reject term change")
-                .currentTermLabel(presentationHelper.formatQuestTerm(
-                        quest.getScheduledAt(),
-                        quest.getEndsAt(),
-                        quest.isTermFixed()
-                ))
-                .pendingTermLabel(presentationHelper.formatQuestTerm(
-                        quest.getPendingScheduledAt(),
-                        quest.getPendingEndsAt(),
-                        quest.getPendingTermFixed() == null ? quest.isTermFixed() : quest.getPendingTermFixed()
-                ))
                 .currentScheduledAt(quest.getScheduledAt())
                 .currentEndsAt(quest.getEndsAt())
                 .currentTermFixed(quest.isTermFixed())
@@ -214,7 +205,7 @@ public class QuestViewAssembler {
         return null;
     }
 
-    private QuestPresentationDTO buildQuestPresentation(QuestResponseDTO questResponse) {
+    private QuestPresentationDTO buildQuestPresentation(Quest quest, QuestResponseDTO questResponse, AppUser currentUser) {
         boolean canStart = questResponse.getAllowedActions().contains(QuestAllowedAction.START);
         boolean canComplete = questResponse.getAllowedActions().contains(QuestAllowedAction.COMPLETE);
         boolean canRespondToTermChange = questResponse.getAllowedActions().contains(QuestAllowedAction.CONFIRM_TERM_CHANGE)
@@ -224,31 +215,13 @@ public class QuestViewAssembler {
                 .statusLabel(presentationHelper.formatQuestStatus(questResponse.getStatus()))
                 .statusBadgeClass(presentationHelper.badgeClassForQuestStatus(questResponse.getStatus()))
                 .statusSurfaceClass(presentationHelper.surfaceClassForQuestStatus(questResponse.getStatus()))
-                .termLabel(presentationHelper.formatQuestTerm(
-                        questResponse.getScheduledAt(),
-                        questResponse.getEndsAt(),
-                        questResponse.isTermFixed()
-                ))
-                .termScheduleLabel(presentationHelper.formatQuestSchedule(
-                        questResponse.getScheduledAt(),
-                        questResponse.getEndsAt(),
-                        questResponse.isTermFixed()
-                ))
                 .timeTypeLabel(presentationHelper.formatTimeType(questResponse.isTermFixed()))
                 .audienceLabel(presentationHelper.formatAudience(questResponse.getAudience()))
+                .locationLabel(locationSettingsService.resolveQuestLocationLabel(quest, currentUser))
+                .locationSourceSummary(locationSettingsService.resolveQuestLocationSourceSummary(quest))
+                .locationVisibilitySummary(locationSettingsService.resolveQuestLocationVisibilitySummary(quest, currentUser))
                 .assigneeTargetVisible(presentationHelper.showAssigneeTarget(questResponse.getAssigneeTarget()))
                 .assigneeTargetLabel(presentationHelper.formatAssigneeTarget(questResponse.getAssigneeTarget()))
-                .detailMeta(buildDetailMeta(questResponse))
-                .pendingTermLabel(presentationHelper.formatQuestTerm(
-                        questResponse.getPendingScheduledAt(),
-                        questResponse.getPendingEndsAt(),
-                        questResponse.getPendingTermFixed() == null ? questResponse.isTermFixed() : questResponse.getPendingTermFixed()
-                ))
-                .pendingTermScheduleLabel(presentationHelper.formatQuestSchedule(
-                        questResponse.getPendingScheduledAt(),
-                        questResponse.getPendingEndsAt(),
-                        questResponse.getPendingTermFixed() == null ? questResponse.isTermFixed() : questResponse.getPendingTermFixed()
-                ))
                 .canEdit(questResponse.getAllowedActions().contains(QuestAllowedAction.EDIT))
                 .canApply(questResponse.getAllowedActions().contains(QuestAllowedAction.APPLY))
                 .canViewApplications(questResponse.getAllowedActions().contains(QuestAllowedAction.VIEW_APPLICATIONS))
@@ -272,26 +245,4 @@ public class QuestViewAssembler {
                 .build();
     }
 
-    private List<LabelValueDTO> buildDetailMeta(QuestResponseDTO questResponse) {
-        List<LabelValueDTO> items = new ArrayList<>();
-        items.add(LabelValueDTO.builder()
-                .label("When")
-                .value(presentationHelper.formatQuestTerm(
-                        questResponse.getScheduledAt(),
-                        questResponse.getEndsAt(),
-                        questResponse.isTermFixed()
-                ))
-                .build());
-        items.add(LabelValueDTO.builder()
-                .label("Type")
-                .value(presentationHelper.formatTimeType(questResponse.isTermFixed()))
-                .build());
-        if (presentationHelper.showAssigneeTarget(questResponse.getAssigneeTarget())) {
-            items.add(LabelValueDTO.builder()
-                    .label("Workers")
-                    .value(presentationHelper.formatAssigneeTarget(questResponse.getAssigneeTarget()))
-                    .build());
-        }
-        return List.copyOf(items);
-    }
 }

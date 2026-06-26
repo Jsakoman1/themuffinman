@@ -19,7 +19,7 @@ withDefaults(defineProps<{
 
 <template>
   <section class="surface-stack">
-    <UiSurfaceSection :class="{ card: boxed }" soft>
+    <UiSurfaceSection :class="{ card: boxed }" :soft="boxed" :plain="!boxed">
       <UiSectionHeader v-if="showHeader" :title="title" :subtitle="subtitle" />
 
       <div v-if="!hasItems" class="empty-state">

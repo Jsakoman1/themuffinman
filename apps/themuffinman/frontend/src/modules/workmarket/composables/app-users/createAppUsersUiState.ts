@@ -10,6 +10,7 @@ export const createAppUsersUiState = () => {
   const feedbackType = feedbackState.tone
   const isCreateUserDialogOpen = ref(false)
   const deleteCandidateUserId = ref<number | null>(null)
+  const selectedDetailUserId = ref<number | null>(null)
   const showFeedback = feedbackState.show
 
   const showCopiedDebug = () => {
@@ -32,17 +33,28 @@ export const createAppUsersUiState = () => {
     deleteCandidateUserId.value = null
   }
 
+  const openUserDetailDialog = (userId: number) => {
+    selectedDetailUserId.value = userId
+  }
+
+  const closeUserDetailDialog = () => {
+    selectedDetailUserId.value = null
+  }
+
   return {
     copiedDebug,
     feedback,
     feedbackType,
     isCreateUserDialogOpen,
     deleteCandidateUserId,
+    selectedDetailUserId,
     showFeedback,
     showCopiedDebug,
     openCreateUserDialog,
     closeCreateUserDialog,
     openDeleteUserDialog,
-    closeDeleteUserDialog
+    closeDeleteUserDialog,
+    openUserDetailDialog,
+    closeUserDetailDialog
   }
 }

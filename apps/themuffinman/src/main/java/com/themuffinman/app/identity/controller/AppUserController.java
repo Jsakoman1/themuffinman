@@ -4,9 +4,11 @@ import com.themuffinman.app.common.dto.ActionResultDTO;
 import com.themuffinman.app.common.dto.ActionResults;
 import com.themuffinman.app.identity.dto.AppUserRequestDTO;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
+import com.themuffinman.app.identity.dto.AdminUserDetailDTO;
 import com.themuffinman.app.identity.dto.UserProfileViewDTO;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.identity.service.AdminUserDetailService;
 import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.identity.service.UserProfileViewService;
 import com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO;
@@ -24,6 +26,7 @@ import java.util.List;
 public class AppUserController {
     private final AppUserService appUserService;
     private final AppUserMgr appUserMgr;
+    private final AdminUserDetailService adminUserDetailService;
     private final UserProfileViewService userProfileViewService;
     private final WorkmarketOptionsService workmarketOptionsService;
 
@@ -42,8 +45,8 @@ public class AppUserController {
     }
 
     @GetMapping("/options")
-    public WorkmarketOptionsDTO getAppUserOptions() {
-        return workmarketOptionsService.getOptions();
+    public WorkmarketOptionsDTO getAppUserOptions(@AuthenticationPrincipal AppUser currentUser) {
+        return workmarketOptionsService.getOptions(currentUser);
     }
 
     @GetMapping("/me")
@@ -60,6 +63,14 @@ public class AppUserController {
                 appUserService.countQuestsByCreatorId(appUser.getId()),
                 appUserService.getOpenQuestsByCreatorId(appUser.getId())
         );
+    }
+
+    @GetMapping("/{id}/admin-detail")
+    public AdminUserDetailDTO getAdminUserDetail(
+            @PathVariable long id,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return adminUserDetailService.getDetail(id, currentUser);
     }
 
     @GetMapping("/{id}/profile-view")

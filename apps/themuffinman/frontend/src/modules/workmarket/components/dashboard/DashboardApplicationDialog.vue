@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {watch} from "vue"
+import {ref} from "vue"
 import UiDialog from "../../../../components/ui/UiDialog.vue"
 import DashboardEditSheet from "./DashboardEditSheet.vue"
 import UiStatusBanner from "../../../../components/ui/UiStatusBanner.vue"
@@ -16,6 +16,8 @@ const props = defineProps<{
   dashboard: DashboardApplicationEditFacade
 }>()
 
+const saveRevision = ref(0)
+
 const viewState = createApplicationDialogViewState(props.dashboard)
 const {
   application,
@@ -28,19 +30,24 @@ const {
   quest
 } = viewState
 const {
-  startEditing,
   discardEditing,
   openQuest,
   withdrawApplication
 } = useApplicationDialogUiActions(props.dashboard, viewState)
 
-watch(() => application.value?.id, (applicationId) => {
-  if (applicationId !== undefined && applicationId !== null && canEdit.value) {
-    props.dashboard.editApplicationMessage = application.value?.message ?? ""
-    props.dashboard.editApplicationPrice = String(application.value?.proposedPrice ?? "")
-    startEditing()
+const saveApplication = async () => {
+  if (!application.value) {
+    return
   }
-}, {immediate: true})
+
+  const saved = await props.dashboard.saveEditedApplication(application.value.questId)
+  if (!saved) {
+    return
+  }
+
+  saveRevision.value += 1
+  discardEditing()
+}
 </script>
 
 <template>
@@ -64,9 +71,10 @@ watch(() => application.value?.id, (applicationId) => {
             @open-posted-by="props.dashboard.openUserProfileDialog(quest.creatorId)"
           />
 
-          <form v-if="canEdit && isEditing" class="form-stack form-stack--compact calendar-application-form" @submit.prevent="props.dashboard.saveEditedApplication(application!.questId)">
+          <form v-if="canEdit && isEditing" class="form-stack form-stack--compact calendar-application-form" @submit.prevent="saveApplication">
             <DashboardEditSheet :minimal="true">
               <ApplicationEditFields
+                :key="`${application.id}:${application.message}:${application.proposedPrice}:${saveRevision}`"
                 :message="props.dashboard.editApplicationMessage"
                 :price="props.dashboard.editApplicationPrice"
                 price-placeholder="50"

@@ -2,8 +2,10 @@ import type {QuestApplicationStatus} from "../domain/workmarketDomain.ts"
 
 export type {
   ActionResultDTO,
+  AdminQuestApplicationUpdateRequestDTO,
   AdminCircleGroup,
   AdminCircleOverview,
+  AdminUserDetailDTO,
   AppUser,
   AppUserRoleOption,
   AppUserRequest,
@@ -26,6 +28,13 @@ export type {
   DashboardResponse,
   DashboardSections,
   DashboardSummary,
+  ExactLocationVisibilityScopeOptionDTO,
+  LocationDebugStatusDTO,
+  LocationLookupCandidate,
+  LocationLookupRequest,
+  LocationLookupResponse,
+  LocationReverseLookupRequest,
+  LocationModeOption,
   LoginRequest,
   NavigationTarget,
   NavigationTargetType,
@@ -40,6 +49,7 @@ export type {
   QuestApplicationsView,
   QuestDetail,
   QuestDetailSections,
+  QuestLocationVisibilityOption,
   QuestListPreset,
   QuestListResponse,
   QuestNewsItem,
@@ -47,6 +57,7 @@ export type {
   QuestStatusFilterOption,
   QuestStatusOption,
   RegisterRequest,
+  UserLocationSettings,
   UserProfileView,
   UserRatingSummary,
   UserReview,
@@ -55,6 +66,8 @@ export type {
 } from "../../../contracts/index.ts"
 
 export type ActionResult = import("../../../contracts/index.ts").ActionResultDTO
+export type AdminQuestApplicationUpdateRequest = import("../../../contracts/index.ts").AdminQuestApplicationUpdateRequestDTO
+export type AdminUserDetail = import("../../../contracts/index.ts").AdminUserDetailDTO
 export type QuestRequest = import("../../../contracts/index.ts").QuestRequestDTO & {
   images?: string[]
 }
@@ -67,3 +80,5 @@ export type QuestSearchRequest = Partial<import("../../../contracts/index.ts").Q
   sort?: import("../domain/workmarketDomain.ts").QuestSortMode
 }
 export type TextPageQuery = Partial<import("../../../contracts/index.ts").TextPageQueryDTO>
+export type LocationDebugStatus = import("../../../contracts/index.ts").LocationDebugStatusDTO
+export type ExactLocationVisibilityScopeOption = import("../../../contracts/index.ts").ExactLocationVisibilityScopeOptionDTO

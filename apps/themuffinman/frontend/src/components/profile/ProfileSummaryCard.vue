@@ -28,7 +28,10 @@ withDefaults(defineProps<{
 <template>
   <UiSurfaceSection class="ui-profile-summary" :soft="soft">
     <div class="ui-profile-summary__header">
-      <ProfileAvatar :username="username" :avatar-data-url="avatarDataUrl" :size="size" />
+      <div class="ui-profile-summary__avatar-shell">
+        <ProfileAvatar :username="username" :avatar-data-url="avatarDataUrl" :size="size" />
+        <slot name="avatarActions" />
+      </div>
 
       <div class="ui-profile-summary__identity">
         <div class="ui-profile-summary__name-row">
@@ -47,3 +50,10 @@ withDefaults(defineProps<{
     </div>
   </UiSurfaceSection>
 </template>
+
+<style scoped>
+.ui-profile-summary__avatar-shell {
+  position: relative;
+  width: fit-content;
+}
+</style>

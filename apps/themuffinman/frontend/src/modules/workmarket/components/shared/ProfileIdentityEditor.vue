@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onBeforeUnmount, onMounted, ref} from "vue"
+import {ref} from "vue"
 import ProfileAvatar from "../../../../components/profile/ProfileAvatar.vue"
 import UiFieldGroup from "../../../../components/ui/UiFieldGroup.vue"
 
@@ -7,6 +7,9 @@ const props = defineProps<{
   email?: string | null
   username?: string | null
   avatarDataUrl?: string | null
+  showAvatar?: boolean
+  showEmail?: boolean
+  showUsername?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -17,80 +20,44 @@ const emit = defineEmits<{
 }>()
 
 const profileImageInputRef = ref<HTMLInputElement | null>(null)
-const profileImageMenuRef = ref<HTMLElement | null>(null)
 const editingEmail = ref(false)
 const editingUsername = ref(false)
-const imageActionsOpen = ref(false)
 
 const openProfileImagePicker = () => {
-  imageActionsOpen.value = false
   profileImageInputRef.value?.click()
 }
 
-const toggleImageActions = () => {
-  imageActionsOpen.value = !imageActionsOpen.value
-}
-
 const clearProfileImage = () => {
-  imageActionsOpen.value = false
   emit("clear-image")
 }
-
-const handleDocumentClick = (event: MouseEvent) => {
-  if (!imageActionsOpen.value) {
-    return
-  }
-
-  const menuElement = profileImageMenuRef.value
-  const target = event.target
-  if (!(menuElement instanceof HTMLElement) || !(target instanceof Node)) {
-    imageActionsOpen.value = false
-    return
-  }
-
-  if (!menuElement.contains(target)) {
-    imageActionsOpen.value = false
-  }
-}
-
-onMounted(() => {
-  document.addEventListener("mousedown", handleDocumentClick)
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener("mousedown", handleDocumentClick)
-})
 </script>
 
 <template>
-  <div ref="profileImageMenuRef" class="dashboard-profile-edit-side">
-    <div class="dashboard-profile-avatar-editor">
+  <div class="dashboard-profile-edit-side">
+    <div v-if="showAvatar !== false" class="dashboard-profile-avatar-editor">
       <ProfileAvatar :username="username" :avatar-data-url="avatarDataUrl" :size="96" />
       <button
         class="button button--icon button--secondary button--icon-compact dashboard-profile-avatar-editor__trigger"
         type="button"
-        aria-label="Profile image actions"
-        title="Profile image actions"
-        @click="toggleImageActions"
+        aria-label="Change profile picture"
+        title="Change profile picture"
+        @click="openProfileImagePicker"
       >
         ✎
       </button>
-      <div v-if="imageActionsOpen" class="dashboard-profile-avatar-editor__menu">
-        <button class="button button--secondary dashboard-profile-avatar-editor__menu-action" type="button" @click="openProfileImagePicker">
-          {{ avatarDataUrl ? "Change picture" : "Choose picture" }}
-        </button>
-        <button
-          v-if="avatarDataUrl"
-          class="button button--secondary dashboard-profile-avatar-editor__menu-action"
-          type="button"
-          @click="clearProfileImage"
-        >
-          Remove picture
-        </button>
-      </div>
+      <button
+        v-if="avatarDataUrl"
+        class="button button--icon button--secondary button--icon-compact dashboard-profile-avatar-editor__remove"
+        type="button"
+        aria-label="Remove profile picture"
+        title="Remove profile picture"
+        @click="clearProfileImage"
+      >
+        ×
+      </button>
     </div>
 
-    <UiFieldGroup label="Email" field-class="ui-edit-field ui-edit-field--profile-email ui-edit-field--profile-inline">
+    <UiFieldGroup v-if="showEmail !== false" label="Email" field-class="ui-edit-field ui-edit-field--profile-email ui-edit-field--profile-inline">
       <template #headerAction>
         <button class="button button--icon button--secondary button--icon-compact" type="button" aria-label="Edit email" @click="editingEmail = !editingEmail">✎</button>
       </template>
@@ -105,7 +72,7 @@ onBeforeUnmount(() => {
       <div v-else class="ui-inline-readonly-text">{{ email || "-" }}</div>
     </UiFieldGroup>
 
-    <UiFieldGroup label="Username" field-class="ui-edit-field ui-edit-field--profile-username ui-edit-field--profile-inline">
+    <UiFieldGroup v-if="showUsername !== false" label="Username" field-class="ui-edit-field ui-edit-field--profile-username ui-edit-field--profile-inline">
       <template #headerAction>
         <button class="button button--icon button--secondary button--icon-compact" type="button" aria-label="Edit username" @click="editingUsername = !editingUsername">✎</button>
       </template>

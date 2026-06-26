@@ -5,6 +5,7 @@ import type {Quest} from "../../api/workmarketApi.ts"
 import {createDashboardQuestListState} from "../../composables/dashboard/createDashboardQuestListState.ts"
 import type {DashboardQuestListFacade} from "../../composables/dashboard/dashboardFacades.ts"
 import {routeForNavigationTarget} from "../../shared/navigationTargets.ts"
+import {formatQuestScheduleForDisplay} from "../../../../shared/questSchedule.ts"
 import DashboardSummaryListButton from "../shared/DashboardSummaryListButton.vue"
 import DashboardSummaryListSection from "../shared/DashboardSummaryListSection.vue"
 
@@ -28,15 +29,11 @@ const props = withDefaults(defineProps<{
 const router = useRouter()
 const {quests} = createDashboardQuestListState(props.dashboard, {quests: props.quests})
 
-const questStatusOrder: Record<string, number> = {
-  OPEN: 1,
-  IN_PROGRESS: 2,
-  ASSIGNED: 3,
-  COMPLETED: 4,
-  CANCELLED: 5,
-}
-
 const groupedQuests = computed(() => {
+  if (!props.quests) {
+    return props.dashboard.dashboardSections?.myQuestGroups ?? []
+  }
+
   const groups = new Map<string, {key: string; label: string; items: Quest[]}>()
 
   for (const quest of quests.value) {
@@ -54,9 +51,22 @@ const groupedQuests = computed(() => {
     })
   }
 
-  return Array.from(groups.values()).sort((left, right) =>
-    (questStatusOrder[left.key] ?? 999) - (questStatusOrder[right.key] ?? 999)
-  )
+  const questStatusOrder: Record<string, number> = {
+    OPEN: 1,
+    WAITING_CONFIRMATION: 2,
+    ASSIGNED: 3,
+    IN_PROGRESS: 4,
+    COMPLETED: 5,
+    CANCELLED: 6,
+  }
+
+  return Array.from(groups.values())
+    .sort((left, right) => (questStatusOrder[left.key] ?? 999) - (questStatusOrder[right.key] ?? 999))
+    .map((group) => ({
+      ...group,
+      count: group.items.length,
+      tone: "accent"
+    }))
 })
 
 const openQuest = async (quest: Quest) => {
@@ -76,33 +86,26 @@ const openQuest = async (quest: Quest) => {
     <section
       v-for="group in groupedQuests"
       :key="group.key"
-      class="dashboard-status-group"
+        :class="['dashboard-status-group', `dashboard-status-group--${group.key.toLowerCase()}`]"
     >
       <div class="dashboard-status-group__header">
+        <span class="dashboard-status-group__count">{{ group.count }}</span>
         <strong class="dashboard-status-group__title">{{ group.label }}</strong>
-        <span class="badge badge--secondary">{{ group.items.length }}</span>
       </div>
 
       <div class="quest-list">
         <DashboardSummaryListButton
           v-for="quest in group.items"
           :key="quest.id"
-          primary-label="Amount"
-          :primary-value="quest.awardAmount"
-          primary-icon="$"
-          money-tone="expense"
-          secondary-label="Term"
-          :secondary-value="quest.presentation.termLabel"
+          primary-label="When"
+          :primary-value="formatQuestScheduleForDisplay(quest.scheduledAt, quest.endsAt)"
           :title="quest.title"
-          :description="quest.description"
+          description=""
           :status-surface-class="quest.presentation.statusSurfaceClass"
           :pulse="dashboard.successPulseTarget === `quest-${quest.id}`"
+          :compact-inline="true"
           @click="openQuest(quest)"
-        >
-          <template #meta>
-            <span :class="quest.presentation.statusBadgeClass">{{ quest.presentation.statusLabel }}</span>
-          </template>
-        </DashboardSummaryListButton>
+        />
       </div>
     </section>
   </DashboardSummaryListSection>

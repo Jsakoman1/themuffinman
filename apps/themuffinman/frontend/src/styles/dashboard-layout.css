@@ -2,10 +2,10 @@
   display: grid;
   gap: 10px;
   align-items: end;
-  padding: 14px 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .ui-filter-bar--1 {
@@ -20,12 +20,131 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.ui-filter-bar--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .ui-filter-bar--5 {
   grid-template-columns: minmax(0, 1.6fr) repeat(4, minmax(120px, 0.6fr));
 }
 
 .dashboard-overview {
   width: 100%;
+}
+
+.dashboard-sidejob-screen {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-sidejob-layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  align-items: start;
+  flex: 1;
+  min-height: 0;
+}
+
+.dashboard-sidejob-panel {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  min-height: 100%;
+}
+
+.dashboard-sidejob-panel + .dashboard-sidejob-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -16px;
+  width: 1px;
+  background: rgba(73, 53, 34, 0.12);
+}
+
+.dashboard-sidejob-panel .surface-section__header {
+  min-height: 48px;
+  padding-bottom: 2px;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-sidejob-panel .surface-section__heading {
+  width: 100%;
+  justify-items: center;
+  text-align: center;
+}
+
+.dashboard-sidejob-panel .surface-section__title {
+  font-size: 1.28rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+}
+
+.dashboard-sidejob-panel .surface-stack,
+.dashboard-sidejob-panel .quest-list {
+  gap: 8px;
+}
+
+.dashboard-sidejob-panel .surface-section {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.dashboard-sidejob-panel .empty-state {
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+}
+
+.dashboard-sidejob-panel__cta {
+  display: grid;
+  justify-items: center;
+  align-items: start;
+  min-height: 52px;
+  padding: 2px 0 4px;
+}
+
+.dashboard-sidejob-panel__cta-button {
+  width: auto;
+  min-width: 220px;
+  min-height: 46px;
+  padding-inline: 22px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  border-color: var(--accent);
+}
+
+.dashboard-sidejob-panel__cta-button:hover {
+  background: color-mix(in srgb, var(--accent) 92%, #000000 8%);
+  border-color: color-mix(in srgb, var(--accent) 92%, #000000 8%);
+  color: var(--accent-foreground);
+}
+
+@media (max-width: 960px) {
+  .dashboard-sidejob-screen {
+    display: block;
+  }
+
+  .dashboard-sidejob-panel + .dashboard-sidejob-panel::before {
+    display: none;
+  }
+
+  .dashboard-sidejob-layout {
+    flex: initial;
+  }
 }
 
 .dashboard-overview__layout {
@@ -37,6 +156,12 @@
   min-height: calc(100dvh - 220px);
 }
 
+@media (max-width: 960px) {
+  .dashboard-sidejob-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
 .dashboard-overview__column,
 .dashboard-overview__planner {
   display: grid;
@@ -44,6 +169,28 @@
   gap: 16px;
   min-width: 0;
   min-height: 0;
+}
+
+.dashboard-calendar-panel {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.dashboard-calendar-panel .surface-section__header {
+  padding-bottom: 4px;
+}
+
+.dashboard-calendar-panel .surface-section__actions {
+  align-items: flex-start;
+}
+
+.dashboard-calendar-sidebar {
+  gap: 18px;
+}
+
+.dashboard-calendar-workspace {
+  grid-template-columns: minmax(0, 1.52fr) minmax(250px, 300px);
 }
 
 .dashboard-overview__column-action {
@@ -59,9 +206,9 @@
 }
 
 .dashboard-overview__column-action--accent {
-  background: #e7efff;
+  background: rgba(123, 92, 63, 0.12);
   color: var(--accent);
-  border-color: rgba(15, 98, 254, 0.16);
+  border-color: rgba(123, 92, 63, 0.16);
 }
 
 .dashboard-overview__stack {
@@ -142,9 +289,10 @@
   display: grid;
   gap: 5px;
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  background: var(--surface-strong);
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  background: transparent;
   cursor: pointer;
   text-align: left;
   min-height: 0;
@@ -155,20 +303,20 @@
 }
 
 .dashboard-overview__item:hover {
-  background: var(--surface-muted);
-  border-color: var(--border-strong);
+  background: rgba(123, 92, 63, 0.03);
+  border-color: rgba(123, 92, 63, 0.2);
 }
 
 .dashboard-overview__item--success {
-  border-left: 4px solid rgba(22, 101, 52, 0.72);
+  box-shadow: inset 3px 0 0 rgba(22, 101, 52, 0.72);
 }
 
 .dashboard-overview__item--warning {
-  border-left: 4px solid rgba(180, 35, 24, 0.72);
+  box-shadow: inset 3px 0 0 rgba(180, 35, 24, 0.72);
 }
 
 .dashboard-overview__item--accent {
-  border-left: 4px solid rgba(15, 98, 254, 0.72);
+  box-shadow: inset 3px 0 0 rgba(123, 92, 63, 0.72);
 }
 
 .dashboard-overview__item:focus-visible,
@@ -208,6 +356,15 @@
   background: transparent;
   position: relative;
   overflow: hidden;
+}
+
+.surface-stack--content {
+  min-height: 0;
+}
+
+.surface-stack--content > .dashboard-work-panel--find {
+  align-self: stretch;
+  min-height: 100%;
 }
 
 .dashboard-main .card {
@@ -279,8 +436,8 @@
 
 .surface-form-shell .rich-text-editor__frame {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 250, 255, 0.98)),
-    radial-gradient(circle at top right, rgba(15, 98, 254, 0.08), transparent 42%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(249, 246, 241, 0.98)),
+    radial-gradient(circle at top right, rgba(123, 92, 63, 0.08), transparent 42%);
 }
 
 .surface-form-shell .rich-text-editor__button {
@@ -345,6 +502,7 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 10px;
+  align-items: center;
 }
 
 .admin-shell-header__tabs {
@@ -359,6 +517,37 @@
 
 .admin-shell-header__tab {
   min-width: 110px;
+}
+
+.admin-shell-header__logout {
+  min-width: 104px;
+}
+
+.admin-filter-summary {
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.admin-more-filters {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-more-filters > summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  list-style: none;
+}
+
+.admin-more-filters > summary::-webkit-details-marker {
+  display: none;
+}
+
+.admin-more-filters[open] > summary {
+  margin-bottom: 2px;
 }
 
 .button--active {

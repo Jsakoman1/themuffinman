@@ -12,7 +12,7 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <UiSurfaceSection :title="title" :compact="compact">
+  <UiSurfaceSection :title="title" :compact="compact" plain>
     <slot v-if="hasItems" />
     <div v-else class="empty-state">{{ emptyMessage }}</div>
   </UiSurfaceSection>

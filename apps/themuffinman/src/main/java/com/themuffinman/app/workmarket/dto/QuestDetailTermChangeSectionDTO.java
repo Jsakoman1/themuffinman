@@ -18,9 +18,6 @@ public class QuestDetailTermChangeSectionDTO {
     private String summaryLabel;
     private String confirmLabel;
     private String rejectLabel;
-    private String currentTermLabel;
-    @Nullable
-    private String pendingTermLabel;
     @Nullable
     private Instant currentScheduledAt;
     @Nullable

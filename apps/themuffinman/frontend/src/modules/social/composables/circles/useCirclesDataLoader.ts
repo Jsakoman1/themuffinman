@@ -3,18 +3,26 @@ import {workmarketApi, type CircleCandidate, type CircleContactListResponse, typ
 
 type CirclesDataLoaderState = {
   pageSize: number
-  normalizedSearchQuery: {value: string}
-  searchHasQuery: {value: boolean}
+  normalizedDirectoryQuery: {value: string}
+  normalizedDiscoverQuery: {value: string}
+  discoverHasQuery: {value: boolean}
   activeCircleFilter: {value: number | "all" | "unassigned"}
   connectionsPage: {value: number}
   incomingPage: {value: number}
   outgoingPage: {value: number}
+  blockedPage: {value: number}
+  nearbyPage: {value: number}
+  nearbyRadiusKm: {value: number}
   circles: {value: CircleGroup[]}
   inviteCandidates: {value: CircleCandidate[]}
   searchResults: {value: CircleCandidate[]}
+  blockedResults: {value: CircleCandidate[]}
+  nearbyResults: {value: CircleCandidate[]}
   connectionsPageData: {value: CircleContactListResponse | null}
   incomingPageData: {value: CircleRequestListResponse | null}
   outgoingPageData: {value: CircleRequestListResponse | null}
+  blockedPageData: {value: import("../../../workmarket/api/workmarketApi.ts").CircleCandidateListResponse | null}
+  nearbyPageData: {value: import("../../../workmarket/api/workmarketApi.ts").CircleCandidateListResponse | null}
   overviewConnectionCount: {value: number}
   overviewUnassignedConnectionCount: {value: number}
   overviewIncomingRequestCount: {value: number}
@@ -45,7 +53,7 @@ export const useCirclesDataLoader = (state: CirclesDataLoaderState) => {
   }
 
   const loadConnectionsPage = async () => {
-    const query = state.searchHasQuery.value ? state.normalizedSearchQuery.value : null
+    const query = state.normalizedDirectoryQuery.value.length >= 2 ? state.normalizedDirectoryQuery.value : null
     const circleId = state.activeCircleFilter.value === "all" || state.activeCircleFilter.value === "unassigned"
       ? null
       : state.activeCircleFilter.value
@@ -65,7 +73,7 @@ export const useCirclesDataLoader = (state: CirclesDataLoaderState) => {
   }
 
   const loadInboxPage = async () => {
-    const query = state.searchHasQuery.value ? state.normalizedSearchQuery.value : null
+    const query = state.normalizedDirectoryQuery.value.length >= 2 ? state.normalizedDirectoryQuery.value : null
 
     try {
       const [incomingResponse, outgoingResponse] = await Promise.all([
@@ -88,14 +96,28 @@ export const useCirclesDataLoader = (state: CirclesDataLoaderState) => {
     }
   }
 
+  const loadBlockedPage = async () => {
+    const query = state.normalizedDirectoryQuery.value.length >= 2 ? state.normalizedDirectoryQuery.value : null
+
+    try {
+      state.blockedPageData.value = await workmarketApi.getBlockedCircleUsersPage({
+        q: query,
+        page: state.blockedPage.value - 1,
+        size: state.pageSize
+      })
+    } catch (requestError) {
+      state.error.value = getApiErrorMessage(requestError, "Could not load blocked users.")
+    }
+  }
+
   const loadSuggestions = async () => {
     state.isSearching.value = true
     state.error.value = ""
 
     try {
-      if (state.searchHasQuery.value) {
+      if (state.discoverHasQuery.value) {
         state.searchResults.value = (await workmarketApi.searchCircleUsersPage({
-          q: state.normalizedSearchQuery.value,
+          q: state.normalizedDiscoverQuery.value,
           page: 0,
           size: 12
         })).items
@@ -116,11 +138,25 @@ export const useCirclesDataLoader = (state: CirclesDataLoaderState) => {
     }
   }
 
+  const loadNearbyPage = async () => {
+    try {
+      state.nearbyPageData.value = await workmarketApi.getNearbyCircleUsersPage({
+        radiusKm: state.nearbyRadiusKm.value,
+        page: state.nearbyPage.value - 1,
+        size: state.pageSize
+      })
+    } catch (requestError) {
+      state.error.value = getApiErrorMessage(requestError, "Could not load nearby people.")
+    }
+  }
+
   const refreshCircleData = async () => {
     await Promise.all([
       loadConnectionsPage(),
       loadInboxPage(),
-      loadSuggestions()
+      loadBlockedPage(),
+      loadSuggestions(),
+      loadNearbyPage()
     ])
   }
 
@@ -137,7 +173,9 @@ export const useCirclesDataLoader = (state: CirclesDataLoaderState) => {
     loadCircles,
     loadConnectionsPage,
     loadInboxPage,
+    loadBlockedPage,
     loadSuggestions,
+    loadNearbyPage,
     refreshCircleData,
     refreshOverviewAndData,
     refreshWorkspace

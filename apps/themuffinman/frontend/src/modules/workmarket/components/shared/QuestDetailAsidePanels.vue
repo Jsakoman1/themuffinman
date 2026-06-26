@@ -6,6 +6,7 @@ import UiFieldGroup from "../../../../components/ui/UiFieldGroup.vue"
 import UiStarRatingInput from "../../../../components/ui/UiStarRatingInput.vue"
 import {richTextHasContent} from "../../../../shared/richText.ts"
 import type {Quest, QuestApplication, QuestDetail} from "../../api/workmarketApi.ts"
+import {formatQuestScheduleForDisplay, formatQuestTermForDisplay} from "../../../../shared/questSchedule.ts"
 
 const props = withDefaults(defineProps<{
   quest?: Quest | null
@@ -88,7 +89,17 @@ const emit = defineEmits<{
 
         <div class="quest-overview-aside__row quest-overview-aside__row--stack">
           <span class="quest-overview-aside__label">When</span>
-          <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ quest.presentation.termScheduleLabel }}</span>
+          <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ formatQuestScheduleForDisplay(quest.scheduledAt, quest.endsAt) }}</span>
+        </div>
+
+        <div v-if="quest.presentation.locationLabel" class="quest-overview-aside__row quest-overview-aside__row--stack">
+          <span class="quest-overview-aside__label">Location</span>
+          <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ quest.presentation.locationLabel }}</span>
+        </div>
+
+        <div v-if="quest.presentation.locationVisibilitySummary" class="quest-overview-aside__row quest-overview-aside__row--stack">
+          <span class="quest-overview-aside__label">Location sharing</span>
+          <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ quest.presentation.locationVisibilitySummary }}</span>
         </div>
 
         <div v-if="quest.presentation.assigneeTargetVisible" class="quest-overview-aside__row">
@@ -108,6 +119,11 @@ const emit = defineEmits<{
         <div class="quest-overview-aside__row">
           <span class="quest-overview-aside__label">Visibility</span>
           <span class="quest-overview-aside__value">{{ managementSection?.audienceLabel }}</span>
+        </div>
+
+        <div v-if="quest?.presentation.locationSourceSummary" class="quest-overview-aside__row quest-overview-aside__row--stack">
+          <span class="quest-overview-aside__label">Location source</span>
+          <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ quest.presentation.locationSourceSummary }}</span>
         </div>
 
         <div
@@ -151,8 +167,16 @@ const emit = defineEmits<{
         </button>
         <div v-if="showTermChangeDetails" class="alert alert--warning mt-2">
           <div class="stack">
-            <div class="muted">Current term: {{ termChangeSection.currentTermLabel }}</div>
-            <div class="muted">Pending term: {{ termChangeSection.pendingTermLabel }}</div>
+            <div class="muted">
+              Current term:
+              {{ formatQuestTermForDisplay(termChangeSection.currentScheduledAt, termChangeSection.currentEndsAt, termChangeSection.currentTermFixed) }}
+            </div>
+            <div class="muted">
+              Pending term:
+              {{ termChangeSection.pendingScheduledAt
+                ? formatQuestTermForDisplay(termChangeSection.pendingScheduledAt, termChangeSection.pendingEndsAt, termChangeSection.pendingTermFixed ?? termChangeSection.currentTermFixed)
+                : "Not set" }}
+            </div>
           </div>
         </div>
       </div>

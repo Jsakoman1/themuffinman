@@ -9,24 +9,31 @@ export const useQuestDashboardQuestEditMutations = ({
   runMutation
 }: QuestMutationContext) => {
   const saveEditedQuest = async () => {
-    if (state.editingQuestId.value === null) {
+    const questId = state.editingQuestId.value ?? state.questDialogId.value
+    if (questId === null) {
       return
     }
 
-    const questId = state.editingQuestId.value
     const scheduledAt = state.editQuestScheduledAt.value ? state.parseInstantFromInput(state.editQuestScheduledAt.value) : null
     const endsAt = state.editQuestEndsAt.value ? state.parseInstantFromInput(state.editQuestEndsAt.value) : null
 
     const result = await runMutation({
       run: () => workmarketApi.updateQuest(questId, {
         title: state.editQuestTitle.value.trim(),
-        description: state.editQuestDescription.value.trim(),
+        description: state.editQuestDescription.value,
         awardAmount: Number(state.editQuestAwardAmount.value),
         scheduledAt,
         endsAt,
         termFixed: state.editQuestTermFixed.value,
         audience: state.editQuestAudience.value,
         selectedCircleIds: state.editQuestAudience.value === "CIRCLES" ? [...state.editQuestSelectedCircleIds.value] : [],
+        locationVisibility: state.editQuestLocationVisibility.value,
+        locationSource: state.editQuestLocationSource.value,
+        locationCountry: state.editQuestLocationCountry.value || null,
+        locationLocality: state.editQuestLocationLocality.value || null,
+        locationPostalCode: state.editQuestLocationPostalCode.value || null,
+        locationStreet: state.editQuestLocationStreet.value || null,
+        locationHouseNumber: state.editQuestLocationHouseNumber.value || null,
         images: [...state.editQuestImages.value],
         creatorId: state.adminModeEnabled.value && state.editQuestCreatorId.value ? Number(state.editQuestCreatorId.value) : undefined,
         status: state.adminModeEnabled.value ? state.editQuestStatus.value : undefined
@@ -35,9 +42,16 @@ export const useQuestDashboardQuestEditMutations = ({
       errorMessage: "Could not update quest.",
       successPulseTarget: `quest-${questId}`,
       afterSuccess: async () => {
-        state.closeQuestDisclosure(questId)
-        state.closeQuestDialog()
         await helpers.refreshDashboardData()
+
+        const refreshedQuest = state.questForId(questId)
+        if (refreshedQuest) {
+          state.startEditingQuest(refreshedQuest)
+        }
+
+        if (state.selectedQuestDialog.value?.presentation.canViewApplications) {
+          await helpers.loadApplicationsForQuest(questId)
+        }
       }
     })
 

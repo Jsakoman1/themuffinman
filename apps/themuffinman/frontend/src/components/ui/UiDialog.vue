@@ -9,6 +9,7 @@ const props = withDefaults(defineProps<{
   position?: "center" | "drawer"
   size?: "sm" | "md" | "lg" | "xl"
   defaultExpanded?: boolean
+  allowExpand?: boolean
   chromeOnlyHeader?: boolean
 }>(), {
   subtitle: "",
@@ -16,6 +17,7 @@ const props = withDefaults(defineProps<{
   position: "center",
   size: "md",
   defaultExpanded: false,
+  allowExpand: true,
   chromeOnlyHeader: false,
 })
 
@@ -25,7 +27,7 @@ const emit = defineEmits<{
 
 const isExpanded = ref(false)
 
-const canExpand = computed(() => props.position !== "drawer")
+const canExpand = computed(() => props.position !== "drawer" && props.allowExpand)
 const panelClasses = computed(() => [
   "dialog-panel",
   "card",

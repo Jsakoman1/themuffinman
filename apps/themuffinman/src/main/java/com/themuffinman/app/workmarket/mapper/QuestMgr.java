@@ -13,6 +13,7 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestStatus;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
+import com.themuffinman.app.location.service.LocationSettingsService;
 import com.themuffinman.app.workmarket.service.WorkmarketPresentationHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestMgr {
     private final WorkmarketPresentationHelper presentationHelper;
+    private final LocationSettingsService locationSettingsService;
 
     public QuestResponseDTO toDto(Quest quest) {
         if (quest == null) {
@@ -55,6 +57,14 @@ public class QuestMgr {
                 .pendingTermFixed(quest.getPendingTermFixed())
                 .reopenedAt(quest.getReopenedAt())
                 .audience(quest.getAudience())
+                .locationVisibility(quest.getLocationVisibility())
+                .locationSource(quest.getLocationSource())
+                .locationLabel(quest.getLocationLabel())
+                .locationCountry(quest.getLocationCountry())
+                .locationLocality(quest.getLocationLocality())
+                .locationPostalCode(quest.getLocationPostalCode())
+                .locationStreet(quest.getLocationStreet())
+                .locationHouseNumber(quest.getLocationHouseNumber())
                 .visibleToCircles(quest.getVisibleToCircles().stream()
                         .map(circle -> CircleSummaryDTO.builder()
                                 .id(circle.getId())
@@ -75,23 +85,13 @@ public class QuestMgr {
                         .statusLabel(presentationHelper.formatQuestStatus(quest.getStatus()))
                         .statusBadgeClass(presentationHelper.badgeClassForQuestStatus(quest.getStatus()))
                         .statusSurfaceClass(presentationHelper.surfaceClassForQuestStatus(quest.getStatus()))
-                        .termLabel(presentationHelper.formatQuestTerm(quest.getScheduledAt(), quest.getEndsAt(), quest.isTermFixed()))
-                        .termScheduleLabel(presentationHelper.formatQuestSchedule(quest.getScheduledAt(), quest.getEndsAt(), quest.isTermFixed()))
                         .timeTypeLabel(presentationHelper.formatTimeType(quest.isTermFixed()))
                         .audienceLabel(presentationHelper.formatAudience(quest.getAudience()))
+                        .locationLabel(locationSettingsService.resolveQuestLocationLabel(quest, null))
+                        .locationSourceSummary(locationSettingsService.resolveQuestLocationSourceSummary(quest))
+                        .locationVisibilitySummary(locationSettingsService.resolveQuestLocationVisibilitySummary(quest, null))
                         .assigneeTargetVisible(presentationHelper.showAssigneeTarget(quest.getAssigneeTarget()))
                         .assigneeTargetLabel(presentationHelper.formatAssigneeTarget(quest.getAssigneeTarget()))
-                        .detailMeta(buildDetailMeta(quest))
-                        .pendingTermLabel(presentationHelper.formatQuestTerm(
-                                quest.getPendingScheduledAt(),
-                                quest.getPendingEndsAt(),
-                                quest.getPendingTermFixed() == null ? quest.isTermFixed() : quest.getPendingTermFixed()
-                        ))
-                        .pendingTermScheduleLabel(presentationHelper.formatQuestSchedule(
-                                quest.getPendingScheduledAt(),
-                                quest.getPendingEndsAt(),
-                                quest.getPendingTermFixed() == null ? quest.isTermFixed() : quest.getPendingTermFixed()
-                        ))
                         .autoOpenEditForm(false)
                         .termChangeVisible(false)
                         .termChangeActionable(false)
@@ -143,26 +143,10 @@ public class QuestMgr {
         quest.setAudience(dto.getAudience() == null ? com.themuffinman.app.workmarket.model.QuestAudience.CIRCLES : dto.getAudience());
         quest.setImages(dto.getImages() == null ? new java.util.ArrayList<>() : new java.util.ArrayList<>(dto.getImages()));
         quest.setStatus(QuestStatus.OPEN);
+        quest.setLocationVisibility(dto.getLocationVisibility() == null ? com.themuffinman.app.location.model.QuestLocationVisibility.INHERIT : dto.getLocationVisibility());
+        quest.setLocationSource(dto.getLocationSource() == null ? com.themuffinman.app.location.model.QuestLocationSource.PROFILE : dto.getLocationSource());
 
         return quest;
     }
 
-    private List<LabelValueDTO> buildDetailMeta(Quest quest) {
-        List<LabelValueDTO> items = new java.util.ArrayList<>();
-        items.add(LabelValueDTO.builder()
-                .label("When")
-                .value(presentationHelper.formatQuestTerm(quest.getScheduledAt(), quest.getEndsAt(), quest.isTermFixed()))
-                .build());
-        items.add(LabelValueDTO.builder()
-                .label("Type")
-                .value(presentationHelper.formatTimeType(quest.isTermFixed()))
-                .build());
-        if (presentationHelper.showAssigneeTarget(quest.getAssigneeTarget())) {
-            items.add(LabelValueDTO.builder()
-                    .label("Audience")
-                    .value(presentationHelper.formatAssigneeTarget(quest.getAssigneeTarget()))
-                    .build());
-        }
-        return List.copyOf(items);
-    }
 }

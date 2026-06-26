@@ -35,6 +35,11 @@ class RichTextInputValidatorTest {
     }
 
     @Test
+    void sanitizePreservesLeadingWhitespaceInsideRichText() {
+        assertEquals("<p>&nbsp;&nbsp;Need help</p>", RichTextInputValidator.sanitize("<p>  Need help</p>"));
+    }
+
+    @Test
     void hasContentKeepsPlainTextContent() {
         assertTrue(RichTextInputValidator.hasContent("Need help"));
     }

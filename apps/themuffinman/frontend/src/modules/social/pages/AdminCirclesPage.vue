@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue"
+import {computed, onMounted, ref} from "vue"
 import AdminShellHeader from "../../workmarket/components/admin/AdminShellHeader.vue"
 import UiAdminPageSection from "../../../components/ui/UiAdminPageSection.vue"
 import UiAdminTableShell from "../../../components/ui/UiAdminTableShell.vue"
@@ -44,6 +44,13 @@ const relationSections = [
     items: () => overview.value?.blockedRelations ?? [],
   },
 ] as const
+
+const relationRows = computed(() => relationSections.flatMap((section) =>
+  section.items().map((item) => ({
+    ...item,
+    typeLabel: section.title,
+  }))
+))
 
 const loadOverview = async () => {
   isLoading.value = true
@@ -95,6 +102,11 @@ useDebouncedWatch(searchQuery, () => {
         <UiToast :message="feedback" :tone="feedbackTone" />
 
         <UiAdminPageSection title="Circles">
+          <template #actions>
+            <div class="admin-filter-summary">
+              {{ overview?.circles.length ?? 0 }} circles, {{ relationRows.length }} relations
+            </div>
+          </template>
           <template #filters>
             <UiFilterBar :columns="2">
               <UiFieldGroup label="Search">
@@ -107,10 +119,11 @@ useDebouncedWatch(searchQuery, () => {
           <div v-else-if="error" class="alert alert--error">{{ error }}</div>
           <div v-else class="surface-stack">
             <UiAdminTableSection title="Circles" :has-items="!!overview?.circles.length" empty-message="No circles match this search.">
-              <UiAdminTableShell v-if="overview?.circles.length" :has-previous="false" :has-next="false" :show-bottom-pagination="false">
-                <table class="admin-table">
+              <UiAdminTableShell v-if="overview?.circles.length" compact :has-previous="false" :has-next="false" :show-bottom-pagination="false">
+                <table class="admin-table admin-table--compact">
                   <thead>
                     <tr>
+                      <th>ID</th>
                       <th>Name</th>
                       <th>Owner</th>
                       <th>Members</th>
@@ -120,6 +133,7 @@ useDebouncedWatch(searchQuery, () => {
                   </thead>
                   <tbody>
                     <tr v-for="circle in overview.circles" :key="circle.id">
+                      <td>{{ circle.id }}</td>
                       <td><strong>{{ circle.name }}</strong></td>
                       <td>{{ circle.ownerUsername }}</td>
                       <td>{{ circle.memberCount }}</td>
@@ -136,16 +150,16 @@ useDebouncedWatch(searchQuery, () => {
             </UiAdminTableSection>
 
             <UiAdminTableSection
-              v-for="section in relationSections"
-              :key="section.key"
-              :title="section.title"
-              :has-items="section.items().length > 0"
-              :empty-message="section.emptyMessage"
+              title="Relations"
+              :has-items="relationRows.length > 0"
+              empty-message="No relations match this search."
             >
-              <UiAdminTableShell v-if="section.items().length" :has-previous="false" :has-next="false" :show-bottom-pagination="false">
-                <table class="admin-table">
+              <UiAdminTableShell v-if="relationRows.length" compact :has-previous="false" :has-next="false" :show-bottom-pagination="false">
+                <table class="admin-table admin-table--compact">
                   <thead>
                     <tr>
+                      <th>ID</th>
+                      <th>Type</th>
                       <th>Requester</th>
                       <th>Recipient</th>
                       <th>Status</th>
@@ -153,7 +167,9 @@ useDebouncedWatch(searchQuery, () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="item in section.items()" :key="item.id">
+                    <tr v-for="item in relationRows" :key="item.id">
+                      <td>{{ item.id }}</td>
+                      <td>{{ item.typeLabel }}</td>
                       <td>{{ item.requesterUsername }}</td>
                       <td>{{ item.recipientUsername }}</td>
                       <td><span :class="['badge', item.statusBadgeClass]">{{ item.statusLabel }}</span></td>

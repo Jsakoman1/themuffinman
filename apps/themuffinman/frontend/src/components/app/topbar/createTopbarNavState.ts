@@ -39,19 +39,11 @@ export const createTopbarNavState = (route: RouteLocationNormalizedLoaded) => {
         state: "live" as const
       },
       {
-        key: "create-job",
-        title: "Create job",
-        shortTitle: "Create job",
-        path: "/work?tab=create-job",
-        description: "Post and manage your jobs.",
-        state: "live" as const
-      },
-      {
-        key: "find-work",
-        title: "Find job",
-        shortTitle: "Find job",
-        path: "/work?tab=find-work",
-        description: "Browse open jobs.",
+        key: "side-job",
+        title: "SideJob",
+        shortTitle: "SideJob",
+        path: "/work?tab=side-job",
+        description: "Offer jobs and track applications.",
         state: "live" as const
       },
       {
@@ -67,11 +59,9 @@ export const createTopbarNavState = (route: RouteLocationNormalizedLoaded) => {
       ...item,
       active: item.key === "calendar"
         ? route.path.startsWith("/work") && (route.query.tab === undefined || route.query.tab === "calendar")
-        : item.key === "create-job"
-          ? route.path.startsWith("/work") && route.query.tab === "create-job"
-          : item.key === "find-work"
-            ? route.path.startsWith("/work") && route.query.tab === "find-work"
-            : isModuleActive(item.path)
+        : item.key === "side-job"
+          ? route.path.startsWith("/work") && ["side-job", "create-job", "find-work"].includes(String(route.query.tab ?? ""))
+          : isModuleActive(item.path)
     }))
   })
 

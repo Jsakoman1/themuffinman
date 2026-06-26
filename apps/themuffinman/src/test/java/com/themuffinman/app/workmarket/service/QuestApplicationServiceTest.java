@@ -1,6 +1,7 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO;
+import com.themuffinman.app.workmarket.dto.AdminQuestApplicationUpdateRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
@@ -348,6 +349,53 @@ class QuestApplicationServiceTest {
     }
 
     @Test
+    void updateApplicationForAdminCanEditMessageAndPrice() {
+        AppUser admin = createUser(1L, "admin");
+        admin.setRole(AppUserRole.ADMIN);
+        AppUser creator = createUser(2L, "creator");
+        AppUser applicant = createUser(3L, "applicant");
+        Quest quest = createQuest(7L, creator, QuestStatus.OPEN);
+        QuestApplication application = createApplication(11L, quest, applicant, QuestApplicationStatus.PENDING);
+        application.setMessage("Old");
+        application.setProposedPrice(BigDecimal.TEN);
+
+        AdminQuestApplicationUpdateRequestDTO dto = AdminQuestApplicationUpdateRequestDTO.builder()
+                .message("<p>New</p>")
+                .proposedPrice(BigDecimal.valueOf(55))
+                .build();
+        QuestApplicationResponseDTO responseDTO = QuestApplicationResponseDTO.builder()
+                .id(11L)
+                .status(QuestApplicationStatus.PENDING)
+                .build();
+
+        when(questApplicationRepository.findByIdDetailed(11L)).thenReturn(Optional.of(application));
+        when(questApplicationRepository.save(application)).thenReturn(application);
+        when(questApplicationMgr.toDto(application)).thenReturn(responseDTO);
+
+        QuestApplicationResponseDTO result = questApplicationService.updateApplicationForAdmin(11L, dto, admin);
+
+        assertEquals("<p>New</p>", application.getMessage());
+        assertEquals(BigDecimal.valueOf(55), application.getProposedPrice());
+        assertEquals(11L, result.getId());
+    }
+
+    @Test
+    void deleteApplicationForAdminReopensAssignedQuestWhenApprovedApplicationIsRemoved() {
+        AppUser admin = createUser(1L, "admin");
+        admin.setRole(AppUserRole.ADMIN);
+        Quest quest = createQuest(7L, createUser(2L, "creator"), QuestStatus.ASSIGNED);
+        QuestApplication application = createApplication(11L, quest, createUser(3L, "worker"), QuestApplicationStatus.APPROVED);
+
+        when(questApplicationRepository.findByIdDetailed(11L)).thenReturn(Optional.of(application));
+
+        questApplicationService.deleteApplicationForAdmin(11L, admin);
+
+        assertEquals(QuestStatus.OPEN, quest.getStatus());
+        verify(questRepository).save(quest);
+        verify(questApplicationRepository).delete(application);
+    }
+
+    @Test
     void withdrawMyApplicationSetsStatusToWithdrawn() {
         AppUser creator = createUser(1L, "creator");
         AppUser applicant = createUser(2L, "applicant");
@@ -379,6 +427,29 @@ class QuestApplicationServiceTest {
         when(questApplicationRepository.findByQuestIdAndApplicantId(7L, 2L)).thenReturn(Optional.of(application));
 
         assertThrows(ResponseStatusException.class, () -> questApplicationService.withdrawMyApplication(7L, applicant));
+    }
+
+    @Test
+    void updateMyApplicationPreservesRichTextMessageWhitespace() {
+        AppUser creator = createUser(1L, "creator");
+        AppUser applicant = createUser(2L, "applicant");
+        Quest quest = createQuest(8L, creator, QuestStatus.OPEN);
+        QuestApplication application = createApplication(13L, quest, applicant, QuestApplicationStatus.PENDING);
+        QuestApplicationRequestDTO requestDTO = QuestApplicationRequestDTO.builder()
+                .message("<p>  I can help</p>")
+                .proposedPrice(BigDecimal.valueOf(25))
+                .build();
+        QuestApplicationResponseDTO responseDTO = QuestApplicationResponseDTO.builder()
+                .id(13L)
+                .build();
+
+        when(questApplicationRepository.findByQuestIdAndApplicantId(8L, applicant.getId())).thenReturn(Optional.of(application));
+        when(questApplicationRepository.save(application)).thenReturn(application);
+        when(questApplicationMgr.toDto(application)).thenReturn(responseDTO);
+
+        questApplicationService.updateMyApplication(8L, requestDTO, applicant);
+
+        assertEquals("<p>&nbsp;&nbsp;I can help</p>", application.getMessage());
     }
 
     private AppUser createUser(Long id, String username) {

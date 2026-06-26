@@ -16,22 +16,30 @@ export const useCirclesView = () => {
   const {
     inviteCandidates,
     searchResults,
+    blockedResults,
+    nearbyResults,
     circles,
     connectionsPageData,
     incomingPageData,
     outgoingPageData,
+    blockedPageData,
+    nearbyPageData,
     selectedCircleIdsByUserId,
     overviewConnectionCount,
     overviewUnassignedConnectionCount,
     overviewIncomingRequestCount,
     overviewOutgoingRequestCount,
-    searchQuery,
+    directoryQuery,
+    discoverQuery,
     newCircleName,
     activeCircleFilter,
     inboxTab,
     connectionsPage,
     incomingPage,
     outgoingPage,
+    blockedPage,
+    nearbyPage,
+    nearbyRadiusKm,
     isLoading,
     isSearching,
     isSaving,
@@ -39,24 +47,31 @@ export const useCirclesView = () => {
     circleBanner,
     message,
     messageTone,
-    normalizedSearchQuery,
-    searchHasQuery
+    normalizedDirectoryQuery,
+    normalizedDiscoverQuery,
+    discoverHasQuery
   } = state
   const viewState = createCirclesViewState({
     circles,
     inviteCandidates,
     searchResults,
+    blockedResults,
+    nearbyResults,
     connectionsPageData,
     incomingPageData,
     outgoingPageData,
+    blockedPageData,
+    nearbyPageData,
     overviewConnectionCount,
     overviewIncomingRequestCount,
     overviewOutgoingRequestCount,
     activeCircleFilter,
     inboxTab,
-    searchHasQuery,
+    discoverHasQuery,
     incomingPage,
-    outgoingPage
+    outgoingPage,
+    blockedPage,
+    nearbyPage
   })
   const {
     circlesCount,
@@ -73,6 +88,12 @@ export const useCirclesView = () => {
     outgoingItems,
     outgoingPages,
     outgoingTotalItems,
+    blockedItems,
+    blockedPages,
+    blockedTotalItems,
+    nearbyItems,
+    nearbyPages,
+    nearbyTotalItems,
     activeCircleName,
     currentInboxItems,
     currentInboxPage,
@@ -87,24 +108,33 @@ export const useCirclesView = () => {
   const {
     loadConnectionsPage,
     loadInboxPage,
+    loadBlockedPage,
     loadSuggestions,
-    refreshCircleData,
+    loadNearbyPage,
     refreshOverviewAndData,
     refreshWorkspace
   } = useCirclesDataLoader({
     pageSize,
-    normalizedSearchQuery,
-    searchHasQuery,
+    normalizedDirectoryQuery,
+    normalizedDiscoverQuery,
+    discoverHasQuery,
     activeCircleFilter,
     connectionsPage,
     incomingPage,
     outgoingPage,
+    blockedPage,
+    nearbyPage,
+    nearbyRadiusKm,
     circles,
     inviteCandidates,
     searchResults,
+    blockedResults,
+    nearbyResults,
     connectionsPageData,
     incomingPageData,
     outgoingPageData,
+    blockedPageData,
+    nearbyPageData,
     overviewConnectionCount,
     overviewUnassignedConnectionCount,
     overviewIncomingRequestCount,
@@ -123,7 +153,9 @@ export const useCirclesView = () => {
   const {
     createCircle,
     deleteCircle,
+    renameCircle,
     saveConnectionCircles,
+    bulkUpdateConnections,
     sendRequest,
     blockUser,
     unblockUser,
@@ -140,26 +172,36 @@ export const useCirclesView = () => {
     getSelectedCircleIds
   })
 
-  const loadSearchResults = (query: string) => {
+  const loadDirectoryResults = () => {
     connectionsPage.value = 1
     incomingPage.value = 1
     outgoingPage.value = 1
+    blockedPage.value = 1
+    void loadConnectionsPage()
+    void loadInboxPage()
+    void loadBlockedPage()
+  }
 
+  const loadDiscoverResults = (query: string) => {
     if (normalizeSearchQuery(query).length >= 2) {
-      void refreshCircleData()
+      void loadSuggestions()
       return
     }
 
-    void loadConnectionsPage()
-    void loadInboxPage()
     void loadSuggestions()
   }
 
-  useDebouncedWatch(searchQuery, loadSearchResults, 250)
+  useDebouncedWatch(directoryQuery, loadDirectoryResults, 250)
+  useDebouncedWatch(discoverQuery, loadDiscoverResults, 250)
 
   watch(activeCircleFilter, () => {
     connectionsPage.value = 1
     void loadConnectionsPage()
+  })
+
+  watch(nearbyRadiusKm, () => {
+    nearbyPage.value = 1
+    void loadNearbyPage()
   })
 
   const {
@@ -180,6 +222,42 @@ export const useCirclesView = () => {
     loadConnectionsPage
   })
 
+  const previousBlockedPage = () => {
+    if (blockedPage.value <= 1) {
+      return
+    }
+
+    blockedPage.value -= 1
+    void loadBlockedPage()
+  }
+
+  const nextBlockedPage = () => {
+    if (blockedPage.value >= blockedPages.value) {
+      return
+    }
+
+    blockedPage.value += 1
+    void loadBlockedPage()
+  }
+
+  const previousNearbyPage = () => {
+    if (nearbyPage.value <= 1) {
+      return
+    }
+
+    nearbyPage.value -= 1
+    void loadNearbyPage()
+  }
+
+  const nextNearbyPage = () => {
+    if (nearbyPage.value >= nearbyPages.value) {
+      return
+    }
+
+    nearbyPage.value += 1
+    void loadNearbyPage()
+  }
+
   onMounted(() => {
     isLoading.value = true
     error.value = ""
@@ -197,18 +275,24 @@ export const useCirclesView = () => {
     connectionsPageData,
     incomingPageData,
     outgoingPageData,
+    blockedPageData,
+    nearbyPageData,
     selectedCircleIdsByUserId,
     overviewConnectionCount,
     overviewUnassignedConnectionCount,
     overviewIncomingRequestCount,
     overviewOutgoingRequestCount,
-    searchQuery,
+    directoryQuery,
+    discoverQuery,
     newCircleName,
     activeCircleFilter,
     inboxTab,
     connectionsPage,
     incomingPage,
     outgoingPage,
+    blockedPage,
+    nearbyPage,
+    nearbyRadiusKm,
     isLoading,
     isSearching,
     isSaving,
@@ -219,6 +303,12 @@ export const useCirclesView = () => {
     connectionsCount,
     incomingCount,
     outgoingCount,
+    blockedItems,
+    blockedPages,
+    blockedTotalItems,
+    nearbyItems,
+    nearbyPages,
+    nearbyTotalItems,
     suggestions,
     connectionsItems,
     connectionsPages,
@@ -234,14 +324,16 @@ export const useCirclesView = () => {
     currentInboxPage,
     currentInboxPages,
     currentInboxTotal,
-    searchHasQuery,
+    discoverHasQuery,
     getSelectedCircleIds,
     createCircle,
     deleteCircle,
+    renameCircle,
     toggleConnectionCircle,
     resetConnectionCircles,
     hasPendingCircleChanges,
     saveConnectionCircles,
+    bulkUpdateConnections,
     sendRequest,
     blockUser,
     unblockUser,
@@ -250,6 +342,10 @@ export const useCirclesView = () => {
     previousInboxPage,
     nextInboxPage,
     previousConnectionsPage,
-    nextConnectionsPage
+    nextConnectionsPage,
+    previousBlockedPage,
+    nextBlockedPage,
+    previousNearbyPage,
+    nextNearbyPage
   }
 }

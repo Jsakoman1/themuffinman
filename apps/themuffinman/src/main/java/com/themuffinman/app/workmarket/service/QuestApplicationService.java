@@ -1,6 +1,7 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.workmarket.dto.ApplicationAllowedAction;
+import com.themuffinman.app.workmarket.dto.AdminQuestApplicationUpdateRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationPresentationDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO;
@@ -135,10 +136,64 @@ public class QuestApplicationService {
     }
 
     @Transactional
+    public QuestApplicationResponseDTO updateApplicationForAdmin(
+            Long applicationId,
+            AdminQuestApplicationUpdateRequestDTO dto,
+            AppUser currentUser
+    ) {
+        validateAdmin(currentUser);
+        if (dto == null) {
+            throw ServiceErrors.badRequest("Application update request is required");
+        }
+
+        QuestApplication application = questApplicationRepository.findByIdDetailed(applicationId)
+                .orElseThrow(() -> ServiceErrors.notFound("Quest application not found with id " + applicationId));
+
+        if (dto.getMessage() != null) {
+            if (!RichTextInputValidator.hasContent(dto.getMessage())) {
+                throw ServiceErrors.badRequest("Application message is required");
+            }
+            application.setMessage(RichTextInputValidator.sanitize(dto.getMessage()));
+        }
+
+        if (dto.getProposedPrice() != null) {
+            if (dto.getProposedPrice().compareTo(java.math.BigDecimal.valueOf(0.01)) < 0) {
+                throw ServiceErrors.badRequest("Proposed price must be at least 0.01");
+            }
+            application.setProposedPrice(dto.getProposedPrice());
+        }
+
+        if (dto.getStatus() != null && dto.getStatus() != application.getStatus()) {
+            applyAdminStatusUpdate(application, dto.getStatus(), currentUser);
+        }
+
+        return saveAndMapApplication(application);
+    }
+
+    @Transactional
+    public void deleteApplicationForAdmin(Long applicationId, AppUser currentUser) {
+        validateAdmin(currentUser);
+        QuestApplication application = questApplicationRepository.findByIdDetailed(applicationId)
+                .orElseThrow(() -> ServiceErrors.notFound("Quest application not found with id " + applicationId));
+
+        Quest quest = application.getQuest();
+        if (application.getStatus() == QuestApplicationStatus.APPROVED) {
+            if (quest.getStatus() == QuestStatus.ASSIGNED || quest.getStatus() == QuestStatus.WAITING_CONFIRMATION) {
+                quest.setStatus(QuestStatus.OPEN);
+                questRepository.save(quest);
+            } else {
+                throw ServiceErrors.badRequest("Approved applications can only be deleted while the quest is assigned or waiting confirmation");
+            }
+        }
+
+        questApplicationRepository.delete(application);
+    }
+
+    @Transactional
     public QuestApplicationResponseDTO updateMyApplication(Long questId, QuestApplicationRequestDTO dto, AppUser currentUser) {
         QuestApplication application = requirePendingMyApplication(questId, currentUser);
         validateApplicationInput(dto);
-        application.setMessage(dto.getMessage() == null ? null : dto.getMessage().trim());
+        application.setMessage(RichTextInputValidator.sanitize(dto.getMessage()));
         application.setProposedPrice(dto.getProposedPrice());
         QuestApplicationResponseDTO response = saveAndMapApplication(application);
         questNewsService.notifyApplicationUpdated(application.getQuest(), application, currentUser);
@@ -250,11 +305,6 @@ public class QuestApplicationService {
                 .statusSurfaceClass(presentationHelper.surfaceClassForApplicationStatus(dto.getStatus()))
                 .questStatusLabel(presentationHelper.formatQuestStatus(dto.getQuestStatus()))
                 .questStatusBadgeClass(presentationHelper.badgeClassForQuestStatus(dto.getQuestStatus()))
-                .questTermLabel(presentationHelper.formatQuestTerm(
-                        dto.getQuestScheduledAt(),
-                        dto.getQuestEndsAt(),
-                        dto.isQuestTermFixed()
-                ))
                 .questAssigneeTargetVisible(presentationHelper.showAssigneeTarget(dto.getQuestAssigneeTarget()))
                 .questAssigneeTargetLabel(presentationHelper.formatAssigneeTarget(dto.getQuestAssigneeTarget()))
                 .canEdit(allowedActions.contains(ApplicationAllowedAction.EDIT))
@@ -339,10 +389,45 @@ public class QuestApplicationService {
         }
 
         return containsNormalized(application.getQuestTitle(), normalizedQuery)
+                || containsNormalized(application.getQuestCreatorUsername(), normalizedQuery)
                 || containsNormalized(application.getApplicantUsername(), normalizedQuery)
                 || containsNormalized(application.getQuestStatus().name(), normalizedQuery)
                 || containsNormalized(application.getStatus().name(), normalizedQuery)
                 || containsNormalized(application.getMessage(), normalizedQuery);
+    }
+
+    private void applyAdminStatusUpdate(QuestApplication application, QuestApplicationStatus targetStatus, AppUser currentUser) {
+        Quest quest = application.getQuest();
+        if (targetStatus == QuestApplicationStatus.APPROVED) {
+            if (application.getStatus() != QuestApplicationStatus.PENDING) {
+                throw ServiceErrors.badRequest("Only pending applications can be approved");
+            }
+
+            approveApplication(quest.getId(), application.getId(), currentUser);
+            application.setStatus(QuestApplicationStatus.APPROVED);
+            return;
+        }
+
+        if (targetStatus == QuestApplicationStatus.DECLINED) {
+            if (application.getStatus() != QuestApplicationStatus.PENDING) {
+                throw ServiceErrors.badRequest("Only pending applications can be declined");
+            }
+
+            declineApplication(quest.getId(), application.getId(), currentUser);
+            application.setStatus(QuestApplicationStatus.DECLINED);
+            return;
+        }
+
+        if (targetStatus == QuestApplicationStatus.WITHDRAWN) {
+            if (application.getStatus() != QuestApplicationStatus.PENDING) {
+                throw ServiceErrors.badRequest("Only pending applications can be withdrawn");
+            }
+
+            application.setStatus(QuestApplicationStatus.WITHDRAWN);
+            return;
+        }
+
+        throw ServiceErrors.badRequest("Applications cannot be moved back to pending");
     }
 
     private boolean containsNormalized(String value, String normalizedQuery) {

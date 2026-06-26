@@ -11,9 +11,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DashboardRailBucketDTO {
+public class DashboardApplicationGroupDTO {
     private String key;
     private String label;
     private String tone;
-    private List<DashboardRailItemDTO> items;
+    private int count;
+    private List<QuestApplicationResponseDTO> items;
 }

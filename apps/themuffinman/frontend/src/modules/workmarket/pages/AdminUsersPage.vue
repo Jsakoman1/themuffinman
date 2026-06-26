@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import {computed, ref} from "vue"
 import AppUsersCreateForm from "../components/app-users/AppUsersCreateForm.vue"
 import AppUsersList from "../components/app-users/AppUsersList.vue"
+import AdminUserDetailDialog from "../components/admin/AdminUserDetailDialog.vue"
 import AdminShellHeader from "../components/admin/AdminShellHeader.vue"
 import {useMountedAsync} from "../../../composables/useMountedAsync.ts"
 import UiAdminPageSection from "../../../components/ui/UiAdminPageSection.vue"
@@ -16,6 +18,8 @@ import DetailUtilitySection from "../components/shared/DetailUtilitySection.vue"
 import {useAppUsersPage} from "../composables/useAppUsersPage.ts"
 
 const usersPage = useAppUsersPage()
+const roleFilter = ref<"ALL" | "USER" | "ADMIN">("ALL")
+const filteredUsers = computed(() => usersPage.appUsers.filter((user) => roleFilter.value === "ALL" || user.role === roleFilter.value))
 
 useMountedAsync(usersPage.init)
 </script>
@@ -37,6 +41,7 @@ useMountedAsync(usersPage.init)
 
         <UiAdminPageSection title="All users">
           <template #actions>
+            <div class="admin-filter-summary">{{ filteredUsers.length }} users</div>
             <button class="button" type="button" @click="usersPage.openCreateUserDialog">Create user</button>
           </template>
           <template #filters>
@@ -44,30 +49,25 @@ useMountedAsync(usersPage.init)
               <UiFieldGroup label="Search">
                 <input v-model="usersPage.userSearch" class="input" placeholder="Username, email, role..." />
               </UiFieldGroup>
+              <UiFieldGroup label="Role">
+                <select v-model="roleFilter" class="input">
+                  <option value="ALL">All</option>
+                  <option value="USER">User</option>
+                  <option value="ADMIN">Admin</option>
+                </select>
+              </UiFieldGroup>
             </UiFilterBar>
           </template>
 
-          <div v-if="!usersPage.isLoadingUsers && !usersPage.pageError && !usersPage.appUsers.length" class="empty-state">
+          <div v-if="!usersPage.isLoadingUsers && !usersPage.pageError && !filteredUsers.length" class="empty-state">
             No users match this search.
           </div>
 
           <AppUsersList
             v-else
-            :users="usersPage.appUsers"
-            :editing-user-id="usersPage.editingAppUserId"
-            :edit-email="usersPage.editAppUserEmail"
-            :edit-username="usersPage.editAppUserUsername"
-            :edit-role="usersPage.editAppUserRole"
-            :edit-password="usersPage.editAppUserPassword"
-            :role-options="usersPage.roleOptions"
-            @edit="usersPage.startEdit"
+            :users="filteredUsers"
+            @open="usersPage.openUserDetailDialog($event.id)"
             @delete="usersPage.handleDelete"
-            @save="usersPage.updateAppUser"
-            @cancel="usersPage.cancelEdit"
-            @update:edit-email="usersPage.editAppUserEmail = $event"
-            @update:edit-username="usersPage.editAppUserUsername = $event"
-            @update:edit-role="usersPage.editAppUserRole = $event"
-            @update:edit-password="usersPage.editAppUserPassword = $event"
           />
         </UiAdminPageSection>
 
@@ -128,6 +128,13 @@ useMountedAsync(usersPage.init)
           @confirm="usersPage.confirmDelete"
           @cancel="usersPage.cancelDelete"
           @close="usersPage.cancelDelete"
+        />
+
+        <AdminUserDetailDialog
+          :open="usersPage.selectedDetailUserId !== null"
+          :user-id="usersPage.selectedDetailUserId"
+          @close="usersPage.closeUserDetailDialog"
+          @saved="usersPage.init"
         />
   </UiDashboardPage>
 </template>

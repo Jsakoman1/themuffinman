@@ -15,7 +15,6 @@ public class QuestApplicationPresentationDTO {
     private String statusSurfaceClass;
     private String questStatusLabel;
     private String questStatusBadgeClass;
-    private String questTermLabel;
     private boolean questAssigneeTargetVisible;
     private String questAssigneeTargetLabel;
     private boolean canEdit;

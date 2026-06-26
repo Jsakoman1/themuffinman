@@ -12,7 +12,7 @@ import type {QuestApplicationStatus} from "../domain/workmarketDomain.ts"
 
 export const useAdminApplicationsPage = () => {
   const router = useRouter()
-  const itemsPerPage = 20
+  const itemsPerPage = 100
   const results = usePaginatedResults<QuestApplication>(itemsPerPage)
   const applications = results.items
   const isLoading = ref(false)
@@ -119,6 +119,7 @@ export const useAdminApplicationsPage = () => {
     openApplicant,
     approveApplication,
     declineApplication,
+    loadApplications,
     previousPage,
     nextPage
   }

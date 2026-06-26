@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/register", "/auth/login").permitAll()
+                        .requestMatchers("/ws/chat/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/app_users/me").authenticated()
                         .requestMatchers(org.springframework.http.HttpMethod.PUT, "/app_users/me").authenticated()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/app_users/*/profile-view").authenticated()

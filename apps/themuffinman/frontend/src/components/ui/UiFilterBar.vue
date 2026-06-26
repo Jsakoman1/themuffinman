@@ -1,6 +1,6 @@
 <script setup lang="ts">
 withDefaults(defineProps<{
-  columns?: 1 | 2 | 3 | 5
+  columns?: 1 | 2 | 3 | 4 | 5
 }>(), {
   columns: 2
 })

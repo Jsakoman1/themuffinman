@@ -3,6 +3,7 @@ package com.themuffinman.app.workmarket.controller;
 import com.themuffinman.app.common.dto.ActionResultDTO;
 import com.themuffinman.app.common.dto.ActionResults;
 import com.themuffinman.app.workmarket.dto.AdminApplicationsQueryDTO;
+import com.themuffinman.app.workmarket.dto.AdminQuestApplicationUpdateRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationDetailResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO;
@@ -74,6 +75,25 @@ public class QuestApplicationController {
                 query.getPage(),
                 query.getSize()
         );
+    }
+
+    @PutMapping("/admin/applications/{applicationId}")
+    public ActionResultDTO updateApplicationForAdmin(
+            @PathVariable Long applicationId,
+            @Valid @RequestBody AdminQuestApplicationUpdateRequestDTO dto,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        questApplicationService.updateApplicationForAdmin(applicationId, dto, currentUser);
+        return ActionResults.of("UPDATE_APPLICATION_AS_ADMIN", "Application updated.");
+    }
+
+    @DeleteMapping("/admin/applications/{applicationId}")
+    public ActionResultDTO deleteApplicationForAdmin(
+            @PathVariable Long applicationId,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        questApplicationService.deleteApplicationForAdmin(applicationId, currentUser);
+        return ActionResults.of("DELETE_APPLICATION_AS_ADMIN", "Application deleted.");
     }
 
     @PutMapping("/quests/{questId}/applications/me")

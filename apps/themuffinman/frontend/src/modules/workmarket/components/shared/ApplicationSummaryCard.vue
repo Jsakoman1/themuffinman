@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type {QuestApplication} from "../../api/workmarketApi.ts"
+import {formatQuestTermForDisplay} from "../../../../shared/questSchedule.ts"
 
 withDefaults(defineProps<{
   application: QuestApplication
@@ -38,7 +39,7 @@ withDefaults(defineProps<{
 
       <div v-if="includeTerm" class="quest-overview-aside__row quest-overview-aside__row--stack">
         <span class="quest-overview-aside__label">Time</span>
-        <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ application.presentation.questTermLabel }}</span>
+        <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ formatQuestTermForDisplay(application.questScheduledAt, application.questEndsAt, application.questTermFixed) }}</span>
       </div>
     </div>
   </section>

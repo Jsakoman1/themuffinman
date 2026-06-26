@@ -23,9 +23,8 @@ public class DashboardPlannerItemDTO {
     private Instant scheduledAt;
     @Nullable
     private Instant endsAt;
-    private String timeLabel;
-    @Nullable
-    private String dateKey;
     private String kind;
+    private String kindLabel;
+    private String tone;
     private boolean hasRange;
 }

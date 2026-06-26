@@ -1,6 +1,8 @@
 package com.themuffinman.app.social.service;
 
 import com.themuffinman.app.social.dto.CircleRequestCreateDTO;
+import com.themuffinman.app.social.dto.BulkCircleMembershipAction;
+import com.themuffinman.app.social.dto.BulkCircleMembershipUpdateDTO;
 import com.themuffinman.app.social.dto.CircleBlockCreateDTO;
 import com.themuffinman.app.social.dto.CircleRelationDTO;
 import com.themuffinman.app.social.dto.CircleRelationStatus;
@@ -78,6 +80,14 @@ public class CircleService {
                 .toList();
     }
 
+    public List<CircleGroupResponseDTO> getCirclesForUserAsAdmin(Long userId, AppUser currentUser) {
+        validateAdmin(currentUser);
+        AppUser targetUser = appUserLookupService.requireById(userId);
+        return circleGroupRepository.findAllDetailedByOwnerId(targetUser.getId()).stream()
+                .map(circleViewAssembler::toCircleDto)
+                .toList();
+    }
+
     public List<AdminCircleGroupResponseDTO> getAllCirclesForAdmin() {
         return circleGroupRepository.findAllDetailed().stream()
                 .map(circleViewAssembler::toAdminCircleDto)
@@ -95,6 +105,11 @@ public class CircleService {
                 .filter(connection -> circleViewAssembler.matchesConnectionFilter(connection, circleId, unassigned))
                 .toList();
         return circleViewAssembler.buildCircleContactListResponse(connections, page, size);
+    }
+
+    public List<CircleContactDTO> getConnectionsForUserAsAdmin(Long userId, AppUser currentUser) {
+        validateAdmin(currentUser);
+        return loadConnections(appUserLookupService.requireById(userId));
     }
 
     private List<CircleContactDTO> loadConnections(AppUser currentUser) {
@@ -169,6 +184,23 @@ public class CircleService {
                 .filter(candidate -> candidate.getRelationStatus() == CircleRelationStatus.NONE)
                 .sorted(Comparator.comparing(CircleSearchResultDTO::getUsername, String.CASE_INSENSITIVE_ORDER))
                 .toList();
+        return circleViewAssembler.buildCircleSearchResultListResponse(results, page, size);
+    }
+
+    public CircleSearchResultListResponseDTO getBlockedUsers(AppUser currentUser, String query, int page, int size) {
+        String normalizedQuery = circleViewAssembler.normalizeSearchQuery(query);
+
+        List<CircleSearchResultDTO> results = circleRequestRepository.findBlockedByUserId(currentUser.getId()).stream()
+                .map(relation -> relation.getRequester().getId().equals(currentUser.getId())
+                        ? relation.getRecipient()
+                        : relation.getRequester())
+                .filter(candidate -> !candidate.getId().equals(currentUser.getId()))
+                .map(candidate -> circleViewAssembler.toSearchResult(currentUser, candidate, findRelation(currentUser, candidate)))
+                .filter(candidate -> candidate.getRelationStatus() == CircleRelationStatus.BLOCKED && candidate.isBlockedByCurrentUser())
+                .filter(candidate -> circleViewAssembler.matchesCandidateQuery(candidate, normalizedQuery))
+                .sorted(Comparator.comparing(CircleSearchResultDTO::getUsername, String.CASE_INSENSITIVE_ORDER))
+                .toList();
+
         return circleViewAssembler.buildCircleSearchResultListResponse(results, page, size);
     }
 
@@ -273,9 +305,39 @@ public class CircleService {
         return circleViewAssembler.toContact(currentUser, relation, membershipsByUserId);
     }
 
+    public void updateConnectionCirclesBulk(BulkCircleMembershipUpdateDTO dto, AppUser currentUser) {
+        CircleGroup circle = requireCircleOwnedByCurrentUser(dto.getCircleId(), currentUser);
+
+        for (Long userId : dto.getUserIds()) {
+            AppUser contact = appUserLookupService.requireById(userId);
+            if (!isCircleBetween(currentUser, contact)) {
+                throw ServiceErrors.badRequest("You can only organize connected users into circles");
+            }
+
+            List<Long> nextCircleIds = buildBulkCircleUpdate(dto.getAction(), circle.getId(), currentUser, contact);
+            circleMembershipService.syncConnectionCircles(currentUser, contact, nextCircleIds);
+        }
+    }
+
     private Optional<CircleRequest> findRelation(AppUser leftUser, AppUser rightUser) {
         return circleRequestRepository.findBetweenUsers(leftUser.getId(), rightUser.getId());
     }
+
+    private List<Long> buildBulkCircleUpdate(BulkCircleMembershipAction action, Long circleId, AppUser currentUser, AppUser contact) {
+        List<Long> currentCircleIds = circleMembershipService.getMembershipsForContact(contact.getId(), currentUser.getId()).stream()
+                .map(membership -> membership.getCircle().getId())
+                .toList();
+        java.util.LinkedHashSet<Long> nextCircleIds = new java.util.LinkedHashSet<>(currentCircleIds);
+
+        if (action == BulkCircleMembershipAction.ADD) {
+            nextCircleIds.add(circleId);
+        } else {
+            nextCircleIds.remove(circleId);
+        }
+
+        return List.copyOf(nextCircleIds);
+    }
+
 
     private CircleGroup requireCircleOwnedByCurrentUser(Long circleId, AppUser currentUser) {
         return circleGroupRepository.findByIdAndOwnerId(circleId, currentUser.getId())

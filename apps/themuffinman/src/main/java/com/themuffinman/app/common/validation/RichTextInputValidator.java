@@ -55,23 +55,22 @@ public final class RichTextInputValidator {
             return null;
         }
 
-        String normalized = value.trim();
-        if (normalized.isEmpty()) {
+        if (extractPlainText(value).isBlank()) {
             return null;
         }
 
-        if (!looksLikeHtml(normalized)) {
-            return normalized;
+        if (!looksLikeHtml(value)) {
+            return value;
         }
 
         StringBuilder html = new StringBuilder();
         try {
-            new ParserDelegator().parse(new StringReader(normalized), new SanitizingCallback(html), true);
+            new ParserDelegator().parse(new StringReader(preserveLeadingHtmlTextWhitespace(value)), new SanitizingCallback(html), true);
         } catch (IOException ex) {
-            return HtmlUtils.htmlEscape(stripTags(normalized));
+            return HtmlUtils.htmlEscape(stripTags(value));
         }
 
-        return html.toString().trim();
+        return html.toString();
     }
 
     private static boolean looksLikeHtml(String value) {
@@ -102,6 +101,83 @@ public final class RichTextInputValidator {
         }
 
         return "";
+    }
+
+    private static String preserveLeadingHtmlTextWhitespace(String value) {
+        StringBuilder out = new StringBuilder();
+        boolean insideTag = false;
+        boolean atTextStart = true;
+
+        for (int index = 0; index < value.length(); index += 1) {
+            char current = value.charAt(index);
+
+            if (current == '<') {
+                insideTag = true;
+                atTextStart = true;
+                out.append(current);
+                continue;
+            }
+
+            if (current == '>') {
+                insideTag = false;
+                atTextStart = true;
+                out.append(current);
+                continue;
+            }
+
+            if (!insideTag && atTextStart && current == ' ') {
+                out.append("&nbsp;");
+                continue;
+            }
+
+            if (!insideTag && !Character.isWhitespace(current)) {
+                atTextStart = false;
+            }
+
+            out.append(current);
+        }
+
+        return out.toString();
+    }
+
+    private static String preserveHtmlWhitespace(String value) {
+        StringBuilder out = new StringBuilder();
+        int consecutiveSpaces = 0;
+
+        for (int index = 0; index < value.length(); index += 1) {
+            char current = value.charAt(index);
+            if (current == ' ') {
+                consecutiveSpaces += 1;
+                continue;
+            }
+
+            if (consecutiveSpaces > 0) {
+                appendSpaces(out, consecutiveSpaces, out.isEmpty());
+                consecutiveSpaces = 0;
+            }
+
+            out.append(HtmlUtils.htmlEscape(String.valueOf(current)));
+        }
+
+        if (consecutiveSpaces > 0) {
+            appendSpaces(out, consecutiveSpaces, out.isEmpty());
+        }
+
+        return out.toString();
+    }
+
+    private static void appendSpaces(StringBuilder out, int count, boolean atSegmentStart) {
+        if (atSegmentStart) {
+            for (int i = 0; i < count; i += 1) {
+                out.append("&nbsp;");
+            }
+            return;
+        }
+
+        out.append(' ');
+        for (int i = 1; i < count; i += 1) {
+            out.append("&nbsp;");
+        }
     }
 
     private static final class PlainTextCallback extends HTMLEditorKit.ParserCallback {
@@ -204,7 +280,7 @@ public final class RichTextInputValidator {
                 return;
             }
 
-            out.append(HtmlUtils.htmlEscape(new String(data)));
+            out.append(preserveHtmlWhitespace(new String(data)));
         }
 
         @Override

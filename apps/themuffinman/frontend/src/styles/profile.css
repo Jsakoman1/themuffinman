@@ -6,9 +6,9 @@
   flex: 0 0 auto;
   display: inline-grid;
   place-items: center;
-  background: #f4f1e8;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-soft);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
 .profile-avatar__image,
@@ -25,6 +25,8 @@
 .profile-avatar__fallback {
   display: grid;
   place-items: center;
+  background: #f4f1e8;
+  border-radius: inherit;
   color: var(--text);
   font-weight: 800;
   letter-spacing: -0.04em;

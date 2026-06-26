@@ -1,16 +1,35 @@
 package com.themuffinman.app.workmarket.mapper;
 
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.location.service.LocationSettingsService;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestAudience;
 import com.themuffinman.app.workmarket.service.WorkmarketPresentationHelper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class QuestMgrTest {
 
-    private final QuestMgr questMgr = new QuestMgr(new WorkmarketPresentationHelper());
+    @Mock
+    private LocationSettingsService locationSettingsService;
+
+    private QuestMgr questMgr;
+
+    @BeforeEach
+    void setUp() {
+        questMgr = new QuestMgr(new WorkmarketPresentationHelper(), locationSettingsService);
+        when(locationSettingsService.resolveQuestLocationLabel(any(Quest.class), any())).thenReturn(null);
+        when(locationSettingsService.resolveQuestLocationSourceSummary(any(Quest.class))).thenReturn("Uses creator profile location");
+        when(locationSettingsService.resolveQuestLocationVisibilitySummary(any(Quest.class), any())).thenReturn("Approximate area shown");
+    }
 
     @Test
     void toDtoSanitizesQuestAndCreatorRichTextFields() {

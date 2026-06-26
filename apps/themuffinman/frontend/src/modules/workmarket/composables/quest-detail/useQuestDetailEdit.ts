@@ -3,7 +3,7 @@ import {getApiErrorMessage} from "../../../../api/apiErrors.ts"
 import {QUEST_IMAGE_PROCESSING_ERROR_MESSAGE, QUEST_IMAGE_TOO_LARGE_MESSAGE} from "../../../../shared/clientMessages.ts"
 import {compressQuestImageFile} from "../../../../shared/imageCompression.ts"
 import {formatInstantForInput, parseInstantFromInput} from "../../../../shared/questSchedule.ts"
-import {workmarketApi, type CircleGroup, type Quest, type QuestAudienceOption} from "../../api/workmarketApi.ts"
+import {workmarketApi, type CircleGroup, type Quest, type QuestAudienceOption, type QuestLocationVisibilityOption} from "../../api/workmarketApi.ts"
 
 type QuestDetailEditState = {
   quest: Ref<Quest | null>
@@ -28,9 +28,17 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
   const editTermMode = ref<"flexible" | "start-only" | "start-end">("flexible")
   const editAudience = ref<"EVERYONE" | "CIRCLES">("CIRCLES")
   const editSelectedCircleIds = ref<number[]>([])
+  const editLocationVisibility = ref<NonNullable<Quest["locationVisibility"]>>("INHERIT")
+  const editLocationSource = ref<NonNullable<Quest["locationSource"]>>("PROFILE")
+  const editLocationCountry = ref("")
+  const editLocationLocality = ref("")
+  const editLocationPostalCode = ref("")
+  const editLocationStreet = ref("")
+  const editLocationHouseNumber = ref("")
   const editImages = ref<string[]>([])
   const circleGroups = ref<CircleGroup[]>([])
   const questAudienceOptions = ref<QuestAudienceOption[]>([])
+  const questLocationVisibilityOptions = ref<QuestLocationVisibilityOption[]>([])
 
   const canEdit = computed(() => state.quest.value?.presentation.canEdit ?? false)
 
@@ -47,6 +55,13 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
     editTermMode.value = resolveQuestTermMode(state.quest.value)
     editAudience.value = state.quest.value.audience
     editSelectedCircleIds.value = state.quest.value.visibleToCircles.map((circle) => circle.id)
+    editLocationVisibility.value = state.quest.value.locationVisibility
+    editLocationSource.value = state.quest.value.locationSource ?? "PROFILE"
+    editLocationCountry.value = state.quest.value.locationCountry ?? ""
+    editLocationLocality.value = state.quest.value.locationLocality ?? ""
+    editLocationPostalCode.value = state.quest.value.locationPostalCode ?? ""
+    editLocationStreet.value = state.quest.value.locationStreet ?? ""
+    editLocationHouseNumber.value = state.quest.value.locationHouseNumber ?? ""
     editImages.value = [...state.quest.value.images]
   }
 
@@ -130,13 +145,20 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
     try {
       await workmarketApi.updateQuest(state.quest.value.id, {
         title: editTitle.value.trim(),
-        description: editDescription.value.trim(),
+        description: editDescription.value,
         awardAmount: Number(editAwardAmount.value),
         scheduledAt: editScheduledAt.value ? parseInstantFromInput(editScheduledAt.value) : null,
         endsAt: editEndsAt.value ? parseInstantFromInput(editEndsAt.value) : null,
         termFixed: editTermMode.value !== "flexible",
         audience: editAudience.value,
         selectedCircleIds: editAudience.value === "CIRCLES" ? [...editSelectedCircleIds.value] : [],
+        locationVisibility: editLocationVisibility.value,
+        locationSource: editLocationSource.value,
+        locationCountry: editLocationCountry.value || null,
+        locationLocality: editLocationLocality.value || null,
+        locationPostalCode: editLocationPostalCode.value || null,
+        locationStreet: editLocationStreet.value || null,
+        locationHouseNumber: editLocationHouseNumber.value || null,
         images: [...editImages.value]
       })
 
@@ -156,6 +178,7 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
         workmarketApi.getCircleGroups()
       ])
       questAudienceOptions.value = options.questAudiences
+      questLocationVisibilityOptions.value = options.questLocationVisibilities
       circleGroups.value = circles
     } catch {
       // Keep quest detail usable even if supplemental edit metadata fails to load.
@@ -169,7 +192,7 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
     }
 
     syncEditStateFromQuest()
-    isEditing.value = false
+    isEditing.value = state.quest.value.presentation.autoOpenEditForm ?? false
   }, {immediate: true})
 
   return {
@@ -182,9 +205,17 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
     editTermMode,
     editAudience,
     editSelectedCircleIds,
+    editLocationVisibility,
+    editLocationSource,
+    editLocationCountry,
+    editLocationLocality,
+    editLocationPostalCode,
+    editLocationStreet,
+    editLocationHouseNumber,
     editImages,
     circleGroups,
     questAudienceOptions,
+    questLocationVisibilityOptions,
     canEdit,
     startEditing,
     cancelEditing,

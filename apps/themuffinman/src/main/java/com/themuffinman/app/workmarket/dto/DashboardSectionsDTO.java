@@ -20,8 +20,9 @@ public class DashboardSectionsDTO {
     private List<QuestApplicationResponseDTO> outgoingWorkApplications;
     private List<QuestResponseDTO> visibleMyQuests;
     private List<QuestApplicationResponseDTO> visibleMyApplications;
+    private List<DashboardQuestGroupDTO> myQuestGroups;
+    private List<DashboardApplicationGroupDTO> myApplicationGroups;
     private List<CircleRequestResponseDTO> recentIncomingCircleRequests;
-    private DashboardOverviewSectionDTO overview;
     private DashboardOpenWorkSectionDTO openWork;
     private DashboardPlannerSectionDTO planner;
     private DashboardNotificationsSectionDTO notifications;

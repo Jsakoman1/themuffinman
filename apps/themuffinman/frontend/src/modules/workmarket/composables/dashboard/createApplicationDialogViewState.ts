@@ -1,4 +1,4 @@
-import {computed, ref} from "vue"
+import {computed, ref, watch} from "vue"
 import {useDialogActionState} from "../../../../composables/useDialogActionState.ts"
 import type {DashboardApplicationEditFacade} from "./dashboardFacades.ts"
 
@@ -7,7 +7,7 @@ export const createApplicationDialogViewState = (dashboard: DashboardApplication
   const isEditing = ref(false)
   const isWithdrawing = ref(false)
   const actionBanner = useDialogActionState(application, () => {
-    isEditing.value = canEdit.value
+    isEditing.value = application.value?.presentation.autoOpenEditForm ?? false
     isWithdrawing.value = false
   })
   const actionMessage = actionBanner.message
@@ -16,6 +16,10 @@ export const createApplicationDialogViewState = (dashboard: DashboardApplication
   const canEdit = computed(() => application.value?.presentation.canEdit ?? false)
   const canWithdraw = computed(() => application.value?.presentation.canWithdraw ?? false)
   const quest = computed(() => (application.value ? dashboard.questForId(application.value.questId) : null))
+
+  watch(() => application.value?.id, () => {
+    isEditing.value = application.value?.presentation.autoOpenEditForm ?? false
+  }, {immediate: true})
 
   return {
     application,

@@ -10,6 +10,11 @@ export const createDashboardTabState = (route: RouteLocationNormalizedLoaded) =>
       return
     }
 
+    if (value === "create-job" || value === "find-work") {
+      activeTab.value = "side-job"
+      return
+    }
+
     if (dashboardTabs.some((tab) => tab.id === value)) {
       activeTab.value = value as DashboardTab
     }

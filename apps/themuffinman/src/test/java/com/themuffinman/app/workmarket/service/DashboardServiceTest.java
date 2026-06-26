@@ -202,7 +202,7 @@ class DashboardServiceTest {
                 QuestResponseDTO.builder().id(2L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.workmarket.dto.QuestViewerRelation.VIEWER).build(),
                 QuestResponseDTO.builder().id(1L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.workmarket.dto.QuestViewerRelation.OWNER).build()
         ));
-        when(workmarketOptionsService.getOptions()).thenReturn(com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO.builder().build());
+        when(workmarketOptionsService.getOptions(currentUser)).thenReturn(com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO.builder().build());
 
         DashboardResponseDTO result = dashboardService.getMyDashboard(currentUser);
 
@@ -212,12 +212,9 @@ class DashboardServiceTest {
         assertEquals(1, result.getAvailableQuests().size());
         assertEquals(1, result.getSections().getRecentMyQuests().size());
         assertEquals(1, result.getSections().getVisibleMyQuests().size());
-        assertEquals(5, result.getSections().getOverview().getPostedBuckets().size());
-        assertEquals(List.of("posted-open", "posted-waiting", "posted-assigned", "posted-progress", "posted-completed"),
-                result.getSections().getOverview().getPostedBuckets().stream().map(bucket -> bucket.getKey()).toList());
-        assertEquals(5, result.getSections().getOverview().getWorkBuckets().size());
-        assertEquals(List.of("work-applied", "work-waiting", "work-assigned", "work-progress", "work-completed"),
-                result.getSections().getOverview().getWorkBuckets().stream().map(bucket -> bucket.getKey()).toList());
+        assertEquals(1, result.getSections().getMyQuestGroups().size());
+        assertEquals("OPEN", result.getSections().getMyQuestGroups().getFirst().getKey());
+        assertEquals(0, result.getSections().getMyApplicationGroups().size());
         assertEquals(1, result.getSections().getOpenWork().getOpenQuests().size());
         assertEquals(0, result.getSections().getOpenWork().getWaitingQuests().size());
         assertEquals(1, result.getSections().getPlanner().getFlexibleItems().size());

@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import {computed, defineAsyncComponent, onMounted} from "vue"
+import {defineAsyncComponent, onMounted} from "vue"
 import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
 import UiDialog from "../../../components/ui/UiDialog.vue"
 import UiRequestError from "../../../components/ui/UiRequestError.vue"
 import UiSurfaceSection from "../../../components/ui/UiSurfaceSection.vue"
 import UiToast from "../../../components/ui/UiToast.vue"
 import UiWorkspace from "../../../components/ui/UiWorkspace.vue"
-import DetailUtilitySection from "../components/shared/DetailUtilitySection.vue"
 import {useQuestDashboard} from "../composables/useQuestDashboard.ts"
 
 const DashboardFindQuests = defineAsyncComponent(() => import("../components/dashboard/DashboardFindQuests.vue"))
 const DashboardMyApplications = defineAsyncComponent(() => import("../components/dashboard/DashboardMyApplications.vue"))
 const DashboardMyQuests = defineAsyncComponent(() => import("../components/dashboard/DashboardMyQuests.vue"))
 const DashboardWorkPlanner = defineAsyncComponent(() => import("../components/dashboard/DashboardWorkPlanner.vue"))
+const DashboardWorkPlannerFlexible = defineAsyncComponent(() => import("../components/dashboard/DashboardWorkPlannerFlexible.vue"))
 const DashboardPostWork = defineAsyncComponent(() => import("../components/dashboard/DashboardPostWork.vue"))
 const DashboardApplicationsDialog = defineAsyncComponent(() => import("../components/dashboard/DashboardApplicationsDialog.vue"))
 const DashboardOpenWorkDialog = defineAsyncComponent(() => import("../components/dashboard/DashboardOpenWorkDialog.vue"))
@@ -21,8 +21,6 @@ const DashboardApplicationDialog = defineAsyncComponent(() => import("../compone
 const UserProfileDialog = defineAsyncComponent(() => import("../../../modules/social/components/profile/UserProfileDialog.vue"))
 
 const dashboard = useQuestDashboard()
-const plannerScheduledCount = computed(() => dashboard.dashboardSections?.planner?.scheduledItems.length ?? 0)
-const plannerFlexibleCount = computed(() => dashboard.dashboardSections?.planner?.flexibleItems.length ?? 0)
 
 onMounted(dashboard.init)
 </script>
@@ -40,147 +38,53 @@ onMounted(dashboard.init)
         </div>
 
         <section v-if="dashboard.activeTab === 'calendar'" class="surface-stack">
-          <UiWorkspace variant="detail">
+          <UiWorkspace variant="detail" class="dashboard-calendar-workspace">
             <div class="surface-stack">
-              <UiSurfaceSection eyebrow="Calendar" title="Planned work" subtitle="See upcoming jobs, review past days, and jump into the right quest flow.">
-                <template #actions>
-                  <button class="button button--action" type="button" @click="dashboard.openCreateJobDialog()">
-                    Create job
-                  </button>
-                </template>
-              </UiSurfaceSection>
-
-              <DashboardWorkPlanner :dashboard="dashboard" />
+              <DashboardWorkPlanner :dashboard="dashboard" :show-header="false" :show-flexible="false" />
             </div>
 
-            <aside class="surface-stack">
-              <DetailUtilitySection title="Summary" tone="summary">
-                <div class="quest-overview-aside quest-overview-aside--compact">
-                  <div class="quest-overview-aside__row">
-                    <span class="quest-overview-aside__label">Scheduled</span>
-                    <span class="quest-overview-aside__value">{{ plannerScheduledCount }}</span>
-                  </div>
-                  <div class="quest-overview-aside__row">
-                    <span class="quest-overview-aside__label">Flexible</span>
-                    <span class="quest-overview-aside__value">{{ plannerFlexibleCount }}</span>
-                  </div>
-                  <div class="quest-overview-aside__row">
-                    <span class="quest-overview-aside__label">My jobs</span>
-                    <span class="quest-overview-aside__value">{{ dashboard.dashboardMyQuests.length }}</span>
-                  </div>
-                </div>
-              </DetailUtilitySection>
-
-              <DetailUtilitySection title="Actions" tone="actions">
-                <div class="ui-action-stack">
-                  <button class="button" type="button" @click="dashboard.openCreateJobDialog()">
-                    Create job
-                  </button>
-                  <button class="button button--secondary" type="button" @click="dashboard.openFindWorkDialog()">
-                    Find job
-                  </button>
-                </div>
-              </DetailUtilitySection>
+            <aside class="surface-stack dashboard-calendar-sidebar">
+              <DashboardWorkPlannerFlexible :dashboard="dashboard" />
             </aside>
           </UiWorkspace>
         </section>
 
-        <section v-else-if="dashboard.activeTab === 'create-job'" class="surface-stack">
-          <UiWorkspace variant="detail">
-            <div class="surface-stack">
-              <UiSurfaceSection eyebrow="Create job" title="Your offered jobs" subtitle="Manage the jobs you posted and open the compose flow only when you want to create a new one.">
-                <template #actions>
-                  <button class="button button--action" type="button" @click="dashboard.openCreateJobDialog()">
-                    Create job
-                  </button>
-                </template>
-              </UiSurfaceSection>
+        <section v-else-if="dashboard.activeTab === 'side-job'" class="surface-stack dashboard-sidejob-screen">
+          <div class="dashboard-sidejob-layout">
+            <UiSurfaceSection class="dashboard-sidejob-panel" title="My jobs">
+              <div class="dashboard-sidejob-panel__cta">
+                <button class="button dashboard-sidejob-panel__cta-button" type="button" @click="dashboard.openCreateJobDialog()">
+                  Create new job
+                </button>
+              </div>
 
               <DashboardMyQuests
                 :dashboard="dashboard"
-                title="Your jobs"
+                title="My jobs"
                 subtitle=""
                 empty-message="No jobs posted yet."
                 :show-header="false"
+                :boxed="false"
               />
-            </div>
+            </UiSurfaceSection>
 
-            <aside class="surface-stack">
-              <DetailUtilitySection title="Summary" tone="summary">
-                <div class="quest-overview-aside quest-overview-aside--compact">
-                  <div class="quest-overview-aside__row">
-                    <span class="quest-overview-aside__label">Posted jobs</span>
-                    <span class="quest-overview-aside__value">{{ dashboard.dashboardMyQuests.length }}</span>
-                  </div>
-                  <div class="quest-overview-aside__row">
-                    <span class="quest-overview-aside__label">Active</span>
-                    <span class="quest-overview-aside__value">{{ dashboard.activeMyQuestsCount }}</span>
-                  </div>
-                  <div class="quest-overview-aside__row">
-                    <span class="quest-overview-aside__label">Completed</span>
-                    <span class="quest-overview-aside__value">{{ dashboard.completedMyQuestsCount }}</span>
-                  </div>
-                </div>
-              </DetailUtilitySection>
-
-              <DetailUtilitySection title="Actions" tone="actions">
-                <div class="ui-action-stack">
-                  <button class="button" type="button" @click="dashboard.openCreateJobDialog()">
-                    Create job
-                  </button>
-                </div>
-              </DetailUtilitySection>
-            </aside>
-          </UiWorkspace>
-        </section>
-
-        <section v-else-if="dashboard.activeTab === 'find-work'" class="surface-stack">
-          <UiWorkspace variant="detail">
-            <div class="surface-stack">
-              <UiSurfaceSection eyebrow="Find job" title="Your applications" subtitle="Track your applications here and open search only when you want to browse more jobs.">
-                <template #actions>
-                  <button class="button button--action" type="button" @click="dashboard.openFindWorkDialog()">
-                    Find job
-                  </button>
-                </template>
-              </UiSurfaceSection>
+            <UiSurfaceSection class="dashboard-sidejob-panel" title="My applications">
+              <div class="dashboard-sidejob-panel__cta">
+                <button class="button dashboard-sidejob-panel__cta-button" type="button" @click="dashboard.openFindWorkDialog()">
+                  Find job
+                </button>
+              </div>
 
               <DashboardMyApplications
                 :dashboard="dashboard"
-                title="Your applications"
+                title="My applications"
                 subtitle=""
                 empty-message="No applications yet."
                 :show-header="false"
+                :boxed="false"
               />
-            </div>
-
-            <aside class="surface-stack">
-              <DetailUtilitySection title="Summary" tone="summary">
-                <div class="quest-overview-aside quest-overview-aside--compact">
-                  <div class="quest-overview-aside__row">
-                    <span class="quest-overview-aside__label">Applications</span>
-                    <span class="quest-overview-aside__value">{{ dashboard.myApplications.length }}</span>
-                  </div>
-                  <div class="quest-overview-aside__row">
-                    <span class="quest-overview-aside__label">Pending</span>
-                    <span class="quest-overview-aside__value">{{ dashboard.pendingWorkApplicationsCount }}</span>
-                  </div>
-                  <div class="quest-overview-aside__row">
-                    <span class="quest-overview-aside__label">Active work</span>
-                    <span class="quest-overview-aside__value">{{ dashboard.activeWorkApplicationsCount }}</span>
-                  </div>
-                </div>
-              </DetailUtilitySection>
-
-              <DetailUtilitySection title="Actions" tone="actions">
-                <div class="ui-action-stack">
-                  <button class="button" type="button" @click="dashboard.openFindWorkDialog()">
-                    Find job
-                  </button>
-                </div>
-              </DetailUtilitySection>
-            </aside>
-          </UiWorkspace>
+            </UiSurfaceSection>
+          </div>
         </section>
 
         <UserProfileDialog
@@ -201,7 +105,7 @@ onMounted(dashboard.init)
 
         <UiDialog
           :open="dashboard.isFindWorkDialogOpen"
-          title="Find work"
+          title="Find job"
           size="xl"
           @close="dashboard.closeFindWorkDialog()"
         >

@@ -10,11 +10,13 @@ import type {DashboardAdminFacade} from "./dashboardFacades.ts"
 
 export const useDashboardAdminQuestBrowser = (dashboard: DashboardAdminFacade) => {
   const router = useRouter()
+  const viewerTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const viewerTimezoneOffsetMinutes = new Date().getTimezoneOffset()
   const questSearch = ref("")
   const audienceFilter = ref<QuestAudience | typeof ALL_FILTER_VALUE>(ALL_FILTER_VALUE)
   const dateFrom = ref("")
   const dateTo = ref("")
-  const itemsPerPage = 8
+  const itemsPerPage = 100
 
   const {results: questResults, loadQuests, watchAndReload} = useQuestSearchResults(itemsPerPage, (page) => workmarketApi.searchQuests({
     q: normalizeSearchQuery(questSearch.value),
@@ -22,6 +24,8 @@ export const useDashboardAdminQuestBrowser = (dashboard: DashboardAdminFacade) =
     audience: toOptionalFilterValue(audienceFilter.value),
     dateFrom: dateFrom.value || null,
     dateTo: dateTo.value || null,
+    viewerTimeZone,
+    viewerTimezoneOffsetMinutes,
     sort: "recommended",
     page,
     size: itemsPerPage
@@ -65,6 +69,7 @@ export const useDashboardAdminQuestBrowser = (dashboard: DashboardAdminFacade) =
     pageEnd,
     hasPreviousPage,
     hasNextPage,
+    loadQuests,
     previousPage,
     nextPage,
     openQuest

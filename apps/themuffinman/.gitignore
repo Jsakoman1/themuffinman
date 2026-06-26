@@ -1,4 +1,5 @@
 HELP.md
+.env.backend.dev.local
 target/
 .m2repo/
 .mvn/wrapper/maven-wrapper.jar

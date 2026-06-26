@@ -16,6 +16,7 @@ const props = withDefaults(defineProps<{
   showLabels?: boolean
   reserveSecondarySpace?: boolean
   reserveDescriptionSpace?: boolean
+  compactInline?: boolean
 }>(), {
   primaryIcon: "",
   secondaryLabel: "",
@@ -26,13 +27,14 @@ const props = withDefaults(defineProps<{
   showLabels: false,
   reserveSecondarySpace: false,
   reserveDescriptionSpace: false,
+  compactInline: false,
 })
 
 const descriptionText = computed(() => richTextToPlainText(props.description ?? ""))
 </script>
 
 <template>
-  <div class="quest-summary-row">
+  <div :class="['quest-summary-row', { 'quest-summary-row--compact-inline': compactInline }]">
     <div class="quest-summary-row__leading">
       <div class="quest-summary-row__pill quest-summary-row__pill--primary">
         <span

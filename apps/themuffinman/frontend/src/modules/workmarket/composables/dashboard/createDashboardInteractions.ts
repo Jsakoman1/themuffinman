@@ -36,6 +36,13 @@ export const createDashboardInteractions = (state: {
   editQuestTermFixed: Ref<boolean>
   editQuestAudience: Ref<Quest["audience"]>
   editQuestSelectedCircleIds: Ref<number[]>
+  editQuestLocationSource: Ref<NonNullable<Quest["locationSource"]>>
+  editQuestLocationCountry: Ref<string>
+  editQuestLocationLocality: Ref<string>
+  editQuestLocationPostalCode: Ref<string>
+  editQuestLocationStreet: Ref<string>
+  editQuestLocationHouseNumber: Ref<string>
+  editQuestLocationVisibility: Ref<NonNullable<Quest["locationVisibility"]>>
   editQuestCreatorId: Ref<string>
   editQuestStatus: Ref<Quest["status"]>
   editQuestImages: Ref<string[]>
@@ -48,6 +55,13 @@ export const createDashboardInteractions = (state: {
   questTermFixed: Ref<boolean>
   questAudience: Ref<Quest["audience"]>
   questSelectedCircleIds: Ref<number[]>
+  questLocationSource: Ref<NonNullable<Quest["locationSource"]>>
+  questLocationCountry: Ref<string>
+  questLocationLocality: Ref<string>
+  questLocationPostalCode: Ref<string>
+  questLocationStreet: Ref<string>
+  questLocationHouseNumber: Ref<string>
+  questLocationVisibility: Ref<NonNullable<Quest["locationVisibility"]>>
   questCreatorId: Ref<string>
   questImages: Ref<string[]>
   showFeedback: (message: string, type: "error" | "success") => void
@@ -330,7 +344,7 @@ export const createDashboardInteractions = (state: {
     populateCreateQuestDraft(state, quest, state.adminModeEnabled.value)
     state.editingQuestId.value = null
     closeQuestDisclosure(quest.id)
-    goToTab("create-job")
+    goToTab("side-job")
   }
 
   const copyDebugInfo = async (lines: string[]) => {

@@ -22,19 +22,26 @@ export const useQuestDashboardQuestDraftMutations = ({
     const result = await runMutation({
       run: () => workmarketApi.createQuest({
         title: state.questTitle.value.trim(),
-        description: state.questDescription.value.trim(),
+        description: state.questDescription.value,
         awardAmount: Number(state.questAwardAmount.value),
         scheduledAt,
         endsAt,
         termFixed: state.questTermFixed.value,
         audience: state.questAudience.value,
         selectedCircleIds: state.questAudience.value === "CIRCLES" ? [...state.questSelectedCircleIds.value] : [],
+        locationVisibility: state.questLocationVisibility.value,
+        locationSource: state.questLocationSource.value,
+        locationCountry: state.questLocationCountry.value || null,
+        locationLocality: state.questLocationLocality.value || null,
+        locationPostalCode: state.questLocationPostalCode.value || null,
+        locationStreet: state.questLocationStreet.value || null,
+        locationHouseNumber: state.questLocationHouseNumber.value || null,
         creatorId: state.adminModeEnabled.value && state.questCreatorId.value ? Number(state.questCreatorId.value) : undefined,
         images: [...state.questImages.value]
       }),
       successMessage: (response) => response.message,
       errorMessage: "Could not create quest.",
-      successPulseTarget: "create-job",
+      successPulseTarget: "side-job",
       afterSuccess: async () => {
         resetCreateQuestDraft(state, state.adminModeEnabled.value)
         state.closeCreateJobDialog()

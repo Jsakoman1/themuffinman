@@ -60,9 +60,18 @@ const {
   editTermMode,
   editAudience,
   editSelectedCircleIds,
+  editLocationVisibility,
+  editLocationSource,
+  editLocationCountry,
+  editLocationLocality,
+  editLocationPostalCode,
+  editLocationStreet,
+  editLocationHouseNumber,
   editImages,
+  isEditing,
   circleGroups,
   questAudienceOptions,
+  questLocationVisibilityOptions,
   canEdit,
   cancelEditing,
   setEditTermMode,
@@ -111,12 +120,19 @@ const ownerQuestHasChanges = computed(() => {
     : "flexible"
 
   return editTitle.value.trim() !== quest.value.title.trim()
-    || editDescription.value.trim() !== quest.value.description.trim()
+    || editDescription.value !== quest.value.description
     || editAwardAmount.value.trim() !== String(quest.value.awardAmount ?? "").trim()
     || editScheduledAt.value !== formatInstantForInput(quest.value.scheduledAt)
     || editEndsAt.value !== formatInstantForInput(quest.value.endsAt)
     || editTermMode.value !== normalizedTermMode
     || editAudience.value !== quest.value.audience
+    || editLocationSource.value !== (quest.value.locationSource ?? "PROFILE")
+    || editLocationCountry.value !== (quest.value.locationCountry ?? "")
+    || editLocationLocality.value !== (quest.value.locationLocality ?? "")
+    || editLocationPostalCode.value !== (quest.value.locationPostalCode ?? "")
+    || editLocationStreet.value !== (quest.value.locationStreet ?? "")
+    || editLocationHouseNumber.value !== (quest.value.locationHouseNumber ?? "")
+    || editLocationVisibility.value !== quest.value.locationVisibility
     || editSelectedCircleIds.value.length !== quest.value.visibleToCircles.length
     || editSelectedCircleIds.value.some((id) => !quest.value?.visibleToCircles.some((circle) => circle.id === id))
     || editImages.value.length !== quest.value.images.length
@@ -159,9 +175,9 @@ const openApplicantProfile = (applicationId: number) => {
 
     <UiDialog
       :open="true"
-      :title="quest?.title ?? 'Quest details'"
+      :title="canEdit ? 'Preview Quest' : (quest?.title ?? 'Quest details')"
       size="xl"
-      :chrome-only-header="true"
+      :chrome-only-header="false"
       @close="closeQuestDetail"
     >
       <UiStatusBanner :message="actionMessage" :tone="actionMessageTone" />
@@ -173,7 +189,25 @@ const openApplicantProfile = (applicationId: number) => {
       </div>
 
       <QuestDetailEditForm
-        v-else-if="quest && canEdit"
+        v-else-if="quest && canEdit && isEditing"
+        :key="[
+          quest.id,
+          quest.title,
+          quest.description,
+          quest.awardAmount,
+          quest.scheduledAt ?? '',
+          quest.endsAt ?? '',
+          quest.audience,
+          quest.locationSource ?? '',
+          quest.locationCountry ?? '',
+          quest.locationLocality ?? '',
+          quest.locationPostalCode ?? '',
+          quest.locationStreet ?? '',
+          quest.locationHouseNumber ?? '',
+          quest.locationVisibility,
+          quest.images.join('|'),
+          quest.visibleToCircles.map((circle) => circle.id).join(',')
+        ].join(':')"
         :title="editTitle"
         :description="editDescription"
         :award-amount="editAwardAmount"
@@ -182,9 +216,17 @@ const openApplicantProfile = (applicationId: number) => {
         :term-mode="editTermMode"
         :audience="editAudience"
         :selected-circle-ids="editSelectedCircleIds"
+        :location-source="editLocationSource"
+        :location-country="editLocationCountry"
+        :location-locality="editLocationLocality"
+        :location-postal-code="editLocationPostalCode"
+        :location-street="editLocationStreet"
+        :location-house-number="editLocationHouseNumber"
+        :location-visibility="editLocationVisibility"
         :images="editImages"
         :circle-groups="circleGroups"
         :quest-audience-options="questAudienceOptions"
+        :quest-location-visibility-options="questLocationVisibilityOptions"
         :is-saving="isSaving"
         :has-changes="ownerQuestHasChanges"
         @update:title="editTitle = $event"
@@ -195,9 +237,16 @@ const openApplicantProfile = (applicationId: number) => {
         @update:term-mode="setEditTermMode($event)"
         @update:audience="editAudience = $event"
         @toggle:circle="toggleEditCircle($event)"
+        @update:location-source="editLocationSource = $event"
+        @update:location-country="editLocationCountry = $event"
+        @update:location-locality="editLocationLocality = $event"
+        @update:location-postal-code="editLocationPostalCode = $event"
+        @update:location-street="editLocationStreet = $event"
+        @update:location-house-number="editLocationHouseNumber = $event"
+        @update:location-visibility="editLocationVisibility = $event"
         @change:images="handleEditImagesChange"
         @remove:image="removeEditImage($event)"
-        @submit="saveEdits"
+        @save="saveEdits"
         @cancel="cancelEditing"
       >
         <template #main-after>

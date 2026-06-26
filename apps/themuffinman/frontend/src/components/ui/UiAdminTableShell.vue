@@ -7,10 +7,12 @@ withDefaults(defineProps<{
   hasPrevious: boolean
   hasNext: boolean
   showBottomPagination?: boolean
+  compact?: boolean
 }>(), {
   topLabel: "",
   bottomLabel: "",
   showBottomPagination: true,
+  compact: false,
 })
 
 const emit = defineEmits<{
@@ -20,7 +22,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="admin-table-shell">
+  <div :class="['admin-table-shell', {'admin-table-shell--compact': compact}]">
     <UiPagination
       v-if="topLabel"
       class="mb-4"

@@ -9,14 +9,17 @@ import type {DashboardWorkPlannerFacade} from "../../composables/dashboard/dashb
 
 const props = defineProps<{
   dashboard: DashboardWorkPlannerFacade
+  showHeader?: boolean
+  showFlexible?: boolean
 }>()
 const {
   weekdayLabels,
-  monthLabel,
+  viewMode,
+  periodLabel,
   canGoPrevious,
+  setViewMode,
   shiftBack,
   shiftForward,
-  monthCells,
   flexibleItems,
   selectedDay,
   selectedDayItems,
@@ -26,14 +29,81 @@ const {
   openDayDialog,
   closeDayDialog,
   openCreateOnSelectedDay,
-  openItem
+  openItem,
+  monthCells,
+  timelineDays,
+  timelineHours,
+  timelineBodyHeight,
+  timelineNowOffset,
+  timelineSpanItems,
+  timelineSpanLaneCount,
 } = createDashboardWorkPlannerState(props.dashboard)
 </script>
 
 <template>
-  <UiSurfaceSection tag="article" class="dashboard-overview__planner" compact eyebrow="Planner" title="Calendar">
+  <UiSurfaceSection
+    tag="article"
+    class="dashboard-overview__planner"
+    compact
+    plain
+    :eyebrow="props.showHeader === false ? '' : 'Planner'"
+    :title="props.showHeader === false ? '' : 'Calendar'"
+  >
+    <div v-if="props.showHeader === false" class="dashboard-calendar__hero">
+      <h1 class="dashboard-calendar__hero-title">Calendar</h1>
+
+      <div class="dashboard-calendar__hero-controls">
+        <div class="dashboard-calendar__view-toggle" role="tablist" aria-label="Calendar view">
+          <button
+            class="dashboard-calendar__view-button"
+            :class="{'dashboard-calendar__view-button--active': viewMode === 'month'}"
+            type="button"
+            @click="setViewMode('month')"
+          >
+            Month
+          </button>
+          <button
+            class="dashboard-calendar__view-button"
+            :class="{'dashboard-calendar__view-button--active': viewMode === 'week'}"
+            type="button"
+            @click="setViewMode('week')"
+          >
+            Week
+          </button>
+          <button
+            class="dashboard-calendar__view-button"
+            :class="{'dashboard-calendar__view-button--active': viewMode === 'day'}"
+            type="button"
+            @click="setViewMode('day')"
+          >
+            Day
+          </button>
+        </div>
+
+        <div class="dashboard-calendar__toolbar dashboard-calendar__toolbar--hero">
+          <button
+            class="button button--ghost dashboard-calendar__nav-button"
+            type="button"
+            :disabled="!canGoPrevious"
+            aria-label="Previous"
+            @click="shiftBack"
+          >
+            <span aria-hidden="true">←</span>
+          </button>
+
+          <div class="dashboard-calendar__title">
+            <strong>{{ periodLabel }}</strong>
+          </div>
+
+          <button class="button button--ghost dashboard-calendar__nav-button" type="button" aria-label="Next" @click="shiftForward">
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <template #actions>
-      <div class="dashboard-calendar__toolbar">
+      <div v-if="props.showHeader !== false" class="dashboard-calendar__toolbar">
         <button
           class="button button--ghost dashboard-calendar__nav-button"
           type="button"
@@ -45,7 +115,7 @@ const {
         </button>
 
         <div class="dashboard-calendar__title">
-          <strong>{{ monthLabel }}</strong>
+          <strong>{{ periodLabel }}</strong>
         </div>
 
         <button class="button button--ghost dashboard-calendar__nav-button" type="button" aria-label="Next" @click="shiftForward">
@@ -54,7 +124,7 @@ const {
       </div>
     </template>
 
-    <div class="dashboard-calendar__frame">
+    <div v-if="viewMode === 'month'" class="dashboard-calendar__frame">
       <div class="dashboard-calendar__head">
         <div v-for="weekday in weekdayLabels" :key="weekday" class="dashboard-calendar__head-cell">
           {{ weekday }}
@@ -93,7 +163,7 @@ const {
               <UiEventPill
                 :time="item.timeLabel"
                 :title="item.title"
-                :tone="item.kind === 'managed' ? 'outgoing' : 'incoming'"
+                :tone="item.tone"
                 month
                 :muted="cell.isPast"
                 :range="item.hasRange"
@@ -108,7 +178,128 @@ const {
       </div>
     </div>
 
-    <UiSurfaceSection v-if="flexibleItems.length" class="dashboard-calendar__flexible" compact title="Flexible">
+    <div v-else class="dashboard-calendar__timeline-shell">
+      <div class="dashboard-calendar__timeline-top">
+        <div class="dashboard-calendar__timeline-spacer" />
+        <div class="dashboard-calendar__timeline-day-headings" :style="{'--calendar-day-count': String(timelineDays.length)}">
+          <button
+            v-for="day in timelineDays"
+            :key="day.key"
+            class="dashboard-calendar__timeline-heading"
+            :class="{
+              'dashboard-calendar__timeline-heading--today': day.isToday,
+              'dashboard-calendar__timeline-heading--past': day.isPast
+            }"
+            type="button"
+            @click="openDayDialog(day.key)"
+          >
+            <span class="dashboard-calendar__timeline-heading-weekday">{{ day.weekdayLabel }}</span>
+            <span class="dashboard-calendar__timeline-heading-date">{{ day.dayNumber }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div
+        v-if="timelineSpanItems.length"
+        class="dashboard-calendar__spans"
+        :style="{
+          '--calendar-day-count': String(timelineDays.length),
+          '--calendar-span-lanes': String(timelineSpanLaneCount)
+        }"
+      >
+        <div class="dashboard-calendar__timeline-spacer" />
+        <div class="dashboard-calendar__spans-grid">
+          <button
+            v-for="item in timelineSpanItems"
+            :key="`${item.id}-${item.lane}`"
+            class="dashboard-calendar__span-item"
+            :class="`dashboard-calendar__span-item--${item.kind}`"
+            type="button"
+            :style="{
+              gridColumn: `${item.startColumn} / span ${item.columnSpan}`,
+              gridRow: String(item.lane)
+            }"
+            @click="openItem(item)"
+          >
+            <span class="dashboard-calendar__span-time">{{ item.timeLabel }}</span>
+            <span class="dashboard-calendar__span-title">{{ item.title }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="dashboard-calendar__timeline">
+        <div class="dashboard-calendar__timeline-rail">
+          <div class="dashboard-calendar__timeline-rail-body" :style="{height: `${timelineBodyHeight}px`}">
+            <div
+              v-for="hour in timelineHours"
+              :key="hour.hour"
+              class="dashboard-calendar__timeline-hour"
+              :style="{top: `${hour.offset}px`}"
+            >
+              {{ hour.label }}
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-calendar__timeline-columns" :style="{'--calendar-day-count': String(timelineDays.length)}">
+          <section
+            v-for="day in timelineDays"
+            :key="day.key"
+            class="dashboard-calendar__timeline-day"
+            :class="{
+              'dashboard-calendar__timeline-day--today': day.isToday,
+              'dashboard-calendar__timeline-day--past': day.isPast
+            }"
+          >
+            <button
+              class="dashboard-calendar__timeline-day-surface"
+              type="button"
+              :style="{height: `${timelineBodyHeight}px`}"
+              @click="openDayDialog(day.key)"
+            >
+              <span
+                v-for="hour in timelineHours"
+                :key="`${day.key}-${hour.hour}`"
+                class="dashboard-calendar__timeline-line"
+                :style="{top: `${hour.offset}px`}"
+              />
+              <span
+                v-if="day.isToday && timelineNowOffset !== null"
+                class="dashboard-calendar__timeline-now"
+                :style="{top: `${timelineNowOffset}px`}"
+              />
+            </button>
+
+            <button
+              v-for="entry in day.entries"
+              :key="entry.id"
+              class="dashboard-calendar__timeline-entry"
+              :class="[
+                `dashboard-calendar__timeline-entry--${entry.kind}`,
+                {
+                  'dashboard-calendar__timeline-entry--range': entry.hasRange,
+                  'dashboard-calendar__timeline-entry--starts-before': entry.startsBefore,
+                  'dashboard-calendar__timeline-entry--ends-after': entry.endsAfter
+                }
+              ]"
+              type="button"
+              :style="{
+                top: `${entry.top}px`,
+                height: `${entry.height}px`,
+                left: `calc(${entry.column} * (100% / ${entry.columnCount}))`,
+                width: `calc((100% / ${entry.columnCount}) - 6px)`
+              }"
+              @click.stop="openItem(entry)"
+            >
+              <span class="dashboard-calendar__timeline-entry-time">{{ entry.timeLabel }}</span>
+              <span class="dashboard-calendar__timeline-entry-title">{{ entry.title }}</span>
+            </button>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <UiSurfaceSection v-if="props.showFlexible !== false && flexibleItems.length" class="dashboard-calendar__flexible" compact plain title="Flexible">
       <div class="dashboard-calendar__flexible-list">
         <button
           v-for="item in flexibleItems"
@@ -120,7 +311,7 @@ const {
           <UiEventPill
             :time="item.timeLabel"
             :title="item.title"
-            :tone="item.kind === 'managed' ? 'outgoing' : 'incoming'"
+            :tone="item.tone"
             month
           />
         </button>
@@ -148,7 +339,7 @@ const {
                 <UiEventPill
                   :time="item.timeLabel"
                   :title="item.title"
-                  :tone="item.kind === 'managed' ? 'outgoing' : 'incoming'"
+                  :tone="item.tone"
                   dialog
                   :range="item.hasRange"
                 />

@@ -67,7 +67,7 @@ public class DashboardService {
     public DashboardResponseDTO getMyDashboard(AppUser currentUser) {
         if (currentUser == null) {
             return DashboardResponseDTO.builder()
-                    .options(workmarketOptionsService.getOptions())
+                    .options(workmarketOptionsService.getOptions(null))
                     .summary(DashboardSummaryDTO.builder().build())
                     .sections(dashboardSectionsFactory.emptySections())
                     .quests(List.of())
@@ -103,7 +103,7 @@ public class DashboardService {
         DashboardSectionsDTO sections = dashboardSectionsFactory.buildSections(myQuestDtos, sortedApplications, recentNews, incomingCircleRequests);
 
         return DashboardResponseDTO.builder()
-                .options(workmarketOptionsService.getOptions())
+                .options(workmarketOptionsService.getOptions(currentUser))
                 .summary(buildSummary(currentUser, visibleQuests, applications))
                 .sections(sections)
                 .quests(questDtos)
@@ -195,11 +195,6 @@ public class DashboardService {
                 .statusSurfaceClass(presentationHelper.surfaceClassForApplicationStatus(dto.getStatus()))
                 .questStatusLabel(presentationHelper.formatQuestStatus(dto.getQuestStatus()))
                 .questStatusBadgeClass(presentationHelper.badgeClassForQuestStatus(dto.getQuestStatus()))
-                .questTermLabel(presentationHelper.formatQuestTerm(
-                        dto.getQuestScheduledAt(),
-                        dto.getQuestEndsAt(),
-                        dto.isQuestTermFixed()
-                ))
                 .questAssigneeTargetVisible(presentationHelper.showAssigneeTarget(dto.getQuestAssigneeTarget()))
                 .questAssigneeTargetLabel(presentationHelper.formatAssigneeTarget(dto.getQuestAssigneeTarget()))
                 .canEdit(allowedActions.contains(ApplicationAllowedAction.EDIT))

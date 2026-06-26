@@ -5,6 +5,7 @@ import {createDashboardQuestListState} from "../../composables/dashboard/createD
 import type {DashboardQuestListFacade} from "../../composables/dashboard/dashboardFacades.ts"
 import DashboardSummaryListButton from "../shared/DashboardSummaryListButton.vue"
 import DashboardSummaryListSection from "../shared/DashboardSummaryListSection.vue"
+import {formatQuestTermForDisplay} from "../../../../shared/questSchedule.ts"
 
 const props = withDefaults(defineProps<{
   dashboard: DashboardQuestListFacade
@@ -25,15 +26,11 @@ const props = withDefaults(defineProps<{
 
 const {applications} = createDashboardQuestListState(props.dashboard, {applications: props.applications})
 
-const applicationStatusOrder: Record<string, number> = {
-  PENDING: 1,
-  ACCEPTED: 2,
-  WITHDRAWN: 3,
-  DECLINED: 4,
-  CANCELLED: 5,
-}
-
 const groupedApplications = computed(() => {
+  if (!props.applications) {
+    return props.dashboard.dashboardSections?.myApplicationGroups ?? []
+  }
+
   const groups = new Map<string, {key: string; label: string; items: QuestApplication[]}>()
 
   for (const application of applications.value) {
@@ -51,9 +48,20 @@ const groupedApplications = computed(() => {
     })
   }
 
-  return Array.from(groups.values()).sort((left, right) =>
-    (applicationStatusOrder[left.key] ?? 999) - (applicationStatusOrder[right.key] ?? 999)
-  )
+  const applicationStatusOrder: Record<string, number> = {
+    APPROVED: 1,
+    PENDING: 2,
+    DECLINED: 3,
+    WITHDRAWN: 4,
+  }
+
+  return Array.from(groups.values())
+    .sort((left, right) => (applicationStatusOrder[left.key] ?? 999) - (applicationStatusOrder[right.key] ?? 999))
+    .map((group) => ({
+      ...group,
+      count: group.items.length,
+      tone: "accent"
+    }))
 })
 </script>
 
@@ -69,33 +77,26 @@ const groupedApplications = computed(() => {
     <section
       v-for="group in groupedApplications"
       :key="group.key"
-      class="dashboard-status-group"
+        :class="['dashboard-status-group', `dashboard-status-group--${group.key.toLowerCase()}`]"
     >
       <div class="dashboard-status-group__header">
+        <span class="dashboard-status-group__count">{{ group.count }}</span>
         <strong class="dashboard-status-group__title">{{ group.label }}</strong>
-        <span class="badge badge--secondary">{{ group.items.length }}</span>
       </div>
 
       <div class="quest-list">
         <DashboardSummaryListButton
           v-for="application in group.items"
           :key="application.id"
-          primary-label="Creator"
-          :primary-value="dashboard.questCreatorUsernameForQuest(application.questId)"
-          secondary-label="Price"
-          :secondary-value="application.proposedPrice"
-          secondary-icon="$"
-          money-tone="income"
+          primary-label="When"
+          :primary-value="formatQuestTermForDisplay(application.questScheduledAt, application.questEndsAt, application.questTermFixed)"
           :title="application.questTitle"
-          :description="application.questDescription"
+          description=""
           :status-surface-class="application.presentation.statusSurfaceClass"
           :pulse="dashboard.successPulseTarget === `application-${application.id}`"
+          :compact-inline="true"
           @click="dashboard.openApplicationDialog(application.id)"
-        >
-          <template #meta>
-            <span :class="application.presentation.statusBadgeClass">{{ application.presentation.statusLabel }}</span>
-          </template>
-        </DashboardSummaryListButton>
+        />
       </div>
     </section>
   </DashboardSummaryListSection>

@@ -5,6 +5,7 @@ import UiInfoGrid from "../../../../components/ui/UiInfoGrid.vue"
 import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 import {richTextHasContent} from "../../../../shared/richText.ts"
 import type {QuestApplication} from "../../api/workmarketApi.ts"
+import {formatQuestTermForDisplay} from "../../../../shared/questSchedule.ts"
 
 withDefaults(defineProps<{
   application: QuestApplication
@@ -64,7 +65,7 @@ defineEmits<{
 
       <div v-if="showTerm" class="field">
         <span class="label">Term</span>
-        <strong>{{ application.presentation.questTermLabel }}</strong>
+        <strong>{{ formatQuestTermForDisplay(application.questScheduledAt, application.questEndsAt, application.questTermFixed) }}</strong>
       </div>
 
       <div v-if="showWorkers && application.presentation.questAssigneeTargetVisible" class="field">

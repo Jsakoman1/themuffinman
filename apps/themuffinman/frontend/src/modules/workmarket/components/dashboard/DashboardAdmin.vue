@@ -2,8 +2,8 @@
 import UiAdminTableShell from "../../../../components/ui/UiAdminTableShell.vue"
 import UiFieldGroup from "../../../../components/ui/UiFieldGroup.vue"
 import UiFilterBar from "../../../../components/ui/UiFilterBar.vue"
-import UiFormActions from "../../../../components/ui/UiFormActions.vue"
 import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
+import {formatQuestTermForDisplay} from "../../../../shared/questSchedule.ts"
 import {useDashboardAdminQuestBrowser} from "../../composables/dashboard/useDashboardAdminQuestBrowser.ts"
 import type {DashboardAdminFacade} from "../../composables/dashboard/dashboardFacades.ts"
 
@@ -25,22 +25,28 @@ const {
   pageEnd,
   hasPreviousPage,
   hasNextPage,
+  loadQuests,
   previousPage,
   nextPage,
   openQuest
 } = useDashboardAdminQuestBrowser(props.dashboard)
+
+const handleDeleteQuest = async (questId: number) => {
+  const targetPage = pagedQuests.value.length === 1 && currentPage.value > 1
+    ? currentPage.value - 1
+    : currentPage.value
+  const deleted = await props.dashboard.deleteQuest(questId)
+  if (!deleted) {
+    return
+  }
+
+  await loadQuests(targetPage)
+}
 </script>
 
 <template>
   <section class="stack">
-    <UiSurfaceSection title="Admin control center" soft>
-
-      <UiFormActions>
-        <button class="button" type="button" @click="dashboard.refreshDashboardData">Refresh data</button>
-      </UiFormActions>
-    </UiSurfaceSection>
-
-    <UiSurfaceSection id="quests" title="All quests">
+    <UiSurfaceSection id="quests" title="All quests" plain>
       <UiFilterBar :columns="2">
         <UiFieldGroup label="Search">
           <input v-model="questSearch" class="input" placeholder="Title, creator, status, award..." />
@@ -59,23 +65,26 @@ const {
         </UiFieldGroup>
       </UiFilterBar>
 
-      <UiFilterBar :columns="3">
-        <UiFieldGroup label="Audience">
-          <select v-model="audienceFilter" class="input">
-            <option v-for="option in props.dashboard.questAudienceFilterOptions" :key="option.value" :value="option.value">
-              {{ option.label }}
-            </option>
-          </select>
-        </UiFieldGroup>
+      <details class="admin-more-filters">
+        <summary>More filters</summary>
+        <UiFilterBar :columns="3">
+          <UiFieldGroup label="Audience">
+            <select v-model="audienceFilter" class="input">
+              <option v-for="option in props.dashboard.questAudienceFilterOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </UiFieldGroup>
 
-        <UiFieldGroup label="From date">
-          <input v-model="dateFrom" class="input" type="date" />
-        </UiFieldGroup>
+          <UiFieldGroup label="From date">
+            <input v-model="dateFrom" class="input" type="date" />
+          </UiFieldGroup>
 
-        <UiFieldGroup label="To date">
-          <input v-model="dateTo" class="input" type="date" />
-        </UiFieldGroup>
-      </UiFilterBar>
+          <UiFieldGroup label="To date">
+            <input v-model="dateTo" class="input" type="date" />
+          </UiFieldGroup>
+        </UiFilterBar>
+      </details>
 
       <div v-if="isLoading" class="empty-state mt-4">
         Loading quests...
@@ -89,6 +98,7 @@ const {
         <template v-else>
           <UiAdminTableShell
             class="mt-4"
+            compact
             :top-label="`Showing ${pageStart}-${pageEnd} of ${totalItems}`"
             :bottom-label="`Page ${currentPage} of ${totalPages}`"
             :has-previous="hasPreviousPage"
@@ -97,9 +107,10 @@ const {
             @previous="previousPage"
             @next="nextPage"
           >
-            <table class="admin-table">
+            <table class="admin-table admin-table--compact">
               <thead>
                 <tr>
+                  <th>ID</th>
                   <th>Title</th>
                   <th>Creator</th>
                   <th>Status</th>
@@ -116,11 +127,11 @@ const {
                   :key="quest.id"
                   :class="{ 'ui-pulse': dashboard.successPulseTarget === `quest-${quest.id}` }"
                 >
+                  <td>{{ quest.id }}</td>
                   <td>
-                    <div class="stack">
-                      <strong>{{ quest.title }}</strong>
-                      <span class="muted text-clamp">{{ quest.description }}</span>
-                    </div>
+                    <button class="button-reset admin-table__title-button" type="button" @click="openQuest(quest.questNavigation)">
+                      {{ quest.title }}
+                    </button>
                   </td>
                   <td>{{ quest.creatorUsername }}</td>
                   <td>
@@ -132,11 +143,11 @@ const {
                   </td>
                   <td>{{ quest.presentation.audienceLabel }}</td>
                   <td>$ {{ quest.awardAmount }}</td>
-                  <td>{{ quest.presentation.termLabel }}</td>
+                  <td>{{ formatQuestTermForDisplay(quest.scheduledAt, quest.endsAt, quest.termFixed) }}</td>
                   <td>{{ quest.presentation.assigneeTargetLabel }}</td>
                   <td>
                     <div class="admin-table__actions">
-                      <button class="button button--secondary" type="button" @click="openQuest(quest.questNavigation)">Open</button>
+                      <button class="button button--ghost" type="button" @click="handleDeleteQuest(quest.id)">Delete</button>
                     </div>
                   </td>
                 </tr>

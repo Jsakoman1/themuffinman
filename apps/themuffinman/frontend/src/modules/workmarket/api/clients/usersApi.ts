@@ -20,6 +20,10 @@ export const usersApi = {
     return (await api.get<AppUser>(`/app_users/${id}`, withAuth())).data
   },
 
+  async getCurrentAppUser(): Promise<AppUser> {
+    return (await api.get<AppUser>("/app_users/me", withAuth())).data
+  },
+
   async getUserProfileView(id: number): Promise<UserProfileView> {
     return (await api.get<UserProfileView>(`/app_users/${id}/profile-view`, withAuth())).data
   },

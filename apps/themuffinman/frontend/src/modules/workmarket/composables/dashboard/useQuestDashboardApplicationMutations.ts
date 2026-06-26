@@ -93,9 +93,17 @@ export const useQuestDashboardApplicationMutations = (
       errorMessage: "Could not update application.",
       successPulseTarget: `application-${applicationId}`,
       afterSuccess: async () => {
-        state.editingApplicationId.value = null
-        state.closeApplicationDialog()
         await refreshDashboardData()
+
+        const refreshedApplication = state.selectedApplicationDialog.value
+          ?? state.myApplications.value.find((application) => application.id === applicationId)
+          ?? null
+
+        if (refreshedApplication) {
+          state.editApplicationMessage.value = refreshedApplication.message ?? ""
+          state.editApplicationPrice.value = String(refreshedApplication.proposedPrice ?? "")
+          state.editingApplicationId.value = refreshedApplication.id
+        }
       }
     })
 

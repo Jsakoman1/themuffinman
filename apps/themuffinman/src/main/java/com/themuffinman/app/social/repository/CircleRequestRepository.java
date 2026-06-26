@@ -55,6 +55,17 @@ public interface CircleRequestRepository extends JpaRepository<CircleRequest, Lo
             join fetch c.requester
             join fetch c.recipient
             left join fetch c.blockedBy
+            where c.blockedAt is not null
+              and c.blockedBy.id = :userId
+            order by c.blockedAt desc, c.createdAt desc
+            """)
+    List<CircleRequest> findBlockedByUserId(Long userId);
+
+    @Query("""
+            select c from CircleRequest c
+            join fetch c.requester
+            join fetch c.recipient
+            left join fetch c.blockedBy
             order by c.createdAt desc
             """)
     List<CircleRequest> findAllDetailed();

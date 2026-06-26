@@ -13,6 +13,9 @@ export type CircleRelationStatus = typeof CIRCLE_RELATION_STATUS_VALUES[number]
 export const DASHBOARD_NOTIFICATION_DESTINATION_TYPE_VALUES = ["QUEST", "APPLICATION", "QUEST_LIST"] as const
 export type DashboardNotificationDestinationType = typeof DASHBOARD_NOTIFICATION_DESTINATION_TYPE_VALUES[number]
 
+export const EXACT_LOCATION_VISIBILITY_SCOPE_VALUES = ["NOBODY", "EVERYONE", "CIRCLES", "USERS"] as const
+export type ExactLocationVisibilityScope = typeof EXACT_LOCATION_VISIBILITY_SCOPE_VALUES[number]
+
 export const NAVIGATION_TARGET_TYPE_VALUES = ["QUEST_DETAIL", "APPLICATION_DETAIL", "USER_PROFILE", "QUEST_LIST", "CIRCLES"] as const
 export type NavigationTargetType = typeof NAVIGATION_TARGET_TYPE_VALUES[number]
 
@@ -31,6 +34,12 @@ export type QuestDetailExecutionAction = typeof QUEST_DETAIL_EXECUTION_ACTION_VA
 export const QUEST_LIST_PRESET_VALUES = ["AVAILABLE", "MY_VISIBLE", "MY_ACTIVE"] as const
 export type QuestListPreset = typeof QUEST_LIST_PRESET_VALUES[number]
 
+export const QUEST_LOCATION_SOURCE_VALUES = ["PROFILE", "CUSTOM"] as const
+export type QuestLocationSource = typeof QUEST_LOCATION_SOURCE_VALUES[number]
+
+export const QUEST_LOCATION_VISIBILITY_VALUES = ["INHERIT", "OFF", "APPROXIMATE", "EXACT"] as const
+export type QuestLocationVisibility = typeof QUEST_LOCATION_VISIBILITY_VALUES[number]
+
 export const QUEST_NEWS_DESTINATION_TYPE_VALUES = ["QUEST", "APPLICATION", "QUEST_LIST"] as const
 export type QuestNewsDestinationType = typeof QUEST_NEWS_DESTINATION_TYPE_VALUES[number]
 
@@ -45,6 +54,9 @@ export type QuestViewerRelation = typeof QUEST_VIEWER_RELATION_VALUES[number]
 
 export const REVIEW_ROLE_VALUES = ["EMPLOYER", "WORKER"] as const
 export type ReviewRole = typeof REVIEW_ROLE_VALUES[number]
+
+export const USER_LOCATION_MODE_VALUES = ["OFF", "APPROXIMATE", "EXACT"] as const
+export type UserLocationMode = typeof USER_LOCATION_MODE_VALUES[number]
 
 export interface ActionResultDTO {
   action: string
@@ -83,6 +95,21 @@ export interface AdminCircleRelationRowDTO {
   statusBadgeClass: string
 }
 
+export interface AdminQuestApplicationUpdateRequestDTO {
+  message?: string | null
+  proposedPrice?: number | null
+  status?: QuestApplicationStatus | null
+}
+
+export interface AdminUserDetailDTO {
+  user: AppUserResponseDTO
+  appUserRoles: AppUserRoleOptionDTO[]
+  locationModes: LocationModeOptionDTO[]
+  exactLocationVisibilityScopes: ExactLocationVisibilityScopeOptionDTO[]
+  circles: CircleGroupResponseDTO[]
+  contacts: CircleContactDTO[]
+}
+
 export interface ApiErrorResponseDTO {
   code: string
   message: string
@@ -101,6 +128,7 @@ export interface AppUserRequestDTO {
   password?: string
   profileDescription?: string | null
   profileAvatarDataUrl?: string | null
+  locationSettings?: UserLocationSettingsRequestDTO | null
   role?: AppUserRole
 }
 
@@ -111,6 +139,7 @@ export interface AppUserResponseDTO {
   profileNavigation: NavigationTargetDTO
   profileDescription: string | null
   profileAvatarDataUrl: string | null
+  locationSettings: UserLocationSettingsDTO
   createdAt: string
   openQuestCount: number
   openQuests: QuestResponseDTO[]
@@ -131,6 +160,79 @@ export interface AuthResponse {
   createdAt: string
   role: AppUserRole
   token: string | null
+}
+
+export interface ChatCircleOptionDTO {
+  id: number
+  name: string
+}
+
+export interface ChatContactDTO {
+  userId: number
+  username: string
+  profileDescription: string | null
+  profileAvatarDataUrl: string | null
+  circleIds: number[]
+  circleNames: string[]
+  online: boolean
+  lastActiveAt: string | null
+}
+
+export interface ChatConversationSummaryDTO {
+  conversationId: number
+  otherUserId: number
+  otherUsername: string
+  otherUserProfileDescription: string | null
+  otherUserAvatarDataUrl: string | null
+  otherUserOnline: boolean
+  otherUserLastActiveAt: string | null
+  lastMessagePreview: string | null
+  lastMessageAt: string | null
+  lastMessageFromCurrentUser: boolean
+  lastMessageHasImage: boolean
+  unreadCount: number
+}
+
+export interface ChatMessageDTO {
+  id: number
+  conversationId: number
+  senderUserId: number
+  senderUsername: string
+  senderAvatarDataUrl: string | null
+  messageBody: string | null
+  imageDataUrl: string | null
+  createdAt: string
+  readAt: string | null
+  ownMessage: boolean
+}
+
+export interface ChatMessageRequestDTO {
+  messageBody?: string
+  imageDataUrl?: string
+}
+
+export interface ChatOpenConversationRequestDTO {
+  otherUserId: number
+}
+
+export interface ChatSocketClientMessageDTO {
+  type: string
+  conversationId?: number
+}
+
+export interface ChatSocketEventDTO {
+  type: string
+  conversationId?: number | null
+  actorUserId?: number | null
+  reason?: string | null
+}
+
+export interface ChatWorkspaceDTO {
+  conversations: ChatConversationSummaryDTO[]
+  contacts: ChatContactDTO[]
+  circles: ChatCircleOptionDTO[]
+  unreadConversationCount: number
+  onlineContactCount: number
 }
 
 export interface CircleBlockCreateDTO {
@@ -243,6 +345,9 @@ export interface CircleSearchResultDTO {
   profileDescription: string
   profileAvatarDataUrl: string
   email: string
+  locationLabel: string | null
+  distanceKm: number | null
+  distanceLabel: string | null
   relationStatus: CircleRelationStatus
   relationLabel: string
   relationBadgeClass: string
@@ -266,6 +371,14 @@ export interface CircleSummaryDTO {
 
 export interface ConnectionCircleUpdateDTO {
   circleIds: number[]
+}
+
+export interface DashboardApplicationGroupDTO {
+  key: string
+  label: string
+  tone: string
+  count: number
+  items: QuestApplicationResponseDTO[]
 }
 
 export interface DashboardNotificationItemDTO {
@@ -297,11 +410,6 @@ export interface DashboardOpenWorkSectionDTO {
   openQuests: QuestResponseDTO[]
 }
 
-export interface DashboardOverviewSectionDTO {
-  postedBuckets: DashboardRailBucketDTO[]
-  workBuckets: DashboardRailBucketDTO[]
-}
-
 export interface DashboardPlannerItemDTO {
   id: string
   questId: number
@@ -309,9 +417,9 @@ export interface DashboardPlannerItemDTO {
   navigation: NavigationTargetDTO | null
   scheduledAt: string | null
   endsAt: string | null
-  timeLabel: string
-  dateKey: string | null
   kind: string
+  kindLabel: string
+  tone: string
   hasRange: boolean
 }
 
@@ -320,19 +428,12 @@ export interface DashboardPlannerSectionDTO {
   flexibleItems: DashboardPlannerItemDTO[]
 }
 
-export interface DashboardRailBucketDTO {
+export interface DashboardQuestGroupDTO {
   key: string
   label: string
   tone: string
-  items: DashboardRailItemDTO[]
-}
-
-export interface DashboardRailItemDTO {
-  id: string
-  questId: number
-  title: string
-  whenLabel: string
-  navigation: NavigationTargetDTO
+  count: number
+  items: QuestResponseDTO[]
 }
 
 export interface DashboardResponseDTO {
@@ -357,8 +458,9 @@ export interface DashboardSectionsDTO {
   outgoingWorkApplications: QuestApplicationResponseDTO[]
   visibleMyQuests: QuestResponseDTO[]
   visibleMyApplications: QuestApplicationResponseDTO[]
+  myQuestGroups: DashboardQuestGroupDTO[]
+  myApplicationGroups: DashboardApplicationGroupDTO[]
   recentIncomingCircleRequests: CircleRequestResponseDTO[]
-  overview: DashboardOverviewSectionDTO
   openWork: DashboardOpenWorkSectionDTO
   planner: DashboardPlannerSectionDTO
   notifications: DashboardNotificationsSectionDTO
@@ -381,9 +483,79 @@ export interface DashboardSummaryDTO {
   adminUserCount: number
 }
 
+export interface DatabaseTableStatusDTO {
+  tableName: string
+  rowCount: number
+}
+
+export interface ExactLocationVisibilityScopeOptionDTO {
+  value: ExactLocationVisibilityScope
+  label: string
+  description: string
+}
+
 export interface LabelValueDTO {
   label: string
   value: string
+}
+
+export interface LocationDebugStatusDTO {
+  configured: boolean
+  provider: string
+  lookupCacheEntries: number
+  reverseLookupCacheEntries: number
+  lookupRequests: number
+  reverseLookupRequests: number
+  providerLookupCalls: number
+  providerReverseLookupCalls: number
+  lookupCacheHits: number
+  reverseLookupCacheHits: number
+  rateLimitedRequests: number
+  usersWithCoordinates: number
+  questsWithCoordinates: number
+  usersWithProviderMetadata: number
+  questsWithProviderMetadata: number
+  currentMonthProviderRequests: number
+  currentMonthProviderLookupRequests: number
+  currentMonthProviderReverseLookupRequests: number
+  databaseSizeBytes: number
+  tableStatuses: DatabaseTableStatusDTO[]
+}
+
+export interface LocationLookupCandidateDTO {
+  provider: string
+  providerPlaceId: string | null
+  label: string
+  countryCode: string | null
+  country: string | null
+  locality: string | null
+  postalCode: string | null
+  street: string | null
+  houseNumber: string | null
+  latitude: number
+  longitude: number
+  resolvedAt: string | null
+}
+
+export interface LocationLookupRequestDTO {
+  query: string
+}
+
+export interface LocationLookupResponseDTO {
+  configured: boolean
+  provider: string
+  items: LocationLookupCandidateDTO[]
+}
+
+export interface LocationModeOptionDTO {
+  value: UserLocationMode
+  label: string
+  description: string
+}
+
+export interface LocationReverseLookupRequestDTO {
+  latitude: number
+  longitude: number
 }
 
 export interface LoginRequest {
@@ -445,7 +617,6 @@ export interface QuestApplicationPresentationDTO {
   statusSurfaceClass: string
   questStatusLabel: string
   questStatusBadgeClass: string
-  questTermLabel: string
   questAssigneeTargetVisible: boolean
   questAssigneeTargetLabel: string
   canEdit: boolean
@@ -465,6 +636,7 @@ export interface QuestApplicationResponseDTO {
   id: number
   questId: number
   questTitle: string
+  questCreatorUsername: string
   questDescription: string
   questStatus: QuestStatus
   questAssigneeTarget: number | null
@@ -572,8 +744,6 @@ export interface QuestDetailTermChangeSectionDTO {
   summaryLabel: string
   confirmLabel: string
   rejectLabel: string
-  currentTermLabel: string
-  pendingTermLabel: string | null
   currentScheduledAt: string | null
   currentEndsAt: string | null
   currentTermFixed: boolean
@@ -588,6 +758,12 @@ export interface QuestListResponseDTO {
   size: number
   totalItems: number
   totalPages: number
+}
+
+export interface QuestLocationVisibilityOptionDTO {
+  value: QuestLocationVisibility
+  label: string
+  description: string
 }
 
 export interface QuestNewsItemResponseDTO {
@@ -613,15 +789,13 @@ export interface QuestPresentationDTO {
   statusLabel: string
   statusBadgeClass: string
   statusSurfaceClass: string
-  termLabel: string
-  termScheduleLabel: string
   timeTypeLabel: string
   audienceLabel: string
+  locationLabel: string | null
+  locationSourceSummary: string | null
+  locationVisibilitySummary: string | null
   assigneeTargetVisible: boolean
   assigneeTargetLabel: string
-  detailMeta: LabelValueDTO[]
-  pendingTermLabel: string | null
-  pendingTermScheduleLabel: string | null
   canEdit: boolean
   canApply: boolean
   canViewApplications: boolean
@@ -649,6 +823,15 @@ export interface QuestRequestDTO {
   selectedCircleIds?: number[]
   creatorId?: number
   status?: QuestStatus
+  locationVisibility?: QuestLocationVisibility | null
+  locationSource?: QuestLocationSource | null
+  locationLabel?: string | null
+  locationCountryCode?: string | null
+  locationCountry?: string | null
+  locationLocality?: string | null
+  locationPostalCode?: string | null
+  locationStreet?: string | null
+  locationHouseNumber?: string | null
 }
 
 export interface QuestResponseDTO {
@@ -671,6 +854,14 @@ export interface QuestResponseDTO {
   pendingTermFixed: boolean | null
   reopenedAt: string | null
   audience: QuestAudience
+  locationVisibility: QuestLocationVisibility
+  locationSource: QuestLocationSource
+  locationLabel: string | null
+  locationCountry: string | null
+  locationLocality: string | null
+  locationPostalCode: string | null
+  locationStreet: string | null
+  locationHouseNumber: string | null
   visibleToCircles: CircleSummaryDTO[]
   images: string[]
   status: QuestStatus
@@ -682,15 +873,26 @@ export interface QuestResponseDTO {
   presentation: QuestPresentationDTO
 }
 
+export interface QuestSearchDefaultsDTO {
+  defaultSort: string
+  defaultRadiusKm: number
+  radiusOptionsKm: number[]
+  hasViewerLocation: boolean
+  nearbyDefaultEnabled: boolean
+}
+
 export interface QuestSearchRequestDTO {
   q: string | null
   status: QuestStatus | null
   audience: QuestAudience | null
   dateFrom: string | null
   dateTo: string | null
+  viewerTimeZone: string | null
+  viewerTimezoneOffsetMinutes: number | null
   excludeMine: boolean | null
   withImages: boolean | null
   scheduledOnly: boolean | null
+  radiusKm: number | null
   sort: string | null
   page: number | null
   size: number | null
@@ -721,6 +923,50 @@ export interface TextPageQueryDTO {
   q: string | null
   page: number | null
   size: number | null
+}
+
+export interface UserLocationSettingsDTO {
+  mode: UserLocationMode
+  defaultRadiusKm: number
+  hasCoordinates: boolean
+  sharingSummary: string | null
+  visibilitySummary: string | null
+  exactVisibilityScope: ExactLocationVisibilityScope
+  exactVisibleCircleIds: number[] | null
+  exactVisibleUserIds: number[] | null
+  provider: string | null
+  providerPlaceId: string | null
+  label: string | null
+  countryCode: string | null
+  country: string | null
+  locality: string | null
+  postalCode: string | null
+  street: string | null
+  houseNumber: string | null
+  latitude: number | null
+  longitude: number | null
+  resolvedAt: string | null
+  updatedAt: string | null
+}
+
+export interface UserLocationSettingsRequestDTO {
+  mode: UserLocationMode
+  defaultRadiusKm: number
+  exactVisibilityScope: ExactLocationVisibilityScope
+  exactVisibleCircleIds: number[] | null
+  exactVisibleUserIds: number[] | null
+  provider: string | null
+  providerPlaceId: string | null
+  label: string | null
+  countryCode: string | null
+  country: string | null
+  locality: string | null
+  postalCode: string | null
+  street: string | null
+  houseNumber: string | null
+  latitude: number | null
+  longitude: number | null
+  resolvedAt: string | null
 }
 
 export interface UserProfileViewDTO {
@@ -770,6 +1016,10 @@ export interface WorkmarketOptionsDTO {
   questAudiences: QuestAudienceOptionDTO[]
   questAudienceFilters: QuestAudienceFilterOptionDTO[]
   questSortOptions: QuestSortOptionDTO[]
+  questSearchDefaults: QuestSearchDefaultsDTO
+  locationModes: LocationModeOptionDTO[]
+  exactLocationVisibilityScopes: ExactLocationVisibilityScopeOptionDTO[]
+  questLocationVisibilities: QuestLocationVisibilityOptionDTO[]
 }
 
 export type AdminApplicationsQuery = AdminApplicationsQueryDTO
@@ -778,6 +1028,13 @@ export type AdminCircleOverview = AdminCircleOverviewDTO
 export type AppUser = AppUserResponseDTO
 export type AppUserRequest = AppUserRequestDTO
 export type AppUserRoleOption = AppUserRoleOptionDTO
+export type ChatCircleOption = ChatCircleOptionDTO
+export type ChatContact = ChatContactDTO
+export type ChatConversationSummary = ChatConversationSummaryDTO
+export type ChatMessage = ChatMessageDTO
+export type ChatMessageRequest = ChatMessageRequestDTO
+export type ChatOpenConversationRequest = ChatOpenConversationRequestDTO
+export type ChatWorkspace = ChatWorkspaceDTO
 export type CircleBlockCreate = CircleBlockCreateDTO
 export type CircleCandidate = CircleSearchResultDTO
 export type CircleCandidateListResponse = CircleSearchResultListResponseDTO
@@ -797,6 +1054,11 @@ export type ConnectionCircleUpdateRequest = ConnectionCircleUpdateDTO
 export type DashboardResponse = DashboardResponseDTO
 export type DashboardSections = DashboardSectionsDTO
 export type DashboardSummary = DashboardSummaryDTO
+export type LocationLookupCandidate = LocationLookupCandidateDTO
+export type LocationLookupRequest = LocationLookupRequestDTO
+export type LocationLookupResponse = LocationLookupResponseDTO
+export type LocationModeOption = LocationModeOptionDTO
+export type LocationReverseLookupRequest = LocationReverseLookupRequestDTO
 export type NavigationTarget = NavigationTargetDTO
 export type PageQuery = PageQueryDTO
 export type ProfilePrimaryAction = ProfilePrimaryActionDTO
@@ -812,12 +1074,14 @@ export type QuestAudienceOption = QuestAudienceOptionDTO
 export type QuestDetail = QuestDetailResponseDTO
 export type QuestDetailSections = QuestDetailSectionsDTO
 export type QuestListResponse = QuestListResponseDTO
+export type QuestLocationVisibilityOption = QuestLocationVisibilityOptionDTO
 export type QuestNewsItem = QuestNewsItemResponseDTO
 export type QuestRequest = QuestRequestDTO
 export type QuestSearchRequest = QuestSearchRequestDTO
 export type QuestStatusFilterOption = QuestStatusFilterOptionDTO
 export type QuestStatusOption = QuestStatusOptionDTO
 export type TextPageQuery = TextPageQueryDTO
+export type UserLocationSettings = UserLocationSettingsDTO
 export type UserProfileView = UserProfileViewDTO
 export type UserRatingSummary = UserRatingSummaryDTO
 export type UserReview = UserReviewResponseDTO

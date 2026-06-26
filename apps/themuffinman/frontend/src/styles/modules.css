@@ -175,5 +175,7 @@
   .dashboard-main {
     height: auto;
     overflow: visible;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }

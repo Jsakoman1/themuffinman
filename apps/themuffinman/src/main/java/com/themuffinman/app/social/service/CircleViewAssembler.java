@@ -165,6 +165,18 @@ public class CircleViewAssembler {
                 .build();
     }
 
+    public CircleSearchResultDTO withLocationDetails(
+            CircleSearchResultDTO candidate,
+            String locationLabel,
+            Double distanceKm,
+            String distanceLabel
+    ) {
+        candidate.setLocationLabel(locationLabel);
+        candidate.setDistanceKm(distanceKm);
+        candidate.setDistanceLabel(distanceLabel);
+        return candidate;
+    }
+
     public CircleRelationDTO toRelationDto(CircleRelationStatus relationStatus, boolean blockedByCurrentUser) {
         return CircleRelationDTO.builder()
                 .relationStatus(relationStatus)

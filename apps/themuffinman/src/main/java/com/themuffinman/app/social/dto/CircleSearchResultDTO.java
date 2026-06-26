@@ -18,6 +18,9 @@ public class CircleSearchResultDTO {
     private String profileDescription;
     private String profileAvatarDataUrl;
     private String email;
+    private String locationLabel;
+    private Double distanceKm;
+    private String distanceLabel;
     private CircleRelationStatus relationStatus;
     private String relationLabel;
     private String relationBadgeClass;

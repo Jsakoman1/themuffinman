@@ -33,6 +33,7 @@ import com.themuffinman.app.identity.service.AppUserLookupService;
 import com.themuffinman.app.common.pagination.PageResponseFactory;
 import com.themuffinman.app.common.pagination.PageWindow;
 import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.location.service.LocationSettingsService;
 import com.themuffinman.app.workmarket.repository.QuestApplicationRepository;
 import com.themuffinman.app.workmarket.repository.QuestRepository;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,7 @@ public class QuestService {
     private final QuestUpdateService questUpdateService;
     private final QuestMgr questMgr;
     private final QuestViewAssembler questViewAssembler;
+    private final LocationSettingsService locationSettingsService;
 
     public Quest createQuest(QuestRequestDTO dto, AppUser currentUser) {
         questValidationService.validateCreateRequest(dto);
@@ -74,6 +76,7 @@ public class QuestService {
         questValidationService.applyQuestVisibilityCircles(quest, dto.getAudience(), dto.getSelectedCircleIds(), quest.getCreator());
         quest.setAssigneeTarget(questValidationService.normalizeAssigneeTarget(dto.getAssigneeTarget()));
         questStateTransitionService.applyConfirmedQuestTermFields(quest, dto.getScheduledAt(), dto.getEndsAt(), dto.getTermFixed());
+        locationSettingsService.applyQuestLocation(quest, dto, quest.getCreator());
         return questRepository.save(quest);
     }
 
@@ -94,15 +97,19 @@ public class QuestService {
             QuestAudience audience,
             LocalDate dateFrom,
             LocalDate dateTo,
+            String viewerTimeZone,
+            Integer viewerTimezoneOffsetMinutes,
             Boolean excludeMine,
             Boolean withImages,
             Boolean scheduledOnly,
+            Integer radiusKm,
             String sort,
             Integer page,
             Integer size
     ) {
+        List<Quest> scopedQuests = loadQuestSearchScope(currentUser, radiusKm);
         return buildQuestListResponse(
-                questRepository.findAllWithCreator().stream()
+                scopedQuests.stream()
                         .filter(quest -> questVisibilityService.canViewQuest(currentUser, quest))
                         .filter(quest -> !Boolean.TRUE.equals(excludeMine) || currentUser == null || !quest.getCreator().getId().equals(currentUser.getId()))
                         .filter(quest -> status == null || quest.getStatus() == status)
@@ -112,8 +119,11 @@ public class QuestService {
                 audience,
                 dateFrom,
                 dateTo,
+                viewerTimeZone,
+                viewerTimezoneOffsetMinutes,
                 withImages,
                 scheduledOnly,
+                null,
                 sort,
                 page,
                 size
@@ -127,22 +137,29 @@ public class QuestService {
             QuestAudience audience,
             LocalDate dateFrom,
             LocalDate dateTo,
+            String viewerTimeZone,
+            Integer viewerTimezoneOffsetMinutes,
             Boolean withImages,
             Boolean scheduledOnly,
+            Integer radiusKm,
             String sort,
             Integer page,
             Integer size
     ) {
+        List<Quest> scopedQuests = loadQuestSearchScope(currentUser, radiusKm);
         List<Quest> baseQuests = switch (preset) {
-            case AVAILABLE -> getAllQuests(currentUser).stream()
+            case AVAILABLE -> scopedQuests.stream()
+                    .filter(quest -> questVisibilityService.canViewQuest(currentUser, quest))
                     .filter(quest -> quest.getStatus() == QuestStatus.OPEN)
                     .filter(quest -> currentUser == null || !questAccessPolicyService.isQuestOwner(quest, currentUser))
                     .toList();
-            case MY_VISIBLE -> getAllQuests(currentUser).stream()
+            case MY_VISIBLE -> scopedQuests.stream()
+                    .filter(quest -> questVisibilityService.canViewQuest(currentUser, quest))
                     .filter(quest -> questAccessPolicyService.isQuestOwner(quest, currentUser))
                     .filter(quest -> quest.getStatus().isVisibleOwnerWork())
                     .toList();
-            case MY_ACTIVE -> getAllQuests(currentUser).stream()
+            case MY_ACTIVE -> scopedQuests.stream()
+                    .filter(quest -> questVisibilityService.canViewQuest(currentUser, quest))
                     .filter(quest -> questAccessPolicyService.isQuestOwner(quest, currentUser))
                     .filter(quest -> quest.getStatus().isActiveForOwner())
                     .toList();
@@ -155,8 +172,11 @@ public class QuestService {
                 audience,
                 dateFrom,
                 dateTo,
+                viewerTimeZone,
+                viewerTimezoneOffsetMinutes,
                 withImages,
                 scheduledOnly,
+                null,
                 sort,
                 page,
                 size
@@ -314,8 +334,11 @@ public class QuestService {
             QuestAudience audience,
             LocalDate dateFrom,
             LocalDate dateTo,
+            String viewerTimeZone,
+            Integer viewerTimezoneOffsetMinutes,
             Boolean withImages,
             Boolean scheduledOnly,
+            Integer radiusKm,
             String sort,
             Integer page,
             Integer size
@@ -326,8 +349,13 @@ public class QuestService {
                 audience,
                 dateFrom,
                 dateTo,
+                viewerTimeZone,
+                viewerTimezoneOffsetMinutes,
                 withImages,
                 scheduledOnly,
+                radiusKm,
+                currentUser == null ? null : currentUser.getLocationLatitude(),
+                currentUser == null ? null : currentUser.getLocationLongitude(),
                 sort,
                 page,
                 size,
@@ -345,6 +373,27 @@ public class QuestService {
 
     private QuestResponseDTO toResponse(Quest quest, AppUser currentUser, Map<Long, QuestApplication> applicationsByQuestId) {
         return questViewAssembler.toResponse(quest, currentUser, applicationsByQuestId);
+    }
+
+    private List<Quest> loadQuestSearchScope(AppUser currentUser, Integer radiusKm) {
+        if (radiusKm == null) {
+            return questRepository.findAllWithCreator();
+        }
+
+        if (currentUser == null || currentUser.getLocationLatitude() == null || currentUser.getLocationLongitude() == null) {
+            return List.of();
+        }
+
+        List<Long> nearbyQuestIds = questRepository.findIdsWithinRadius(
+                currentUser.getLocationLatitude(),
+                currentUser.getLocationLongitude(),
+                radiusKm * 1000
+        );
+        if (nearbyQuestIds.isEmpty()) {
+            return List.of();
+        }
+
+        return questRepository.findAllWithCreatorByIds(nearbyQuestIds);
     }
 
     private Map<Long, QuestApplication> getCurrentUserApplicationsByQuestId(AppUser currentUser) {

@@ -21,6 +21,10 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     long countByRole(AppUserRole role);
 
+    long countByLocationLatitudeIsNotNullAndLocationLongitudeIsNotNull();
+
+    long countByLocationProviderPlaceIdIsNotNull();
+
     @Query("""
             select u from AppUser u
             where lower(u.username) like lower(concat('%', :query, '%'))

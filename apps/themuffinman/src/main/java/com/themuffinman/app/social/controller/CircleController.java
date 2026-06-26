@@ -11,6 +11,7 @@ import com.themuffinman.app.social.dto.CircleSearchResultListResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestListResponseDTO;
 import com.themuffinman.app.social.dto.AdminCircleOverviewDTO;
+import com.themuffinman.app.social.dto.BulkCircleMembershipUpdateDTO;
 import com.themuffinman.app.social.dto.CircleConnectionsQueryDTO;
 import com.themuffinman.app.social.dto.CircleContactDTO;
 import com.themuffinman.app.social.dto.CircleContactListResponseDTO;
@@ -20,6 +21,7 @@ import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.dto.PageQueryDTO;
 import com.themuffinman.app.social.dto.TextPageQueryDTO;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.social.service.CircleDiscoveryService;
 import com.themuffinman.app.social.service.CircleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CircleController {
     private final CircleService circleService;
+    private final CircleDiscoveryService circleDiscoveryService;
 
     @GetMapping("/me/overview")
     public CircleOverviewDTO getOverview(@AuthenticationPrincipal AppUser currentUser) {
@@ -94,6 +97,15 @@ public class CircleController {
     ) {
         circleService.updateConnectionCircles(userId, dto, currentUser);
         return ActionResults.of("UPDATE_CONNECTION_CIRCLES", "Circles updated.");
+    }
+
+    @PutMapping("/connections/circles/bulk")
+    public ActionResultDTO updateConnectionCirclesBulk(
+            @Valid @RequestBody BulkCircleMembershipUpdateDTO dto,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        circleService.updateConnectionCirclesBulk(dto, currentUser);
+        return ActionResults.of("UPDATE_CONNECTION_CIRCLES_BULK", "People updated.");
     }
 
     @GetMapping
@@ -170,6 +182,33 @@ public class CircleController {
         return circleService.searchCircleUsers(
                 currentUser,
                 query.getQ(),
+                query.getPage() == null ? 0 : query.getPage(),
+                query.getSize() == null ? 12 : query.getSize()
+        );
+    }
+
+    @GetMapping("/blocked")
+    public CircleSearchResultListResponseDTO getBlockedUsers(
+            @ModelAttribute TextPageQueryDTO query,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return circleService.getBlockedUsers(
+                currentUser,
+                query.getQ(),
+                query.getPage() == null ? 0 : query.getPage(),
+                query.getSize() == null ? 8 : query.getSize()
+        );
+    }
+
+    @GetMapping("/nearby")
+    public CircleSearchResultListResponseDTO getNearbyUsers(
+            @RequestParam(value = "radiusKm", required = false) Integer radiusKm,
+            @ModelAttribute PageQueryDTO query,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return circleDiscoveryService.getNearbyUsers(
+                currentUser,
+                radiusKm,
                 query.getPage() == null ? 0 : query.getPage(),
                 query.getSize() == null ? 12 : query.getSize()
         );

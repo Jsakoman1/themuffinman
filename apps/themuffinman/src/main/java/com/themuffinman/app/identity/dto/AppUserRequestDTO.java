@@ -2,6 +2,7 @@ package com.themuffinman.app.identity.dto;
 
 import com.themuffinman.app.common.contract.ContractOptional;
 import com.themuffinman.app.identity.model.AppUserRole;
+import com.themuffinman.app.location.dto.UserLocationSettingsRequestDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -28,6 +29,9 @@ public class AppUserRequestDTO {
     @Size(max = 250000)
     @Pattern(regexp = "^data:image/.*", message = "Profile avatar must be an image data URL")
     private String profileAvatarDataUrl;
+    @ContractOptional
+    @Nullable
+    private UserLocationSettingsRequestDTO locationSettings;
     @ContractOptional
     private AppUserRole role;
 }

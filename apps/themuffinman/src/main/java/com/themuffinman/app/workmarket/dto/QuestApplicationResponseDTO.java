@@ -21,6 +21,7 @@ public class QuestApplicationResponseDTO {
 
     private Long questId;
     private String questTitle;
+    private String questCreatorUsername;
     private String questDescription;
     private QuestStatus questStatus;
     @Nullable

@@ -6,11 +6,8 @@ import com.themuffinman.app.workmarket.dto.DashboardNotificationDestinationType;
 import com.themuffinman.app.workmarket.dto.DashboardNotificationItemDTO;
 import com.themuffinman.app.workmarket.dto.DashboardNotificationsSectionDTO;
 import com.themuffinman.app.workmarket.dto.DashboardOpenWorkSectionDTO;
-import com.themuffinman.app.workmarket.dto.DashboardOverviewSectionDTO;
 import com.themuffinman.app.workmarket.dto.DashboardPlannerItemDTO;
 import com.themuffinman.app.workmarket.dto.DashboardPlannerSectionDTO;
-import com.themuffinman.app.workmarket.dto.DashboardRailBucketDTO;
-import com.themuffinman.app.workmarket.dto.DashboardRailItemDTO;
 import com.themuffinman.app.workmarket.dto.DashboardSectionsDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO;
@@ -20,19 +17,11 @@ import com.themuffinman.app.workmarket.model.QuestStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 
 @Service
 public class DashboardSectionsFactory {
-
-    private static final ZoneId DEFAULT_ZONE = ZoneId.of("Europe/Zurich");
-    private static final DateTimeFormatter RAIL_DAY_FORMATTER = DateTimeFormatter.ofPattern("d MMM").withZone(DEFAULT_ZONE);
-    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm").withZone(DEFAULT_ZONE);
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("d MMM HH:mm").withZone(DEFAULT_ZONE);
-    private static final DateTimeFormatter DATE_KEY_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(DEFAULT_ZONE);
 
     public DashboardSectionsDTO buildSections(
             List<QuestResponseDTO> myQuestDtos,
@@ -74,8 +63,9 @@ public class DashboardSectionsFactory {
                 .outgoingWorkApplications(outgoingWorkApplications)
                 .visibleMyQuests(visibleMyQuests)
                 .visibleMyApplications(visibleMyApplications)
+                .myQuestGroups(buildQuestGroups(myQuestDtos))
+                .myApplicationGroups(buildApplicationGroups(sortedApplications))
                 .recentIncomingCircleRequests(incomingCircleRequests.stream().limit(4).toList())
-                .overview(buildOverviewSection(myQuestDtos, sortedApplications, activeWorkApplications))
                 .openWork(DashboardOpenWorkSectionDTO.builder()
                         .waitingQuests(waitingOpenWorkQuests)
                         .openQuests(openWorkQuests)
@@ -94,35 +84,109 @@ public class DashboardSectionsFactory {
                 .outgoingWorkApplications(List.of())
                 .visibleMyQuests(List.of())
                 .visibleMyApplications(List.of())
+                .myQuestGroups(List.of())
+                .myApplicationGroups(List.of())
                 .recentIncomingCircleRequests(List.of())
-                .overview(DashboardOverviewSectionDTO.builder().postedBuckets(List.of()).workBuckets(List.of()).build())
                 .openWork(DashboardOpenWorkSectionDTO.builder().waitingQuests(List.of()).openQuests(List.of()).build())
                 .planner(DashboardPlannerSectionDTO.builder().scheduledItems(List.of()).flexibleItems(List.of()).build())
                 .notifications(DashboardNotificationsSectionDTO.builder().unreadItems(List.of()).recentItems(List.of()).build())
                 .build();
     }
 
-    private DashboardOverviewSectionDTO buildOverviewSection(
-            List<QuestResponseDTO> myQuestDtos,
-            List<QuestApplicationResponseDTO> sortedApplications,
-            List<QuestApplicationResponseDTO> activeWorkApplications
+    private List<com.themuffinman.app.workmarket.dto.DashboardQuestGroupDTO> buildQuestGroups(List<QuestResponseDTO> quests) {
+        return List.of(
+                        buildQuestGroup("OPEN", "accent", quests),
+                        buildQuestGroup("WAITING_CONFIRMATION", "warning", quests),
+                        buildQuestGroup("ASSIGNED", "success", quests),
+                        buildQuestGroup("IN_PROGRESS", "accent", quests),
+                        buildQuestGroup("COMPLETED", "success", quests),
+                        buildQuestGroup("CANCELLED", "muted", quests)
+                ).stream()
+                .filter(group -> group.getCount() > 0)
+                .toList();
+    }
+
+    private List<com.themuffinman.app.workmarket.dto.DashboardApplicationGroupDTO> buildApplicationGroups(List<QuestApplicationResponseDTO> applications) {
+        return List.of(
+                        buildApplicationGroup("APPROVED", "success", applications),
+                        buildApplicationGroup("PENDING", "accent", applications),
+                        buildApplicationGroup("DECLINED", "muted", applications),
+                        buildApplicationGroup("WITHDRAWN", "muted", applications)
+                ).stream()
+                .filter(group -> group.getCount() > 0)
+                .toList();
+    }
+
+    private com.themuffinman.app.workmarket.dto.DashboardQuestGroupDTO buildQuestGroup(
+            String statusKey,
+            String tone,
+            List<QuestResponseDTO> quests
     ) {
-        return DashboardOverviewSectionDTO.builder()
-                .postedBuckets(List.of(
-                        buildQuestBucket("posted-open", "Open", "accent", myQuestDtos, QuestStatus.OPEN),
-                        buildQuestBucket("posted-waiting", "Need confirmation", "warning", myQuestDtos, QuestStatus.WAITING_CONFIRMATION),
-                        buildQuestBucket("posted-assigned", "Ready to start", "success", myQuestDtos, QuestStatus.ASSIGNED),
-                        buildQuestBucket("posted-progress", "In progress", "accent", myQuestDtos, QuestStatus.IN_PROGRESS),
-                        buildQuestBucket("posted-completed", "Completed", "success", myQuestDtos, QuestStatus.COMPLETED)
-                ))
-                .workBuckets(List.of(
-                        buildApplicationStatusBucket("work-applied", "Applied", "accent", sortedApplications, QuestApplicationStatus.PENDING),
-                        buildApplicationBucket("work-waiting", "Waiting on agreement", "warning", activeWorkApplications, QuestStatus.WAITING_CONFIRMATION),
-                        buildApplicationBucket("work-assigned", "Agreed and ready", "success", activeWorkApplications, QuestStatus.ASSIGNED),
-                        buildApplicationBucket("work-progress", "Doing now", "accent", activeWorkApplications, QuestStatus.IN_PROGRESS),
-                        buildApplicationStatusAndQuestBucket("work-completed", "Completed", "success", sortedApplications, QuestApplicationStatus.APPROVED, QuestStatus.COMPLETED)
-                ))
+        List<QuestResponseDTO> items = quests.stream()
+                .filter(quest -> quest.getStatus() != null && quest.getStatus().name().equals(statusKey))
+                .toList();
+        String label = resolveQuestGroupLabel(statusKey, items);
+
+        return com.themuffinman.app.workmarket.dto.DashboardQuestGroupDTO.builder()
+                .key(statusKey)
+                .label(label)
+                .tone(tone)
+                .count(items.size())
+                .items(items)
                 .build();
+    }
+
+    private com.themuffinman.app.workmarket.dto.DashboardApplicationGroupDTO buildApplicationGroup(
+            String statusKey,
+            String tone,
+            List<QuestApplicationResponseDTO> applications
+    ) {
+        List<QuestApplicationResponseDTO> items = applications.stream()
+                .filter(application -> application.getStatus() != null && application.getStatus().name().equals(statusKey))
+                .toList();
+        String label = resolveApplicationGroupLabel(statusKey, items);
+
+        return com.themuffinman.app.workmarket.dto.DashboardApplicationGroupDTO.builder()
+                .key(statusKey)
+                .label(label)
+                .tone(tone)
+                .count(items.size())
+                .items(items)
+                .build();
+    }
+
+    private String resolveQuestGroupLabel(String statusKey, List<QuestResponseDTO> items) {
+        if (!items.isEmpty()
+                && items.getFirst().getPresentation() != null
+                && items.getFirst().getPresentation().getStatusLabel() != null) {
+            return items.getFirst().getPresentation().getStatusLabel();
+        }
+
+        return switch (statusKey) {
+            case "OPEN" -> "Open";
+            case "WAITING_CONFIRMATION" -> "Waiting confirmation";
+            case "ASSIGNED" -> "Assigned";
+            case "IN_PROGRESS" -> "In progress";
+            case "COMPLETED" -> "Completed";
+            case "CANCELLED" -> "Cancelled";
+            default -> statusKey;
+        };
+    }
+
+    private String resolveApplicationGroupLabel(String statusKey, List<QuestApplicationResponseDTO> items) {
+        if (!items.isEmpty()
+                && items.getFirst().getPresentation() != null
+                && items.getFirst().getPresentation().getStatusLabel() != null) {
+            return items.getFirst().getPresentation().getStatusLabel();
+        }
+
+        return switch (statusKey) {
+            case "APPROVED" -> "Approved";
+            case "PENDING" -> "Pending";
+            case "DECLINED" -> "Declined";
+            case "WITHDRAWN" -> "Withdrawn";
+            default -> statusKey;
+        };
     }
 
     private DashboardPlannerSectionDTO buildPlannerSection(
@@ -164,100 +228,6 @@ public class DashboardSectionsFactory {
                 .build();
     }
 
-    private DashboardRailBucketDTO buildQuestBucket(
-            String key,
-            String label,
-            String tone,
-            List<QuestResponseDTO> quests,
-            QuestStatus status
-    ) {
-        return DashboardRailBucketDTO.builder()
-                .key(key)
-                .label(label)
-                .tone(tone)
-                .items(quests.stream()
-                        .filter(quest -> quest.getStatus() == status)
-                        .map(this::toQuestRailItem)
-                        .toList())
-                .build();
-    }
-
-    private DashboardRailBucketDTO buildApplicationBucket(
-            String key,
-            String label,
-            String tone,
-            List<QuestApplicationResponseDTO> applications,
-            QuestStatus questStatus
-    ) {
-        return DashboardRailBucketDTO.builder()
-                .key(key)
-                .label(label)
-                .tone(tone)
-                .items(applications.stream()
-                        .filter(application -> application.getQuestStatus() == questStatus)
-                        .map(this::toApplicationRailItem)
-                        .toList())
-                .build();
-    }
-
-    private DashboardRailBucketDTO buildApplicationStatusBucket(
-            String key,
-            String label,
-            String tone,
-            List<QuestApplicationResponseDTO> applications,
-            QuestApplicationStatus applicationStatus
-    ) {
-        return DashboardRailBucketDTO.builder()
-                .key(key)
-                .label(label)
-                .tone(tone)
-                .items(applications.stream()
-                        .filter(application -> application.getStatus() == applicationStatus)
-                        .map(this::toApplicationRailItem)
-                        .toList())
-                .build();
-    }
-
-    private DashboardRailBucketDTO buildApplicationStatusAndQuestBucket(
-            String key,
-            String label,
-            String tone,
-            List<QuestApplicationResponseDTO> applications,
-            QuestApplicationStatus applicationStatus,
-            QuestStatus questStatus
-    ) {
-        return DashboardRailBucketDTO.builder()
-                .key(key)
-                .label(label)
-                .tone(tone)
-                .items(applications.stream()
-                        .filter(application -> application.getStatus() == applicationStatus)
-                        .filter(application -> application.getQuestStatus() == questStatus)
-                        .map(this::toApplicationRailItem)
-                        .toList())
-                .build();
-    }
-
-    private DashboardRailItemDTO toQuestRailItem(QuestResponseDTO quest) {
-        return DashboardRailItemDTO.builder()
-                .id("quest-" + quest.getId())
-                .questId(quest.getId())
-                .title(quest.getTitle())
-                .whenLabel(formatRailDateTime(quest.getScheduledAt(), quest.getEndsAt()))
-                .navigation(quest.getQuestNavigation())
-                .build();
-    }
-
-    private DashboardRailItemDTO toApplicationRailItem(QuestApplicationResponseDTO application) {
-        return DashboardRailItemDTO.builder()
-                .id("application-" + application.getId())
-                .questId(application.getQuestId())
-                .title(application.getQuestTitle())
-                .whenLabel(formatRailDateTime(application.getQuestScheduledAt(), application.getQuestEndsAt()))
-                .navigation(application.getQuestNavigation())
-                .build();
-    }
-
     private DashboardPlannerItemDTO buildPlannerItem(
             String id,
             Long questId,
@@ -275,9 +245,9 @@ public class DashboardSectionsFactory {
                     .navigation(navigation)
                     .scheduledAt(null)
                     .endsAt(null)
-                    .timeLabel("All day")
-                    .dateKey(null)
                     .kind(kind)
+                    .kindLabel(resolvePlannerKindLabel(kind))
+                    .tone(resolvePlannerTone(kind))
                     .hasRange(false)
                     .build();
         }
@@ -289,9 +259,9 @@ public class DashboardSectionsFactory {
                 .navigation(navigation)
                 .scheduledAt(scheduledAt)
                 .endsAt(endsAt)
-                .timeLabel(formatTimeLabel(scheduledAt, endsAt))
-                .dateKey(DATE_KEY_FORMATTER.format(scheduledAt))
                 .kind(kind)
+                .kindLabel(resolvePlannerKindLabel(kind))
+                .tone(resolvePlannerTone(kind))
                 .hasRange(endsAt != null)
                 .build();
     }
@@ -333,6 +303,22 @@ public class DashboardSectionsFactory {
         );
     }
 
+    private String resolvePlannerKindLabel(String kind) {
+        return switch (kind) {
+            case "managed" -> "My job";
+            case "accepted" -> "My application";
+            default -> "Planned";
+        };
+    }
+
+    private String resolvePlannerTone(String kind) {
+        return switch (kind) {
+            case "accepted" -> "incoming";
+            case "managed" -> "outgoing";
+            default -> "outgoing";
+        };
+    }
+
     private DashboardNotificationItemDTO toDashboardNotificationItem(QuestNewsItemResponseDTO item) {
         DashboardNotificationDestinationType destinationType = DashboardNotificationDestinationType.QUEST_LIST;
         Long destinationId = null;
@@ -365,33 +351,4 @@ public class DashboardSectionsFactory {
                 .build();
     }
 
-    private String formatRailDateTime(Instant startValue, Instant endValue) {
-        if (startValue == null) {
-            return "By agreement";
-        }
-
-        String dateLabel = RAIL_DAY_FORMATTER.format(startValue);
-        String startTimeLabel = TIME_FORMATTER.format(startValue);
-
-        if (endValue == null) {
-            return dateLabel + " · " + startTimeLabel;
-        }
-
-        boolean sameDay = startValue.atZone(DEFAULT_ZONE).toLocalDate().equals(endValue.atZone(DEFAULT_ZONE).toLocalDate());
-        String endLabel = sameDay ? TIME_FORMATTER.format(endValue) : DATE_TIME_FORMATTER.format(endValue);
-        return dateLabel + " · " + startTimeLabel + "-" + endLabel;
-    }
-
-    private String formatTimeLabel(Instant startValue, Instant endValue) {
-        if (startValue == null) {
-            return "All day";
-        }
-
-        String startLabel = TIME_FORMATTER.format(startValue);
-        if (endValue == null) {
-            return startLabel;
-        }
-
-        return startLabel + "-" + TIME_FORMATTER.format(endValue);
-    }
 }

@@ -1,4 +1,5 @@
 import {ref} from "vue"
+import type {Quest} from "../../api/workmarketApi.ts"
 import type {QuestAudience, QuestStatus, QuestStatusFilter} from "../../domain/workmarketDomain.ts"
 
 export const createDashboardQuestState = () => {
@@ -11,6 +12,13 @@ export const createDashboardQuestState = () => {
   const questTermFixed = ref(false)
   const questAudience = ref<QuestAudience>("EVERYONE")
   const questSelectedCircleIds = ref<number[]>([])
+  const questLocationVisibility = ref<NonNullable<Quest["locationVisibility"]>>("INHERIT")
+  const questLocationSource = ref<NonNullable<Quest["locationSource"]>>("PROFILE")
+  const questLocationCountry = ref("")
+  const questLocationLocality = ref("")
+  const questLocationPostalCode = ref("")
+  const questLocationStreet = ref("")
+  const questLocationHouseNumber = ref("")
   const questCreatorId = ref("")
   const questImages = ref<string[]>([])
 
@@ -32,6 +40,13 @@ export const createDashboardQuestState = () => {
   const editQuestTermFixed = ref(false)
   const editQuestAudience = ref<QuestAudience>("CIRCLES")
   const editQuestSelectedCircleIds = ref<number[]>([])
+  const editQuestLocationVisibility = ref<NonNullable<Quest["locationVisibility"]>>("INHERIT")
+  const editQuestLocationSource = ref<NonNullable<Quest["locationSource"]>>("PROFILE")
+  const editQuestLocationCountry = ref("")
+  const editQuestLocationLocality = ref("")
+  const editQuestLocationPostalCode = ref("")
+  const editQuestLocationStreet = ref("")
+  const editQuestLocationHouseNumber = ref("")
   const editQuestCreatorId = ref("")
   const editQuestStatus = ref<QuestStatus>("OPEN")
   const editQuestImages = ref<string[]>([])
@@ -58,6 +73,13 @@ export const createDashboardQuestState = () => {
     questTermFixed,
     questAudience,
     questSelectedCircleIds,
+    questLocationVisibility,
+    questLocationSource,
+    questLocationCountry,
+    questLocationLocality,
+    questLocationPostalCode,
+    questLocationStreet,
+    questLocationHouseNumber,
     questCreatorId,
     questImages,
     adminQuestStatusFilter,
@@ -76,6 +98,13 @@ export const createDashboardQuestState = () => {
     editQuestTermFixed,
     editQuestAudience,
     editQuestSelectedCircleIds,
+    editQuestLocationVisibility,
+    editQuestLocationSource,
+    editQuestLocationCountry,
+    editQuestLocationLocality,
+    editQuestLocationPostalCode,
+    editQuestLocationStreet,
+    editQuestLocationHouseNumber,
     editQuestCreatorId,
     editQuestStatus,
     editQuestImages,

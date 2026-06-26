@@ -1,7 +1,7 @@
 import {computed, ref} from "vue"
-import {richTextHasContent} from "../../../../shared/richText.ts"
 import {useDialogActionState} from "../../../../composables/useDialogActionState.ts"
 import type {DashboardQuestDialogFacade} from "./dashboardFacades.ts"
+import {canSubmitQuestApplicationDraft} from "../../shared/applicationDraft.ts"
 
 export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade) => {
   const quest = computed(() => dashboard.selectedQuestDialog)
@@ -43,7 +43,7 @@ export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade
 
     return dashboard.proposedPrices[quest.value.id] ?? ""
   })
-  const canSubmitApplication = computed(() => richTextHasContent(applicationMessage.value) && Number(applicationPrice.value) >= 0.01)
+  const canSubmitApplication = computed(() => canSubmitQuestApplicationDraft(applicationMessage.value, applicationPrice.value))
   const myApplication = computed(() => {
     const selectedQuest = quest.value
     if (!selectedQuest) {
@@ -75,8 +75,6 @@ export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade
     summaryLabel: "Term change waiting",
     confirmLabel: "Confirm term change",
     rejectLabel: "Reject term change",
-    currentTermLabel: quest.value?.presentation.termLabel ?? "",
-    pendingTermLabel: quest.value?.presentation.pendingTermLabel ?? null,
     currentScheduledAt: quest.value?.scheduledAt ?? null,
     currentEndsAt: quest.value?.endsAt ?? null,
     currentTermFixed: quest.value?.termFixed ?? false,

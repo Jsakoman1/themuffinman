@@ -26,11 +26,17 @@ public class QuestSearchRequestDTO {
     @Nullable
     private LocalDate dateTo;
     @Nullable
+    private String viewerTimeZone;
+    @Nullable
+    private Integer viewerTimezoneOffsetMinutes;
+    @Nullable
     private Boolean excludeMine;
     @Nullable
     private Boolean withImages;
     @Nullable
     private Boolean scheduledOnly;
+    @Nullable
+    private Integer radiusKm;
     @Nullable
     private String sort;
     @Nullable

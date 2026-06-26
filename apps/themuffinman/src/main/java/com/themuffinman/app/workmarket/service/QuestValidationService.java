@@ -2,6 +2,7 @@ package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.location.model.QuestLocationSource;
 import com.themuffinman.app.social.model.CircleGroup;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.common.errors.ServiceErrors;
@@ -29,12 +30,14 @@ public class QuestValidationService {
         validateQuestCreationTermInput(dto.getScheduledAt(), dto.getEndsAt(), dto.getTermFixed());
         validateAssigneeTarget(dto.getAssigneeTarget());
         validateQuestImages(dto.getImages());
+        validateQuestLocation(dto);
     }
 
     public void validateUpdateRequest(QuestRequestDTO dto) {
         validateQuestBasics(dto);
         validateAssigneeTarget(dto.getAssigneeTarget());
         validateQuestImages(dto.getImages());
+        validateQuestLocation(dto);
     }
 
     public void validateQuestBasics(QuestRequestDTO dto) {
@@ -106,6 +109,10 @@ public class QuestValidationService {
         return value.trim();
     }
 
+    public String normalizeQuestRichText(String value) {
+        return RichTextInputValidator.sanitize(value);
+    }
+
     public List<String> copyImages(List<String> images) {
         return images == null ? null : new ArrayList<>(images);
     }
@@ -162,6 +169,23 @@ public class QuestValidationService {
     private void validateAssigneeTarget(Integer assigneeTarget) {
         if (assigneeTarget != null && assigneeTarget < 1) {
             throw ServiceErrors.badRequest("Assignee target must be at least 1 when provided");
+        }
+    }
+
+    private void validateQuestLocation(QuestRequestDTO dto) {
+        QuestLocationSource source = dto.getLocationSource() == null ? QuestLocationSource.PROFILE : dto.getLocationSource();
+        if (source != QuestLocationSource.CUSTOM) {
+            return;
+        }
+
+        boolean hasAddressData = normalizeQuestText(dto.getLocationStreet()) != null
+                || normalizeQuestText(dto.getLocationHouseNumber()) != null
+                || normalizeQuestText(dto.getLocationPostalCode()) != null
+                || normalizeQuestText(dto.getLocationLocality()) != null
+                || normalizeQuestText(dto.getLocationCountry()) != null
+                || normalizeQuestText(dto.getLocationLabel()) != null;
+        if (!hasAddressData) {
+            throw ServiceErrors.badRequest("Enter a custom quest location before saving.");
         }
     }
 

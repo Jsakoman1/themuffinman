@@ -26,8 +26,9 @@ const emit = defineEmits<{
 <template>
   <UiSurfaceSection
     tag="section"
-    class="surface-stack"
+    class="surface-stack circles-page__panel"
     compact
+    plain
     title="Inbox"
   >
     <template #actions>
@@ -54,9 +55,8 @@ const emit = defineEmits<{
               :avatar-data-url="request.counterpartProfileAvatarDataUrl"
               :size="44"
             />
-            <div class="stack profile-entity-card__identity">
+            <div class="stack stack--xs profile-entity-card__identity">
               <strong>{{ request.counterpartUsername }}</strong>
-              <div class="muted">{{ request.requestSummaryLabel }}</div>
             </div>
           </button>
         </template>
