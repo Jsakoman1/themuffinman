@@ -16,6 +16,8 @@ const props = withDefaults(defineProps<{
   title: string
   description: string
   awardAmount: string
+  assigneeTarget: string
+  showApprovedApplicants: boolean
   termMode: "flexible" | "start-only" | "start-end"
   scheduledAt: string
   endsAt: string
@@ -64,6 +66,8 @@ const emit = defineEmits<{
   "update:title": [value: string]
   "update:description": [value: string]
   "update:awardAmount": [value: string]
+  "update:assigneeTarget": [value: string]
+  "update:showApprovedApplicants": [value: boolean]
   "update:termMode": [value: "flexible" | "start-only" | "start-end"]
   "update:scheduledAt": [value: string]
   "update:endsAt": [value: string]
@@ -105,6 +109,8 @@ const editing = reactive({
   title: false,
   description: false,
   amount: false,
+  assigneeTarget: false,
+  approvedApplicants: false,
   term: false,
   start: false,
   end: false,
@@ -121,6 +127,8 @@ const resetEditing = () => {
   editing.title = false
   editing.description = false
   editing.amount = false
+  editing.assigneeTarget = false
+  editing.approvedApplicants = false
   editing.term = false
   editing.start = false
   editing.end = false
@@ -391,7 +399,7 @@ useDebouncedWatch(customLocationQuery, () => {
 
       <template #side>
         <div class="surface-stack">
-            <InlineEditableField
+          <InlineEditableField
               v-if="inlineEditable"
               label="Award amount"
               :editing="editing.amount"
@@ -426,6 +434,70 @@ useDebouncedWatch(customLocationQuery, () => {
                 @input="emit('update:awardAmount', ($event.target as HTMLInputElement).value)"
               />
             </div>
+          </UiFieldGroup>
+
+          <InlineEditableField
+            v-if="inlineEditable"
+            label="Workers needed"
+            :editing="editing.assigneeTarget"
+            @toggle="editing.assigneeTarget = !editing.assigneeTarget"
+          >
+            <template #editor>
+              <input
+                :value="assigneeTarget"
+                class="input"
+                inputmode="numeric"
+                min="1"
+                placeholder="1"
+                @input="emit('update:assigneeTarget', ($event.target as HTMLInputElement).value)"
+              />
+            </template>
+            <template #display>
+              <div class="ui-inline-readonly-text">{{ assigneeTarget?.trim() ? assigneeTarget.trim() : "1" }}</div>
+            </template>
+          </InlineEditableField>
+
+          <UiFieldGroup v-else label="Workers needed">
+            <input
+              :value="assigneeTarget"
+              class="input"
+              inputmode="numeric"
+              min="1"
+              placeholder="1"
+              @input="emit('update:assigneeTarget', ($event.target as HTMLInputElement).value)"
+            />
+          </UiFieldGroup>
+
+          <InlineEditableField
+            v-if="inlineEditable"
+            label="Show approved workers"
+            :editing="editing.approvedApplicants"
+            @toggle="editing.approvedApplicants = !editing.approvedApplicants"
+          >
+            <template #editor>
+              <UiChoiceChips
+                :model-value="showApprovedApplicants ? 'yes' : 'no'"
+                :options="[
+                  { value: 'no', label: 'Hidden' },
+                  { value: 'yes', label: 'Visible' }
+                ]"
+                @update:model-value="emit('update:showApprovedApplicants', $event === 'yes')"
+              />
+            </template>
+            <template #display>
+              <div class="ui-inline-readonly-text">{{ showApprovedApplicants ? "Visible" : "Hidden" }}</div>
+            </template>
+          </InlineEditableField>
+
+          <UiFieldGroup v-else label="Show approved workers">
+            <UiChoiceChips
+              :model-value="showApprovedApplicants ? 'yes' : 'no'"
+              :options="[
+                { value: 'no', label: 'Hidden' },
+                { value: 'yes', label: 'Visible' }
+              ]"
+              @update:model-value="emit('update:showApprovedApplicants', $event === 'yes')"
+            />
           </UiFieldGroup>
 
           <InlineEditableField v-if="inlineEditable" label="Term" :editing="editing.term" @toggle="editing.term = !editing.term">

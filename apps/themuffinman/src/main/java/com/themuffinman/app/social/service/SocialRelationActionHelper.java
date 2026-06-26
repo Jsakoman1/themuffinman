@@ -36,6 +36,19 @@ public class SocialRelationActionHelper {
                 .build();
     }
 
+    public SearchActions requestActions(boolean incoming) {
+        if (incoming) {
+            return SearchActions.builder()
+                    .primaryAction(action("ACCEPT_REQUEST", "Accept", true))
+                    .secondaryAction(action("DECLINE_REQUEST", "Decline", true))
+                    .build();
+        }
+
+        return SearchActions.builder()
+                .primaryAction(action("CANCEL_REQUEST", "Cancel", true))
+                .build();
+    }
+
     public ProfilePrimaryActionDTO profilePrimaryAction(boolean ownProfile, CircleRelationStatus relationStatus, boolean blockedByCurrentUser) {
         if (ownProfile) {
             return action("EDIT_PROFILE", "Edit profile", true);

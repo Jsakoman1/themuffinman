@@ -25,6 +25,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class ChatRealtimeService {
 
     private static final String WORKSPACE_UPDATED = "chat.workspace.updated";
+    private static final String NEWS_UPDATED = "news.updated";
 
     private final ChatPresenceService chatPresenceService;
     private final CircleRequestRepository circleRequestRepository;
@@ -65,6 +66,15 @@ public class ChatRealtimeService {
                 .conversationId(conversationId)
                 .actorUserId(actorUserId)
                 .reason(reason)
+                .build());
+    }
+
+    public void notifyNewsUpdated(Long userId, Long actorUserId, long unreadNewsCount, String reason) {
+        sendToUser(userId, ChatSocketEventDTO.builder()
+                .type(NEWS_UPDATED)
+                .actorUserId(actorUserId)
+                .reason(reason)
+                .unreadNewsCount(unreadNewsCount)
                 .build());
     }
 

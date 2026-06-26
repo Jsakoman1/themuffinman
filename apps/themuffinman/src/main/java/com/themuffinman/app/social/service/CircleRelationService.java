@@ -46,6 +46,7 @@ public class CircleRelationService {
         circleRequest.setRequester(currentUser);
         circleRequest.setRecipient(recipient);
         CircleRequest saved = circleRequestRepository.save(circleRequest);
+        questNewsService.notifyCircleRequestReceived(recipient, currentUser, saved.getId());
         return circleRequestMgr.toDto(saved);
     }
 

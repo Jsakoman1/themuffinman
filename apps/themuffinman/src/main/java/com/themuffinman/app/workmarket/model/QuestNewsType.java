@@ -1,6 +1,7 @@
 package com.themuffinman.app.workmarket.model;
 
 public enum QuestNewsType {
+    CIRCLE_REQUEST_RECEIVED,
     APPLICATION_CREATED,
     APPLICATION_UPDATED,
     APPLICATION_WITHDRAWN,

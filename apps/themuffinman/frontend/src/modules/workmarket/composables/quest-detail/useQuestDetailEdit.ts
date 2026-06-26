@@ -23,6 +23,8 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
   const editTitle = ref("")
   const editDescription = ref("")
   const editAwardAmount = ref("")
+  const editAssigneeTarget = ref("1")
+  const editShowApprovedApplicants = ref(false)
   const editScheduledAt = ref("")
   const editEndsAt = ref("")
   const editTermMode = ref<"flexible" | "start-only" | "start-end">("flexible")
@@ -50,6 +52,8 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
     editTitle.value = state.quest.value.title
     editDescription.value = state.quest.value.description
     editAwardAmount.value = String(state.quest.value.awardAmount ?? "")
+    editAssigneeTarget.value = String(state.quest.value.assigneeTarget ?? 1)
+    editShowApprovedApplicants.value = state.quest.value.showApprovedApplicants
     editScheduledAt.value = formatInstantForInput(state.quest.value.scheduledAt)
     editEndsAt.value = formatInstantForInput(state.quest.value.endsAt)
     editTermMode.value = resolveQuestTermMode(state.quest.value)
@@ -147,6 +151,8 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
         title: editTitle.value.trim(),
         description: editDescription.value,
         awardAmount: Number(editAwardAmount.value),
+        assigneeTarget: Number(editAssigneeTarget.value || "1"),
+        showApprovedApplicants: editShowApprovedApplicants.value,
         scheduledAt: editScheduledAt.value ? parseInstantFromInput(editScheduledAt.value) : null,
         endsAt: editEndsAt.value ? parseInstantFromInput(editEndsAt.value) : null,
         termFixed: editTermMode.value !== "flexible",
@@ -166,6 +172,31 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
       isEditing.value = false
     } catch (requestError) {
       state.error.value = getApiErrorMessage(requestError, "Could not update quest.")
+    } finally {
+      state.isSaving.value = false
+    }
+  }
+
+  const assignQuestNow = async () => {
+    if (!state.quest.value) {
+      return
+    }
+
+    state.isSaving.value = true
+    state.error.value = ""
+
+    try {
+      await workmarketApi.updateQuest(state.quest.value.id, {
+        title: state.quest.value.title,
+        description: state.quest.value.description,
+        awardAmount: state.quest.value.awardAmount,
+        assigneeTarget: state.quest.value.assigneeTarget ?? 1,
+        showApprovedApplicants: state.quest.value.showApprovedApplicants,
+        status: "ASSIGNED"
+      })
+      await state.init()
+    } catch (requestError) {
+      state.error.value = getApiErrorMessage(requestError, "Could not assign quest.")
     } finally {
       state.isSaving.value = false
     }
@@ -200,6 +231,8 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
     editTitle,
     editDescription,
     editAwardAmount,
+    editAssigneeTarget,
+    editShowApprovedApplicants,
     editScheduledAt,
     editEndsAt,
     editTermMode,
@@ -224,6 +257,7 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
     removeEditImage,
     handleEditImagesChange,
     saveEdits,
+    assignQuestNow,
     loadEditMetadata
   }
 }

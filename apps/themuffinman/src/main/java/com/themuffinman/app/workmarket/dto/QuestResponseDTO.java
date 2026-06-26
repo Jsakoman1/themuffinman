@@ -36,6 +36,9 @@ public class QuestResponseDTO {
     private BigDecimal awardAmount;
     @Nullable
     private Integer assigneeTarget;
+    private boolean showApprovedApplicants;
+    private int approvedApplicationCount;
+    private int remainingAssigneeSlots;
     @Nullable
     private Instant scheduledAt;
     @Nullable

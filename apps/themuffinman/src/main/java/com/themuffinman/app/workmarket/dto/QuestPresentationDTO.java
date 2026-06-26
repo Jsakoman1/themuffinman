@@ -24,9 +24,26 @@ public class QuestPresentationDTO {
     private String locationVisibilitySummary;
     private boolean assigneeTargetVisible;
     private String assigneeTargetLabel;
+    @Nullable
+    private String slotProgressLabel;
+    @Nullable
+    private String remainingSlotsLabel;
+    private boolean approvedApplicantsVisible;
     private boolean canEdit;
     private boolean canApply;
     private boolean canViewApplications;
+    private boolean canManuallyAssign;
+    @Nullable
+    private String primaryExecutionActionLabel;
+    @Nullable
+    private String termChangeSummaryLabel;
+    @Nullable
+    private String termChangeConfirmLabel;
+    @Nullable
+    private String termChangeRejectLabel;
+    private boolean postingSettingsVisible;
+    @Nullable
+    private String visibleToCirclesLabel;
     private boolean autoOpenEditForm;
     private boolean termChangeVisible;
     private boolean termChangeActionable;

@@ -9,12 +9,14 @@ import com.themuffinman.app.chat.model.ChatPresence;
 import com.themuffinman.app.chat.repository.ChatConversationRepository;
 import com.themuffinman.app.chat.repository.ChatMessageRepository;
 import com.themuffinman.app.chat.repository.ChatPresenceRepository;
+import com.themuffinman.app.config.RetentionProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.service.AppUserLookupService;
 import com.themuffinman.app.social.model.CircleGroup;
 import com.themuffinman.app.social.model.CircleMembership;
 import com.themuffinman.app.social.service.CircleMembershipService;
 import com.themuffinman.app.social.service.CircleRelationService;
+import org.springframework.data.domain.Pageable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -60,6 +62,9 @@ class ChatServiceTest {
 
     @Mock
     private ChatRealtimeService chatRealtimeService;
+
+    @Mock
+    private RetentionProperties retentionProperties;
 
     @InjectMocks
     private ChatService chatService;
@@ -204,6 +209,37 @@ class ChatServiceTest {
         chatService.heartbeat(currentUser);
 
         verify(chatPresenceService).markActive(currentUser);
+    }
+
+    @Test
+    void redactExpiredImagesRemovesImageAndRefreshesConversationPreview() {
+        RetentionProperties.Chat chatRetention = new RetentionProperties.Chat();
+        chatRetention.setImageDays(30);
+        chatRetention.setExpiredImagePlaceholder("Image expired");
+        when(retentionProperties.getChat()).thenReturn(chatRetention);
+
+        AppUser currentUser = createUser(1L, "mia");
+        AppUser otherUser = createUser(2L, "john");
+        ChatConversation conversation = createConversation(5L, currentUser, otherUser);
+
+        ChatMessage latestMessage = new ChatMessage();
+        latestMessage.setConversation(conversation);
+        latestMessage.setSender(otherUser);
+        latestMessage.setMessageBody("Image expired");
+        latestMessage.setImageDataUrl(null);
+
+        when(chatMessageRepository.findConversationIdsWithExpiredImages(any())).thenReturn(List.of(5L));
+        when(chatMessageRepository.redactExpiredImages(any(), any())).thenReturn(2);
+        when(chatConversationRepository.findDetailedById(5L)).thenReturn(Optional.of(conversation));
+        when(chatMessageRepository.findLatestDetailedByConversationId(org.mockito.ArgumentMatchers.eq(5L), any(Pageable.class)))
+                .thenReturn(List.of(latestMessage));
+
+        int updatedCount = chatService.redactExpiredImages();
+
+        assertEquals(2, updatedCount);
+        assertEquals("Image expired", conversation.getLastMessagePreview());
+        assertFalse(conversation.isLastMessageHasImage());
+        verify(chatConversationRepository).save(conversation);
     }
 
     private AppUser createUser(Long id, String username) {

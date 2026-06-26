@@ -20,13 +20,65 @@
   align-items: flex-start;
 }
 
+.circles-page__aside {
+  position: sticky;
+  top: 88px;
+  align-self: start;
+}
+
+.circles-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.circles-toolbar__search {
+  min-width: 0;
+  max-width: 480px;
+}
+
 .circles-directory__create {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .circles-directory {
   display: grid;
+  gap: 12px;
+}
+
+.circles-directory__list {
+  display: grid;
   gap: 10px;
+}
+
+.circles-directory__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.circles-directory__item:last-child {
+  border-bottom: 0;
+}
+
+.circles-directory__item-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.circles-directory__item-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.circles-directory__rename-form {
+  width: 100%;
 }
 
 .circles-filter-tabs {
@@ -39,12 +91,13 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 38px;
-  padding: 8px 12px;
+  min-height: 34px;
+  padding: 6px 11px;
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   background: var(--surface);
   color: inherit;
+  font-size: 0.95rem;
 }
 
 .circles-filter-tabs__button--active {
@@ -64,6 +117,7 @@
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
+  padding-top: 2px;
 }
 
 .circles-directory__rename {
@@ -75,21 +129,46 @@
 .circles-section-summary {
   cursor: pointer;
   list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   font-weight: 800;
   color: var(--text);
+}
+
+.circles-section-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.circles-inbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.circles-subsection-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .circles-chip-cloud {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  padding: 4px 0;
+  gap: 6px;
+  padding: 2px 0;
 }
 
 .circles-connection-row {
   display: grid;
-  gap: 10px;
-  padding: 12px 0;
+  gap: 8px;
+  padding: 10px 0;
   border-bottom: 1px solid rgba(15, 23, 42, 0.08);
 }
 
@@ -114,7 +193,7 @@
 .circles-connection-row__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .circles-bulk-bar {
@@ -122,12 +201,43 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .circles-bulk-bar__select {
   min-width: 180px;
   max-width: 240px;
+}
+
+.circles-page .surface-list {
+  gap: 0;
+}
+
+.circles-page .profile-entity-card {
+  gap: 10px;
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 0;
+  background: transparent;
+}
+
+.circles-page .profile-entity-card:first-child {
+  padding-top: 0;
+}
+
+.circles-page .profile-entity-card:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.circles-page .profile-entity-card__actions {
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.circles-page .profile-entity-card__badge {
+  align-self: center;
 }
 
 .circles-card-grid {
@@ -155,6 +265,10 @@
     position: static;
   }
 
+  .circles-page__aside {
+    position: static;
+  }
+
   .ui-search-field {
     min-width: 0;
     width: 100%;
@@ -162,6 +276,11 @@
 
   .circles-card-grid {
     grid-template-columns: 1fr;
+  }
+
+  .circles-inbox-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 

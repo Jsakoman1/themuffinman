@@ -11,7 +11,10 @@ export const useQuestDashboardQuestLifecycleMutations = ({
       successMessage: (response) => response.message,
       errorMessage: `Could not ${action} quest.`,
       successPulseTarget: `quest-${questId}`,
-      afterSuccess: helpers.refreshDashboardData
+      afterSuccess: async () => {
+        await helpers.refreshDashboardData()
+        await helpers.loadQuestDetail(questId)
+      }
     })
 
     return result !== null

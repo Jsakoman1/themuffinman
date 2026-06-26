@@ -1,7 +1,5 @@
 import {computed, ref} from "vue"
-import {useRouter} from "vue-router"
 import {formatInstantForInput} from "../../../../shared/questSchedule.ts"
-import type {NavigationTarget} from "../../api/workmarketApi.ts"
 import type {DashboardWorkPlannerFacade} from "./dashboardFacades.ts"
 import {
   endOfMonth,
@@ -11,13 +9,11 @@ import {
   startOfWeek,
   toDateKey
 } from "../../../../lib/dashboardCalendar.ts"
-import {routeForNavigationTarget} from "../../shared/navigationTargets.ts"
 
 type CalendarEntry = {
   id: string
   questId: number
   title: string
-  navigation: NavigationTarget | null
   scheduledAt: string | null
   endsAt: string | null
   timeLabel: string
@@ -203,7 +199,6 @@ const buildTimelineEntryLayout = (
       id: entry.id,
       questId: entry.questId,
       title: entry.title,
-      navigation: entry.navigation,
       scheduledAt: entry.scheduledAt,
       endsAt: entry.endsAt,
       timeLabel: entry.timeLabel,
@@ -276,7 +271,6 @@ const buildSpanLayout = (
       id: entry.id,
       questId: entry.questId,
       title: entry.title,
-      navigation: entry.navigation,
       scheduledAt: entry.scheduledAt,
       endsAt: entry.endsAt,
       timeLabel: entry.timeLabel,
@@ -298,8 +292,6 @@ const buildSpanLayout = (
 }
 
 export const createDashboardWorkPlannerState = (dashboard: DashboardWorkPlannerFacade) => {
-  const router = useRouter()
-
   const mapPlannerItem = (item: ScheduledPlannerItem): CalendarEntry | null => {
     const scheduled = parseDate(item.scheduledAt)
     if (!scheduled) {
@@ -311,7 +303,6 @@ export const createDashboardWorkPlannerState = (dashboard: DashboardWorkPlannerF
       id: item.id,
       questId: item.questId,
       title: item.title,
-      navigation: "navigation" in item ? item.navigation : null,
       scheduledAt: item.scheduledAt,
       endsAt: item.endsAt,
       timeLabel: formatPlannerTimeLabel(scheduled, endsAt),
@@ -328,7 +319,6 @@ const mapFlexiblePlannerItem = (item: FlexiblePlannerItem): CalendarEntry => ({
   id: item.id,
   questId: item.questId,
   title: item.title,
-  navigation: "navigation" in item ? item.navigation : null,
   scheduledAt: item.scheduledAt,
   endsAt: item.endsAt,
   timeLabel: "All day",
@@ -495,7 +485,6 @@ const mapFlexiblePlannerItem = (item: FlexiblePlannerItem): CalendarEntry => ({
           id: entry.id,
           questId: entry.questId,
           title: entry.title,
-          navigation: entry.navigation,
           scheduledAt: entry.scheduledAt,
           endsAt: entry.endsAt,
           timeLabel,
@@ -745,17 +734,8 @@ const mapFlexiblePlannerItem = (item: FlexiblePlannerItem): CalendarEntry => ({
     closeDayDialog()
   }
 
-  const openRouteItem = async (navigation: NavigationTarget | null) => {
-    await router.push(routeForNavigationTarget(navigation))
-  }
-
   const openPlannerItem = async (item: CalendarEntry) => {
-    if (dashboard.questForId(item.questId)) {
-      await dashboard.openQuestDialog(item.questId)
-      return
-    }
-
-    await openRouteItem(item.navigation)
+    await dashboard.openQuestDialog(item.questId)
   }
 
   return {

@@ -1,7 +1,7 @@
 package com.themuffinman.app.location.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.themuffinman.app.location.config.LocationProviderProperties;
+import com.themuffinman.app.config.LocationProviderProperties;
 import com.themuffinman.app.location.dto.LocationLookupCandidateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

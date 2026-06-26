@@ -4,13 +4,33 @@ import type {DashboardQuestDialogFacade} from "./dashboardFacades.ts"
 import {canSubmitQuestApplicationDraft} from "../../shared/applicationDraft.ts"
 
 export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade) => {
-  const quest = computed(() => dashboard.selectedQuestDialog)
-  const applications = computed(() => {
-    if (!quest.value) {
-      return []
+  const detail = computed(() => dashboard.selectedQuestDetail)
+  const quest = computed(() => detail.value?.quest ?? dashboard.selectedQuestDialog)
+  const applicationsView = computed(() => {
+    const selectedQuest = quest.value
+    if (!selectedQuest) {
+      return null
     }
 
-    return dashboard.applicationsForQuest(quest.value.id)
+    const baseView = detail.value?.applicationsView ?? null
+    return dashboard.applicationsForQuest(selectedQuest.id).length || dashboard.approvedApplicationsForQuest(selectedQuest.id).length
+      ? {
+        featuredApplication: baseView?.featuredApplication ?? null,
+        approvedApplications: dashboard.approvedApplicationsForQuest(selectedQuest.id),
+        visibleApplications: dashboard.applicationsForQuest(selectedQuest.id),
+        hiddenApplicationsCount: baseView?.hiddenApplicationsCount ?? 0,
+        selectedApplicationId: baseView?.selectedApplicationId ?? null,
+        canRevealHiddenApplications: baseView?.canRevealHiddenApplications ?? false,
+        showingAllApplications: baseView?.showingAllApplications ?? false,
+        revealLabel: baseView?.revealLabel ?? ""
+      }
+      : baseView
+  })
+  const applications = computed(() => {
+    return applicationsView.value?.visibleApplications ?? []
+  })
+  const approvedApplications = computed(() => {
+    return applicationsView.value?.approvedApplications ?? []
   })
 
   const isEditing = ref(false)
@@ -45,36 +65,29 @@ export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade
   })
   const canSubmitApplication = computed(() => canSubmitQuestApplicationDraft(applicationMessage.value, applicationPrice.value))
   const myApplication = computed(() => {
-    const selectedQuest = quest.value
-    if (!selectedQuest) {
-      return null
-    }
-
-    return dashboard.myApplications.find((application) => application.id === selectedQuest.myApplicationId) ?? null
+    return detail.value?.myApplication
+      ?? (quest.value
+        ? dashboard.myApplications.find((application) => application.id === quest.value?.myApplicationId) ?? null
+        : null)
   })
-  const featuredApplication = computed(() => quest.value ? dashboard.featuredApplicationForQuest(quest.value.id) : null)
   const canShowApplications = computed(() => quest.value?.presentation.canViewApplications ?? false)
-  const canRespondToTermChange = computed(() => quest.value?.presentation.termChangeActionable ?? false)
-  const termChangeVisible = computed(() => quest.value?.presentation.termChangeVisible ?? false)
+  const canRespondToTermChange = computed(() => detail.value?.sections.termChange?.actionable ?? quest.value?.presentation.termChangeActionable ?? false)
+  const termChangeVisible = computed(() => detail.value?.sections.termChange?.visible ?? quest.value?.presentation.termChangeVisible ?? false)
   const applicationSentVisible = computed(() => quest.value?.presentation.applicationSentVisible ?? false)
   const canOpenMyApplication = computed(() => quest.value?.presentation.canOpenMyApplication ?? false)
   const deleteVisible = computed(() => quest.value?.presentation.deleteVisible ?? false)
-  const executionPrimaryAction = computed(() => quest.value?.presentation.primaryExecutionAction ?? null)
-  const executionHelperText = computed(() => quest.value?.presentation.executionHelperText ?? "")
-  const executionSection = computed(() => ({
-    visible: !!executionPrimaryAction.value || !!executionHelperText.value,
-    primaryAction: executionPrimaryAction.value,
-    primaryActionLabel: executionPrimaryAction.value === "START"
-      ? "Start work"
-      : (executionPrimaryAction.value === "COMPLETE" ? "Mark complete" : null),
-    helperText: executionHelperText.value || null,
+  const executionSection = computed(() => detail.value?.sections.execution ?? ({
+    visible: false,
+    primaryAction: null,
+    primaryActionLabel: null,
+    helperText: null
   }))
-  const termChangeSection = computed(() => ({
+  const termChangeSection = computed(() => detail.value?.sections.termChange ?? ({
     visible: termChangeVisible.value,
     actionable: canRespondToTermChange.value,
-    summaryLabel: "Term change waiting",
-    confirmLabel: "Confirm term change",
-    rejectLabel: "Reject term change",
+    summaryLabel: quest.value?.presentation.termChangeSummaryLabel ?? "Term change waiting",
+    confirmLabel: quest.value?.presentation.termChangeConfirmLabel ?? "Confirm term change",
+    rejectLabel: quest.value?.presentation.termChangeRejectLabel ?? "Reject term change",
     currentScheduledAt: quest.value?.scheduledAt ?? null,
     currentEndsAt: quest.value?.endsAt ?? null,
     currentTermFixed: quest.value?.termFixed ?? false,
@@ -82,19 +95,22 @@ export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade
     pendingEndsAt: quest.value?.pendingEndsAt ?? null,
     pendingTermFixed: quest.value?.pendingTermFixed ?? null,
   }))
-  const managementSection = computed(() => ({
+  const managementSection = computed(() => detail.value?.sections.management ?? ({
     editVisible: canEdit.value,
     deleteVisible: deleteVisible.value,
-    postingSettingsVisible: canEdit.value,
+    postingSettingsVisible: quest.value?.presentation.postingSettingsVisible ?? canEdit.value,
     audienceLabel: quest.value?.presentation.audienceLabel ?? null,
-    visibleToCirclesLabel: quest.value?.visibleToCircles?.length
-      ? quest.value.visibleToCircles.map((circle) => circle.name).join(", ")
-      : null,
+    visibleToCirclesLabel: quest.value?.presentation.visibleToCirclesLabel ?? null,
   }))
+  const executionPrimaryAction = computed(() => executionSection.value.primaryAction)
+  const executionHelperText = computed(() => executionSection.value.helperText ?? "")
 
   return {
+    detail,
     quest,
+    applicationsView,
     applications,
+    approvedApplications,
     isEditing,
     isDeleting,
     isDeleteConfirmDialogOpen,
@@ -108,7 +124,6 @@ export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade
     applicationMessage,
     canSubmitApplication,
     myApplication,
-    featuredApplication,
     canShowApplications,
     canRespondToTermChange,
     termChangeVisible,

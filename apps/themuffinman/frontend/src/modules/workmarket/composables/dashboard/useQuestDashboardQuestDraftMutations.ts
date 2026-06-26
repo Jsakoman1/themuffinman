@@ -24,6 +24,8 @@ export const useQuestDashboardQuestDraftMutations = ({
         title: state.questTitle.value.trim(),
         description: state.questDescription.value,
         awardAmount: Number(state.questAwardAmount.value),
+        assigneeTarget: Number(state.questAssigneeTarget.value || "1"),
+        showApprovedApplicants: state.questShowApprovedApplicants.value,
         scheduledAt,
         endsAt,
         termFixed: state.questTermFixed.value,

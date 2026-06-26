@@ -27,11 +27,14 @@ const {
   actionMessageTone,
   canEdit,
   canWithdraw,
-  quest
+  quest,
+  navigationSection,
+  contextSection
 } = viewState
 const {
   discardEditing,
   openQuest,
+  openPostedBy,
   withdrawApplication
 } = useApplicationDialogUiActions(props.dashboard, viewState)
 
@@ -66,9 +69,9 @@ const saveApplication = async () => {
           <ApplicationDetailSections
             v-if="quest"
             :application="application"
-            context-eyebrow="Quest context"
-            :posted-by-label="quest.creatorUsername"
-            @open-posted-by="props.dashboard.openUserProfileDialog(quest.creatorId)"
+            :navigation-section="navigationSection"
+            :context-section="contextSection"
+            @open-posted-by="openPostedBy"
           />
 
           <form v-if="canEdit && isEditing" class="form-stack form-stack--compact calendar-application-form" @submit.prevent="saveApplication">
@@ -93,9 +96,9 @@ const saveApplication = async () => {
         <template #side>
           <ApplicationSummaryCard :application="application" kicker="Your application" />
 
-          <DetailUtilitySection title="Actions" tone="actions">
+          <DetailUtilitySection v-if="navigationSection?.canOpenQuest || canWithdraw" title="Actions" tone="actions">
             <div class="ui-action-stack">
-              <button class="button button--secondary" type="button" @click="openQuest">
+              <button v-if="navigationSection?.canOpenQuest" class="button button--secondary" type="button" @click="openQuest">
                 Open quest
               </button>
               <button

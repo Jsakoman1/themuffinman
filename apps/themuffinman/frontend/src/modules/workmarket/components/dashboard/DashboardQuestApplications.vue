@@ -9,16 +9,12 @@ const props = defineProps<{
   dashboard: DashboardQuestApplicationsFacade
   questId: number
   applications: QuestApplication[]
-  featuredApplication: QuestApplication | null
+  approvedApplications: QuestApplication[]
   canShowApplications: boolean
   eyebrow?: string
   title?: string
 }>()
-
-const remainingApplications = computed(() => {
-  const featuredId = props.featuredApplication?.id ?? null
-  return props.applications.filter((application) => application.id !== featuredId)
-})
+const remainingApplications = computed(() => props.applications)
 
 defineEmits<{
   approve: [id: number]
@@ -28,33 +24,47 @@ defineEmits<{
 
 <template>
   <UiSurfaceSection
-    v-if="canShowApplications || featuredApplication || dashboard.canRevealHiddenApplicationsForQuest(questId)"
+    v-if="canShowApplications || approvedApplications.length || dashboard.canRevealHiddenApplicationsForQuest(questId)"
     compact
     :eyebrow="eyebrow ?? 'Applications'"
     :title="title ?? 'What people offer'"
   >
     <div class="surface-stack surface-stack--compact">
-      <ApplicationManagementCard
-        v-if="featuredApplication"
-        :application="featuredApplication"
-        :selected="true"
-        :show-status="false"
-        @open-applicant="dashboard.openUserProfileDialog(featuredApplication.applicantId)"
-      />
+      <section v-if="approvedApplications.length" class="surface-stack surface-stack--compact">
+        <div class="surface-inline-spread">
+          <strong>Approved</strong>
+          <span class="muted">{{ approvedApplications.length }}</span>
+        </div>
+        <ApplicationManagementCard
+          v-for="application in approvedApplications"
+          :key="application.id"
+          :application="application"
+          :selected="true"
+          :show-status="false"
+          @open-applicant="dashboard.openUserProfileDialog(application.applicantId)"
+        />
+      </section>
 
-      <ApplicationManagementCard
-        v-for="application in remainingApplications"
-        :key="application.id"
-        :application="application"
-        @open-applicant="dashboard.openUserProfileDialog(application.applicantId)"
-      >
-        <template v-if="application.presentation.showManagementActions" #actions>
-          <button v-if="application.presentation.canApprove" class="button button--secondary" type="button" @click="$emit('approve', application.id)">Approve</button>
-          <button v-if="application.presentation.canDecline" class="button button--danger" type="button" @click="$emit('decline', application.id)">Decline</button>
-        </template>
-      </ApplicationManagementCard>
+      <section v-if="remainingApplications.length" class="surface-stack surface-stack--compact">
+        <div class="surface-inline-spread">
+          <strong>Pending and other</strong>
+          <span class="muted">{{ remainingApplications.length }}</span>
+        </div>
 
-      <div v-if="!featuredApplication && !remainingApplications.length" class="empty-state">Nothing here yet.</div>
+        <ApplicationManagementCard
+          v-for="application in remainingApplications"
+          :key="application.id"
+          :application="application"
+          @open-applicant="dashboard.openUserProfileDialog(application.applicantId)"
+        >
+          <template v-if="application.presentation.showManagementActions" #actions>
+            <button v-if="application.presentation.canApprove" class="button button--secondary" type="button" @click="$emit('approve', application.id)">Approve</button>
+            <button v-if="application.presentation.canDecline" class="button button--danger" type="button" @click="$emit('decline', application.id)">Decline</button>
+          </template>
+        </ApplicationManagementCard>
+      </section>
+
+      <div v-if="!approvedApplications.length && !remainingApplications.length" class="empty-state">Nothing here yet.</div>
 
       <div v-if="dashboard.canRevealHiddenApplicationsForQuest(questId)" class="button-row">
         <button class="button button--secondary" type="button" @click="dashboard.toggleApplicationRevealForQuest(questId)">

@@ -205,6 +205,10 @@ export const useCirclesView = () => {
   })
 
   const {
+    previousIncomingPage,
+    nextIncomingPage,
+    previousOutgoingPage,
+    nextOutgoingPage,
     previousInboxPage,
     nextInboxPage,
     previousConnectionsPage,
@@ -339,6 +343,10 @@ export const useCirclesView = () => {
     unblockUser,
     acceptRequest,
     removeRequest,
+    previousIncomingPage,
+    nextIncomingPage,
+    previousOutgoingPage,
+    nextOutgoingPage,
     previousInboxPage,
     nextInboxPage,
     previousConnectionsPage,

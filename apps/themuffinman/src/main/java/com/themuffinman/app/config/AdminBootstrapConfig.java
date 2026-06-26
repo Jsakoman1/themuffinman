@@ -5,7 +5,6 @@ import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,55 +15,54 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Slf4j
 public class AdminBootstrapConfig {
 
+    private final BootstrapProperties bootstrapProperties;
+
     @Bean
     CommandLineRunner seedDefaultUsers(
             AppUserRepository appUserRepository,
-            PasswordEncoder passwordEncoder,
-            @Value("${app.seed.users.enabled:false}") boolean seedUsersEnabled,
-            @Value("${app.admin.email:}") String adminEmail,
-            @Value("${app.admin.username:}") String adminUsername,
-            @Value("${app.admin.password:}") String adminPassword,
-            @Value("${app.test.email:}") String testEmail,
-            @Value("${app.test.username:}") String testUsername,
-            @Value("${app.test.password:}") String testPassword
+            PasswordEncoder passwordEncoder
     ) {
         return args -> {
-            if (!seedUsersEnabled) {
+            if (!bootstrapProperties.getSeed().getUsers().isEnabled()) {
                 log.info("Skipping seeded default users because app.seed.users.enabled=false");
                 return;
             }
 
-            requireConfiguredUser("app.admin", adminEmail, adminUsername, adminPassword);
-            requireConfiguredUser("app.test", testEmail, testUsername, testPassword);
-            seedUser(appUserRepository, passwordEncoder, adminEmail, adminUsername, adminPassword, AppUserRole.ADMIN);
-            seedUser(appUserRepository, passwordEncoder, testEmail, testUsername, testPassword, AppUserRole.USER);
+            BootstrapProperties.UserCredentials admin = bootstrapProperties.getAdmin();
+            BootstrapProperties.UserCredentials test = bootstrapProperties.getTest();
+            requireConfiguredUser("app.admin", admin.getEmail(), admin.getUsername(), admin.getPassword());
+            requireConfiguredUser("app.test", test.getEmail(), test.getUsername(), test.getPassword());
+            seedUser(appUserRepository, passwordEncoder, admin.getEmail(), admin.getUsername(), admin.getPassword(), AppUserRole.ADMIN);
+            seedUser(appUserRepository, passwordEncoder, test.getEmail(), test.getUsername(), test.getPassword(), AppUserRole.USER);
         };
     }
 
     @Bean
     CommandLineRunner bootstrapAdminUser(
             AppUserRepository appUserRepository,
-            PasswordEncoder passwordEncoder,
-            @Value("${app.bootstrap.admin.enabled:false}") boolean bootstrapAdminEnabled,
-            @Value("${app.bootstrap.admin.email:}") String bootstrapAdminEmail,
-            @Value("${app.bootstrap.admin.username:}") String bootstrapAdminUsername,
-            @Value("${app.bootstrap.admin.password:}") String bootstrapAdminPassword
+            PasswordEncoder passwordEncoder
     ) {
         return args -> {
-            if (!bootstrapAdminEnabled) {
+            BootstrapProperties.Admin bootstrapAdmin = bootstrapProperties.getBootstrap().getAdmin();
+            if (!bootstrapAdmin.isEnabled()) {
                 return;
             }
 
-            requireConfiguredUser("app.bootstrap.admin", bootstrapAdminEmail, bootstrapAdminUsername, bootstrapAdminPassword);
+            requireConfiguredUser(
+                    "app.bootstrap.admin",
+                    bootstrapAdmin.getEmail(),
+                    bootstrapAdmin.getUsername(),
+                    bootstrapAdmin.getPassword()
+            );
             seedUser(
                     appUserRepository,
                     passwordEncoder,
-                    bootstrapAdminEmail,
-                    bootstrapAdminUsername,
-                    bootstrapAdminPassword,
+                    bootstrapAdmin.getEmail(),
+                    bootstrapAdmin.getUsername(),
+                    bootstrapAdmin.getPassword(),
                     AppUserRole.ADMIN
             );
-            log.warn("Bootstrap admin account ensured for {}", bootstrapAdminEmail);
+            log.warn("Bootstrap admin account ensured for {}", bootstrapAdmin.getEmail());
         };
     }
 

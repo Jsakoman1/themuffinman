@@ -49,6 +49,9 @@ public class QuestMgr {
                 .description(RichTextInputValidator.sanitize(quest.getDescription()))
                 .awardAmount(quest.getAwardAmount())
                 .assigneeTarget(quest.getAssigneeTarget())
+                .showApprovedApplicants(quest.isShowApprovedApplicants())
+                .approvedApplicationCount(0)
+                .remainingAssigneeSlots(Math.max((quest.getAssigneeTarget() == null ? 1 : quest.getAssigneeTarget()), 1))
                 .scheduledAt(quest.getScheduledAt())
                 .endsAt(quest.getEndsAt())
                 .termFixed(quest.isTermFixed())
@@ -92,7 +95,11 @@ public class QuestMgr {
                         .locationVisibilitySummary(locationSettingsService.resolveQuestLocationVisibilitySummary(quest, null))
                         .assigneeTargetVisible(presentationHelper.showAssigneeTarget(quest.getAssigneeTarget()))
                         .assigneeTargetLabel(presentationHelper.formatAssigneeTarget(quest.getAssigneeTarget()))
+                        .slotProgressLabel(null)
+                        .remainingSlotsLabel(null)
+                        .approvedApplicantsVisible(false)
                         .autoOpenEditForm(false)
+                        .canManuallyAssign(false)
                         .termChangeVisible(false)
                         .termChangeActionable(false)
                         .applicationSentVisible(false)
@@ -137,6 +144,7 @@ public class QuestMgr {
         quest.setDescription(RichTextInputValidator.sanitize(dto.getDescription()));
         quest.setAwardAmount(dto.getAwardAmount());
         quest.setAssigneeTarget(dto.getAssigneeTarget() == null ? 1 : dto.getAssigneeTarget());
+        quest.setShowApprovedApplicants(Boolean.TRUE.equals(dto.getShowApprovedApplicants()));
         quest.setScheduledAt(dto.getScheduledAt());
         quest.setEndsAt(dto.getEndsAt());
         quest.setTermFixed(Boolean.TRUE.equals(dto.getTermFixed()));

@@ -6,17 +6,21 @@ import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 import type {CircleContact, CircleGroup} from "../../../workmarket/api/workmarketApi.ts"
 
 const props = defineProps<{
-  title: string
   circles: CircleGroup[]
+  activeCircleFilter: number | "all" | "unassigned"
   connectionsItems: CircleContact[]
   connectionsPages: number
   connectionsPage: number
+  connectionsTotalItems: number
+  connectionsCount: number
+  overviewUnassignedConnectionCount: number
   isSaving: boolean
   getSelectedCircleIds: (connection: CircleContact) => number[]
   hasPendingCircleChanges: (connection: CircleContact) => boolean
 }>()
 
 const emit = defineEmits<{
+  (event: "select-filter", value: number | "all" | "unassigned"): void
   (event: "open-user", userId: number): void
   (event: "toggle-circle", payload: {connection: CircleContact; circleId: number}): void
   (event: "save-connection", connection: CircleContact): void
@@ -30,6 +34,7 @@ const emit = defineEmits<{
 
 const bulkCircleId = ref<number | null>(null)
 const visibleUserIds = computed(() => props.connectionsItems.map((connection) => connection.userId))
+const visibleCountLabel = computed(() => `${props.connectionsItems.length} of ${props.connectionsTotalItems}`)
 
 const runBulkAssign = (action: "ADD" | "REMOVE") => {
   if (bulkCircleId.value === null || visibleUserIds.value.length === 0) {
@@ -43,15 +48,53 @@ const runBulkAssign = (action: "ADD" | "REMOVE") => {
 <template>
   <UiSurfaceSection
     plain
-    :title="title"
+    title="People"
   >
+    <template #actions>
+      <span class="muted">{{ visibleCountLabel }}</span>
+    </template>
+
+    <div class="circles-filter-tabs">
+      <button
+        class="circles-filter-tabs__button"
+        :class="{ 'circles-filter-tabs__button--active': activeCircleFilter === 'all' }"
+        type="button"
+        @click="emit('select-filter', 'all')"
+      >
+        All
+        <span class="badge">{{ connectionsCount }}</span>
+      </button>
+
+      <button
+        class="circles-filter-tabs__button"
+        :class="{ 'circles-filter-tabs__button--active': activeCircleFilter === 'unassigned' }"
+        type="button"
+        @click="emit('select-filter', 'unassigned')"
+      >
+        Unassigned
+        <span class="badge">{{ overviewUnassignedConnectionCount }}</span>
+      </button>
+
+      <button
+        v-for="circle in circles"
+        :key="circle.id"
+        class="circles-filter-tabs__button"
+        :class="{ 'circles-filter-tabs__button--active': activeCircleFilter === circle.id }"
+        type="button"
+        @click="emit('select-filter', circle.id)"
+      >
+        {{ circle.name }}
+        <span class="badge badge--accent">{{ circle.memberCount }}</span>
+      </button>
+    </div>
+
     <div v-if="circles.length && connectionsItems.length" class="circles-bulk-bar">
       <select v-model="bulkCircleId" class="input circles-bulk-bar__select">
         <option :value="null" disabled>Choose circle</option>
         <option v-for="circle in circles" :key="circle.id" :value="circle.id">{{ circle.name }}</option>
       </select>
-      <button class="button" type="button" :disabled="isSaving || bulkCircleId === null" @click="runBulkAssign('ADD')">Add shown</button>
-      <button class="button button--ghost" type="button" :disabled="isSaving || bulkCircleId === null" @click="runBulkAssign('REMOVE')">Remove shown</button>
+      <button class="button" type="button" :disabled="isSaving || bulkCircleId === null" @click="runBulkAssign('ADD')">Add all</button>
+      <button class="button button--ghost" type="button" :disabled="isSaving || bulkCircleId === null" @click="runBulkAssign('REMOVE')">Remove all</button>
     </div>
 
     <div v-if="connectionsItems.length" class="surface-list">
@@ -86,8 +129,10 @@ const runBulkAssign = (action: "ADD" | "REMOVE") => {
         </div>
 
         <div class="circles-connection-row__actions">
-          <button class="button" type="button" :disabled="isSaving || !hasPendingCircleChanges(connection)" @click="emit('save-connection', connection)">Save</button>
-          <button class="button button--ghost" type="button" :disabled="isSaving || !hasPendingCircleChanges(connection)" @click="emit('reset-connection', connection)">Reset</button>
+          <template v-if="hasPendingCircleChanges(connection)">
+            <button class="button" type="button" :disabled="isSaving" @click="emit('save-connection', connection)">Save</button>
+            <button class="button button--ghost" type="button" :disabled="isSaving" @click="emit('reset-connection', connection)">Reset</button>
+          </template>
           <button class="button button--secondary" type="button" :disabled="isSaving" @click="emit('remove-connection', connection.relationId)">Remove</button>
           <button class="button button--secondary" type="button" :disabled="isSaving" @click="emit('block-user', connection.userId)">Block</button>
         </div>

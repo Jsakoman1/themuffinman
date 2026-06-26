@@ -455,6 +455,9 @@ class CircleServiceTest {
         assertEquals(2L, result.getItems().getFirst().getCounterpartUserId());
         assertEquals("alice", result.getItems().getFirst().getCounterpartUsername());
         assertEquals("Wants to connect", result.getItems().getFirst().getRequestSummaryLabel());
+        assertEquals("ACCEPT_REQUEST", result.getItems().getFirst().getPrimaryAction().getType());
+        assertEquals("Accept", result.getItems().getFirst().getPrimaryAction().getLabel());
+        assertEquals("DECLINE_REQUEST", result.getItems().getFirst().getSecondaryAction().getType());
     }
 
     @Test
@@ -486,6 +489,7 @@ class CircleServiceTest {
         assertEquals(3L, result.getItems().getFirst().getCounterpartUserId());
         assertEquals("bob", result.getItems().getFirst().getCounterpartUsername());
         assertEquals("Invite sent", result.getItems().getFirst().getRequestSummaryLabel());
+        assertEquals("CANCEL_REQUEST", result.getItems().getFirst().getPrimaryAction().getType());
     }
 
     @Test

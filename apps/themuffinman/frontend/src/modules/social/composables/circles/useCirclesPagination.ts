@@ -18,6 +18,22 @@ export const useCirclesPagination = (
     loadConnectionsPage: () => Promise<void>
   }
 ) => {
+  const previousIncomingPage = () => {
+    movePagedValue(state.incomingPage, state.incomingPages.value, -1, () => void loaders.loadInboxPage())
+  }
+
+  const nextIncomingPage = () => {
+    movePagedValue(state.incomingPage, state.incomingPages.value, 1, () => void loaders.loadInboxPage())
+  }
+
+  const previousOutgoingPage = () => {
+    movePagedValue(state.outgoingPage, state.outgoingPages.value, -1, () => void loaders.loadInboxPage())
+  }
+
+  const nextOutgoingPage = () => {
+    movePagedValue(state.outgoingPage, state.outgoingPages.value, 1, () => void loaders.loadInboxPage())
+  }
+
   const previousInboxPage = () => {
     if (state.inboxTab.value === "incoming") {
       movePagedValue(state.incomingPage, state.incomingPages.value, -1, () => void loaders.loadInboxPage())
@@ -45,6 +61,10 @@ export const useCirclesPagination = (
   }
 
   return {
+    previousIncomingPage,
+    nextIncomingPage,
+    previousOutgoingPage,
+    nextOutgoingPage,
     previousInboxPage,
     nextInboxPage,
     previousConnectionsPage,

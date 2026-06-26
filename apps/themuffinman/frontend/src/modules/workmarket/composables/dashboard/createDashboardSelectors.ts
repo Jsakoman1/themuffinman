@@ -5,6 +5,8 @@ import type {
   DashboardSummary,
   Quest,
   QuestApplication,
+  QuestApplicationDetail,
+  QuestDetail,
   QuestApplicationsView,
   QuestNewsItem,
   CircleRequest
@@ -22,6 +24,8 @@ export const createDashboardSelectors = (state: {
   incomingCircleRequests: Ref<CircleRequest[]>
   adminQuestStatusFilter: Ref<QuestStatusFilter>
   applicationsByQuestId: Ref<Record<number, QuestApplicationsView>>
+  questDetailsById: Ref<Record<number, QuestDetail>>
+  applicationDetailsById: Ref<Record<number, QuestApplicationDetail>>
   questDialogId: Ref<number | null>
   applicationDialogId: Ref<number | null>
   dashboardTabs: Array<{id: DashboardTab; title: string; description: string}>
@@ -52,8 +56,13 @@ export const createDashboardSelectors = (state: {
   const unreadNewsItems = computed(() => state.dashboardSections.value?.notifications?.unreadItems ?? [])
   const recentIncomingCircleRequests = computed(() => state.dashboardSections.value?.recentIncomingCircleRequests ?? [])
 
-  const applicationsViewForQuest = (questId: number) => state.applicationsByQuestId.value[questId] ?? null
+  const applicationsViewForQuest = (questId: number) => (
+    state.applicationsByQuestId.value[questId]
+    ?? state.questDetailsById.value[questId]?.applicationsView
+    ?? null
+  )
   const applicationsForQuest = (questId: number) => applicationsViewForQuest(questId)?.visibleApplications ?? []
+  const approvedApplicationsForQuest = (questId: number) => applicationsViewForQuest(questId)?.approvedApplications ?? []
   const questForId = (questId: number) => state.quests.value.find((quest) => quest.id === questId) ?? null
 
   const selectedQuestDialog = computed(() => {
@@ -62,6 +71,16 @@ export const createDashboardSelectors = (state: {
     }
 
     return questForId(state.questDialogId.value)
+      ?? state.questDetailsById.value[state.questDialogId.value]?.quest
+      ?? null
+  })
+
+  const selectedQuestDetail = computed(() => {
+    if (state.questDialogId.value === null) {
+      return null
+    }
+
+    return state.questDetailsById.value[state.questDialogId.value] ?? null
   })
 
   const selectedApplicationDialog = computed(() => {
@@ -70,6 +89,14 @@ export const createDashboardSelectors = (state: {
     }
 
     return state.myApplications.value.find((application) => application.id === state.applicationDialogId.value) ?? null
+  })
+
+  const selectedApplicationDetail = computed(() => {
+    if (state.applicationDialogId.value === null) {
+      return null
+    }
+
+    return state.applicationDetailsById.value[state.applicationDialogId.value] ?? null
   })
 
   const questCreatorUsernameForQuest = (questId: number) => questForId(questId)?.creatorUsername ?? "Unknown"
@@ -100,9 +127,12 @@ export const createDashboardSelectors = (state: {
     recentIncomingCircleRequests,
     applicationsViewForQuest,
     applicationsForQuest,
+    approvedApplicationsForQuest,
     questForId,
     selectedQuestDialog,
+    selectedQuestDetail,
     selectedApplicationDialog,
+    selectedApplicationDetail,
     questCreatorUsernameForQuest,
     featuredApplicationForQuest,
     hiddenApplicationsCountForQuest,

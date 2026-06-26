@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref} from "vue"
+import {computed} from "vue"
 import type {QuestNewsItem} from "../../modules/workmarket/api/workmarketApi.ts"
 import {formatInstantForDisplay} from "../../shared/questSchedule.ts"
 
@@ -13,12 +13,11 @@ const props = defineProps<{
 const emit = defineEmits<{
   "open-item": [item: QuestNewsItem]
   "mark-all-read": []
+  "accept-circle-request": [item: QuestNewsItem]
+  "decline-circle-request": [item: QuestNewsItem]
 }>()
 
-const feedMode = ref<"unread" | "all">("unread")
-
 const unreadItems = computed(() => props.items.filter((item) => item.readAt === null))
-const visibleItems = computed(() => feedMode.value === "all" ? props.items : unreadItems.value)
 const now = () => new Date()
 
 const isToday = (instant: string) => {
@@ -30,8 +29,8 @@ const isToday = (instant: string) => {
 }
 
 const groupedVisibleItems = computed(() => {
-  const todayItems = visibleItems.value.filter((item) => isToday(item.createdAt))
-  const earlierItems = visibleItems.value.filter((item) => !isToday(item.createdAt))
+  const todayItems = unreadItems.value.filter((item) => isToday(item.createdAt))
+  const earlierItems = unreadItems.value.filter((item) => !isToday(item.createdAt))
 
   return [
     {key: "today", label: "Today", items: todayItems},
@@ -39,17 +38,10 @@ const groupedVisibleItems = computed(() => {
   ].filter((group) => group.items.length > 0)
 })
 
-const panelSummary = computed(() => {
-  if (feedMode.value === "unread") {
-    return unreadItems.value.length > 0
-      ? `${unreadItems.value.length} unread`
-      : "No unread notifications"
-  }
-
-  return props.items.length > 0
-    ? `${props.items.length} recent notifications`
-    : "No recent notifications"
-})
+const panelSummary = computed(() => unreadItems.value.length > 0
+  ? `${unreadItems.value.length} unread`
+  : "No unread notifications"
+)
 
 const openItem = (item: QuestNewsItem) => {
   emit("open-item", item)
@@ -59,27 +51,6 @@ const markAllRead = () => {
   emit("mark-all-read")
 }
 
-const notificationIcon = (item: QuestNewsItem) => {
-  switch (item.type) {
-    case "APPLICATION_APPROVED":
-      return "✓"
-    case "APPLICATION_DECLINED":
-    case "QUEST_TERM_REJECTED":
-      return "!"
-    case "QUEST_COMPLETED":
-      return "■"
-    case "QUEST_STARTED":
-      return "▶"
-    case "CIRCLE_REQUEST_ACCEPTED":
-      return "◎"
-    case "APPLICATION_CREATED":
-    case "APPLICATION_UPDATED":
-    case "APPLICATION_WITHDRAWN":
-      return "↗"
-    default:
-      return "•"
-  }
-}
 </script>
 
 <template>
@@ -100,25 +71,8 @@ const notificationIcon = (item: QuestNewsItem) => {
       </button>
     </div>
 
-    <div class="ui-pill-tabs">
-      <button
-        class="ui-pill-tabs__button"
-        :class="{ 'ui-pill-tabs__button--active': feedMode === 'unread' }"
-        type="button"
-        @click="feedMode = 'unread'"
-      >
-        Unread
-        <span class="badge">{{ unreadItems.length }}</span>
-      </button>
-      <button
-        class="ui-pill-tabs__button"
-        :class="{ 'ui-pill-tabs__button--active': feedMode === 'all' }"
-        type="button"
-        @click="feedMode = 'all'"
-      >
-        Recent
-        <span class="badge">{{ items.length }}</span>
-      </button>
+    <div class="dashboard-news__summary-badge">
+      <span class="badge badge--accent">{{ unreadItems.length }}</span>
     </div>
 
     <div v-if="isLoading" class="empty-state empty-state--soft">
@@ -138,16 +92,19 @@ const notificationIcon = (item: QuestNewsItem) => {
         <div class="dashboard-news__group-label">{{ group.label }}</div>
 
         <div class="dashboard-news__list">
-          <button
+          <article
             v-for="item in group.items"
             :key="item.id"
             class="dashboard-news__item"
             :class="{ 'dashboard-news__item--unread': item.readAt === null }"
-            type="button"
-            @click="openItem(item)"
           >
+            <button
+              class="dashboard-news__item-hit"
+              type="button"
+              @click="openItem(item)"
+            >
             <div class="dashboard-news__item-icon" :class="item.readAt === null ? 'dashboard-news__item-icon--unread' : ''">
-              {{ notificationIcon(item) }}
+              {{ item.iconGlyph }}
             </div>
 
             <div class="dashboard-news__item-main">
@@ -165,13 +122,19 @@ const notificationIcon = (item: QuestNewsItem) => {
                 <span v-if="item.questTitle">{{ item.questTitle }}</span>
               </div>
             </div>
-          </button>
+            </button>
+
+            <div v-if="item.canAcceptCircleRequest || item.canDeclineCircleRequest" class="dashboard-news__item-actions">
+              <button v-if="item.canAcceptCircleRequest" class="button" type="button" @click="emit('accept-circle-request', item)">Accept</button>
+              <button v-if="item.canDeclineCircleRequest" class="button button--ghost" type="button" @click="emit('decline-circle-request', item)">Decline</button>
+            </div>
+          </article>
         </div>
       </section>
     </div>
 
     <div v-else class="empty-state empty-state--soft">
-      No notifications yet.
+      No unread notifications.
     </div>
   </section>
 </template>

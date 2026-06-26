@@ -17,6 +17,7 @@ public class QuestNewsItemResponseDTO {
     private QuestNewsType type;
     private String typeLabel;
     private String badgeClass;
+    private String iconGlyph;
     private String title;
     private String message;
     @Nullable
@@ -25,12 +26,16 @@ public class QuestNewsItemResponseDTO {
     private String questTitle;
     @Nullable
     private Long applicationId;
+    @Nullable
+    private Long circleRequestId;
     private QuestNewsDestinationType destinationType;
     @Nullable
     private Long destinationId;
     private NavigationTargetDTO navigation;
     private Long actorUserId;
     private String actorUsername;
+    private boolean canAcceptCircleRequest;
+    private boolean canDeclineCircleRequest;
     @Nullable
     private Instant readAt;
     private Instant createdAt;

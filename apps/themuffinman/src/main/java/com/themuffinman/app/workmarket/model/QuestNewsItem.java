@@ -34,6 +34,9 @@ public class QuestNewsItem {
     @Column(name = "application_id")
     private Long applicationId;
 
+    @Column(name = "circle_request_id")
+    private Long circleRequestId;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private QuestNewsType type;

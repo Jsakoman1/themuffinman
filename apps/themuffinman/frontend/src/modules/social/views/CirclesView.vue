@@ -6,7 +6,6 @@ import CirclesDirectoryPanel from "../components/circles/CirclesDirectoryPanel.v
 import CirclesInboxPanel from "../components/circles/CirclesInboxPanel.vue"
 import UserProfileDialog from "../components/profile/UserProfileDialog.vue"
 import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
-import UiFieldGroup from "../../../components/ui/UiFieldGroup.vue"
 import UiPagination from "../../../components/ui/UiPagination.vue"
 import UiSurfaceSection from "../../../components/ui/UiSurfaceSection.vue"
 import UiStatusBanner from "../../../components/ui/UiStatusBanner.vue"
@@ -20,7 +19,6 @@ const {
   discoverQuery,
   newCircleName,
   activeCircleFilter,
-  inboxTab,
   isLoading,
   isSearching,
   isSaving,
@@ -28,21 +26,29 @@ const {
   message,
   messageTone,
   connectionsCount,
+  incomingCount,
+  outgoingCount,
   suggestions,
   connectionsItems,
   connectionsPages,
+  connectionsTotalItems,
   overviewUnassignedConnectionCount,
-  activeCircleName,
-  currentInboxItems,
-  currentInboxPage,
-  currentInboxPages,
+  incomingItems,
+  incomingPage,
+  incomingPages,
+  incomingTotalItems,
+  outgoingItems,
+  outgoingPage,
+  outgoingPages,
+  outgoingTotalItems,
   blockedItems,
   blockedPages,
   blockedPage,
+  blockedTotalItems,
   nearbyItems,
   nearbyPages,
   nearbyPage,
-  nearbyRadiusKm,
+  nearbyTotalItems,
   discoverHasQuery,
   connectionsPage,
   getSelectedCircleIds,
@@ -59,8 +65,10 @@ const {
   unblockUser,
   acceptRequest,
   removeRequest,
-  previousInboxPage,
-  nextInboxPage,
+  previousIncomingPage,
+  nextIncomingPage,
+  previousOutgoingPage,
+  nextOutgoingPage,
   previousConnectionsPage,
   nextConnectionsPage,
   previousBlockedPage,
@@ -81,62 +89,71 @@ const {
           <UiWorkspace v-else variant="detail" class="circles-page">
             <div class="surface-stack circles-page__main">
               <UiSurfaceSection class="circles-page__intro" plain>
-                <AppPageHeader eyebrow="Circles" title="People you keep close" />
+                <AppPageHeader title="Circles" />
               </UiSurfaceSection>
 
-              <UiSurfaceSection class="circles-page__panel" plain title="Filters">
-                <UiFieldGroup label="Filter your circles" field-class="ui-search-field">
+              <UiSurfaceSection class="circles-page__panel" plain>
+                <div class="circles-toolbar">
                   <input
                     v-model="directoryQuery"
-                    class="input"
-                    placeholder="Search your connections and requests"
+                    class="input circles-toolbar__search"
+                    placeholder="Search connections, requests, or blocked people"
                   />
-                </UiFieldGroup>
+                </div>
               </UiSurfaceSection>
 
               <CirclesInboxPanel
-                :inbox-tab="inboxTab"
-                :current-inbox-items="currentInboxItems"
-                :current-inbox-page="currentInboxPage"
-                :current-inbox-pages="currentInboxPages"
+                :incoming-items="incomingItems"
+                :incoming-page="incomingPage"
+                :incoming-pages="incomingPages"
+                :incoming-total="incomingTotalItems"
+                :outgoing-items="outgoingItems"
+                :outgoing-page="outgoingPage"
+                :outgoing-pages="outgoingPages"
+                :outgoing-total="outgoingTotalItems"
+                :incoming-count="incomingCount"
+                :outgoing-count="outgoingCount"
                 :is-saving="isSaving"
-                @update:inbox-tab="inboxTab = $event"
                 @open-user="dashboard.openUserProfileDialog($event)"
                 @accept="acceptRequest($event)"
                 @remove="removeRequest($event)"
-                @previous="previousInboxPage"
-                @next="nextInboxPage"
+                @previous-incoming="previousIncomingPage"
+                @next-incoming="nextIncomingPage"
+                @previous-outgoing="previousOutgoingPage"
+                @next-outgoing="nextOutgoingPage"
               />
 
               <UiSurfaceSection class="circles-page__panel" plain>
                 <details class="compact-disclosure" open>
-                  <summary class="circles-section-summary">Organise circles</summary>
+                  <summary class="circles-section-summary">
+                    <span>Organise circles</span>
+                    <span class="badge badge--accent">{{ circles.length }}</span>
+                  </summary>
 
                   <div class="surface-stack mt-4">
                     <CirclesDirectoryPanel
                       :circles="circles"
-                      :active-circle-filter="activeCircleFilter"
-                      :connections-count="connectionsCount"
-                      :overview-unassigned-connection-count="overviewUnassignedConnectionCount"
                       :new-circle-name="newCircleName"
                       :is-saving="isSaving"
                       @update:new-circle-name="newCircleName = $event"
                       @create-circle="createCircle"
-                      @select-filter="activeCircleFilter = $event"
-                      @open-user="dashboard.openUserProfileDialog($event)"
                       @delete-circle="deleteCircle($event)"
                       @rename-circle="renameCircle($event.circleId, $event.name)"
                     />
 
                     <CirclesConnectionsPanel
-                      :title="activeCircleName"
                       :circles="circles"
+                      :active-circle-filter="activeCircleFilter"
                       :connections-items="connectionsItems"
                       :connections-pages="connectionsPages"
                       :connections-page="connectionsPage"
+                      :connections-total-items="connectionsTotalItems"
+                      :connections-count="connectionsCount"
+                      :overview-unassigned-connection-count="overviewUnassignedConnectionCount"
                       :is-saving="isSaving"
                       :get-selected-circle-ids="getSelectedCircleIds"
                       :has-pending-circle-changes="hasPendingCircleChanges"
+                      @select-filter="activeCircleFilter = $event"
                       @open-user="dashboard.openUserProfileDialog($event)"
                       @toggle-circle="toggleConnectionCircle($event.connection, $event.circleId)"
                       @save-connection="saveConnectionCircles($event)"
@@ -153,7 +170,10 @@ const {
 
               <UiSurfaceSection class="circles-page__panel" plain>
                 <details class="compact-disclosure">
-                  <summary class="circles-section-summary">Blocked</summary>
+                  <summary class="circles-section-summary">
+                    <span>Blocked</span>
+                    <span class="badge">{{ blockedTotalItems }}</span>
+                  </summary>
 
                   <div class="mt-4">
                     <div v-if="blockedItems.length" class="surface-list">
@@ -190,15 +210,17 @@ const {
                 class="surface-stack circles-page__panel"
                 compact
                 plain
-                title="Search people"
+                title="Find people"
               >
-                <UiFieldGroup label="Find people" field-class="ui-search-field">
-                  <input
-                    v-model="discoverQuery"
-                    class="input"
-                    placeholder="Search by username or email"
-                  />
-                </UiFieldGroup>
+                <template #actions>
+                  <span class="muted">{{ suggestions.length }}</span>
+                </template>
+
+                <input
+                  v-model="discoverQuery"
+                  class="input circles-toolbar__search"
+                  placeholder="Search by username or email"
+                />
 
                 <div v-if="isSearching" class="empty-state">Searching...</div>
                 <div v-else-if="suggestions.length" class="surface-list">
@@ -226,16 +248,7 @@ const {
                 title="Neighbors"
               >
                 <template #actions>
-                  <div class="ui-pill-tabs">
-                    <button
-                      class="ui-pill-tabs__button"
-                      :class="{ 'ui-pill-tabs__button--active': nearbyRadiusKm === 2 }"
-                      type="button"
-                      @click="nearbyRadiusKm = 2"
-                    >
-                      2 km
-                    </button>
-                  </div>
+                  <span class="muted">{{ nearbyTotalItems }} nearby</span>
                 </template>
 
                 <div v-if="nearbyItems.length" class="surface-list">

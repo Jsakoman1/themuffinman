@@ -20,8 +20,10 @@ const isLoading = ref(false)
 const error = ref("")
 
 const applicationId = computed(() => Number(route.params.id))
-const questPath = computed(() => routeForNavigationTarget(detail.value?.sections.navigation?.questNavigation))
+const navigationSection = computed(() => detail.value?.sections.navigation ?? null)
 const contextSection = computed(() => detail.value?.sections.context ?? null)
+const questPath = computed(() => routeForNavigationTarget(navigationSection.value?.questNavigation))
+const postedByPath = computed(() => routeForNavigationTarget(navigationSection.value?.postedByNavigation))
 
 const loadApplication = async () => {
   if (!Number.isFinite(applicationId.value)) {
@@ -60,6 +62,14 @@ const closeApplicationDetail = async () => {
   await router.push("/work")
 }
 
+const openPostedBy = async () => {
+  if (!postedByPath.value) {
+    return
+  }
+
+  await router.push(postedByPath.value)
+}
+
 watch(() => route.params.id, () => {
   void loadApplication()
 })
@@ -86,17 +96,17 @@ onMounted(() => {
           <template #main>
             <ApplicationDetailSections
               :application="application"
+              :navigation-section="navigationSection"
+              :context-section="contextSection"
               :quest-path="questPath"
-              :quest-label="application.questTitle"
-              :show-status="true"
-              :show-workers="!!contextSection?.showWorkers"
+              @open-posted-by="openPostedBy"
             />
           </template>
 
           <template #side>
             <ApplicationSummaryCard :application="application" include-term />
 
-            <DetailUtilitySection v-if="questPath" title="Actions" tone="actions">
+            <DetailUtilitySection v-if="navigationSection?.canOpenQuest && questPath" title="Actions" tone="actions">
               <div class="ui-action-stack">
                 <RouterLink class="button button--secondary" :to="questPath">Open quest</RouterLink>
               </div>

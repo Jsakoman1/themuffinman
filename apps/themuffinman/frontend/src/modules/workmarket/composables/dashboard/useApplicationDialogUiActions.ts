@@ -25,7 +25,11 @@ export const useApplicationDialogUiActions = (
   }
 
   const openQuest = () => {
-    void router.push(routeForNavigationTarget(state.application.value?.questNavigation))
+    void router.push(routeForNavigationTarget(state.navigationSection.value?.questNavigation))
+  }
+
+  const openPostedBy = () => {
+    void router.push(routeForNavigationTarget(state.navigationSection.value?.postedByNavigation))
   }
 
   const withdrawApplication = () => {
@@ -56,6 +60,7 @@ export const useApplicationDialogUiActions = (
     startEditing,
     discardEditing,
     openQuest,
+    openPostedBy,
     withdrawApplication
   }
 }

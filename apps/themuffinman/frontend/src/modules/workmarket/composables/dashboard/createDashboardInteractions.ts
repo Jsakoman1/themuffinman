@@ -30,6 +30,8 @@ export const createDashboardInteractions = (state: {
   editQuestTitle: Ref<string>
   editQuestDescription: Ref<string>
   editQuestAwardAmount: Ref<string>
+  editQuestAssigneeTarget: Ref<string>
+  editQuestShowApprovedApplicants: Ref<boolean>
   editQuestScheduledAt: Ref<string>
   editQuestEndsAt: Ref<string>
   editQuestTermMode: Ref<"flexible" | "start-only" | "start-end">
@@ -49,6 +51,8 @@ export const createDashboardInteractions = (state: {
   questTitle: Ref<string>
   questDescription: Ref<string>
   questAwardAmount: Ref<string>
+  questAssigneeTarget: Ref<string>
+  questShowApprovedApplicants: Ref<boolean>
   questScheduledAt: Ref<string>
   questEndsAt: Ref<string>
   questTermMode: Ref<"flexible" | "start-only" | "start-end">

@@ -19,6 +19,7 @@ public class DashboardNotificationItemDTO {
     private QuestNewsType type;
     private String typeLabel;
     private String badgeClass;
+    private String iconGlyph;
     private String title;
     private String message;
     private String actorUsername;
@@ -28,6 +29,8 @@ public class DashboardNotificationItemDTO {
     private Long questId;
     @Nullable
     private Long applicationId;
+    @Nullable
+    private Long circleRequestId;
     private Instant createdAt;
     @Nullable
     private Instant readAt;
@@ -37,4 +40,6 @@ public class DashboardNotificationItemDTO {
     @Nullable
     private NavigationTargetDTO navigation;
     private boolean unread;
+    private boolean canAcceptCircleRequest;
+    private boolean canDeclineCircleRequest;
 }

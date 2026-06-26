@@ -1,4 +1,4 @@
-import {onMounted, ref} from "vue"
+import {onMounted, onUnmounted, ref} from "vue"
 import {useRoute, useRouter} from "vue-router"
 import {currentUser, logoutUser} from "../../auth.ts"
 import {createTopbarNavState} from "./topbar/createTopbarNavState.ts"
@@ -12,6 +12,7 @@ export const useAppTopbarState = () => {
   const {homeTarget, isAuthenticated, topbarNavItems} = createTopbarNavState(route)
   const notifications = useTopbarNotifications(router)
   const menus = useTopbarMenus(route, topbarRef)
+  let notificationPollWindow: number | null = null
 
   const openProfile = async () => {
     menus.closeMenus()
@@ -42,6 +43,15 @@ export const useAppTopbarState = () => {
 
   onMounted(() => {
     void notifications.refreshUnreadNewsCount()
+    notificationPollWindow = window.setInterval(() => {
+      void notifications.refreshUnreadNewsCount()
+    }, 30000)
+  })
+
+  onUnmounted(() => {
+    if (notificationPollWindow !== null) {
+      window.clearInterval(notificationPollWindow)
+    }
   })
 
   return {
@@ -67,6 +77,8 @@ export const useAppTopbarState = () => {
     openSettings,
     markAllNotificationsRead: notifications.markAllNotificationsRead,
     openNotificationItem: notifications.openNotificationItem,
+    acceptCircleRequestFromNotification: notifications.acceptCircleRequestFromNotification,
+    declineCircleRequestFromNotification: notifications.declineCircleRequestFromNotification,
     handleLogout
   }
 }

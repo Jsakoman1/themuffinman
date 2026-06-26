@@ -71,23 +71,42 @@ public class QuestApplicationService {
                 .map(application -> withAllowedActions(questApplicationMgr.toDto(application), resolveManagementActions(application)))
                 .toList();
 
-        QuestApplicationResponseDTO featuredApplication = sortedApplications.stream()
+        List<QuestApplicationResponseDTO> approvedApplications = sortedApplications.stream()
                 .filter(application -> application.getStatus() == QuestApplicationStatus.APPROVED)
-                .findFirst()
-                .orElse(null);
+                .toList();
+        QuestApplicationResponseDTO featuredApplication = approvedApplications.isEmpty() ? null : approvedApplications.getFirst();
 
-        List<QuestApplicationResponseDTO> visibleApplications = resolveVisibleApplications(quest, sortedApplications, featuredApplication, showAll);
-        int hiddenApplicationsCount = Math.max(0, sortedApplications.size() - visibleApplications.size() - (featuredApplication == null ? 0 : 1));
-        boolean canRevealHiddenApplications = sortedApplications.size() > visibleApplications.size() + (featuredApplication == null ? 0 : 1);
+        List<QuestApplicationResponseDTO> visibleApplications = resolveVisibleApplications(quest, sortedApplications, approvedApplications, showAll);
+        int hiddenApplicationsCount = Math.max(0, sortedApplications.size() - visibleApplications.size() - approvedApplications.size());
+        boolean canRevealHiddenApplications = sortedApplications.size() > visibleApplications.size() + approvedApplications.size();
 
         return QuestApplicationsViewDTO.builder()
                 .featuredApplication(featuredApplication)
+                .approvedApplications(approvedApplications)
                 .visibleApplications(visibleApplications)
                 .hiddenApplicationsCount(hiddenApplicationsCount)
-                .selectedApplicationId(resolveSelectedApplicationId(featuredApplication, visibleApplications))
+                .selectedApplicationId(resolveSelectedApplicationId(approvedApplications, visibleApplications))
                 .canRevealHiddenApplications(canRevealHiddenApplications)
                 .showingAllApplications(showAll)
-                .revealLabel(resolveRevealLabel(quest, featuredApplication, showAll))
+                .revealLabel(resolveRevealLabel(quest, approvedApplications, showAll))
+                .build();
+    }
+
+    public QuestApplicationsViewDTO getPublicApprovedApplicationsViewForQuest(Long questId) {
+        List<QuestApplicationResponseDTO> approvedApplications = questApplicationRepository.findByQuestIdAndStatus(questId, QuestApplicationStatus.APPROVED).stream()
+                .sorted(Comparator.comparing(QuestApplication::getId).reversed())
+                .map(application -> withAllowedActions(questApplicationMgr.toDto(application), List.of()))
+                .toList();
+
+        return QuestApplicationsViewDTO.builder()
+                .featuredApplication(approvedApplications.isEmpty() ? null : approvedApplications.getFirst())
+                .approvedApplications(approvedApplications)
+                .visibleApplications(List.of())
+                .hiddenApplicationsCount(0)
+                .selectedApplicationId(approvedApplications.isEmpty() ? null : approvedApplications.getFirst().getId())
+                .canRevealHiddenApplications(false)
+                .showingAllApplications(false)
+                .revealLabel("")
                 .build();
     }
 
@@ -215,10 +234,19 @@ public class QuestApplicationService {
         validateQuestOwnerOrAdmin(quest, currentUser);
 
         QuestApplication application = requirePendingApplication(questId, applicationId);
-        application.setStatus(QuestApplicationStatus.APPROVED);
-        quest.setStatus(QuestStatus.ASSIGNED);
+        int assigneeTarget = Math.max(quest.getAssigneeTarget() == null ? 1 : quest.getAssigneeTarget(), 1);
+        long approvedCount = questApplicationRepository.countByQuestIdAndStatus(questId, QuestApplicationStatus.APPROVED);
+        if (approvedCount >= assigneeTarget) {
+            throw ServiceErrors.badRequest("This quest already has all worker spots filled");
+        }
 
-        List<QuestApplication> declinedApplications = declineOtherPendingApplications(questId, applicationId);
+        application.setStatus(QuestApplicationStatus.APPROVED);
+        boolean filledAllSpots = approvedCount + 1 >= assigneeTarget;
+        quest.setStatus(filledAllSpots ? QuestStatus.ASSIGNED : QuestStatus.OPEN);
+
+        List<QuestApplication> declinedApplications = filledAllSpots
+                ? declineOtherPendingApplications(questId, applicationId)
+                : List.of();
         questRepository.save(quest);
         QuestApplicationResponseDTO response = saveAndMapApplication(application);
         for (QuestApplication declinedApplication : declinedApplications) {
@@ -336,44 +364,45 @@ public class QuestApplicationService {
     private List<QuestApplicationResponseDTO> resolveVisibleApplications(
             Quest quest,
             List<QuestApplicationResponseDTO> applications,
-            QuestApplicationResponseDTO featuredApplication,
+            List<QuestApplicationResponseDTO> approvedApplications,
             boolean showAll
     ) {
         if (quest.getStatus() == QuestStatus.CANCELLED) {
             return showAll ? applications : List.of();
         }
 
-        if (featuredApplication != null) {
+        if (!approvedApplications.isEmpty()) {
             if (!showAll) {
                 return List.of();
             }
 
             return applications.stream()
-                    .filter(application -> !Objects.equals(application.getId(), featuredApplication.getId()))
+                    .filter(application -> approvedApplications.stream()
+                            .noneMatch(approved -> Objects.equals(approved.getId(), application.getId())))
                     .toList();
         }
 
         return applications;
     }
 
-    private String resolveRevealLabel(Quest quest, QuestApplicationResponseDTO featuredApplication, boolean showAll) {
+    private String resolveRevealLabel(Quest quest, List<QuestApplicationResponseDTO> approvedApplications, boolean showAll) {
         if (quest.getStatus() == QuestStatus.CANCELLED) {
             return showAll ? "Hide all applications" : "Show all applications";
         }
 
-        if (featuredApplication != null) {
-            return showAll ? "Hide declined" : "Show declined";
+        if (!approvedApplications.isEmpty()) {
+            return showAll ? "Hide other applications" : "Show other applications";
         }
 
-        return "Show applications";
+        return showAll ? "Hide applications" : "Show applications";
     }
 
     private Long resolveSelectedApplicationId(
-            QuestApplicationResponseDTO featuredApplication,
+            List<QuestApplicationResponseDTO> approvedApplications,
             List<QuestApplicationResponseDTO> visibleApplications
     ) {
-        if (featuredApplication != null) {
-            return featuredApplication.getId();
+        if (!approvedApplications.isEmpty()) {
+            return approvedApplications.getFirst().getId();
         }
 
         if (visibleApplications.isEmpty()) {

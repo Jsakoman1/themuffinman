@@ -6,6 +6,8 @@ export const createDashboardQuestState = () => {
   const questTitle = ref("")
   const questDescription = ref("")
   const questAwardAmount = ref("")
+  const questAssigneeTarget = ref("1")
+  const questShowApprovedApplicants = ref(false)
   const questScheduledAt = ref("")
   const questEndsAt = ref("")
   const questTermMode = ref<"flexible" | "start-only" | "start-end">("flexible")
@@ -34,6 +36,8 @@ export const createDashboardQuestState = () => {
   const editQuestTitle = ref("")
   const editQuestDescription = ref("")
   const editQuestAwardAmount = ref("")
+  const editQuestAssigneeTarget = ref("1")
+  const editQuestShowApprovedApplicants = ref(false)
   const editQuestScheduledAt = ref("")
   const editQuestEndsAt = ref("")
   const editQuestTermMode = ref<"flexible" | "start-only" | "start-end">("flexible")
@@ -67,6 +71,8 @@ export const createDashboardQuestState = () => {
     questTitle,
     questDescription,
     questAwardAmount,
+    questAssigneeTarget,
+    questShowApprovedApplicants,
     questScheduledAt,
     questEndsAt,
     questTermMode,
@@ -92,6 +98,8 @@ export const createDashboardQuestState = () => {
     editQuestTitle,
     editQuestDescription,
     editQuestAwardAmount,
+    editQuestAssigneeTarget,
+    editQuestShowApprovedApplicants,
     editQuestScheduledAt,
     editQuestEndsAt,
     editQuestTermMode,

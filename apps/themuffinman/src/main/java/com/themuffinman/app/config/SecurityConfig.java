@@ -3,7 +3,6 @@ package com.themuffinman.app.config;
 import com.themuffinman.app.identity.security.ApiAuthenticationEntryPoint;
 import com.themuffinman.app.identity.security.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,9 +22,7 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final ApiAuthenticationEntryPoint authenticationEntryPoint;
-
-    @Value("${app.security.cors.allowed-origins:http://localhost:5173}")
-    private String allowedOrigins;
+    private final SecurityProperties securityProperties;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -53,7 +50,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(java.util.Arrays.stream(allowedOrigins.split(","))
+        configuration.setAllowedOrigins(securityProperties.getCors().getAllowedOrigins().stream()
                 .map(String::trim)
                 .filter(origin -> !origin.isBlank())
                 .toList());

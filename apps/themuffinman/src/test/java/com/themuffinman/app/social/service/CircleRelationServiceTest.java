@@ -75,6 +75,7 @@ class CircleRelationServiceTest {
         CircleRequest savedCircle = circleCaptor.getValue();
         assertEquals(requester, savedCircle.getRequester());
         assertEquals(recipient, savedCircle.getRecipient());
+        verify(questNewsService).notifyCircleRequestReceived(recipient, requester, savedRequest.getId());
     }
 
     @Test

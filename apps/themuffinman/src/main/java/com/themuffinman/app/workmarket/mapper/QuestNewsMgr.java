@@ -32,6 +32,12 @@ public class QuestNewsMgr {
                     .type(NavigationTargetType.APPLICATION_DETAIL)
                     .entityId(item.getApplicationId())
                     .build();
+        } else if (item.getType() == com.themuffinman.app.workmarket.model.QuestNewsType.CIRCLE_REQUEST_RECEIVED
+                || item.getType() == com.themuffinman.app.workmarket.model.QuestNewsType.CIRCLE_REQUEST_ACCEPTED) {
+            navigation = NavigationTargetDTO.builder()
+                    .type(NavigationTargetType.CIRCLES)
+                    .entityId(null)
+                    .build();
         } else if (item.getQuestId() != null) {
             destinationType = QuestNewsDestinationType.QUEST;
             destinationId = item.getQuestId();
@@ -46,16 +52,20 @@ public class QuestNewsMgr {
                 .type(item.getType())
                 .typeLabel(presentationHelper.formatQuestNewsType(item.getType()))
                 .badgeClass(presentationHelper.badgeClassForQuestNewsType(item.getType()))
+                .iconGlyph(presentationHelper.iconGlyphForQuestNewsType(item.getType()))
                 .title(item.getTitle())
                 .message(item.getMessage())
                 .questId(item.getQuestId())
                 .questTitle(item.getQuestTitle())
                 .applicationId(item.getApplicationId())
+                .circleRequestId(item.getCircleRequestId())
                 .destinationType(destinationType)
                 .destinationId(destinationId)
                 .navigation(navigation)
                 .actorUserId(item.getActorUserId())
                 .actorUsername(item.getActorUsername())
+                .canAcceptCircleRequest(item.getType() == com.themuffinman.app.workmarket.model.QuestNewsType.CIRCLE_REQUEST_RECEIVED && item.getCircleRequestId() != null)
+                .canDeclineCircleRequest(item.getType() == com.themuffinman.app.workmarket.model.QuestNewsType.CIRCLE_REQUEST_RECEIVED && item.getCircleRequestId() != null)
                 .readAt(item.getReadAt())
                 .createdAt(item.getCreatedAt())
                 .build();

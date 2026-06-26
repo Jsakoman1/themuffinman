@@ -48,6 +48,9 @@ public class Quest {
     @Column(name = "assignee_target")
     private Integer assigneeTarget = 1;
 
+    @Column(name = "show_approved_applicants", nullable = false)
+    private boolean showApprovedApplicants = false;
+
     @Column(name = "scheduled_at")
     private Instant scheduledAt;
 

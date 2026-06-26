@@ -4,18 +4,21 @@ export const useQuestDashboardDialogActions = (
   state: QuestDashboardState,
   helpers: {
     loadApplicationsForQuest: (questId: number) => Promise<void>
+    loadQuestDetail: (questId: number) => Promise<void>
+    loadApplicationDetail: (applicationId: number) => Promise<void>
   }
 ) => {
-  const {loadApplicationsForQuest} = helpers
+  const {loadApplicationsForQuest, loadQuestDetail, loadApplicationDetail} = helpers
 
   const openQuestDialog = async (questId: number) => {
-    const quest = state.questForId(questId)
-    if (!quest) {
-      return
-    }
-
     state.applicationDialogId.value = null
     state.questDialogId.value = questId
+    await loadQuestDetail(questId)
+    const quest = state.questDetailsById.value[questId]?.quest ?? state.questForId(questId)
+    if (!quest) {
+      state.questDialogId.value = null
+      return
+    }
 
     if (quest.presentation.canEdit) {
       state.startEditingQuest(quest)
@@ -35,7 +38,7 @@ export const useQuestDashboardDialogActions = (
     }
   }
 
-  const openApplicationDialog = (applicationId: number) => {
+  const openApplicationDialog = async (applicationId: number) => {
     const application = state.myApplications.value.find((entry) => entry.id === applicationId) ?? null
     if (!application) {
       return
@@ -43,6 +46,7 @@ export const useQuestDashboardDialogActions = (
 
     state.questDialogId.value = null
     state.applicationDialogId.value = applicationId
+    await loadApplicationDetail(applicationId)
 
     if (application.presentation.canEdit) {
       state.startEditingApplication(application)

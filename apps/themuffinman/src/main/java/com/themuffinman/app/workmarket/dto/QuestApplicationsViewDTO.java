@@ -15,6 +15,7 @@ import java.util.List;
 public class QuestApplicationsViewDTO {
     @Nullable
     private QuestApplicationResponseDTO featuredApplication;
+    private List<QuestApplicationResponseDTO> approvedApplications;
     private List<QuestApplicationResponseDTO> visibleApplications;
     private int hiddenApplicationsCount;
     @Nullable

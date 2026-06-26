@@ -1,10 +1,10 @@
 package com.themuffinman.app.identity.security;
 
+import com.themuffinman.app.config.SecurityProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -18,12 +18,9 @@ public class JwtService {
     private final String secret;
     private final long expirationTimeInMillis;
 
-    public JwtService(
-            @Value("${app.security.jwt.secret}") String secret,
-            @Value("${app.security.jwt.expiration-millis:86400000}") long expirationTimeInMillis
-    ) {
-        this.secret = secret;
-        this.expirationTimeInMillis = expirationTimeInMillis;
+    public JwtService(SecurityProperties securityProperties) {
+        this.secret = securityProperties.getJwt().getSecret();
+        this.expirationTimeInMillis = securityProperties.getJwt().getExpirationMillis();
     }
 
     private SecretKey getSigningKey() {

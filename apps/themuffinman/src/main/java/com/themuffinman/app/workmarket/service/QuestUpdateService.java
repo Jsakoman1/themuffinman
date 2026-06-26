@@ -41,6 +41,9 @@ public class QuestUpdateService {
         if (dto.getAssigneeTarget() != null) {
             quest.setAssigneeTarget(questValidationService.normalizeAssigneeTarget(dto.getAssigneeTarget()));
         }
+        if (dto.getShowApprovedApplicants() != null) {
+            quest.setShowApprovedApplicants(dto.getShowApprovedApplicants());
+        }
         if (dto.getImages() != null) {
             quest.setImages(questValidationService.copyImages(dto.getImages()));
         }
@@ -51,6 +54,9 @@ public class QuestUpdateService {
         boolean termChanged = hasTermChanged(quest, dto);
 
         if (!questAccessPolicyService.isAdmin(currentUser)) {
+            if (dto.getStatus() != null) {
+                questStateTransitionService.applyOwnerQuestStatusChange(quest, dto.getStatus(), currentUser);
+            }
             if (termChanged) {
                 questStateTransitionService.applyOwnerTermUpdate(quest, dto, currentUser);
             }

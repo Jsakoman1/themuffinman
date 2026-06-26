@@ -7,6 +7,8 @@ type QuestDraftState = {
   questTitle: Ref<string>
   questDescription: Ref<string>
   questAwardAmount: Ref<string>
+  questAssigneeTarget: Ref<string>
+  questShowApprovedApplicants: Ref<boolean>
   questScheduledAt: Ref<string>
   questEndsAt: Ref<string>
   questTermMode: Ref<"flexible" | "start-only" | "start-end">
@@ -28,6 +30,8 @@ type EditQuestDraftState = {
   editQuestTitle: Ref<string>
   editQuestDescription: Ref<string>
   editQuestAwardAmount: Ref<string>
+  editQuestAssigneeTarget: Ref<string>
+  editQuestShowApprovedApplicants: Ref<boolean>
   editQuestScheduledAt: Ref<string>
   editQuestEndsAt: Ref<string>
   editQuestTermMode: Ref<"flexible" | "start-only" | "start-end">
@@ -60,6 +64,8 @@ export const populateCreateQuestDraft = (
   state.questTitle.value = quest.title
   state.questDescription.value = quest.description
   state.questAwardAmount.value = String(quest.awardAmount ?? "")
+  state.questAssigneeTarget.value = String(quest.assigneeTarget ?? 1)
+  state.questShowApprovedApplicants.value = quest.showApprovedApplicants
   state.questScheduledAt.value = formatInstantForInput(quest.scheduledAt)
   state.questEndsAt.value = formatInstantForInput(quest.endsAt)
   state.questTermMode.value = resolveQuestTermMode(quest)
@@ -83,6 +89,8 @@ export const resetCreateQuestDraft = (
   state.questTitle.value = ""
   state.questDescription.value = ""
   state.questAwardAmount.value = ""
+  state.questAssigneeTarget.value = "1"
+  state.questShowApprovedApplicants.value = false
   state.questScheduledAt.value = ""
   state.questEndsAt.value = ""
   state.questTermMode.value = "flexible"
@@ -104,6 +112,8 @@ export const populateEditQuestDraft = (state: EditQuestDraftState, quest: Quest)
   state.editQuestTitle.value = quest.title
   state.editQuestDescription.value = quest.description
   state.editQuestAwardAmount.value = String(quest.awardAmount ?? "")
+  state.editQuestAssigneeTarget.value = String(quest.assigneeTarget ?? 1)
+  state.editQuestShowApprovedApplicants.value = quest.showApprovedApplicants
   state.editQuestScheduledAt.value = formatInstantForInput(quest.scheduledAt)
   state.editQuestEndsAt.value = formatInstantForInput(quest.endsAt)
   state.editQuestTermMode.value = resolveQuestTermMode(quest)

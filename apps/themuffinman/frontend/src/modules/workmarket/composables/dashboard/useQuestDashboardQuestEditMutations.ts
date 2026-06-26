@@ -22,6 +22,8 @@ export const useQuestDashboardQuestEditMutations = ({
         title: state.editQuestTitle.value.trim(),
         description: state.editQuestDescription.value,
         awardAmount: Number(state.editQuestAwardAmount.value),
+        assigneeTarget: Number(state.editQuestAssigneeTarget.value || "1"),
+        showApprovedApplicants: state.editQuestShowApprovedApplicants.value,
         scheduledAt,
         endsAt,
         termFixed: state.editQuestTermFixed.value,
@@ -43,6 +45,7 @@ export const useQuestDashboardQuestEditMutations = ({
       successPulseTarget: `quest-${questId}`,
       afterSuccess: async () => {
         await helpers.refreshDashboardData()
+        await helpers.loadQuestDetail(questId)
 
         const refreshedQuest = state.questForId(questId)
         if (refreshedQuest) {
@@ -93,6 +96,7 @@ export const useQuestDashboardQuestEditMutations = ({
       successPulseTarget: `quest-${questId}`,
       afterSuccess: async () => {
         await helpers.refreshDashboardData()
+        await helpers.loadQuestDetail(questId)
         await helpers.loadApplicationsForQuest(questId)
       }
     })
@@ -108,6 +112,7 @@ export const useQuestDashboardQuestEditMutations = ({
       successPulseTarget: `quest-${questId}`,
       afterSuccess: async () => {
         await helpers.refreshDashboardData()
+        await helpers.loadQuestDetail(questId)
         await helpers.loadApplicationsForQuest(questId)
       }
     })

@@ -21,4 +21,8 @@ public interface QuestNewsRepository extends JpaRepository<QuestNewsItem, Long> 
     @Modifying
     @Query("update QuestNewsItem item set item.readAt = :readAt where item.recipientUserId = :recipientUserId and item.readAt is null")
     int markAllAsRead(@Param("recipientUserId") Long recipientUserId, @Param("readAt") Instant readAt);
+
+    @Modifying
+    @Query("delete from QuestNewsItem item where item.createdAt < :cutoff")
+    int deleteByCreatedAtBefore(@Param("cutoff") Instant cutoff);
 }

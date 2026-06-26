@@ -14,6 +14,7 @@ import com.themuffinman.app.chat.repository.ChatConversationRepository;
 import com.themuffinman.app.chat.repository.ChatMessageRepository;
 import com.themuffinman.app.chat.repository.ChatPresenceRepository;
 import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.config.RetentionProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.service.AppUserLookupService;
 import com.themuffinman.app.social.model.CircleGroup;
@@ -21,6 +22,7 @@ import com.themuffinman.app.social.model.CircleMembership;
 import com.themuffinman.app.social.service.CircleMembershipService;
 import com.themuffinman.app.social.service.CircleRelationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +48,7 @@ public class ChatService {
     private final CircleMembershipService circleMembershipService;
     private final ChatPresenceService chatPresenceService;
     private final ChatRealtimeService chatRealtimeService;
+    private final RetentionProperties retentionProperties;
 
     @Transactional(readOnly = true)
     public ChatWorkspaceDTO getWorkspace(AppUser currentUser) {
@@ -330,5 +333,54 @@ public class ChatService {
 
     private Long normalizedRightId(Long leftUserId, Long rightUserId) {
         return Math.max(leftUserId, rightUserId);
+    }
+
+    @Transactional
+    public int redactExpiredImages() {
+        int retentionDays = Math.max(retentionProperties.getChat().getImageDays(), 1);
+        Instant cutoff = Instant.now().minusSeconds(retentionDays * 86_400L);
+        List<Long> conversationIds = chatMessageRepository.findConversationIdsWithExpiredImages(cutoff);
+        int updatedCount = chatMessageRepository.redactExpiredImages(cutoff, retentionProperties.getChat().getExpiredImagePlaceholder());
+        refreshConversationPreviews(conversationIds);
+        return updatedCount;
+    }
+
+    @Transactional
+    public int deleteExpiredMessages() {
+        int retentionDays = Math.max(retentionProperties.getChat().getMessageDays(), 1);
+        Instant cutoff = Instant.now().minusSeconds(retentionDays * 86_400L);
+        List<Long> conversationIds = chatMessageRepository.findConversationIdsWithExpiredMessages(cutoff);
+        int deletedCount = chatMessageRepository.deleteByCreatedAtBefore(cutoff);
+        refreshConversationPreviews(conversationIds);
+        return deletedCount;
+    }
+
+    private void refreshConversationPreviews(List<Long> conversationIds) {
+        if (conversationIds == null || conversationIds.isEmpty()) {
+            return;
+        }
+
+        for (Long conversationId : conversationIds.stream().distinct().toList()) {
+            chatConversationRepository.findDetailedById(conversationId).ifPresent(this::refreshConversationPreview);
+        }
+    }
+
+    private void refreshConversationPreview(ChatConversation conversation) {
+        List<ChatMessage> latestMessages = chatMessageRepository.findLatestDetailedByConversationId(conversation.getId(), PageRequest.of(0, 1));
+        if (latestMessages.isEmpty()) {
+            conversation.setLastMessageAt(null);
+            conversation.setLastMessageSender(null);
+            conversation.setLastMessagePreview(null);
+            conversation.setLastMessageHasImage(false);
+            chatConversationRepository.save(conversation);
+            return;
+        }
+
+        ChatMessage latestMessage = latestMessages.getFirst();
+        conversation.setLastMessageAt(latestMessage.getCreatedAt());
+        conversation.setLastMessageSender(latestMessage.getSender());
+        conversation.setLastMessagePreview(buildPreview(latestMessage));
+        conversation.setLastMessageHasImage(latestMessage.getImageDataUrl() != null);
+        chatConversationRepository.save(conversation);
     }
 }

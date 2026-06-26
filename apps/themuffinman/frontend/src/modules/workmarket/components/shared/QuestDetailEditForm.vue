@@ -6,6 +6,8 @@ defineProps<{
   title: string
   description: string
   awardAmount: string
+  assigneeTarget: string
+  showApprovedApplicants: boolean
   scheduledAt: string
   endsAt: string
   termMode: "flexible" | "start-only" | "start-end"
@@ -30,6 +32,8 @@ const emit = defineEmits<{
   "update:title": [value: string]
   "update:description": [value: string]
   "update:awardAmount": [value: string]
+  "update:assigneeTarget": [value: string]
+  "update:showApprovedApplicants": [value: boolean]
   "update:scheduledAt": [value: string]
   "update:endsAt": [value: string]
   "update:termMode": [value: "flexible" | "start-only" | "start-end"]
@@ -55,6 +59,8 @@ const emit = defineEmits<{
     :title="title"
     :description="description"
     :award-amount="awardAmount"
+    :assignee-target="assigneeTarget"
+    :show-approved-applicants="showApprovedApplicants"
     :term-mode="termMode"
     :scheduled-at="scheduledAt"
     :ends-at="endsAt"
@@ -80,6 +86,8 @@ const emit = defineEmits<{
     @update:title="emit('update:title', $event)"
     @update:description="emit('update:description', $event)"
     @update:award-amount="emit('update:awardAmount', $event)"
+    @update:assignee-target="emit('update:assigneeTarget', $event)"
+    @update:show-approved-applicants="emit('update:showApprovedApplicants', $event)"
     @update:term-mode="emit('update:termMode', $event)"
     @update:scheduled-at="emit('update:scheduledAt', $event)"
     @update:ends-at="emit('update:endsAt', $event)"

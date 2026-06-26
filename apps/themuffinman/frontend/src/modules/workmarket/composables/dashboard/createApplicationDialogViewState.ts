@@ -3,7 +3,8 @@ import {useDialogActionState} from "../../../../composables/useDialogActionState
 import type {DashboardApplicationEditFacade} from "./dashboardFacades.ts"
 
 export const createApplicationDialogViewState = (dashboard: DashboardApplicationEditFacade) => {
-  const application = computed(() => dashboard.selectedApplicationDialog)
+  const detail = computed(() => dashboard.selectedApplicationDetail)
+  const application = computed(() => detail.value?.application ?? dashboard.selectedApplicationDialog)
   const isEditing = ref(false)
   const isWithdrawing = ref(false)
   const actionBanner = useDialogActionState(application, () => {
@@ -15,13 +16,16 @@ export const createApplicationDialogViewState = (dashboard: DashboardApplication
 
   const canEdit = computed(() => application.value?.presentation.canEdit ?? false)
   const canWithdraw = computed(() => application.value?.presentation.canWithdraw ?? false)
-  const quest = computed(() => (application.value ? dashboard.questForId(application.value.questId) : null))
+  const quest = computed(() => detail.value?.sections.quest ?? (application.value ? dashboard.questForId(application.value.questId) : null))
+  const navigationSection = computed(() => detail.value?.sections.navigation ?? null)
+  const contextSection = computed(() => detail.value?.sections.context ?? null)
 
   watch(() => application.value?.id, () => {
     isEditing.value = application.value?.presentation.autoOpenEditForm ?? false
   }, {immediate: true})
 
   return {
+    detail,
     application,
     isEditing,
     isWithdrawing,
@@ -30,6 +34,8 @@ export const createApplicationDialogViewState = (dashboard: DashboardApplication
     actionMessageTone,
     canEdit,
     canWithdraw,
-    quest
+    quest,
+    navigationSection,
+    contextSection
   }
 }

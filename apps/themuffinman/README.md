@@ -77,6 +77,11 @@ Current local configuration is defined in:
   - `.env.backend.dev`
   - `.env.backend.dev.local`
 
+Recommended local config flow:
+- keep shared local defaults in `.env.backend.dev`
+- keep machine-specific or secret overrides in `.env.backend.dev.local`
+- retention and cleanup windows for notifications and chat can live there too
+
 Important notes:
 - Flyway is enabled and manages schema changes
 - JPA uses `ddl-auto=validate`
@@ -156,6 +161,14 @@ make backend-dev
 
 Example env file:
 - `.env.backend.dev.example`
+
+Retention-related local envs:
+- `SIDEQUEST_NOTIFICATIONS_RETENTION_DAYS`
+- `SIDEQUEST_NOTIFICATIONS_CLEANUP_CRON`
+- `SIDEQUEST_CHAT_IMAGE_RETENTION_DAYS`
+- `SIDEQUEST_CHAT_MESSAGE_RETENTION_DAYS`
+- `SIDEQUEST_CHAT_CLEANUP_CRON`
+- `SIDEQUEST_CHAT_EXPIRED_IMAGE_PLACEHOLDER`
 
 If you do not run with `SPRING_PROFILES_ACTIVE=dev`, the local default admin account is not created from fallback config anymore.
 

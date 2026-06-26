@@ -7,6 +7,9 @@ export type ApplicationAllowedAction = typeof APPLICATION_ALLOWED_ACTION_VALUES[
 export const APP_USER_ROLE_VALUES = ["USER", "ADMIN"] as const
 export type AppUserRole = typeof APP_USER_ROLE_VALUES[number]
 
+export const BULK_CIRCLE_MEMBERSHIP_ACTION_VALUES = ["ADD", "REMOVE"] as const
+export type BulkCircleMembershipAction = typeof BULK_CIRCLE_MEMBERSHIP_ACTION_VALUES[number]
+
 export const CIRCLE_RELATION_STATUS_VALUES = ["NONE", "CIRCLE", "INCOMING_REQUEST", "OUTGOING_REQUEST", "BLOCKED"] as const
 export type CircleRelationStatus = typeof CIRCLE_RELATION_STATUS_VALUES[number]
 
@@ -15,6 +18,9 @@ export type DashboardNotificationDestinationType = typeof DASHBOARD_NOTIFICATION
 
 export const EXACT_LOCATION_VISIBILITY_SCOPE_VALUES = ["NOBODY", "EVERYONE", "CIRCLES", "USERS"] as const
 export type ExactLocationVisibilityScope = typeof EXACT_LOCATION_VISIBILITY_SCOPE_VALUES[number]
+
+export const LOCATION_LOOKUP_EVENT_TYPE_VALUES = ["LOOKUP", "REVERSE_LOOKUP"] as const
+export type LocationLookupEventType = typeof LOCATION_LOOKUP_EVENT_TYPE_VALUES[number]
 
 export const NAVIGATION_TARGET_TYPE_VALUES = ["QUEST_DETAIL", "APPLICATION_DETAIL", "USER_PROFILE", "QUEST_LIST", "CIRCLES"] as const
 export type NavigationTargetType = typeof NAVIGATION_TARGET_TYPE_VALUES[number]
@@ -43,7 +49,7 @@ export type QuestLocationVisibility = typeof QUEST_LOCATION_VISIBILITY_VALUES[nu
 export const QUEST_NEWS_DESTINATION_TYPE_VALUES = ["QUEST", "APPLICATION", "QUEST_LIST"] as const
 export type QuestNewsDestinationType = typeof QUEST_NEWS_DESTINATION_TYPE_VALUES[number]
 
-export const QUEST_NEWS_TYPE_VALUES = ["APPLICATION_CREATED", "APPLICATION_UPDATED", "APPLICATION_WITHDRAWN", "APPLICATION_APPROVED", "APPLICATION_DECLINED", "QUEST_TERM_CONFIRMATION_REQUESTED", "QUEST_TERM_CONFIRMED", "QUEST_TERM_REJECTED", "QUEST_STARTED", "QUEST_COMPLETED", "QUEST_REOPENED", "QUEST_DELETED", "CIRCLE_REQUEST_ACCEPTED"] as const
+export const QUEST_NEWS_TYPE_VALUES = ["CIRCLE_REQUEST_RECEIVED", "APPLICATION_CREATED", "APPLICATION_UPDATED", "APPLICATION_WITHDRAWN", "APPLICATION_APPROVED", "APPLICATION_DECLINED", "QUEST_TERM_CONFIRMATION_REQUESTED", "QUEST_TERM_CONFIRMED", "QUEST_TERM_REJECTED", "QUEST_STARTED", "QUEST_COMPLETED", "QUEST_REOPENED", "QUEST_DELETED", "CIRCLE_REQUEST_ACCEPTED"] as const
 export type QuestNewsType = typeof QUEST_NEWS_TYPE_VALUES[number]
 
 export const QUEST_STATUS_VALUES = ["OPEN", "ASSIGNED", "WAITING_CONFIRMATION", "IN_PROGRESS", "COMPLETED", "CANCELLED"] as const
@@ -162,6 +168,12 @@ export interface AuthResponse {
   token: string | null
 }
 
+export interface BulkCircleMembershipUpdateDTO {
+  circleId: number
+  userIds: number[]
+  action: BulkCircleMembershipAction
+}
+
 export interface ChatCircleOptionDTO {
   id: number
   name: string
@@ -225,6 +237,7 @@ export interface ChatSocketEventDTO {
   conversationId?: number | null
   actorUserId?: number | null
   reason?: string | null
+  unreadNewsCount?: number | null
 }
 
 export interface ChatWorkspaceDTO {
@@ -334,6 +347,8 @@ export interface CircleRequestResponseDTO {
   counterpartProfileDescription: string | null
   counterpartProfileAvatarDataUrl: string | null
   requestSummaryLabel: string
+  primaryAction: ProfilePrimaryActionDTO | null
+  secondaryAction: ProfilePrimaryActionDTO | null
   createdAt: string
   acceptedAt: string | null
   blockedAt: string | null
@@ -345,9 +360,9 @@ export interface CircleSearchResultDTO {
   profileDescription: string
   profileAvatarDataUrl: string
   email: string
-  locationLabel: string | null
-  distanceKm: number | null
-  distanceLabel: string | null
+  locationLabel: string
+  distanceKm: number
+  distanceLabel: string
   relationStatus: CircleRelationStatus
   relationLabel: string
   relationBadgeClass: string
@@ -386,18 +401,22 @@ export interface DashboardNotificationItemDTO {
   type: QuestNewsType
   typeLabel: string
   badgeClass: string
+  iconGlyph: string
   title: string
   message: string
   actorUsername: string
   questTitle: string | null
   questId: number | null
   applicationId: number | null
+  circleRequestId: number | null
   createdAt: string
   readAt: string | null
   destinationType: DashboardNotificationDestinationType
   destinationId: number | null
   navigation: NavigationTargetDTO | null
   unread: boolean
+  canAcceptCircleRequest: boolean
+  canDeclineCircleRequest: boolean
 }
 
 export interface DashboardNotificationsSectionDTO {
@@ -581,13 +600,19 @@ export interface ProfilePrimaryActionDTO {
 }
 
 export interface QuestApplicationDetailContextSectionDTO {
+  questLabel: string | null
+  postedByLabel: string | null
+  showStatus: boolean
+  showTerm: boolean
   showWorkers: boolean
 }
 
 export interface QuestApplicationDetailNavigationSectionDTO {
   canOpenQuest: boolean
+  canOpenPostedBy: boolean
   questId: number
   questNavigation: NavigationTargetDTO
+  postedByNavigation: NavigationTargetDTO | null
 }
 
 export interface QuestApplicationDetailResponseDTO {
@@ -664,6 +689,7 @@ export interface QuestApplicationStatusFilterOptionDTO {
 
 export interface QuestApplicationsViewDTO {
   featuredApplication: QuestApplicationResponseDTO | null
+  approvedApplications: QuestApplicationResponseDTO[]
   visibleApplications: QuestApplicationResponseDTO[]
   hiddenApplicationsCount: number
   selectedApplicationId: number | null
@@ -771,16 +797,20 @@ export interface QuestNewsItemResponseDTO {
   type: QuestNewsType
   typeLabel: string
   badgeClass: string
+  iconGlyph: string
   title: string
   message: string
   questId: number | null
   questTitle: string | null
   applicationId: number | null
+  circleRequestId: number | null
   destinationType: QuestNewsDestinationType
   destinationId: number | null
   navigation: NavigationTargetDTO
   actorUserId: number
   actorUsername: string
+  canAcceptCircleRequest: boolean
+  canDeclineCircleRequest: boolean
   readAt: string | null
   createdAt: string
 }
@@ -796,9 +826,19 @@ export interface QuestPresentationDTO {
   locationVisibilitySummary: string | null
   assigneeTargetVisible: boolean
   assigneeTargetLabel: string
+  slotProgressLabel: string | null
+  remainingSlotsLabel: string | null
+  approvedApplicantsVisible: boolean
   canEdit: boolean
   canApply: boolean
   canViewApplications: boolean
+  canManuallyAssign: boolean
+  primaryExecutionActionLabel: string | null
+  termChangeSummaryLabel: string | null
+  termChangeConfirmLabel: string | null
+  termChangeRejectLabel: string | null
+  postingSettingsVisible: boolean
+  visibleToCirclesLabel: string | null
   autoOpenEditForm: boolean
   termChangeVisible: boolean
   termChangeActionable: boolean
@@ -816,6 +856,7 @@ export interface QuestRequestDTO {
   description: string
   awardAmount: number
   assigneeTarget?: number | null
+  showApprovedApplicants?: boolean | null
   scheduledAt?: string | null
   endsAt?: string | null
   termFixed?: boolean | null
@@ -846,6 +887,9 @@ export interface QuestResponseDTO {
   description: string
   awardAmount: number
   assigneeTarget: number | null
+  showApprovedApplicants: boolean
+  approvedApplicationCount: number
+  remainingAssigneeSlots: number
   scheduledAt: string | null
   endsAt: string | null
   termFixed: boolean

@@ -23,6 +23,7 @@ const isPreviewOpen = ref(false)
 const viewState = createQuestDialogViewState(props.dashboard)
 const {
   quest,
+  applicationsView,
   applications,
   isDeleting,
   isDeleteConfirmDialogOpen,
@@ -34,7 +35,7 @@ const {
   canApply,
   canSubmitApplication,
   myApplication,
-  featuredApplication,
+  approvedApplications,
   canShowApplications,
   applicationSentVisible,
   canOpenMyApplication,
@@ -115,14 +116,14 @@ const openPreview = () => {
       >
         <template #main-after>
           <div v-if="quest.status !== 'CANCELLED' && !canApply && !applicationSentVisible && !myApplication" class="surface-stack surface-stack--compact">
-            <DashboardQuestApplications
-              :dashboard="props.dashboard"
-              :quest-id="quest.id"
-              :applications="applications"
-              :featured-application="featuredApplication"
-              :can-show-applications="canShowApplications"
-              eyebrow="Applications"
-              title="What people offer"
+              <DashboardQuestApplications
+                :dashboard="props.dashboard"
+                :quest-id="quest.id"
+                :applications="applications"
+                :approved-applications="approvedApplications"
+                :can-show-applications="canShowApplications"
+                eyebrow="Applications"
+                title="What people offer"
               @approve="approveApplication"
               @decline="declineApplication"
             />
@@ -152,6 +153,7 @@ const openPreview = () => {
         :show-overview="canShowApplications"
         :show-overview-status="canShowApplications"
         :show-my-application="false"
+        :applications-view="applicationsView"
         :can-open-application="!!myApplication && canOpenMyApplication"
         :application-open-label="'Open my application'"
         :show-term-change-details="showTermChangeDetails"
@@ -241,6 +243,7 @@ const openPreview = () => {
       :show-title="true"
       :show-overview="true"
       :show-my-application="false"
+      :applications-view="applicationsView"
       :can-open-application="false"
       :show-term-change-details="false"
       :term-change-section="null"

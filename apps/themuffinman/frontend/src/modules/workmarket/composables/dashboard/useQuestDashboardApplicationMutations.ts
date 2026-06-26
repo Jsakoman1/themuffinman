@@ -8,9 +8,11 @@ export const useQuestDashboardApplicationMutations = (
   helpers: {
     refreshDashboardData: () => Promise<void>
     loadApplicationsForQuest: (questId: number) => Promise<void>
+    loadQuestDetail: (questId: number) => Promise<void>
+    loadApplicationDetail: (applicationId: number) => Promise<void>
   }
 ) => {
-  const {refreshDashboardData, loadApplicationsForQuest} = helpers
+  const {refreshDashboardData, loadApplicationsForQuest, loadQuestDetail, loadApplicationDetail} = helpers
   const {runMutation} = createDashboardMutationRunner(state)
 
   const applyForQuest = async (questId: number) => {
@@ -49,6 +51,7 @@ export const useQuestDashboardApplicationMutations = (
       successPulseTarget: `quest-${questId}`,
       afterSuccess: async () => {
         await refreshDashboardData()
+        await loadQuestDetail(questId)
         await loadApplicationsForQuest(questId)
       }
     })
@@ -62,6 +65,7 @@ export const useQuestDashboardApplicationMutations = (
       successPulseTarget: `quest-${questId}`,
       afterSuccess: async () => {
         await refreshDashboardData()
+        await loadQuestDetail(questId)
         await loadApplicationsForQuest(questId)
       }
     })
@@ -94,6 +98,7 @@ export const useQuestDashboardApplicationMutations = (
       successPulseTarget: `application-${applicationId}`,
       afterSuccess: async () => {
         await refreshDashboardData()
+        await loadApplicationDetail(applicationId)
 
         const refreshedApplication = state.selectedApplicationDialog.value
           ?? state.myApplications.value.find((application) => application.id === applicationId)

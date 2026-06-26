@@ -33,6 +33,8 @@ export const clearDashboardResponseState = (state: QuestDashboardState) => {
   state.incomingCircleRequests.value = []
   state.circles.value = []
   state.appUsers.value = []
+  state.questDetailsById.value = {}
+  state.applicationDetailsById.value = {}
 }
 
 export const applyDashboardResponse = (state: QuestDashboardState, dashboard: DashboardResponse) => {

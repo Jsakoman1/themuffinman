@@ -11,6 +11,7 @@ import {formatQuestScheduleForDisplay, formatQuestTermForDisplay} from "../../..
 const props = withDefaults(defineProps<{
   quest?: Quest | null
   myApplication?: QuestApplication | null
+  applicationsView?: QuestDetail["applicationsView"] | null
   showOverview?: boolean
   showOverviewStatus?: boolean
   showMyApplication?: boolean
@@ -29,6 +30,7 @@ const props = withDefaults(defineProps<{
 }>(), {
   quest: null,
   myApplication: null,
+  applicationsView: null,
   showOverview: true,
   showOverviewStatus: true,
   showMyApplication: true,
@@ -63,6 +65,7 @@ const actionHelperText = computed(() => {
 })
 
 const showPostingSettings = computed(() => props.managementSection?.postingSettingsVisible ?? false)
+const approvedApplicants = computed(() => props.applicationsView?.approvedApplications ?? [])
 
 const emit = defineEmits<{
   (event: "toggle-term-change"): void
@@ -73,6 +76,7 @@ const emit = defineEmits<{
   (event: "start-work"): void
   (event: "complete-work"): void
   (event: "delete-quest"): void
+  (event: "assign-now"): void
   (event: "confirm-term-change"): void
   (event: "reject-term-change"): void
 }>()
@@ -107,9 +111,35 @@ const emit = defineEmits<{
           <span class="quest-overview-aside__value">{{ quest.presentation.assigneeTargetLabel }}</span>
         </div>
 
+        <div v-if="quest.presentation.slotProgressLabel" class="quest-overview-aside__row">
+          <span class="quest-overview-aside__label">Filled</span>
+          <span class="quest-overview-aside__value">{{ quest.presentation.slotProgressLabel }}</span>
+        </div>
+
+        <div v-if="quest.presentation.remainingSlotsLabel" class="quest-overview-aside__row">
+          <span class="quest-overview-aside__label">Open spots</span>
+          <span class="quest-overview-aside__value">{{ quest.presentation.remainingSlotsLabel }}</span>
+        </div>
+
         <div class="quest-overview-aside__row quest-overview-aside__row--stack">
           <span class="quest-overview-aside__label">Time</span>
           <span class="quest-overview-aside__value quest-overview-aside__value--multiline">{{ quest.presentation.timeTypeLabel }}</span>
+        </div>
+
+        <div
+          v-if="quest.presentation.approvedApplicantsVisible && approvedApplicants.length"
+          class="quest-overview-aside__row quest-overview-aside__row--stack"
+        >
+          <span class="quest-overview-aside__label">Approved workers</span>
+          <div class="ui-chip-group ui-chip-group--stack">
+            <span
+              v-for="application in approvedApplicants"
+              :key="application.id"
+              class="ui-chip ui-chip--wide ui-chip--active"
+            >
+              {{ application.applicantUsername }}
+            </span>
+          </div>
         </div>
       </div>
     </section>
@@ -186,6 +216,9 @@ const emit = defineEmits<{
       <div class="ui-action-stack">
         <button v-if="executionSection?.primaryAction" class="button" type="button" :disabled="isSaving" @click="executionSection.primaryAction === 'START' ? emit('start-work') : emit('complete-work')">
           {{ executionSection.primaryActionLabel }}
+        </button>
+        <button v-if="quest?.presentation.canManuallyAssign" class="button button--secondary" type="button" :disabled="isSaving || isActionInProgress" @click="emit('assign-now')">
+          Assign now
         </button>
         <span v-if="actionHelperText" class="muted">{{ actionHelperText }}</span>
 

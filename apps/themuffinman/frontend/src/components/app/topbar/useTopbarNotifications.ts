@@ -1,6 +1,8 @@
-import {ref, watch} from "vue"
+import {onBeforeUnmount, ref, watch} from "vue"
 import type {Router} from "vue-router"
 import {currentUser} from "../../../auth.ts"
+import {token} from "../../../services/sessionService.ts"
+import {API_BASE_URL} from "../../../api/httpClient.ts"
 import type {QuestNewsItem} from "../../../modules/workmarket/api/workmarketApi.ts"
 import {workmarketApi} from "../../../modules/workmarket/api/workmarketApi.ts"
 import {routeForNavigationTarget} from "../../../modules/workmarket/shared/navigationTargets.ts"
@@ -11,10 +13,102 @@ export const useTopbarNotifications = (router: Router) => {
   const notificationItems = ref<QuestNewsItem[]>([])
   const isLoadingNotifications = ref(false)
   const notificationsError = ref("")
+  let newsSocket: WebSocket | null = null
+  let reconnectTimer: number | null = null
+
+  const clearReconnectTimer = () => {
+    if (reconnectTimer !== null) {
+      window.clearTimeout(reconnectTimer)
+      reconnectTimer = null
+    }
+  }
+
+  const closeSocket = () => {
+    clearReconnectTimer()
+    const socket = newsSocket
+    newsSocket = null
+    if (!socket) {
+      return
+    }
+
+    socket.onopen = null
+    socket.onmessage = null
+    socket.onerror = null
+    socket.onclose = null
+    socket.close()
+  }
+
+  const buildSocketUrl = () => {
+    if (!token.value) {
+      return null
+    }
+
+    const url = new URL(API_BASE_URL)
+    url.protocol = url.protocol === "https:" ? "wss:" : "ws:"
+    url.pathname = "/ws/chat"
+    url.search = ""
+    url.searchParams.set("token", token.value)
+    return url.toString()
+  }
+
+  const connectSocket = () => {
+    closeSocket()
+
+    const socketUrl = buildSocketUrl()
+    if (!socketUrl || !currentUser.value) {
+      return
+    }
+
+    const socket = new WebSocket(socketUrl)
+    newsSocket = socket
+
+    socket.onmessage = (event) => {
+      try {
+        const payload = JSON.parse(String(event.data)) as {
+          type?: string
+          unreadNewsCount?: number | null
+        }
+
+        if (payload.type !== "news.updated") {
+          return
+        }
+
+        unreadNewsCount.value = typeof payload.unreadNewsCount === "number" ? payload.unreadNewsCount : unreadNewsCount.value
+        if (notificationsOpen.value) {
+          void loadNotifications()
+        }
+      } catch {
+        // Ignore malformed socket payloads.
+      }
+    }
+
+    socket.onclose = () => {
+      if (newsSocket === socket) {
+        newsSocket = null
+      }
+      if (currentUser.value && token.value) {
+        clearReconnectTimer()
+        reconnectTimer = window.setTimeout(() => {
+          connectSocket()
+        }, 3000)
+      }
+    }
+  }
 
   const resetNotificationsState = () => {
     notificationItems.value = []
     notificationsError.value = ""
+  }
+
+  const updateCachedItemAsRead = (itemId: number) => {
+    notificationItems.value = notificationItems.value.map((candidate) => candidate.id === itemId
+      ? {...candidate, readAt: candidate.readAt ?? new Date().toISOString()}
+      : candidate
+    )
+  }
+
+  const removeCachedItem = (itemId: number) => {
+    notificationItems.value = notificationItems.value.filter((candidate) => candidate.id !== itemId)
   }
 
   const refreshUnreadNewsCount = async () => {
@@ -73,16 +167,42 @@ export const useTopbarNotifications = (router: Router) => {
   const openNotificationItem = async (item: QuestNewsItem) => {
     await workmarketApi.markMyNewsItemAsRead(item.id)
     unreadNewsCount.value = Math.max(0, unreadNewsCount.value - (item.readAt === null ? 1 : 0))
-    notificationItems.value = notificationItems.value.map((candidate) => candidate.id === item.id
-      ? {...candidate, readAt: candidate.readAt ?? new Date().toISOString()}
-      : candidate
-    )
+    updateCachedItemAsRead(item.id)
     notificationsOpen.value = false
     await router.push(routeForNavigationTarget(item.navigation))
   }
 
+  const acceptCircleRequestFromNotification = async (item: QuestNewsItem) => {
+    if (item.circleRequestId === null || item.circleRequestId === undefined) {
+      return
+    }
+
+    await workmarketApi.acceptCircleRequest(item.circleRequestId)
+    await workmarketApi.markMyNewsItemAsRead(item.id)
+    unreadNewsCount.value = Math.max(0, unreadNewsCount.value - (item.readAt === null ? 1 : 0))
+    removeCachedItem(item.id)
+    if (notificationsOpen.value) {
+      await loadNotifications()
+    }
+  }
+
+  const declineCircleRequestFromNotification = async (item: QuestNewsItem) => {
+    if (item.circleRequestId === null || item.circleRequestId === undefined) {
+      return
+    }
+
+    await workmarketApi.deleteCircleRequest(item.circleRequestId)
+    await workmarketApi.markMyNewsItemAsRead(item.id)
+    unreadNewsCount.value = Math.max(0, unreadNewsCount.value - (item.readAt === null ? 1 : 0))
+    removeCachedItem(item.id)
+    if (notificationsOpen.value) {
+      await loadNotifications()
+    }
+  }
+
   watch(() => currentUser.value?.id, async (userId) => {
     resetNotificationsState()
+    closeSocket()
 
     if (!userId) {
       unreadNewsCount.value = 0
@@ -90,6 +210,11 @@ export const useTopbarNotifications = (router: Router) => {
     }
 
     await refreshUnreadNewsCount()
+    connectSocket()
+  })
+
+  onBeforeUnmount(() => {
+    closeSocket()
   })
 
   return {
@@ -102,6 +227,8 @@ export const useTopbarNotifications = (router: Router) => {
     toggleNotifications,
     markAllNotificationsRead,
     openNotificationItem,
+    acceptCircleRequestFromNotification,
+    declineCircleRequestFromNotification,
     resetNotificationsState
   }
 }

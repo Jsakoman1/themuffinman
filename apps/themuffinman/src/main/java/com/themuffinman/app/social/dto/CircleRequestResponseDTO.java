@@ -1,5 +1,6 @@
 package com.themuffinman.app.social.dto;
 
+import com.themuffinman.app.identity.dto.ProfilePrimaryActionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,6 +40,10 @@ public class CircleRequestResponseDTO {
     @Nullable
     private String counterpartProfileAvatarDataUrl;
     private String requestSummaryLabel;
+    @Nullable
+    private ProfilePrimaryActionDTO primaryAction;
+    @Nullable
+    private ProfilePrimaryActionDTO secondaryAction;
 
     private Instant createdAt;
     @Nullable

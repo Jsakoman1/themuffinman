@@ -336,18 +336,22 @@ public class DashboardSectionsFactory {
                 .type(item.getType())
                 .typeLabel(item.getTypeLabel())
                 .badgeClass(item.getBadgeClass())
+                .iconGlyph(item.getIconGlyph())
                 .title(item.getTitle())
                 .message(item.getMessage())
                 .actorUsername(item.getActorUsername())
                 .questTitle(item.getQuestTitle())
                 .questId(item.getQuestId())
                 .applicationId(item.getApplicationId())
+                .circleRequestId(item.getCircleRequestId())
                 .createdAt(item.getCreatedAt())
                 .readAt(item.getReadAt())
                 .destinationType(destinationType)
                 .destinationId(destinationId)
                 .navigation(item.getNavigation())
                 .unread(item.getReadAt() == null)
+                .canAcceptCircleRequest(item.isCanAcceptCircleRequest())
+                .canDeclineCircleRequest(item.isCanDeclineCircleRequest())
                 .build();
     }
 

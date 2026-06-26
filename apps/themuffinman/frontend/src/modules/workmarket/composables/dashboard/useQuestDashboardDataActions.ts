@@ -62,6 +62,24 @@ export const useQuestDashboardDataActions = (state: QuestDashboardState) => {
     }
   }
 
+  const loadQuestDetail = async (questId: number) => {
+    try {
+      state.questDetailsById.value[questId] = await workmarketApi.getQuestDetail(questId)
+    } catch (requestError) {
+      delete state.questDetailsById.value[questId]
+      state.showFeedback(getApiErrorMessage(requestError, "Could not load quest."), "error")
+    }
+  }
+
+  const loadApplicationDetail = async (applicationId: number) => {
+    try {
+      state.applicationDetailsById.value[applicationId] = await workmarketApi.getApplicationDetail(applicationId)
+    } catch (requestError) {
+      delete state.applicationDetailsById.value[applicationId]
+      state.showFeedback(getApiErrorMessage(requestError, "Could not load application."), "error")
+    }
+  }
+
   const toggleApplicationRevealForQuest = async (questId: number) => {
     state.showAllApplicationsQuestIds.value[questId] = !state.showAllApplicationsQuestIds.value[questId]
     await loadApplicationsForQuest(questId)
@@ -72,6 +90,8 @@ export const useQuestDashboardDataActions = (state: QuestDashboardState) => {
     refreshDashboardData,
     markNewsAsRead,
     markNewsItemAsRead,
+    loadQuestDetail,
+    loadApplicationDetail,
     loadApplicationsForQuest,
     toggleApplicationRevealForQuest
   }

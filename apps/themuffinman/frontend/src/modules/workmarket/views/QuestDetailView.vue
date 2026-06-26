@@ -55,6 +55,8 @@ const {
   editTitle,
   editDescription,
   editAwardAmount,
+  editAssigneeTarget,
+  editShowApprovedApplicants,
   editScheduledAt,
   editEndsAt,
   editTermMode,
@@ -79,6 +81,7 @@ const {
   removeEditImage,
   handleEditImagesChange,
   saveEdits,
+  assignQuestNow,
   closeQuestDetail
 } = useQuestDetailView()
 
@@ -96,12 +99,8 @@ const visibleManagementSection = computed(() => {
   return managementSection.value
 })
 
-const featuredApplication = computed(() => applicationsView.value?.featuredApplication ?? null)
-
-const remainingApplications = computed(() => {
-  const selectedFeaturedId = featuredApplication.value?.id ?? null
-  return applications.value.filter((application) => application.id !== selectedFeaturedId)
-})
+const approvedApplications = computed(() => applicationsView.value?.approvedApplications ?? [])
+const remainingApplications = computed(() => applications.value)
 
 const isOwnerView = computed(() => canEdit.value)
 
@@ -122,6 +121,8 @@ const ownerQuestHasChanges = computed(() => {
   return editTitle.value.trim() !== quest.value.title.trim()
     || editDescription.value !== quest.value.description
     || editAwardAmount.value.trim() !== String(quest.value.awardAmount ?? "").trim()
+    || editAssigneeTarget.value.trim() !== String(quest.value.assigneeTarget ?? 1).trim()
+    || editShowApprovedApplicants.value !== quest.value.showApprovedApplicants
     || editScheduledAt.value !== formatInstantForInput(quest.value.scheduledAt)
     || editEndsAt.value !== formatInstantForInput(quest.value.endsAt)
     || editTermMode.value !== normalizedTermMode
@@ -211,6 +212,8 @@ const openApplicantProfile = (applicationId: number) => {
         :title="editTitle"
         :description="editDescription"
         :award-amount="editAwardAmount"
+        :assignee-target="editAssigneeTarget"
+        :show-approved-applicants="editShowApprovedApplicants"
         :scheduled-at="editScheduledAt"
         :ends-at="editEndsAt"
         :term-mode="editTermMode"
@@ -232,6 +235,8 @@ const openApplicantProfile = (applicationId: number) => {
         @update:title="editTitle = $event"
         @update:description="editDescription = $event"
         @update:award-amount="editAwardAmount = $event"
+        @update:assignee-target="editAssigneeTarget = $event"
+        @update:show-approved-applicants="editShowApprovedApplicants = $event"
         @update:scheduled-at="editScheduledAt = $event"
         @update:ends-at="editEndsAt = $event"
         @update:term-mode="setEditTermMode($event)"
@@ -253,11 +258,12 @@ const openApplicantProfile = (applicationId: number) => {
           <section v-if="showApplicationsSection" class="surface-stack surface-stack--compact">
             <div class="surface-stack surface-stack--compact">
               <ApplicationManagementCard
-                v-if="featuredApplication"
-                :application="featuredApplication"
+                v-for="application in approvedApplications"
+                :key="`approved-${application.id}`"
+                :application="application"
                 :selected="true"
                 :show-status="false"
-                @open-applicant="openApplicantProfile(featuredApplication.id)"
+                @open-applicant="openApplicantProfile(application.id)"
               />
 
               <ApplicationManagementCard
@@ -267,7 +273,7 @@ const openApplicantProfile = (applicationId: number) => {
                 @open-applicant="openApplicantProfile(application.id)"
               />
 
-              <div v-if="!featuredApplication && !remainingApplications.length" class="empty-state">
+              <div v-if="!approvedApplications.length && !remainingApplications.length" class="empty-state">
                 No applications yet.
               </div>
             </div>
@@ -283,6 +289,7 @@ const openApplicantProfile = (applicationId: number) => {
         :show-overview="showOverview"
         :show-overview-status="showOverviewStatus"
         :show-my-application="showMyApplicationAside"
+        :applications-view="applicationsView"
         :can-open-application="!!myApplication"
         :show-term-change-details="showTermChangeDetails"
         :execution-section="executionSection"
@@ -302,6 +309,7 @@ const openApplicantProfile = (applicationId: number) => {
         @start-work="updateStatus('start')"
         @complete-work="updateStatus('complete')"
         @delete-quest="handleDeleteQuest"
+        @assign-now="assignQuestNow"
         @confirm-term-change="handleConfirmTermChange"
         @reject-term-change="handleRejectTermChange"
       >

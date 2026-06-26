@@ -146,6 +146,41 @@ public class QuestStateTransitionService {
         throw ServiceErrors.badRequest("Term can only be changed on an active quest");
     }
 
+    public void applyOwnerQuestStatusChange(Quest quest, QuestStatus targetStatus, AppUser currentUser) {
+        if (targetStatus == null || targetStatus == quest.getStatus()) {
+            return;
+        }
+
+        if (!quest.getCreator().getId().equals(currentUser.getId())) {
+            throw ServiceErrors.forbidden("Only the quest owner can change this quest status");
+        }
+
+        if (targetStatus == QuestStatus.ASSIGNED) {
+            long approvedCount = questApplicationRepository.countByQuestIdAndStatus(quest.getId(), QuestApplicationStatus.APPROVED);
+            if (approvedCount < 1) {
+                throw ServiceErrors.badRequest("Approve at least one applicant before assigning this quest");
+            }
+
+            if (quest.getStatus() != QuestStatus.OPEN) {
+                throw ServiceErrors.badRequest("Only open quests can be marked as assigned");
+            }
+
+            quest.setStatus(QuestStatus.ASSIGNED);
+            return;
+        }
+
+        if (targetStatus == QuestStatus.OPEN) {
+            if (quest.getStatus() != QuestStatus.ASSIGNED) {
+                throw ServiceErrors.badRequest("Only assigned quests can be reopened here");
+            }
+
+            quest.setStatus(QuestStatus.OPEN);
+            return;
+        }
+
+        throw ServiceErrors.badRequest("Owners can only switch between open and assigned here");
+    }
+
     public void confirmQuestTermChange(Quest quest) {
         if (quest.getStatus() != QuestStatus.WAITING_CONFIRMATION) {
             throw ServiceErrors.badRequest("Quest term change is not waiting for confirmation");

@@ -204,7 +204,9 @@ public class QuestService {
         QuestApplicationResponseDTO myApplication = viewerApplication == null ? null : questApplicationMgr.toDto(viewerApplication);
         QuestApplicationsViewDTO applicationsView = questResponse.isCanViewApplications()
                 ? questApplicationService.getApplicationsViewForQuest(quest.getId(), currentUser, false)
-                : null;
+                : (questResponse.isShowApprovedApplicants()
+                ? questApplicationService.getPublicApprovedApplicationsViewForQuest(quest.getId())
+                : null);
         QuestDetailSectionsDTO sections = QuestDetailSectionsDTO.builder()
                 .navigation(QuestDetailNavigationSectionDTO.builder()
                         .listNavigation(com.themuffinman.app.common.dto.NavigationTargetDTO.builder()
@@ -242,10 +244,16 @@ public class QuestService {
                         .quest(questResponse)
                         .navigation(QuestApplicationDetailNavigationSectionDTO.builder()
                                 .canOpenQuest(true)
+                                .canOpenPostedBy(questResponse.getCreatorNavigation() != null)
                                 .questId(questResponse.getId())
                                 .questNavigation(questResponse.getQuestNavigation())
+                                .postedByNavigation(questResponse.getCreatorNavigation())
                                 .build())
                         .context(QuestApplicationDetailContextSectionDTO.builder()
+                                .questLabel(applicationResponse.getQuestTitle())
+                                .postedByLabel(questResponse.getCreatorUsername())
+                                .showStatus(true)
+                                .showTerm(true)
                                 .showWorkers(applicationResponse.getQuestAssigneeTarget() == null || applicationResponse.getQuestAssigneeTarget() > 1)
                                 .build())
                         .build())

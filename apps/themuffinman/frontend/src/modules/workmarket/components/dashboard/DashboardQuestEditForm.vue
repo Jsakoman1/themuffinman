@@ -22,6 +22,8 @@ const hasChanges = computed(() => {
   return props.dashboard.editQuestTitle.trim() !== quest.title.trim()
     || props.dashboard.editQuestDescription !== quest.description
     || props.dashboard.editQuestAwardAmount.trim() !== String(quest.awardAmount ?? "").trim()
+    || props.dashboard.editQuestAssigneeTarget.trim() !== String(quest.assigneeTarget ?? 1).trim()
+    || props.dashboard.editQuestShowApprovedApplicants !== quest.showApprovedApplicants
     || props.dashboard.editQuestScheduledAt !== formatInstantForInput(quest.scheduledAt)
     || props.dashboard.editQuestEndsAt !== formatInstantForInput(quest.endsAt)
     || props.dashboard.editQuestTermMode !== normalizedTermMode.value
@@ -48,6 +50,8 @@ const hasChanges = computed(() => {
     :title="dashboard.editQuestTitle"
     :description="dashboard.editQuestDescription"
     :award-amount="dashboard.editQuestAwardAmount"
+    :assignee-target="dashboard.editQuestAssigneeTarget"
+    :show-approved-applicants="dashboard.editQuestShowApprovedApplicants"
     :term-mode="dashboard.editQuestTermMode"
     :scheduled-at="dashboard.editQuestScheduledAt"
     :ends-at="dashboard.editQuestEndsAt"
@@ -78,6 +82,8 @@ const hasChanges = computed(() => {
     @update:title="dashboard.editQuestTitle = $event"
     @update:description="dashboard.editQuestDescription = $event"
     @update:award-amount="dashboard.editQuestAwardAmount = $event"
+    @update:assignee-target="dashboard.editQuestAssigneeTarget = $event"
+    @update:show-approved-applicants="dashboard.editQuestShowApprovedApplicants = $event"
     @update:term-mode="dashboard.setEditQuestTermMode($event)"
     @update:scheduled-at="dashboard.editQuestScheduledAt = $event"
     @update:ends-at="dashboard.editQuestEndsAt = $event"

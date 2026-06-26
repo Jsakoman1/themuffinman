@@ -4,6 +4,8 @@ import type {createDashboardMutationRunner} from "./createDashboardMutationRunne
 export type QuestDashboardMutationHelpers = {
   refreshDashboardData: () => Promise<void>
   loadApplicationsForQuest: (questId: number) => Promise<void>
+  loadQuestDetail: (questId: number) => Promise<void>
+  loadApplicationDetail: (applicationId: number) => Promise<void>
 }
 
 export type DashboardMutationRunner = ReturnType<typeof createDashboardMutationRunner>["runMutation"]

@@ -124,7 +124,8 @@ class QuestServiceTest {
                 userReviewRepository,
                 userReviewMgr,
                 workmarketPresentationHelper,
-                locationSettingsService
+                locationSettingsService,
+                questApplicationRepository
         );
         questService = new QuestService(
                 questRepository,
@@ -428,6 +429,9 @@ class QuestServiceTest {
         assertEquals(41L, result.getMyApplicationId());
         assertEquals(false, result.isCanViewApplications());
         assertEquals(List.of(QuestAllowedAction.CONFIRM_TERM_CHANGE, QuestAllowedAction.REJECT_TERM_CHANGE), result.getAllowedActions());
+        assertEquals("Term change waiting", result.getPresentation().getTermChangeSummaryLabel());
+        assertEquals("Confirm term change", result.getPresentation().getTermChangeConfirmLabel());
+        assertEquals("Reject term change", result.getPresentation().getTermChangeRejectLabel());
     }
 
     @Test
@@ -486,6 +490,8 @@ class QuestServiceTest {
         assertEquals(List.of(QuestAllowedAction.EDIT, QuestAllowedAction.VIEW_APPLICATIONS, QuestAllowedAction.DELETE), result.getAllowedActions());
         assertEquals(false, result.isHasApplied());
         assertEquals(null, result.getMyApplicationId());
+        assertEquals(true, result.getPresentation().isPostingSettingsVisible());
+        assertEquals("Trusted neighbours", result.getPresentation().getVisibleToCirclesLabel());
     }
 
     @Test
@@ -613,8 +619,24 @@ class QuestServiceTest {
         when(questApplicationRepository.findByIdDetailed(52L)).thenReturn(Optional.of(application));
         when(questRepository.findByIdWithCreator(33L)).thenReturn(Optional.of(quest));
         when(questApplicationRepository.findByApplicantId(applicant.getId())).thenReturn(List.of(application));
-        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder().id(33L).status(QuestStatus.OPEN).build());
-        when(questApplicationMgr.toDto(application)).thenReturn(QuestApplicationResponseDTO.builder().id(52L).questId(33L).build());
+        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
+                .id(33L)
+                .status(QuestStatus.OPEN)
+                .creatorUsername("creator")
+                .questNavigation(com.themuffinman.app.common.dto.NavigationTargetDTO.builder()
+                        .type(com.themuffinman.app.common.dto.NavigationTargetType.QUEST_DETAIL)
+                        .entityId(33L)
+                        .build())
+                .creatorNavigation(com.themuffinman.app.common.dto.NavigationTargetDTO.builder()
+                        .type(com.themuffinman.app.common.dto.NavigationTargetType.USER_PROFILE)
+                        .entityId(7L)
+                        .build())
+                .build());
+        when(questApplicationMgr.toDto(application)).thenReturn(QuestApplicationResponseDTO.builder()
+                .id(52L)
+                .questId(33L)
+                .questTitle("Assemble shelf")
+                .build());
 
         QuestApplicationDetailResponseDTO result = questService.getApplicationDetailResponseById(52L, applicant);
 
@@ -622,7 +644,12 @@ class QuestServiceTest {
         assertEquals(33L, result.getSections().getQuest().getId());
         assertEquals(QuestViewerRelation.APPLICANT, result.getSections().getQuest().getViewerRelation());
         assertEquals(true, result.getSections().getNavigation().isCanOpenQuest());
+        assertEquals(true, result.getSections().getNavigation().isCanOpenPostedBy());
         assertEquals(33L, result.getSections().getNavigation().getQuestId());
+        assertEquals("Assemble shelf", result.getSections().getContext().getQuestLabel());
+        assertEquals("creator", result.getSections().getContext().getPostedByLabel());
+        assertEquals(true, result.getSections().getContext().isShowStatus());
+        assertEquals(true, result.getSections().getContext().isShowTerm());
         assertEquals(true, result.getSections().getContext().isShowWorkers());
     }
 
@@ -715,6 +742,34 @@ class QuestServiceTest {
         assertEquals("Updated description", savedQuest.getDescription());
         assertEquals(BigDecimal.valueOf(80), savedQuest.getAwardAmount());
         assertEquals(3, savedQuest.getAssigneeTarget());
+    }
+
+    @Test
+    void updateQuestAllowsOwnerToAssignQuestBeforeAllSlotsAreFilled() {
+        AppUser creator = createUser(1L, "creator");
+        Quest quest = new Quest();
+        quest.setId(24L);
+        quest.setCreator(creator);
+        quest.setTitle("Move furniture");
+        quest.setDescription("Need help");
+        quest.setAwardAmount(BigDecimal.valueOf(50));
+        quest.setAssigneeTarget(3);
+        quest.setStatus(QuestStatus.OPEN);
+
+        QuestRequestDTO requestDTO = QuestRequestDTO.builder()
+                .title("Move furniture")
+                .description("Need help")
+                .awardAmount(BigDecimal.valueOf(50))
+                .status(QuestStatus.ASSIGNED)
+                .build();
+
+        when(questRepository.findByIdWithCreator(24L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.countByQuestIdAndStatus(24L, QuestApplicationStatus.APPROVED)).thenReturn(1L);
+        when(questRepository.save(quest)).thenReturn(quest);
+
+        questService.updateQuest(24L, requestDTO, creator);
+
+        assertEquals(QuestStatus.ASSIGNED, quest.getStatus());
     }
 
     @Test

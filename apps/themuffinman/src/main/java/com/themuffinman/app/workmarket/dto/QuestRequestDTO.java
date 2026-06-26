@@ -37,6 +37,9 @@ public class QuestRequestDTO {
     private @Positive Integer assigneeTarget;
     @ContractOptional
     @Nullable
+    private Boolean showApprovedApplicants;
+    @ContractOptional
+    @Nullable
     private Instant scheduledAt;
     @ContractOptional
     @Nullable

@@ -7,6 +7,8 @@ import type {
   DashboardSummary,
   Quest,
   QuestApplication,
+  QuestApplicationDetail,
+  QuestDetail,
   QuestApplicationsView,
   QuestNewsItem,
   WorkmarketOptions
@@ -26,6 +28,8 @@ export const createDashboardDataState = () => {
   const circles = ref<CircleGroup[]>([])
   const appUsers = ref<AppUser[]>([])
   const applicationsByQuestId = ref<Record<number, QuestApplicationsView>>({})
+  const questDetailsById = ref<Record<number, QuestDetail>>({})
+  const applicationDetailsById = ref<Record<number, QuestApplicationDetail>>({})
 
   const isLoadingQuests = ref(false)
   const isLoadingApplications = ref(false)
@@ -55,6 +59,8 @@ export const createDashboardDataState = () => {
     circles,
     appUsers,
     applicationsByQuestId,
+    questDetailsById,
+    applicationDetailsById,
     isLoadingQuests,
     isLoadingApplications,
     isLoadingNews,

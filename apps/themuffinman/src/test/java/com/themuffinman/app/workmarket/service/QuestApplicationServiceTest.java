@@ -181,11 +181,12 @@ class QuestApplicationServiceTest {
         QuestApplicationsViewDTO result = questApplicationService.getApplicationsViewForQuest(7L, creator, false);
 
         assertEquals(11L, result.getFeaturedApplication().getId());
+        assertEquals(1, result.getApprovedApplications().size());
         assertEquals(0, result.getVisibleApplications().size());
         assertEquals(1, result.getHiddenApplicationsCount());
         assertEquals(11L, result.getSelectedApplicationId());
         assertEquals(true, result.isCanRevealHiddenApplications());
-        assertEquals("Show declined", result.getRevealLabel());
+        assertEquals("Show other applications", result.getRevealLabel());
     }
 
     @Test
@@ -246,8 +247,55 @@ class QuestApplicationServiceTest {
 
         assertEquals(1, result.getVisibleApplications().size());
         assertEquals(12L, result.getVisibleApplications().getFirst().getId());
+        assertEquals(1, result.getApprovedApplications().size());
         assertEquals(0, result.getHiddenApplicationsCount());
         assertEquals(true, result.isShowingAllApplications());
+    }
+
+    @Test
+    void getPublicApprovedApplicationsViewReturnsReadonlyApprovedApplicantsOnly() {
+        AppUser creator = createUser(1L, "creator");
+        AppUser approvedApplicant = createUser(2L, "approved");
+        Quest quest = createQuest(7L, creator, QuestStatus.ASSIGNED);
+        QuestApplication approvedApplication = createApplication(11L, quest, approvedApplicant, QuestApplicationStatus.APPROVED);
+
+        when(questApplicationRepository.findByQuestIdAndStatus(7L, QuestApplicationStatus.APPROVED)).thenReturn(List.of(approvedApplication));
+        when(questApplicationMgr.toDto(approvedApplication)).thenReturn(QuestApplicationResponseDTO.builder()
+                .id(11L)
+                .status(QuestApplicationStatus.APPROVED)
+                .applicantUsername("approved")
+                .build());
+
+        QuestApplicationsViewDTO result = questApplicationService.getPublicApprovedApplicationsViewForQuest(7L);
+
+        assertEquals(1, result.getApprovedApplications().size());
+        assertEquals(0, result.getVisibleApplications().size());
+        assertEquals(false, result.isCanRevealHiddenApplications());
+        assertEquals("approved", result.getApprovedApplications().getFirst().getApplicantUsername());
+    }
+
+    @Test
+    void approveApplicationKeepsQuestOpenUntilAllWorkerSpotsAreFilled() {
+        AppUser creator = createUser(1L, "creator");
+        AppUser firstApplicant = createUser(2L, "first");
+        Quest quest = createQuest(7L, creator, QuestStatus.OPEN);
+        quest.setAssigneeTarget(2);
+        QuestApplication firstApplication = createApplication(11L, quest, firstApplicant, QuestApplicationStatus.PENDING);
+        QuestApplicationResponseDTO responseDTO = QuestApplicationResponseDTO.builder()
+                .id(11L)
+                .status(QuestApplicationStatus.APPROVED)
+                .build();
+
+        when(questRepository.findByIdWithCreator(7L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findByIdAndQuestId(11L, 7L)).thenReturn(Optional.of(firstApplication));
+        when(questApplicationRepository.countByQuestIdAndStatus(7L, QuestApplicationStatus.APPROVED)).thenReturn(0L);
+        when(questApplicationRepository.save(firstApplication)).thenReturn(firstApplication);
+        when(questApplicationMgr.toDto(firstApplication)).thenReturn(responseDTO);
+
+        QuestApplicationResponseDTO result = questApplicationService.approveApplication(7L, 11L, creator);
+
+        assertEquals(QuestApplicationStatus.APPROVED, result.getStatus());
+        assertEquals(QuestStatus.OPEN, quest.getStatus());
     }
 
     @Test

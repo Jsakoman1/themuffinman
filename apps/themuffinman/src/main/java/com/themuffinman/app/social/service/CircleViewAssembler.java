@@ -129,6 +129,8 @@ public class CircleViewAssembler {
     }
 
     public CircleRequestResponseDTO toViewerRequest(CircleRequestResponseDTO request, boolean incoming) {
+        SocialRelationActionHelper.SearchActions actions = socialRelationActionHelper.requestActions(incoming);
+
         if (incoming) {
             request.setCounterpartUserId(request.getRequesterId());
             request.setCounterpartUsername(request.getRequesterUsername());
@@ -142,6 +144,8 @@ public class CircleViewAssembler {
         }
 
         request.setRequestSummaryLabel(socialPresentationHelper.requestSummaryLabel(incoming));
+        request.setPrimaryAction(actions.getPrimaryAction());
+        request.setSecondaryAction(actions.getSecondaryAction());
         return request;
     }
 

@@ -8,6 +8,7 @@ import type {Quest, QuestApplication, QuestDetail} from "../../api/workmarketApi
 const props = withDefaults(defineProps<{
   quest: Quest
   myApplication?: QuestApplication | null
+  applicationsView?: QuestDetail["applicationsView"] | null
   showTitle?: boolean
   showOverview?: boolean
   showMyApplication?: boolean
@@ -28,6 +29,7 @@ const props = withDefaults(defineProps<{
   reviewComment?: string
 }>(), {
   myApplication: null,
+  applicationsView: null,
   showTitle: true,
   showOverview: true,
   showMyApplication: true,
@@ -57,6 +59,7 @@ const emit = defineEmits<{
   (event: "start-work"): void
   (event: "complete-work"): void
   (event: "delete-quest"): void
+  (event: "assign-now"): void
   (event: "confirm-term-change"): void
   (event: "reject-term-change"): void
 }>()
@@ -163,6 +166,7 @@ onBeforeUnmount(() => {
       <QuestDetailAsidePanels
       :quest="quest"
       :my-application="myApplication"
+      :applications-view="applicationsView"
       :show-overview="showOverview"
       :show-my-application="showMyApplication"
       :can-open-application="canOpenApplication"
@@ -185,6 +189,7 @@ onBeforeUnmount(() => {
       @start-work="emit('start-work')"
       @complete-work="emit('complete-work')"
       @delete-quest="emit('delete-quest')"
+      @assign-now="emit('assign-now')"
       @confirm-term-change="emit('confirm-term-change')"
       @reject-term-change="emit('reject-term-change')"
       >

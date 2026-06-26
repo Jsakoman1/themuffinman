@@ -22,4 +22,7 @@ public class ChatSocketEventDTO {
     @ContractOptional
     @Nullable
     private String reason;
+    @ContractOptional
+    @Nullable
+    private Long unreadNewsCount;
 }

@@ -23,6 +23,8 @@ const {
   openSettings,
   markAllNotificationsRead,
   openNotificationItem,
+  acceptCircleRequestFromNotification,
+  declineCircleRequestFromNotification,
   handleLogout
 } = useAppTopbarState()
 
@@ -44,12 +46,19 @@ void topbarRef
 
           <div class="app-topbar__actions-slot">
             <div class="dashboard-topbar__user-shell dashboard-topbar__user-shell--notifications">
-              <button class="dashboard-topbar__utility" type="button" aria-label="Open notifications" @click="toggleNotifications">
+              <button
+                class="dashboard-topbar__utility"
+                :class="{ 'dashboard-topbar__utility--unread': unreadNewsCount > 0 }"
+                type="button"
+                aria-label="Open notifications"
+                @click="toggleNotifications"
+              >
                 <span class="dashboard-topbar__utility-icon" aria-hidden="true">✦</span>
                 <span class="dashboard-topbar__utility-label">Notifications</span>
                 <span v-if="unreadNewsCount > 0" class="badge badge--accent dashboard-nav__badge">
                   {{ unreadNewsCount }}
                 </span>
+                <span v-if="unreadNewsCount > 0" class="dashboard-topbar__utility-dot" aria-hidden="true"></span>
               </button>
 
               <Transition name="sheet-fade">
@@ -61,6 +70,8 @@ void topbarRef
                     :is-loading="isLoadingNotifications"
                     @open-item="openNotificationItem"
                     @mark-all-read="markAllNotificationsRead"
+                    @accept-circle-request="acceptCircleRequestFromNotification"
+                    @decline-circle-request="declineCircleRequestFromNotification"
                   />
                 </div>
               </Transition>

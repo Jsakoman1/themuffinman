@@ -1,4 +1,4 @@
-package com.themuffinman.app.location.config;
+package com.themuffinman.app.config;
 
 import lombok.Getter;
 import lombok.Setter;

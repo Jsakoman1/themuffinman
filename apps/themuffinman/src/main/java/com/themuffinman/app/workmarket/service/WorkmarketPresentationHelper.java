@@ -125,6 +125,7 @@ public class WorkmarketPresentationHelper {
         }
 
         return switch (type) {
+            case CIRCLE_REQUEST_RECEIVED -> "Circle request";
             case APPLICATION_CREATED -> "New application";
             case APPLICATION_UPDATED -> "Application updated";
             case APPLICATION_WITHDRAWN -> "Application withdrawn";
@@ -147,10 +148,28 @@ public class WorkmarketPresentationHelper {
         }
 
         return switch (type) {
+            case CIRCLE_REQUEST_RECEIVED -> "badge--accent";
             case APPLICATION_WITHDRAWN, APPLICATION_DECLINED, QUEST_TERM_REJECTED, QUEST_DELETED -> "badge--danger";
             case APPLICATION_APPROVED, QUEST_TERM_CONFIRMED, QUEST_COMPLETED, CIRCLE_REQUEST_ACCEPTED -> "badge--success";
             case QUEST_TERM_CONFIRMATION_REQUESTED, QUEST_REOPENED -> "badge--warning";
             default -> "badge--accent";
+        };
+    }
+
+    public String iconGlyphForQuestNewsType(@Nullable QuestNewsType type) {
+        if (type == null) {
+            return "•";
+        }
+
+        return switch (type) {
+            case CIRCLE_REQUEST_RECEIVED -> "+";
+            case APPLICATION_APPROVED -> "✓";
+            case APPLICATION_DECLINED, QUEST_TERM_REJECTED -> "!";
+            case QUEST_COMPLETED -> "■";
+            case QUEST_STARTED -> "▶";
+            case CIRCLE_REQUEST_ACCEPTED -> "◎";
+            case APPLICATION_CREATED, APPLICATION_UPDATED, APPLICATION_WITHDRAWN -> "↗";
+            default -> "•";
         };
     }
 }
