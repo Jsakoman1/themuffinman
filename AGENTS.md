@@ -66,3 +66,24 @@ Planned modules:
 
 - Do not commit or push changes unless explicitly asked.
 - Keep code, comments, docs, API text, and user-facing copy in English.
+
+## Living Documentation
+
+- Maintain two living documentation files in `docs/`:
+  - `docs/business-logic.md` for product behavior, rules, and FAQ-style explanations
+  - `docs/domain-technical.md` for entities, relations, validations, permissions, workflows, and invariants
+- Maintain the agent-operation documentation set in `docs/`:
+  - `docs/agent-operating-model.md` for human review of agent-safe workflows
+  - `docs/agent-operating-model.yaml` for machine-readable workflow rules, dependencies, defaults, enums, and endpoint mappings
+  - `docs/agent-operating-model.schema.json` for validating the YAML structure
+  - `docs/documentation-sync-policy.md` for change-propagation requirements across code, docs, and agent-safety artifacts
+- When business rules, domain models, permissions, validations, workflows, endpoint contracts, or automation assumptions change, update all affected living docs in the same change unless the edit is purely cosmetic.
+- A logic change is not complete when only code and tests are updated.
+- Treat logical backend and frontend behavior changes as documentation changes by default until proven cosmetic.
+- Treat sandbox or synthetic-data behavior as high-risk logic that must stay explicitly separated from production behavior in docs and agent artifacts.
+- Prefer concise, factual entries that reflect the current codebase rather than aspirational design notes.
+- If a change affects user-facing meaning, update the business document first, then mirror the technical source of truth.
+- Treat `docs/agent-operating-model.yaml` as an operational safety artifact for future automation and voice agents. Keep it deterministic, explicit, and free of guessed behavior.
+- Keep `apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java` passing whenever the agent-operating docs or referenced workflow contracts change.
+- Keep `docs/documentation-sync-policy.md` aligned with the actual propagation process and protected rules.
+- No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together.

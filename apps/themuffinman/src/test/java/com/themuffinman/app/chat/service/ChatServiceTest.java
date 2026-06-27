@@ -32,6 +32,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -190,6 +191,7 @@ class ChatServiceTest {
         when(chatConversationRepository.findDetailedByParticipantId(currentUser.getId())).thenReturn(List.of(conversation));
         when(chatMessageRepository.findUnreadCountsByConversationIds(List.of(5L), currentUser.getId())).thenReturn(List.of(unreadCountRow));
         when(circleMembershipService.getMembershipsByUserIdForOwner(currentUser.getId())).thenReturn(Map.of(otherUser.getId(), List.of(membership)));
+        when(circleRelationService.isCircleBetween(currentUser, otherUser)).thenReturn(true);
         when(chatPresenceRepository.findByUserIds(List.of(otherUser.getId()))).thenReturn(List.of(presence));
         when(chatPresenceService.isOnline(any(), any())).thenReturn(true);
 
@@ -200,6 +202,34 @@ class ChatServiceTest {
         assertEquals(1, result.getUnreadConversationCount());
         assertEquals(1, result.getOnlineContactCount());
         assertEquals("Family", result.getCircles().getFirst().getName());
+    }
+
+    @Test
+    void getWorkspaceExcludesContactsAndConversationsWithoutCurrentAcceptedRelation() {
+        AppUser currentUser = createUser(1L, "mia");
+        AppUser staleUser = createUser(2L, "nikol");
+        ChatConversation staleConversation = createConversation(5L, currentUser, staleUser);
+
+        CircleGroup family = new CircleGroup();
+        family.setId(11L);
+        family.setName("Family");
+
+        CircleMembership staleMembership = new CircleMembership();
+        staleMembership.setCircle(family);
+        staleMembership.setMember(staleUser);
+
+        when(chatConversationRepository.findDetailedByParticipantId(currentUser.getId())).thenReturn(List.of(staleConversation));
+        when(chatMessageRepository.findUnreadCountsByConversationIds(List.of(), currentUser.getId())).thenReturn(List.of());
+        when(circleMembershipService.getMembershipsByUserIdForOwner(currentUser.getId())).thenReturn(Map.of(staleUser.getId(), List.of(staleMembership)));
+        when(circleRelationService.isCircleBetween(eq(currentUser), eq(staleUser))).thenReturn(false);
+
+        ChatWorkspaceDTO result = chatService.getWorkspace(currentUser);
+
+        assertEquals(0, result.getContacts().size());
+        assertEquals(0, result.getConversations().size());
+        assertEquals(0, result.getUnreadConversationCount());
+        assertEquals(0, result.getOnlineContactCount());
+        assertEquals(0, result.getCircles().size());
     }
 
     @Test

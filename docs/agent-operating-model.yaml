@@ -1,0 +1,1357 @@
+metadata:
+  version: "0.1.0"
+  status: active
+  default_failure_mode: fail_closed
+  notes:
+    - "This file is intentionally procedural and machine-oriented."
+    - "If a safe branch is not defined here, the agent must stop instead of guessing."
+    - "Sandbox flows are modeled separately from production-like flows."
+
+source_of_truth:
+  files:
+    - id: auth_controller
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java
+    - id: app_user_controller
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java
+    - id: app_user_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java
+    - id: app_user_lookup_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserLookupService.java
+    - id: app_user_request_dto
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AppUserRequestDTO.java
+    - id: quest_controller
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java
+    - id: quest_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java
+    - id: quest_request_dto
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestRequestDTO.java
+    - id: quest_application_controller
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java
+    - id: quest_application_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java
+    - id: quest_application_request_dto
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationRequestDTO.java
+    - id: user_review_controller
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/UserReviewController.java
+    - id: user_review_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java
+    - id: user_review_request_dto
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewRequestDTO.java
+    - id: quest_access_policy_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java
+    - id: quest_update_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestUpdateService.java
+    - id: quest_state_transition_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java
+    - id: quest_validation_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java
+    - id: quest_visibility_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestVisibilityService.java
+    - id: location_settings_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java
+    - id: location_lookup_controller
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java
+    - id: user_location_settings_request_dto
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/UserLocationSettingsRequestDTO.java
+    - id: location_lookup_request_dto
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupRequestDTO.java
+    - id: location_reverse_lookup_request_dto
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationReverseLookupRequestDTO.java
+    - id: circle_controller
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java
+    - id: circle_relation_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java
+    - id: circle_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java
+    - id: circle_membership_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java
+    - id: chat_controller
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java
+    - id: chat_service
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java
+    - id: circle_group_request_dto
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleGroupRequestDTO.java
+    - id: circle_request_create_dto
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestCreateDTO.java
+    - id: connection_circle_update_dto
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/ConnectionCircleUpdateDTO.java
+    - id: bulk_circle_membership_update_dto
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipUpdateDTO.java
+    - id: rich_text_validator
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/common/validation/RichTextInputValidator.java
+    - id: service_errors
+      path: apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/ServiceErrors.java
+    - id: business_logic_doc
+      path: docs/business-logic.md
+    - id: domain_technical_doc
+      path: docs/domain-technical.md
+    - id: documentation_sync_policy_doc
+      path: docs/documentation-sync-policy.md
+    - id: agents_doc
+      path: AGENTS.md
+
+policies:
+  uniqueness:
+    default_rule: "When generating multiple entities of the same type, vary meaningful business fields instead of adding cosmetic suffixes only."
+    rules:
+      - entity: user_batch_input
+        must_differ_by: [email, username]
+        notes:
+          - "Email uniqueness is hard-required by backend logic."
+          - "Username should also differ in batch creation to avoid operational ambiguity."
+      - entity: quest_batch_input
+        must_differ_by: [title, description]
+        notes:
+          - "If generating multiple quests for one owner, do not reuse the same title+description pair."
+          - "Prefer varying scheduled time, reward amount, audience, and location mode when requested."
+  edge_cases:
+    - id: missing_profile_location_for_profile_backed_quest
+      condition: "Quest requests visible profile-backed location but the acting user has unusable profile location."
+      resolution: "Run set_profile_location first or switch the quest to supported custom/off location behavior."
+      failure_mode: retry_with_precondition
+      source_refs: [location_settings_service, quest_validation_service, service_errors]
+    - id: invalid_circle_visibility_selection
+      condition: "Quest or exact-location visibility references circles not owned by the acting user."
+      resolution: "Reject the request instead of silently rewriting the selection."
+      failure_mode: fail_closed
+      source_refs: [quest_visibility_service, location_settings_service, service_errors]
+    - id: no_circle_contacts_for_exact_user_visibility
+      condition: "Exact profile location is requested for selected users who are not connected through circles."
+      resolution: "Reject the request and require valid connected users only."
+      failure_mode: fail_closed
+      source_refs: [location_settings_service, service_errors]
+    - id: unresolved_custom_location
+      condition: "Custom quest or profile address cannot resolve into usable coordinates."
+      resolution: "Stop and require lookup-backed selection, reverse lookup, or corrected manual address."
+      failure_mode: fail_closed
+      source_refs: [location_settings_service, location_lookup_controller, service_errors]
+    - id: insufficient_unique_batch_payloads
+      condition: "Batch creation request cannot produce the requested count of meaningfully distinct payloads."
+      resolution: "Stop and ask for broader generation constraints or reduced count."
+      failure_mode: fail_closed
+      source_refs: [quest_validation_service, rich_text_validator]
+    - id: duplicate_circle_name_for_owner
+      condition: "Circle creation or rename reuses a name already owned by the same user."
+      resolution: "Reject the request instead of silently renaming the circle."
+      failure_mode: fail_closed
+      source_refs: [circle_service, service_errors]
+    - id: assigning_non_connection_to_circle
+      condition: "A user is being assigned to circles without an accepted circle relation to the acting owner."
+      resolution: "Reject the request and require an existing accepted connection first."
+      failure_mode: fail_closed
+      source_refs: [circle_service, circle_membership_service, service_errors]
+    - id: circle_request_requires_recipient_acceptance
+      condition: "A new connection invite exists but the recipient has not accepted it yet."
+      resolution: "Do not treat the relation as connected. Either stop, or require an explicit recipient-side accept step."
+      failure_mode: fail_closed
+      source_refs: [circle_relation_service, circle_service, service_errors]
+    - id: automated_accept_without_recipient_context
+      condition: "A workflow attempts to accept a circle request without acting as the request recipient."
+      resolution: "Reject the automation path and require recipient-authenticated or multi-actor execution context."
+      failure_mode: fail_closed
+      source_refs: [circle_relation_service, service_errors]
+    - id: duplicate_quest_application
+      condition: "The acting user already has an application for the same quest."
+      resolution: "Reject the second application instead of overwriting the first one silently."
+      failure_mode: fail_closed
+      source_refs: [quest_application_service, service_errors]
+    - id: quest_creator_cannot_apply
+      condition: "The acting user is the creator of the quest they are trying to apply to."
+      resolution: "Reject the application."
+      failure_mode: fail_closed
+      source_refs: [quest_application_service, service_errors]
+    - id: approving_application_with_no_open_slots
+      condition: "A quest already has all worker spots filled for its assignee target."
+      resolution: "Reject further approvals until status or assignees change."
+      failure_mode: fail_closed
+      source_refs: [quest_application_service, service_errors]
+    - id: declining_application_when_not_open_or_pending
+      condition: "A decline action is attempted when the quest is not OPEN or the application is not PENDING."
+      resolution: "Reject the decline action instead of mutating a non-pending application."
+      failure_mode: fail_closed
+      source_refs: [quest_application_service, service_errors]
+    - id: starting_quest_before_assigned
+      condition: "A quest is being started before it reaches ASSIGNED status."
+      resolution: "Reject the start action."
+      failure_mode: fail_closed
+      source_refs: [quest_state_transition_service, quest_service, service_errors]
+    - id: completing_quest_before_in_progress
+      condition: "A quest is being completed before it reaches IN_PROGRESS status."
+      resolution: "Reject the complete action."
+      failure_mode: fail_closed
+      source_refs: [quest_state_transition_service, quest_service, service_errors]
+    - id: term_change_decision_without_authority
+      condition: "A quest term-change confirmation or rejection is attempted by someone other than an admin or approved applicant."
+      resolution: "Reject the action and require real approved-worker or admin context."
+      failure_mode: fail_closed
+      source_refs: [quest_state_transition_service, quest_access_policy_service, service_errors]
+    - id: term_change_decision_without_pending_state
+      condition: "A quest term-change confirmation or rejection is attempted when the quest is not in WAITING_CONFIRMATION or lacks restorable pending state."
+      resolution: "Reject the action instead of guessing a status or applying time fields."
+      failure_mode: fail_closed
+      source_refs: [quest_state_transition_service, quest_service, service_errors]
+    - id: auto_start_without_real_applications
+      condition: "A prepare-to-start flow tries to approve or start a quest before real applications exist from authenticated applicant contexts."
+      resolution: "Stop the composite workflow and require real applicant-side execution first."
+      failure_mode: fail_closed
+      source_refs: [quest_application_service, quest_service, service_errors]
+    - id: unexpected_applicant_outside_selected_people
+      condition: "A selected-people circle-only quest receives an application from someone outside the intended selected worker set."
+      resolution: "Do not auto-approve that application. Either leave it pending for manual review or explicitly decline it through owner/admin context."
+      failure_mode: fail_closed
+      source_refs: [quest_application_service, quest_visibility_service, service_errors]
+    - id: owner_term_change_requires_worker_decision
+      condition: "An owner changes the term on an assigned or in-progress quest and expects the change to apply immediately."
+      resolution: "Move the quest into WAITING_CONFIRMATION and require approved-worker or admin term decision flow."
+      failure_mode: fail_closed
+      source_refs: [quest_update_service, quest_state_transition_service, service_errors]
+    - id: relative_schedule_without_timezone
+      condition: "A voice flow uses relative time such as tomorrow, next week, or tonight without a reliable caller timezone."
+      resolution: "Stop and require explicit timezone or an already resolved absolute timestamp."
+      failure_mode: fail_closed
+      source_refs: [quest_validation_service, service_errors]
+    - id: unresolved_selected_people
+      condition: "Selected people in a voice flow cannot be resolved safely into concrete user ids or accepted connections."
+      resolution: "Stop and require disambiguation instead of guessing the audience."
+      failure_mode: fail_closed
+      source_refs: [app_user_lookup_service, circle_service, circle_relation_service, service_errors]
+    - id: sandbox_flow_without_admin_or_dev_scope
+      condition: "A sandbox or synthetic flow is requested outside admin authority or outside explicitly allowed developer-controlled scope."
+      resolution: "Reject the sandbox flow instead of falling back to production mutation paths."
+      failure_mode: fail_closed
+      source_refs: [agents_doc, documentation_sync_policy_doc, service_errors]
+    - id: sandbox_flow_without_synthetic_marker_plan
+      condition: "A sandbox flow creates synthetic entities without a plan to keep them distinguishable from real user data."
+      resolution: "Stop and require explicit synthetic-marker strategy before backend implementation."
+      failure_mode: fail_closed
+      source_refs: [business_logic_doc, domain_technical_doc]
+    - id: chat_without_current_accepted_relation
+      condition: "A user tries to open, keep, or see chat access through a pending, blocked, or stale social relation."
+      resolution: "Filter the contact or conversation out of chat workspace and reject direct chat access until a current accepted relation exists."
+      failure_mode: fail_closed
+      source_refs: [chat_service, circle_relation_service, circle_membership_service, service_errors]
+
+documentation_sync:
+  required_docs:
+    - AGENTS.md
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/documentation-sync-policy.md
+  required_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  rules:
+    - id: documentation_updates_required_for_logic_changes
+      description: "Logical changes must propagate into the living docs and agent-safety artifacts in the same change."
+      source_refs: [agents_doc, business_logic_doc, domain_technical_doc, documentation_sync_policy_doc]
+      doc_paths:
+        - AGENTS.md
+        - docs/agent-operating-model.md
+        - docs/documentation-sync-policy.md
+      must_contain_all:
+        - "update all affected living docs in the same change"
+        - "No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together."
+        - "A logic change is not complete when only code and tests are updated."
+    - id: chat_requires_current_accepted_relation
+      description: "Chat access must stay restricted to current accepted relations, not pending or stale ones."
+      source_refs: [chat_service, circle_relation_service, circle_membership_service, business_logic_doc, domain_technical_doc]
+      doc_paths:
+        - docs/business-logic.md
+        - docs/domain-technical.md
+        - docs/agent-operating-model.md
+        - docs/documentation-sync-policy.md
+      must_contain_all:
+        - "Pending circle requests do not create chat eligibility."
+        - "Chat workspace only includes current accepted circle contacts."
+        - "Existing conversation history does not preserve chat access after the accepted relation is lost."
+    - id: sandbox_flow_stays_separate_from_production_flow
+      description: "Sandbox and synthetic flows must stay explicitly separated from production-like user actions."
+      source_refs: [business_logic_doc, domain_technical_doc, documentation_sync_policy_doc]
+      doc_paths:
+        - docs/business-logic.md
+        - docs/domain-technical.md
+        - docs/agent-operating-model.md
+      must_contain_all:
+        - "Sandbox flow must stay separate from real-life product flow."
+        - "sandbox behavior must stay separate from production mutation semantics"
+        - "Internal sandbox flow is a separate capability from production-like voice flow."
+
+enums:
+  - id: app_user_role
+    java_class: com.themuffinman.app.identity.model.AppUserRole
+    values: [USER, ADMIN]
+  - id: quest_status
+    java_class: com.themuffinman.app.workmarket.model.QuestStatus
+    values: [OPEN, ASSIGNED, WAITING_CONFIRMATION, IN_PROGRESS, COMPLETED, CANCELLED]
+  - id: quest_audience
+    java_class: com.themuffinman.app.workmarket.model.QuestAudience
+    values: [CIRCLES, EVERYONE]
+  - id: user_location_mode
+    java_class: com.themuffinman.app.location.model.UserLocationMode
+    values: ["OFF", "APPROXIMATE", "EXACT"]
+  - id: quest_location_visibility
+    java_class: com.themuffinman.app.location.model.QuestLocationVisibility
+    values: ["INHERIT", "OFF", "APPROXIMATE", "EXACT"]
+  - id: quest_location_source
+    java_class: com.themuffinman.app.location.model.QuestLocationSource
+    values: [PROFILE, CUSTOM]
+  - id: exact_location_visibility_scope
+    java_class: com.themuffinman.app.location.model.ExactLocationVisibilityScope
+    values: [NOBODY, EVERYONE, CIRCLES, USERS]
+
+api:
+  endpoints:
+    - id: auth_register
+      method: POST
+      path: /auth/register
+      controller_class: com.themuffinman.app.identity.controller.AuthController
+      handler_method: register
+    - id: auth_me
+      method: GET
+      path: /auth/me
+      controller_class: com.themuffinman.app.identity.controller.AuthController
+      handler_method: me
+    - id: update_current_user
+      method: PUT
+      path: /app_users/me
+      controller_class: com.themuffinman.app.identity.controller.AppUserController
+      handler_method: updateCurrentAppUser
+    - id: create_quest
+      method: POST
+      path: /quests
+      controller_class: com.themuffinman.app.workmarket.controller.QuestController
+      handler_method: createQuest
+    - id: lookup_location
+      method: POST
+      path: /location/lookup
+      controller_class: com.themuffinman.app.location.controller.LocationLookupController
+      handler_method: lookup
+    - id: reverse_lookup_location
+      method: POST
+      path: /location/reverse-lookup
+      controller_class: com.themuffinman.app.location.controller.LocationLookupController
+      handler_method: reverseLookup
+    - id: create_circle_request
+      method: POST
+      path: /circles/requests
+      controller_class: com.themuffinman.app.social.controller.CircleController
+      handler_method: createCircleRequest
+    - id: accept_circle_request
+      method: PATCH
+      path: /circles/requests/{id}/accept
+      controller_class: com.themuffinman.app.social.controller.CircleController
+      handler_method: acceptCircleRequest
+    - id: create_circle
+      method: POST
+      path: /circles/groups
+      controller_class: com.themuffinman.app.social.controller.CircleController
+      handler_method: createCircle
+    - id: update_connection_circles
+      method: PUT
+      path: /circles/connections/{userId}/circles
+      controller_class: com.themuffinman.app.social.controller.CircleController
+      handler_method: updateConnectionCircles
+    - id: update_connection_circles_bulk
+      method: PUT
+      path: /circles/connections/circles/bulk
+      controller_class: com.themuffinman.app.social.controller.CircleController
+      handler_method: updateConnectionCirclesBulk
+    - id: apply_to_quest
+      method: POST
+      path: /quests/{questId}/applications
+      controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+      handler_method: applyForQuest
+    - id: approve_application
+      method: PATCH
+      path: /quests/{questId}/applications/{applicationId}/approve
+      controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+      handler_method: approveApplication
+    - id: decline_application
+      method: PATCH
+      path: /quests/{questId}/applications/{applicationId}/decline
+      controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+      handler_method: declineApplication
+    - id: start_quest
+      method: PATCH
+      path: /quests/{id}/start
+      controller_class: com.themuffinman.app.workmarket.controller.QuestController
+      handler_method: startQuest
+    - id: complete_quest
+      method: PATCH
+      path: /quests/{id}/complete
+      controller_class: com.themuffinman.app.workmarket.controller.QuestController
+      handler_method: completeQuest
+    - id: confirm_quest_term_change
+      method: PATCH
+      path: /quests/{id}/term/confirm
+      controller_class: com.themuffinman.app.workmarket.controller.QuestController
+      handler_method: confirmQuestTermChange
+    - id: reject_quest_term_change
+      method: PATCH
+      path: /quests/{id}/term/reject
+      controller_class: com.themuffinman.app.workmarket.controller.QuestController
+      handler_method: rejectQuestTermChange
+    - id: update_quest
+      method: PUT
+      path: /quests/{id}
+      controller_class: com.themuffinman.app.workmarket.controller.QuestController
+      handler_method: updateQuest
+    - id: create_or_update_review
+      method: POST
+      path: /quests/{questId}/reviews
+      controller_class: com.themuffinman.app.workmarket.controller.UserReviewController
+      handler_method: createOrUpdateReview
+
+intents:
+  - id: create_user
+    description: "Create a normal end-user account through the public registration flow."
+    mutating: true
+    required_inputs:
+      - email
+      - username
+      - password
+    optional_inputs:
+      - profile_description
+      - profile_avatar_data_url
+      - location_settings
+    defaults:
+      - field: role
+        value: USER
+    workflow:
+      - step: 1
+        action: "Normalize email and validate required registration inputs."
+        source_refs: [auth_controller, app_user_service, rich_text_validator, service_errors]
+        fail_if:
+          - "email is blank or invalid"
+          - "username is blank"
+          - "password is blank"
+      - step: 2
+        action: "Create the user through the registration endpoint."
+        endpoint_id: auth_register
+        source_refs: [auth_controller]
+      - step: 3
+        action: "If profile or location enrichment is requested, use the authenticated self-update flow after registration."
+        endpoint_id: update_current_user
+        source_refs: [app_user_controller, app_user_request_dto, app_user_service, location_settings_service]
+
+  - id: set_profile_location
+    description: "Set or clear the authenticated user's profile location through the self-update flow."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - location_mode
+    optional_inputs:
+      - default_radius_km
+      - exact_visibility_scope
+      - exact_visible_circle_ids
+      - exact_visible_user_ids
+      - lookup_query
+      - latitude
+      - longitude
+      - provider
+      - provider_place_id
+      - label
+      - country_code
+      - country
+      - locality
+      - postal_code
+      - street
+      - house_number
+      - resolved_at
+    defaults:
+      - field: location_mode
+        value: "OFF"
+      - field: default_radius_km
+        value: 10
+      - field: exact_visibility_scope
+        value: NOBODY
+    workflow:
+      - step: 1
+        action: "Build a self-update payload that includes the current authenticated user's required email and username plus nested locationSettings."
+        source_refs: [app_user_controller, app_user_request_dto, user_location_settings_request_dto, app_user_service]
+        fail_if:
+          - "authenticated user context is missing"
+          - "required self-update identity fields are unavailable"
+      - step: 2
+        when: "location_mode == OFF"
+        action: "Use OFF mode to clear stored profile coordinates and provider metadata."
+        source_refs: [location_settings_service, service_errors]
+      - step: 3
+        when: "location_mode != OFF and latitude+longitude are provided"
+        action: "Use provided coordinates directly inside locationSettings."
+        source_refs: [user_location_settings_request_dto, location_settings_service, location_reverse_lookup_request_dto]
+      - step: 4
+        when: "location_mode != OFF and latitude+longitude are provided and human-readable address fields are missing"
+        action: "Optionally resolve the nearest address through reverse lookup before saving the profile."
+        endpoint_id: reverse_lookup_location
+        source_refs: [location_lookup_controller, location_reverse_lookup_request_dto, location_settings_service]
+      - step: 5
+        when: "location_mode != OFF and lookup_query is provided"
+        action: "Resolve a candidate address through lookup and use a selected result to fill label, address parts, coordinates, provider, and resolvedAt."
+        endpoint_id: lookup_location
+        source_refs: [location_lookup_controller, location_lookup_request_dto, location_settings_service]
+        fail_if:
+          - "lookup returns no acceptable candidate and no coordinates are available"
+      - step: 6
+        when: "location_mode != OFF and only manual address fields are provided"
+        action: "Allow save only if the backend can auto-resolve the manual address into usable coordinates."
+        source_refs: [location_settings_service, service_errors]
+        fail_if:
+          - "manual address cannot be resolved into usable coordinates"
+      - step: 7
+        when: "exact_visibility_scope == CIRCLES"
+        action: "Require at least one owner-owned circle id."
+        source_refs: [location_settings_service, service_errors]
+        fail_if:
+          - "no exact_visible_circle_ids are provided"
+          - "selected circle ids are not owned by the authenticated user"
+      - step: 8
+        when: "exact_visibility_scope == USERS"
+        action: "Require at least one selected user and only allow existing circle contacts."
+        source_refs: [location_settings_service, service_errors]
+        fail_if:
+          - "no exact_visible_user_ids are provided"
+          - "selected users are invalid or not connected through circles"
+      - step: 9
+        action: "Persist the profile location through the current-user update endpoint."
+        endpoint_id: update_current_user
+        source_refs: [app_user_controller, app_user_request_dto, location_settings_service]
+
+  - id: create_circle_connection
+    description: "Send one connection invite from the authenticated user to another user."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - recipient_id
+    optional_inputs: []
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Require a target recipient id and reject self-invite."
+        source_refs: [circle_request_create_dto, circle_relation_service, service_errors]
+        fail_if:
+          - "recipient_id is missing"
+          - "recipient_id equals the authenticated user id"
+      - step: 2
+        action: "Reject the invite if any relation already exists or if one side has blocked the other."
+        source_refs: [circle_relation_service, service_errors]
+        fail_if:
+          - "a circle or pending request already exists between the users"
+          - "the target relation is blocked"
+      - step: 3
+        action: "Create the invite through the circle-request endpoint."
+        endpoint_id: create_circle_request
+        source_refs: [circle_controller, circle_request_create_dto, circle_relation_service]
+
+  - id: accept_circle_connection
+    description: "Accept one incoming connection invite as the recipient."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - request_id
+    optional_inputs: []
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Require the acting user to be the invite recipient."
+        source_refs: [circle_relation_service, service_errors]
+        fail_if:
+          - "request_id is missing"
+          - "acting user is not the recipient of the request"
+      - step: 2
+        action: "Reject acceptance if the request is already accepted."
+        source_refs: [circle_relation_service, service_errors]
+        fail_if:
+          - "the request has already been accepted"
+      - step: 3
+        action: "Accept the invite through the recipient-only accept endpoint."
+        endpoint_id: accept_circle_request
+        source_refs: [circle_controller, circle_relation_service]
+
+  - id: create_circle
+    description: "Create one named circle owned by the authenticated user."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - name
+    optional_inputs: []
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Normalize and validate the circle name."
+        source_refs: [circle_group_request_dto, circle_service, service_errors]
+        fail_if:
+          - "name is blank after trim"
+          - "name exceeds 80 characters"
+      - step: 2
+        action: "Reject duplicate names inside the same owner scope."
+        source_refs: [circle_service, service_errors]
+        fail_if:
+          - "the authenticated user already owns a circle with the same normalized name"
+      - step: 3
+        action: "Persist the circle through the create-circle endpoint."
+        endpoint_id: create_circle
+        source_refs: [circle_controller, circle_group_request_dto, circle_service]
+
+  - id: assign_circle_members
+    description: "Assign one or more existing connected users into circles owned by the authenticated user."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - assignment_mode
+    optional_inputs:
+      - target_user_id
+      - target_user_ids
+      - circle_ids
+      - circle_id
+      - bulk_action
+    defaults:
+      - field: assignment_mode
+        value: single_sync
+    workflow:
+      - step: 1
+        when: "assignment_mode == single_sync"
+        action: "Require one target_user_id and a replacement set of owner-owned circle ids."
+        source_refs: [connection_circle_update_dto, circle_service, circle_membership_service, service_errors]
+        fail_if:
+          - "target_user_id is missing"
+          - "one or more circle_ids are invalid for the authenticated owner"
+      - step: 2
+        when: "assignment_mode == single_sync"
+        action: "Allow the single-sync mode only for an already connected user."
+        source_refs: [circle_service, service_errors]
+        fail_if:
+          - "target user is not an accepted circle connection"
+      - step: 3
+        when: "assignment_mode == single_sync"
+        action: "Replace the target contact's current owner-side circle assignments with the requested set."
+        endpoint_id: update_connection_circles
+        source_refs: [circle_controller, connection_circle_update_dto, circle_service, circle_membership_service]
+      - step: 4
+        when: "assignment_mode == bulk_add_or_remove"
+        action: "Require one owner-owned circle_id, one or more target_user_ids, and a bulk action of ADD or REMOVE."
+        source_refs: [bulk_circle_membership_update_dto, circle_service, circle_membership_service, service_errors]
+        fail_if:
+          - "circle_id is missing"
+          - "target_user_ids are missing"
+          - "bulk_action is missing"
+      - step: 5
+        when: "assignment_mode == bulk_add_or_remove"
+        action: "Reject any target user who is not an accepted circle connection of the acting owner."
+        source_refs: [circle_service, service_errors]
+        fail_if:
+          - "one or more target users are not accepted circle connections"
+      - step: 6
+        when: "assignment_mode == bulk_add_or_remove"
+        action: "Apply the add-or-remove membership mutation through the bulk endpoint."
+        endpoint_id: update_connection_circles_bulk
+        source_refs: [circle_controller, bulk_circle_membership_update_dto, circle_service, circle_membership_service]
+
+  - id: create_quest
+    description: "Create one quest for the authenticated acting user."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - title
+      - description
+      - reward_amount
+    optional_inputs:
+      - audience
+      - selected_circle_ids
+      - scheduled_at
+      - end_at
+      - location_visibility
+      - location_source
+      - location_label
+      - location_country_code
+      - location_country
+      - location_locality
+      - location_postal_code
+      - location_street
+      - location_house_number
+      - assignee_target
+      - images
+    defaults:
+      - field: audience
+        value: CIRCLES
+      - field: assignee_target
+        value: 1
+      - field: location_visibility
+        value: INHERIT
+      - field: location_source
+        value: PROFILE
+    workflow:
+      - step: 1
+        action: "Build a quest request payload and validate quest core fields, term flags, assignee target, image limits, and rich-text content."
+        source_refs: [quest_request_dto, quest_validation_service, rich_text_validator, service_errors]
+        fail_if:
+          - "title is missing"
+          - "description has no meaningful content"
+          - "reward amount is below minimum"
+          - "term_fixed is missing on create"
+          - "scheduled_at is missing when term_fixed is true"
+          - "end_at is not after scheduled_at"
+          - "assignee_target is below 1"
+          - "more than 10 images are provided"
+          - "an image is not a data URL"
+      - step: 2
+        when: "audience == EVERYONE"
+        action: "Clear or ignore selected circle visibility because public quests do not keep circle restrictions."
+        source_refs: [quest_validation_service, quest_visibility_service, service_errors]
+      - step: 3
+        when: "audience == CIRCLES and selected_circle_ids are provided"
+        action: "Validate each selected circle id against circles owned by the authenticated quest owner."
+        source_refs: [quest_validation_service, quest_visibility_service, service_errors]
+        fail_if:
+          - "audience is CIRCLES and selected circles are invalid for the owner"
+      - step: 4
+        when: "audience == CIRCLES and selected_circle_ids are omitted or empty"
+        action: "Allow the fallback visibility model where quest access is later resolved from the creator's accepted circle relation with the viewer."
+        source_refs: [quest_visibility_service, quest_validation_service]
+      - step: 5
+        when: "location_visibility == OFF"
+        action: "Clear quest location data and skip profile-location or custom-location requirements."
+        source_refs: [location_settings_service, service_errors]
+      - step: 6
+        when: "location_visibility != OFF and location_source == PROFILE"
+        action: "Use the creator's saved profile location snapshot for the quest."
+        source_refs: [location_settings_service, service_errors]
+        fail_if:
+          - "location_source is PROFILE with visible location but the user profile location is unusable"
+      - step: 7
+        when: "location_visibility == INHERIT and location_source == PROFILE and creator profile location mode == OFF"
+        action: "Allow inherited profile location to collapse to no quest location instead of forcing visible location."
+        source_refs: [location_settings_service]
+      - step: 8
+        when: "location_visibility != OFF and location_source == CUSTOM"
+        action: "Require at least one custom address field and rely on backend auto-resolution to obtain usable coordinates."
+        source_refs: [quest_request_dto, quest_validation_service, location_settings_service, service_errors]
+        fail_if:
+          - "custom location has no address-related field"
+          - "location_source is CUSTOM and coordinates cannot be resolved"
+      - step: 9
+        action: "Persist the quest through the quest create endpoint."
+        endpoint_id: create_quest
+        source_refs: [quest_controller, quest_request_dto, quest_service, quest_update_service]
+
+  - id: apply_to_quest
+    description: "Create one application for an open visible quest as a non-owner user."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - quest_id
+      - message
+      - proposed_price
+    optional_inputs: []
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Require an application payload with meaningful message content and a valid proposed price."
+        source_refs: [quest_application_request_dto, quest_application_service, rich_text_validator, service_errors]
+        fail_if:
+          - "message is blank or has no meaningful content"
+          - "proposed_price is below 0.01"
+      - step: 2
+        action: "Require the target quest to be visible to the acting user and currently OPEN."
+        source_refs: [quest_application_service, quest_visibility_service, service_errors]
+        fail_if:
+          - "quest is not visible to the acting user"
+          - "quest is not open"
+      - step: 3
+        action: "Reject self-application and duplicate application attempts."
+        source_refs: [quest_application_service, service_errors]
+        fail_if:
+          - "acting user is the quest creator"
+          - "acting user already has an application for the quest"
+      - step: 4
+        action: "Persist the application through the apply endpoint."
+        endpoint_id: apply_to_quest
+        source_refs: [quest_application_controller, quest_application_request_dto, quest_application_service]
+
+  - id: approve_application
+    description: "Approve one pending application for an open quest as quest owner or admin."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - quest_id
+      - application_id
+    optional_inputs: []
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Require the target quest to still be OPEN."
+        source_refs: [quest_application_service, service_errors]
+        fail_if:
+          - "quest is not open"
+      - step: 2
+        action: "Require owner-or-admin authority over the quest."
+        source_refs: [quest_application_service, service_errors]
+        fail_if:
+          - "acting user is neither quest owner nor admin"
+      - step: 3
+        action: "Require the target application to be pending."
+        source_refs: [quest_application_service, service_errors]
+        fail_if:
+          - "application is not pending"
+      - step: 4
+        action: "Reject approval if the quest already has all assignee spots filled."
+        source_refs: [quest_application_service, service_errors]
+        fail_if:
+          - "approved application count is already at or above assignee target"
+      - step: 5
+        action: "Approve the application through the approval endpoint and let the backend update quest status and decline other pending applications when all spots are filled."
+        endpoint_id: approve_application
+        source_refs: [quest_application_controller, quest_application_service, quest_state_transition_service]
+
+  - id: decline_application
+    description: "Decline one pending application for an open quest as quest owner or admin."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - quest_id
+      - application_id
+    optional_inputs: []
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Require the target quest to still be OPEN."
+        source_refs: [quest_application_service, service_errors]
+        fail_if:
+          - "quest is not open"
+      - step: 2
+        action: "Require owner-or-admin authority over the quest."
+        source_refs: [quest_application_service, service_errors]
+        fail_if:
+          - "acting user is neither quest owner nor admin"
+      - step: 3
+        action: "Require the target application to be pending."
+        source_refs: [quest_application_service, service_errors]
+        fail_if:
+          - "application is not pending"
+      - step: 4
+        action: "Decline the application through the decline endpoint and notify the applicant."
+        endpoint_id: decline_application
+        source_refs: [quest_application_controller, quest_application_service]
+
+  - id: start_quest
+    description: "Start one assigned quest as owner, admin, or approved worker."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - quest_id
+    optional_inputs: []
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Require execution authority: owner, admin, or approved applicant."
+        source_refs: [quest_state_transition_service, quest_service, service_errors]
+        fail_if:
+          - "acting user lacks execution authority for the quest"
+      - step: 2
+        action: "Require the quest to already be in ASSIGNED status."
+        source_refs: [quest_state_transition_service, quest_service, service_errors]
+        fail_if:
+          - "quest is not assigned"
+      - step: 3
+        action: "Start the quest through the start endpoint."
+        endpoint_id: start_quest
+        source_refs: [quest_controller, quest_service, quest_state_transition_service]
+
+  - id: complete_quest
+    description: "Complete one in-progress quest as owner, admin, or approved worker."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - quest_id
+    optional_inputs: []
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Require execution authority: owner, admin, or approved applicant."
+        source_refs: [quest_state_transition_service, quest_service, service_errors]
+        fail_if:
+          - "acting user lacks execution authority for the quest"
+      - step: 2
+        action: "Require the quest to already be in IN_PROGRESS status."
+        source_refs: [quest_state_transition_service, quest_service, quest_access_policy_service, service_errors]
+        fail_if:
+          - "quest is not in progress"
+      - step: 3
+        action: "Complete the quest through the complete endpoint."
+        endpoint_id: complete_quest
+        source_refs: [quest_controller, quest_service, quest_state_transition_service]
+
+  - id: confirm_quest_term_change
+    description: "Confirm one pending quest term change as an approved worker or admin."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - quest_id
+    optional_inputs: []
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Require term-decision authority: admin or approved applicant."
+        source_refs: [quest_state_transition_service, quest_access_policy_service, service_errors]
+        fail_if:
+          - "acting user is neither admin nor approved applicant"
+      - step: 2
+        action: "Require the quest to be in WAITING_CONFIRMATION with a pending term payload."
+        source_refs: [quest_state_transition_service, quest_service, service_errors]
+        fail_if:
+          - "quest is not waiting for confirmation"
+          - "no pending term change exists"
+          - "the backend cannot restore the previous quest status"
+      - step: 3
+        action: "Confirm the term change through the dedicated endpoint and restore the previous active quest status."
+        endpoint_id: confirm_quest_term_change
+        source_refs: [quest_controller, quest_service, quest_state_transition_service]
+
+  - id: reject_quest_term_change
+    description: "Reject one pending quest term change as an approved worker or admin."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - quest_id
+    optional_inputs: []
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Require term-decision authority: admin or approved applicant."
+        source_refs: [quest_state_transition_service, quest_access_policy_service, service_errors]
+        fail_if:
+          - "acting user is neither admin nor approved applicant"
+      - step: 2
+        action: "Require the quest to be in WAITING_CONFIRMATION and have a restorable previous status."
+        source_refs: [quest_state_transition_service, quest_service, service_errors]
+        fail_if:
+          - "quest is not waiting for confirmation"
+          - "the backend cannot restore the previous quest status"
+      - step: 3
+        action: "Reject the term change through the dedicated endpoint and restore the previous active quest status without applying pending term fields."
+        endpoint_id: reject_quest_term_change
+        source_refs: [quest_controller, quest_service, quest_state_transition_service]
+
+  - id: request_owner_term_change
+    description: "Request or apply a quest term change through the owner update flow."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - quest_id
+      - scheduled_at
+    optional_inputs:
+      - ends_at
+      - term_fixed
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Require owner authority over the quest update flow."
+        source_refs: [quest_service, quest_update_service, service_errors]
+        fail_if:
+          - "acting user is not the quest owner"
+      - step: 2
+        action: "Validate the requested term payload."
+        source_refs: [quest_request_dto, quest_validation_service, service_errors]
+        fail_if:
+          - "scheduled_at and term flags are invalid"
+          - "ends_at is invalid for the requested schedule"
+      - step: 3
+        when: "quest status is OPEN or CANCELLED"
+        action: "Apply the term directly through quest update without waiting for worker confirmation."
+        endpoint_id: update_quest
+        source_refs: [quest_controller, quest_service, quest_update_service, quest_state_transition_service]
+      - step: 4
+        when: "quest status is ASSIGNED or IN_PROGRESS"
+        action: "Queue the term change through quest update and move the quest into WAITING_CONFIRMATION."
+        endpoint_id: update_quest
+        source_refs: [quest_controller, quest_service, quest_update_service, quest_state_transition_service]
+
+  - id: create_review
+    description: "Create or update a post-completion review for the employer or approved worker."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - quest_id
+      - reviewed_user_id
+      - stars
+    optional_inputs:
+      - comment
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Require the quest to already be COMPLETED."
+        source_refs: [user_review_service, quest_service, service_errors]
+        fail_if:
+          - "quest is not completed"
+      - step: 2
+        action: "Validate review payload and reject self-review."
+        source_refs: [user_review_request_dto, user_review_service, rich_text_validator, service_errors]
+        fail_if:
+          - "reviewed_user_id is missing"
+          - "stars are outside 1..5"
+          - "comment is too long"
+          - "acting user is reviewing themselves"
+      - step: 3
+        action: "Require the target review relationship to match completed quest roles."
+        source_refs: [user_review_service, quest_application_service, service_errors]
+        fail_if:
+          - "acting user is not allowed to review the employer for this quest"
+          - "reviewed user was not an approved worker for this quest"
+      - step: 4
+        action: "Persist the review through the review endpoint."
+        endpoint_id: create_or_update_review
+        source_refs: [user_review_controller, user_review_service, user_review_request_dto]
+
+  - id: create_user_with_quests
+    description: "Create one normal user and then create a caller-defined number of distinct quests owned by that user."
+    mutating: true
+    required_inputs:
+      - base_email
+      - username
+      - password
+      - quest_count
+      - quest_templates
+    optional_inputs:
+      - profile_description
+      - profile_avatar_data_url
+      - location_settings
+      - shared_quest_defaults
+    defaults:
+      - field: quest_count
+        value: 1
+    workflow:
+      - step: 1
+        action: "Execute the create_user workflow first and stop if user creation fails."
+        intent_ref: create_user
+        source_refs: [auth_controller, app_user_service, app_user_controller]
+      - step: 2
+        action: "If quest defaults require visible profile-backed location, ensure the user profile location is configured before quest creation."
+        intent_ref: set_profile_location
+        endpoint_id: update_current_user
+        source_refs: [location_settings_service, app_user_controller, service_errors]
+      - step: 3
+        when: "shared_quest_defaults or templates require selected circle ids that do not yet exist"
+        action: "Create missing owner circles before quest creation."
+        intent_ref: create_circle
+        endpoint_id: create_circle
+        source_refs: [circle_controller, circle_service, service_errors]
+      - step: 4
+        when: "shared_quest_defaults or templates require selected users inside owner circles"
+        action: "Assign connected users into owner circles before creating the quests."
+        intent_ref: assign_circle_members
+        source_refs: [circle_controller, circle_service, circle_membership_service, service_errors]
+      - step: 5
+        action: "Ensure the requested batch count is at least 1 and that enough meaningfully distinct quest payloads can be produced."
+        source_refs: [quest_validation_service, rich_text_validator]
+        fail_if:
+          - "quest_count is below 1"
+          - "not enough unique quest payloads are available for the requested batch"
+      - step: 6
+        action: "Create quests one by one using the create_quest workflow and stop on the first unsafe validation failure."
+        intent_ref: create_quest
+        endpoint_id: create_quest
+        source_refs: [quest_controller, quest_service, quest_update_service, location_settings_service]
+
+  - id: create_circle_only_quest_for_selected_people
+    description: "Prepare a circle-limited quest for selected people by ensuring connection, circle membership, and then quest creation."
+    mutating: true
+    required_inputs:
+      - authenticated_user
+      - selected_people
+      - circle_name
+      - quest_payload
+    optional_inputs:
+      - existing_circle_id
+      - auto_invite_missing_people
+      - multi_actor_accept_context
+    defaults:
+      - field: auto_invite_missing_people
+        value: false
+    workflow:
+      - step: 1
+        action: "Require at least one selected person and a quest payload that uses audience CIRCLES."
+        source_refs: [quest_request_dto, circle_service, service_errors]
+        fail_if:
+          - "selected_people is empty"
+          - "quest_payload audience is not CIRCLES"
+      - step: 2
+        when: "existing_circle_id is not provided"
+        action: "Create the owner circle that will hold the selected people."
+        intent_ref: create_circle
+        endpoint_id: create_circle
+        source_refs: [circle_controller, circle_service]
+      - step: 3
+        when: "all selected people are already accepted connections"
+        action: "Assign the selected accepted connections into the owner circle."
+        intent_ref: assign_circle_members
+        source_refs: [circle_controller, circle_service, circle_membership_service]
+      - step: 4
+        when: "some selected people are not accepted connections and auto_invite_missing_people == true"
+        action: "Send invites to the missing people, but do not treat them as connected yet."
+        intent_ref: create_circle_connection
+        endpoint_id: create_circle_request
+        source_refs: [circle_controller, circle_relation_service, service_errors]
+      - step: 5
+        when: "some selected people are not accepted connections and multi_actor_accept_context is provided"
+        action: "Allow recipient-side acceptance only through explicit multi-actor execution context."
+        intent_ref: accept_circle_connection
+        endpoint_id: accept_circle_request
+        source_refs: [circle_controller, circle_relation_service, service_errors]
+      - step: 6
+        when: "after connection checks and optional accept flow, some selected people are still not accepted connections"
+        action: "Stop instead of creating a misleading circle-only quest for people who cannot actually be added."
+        source_refs: [circle_service, circle_relation_service, service_errors]
+        fail_if:
+          - "one or more selected people are still not accepted connections"
+      - step: 7
+        action: "Create the final circle-only quest using the prepared owner circle selection."
+        intent_ref: create_quest
+        endpoint_id: create_quest
+        source_refs: [quest_controller, quest_service, quest_visibility_service, service_errors]
+
+  - id: prepare_circle_only_quest_flow_to_start
+    description: "Prepare a selected-people circle quest all the way to ASSIGNED or STARTED, but only when each actor-side prerequisite is available."
+    mutating: true
+    required_inputs:
+      - owner_user
+      - selected_people
+      - circle_name
+      - quest_payload
+    optional_inputs:
+      - existing_circle_id
+      - auto_invite_missing_people
+      - multi_actor_accept_context
+      - applicant_payloads
+      - auto_approve_applicants
+      - auto_start_when_assigned
+      - execution_actor
+    defaults:
+      - field: auto_invite_missing_people
+        value: false
+      - field: auto_approve_applicants
+        value: false
+      - field: auto_start_when_assigned
+        value: false
+    workflow:
+      - step: 1
+        action: "Prepare the selected-people circle and create the circle-only quest first."
+        intent_ref: create_circle_only_quest_for_selected_people
+        source_refs: [circle_controller, circle_service, quest_controller, quest_service]
+      - step: 2
+        when: "applicant_payloads are provided"
+        action: "Require one applicant-side payload per intended worker and execute applications only in the authenticated context of each applicant."
+        source_refs: [quest_application_request_dto, quest_application_service, service_errors]
+        fail_if:
+          - "an applicant payload is missing for a person who must apply"
+          - "an applicant-side authenticated context is missing"
+      - step: 3
+        when: "applicant_payloads are provided"
+        action: "Create the applications one by one through the applicant-side workflow."
+        intent_ref: apply_to_quest
+        endpoint_id: apply_to_quest
+        source_refs: [quest_application_controller, quest_application_service, quest_visibility_service]
+      - step: 4
+        when: "auto_approve_applicants == true"
+        action: "Approve the target applications only from owner or admin context, respecting assignee_target capacity."
+        intent_ref: approve_application
+        endpoint_id: approve_application
+        source_refs: [quest_application_controller, quest_application_service, quest_state_transition_service, service_errors]
+      - step: 5
+        when: "auto_approve_applicants == true and applicant_payloads are missing"
+        action: "Stop because approval cannot happen before real applications exist."
+        source_refs: [quest_application_service, service_errors]
+        fail_if:
+          - "no real applications exist to approve"
+      - step: 6
+        when: "auto_start_when_assigned == true"
+        action: "Require the quest to already be ASSIGNED and require an execution actor that is owner, admin, or approved worker."
+        source_refs: [quest_service, quest_state_transition_service, service_errors]
+        fail_if:
+          - "quest is not assigned after approval flow"
+          - "execution_actor is missing"
+          - "execution_actor lacks execution authority"
+      - step: 7
+        when: "auto_start_when_assigned == true"
+        action: "Start the quest through the execution workflow."
+        intent_ref: start_quest
+        endpoint_id: start_quest
+        source_refs: [quest_controller, quest_service, quest_state_transition_service]
+
+  - id: voice_prepare_scheduled_circle_only_quest_for_selected_people
+    description: "Resolve a voice instruction for a scheduled circle-only quest and prepare it toward ASSIGNED or STARTED without guessing missing actor-side context."
+    mutating: true
+    required_inputs:
+      - owner_user
+      - requester_time_zone
+      - selected_people
+      - scheduling_request
+      - quest_payload_template
+    optional_inputs:
+      - existing_circle_id
+      - circle_name
+      - auto_invite_missing_people
+      - multi_actor_accept_context
+      - selected_applicant_payloads
+      - auto_approve_selected_applicants
+      - auto_decline_unexpected_applicants
+      - term_change_request
+      - review_handoff_plan
+      - auto_start_when_assigned
+      - auto_complete_after_execution
+      - execution_actor
+    defaults:
+      - field: auto_invite_missing_people
+        value: false
+      - field: auto_approve_selected_applicants
+        value: false
+      - field: auto_decline_unexpected_applicants
+        value: false
+      - field: auto_start_when_assigned
+        value: false
+      - field: auto_complete_after_execution
+        value: false
+    workflow:
+      - step: 1
+        action: "Resolve the voice scheduling request into an absolute quest timestamp in the caller's timezone before mutation."
+        source_refs: [quest_request_dto, quest_validation_service, service_errors]
+        fail_if:
+          - "requester_time_zone is missing"
+          - "scheduling_request cannot be resolved into an absolute scheduled_at"
+          - "resolved scheduled_at is invalid for quest creation"
+      - step: 2
+        action: "Resolve selected people into concrete user ids and reject ambiguous or unresolved matches."
+        source_refs: [app_user_lookup_service, circle_service, circle_relation_service, service_errors]
+        fail_if:
+          - "selected_people is empty"
+          - "one or more selected people cannot be resolved safely"
+      - step: 3
+        action: "Build a quest payload that forces audience CIRCLES and injects the resolved absolute schedule."
+        source_refs: [quest_request_dto, quest_validation_service, service_errors]
+        fail_if:
+          - "quest_payload_template is missing required quest fields"
+          - "the resolved payload does not use audience CIRCLES"
+      - step: 4
+        action: "Prepare the selected-people circle and create the scheduled circle-only quest."
+        intent_ref: create_circle_only_quest_for_selected_people
+        source_refs: [circle_controller, circle_service, quest_controller, quest_service]
+      - step: 5
+        when: "selected_applicant_payloads are provided"
+        action: "Require one applicant-authenticated payload per intended worker and keep the applicant set inside the resolved selected people set."
+        source_refs: [quest_application_request_dto, quest_application_service, service_errors]
+        fail_if:
+          - "an applicant payload is missing for a selected worker who must apply"
+          - "an applicant-side authenticated context is missing"
+          - "an applicant payload belongs to someone outside the resolved selected people set"
+      - step: 6
+        when: "selected_applicant_payloads are provided"
+        action: "Create the selected workers' applications through applicant-side execution only."
+        intent_ref: apply_to_quest
+        endpoint_id: apply_to_quest
+        source_refs: [quest_application_controller, quest_application_service, quest_visibility_service]
+      - step: 7
+        when: "auto_approve_selected_applicants == true"
+        action: "Approve only the intended selected pending applications from owner or admin context and stop when assignee_target capacity is reached."
+        intent_ref: approve_application
+        endpoint_id: approve_application
+        source_refs: [quest_application_controller, quest_application_service, quest_state_transition_service, service_errors]
+      - step: 8
+        when: "auto_approve_selected_applicants == true and selected_applicant_payloads are missing"
+        action: "Stop because selected approvals cannot happen before real selected applications exist."
+        source_refs: [quest_application_service, service_errors]
+        fail_if:
+          - "no real selected applications exist to approve"
+      - step: 9
+        when: "auto_decline_unexpected_applicants == true"
+        action: "Decline only pending applications from users outside the resolved selected people set through owner or admin context."
+        intent_ref: decline_application
+        endpoint_id: decline_application
+        source_refs: [quest_application_controller, quest_application_service, quest_visibility_service, service_errors]
+      - step: 10
+        when: "term_change_request is provided after the quest reaches ASSIGNED or IN_PROGRESS"
+        action: "Request the owner-side term change and expect WAITING_CONFIRMATION until approved-worker or admin decision completes."
+        intent_ref: request_owner_term_change
+        endpoint_id: update_quest
+        source_refs: [quest_controller, quest_service, quest_update_service, quest_state_transition_service]
+      - step: 11
+        when: "auto_start_when_assigned == true"
+        action: "Require the quest to already be ASSIGNED and require an execution actor that is owner, admin, or approved worker."
+        source_refs: [quest_service, quest_state_transition_service, service_errors]
+        fail_if:
+          - "quest is not assigned after selected approval flow"
+          - "execution_actor is missing"
+          - "execution_actor lacks execution authority"
+      - step: 12
+        when: "auto_start_when_assigned == true"
+        action: "Start the quest through the execution workflow."
+        intent_ref: start_quest
+        endpoint_id: start_quest
+        source_refs: [quest_controller, quest_service, quest_state_transition_service]
+      - step: 13
+        when: "auto_complete_after_execution == true"
+        action: "Complete the quest only after it has reached IN_PROGRESS and an execution-authorized actor is present."
+        intent_ref: complete_quest
+        endpoint_id: complete_quest
+        source_refs: [quest_controller, quest_service, quest_state_transition_service]
+      - step: 14
+        when: "review_handoff_plan is provided and the quest is COMPLETED"
+        action: "Hand off to post-completion review creation only for valid employer-worker review pairs."
+        intent_ref: create_review
+        endpoint_id: create_or_update_review
+        source_refs: [user_review_controller, user_review_service, quest_application_service, service_errors]
+
+  - id: create_sandbox_user_with_circle_and_quest_flow
+    description: "Plan a synthetic admin-only test-data flow that creates users, circles, quest applications, lifecycle transitions, and reviews without pretending it is a production user path."
+    mutating: true
+    required_inputs:
+      - admin_actor
+      - environment_scope
+      - synthetic_user_batch
+      - sandbox_flow_plan
+    optional_inputs:
+      - synthetic_circle_plan
+      - synthetic_quest_plan
+      - synthetic_application_plan
+      - synthetic_execution_plan
+      - synthetic_review_plan
+      - synthetic_marker_strategy
+    defaults: []
+    workflow:
+      - step: 1
+        action: "Require explicit admin authority and developer-controlled environment scope before any synthetic flow is allowed."
+        source_refs: [agents_doc, documentation_sync_policy_doc, service_errors]
+        fail_if:
+          - "admin_actor is missing"
+          - "environment_scope is not explicitly sandbox-safe"
+      - step: 2
+        action: "Require an explicit synthetic marker strategy so sandbox entities can later be distinguished from real data."
+        source_refs: [business_logic_doc, domain_technical_doc]
+        fail_if:
+          - "synthetic_marker_strategy is missing"
+      - step: 3
+        action: "Create the synthetic users and any required profile defaults."
+        intent_ref: create_user_with_quests
+        source_refs: [auth_controller, app_user_service, app_user_controller]
+      - step: 4
+        when: "synthetic_circle_plan is provided"
+        action: "Create synthetic circles and memberships as part of the sandbox dataset."
+        intent_ref: create_circle
+        source_refs: [circle_controller, circle_service, circle_membership_service]
+      - step: 5
+        when: "synthetic_quest_plan is provided"
+        action: "Create synthetic quests or selected-people quest flows from admin-controlled sandbox input."
+        intent_ref: create_circle_only_quest_for_selected_people
+        source_refs: [quest_controller, quest_service, circle_controller, circle_service]
+      - step: 6
+        when: "synthetic_application_plan is provided"
+        action: "Allow synthetic multi-actor application creation only because this flow is explicitly sandbox-only."
+        source_refs: [quest_application_service, documentation_sync_policy_doc]
+      - step: 7
+        when: "synthetic_execution_plan is provided"
+        action: "Allow synthetic approval, start, completion, and optional term-change scenarios only inside the sandbox contract."
+        source_refs: [quest_application_service, quest_service, quest_state_transition_service]
+      - step: 8
+        when: "synthetic_review_plan is provided"
+        action: "Allow synthetic review generation only after synthetic completion plan reaches COMPLETED state."
+        source_refs: [user_review_service, quest_service, service_errors]

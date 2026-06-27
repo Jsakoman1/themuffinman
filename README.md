@@ -23,7 +23,16 @@ themuffinman/
   apps/
     themuffinman/
   docs/
+    business-logic.md
+    domain-technical.md
 ```
+
+## Living Documentation
+
+- `docs/business-logic.md` explains product behavior in user-facing language.
+- `docs/domain-technical.md` tracks entities, relations, validations, permissions, and workflow rules.
+- `docs/source-of-truth-inventory.md` lists the main domain files and migrations to document next.
+- Keep both files aligned with the current codebase when meaningful domain behavior changes.
 
 ## IntelliJ Setup
 

@@ -52,14 +52,19 @@ public class ChatService {
 
     @Transactional(readOnly = true)
     public ChatWorkspaceDTO getWorkspace(AppUser currentUser) {
-        List<ChatConversation> conversations = chatConversationRepository.findDetailedByParticipantId(currentUser.getId());
+        List<ChatConversation> conversations = chatConversationRepository.findDetailedByParticipantId(currentUser.getId()).stream()
+                .filter(conversation -> isCurrentChatContact(currentUser, otherParticipant(conversation, currentUser)))
+                .toList();
         List<Long> conversationIds = conversations.stream()
                 .map(ChatConversation::getId)
                 .toList();
         Map<Long, Long> unreadCountsByConversationId = chatMessageRepository.findUnreadCountsByConversationIds(conversationIds, currentUser.getId()).stream()
                 .collect(Collectors.toMap(ChatMessageRepository.UnreadCountRow::getConversationId, ChatMessageRepository.UnreadCountRow::getUnreadCount));
 
-        Map<Long, List<CircleMembership>> membershipsByUserId = circleMembershipService.getMembershipsByUserIdForOwner(currentUser.getId());
+        Map<Long, List<CircleMembership>> membershipsByUserId = circleMembershipService.getMembershipsByUserIdForOwner(currentUser.getId()).entrySet().stream()
+                .filter(entry -> !entry.getValue().isEmpty())
+                .filter(entry -> isCurrentChatContact(currentUser, entry.getValue().getFirst().getMember()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         List<CircleGroup> ownedCircles = membershipsByUserId.values().stream()
                 .flatMap(List::stream)
                 .map(CircleMembership::getCircle)
@@ -75,7 +80,9 @@ public class ChatService {
         });
         for (ChatConversation conversation : conversations) {
             AppUser otherParticipant = otherParticipant(conversation, currentUser);
-            contactByUserId.putIfAbsent(otherParticipant.getId(), otherParticipant);
+            if (isCurrentChatContact(currentUser, otherParticipant)) {
+                contactByUserId.putIfAbsent(otherParticipant.getId(), otherParticipant);
+            }
         }
 
         Map<Long, ChatPresence> presenceByUserId = loadPresenceByUserId(contactByUserId.keySet().stream().toList());
@@ -194,6 +201,10 @@ public class ChatService {
             throw ServiceErrors.forbidden("You can only chat with people in your circles");
         }
         return otherUser;
+    }
+
+    private boolean isCurrentChatContact(AppUser currentUser, AppUser otherUser) {
+        return otherUser != null && circleRelationService.isCircleBetween(currentUser, otherUser);
     }
 
     private ChatConversation requireAccessibleConversation(Long conversationId, AppUser currentUser) {
