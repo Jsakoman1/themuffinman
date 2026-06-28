@@ -14,6 +14,9 @@ public class ChatConversationSummaryDTO {
     private Long conversationId;
     private Long otherUserId;
     private String otherUsername;
+    private String resolutionKey;
+    private String resolutionLabel;
+    private boolean exactResolutionEligible;
     @Nullable
     private String otherUserProfileDescription;
     @Nullable

@@ -53,5 +53,8 @@ class QuestMgrTest {
         assertEquals("Everyone", dto.getPresentation().getAudienceLabel());
         assertEquals("Unlimited", dto.getPresentation().getAssigneeTargetLabel());
         assertEquals(true, dto.getPresentation().isAssigneeTargetVisible());
+        assertEquals("quest:1", dto.getResolutionKey());
+        assertEquals("Fix fence by creator", dto.getResolutionLabel());
+        assertEquals(true, dto.isExactResolutionEligible());
     }
 }

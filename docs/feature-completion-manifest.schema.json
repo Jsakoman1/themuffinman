@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Feature Completion Manifest",
+  "type": "object",
+  "required": ["featureId", "title", "status", "riskTier", "planFile", "checklist", "artifacts"],
+  "additionalProperties": false,
+  "properties": {
+    "featureId": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "enum": ["draft", "in_progress", "complete"]},
+    "riskTier": {"type": "string", "enum": ["low", "medium", "high", "executor-critical"]},
+    "planFile": {"type": "string", "pattern": "^\\.agents/.+-plan\\.md$"},
+    "summary": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "checklist": {
+      "type": "object",
+      "required": [
+        "tempPlanCreated",
+        "codeImplemented",
+        "backendTestsPassed",
+        "frontendValidationPassed",
+        "docsSynced",
+        "agentModelSynced",
+        "destructivePolicyChecked",
+        "multilingualCoverageChecked"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tempPlanCreated": {"type": "boolean"},
+        "codeImplemented": {"type": "boolean"},
+        "backendTestsPassed": {"type": "boolean"},
+        "frontendValidationPassed": {"type": "boolean"},
+        "docsSynced": {"type": "boolean"},
+        "agentModelSynced": {"type": "boolean"},
+        "destructivePolicyChecked": {"type": "boolean"},
+        "multilingualCoverageChecked": {"type": "boolean"}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "required": ["codePaths", "docPaths", "testPaths", "auditCommands"],
+      "additionalProperties": false,
+      "properties": {
+        "codePaths": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "docPaths": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "testPaths": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "auditCommands": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  }
+}

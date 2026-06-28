@@ -31,6 +31,9 @@ public class QuestNewsItemResponseDTO {
     private QuestNewsDestinationType destinationType;
     @Nullable
     private Long destinationId;
+    private String resolutionKey;
+    private String resolutionLabel;
+    private boolean exactResolutionEligible;
     private NavigationTargetDTO navigation;
     private Long actorUserId;
     private String actorUsername;

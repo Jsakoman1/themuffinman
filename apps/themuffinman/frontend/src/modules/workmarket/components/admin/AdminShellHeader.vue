@@ -45,6 +45,12 @@ const adminSections = [
     isActive: () => route.path.startsWith("/admin/circles"),
     target: "/admin/circles",
   },
+  {
+    key: "agent",
+    label: "Agent",
+    isActive: () => route.path.startsWith("/admin/agent"),
+    target: "/admin/agent",
+  },
 ] as const
 
 const activeSections = computed(() => new Set(adminSections.filter((section) => section.isActive()).map((section) => section.key)))

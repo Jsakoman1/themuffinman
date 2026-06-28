@@ -9,6 +9,7 @@ defineProps<{
   quickfillLabel?: string
   canSubmit: boolean
   submitLabel?: string
+  showPrice?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -27,6 +28,7 @@ const emit = defineEmits<{
         :price="price"
         :price-placeholder="pricePlaceholder"
         :quickfill-label="quickfillLabel"
+        :show-price="showPrice"
         :inline-editable="false"
         @update:message="emit('update:message', $event)"
         @update:price="emit('update:price', $event)"

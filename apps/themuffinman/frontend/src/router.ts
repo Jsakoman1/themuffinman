@@ -5,6 +5,7 @@ const AdminOverviewPage = () => import("./modules/workmarket/pages/AdminOverview
 const AdminQuestsPage = () => import("./modules/workmarket/pages/AdminQuestsPage.vue");
 const AdminApplicationsPage = () => import("./modules/workmarket/pages/AdminApplicationsPage.vue");
 const AdminCirclesPage = () => import("./modules/social/pages/AdminCirclesPage.vue");
+const AdminAgentPage = () => import("./modules/workmarket/pages/AdminAgentPage.vue");
 const AdminUsersPage = () => import("./modules/workmarket/pages/AdminUsersPage.vue");
 const CirclesView = () => import("./modules/social/views/CirclesView.vue");
 const QuestsPage = () => import("./modules/workmarket/pages/QuestsPage.vue");
@@ -97,6 +98,11 @@ const routes = [
     {
         path: '/admin/circles',
         component: AdminCirclesPage,
+        meta: {requiresAuth: true, requiresAdmin: true}
+    },
+    {
+        path: '/admin/agent',
+        component: AdminAgentPage,
         meta: {requiresAuth: true, requiresAdmin: true}
     },
     {

@@ -1,3 +1,4 @@
+import {isQuestFree} from "../../shared/pricing.ts"
 import type {QuestDetail} from "../../api/workmarketApi.ts"
 import type {QuestDetailPageState} from "../useQuestDetailPageState.ts"
 import {applyQuestDetailState} from "./applyQuestDetailState.ts"
@@ -19,7 +20,7 @@ export const replaceQuestDetailState = (
 ) => {
   applyQuestDetailState(state, detail)
 
-  if (detail.summary.presentation.canApply && !state.proposedPrice.value.trim()) {
+  if (detail.summary.presentation.canApply && !state.proposedPrice.value.trim() && !isQuestFree(detail.summary.awardAmount)) {
     state.proposedPrice.value = String(detail.summary.awardAmount ?? "")
   }
 }

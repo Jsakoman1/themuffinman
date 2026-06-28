@@ -2,6 +2,7 @@ import {currentUser} from "../../../../auth.ts"
 import {compressQuestImageFile} from "../../../../shared/imageCompression.ts"
 import {QUEST_IMAGE_PROCESSING_ERROR_MESSAGE, QUEST_IMAGE_TOO_LARGE_MESSAGE} from "../../../../shared/clientMessages.ts"
 import {workmarketApi} from "../../api/workmarketApi.ts"
+import {buildQuestAwardAmountInput} from "../../shared/pricing.ts"
 import {resetCreateQuestDraft} from "./questDraftState.ts"
 import type {QuestMutationContext} from "./questMutationTypes.ts"
 
@@ -23,7 +24,7 @@ export const useQuestDashboardQuestDraftMutations = ({
       run: () => workmarketApi.createQuest({
         title: state.questTitle.value.trim(),
         description: state.questDescription.value,
-        awardAmount: Number(state.questAwardAmount.value),
+        awardAmount: buildQuestAwardAmountInput(state.questAwardAmount.value),
         assigneeTarget: Number(state.questAssigneeTarget.value || "1"),
         showApprovedApplicants: state.questShowApprovedApplicants.value,
         scheduledAt,

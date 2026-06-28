@@ -1,5 +1,6 @@
 import {currentUser} from "../../../../auth.ts"
 import {workmarketApi} from "../../api/workmarketApi.ts"
+import {buildApplicationPriceInput} from "../../shared/pricing.ts"
 import type {QuestDashboardState} from "../useQuestDashboardState.ts"
 import {createDashboardMutationRunner} from "./createDashboardMutationRunner.ts"
 
@@ -23,11 +24,12 @@ export const useQuestDashboardApplicationMutations = (
 
     const message = state.applicationMessages.value[questId] ?? ""
     const proposedPriceValue = state.proposedPrices.value[questId]
+    const quest = state.questForId(questId)
 
     const result = await runMutation({
       run: () => workmarketApi.applyForQuest(questId, {
         message,
-        proposedPrice: Number(proposedPriceValue)
+        proposedPrice: buildApplicationPriceInput(quest?.awardAmount, proposedPriceValue ?? "")
       }),
       successMessage: (response) => response.message,
       errorMessage: "Could not send application.",
@@ -87,11 +89,15 @@ export const useQuestDashboardApplicationMutations = (
 
     const applicationId = state.editingApplicationId.value
     const message = state.editApplicationMessage.value
+    const application = state.selectedApplicationDialog.value
+      ?? state.myApplications.value.find((entry) => entry.id === applicationId)
+      ?? null
+    const questAwardAmount = state.questForId(questId)?.awardAmount ?? (application?.proposedPrice == null ? 0 : undefined)
 
     const result = await runMutation({
       run: () => workmarketApi.updateMyApplication(questId, {
         message,
-        proposedPrice: Number(state.editApplicationPrice.value)
+        proposedPrice: buildApplicationPriceInput(questAwardAmount, state.editApplicationPrice.value)
       }),
       successMessage: (response) => response.message,
       errorMessage: "Could not update application.",

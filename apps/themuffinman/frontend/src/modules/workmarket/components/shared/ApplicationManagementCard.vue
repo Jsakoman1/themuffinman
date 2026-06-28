@@ -3,6 +3,7 @@ import ProfileBio from "../../../../components/profile/ProfileBio.vue"
 import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 import {richTextHasContent} from "../../../../shared/richText.ts"
 import type {QuestApplication} from "../../api/workmarketApi.ts"
+import {formatApplicationPrice} from "../../shared/pricing.ts"
 
 withDefaults(defineProps<{
   application: QuestApplication
@@ -29,7 +30,9 @@ defineEmits<{
       </span>
     </div>
 
-    <div class="surface-price">$ {{ application.proposedPrice }}</div>
+    <div v-if="application.proposedPrice !== null && application.proposedPrice !== undefined" class="surface-price">
+      {{ formatApplicationPrice(application.proposedPrice) }}
+    </div>
 
     <ProfileBio
       v-if="richTextHasContent(application.message)"

@@ -10,6 +10,7 @@ import DetailUtilitySection from "../shared/DetailUtilitySection.vue"
 import {useDashboardFindQuestsBrowser} from "../../composables/dashboard/useDashboardFindQuestsBrowser.ts"
 import type {DashboardFindQuestsFacade} from "../../composables/dashboard/dashboardFacades.ts"
 import {formatQuestTermForDisplay} from "../../../../shared/questSchedule.ts"
+import {formatQuestReward} from "../../shared/pricing.ts"
 
 const props = withDefaults(defineProps<{
   dashboard: DashboardFindQuestsFacade
@@ -104,7 +105,7 @@ const visibleSortOptions = computed(() => props.dashboard.questSortOptions)
                     </template>
 
                     <template #badges>
-                      <span class="find-work-row__award">$ {{ quest.awardAmount }}</span>
+                      <span class="find-work-row__award">{{ formatQuestReward(quest.awardAmount) }}</span>
                     </template>
 
                     <template #meta>

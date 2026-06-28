@@ -1,0 +1,21 @@
+featureId: sample_feature
+title: Sample feature completion manifest
+status: draft
+riskTier: medium
+planFile: .agents/sample-feature-plan.md
+summary:
+  - Replace this with a short completion summary.
+checklist:
+  tempPlanCreated: false
+  codeImplemented: false
+  backendTestsPassed: false
+  frontendValidationPassed: false
+  docsSynced: false
+  agentModelSynced: false
+  destructivePolicyChecked: false
+  multilingualCoverageChecked: false
+artifacts:
+  codePaths: []
+  docPaths: []
+  testPaths: []
+  auditCommands: []

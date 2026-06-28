@@ -36,6 +36,11 @@ public class CircleRequestResponseDTO {
     private Long counterpartUserId;
     private String counterpartUsername;
     @Nullable
+    private String resolutionKey;
+    @Nullable
+    private String resolutionLabel;
+    private boolean exactResolutionEligible;
+    @Nullable
     private String counterpartProfileDescription;
     @Nullable
     private String counterpartProfileAvatarDataUrl;

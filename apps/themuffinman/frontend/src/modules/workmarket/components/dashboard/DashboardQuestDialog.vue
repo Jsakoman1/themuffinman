@@ -12,6 +12,7 @@ import QuestDetailContent from "../shared/QuestDetailContent.vue"
 import {createQuestDialogViewState} from "../../composables/dashboard/createQuestDialogViewState.ts"
 import type {DashboardQuestDialogFacade} from "../../composables/dashboard/dashboardFacades.ts"
 import {useQuestDialogUiActions} from "../../composables/dashboard/useQuestDialogUiActions.ts"
+import {formatApplicationPrice} from "../../shared/pricing.ts"
 
 const props = defineProps<{
   dashboard: DashboardQuestDialogFacade
@@ -193,7 +194,9 @@ const openPreview = () => {
                 </span>
               </div>
 
-              <div class="surface-price">$ {{ myApplication.proposedPrice }}</div>
+              <div v-if="myApplication.proposedPrice !== null && myApplication.proposedPrice !== undefined" class="surface-price">
+                {{ formatApplicationPrice(myApplication.proposedPrice) }}
+              </div>
 
               <ProfileBio
                 v-if="richTextHasContent(myApplication.message)"

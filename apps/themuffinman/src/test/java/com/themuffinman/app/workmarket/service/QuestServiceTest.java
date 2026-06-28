@@ -114,7 +114,8 @@ class QuestServiceTest {
                 questValidationService,
                 questStateTransitionService,
                 questAccessPolicyService,
-                locationSettingsService
+                locationSettingsService,
+                questApplicationRepository
         );
         workmarketPresentationHelper = new WorkmarketPresentationHelper();
         questViewAssembler = new QuestViewAssembler(
@@ -827,6 +828,39 @@ class QuestServiceTest {
         questService.updateQuest(22L, requestDTO, creator);
 
         assertEquals("<p>&nbsp;&nbsp;Indented</p>", quest.getDescription());
+    }
+
+    @Test
+    void updateQuestToFreeClearsExistingApplicationPrices() {
+        AppUser creator = createUser(1L, "creator");
+        AppUser applicant = createUser(2L, "applicant");
+        Quest quest = new Quest();
+        quest.setId(23L);
+        quest.setCreator(creator);
+        quest.setTitle("Original title");
+        quest.setDescription("Original description");
+        quest.setAwardAmount(BigDecimal.valueOf(40));
+
+        QuestApplication application = new QuestApplication();
+        application.setId(14L);
+        application.setQuest(quest);
+        application.setApplicant(applicant);
+        application.setProposedPrice(BigDecimal.valueOf(25));
+
+        QuestRequestDTO requestDTO = QuestRequestDTO.builder()
+                .title("Updated title")
+                .description("Updated description")
+                .awardAmount(BigDecimal.ZERO)
+                .build();
+
+        when(questRepository.findByIdWithCreator(23L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findByQuestId(23L)).thenReturn(List.of(application));
+        when(questRepository.save(quest)).thenReturn(quest);
+
+        questService.updateQuest(23L, requestDTO, creator);
+
+        assertEquals(BigDecimal.ZERO, quest.getAwardAmount());
+        assertEquals(null, application.getProposedPrice());
     }
 
     @Test

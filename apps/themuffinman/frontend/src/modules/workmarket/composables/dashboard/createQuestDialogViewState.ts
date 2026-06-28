@@ -18,6 +18,8 @@ export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade
         featuredApplication: baseView?.featuredApplication ?? null,
         approvedApplications: dashboard.approvedApplicationsForQuest(selectedQuest.id),
         visibleApplications: dashboard.applicationsForQuest(selectedQuest.id),
+        pendingApplicationCount: baseView?.pendingApplicationCount ?? 0,
+        oldestPendingApplicationId: baseView?.oldestPendingApplicationId ?? null,
         hiddenApplicationsCount: baseView?.hiddenApplicationsCount ?? 0,
         selectedApplicationId: baseView?.selectedApplicationId ?? null,
         canRevealHiddenApplications: baseView?.canRevealHiddenApplications ?? false,
@@ -63,7 +65,9 @@ export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade
 
     return dashboard.proposedPrices[quest.value.id] ?? ""
   })
-  const canSubmitApplication = computed(() => canSubmitQuestApplicationDraft(applicationMessage.value, applicationPrice.value))
+  const canSubmitApplication = computed(() =>
+    canSubmitQuestApplicationDraft(applicationMessage.value, applicationPrice.value, quest.value?.awardAmount)
+  )
   const myApplication = computed(() => {
     return detail.value?.myApplication
       ?? (quest.value

@@ -31,7 +31,7 @@ public class QuestRequestDTO {
 
     private @NotBlank(message = "Quest title is required") @Size(max = 255, message = "Quest title must be 255 characters or less") String title;
     private @NotBlank(message = "Quest description is required") @Size(max = 2000, message = "Quest description must be 2000 characters or less") String description;
-    private @NotNull(message = "Award amount is required") @DecimalMin(value = "0.01", message = "Award amount must be at least 0.01") @Digits(integer = 8, fraction = 2) BigDecimal awardAmount;
+    private @NotNull(message = "Award amount is required") @DecimalMin(value = "0.00", message = "Award amount cannot be negative") @Digits(integer = 8, fraction = 2) BigDecimal awardAmount;
     @ContractOptional
     @Nullable
     private @Positive Integer assigneeTarget;

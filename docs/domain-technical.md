@@ -74,6 +74,10 @@ Primary files:
 - `identity/dto/AppUserResponseDTO.java`
 - `identity/dto/UserProfileViewDTO.java`
 
+Technical notes:
+- `UserProfileViewDTO` now carries deterministic resolution metadata so future automation can refer to an exact profile target without rebuilding labels client-side.
+- Current-location profile updates should resolve trusted coordinates before they reuse the normal self-update location flow.
+
 ### Admin user detail
 
 Primary files:
@@ -214,6 +218,11 @@ Primary files:
 - `chat/dto/ChatContactDTO.java`
 - `chat/dto/ChatCircleOptionDTO.java`
 
+Technical notes:
+- `ChatConversationSummaryDTO` and `ChatContactDTO` now carry deterministic resolution metadata for exact conversation or accepted-contact targeting.
+- Chat read models are still filtered by current accepted relation state before any resolution metadata is returned.
+- Agent-safe chat-read planning now relies on current workspace conversations instead of stale client memory.
+
 ### Presence and realtime
 
 Primary files:
@@ -248,6 +257,31 @@ Planned capabilities:
 - synthetic quest applications
 - synthetic quest lifecycle transitions for test scenarios
 - synthetic review creation after synthetic completion
+
+## Admin agent playground
+
+Primary files:
+- `agent/controller/AdminAgentController.java`
+- `agent/service/AdminAgentPlaygroundService.java`
+- `agent/dto/AdminAgentPlaygroundRequestDTO.java`
+- `agent/dto/AdminAgentPlaygroundResponseDTO.java`
+- `config/AgentProperties.java`
+
+Technical notes:
+- The current admin agent playground is an admin-only planning surface.
+- Prompt classification now runs through a translation layer before intent heuristics.
+- Local translation is a deterministic fallback, while provider-backed translation is the path for arbitrary languages such as Mandarin.
+- The response now also includes structured resolution requirements, clarification contract data, and execution-readiness metadata.
+- Planner coverage now extends the same reusable fail-closed contract across owned-quest updates, pending-application self-service, outgoing request cancellation, owner-circle management, and chat read actions.
+- The same planner contract now also covers self-profile updates, exact notification targeting, and admin-side application correction or deletion.
+- The machine model now also enumerates common read surfaces and auth-adjacent capabilities so future executors do not derive endpoint affordances from frontend behavior alone.
+- It accepts free-form prompts and returns structured warnings, suggested workflows, and next steps from deterministic backend classification.
+- The deterministic payload should keep structured planner fields separate from provider-written summary text, including matched signals and unresolved required inputs.
+- Provider-written summary text should be constrained to the deterministic workflow ids, signals, and unresolved inputs already classified by the backend.
+- It does not execute mutations.
+- If `app.agent.provider=openai` and a backend API key is configured, the service also requests a concise planning summary from OpenAI through the Responses API.
+- If the provider is missing or the external call fails, the service falls back to the deterministic local planner and keeps the same response contract.
+- Provider credentials stay on the server side and are never exposed through frontend configuration.
 
 ## Social Source Map
 
@@ -313,6 +347,11 @@ Primary files:
 - `social/service/SocialPresentationHelper.java`
 - `social/service/SocialRelationActionHelper.java`
 - `social/service/CircleViewAssembler.java`
+
+Technical notes:
+- `CircleSearchResultDTO` and `CircleRelationDTO` now carry deterministic resolution metadata for exact candidate targeting in future automation.
+- `CircleRequestResponseDTO` and `CircleGroupResponseDTO` now also carry deterministic resolution metadata for exact outgoing-request and owner-circle targeting.
+- `AppUserResponseDTO` now also carries deterministic resolution metadata for exact account targeting in admin or general user-management flows.
 
 ## Workmarket Source Map
 
@@ -380,6 +419,10 @@ Primary files:
 - `workmarket/dto/QuestSearchRequestDTO.java`
 - `workmarket/dto/QuestListPreset.java`
 
+Technical notes:
+- `QuestRequestDTO` requires `awardAmount`, but the accepted floor is `0.00`, not `0.01`.
+- `QuestValidationService` treats `awardAmount == 0` as a valid free-quest configuration and still rejects negative values.
+
 ### Applications
 
 Primary files:
@@ -394,6 +437,13 @@ Primary files:
 - `workmarket/dto/AdminApplicationsQueryDTO.java`
 
 Technical notes:
+- `QuestApplicationRequestDTO.proposedPrice` is conditional on quest pricing rather than universally required.
+- Paid quests require `proposedPrice >= 0.01`.
+- Free quests require `proposedPrice == null`.
+- `QuestApplicationsViewDTO` now carries deterministic owner-side pending selection metadata through `pendingApplicationCount` and `oldestPendingApplicationId`.
+- `QuestResponseDTO` and `QuestApplicationResponseDTO` now carry deterministic resolution metadata for exact target selection.
+- Applicant-side pending-application update and withdrawal flows are modeled as exact application resolution followed by the same backend validation rules used by the existing service methods.
+- `QuestNewsItemResponseDTO` now also carries deterministic resolution metadata so item-specific notification actions can target one exact backend row.
 - `QuestApplicationService.approveApplication` and `QuestApplicationService.declineApplication` both require an `OPEN` quest plus owner-or-admin authority.
 - `QuestApplicationService.declineApplication` only mutates `PENDING` applications and transitions them to `DECLINED`.
 
@@ -422,6 +472,8 @@ Technical notes:
 Voice-flow notes:
 - Relative schedule input such as `tomorrow at 15:00` must be resolved into an absolute timestamp in caller timezone before `QuestRequestDTO` is sent.
 - Selected-people audience preparation must resolve names or phrases into concrete accepted connections before circle assignment.
+- Owner-side quest commands such as approve, decline, or delete must resolve exactly one owned quest before mutation.
+- Approve-the-first-applicant style commands must use deterministic backend pending-selection metadata instead of incidental frontend ordering.
 - A prepare-to-start automation flow still requires separate applicant-side `apply` actions and owner-side `approve` actions before `start`.
 - Unexpected applicants outside the resolved selected-people set must not be auto-approved; they require explicit decline or manual handling.
 - Owner-side term change after `ASSIGNED` or `IN_PROGRESS` can route through `QuestUpdateService` into `WAITING_CONFIRMATION`.

@@ -1,4 +1,5 @@
 import {workmarketApi} from "../../api/workmarketApi.ts"
+import {buildApplicationPriceInput} from "../../shared/pricing.ts"
 import type {QuestDetailPageState} from "../useQuestDetailPageState.ts"
 import {createQuestDetailMutationRunner} from "./createQuestDetailMutationRunner.ts"
 import {replaceQuestDetailState} from "./questDetailStateHelpers.ts"
@@ -36,7 +37,7 @@ export const useQuestDetailMutationActions = (state: QuestDetailPageState) => {
     const applied = await runQuestMutation(
       () => workmarketApi.applyForQuest(state.questId.value, {
         message: state.applicationMessage.value,
-        proposedPrice: Number(state.proposedPrice.value)
+        proposedPrice: buildApplicationPriceInput(state.quest.value?.awardAmount, state.proposedPrice.value)
       }),
       "Could not send application."
     )

@@ -24,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -135,6 +136,56 @@ class QuestApplicationServiceTest {
     }
 
     @Test
+    void applyForQuestAllowsMissingPriceForFreeQuest() {
+        AppUser creator = createUser(1L, "creator");
+        AppUser applicant = createUser(2L, "applicant");
+        Quest quest = createQuest(7L, creator, QuestStatus.OPEN);
+        quest.setAwardAmount(BigDecimal.ZERO);
+        QuestApplicationRequestDTO requestDTO = QuestApplicationRequestDTO.builder()
+                .message("I can help")
+                .build();
+        QuestApplication application = new QuestApplication();
+        QuestApplication savedApplication = new QuestApplication();
+        QuestApplicationResponseDTO responseDTO = QuestApplicationResponseDTO.builder()
+                .id(100L)
+                .applicantId(applicant.getId())
+                .build();
+
+        when(questRepository.findByIdWithCreator(7L)).thenReturn(Optional.of(quest));
+        when(questVisibilityService.canViewQuest(applicant, quest)).thenReturn(true);
+        when(questApplicationRepository.existsByQuestIdAndApplicantId(7L, 2L)).thenReturn(false);
+        when(questApplicationMgr.toEntity(requestDTO, quest, applicant)).thenReturn(application);
+        when(questApplicationRepository.save(application)).thenReturn(savedApplication);
+        when(questApplicationMgr.toDto(savedApplication)).thenReturn(responseDTO);
+
+        QuestApplicationResponseDTO result = questApplicationService.applyForQuest(7L, requestDTO, applicant);
+
+        assertEquals(100L, result.getId());
+        verify(questApplicationMgr).toEntity(requestDTO, quest, applicant);
+    }
+
+    @Test
+    void applyForQuestRejectsPriceForFreeQuest() {
+        AppUser creator = createUser(1L, "creator");
+        AppUser applicant = createUser(2L, "applicant");
+        Quest quest = createQuest(7L, creator, QuestStatus.OPEN);
+        quest.setAwardAmount(BigDecimal.ZERO);
+        QuestApplicationRequestDTO requestDTO = QuestApplicationRequestDTO.builder()
+                .message("I can help")
+                .proposedPrice(BigDecimal.valueOf(25))
+                .build();
+
+        when(questRepository.findByIdWithCreator(7L)).thenReturn(Optional.of(quest));
+        when(questVisibilityService.canViewQuest(applicant, quest)).thenReturn(true);
+        when(questApplicationRepository.existsByQuestIdAndApplicantId(7L, 2L)).thenReturn(false);
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> questApplicationService.applyForQuest(7L, requestDTO, applicant));
+
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        assertEquals("400 BAD_REQUEST \"Free quest applications cannot have a proposed price\"", exception.getMessage());
+    }
+
+    @Test
     void getApplicationsForQuestThrowsWhenAuthenticatedUserIsNotOwner() {
         AppUser creator = createUser(1L, "creator");
         AppUser otherUser = createUser(3L, "other");
@@ -183,6 +234,8 @@ class QuestApplicationServiceTest {
         assertEquals(11L, result.getFeaturedApplication().getId());
         assertEquals(1, result.getApprovedApplications().size());
         assertEquals(0, result.getVisibleApplications().size());
+        assertEquals(0, result.getPendingApplicationCount());
+        assertEquals(null, result.getOldestPendingApplicationId());
         assertEquals(1, result.getHiddenApplicationsCount());
         assertEquals(11L, result.getSelectedApplicationId());
         assertEquals(true, result.isCanRevealHiddenApplications());
@@ -226,7 +279,30 @@ class QuestApplicationServiceTest {
         QuestApplicationsViewDTO result = questApplicationService.getApplicationsViewForQuest(7L, creator, false);
 
         assertEquals(2, result.getVisibleApplications().size());
+        assertEquals(2, result.getPendingApplicationCount());
+        assertEquals(11L, result.getOldestPendingApplicationId());
         assertEquals(12L, result.getSelectedApplicationId());
+    }
+
+    @Test
+    void getApplicationsViewForQuestExposesOldestPendingSelectionByCreatedAtThenId() {
+        AppUser creator = createUser(1L, "creator");
+        AppUser firstApplicant = createUser(2L, "first");
+        AppUser secondApplicant = createUser(3L, "second");
+        Quest quest = createQuest(7L, creator, QuestStatus.OPEN);
+        QuestApplication sameTimeHigherId = createApplication(12L, quest, secondApplicant, QuestApplicationStatus.PENDING);
+        QuestApplication olderApplication = createApplication(11L, quest, firstApplicant, QuestApplicationStatus.PENDING);
+        olderApplication.setCreatedAt(Instant.parse("2026-06-01T09:00:00Z"));
+        sameTimeHigherId.setCreatedAt(Instant.parse("2026-06-01T10:00:00Z"));
+
+        when(questRepository.findByIdWithCreator(7L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findByQuestId(7L)).thenReturn(List.of(sameTimeHigherId, olderApplication));
+        when(questApplicationMgr.toDto(sameTimeHigherId)).thenReturn(QuestApplicationResponseDTO.builder().id(12L).status(QuestApplicationStatus.PENDING).build());
+        when(questApplicationMgr.toDto(olderApplication)).thenReturn(QuestApplicationResponseDTO.builder().id(11L).status(QuestApplicationStatus.PENDING).build());
+
+        QuestApplicationsViewDTO result = questApplicationService.getApplicationsViewForQuest(7L, creator, false);
+
+        assertEquals(11L, result.getOldestPendingApplicationId());
     }
 
     @Test
@@ -270,6 +346,8 @@ class QuestApplicationServiceTest {
 
         assertEquals(1, result.getApprovedApplications().size());
         assertEquals(0, result.getVisibleApplications().size());
+        assertEquals(0, result.getPendingApplicationCount());
+        assertEquals(null, result.getOldestPendingApplicationId());
         assertEquals(false, result.isCanRevealHiddenApplications());
         assertEquals("approved", result.getApprovedApplications().getFirst().getApplicantUsername());
     }
@@ -428,6 +506,28 @@ class QuestApplicationServiceTest {
     }
 
     @Test
+    void updateApplicationForAdminRejectsPriceForFreeQuest() {
+        AppUser admin = createUser(1L, "admin");
+        admin.setRole(AppUserRole.ADMIN);
+        AppUser creator = createUser(2L, "creator");
+        AppUser applicant = createUser(3L, "applicant");
+        Quest quest = createQuest(7L, creator, QuestStatus.OPEN);
+        quest.setAwardAmount(BigDecimal.ZERO);
+        QuestApplication application = createApplication(11L, quest, applicant, QuestApplicationStatus.PENDING);
+
+        AdminQuestApplicationUpdateRequestDTO dto = AdminQuestApplicationUpdateRequestDTO.builder()
+                .proposedPrice(BigDecimal.valueOf(55))
+                .build();
+
+        when(questApplicationRepository.findByIdDetailed(11L)).thenReturn(Optional.of(application));
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+                () -> questApplicationService.updateApplicationForAdmin(11L, dto, admin));
+
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+    }
+
+    @Test
     void deleteApplicationForAdminReopensAssignedQuestWhenApprovedApplicationIsRemoved() {
         AppUser admin = createUser(1L, "admin");
         admin.setRole(AppUserRole.ADMIN);
@@ -524,6 +624,7 @@ class QuestApplicationServiceTest {
         application.setApplicant(applicant);
         application.setStatus(status);
         application.setMessage("Message");
+        application.setCreatedAt(Instant.parse("2026-01-01T00:00:00Z").plusSeconds(id));
         return application;
     }
 }

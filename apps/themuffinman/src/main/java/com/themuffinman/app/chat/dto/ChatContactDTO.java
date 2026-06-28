@@ -21,6 +21,9 @@ public class ChatContactDTO {
     private String profileAvatarDataUrl;
     private List<Long> circleIds;
     private List<String> circleNames;
+    private String resolutionKey;
+    private String resolutionLabel;
+    private boolean exactResolutionEligible;
     private boolean online;
     @Nullable
     private String lastActiveAt;

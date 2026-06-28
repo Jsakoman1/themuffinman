@@ -29,7 +29,7 @@ class RequestDtoValidationTest {
         QuestRequestDTO request = QuestRequestDTO.builder()
                 .title("x".repeat(256))
                 .description("x".repeat(2001))
-                .awardAmount(BigDecimal.ZERO)
+                .awardAmount(BigDecimal.valueOf(-1))
                 .assigneeTarget(0)
                 .images(List.of("https://example.com/image.png"))
                 .build();
@@ -44,6 +44,21 @@ class RequestDtoValidationTest {
                 .build();
 
         assertFalse(VALIDATOR.validate(request).isEmpty());
+    }
+
+    @Test
+    void freeQuestAndMissingApplicationPricePassDtoValidation() {
+        QuestRequestDTO questRequest = QuestRequestDTO.builder()
+                .title("Community pickup")
+                .description("Need someone to collect a parcel")
+                .awardAmount(BigDecimal.ZERO)
+                .build();
+        QuestApplicationRequestDTO applicationRequest = QuestApplicationRequestDTO.builder()
+                .message("I am nearby")
+                .build();
+
+        assertTrue(VALIDATOR.validate(questRequest).isEmpty());
+        assertTrue(VALIDATOR.validate(applicationRequest).isEmpty());
     }
 
     @Test

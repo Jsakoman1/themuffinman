@@ -17,6 +17,9 @@ public class QuestApplicationsViewDTO {
     private QuestApplicationResponseDTO featuredApplication;
     private List<QuestApplicationResponseDTO> approvedApplications;
     private List<QuestApplicationResponseDTO> visibleApplications;
+    private int pendingApplicationCount;
+    @Nullable
+    private Long oldestPendingApplicationId;
     private int hiddenApplicationsCount;
     @Nullable
     private Long selectedApplicationId;

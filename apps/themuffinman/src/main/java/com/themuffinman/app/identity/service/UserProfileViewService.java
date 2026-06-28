@@ -40,12 +40,16 @@ public class UserProfileViewService {
                         .relationLabel(socialPresentationHelper.relationLabel(CircleRelationStatus.NONE))
                         .relationBadgeClass(socialPresentationHelper.relationBadgeClass(CircleRelationStatus.NONE))
                         .blockedByCurrentUser(false)
+                        .exactResolutionEligible(true)
                         .build()
                 : circleService.getRelationWithUser(currentUser, profileUser.getId());
 
         return UserProfileViewDTO.builder()
                 .profile(profile)
                 .ownProfile(ownProfile)
+                .resolutionKey("user-profile:" + profileUser.getId())
+                .resolutionLabel(profileUser.getUsername() + " <" + profileUser.getEmail() + ">")
+                .exactResolutionEligible(true)
                 .relation(relation)
                 .primaryAction(socialRelationActionHelper.profilePrimaryAction(
                         ownProfile,

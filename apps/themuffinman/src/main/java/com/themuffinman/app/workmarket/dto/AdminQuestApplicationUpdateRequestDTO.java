@@ -2,7 +2,6 @@ package com.themuffinman.app.workmarket.dto;
 
 import com.themuffinman.app.common.contract.ContractOptional;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -25,7 +24,6 @@ public class AdminQuestApplicationUpdateRequestDTO {
 
     @ContractOptional
     @Nullable
-    @DecimalMin(value = "0.01", message = "Proposed price must be at least 0.01")
     @Digits(integer = 8, fraction = 2)
     private BigDecimal proposedPrice;
 

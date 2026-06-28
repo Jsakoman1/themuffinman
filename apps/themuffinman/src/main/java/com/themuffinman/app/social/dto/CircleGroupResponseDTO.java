@@ -14,6 +14,9 @@ import java.util.List;
 public class CircleGroupResponseDTO {
     private Long id;
     private String name;
+    private String resolutionKey;
+    private String resolutionLabel;
+    private boolean exactResolutionEligible;
     private int memberCount;
     private String memberPreviewLabel;
     private List<CircleMemberDTO> members;

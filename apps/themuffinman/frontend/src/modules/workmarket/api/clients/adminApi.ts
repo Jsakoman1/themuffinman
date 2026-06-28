@@ -1,5 +1,16 @@
 import {api, withAuth} from "../../../../api/httpClient.ts"
-import type {ActionResult, AdminApplicationsQuery, AdminCircleOverview, AdminUserDetail, LocationDebugStatus, QuestApplicationListResponse} from "../contracts.ts"
+import type {
+  ActionResult,
+  AdminAgentSimulationRequest,
+  AdminAgentSimulationResponse,
+  AdminAgentPlaygroundRequest,
+  AdminAgentPlaygroundResponse,
+  AdminApplicationsQuery,
+  AdminCircleOverview,
+  AdminUserDetail,
+  LocationDebugStatus,
+  QuestApplicationListResponse
+} from "../contracts.ts"
 import {buildQueryParams} from "../shared/queryParams.ts"
 
 export const adminApi = {
@@ -36,5 +47,13 @@ export const adminApi = {
 
   async getAdminLocationStatus(): Promise<LocationDebugStatus> {
     return (await api.get<LocationDebugStatus>("/location/admin/status", withAuth())).data
+  },
+
+  async runAdminAgentPrompt(dto: AdminAgentPlaygroundRequest): Promise<AdminAgentPlaygroundResponse> {
+    return (await api.post<AdminAgentPlaygroundResponse>("/admin/agent/playground", dto, withAuth())).data
+  },
+
+  async runAdminAgentSimulation(dto: AdminAgentSimulationRequest): Promise<AdminAgentSimulationResponse> {
+    return (await api.post<AdminAgentSimulationResponse>("/admin/agent/simulate", dto, withAuth())).data
   }
 }

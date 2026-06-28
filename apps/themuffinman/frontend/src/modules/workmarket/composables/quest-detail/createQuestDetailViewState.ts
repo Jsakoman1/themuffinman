@@ -33,7 +33,13 @@ export const createQuestDetailViewState = (state: {
   const managementSection = computed(() => state.detail.value?.sections.management ?? null)
   const canApply = computed(() => state.quest.value?.presentation.canApply ?? false)
   const applicationSentVisible = computed(() => state.quest.value?.presentation.applicationSentVisible ?? false)
-  const canSubmitApplication = computed(() => canSubmitQuestApplicationDraft(state.applicationMessage.value, state.proposedPrice.value))
+  const canSubmitApplication = computed(() =>
+    canSubmitQuestApplicationDraft(
+      state.applicationMessage.value,
+      state.proposedPrice.value,
+      state.quest.value?.awardAmount
+    )
+  )
 
   const hasSubmittedReview = computed(() => !!(state.review.value ?? reviewSection.value?.submittedReview))
 

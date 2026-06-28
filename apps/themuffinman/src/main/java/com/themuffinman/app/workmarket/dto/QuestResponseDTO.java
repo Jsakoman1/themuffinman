@@ -29,6 +29,9 @@ public class QuestResponseDTO {
     private String creatorProfileAvatarDataUrl;
     private NavigationTargetDTO questNavigation;
     private NavigationTargetDTO creatorNavigation;
+    private String resolutionKey;
+    private String resolutionLabel;
+    private boolean exactResolutionEligible;
 
     private String title;
     private String description;

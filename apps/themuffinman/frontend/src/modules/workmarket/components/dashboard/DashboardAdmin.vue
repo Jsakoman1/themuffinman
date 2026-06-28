@@ -6,6 +6,7 @@ import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
 import {formatQuestTermForDisplay} from "../../../../shared/questSchedule.ts"
 import {useDashboardAdminQuestBrowser} from "../../composables/dashboard/useDashboardAdminQuestBrowser.ts"
 import type {DashboardAdminFacade} from "../../composables/dashboard/dashboardFacades.ts"
+import {formatQuestReward} from "../../shared/pricing.ts"
 
 const props = defineProps<{
   dashboard: DashboardAdminFacade
@@ -142,7 +143,7 @@ const handleDeleteQuest = async (questId: number) => {
                     </div>
                   </td>
                   <td>{{ quest.presentation.audienceLabel }}</td>
-                  <td>$ {{ quest.awardAmount }}</td>
+                  <td>{{ formatQuestReward(quest.awardAmount) }}</td>
                   <td>{{ formatQuestTermForDisplay(quest.scheduledAt, quest.endsAt, quest.termFixed) }}</td>
                   <td>{{ quest.presentation.assigneeTargetLabel }}</td>
                   <td>

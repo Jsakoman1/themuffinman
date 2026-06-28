@@ -17,6 +17,7 @@ import {getApiErrorMessage} from "../../../api/apiErrors.ts"
 import {workmarketApi, type QuestApplication} from "../api/workmarketApi.ts"
 import type {QuestApplicationStatus} from "../domain/workmarketDomain.ts"
 import {useAdminApplicationsPage} from "../composables/useAdminApplicationsPage.ts"
+import {formatApplicationPrice} from "../shared/pricing.ts"
 
 const {
   applications,
@@ -73,7 +74,7 @@ const saveApplication = async () => {
   try {
     await workmarketApi.updateAdminApplication(selectedApplication.value.id, {
       message: editMessage.value,
-      proposedPrice: Number(editPrice.value),
+      proposedPrice: selectedApplication.value.proposedPrice == null ? null : Number(editPrice.value),
       status: editStatus.value
     })
     await loadApplications(currentPage.value)
@@ -166,7 +167,7 @@ const deleteApplication = async (application: QuestApplication) => {
                     <td>
                       <span :class="application.presentation.statusBadgeClass">{{ application.presentation.statusLabel }}</span>
                     </td>
-                    <td>$ {{ application.proposedPrice }}</td>
+                    <td>{{ formatApplicationPrice(application.proposedPrice) }}</td>
                     <td>{{ formatQuestTermForDisplay(application.questScheduledAt, application.questEndsAt, application.questTermFixed) }}</td>
                     <td>{{ formatInstantForDisplay(application.createdAt) }}</td>
                     <td class="admin-table__message">{{ application.message }}</td>
@@ -201,6 +202,7 @@ const deleteApplication = async (application: QuestApplication) => {
                   :message="editMessage"
                   :price="editPrice"
                   price-placeholder="50"
+                  :show-price="selectedApplication.proposedPrice != null"
                   @update:message="editMessage = $event"
                   @update:price="editPrice = $event"
                 />

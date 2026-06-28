@@ -1,6 +1,6 @@
 SHELL := /bin/zsh
 
-.PHONY: dev backend-dev backend-test backend-package backend-bootstrap-example
+.PHONY: dev backend-dev backend-test backend-package backend-bootstrap-example audit-agent-safety bootstrap-feature-work feature-closeout-audit
 
 dev:
 	@set -a; \
@@ -44,3 +44,17 @@ backend-bootstrap-example:
 	@echo "SIDEQUEST_BOOTSTRAP_ADMIN_USERNAME=owner \\"
 	@echo "SIDEQUEST_BOOTSTRAP_ADMIN_PASSWORD=replace-this \\"
 	@echo "./mvnw spring-boot:run"
+
+audit-agent-safety:
+	./mvnw -Dtest=AgentOperatingModelValidationTest,AdminAgentPlaygroundServiceTest,AdminAgentGoldenPromptMatrixTest,AdminAgentCapabilityBoundaryTest,AppUserMgrTest,ChatServiceTest,CircleServiceTest,QuestMgrTest,QuestNewsMgrTest,QuestApplicationServiceTest test
+	cd frontend && npm run type-check
+	cd frontend && npm run validate:admin-agent-ui
+	cd frontend && npm run build
+
+bootstrap-feature-work:
+	@if [ -z "$(topic)" ]; then echo "usage: make bootstrap-feature-work topic=<short-feature-topic> [risk=<tier>]"; exit 1; fi
+	/bin/zsh ../../scripts/bootstrap-feature-work.sh "$(topic)" "$(if $(risk),$(risk),medium)"
+
+feature-closeout-audit:
+	@if [ -z "$(manifest)" ]; then echo "usage: make feature-closeout-audit manifest=<manifest-file>"; exit 1; fi
+	/bin/zsh ../../scripts/feature-closeout-audit.sh "$(manifest)"

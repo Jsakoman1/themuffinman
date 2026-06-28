@@ -101,6 +101,9 @@ public class CircleViewAssembler {
         return CircleGroupResponseDTO.builder()
                 .id(circle.getId())
                 .name(circle.getName())
+                .resolutionKey("circle:" + circle.getId())
+                .resolutionLabel(circle.getName())
+                .exactResolutionEligible(true)
                 .memberCount(members.size())
                 .memberPreviewLabel(socialPresentationHelper.memberPreviewLabel(memberUsernames))
                 .members(members)
@@ -144,6 +147,9 @@ public class CircleViewAssembler {
         }
 
         request.setRequestSummaryLabel(socialPresentationHelper.requestSummaryLabel(incoming));
+        request.setResolutionKey("circle-request:" + request.getId());
+        request.setResolutionLabel(request.getCounterpartUsername());
+        request.setExactResolutionEligible(request.getId() != null && request.getCounterpartUserId() != null);
         request.setPrimaryAction(actions.getPrimaryAction());
         request.setSecondaryAction(actions.getSecondaryAction());
         return request;
@@ -157,6 +163,9 @@ public class CircleViewAssembler {
         return CircleSearchResultDTO.builder()
                 .id(candidate.getId())
                 .username(candidate.getUsername())
+                .resolutionKey("user:" + candidate.getId())
+                .resolutionLabel(candidate.getUsername() + " <" + candidate.getEmail() + ">")
+                .exactResolutionEligible(true)
                 .profileDescription(RichTextInputValidator.sanitize(candidate.getProfileDescription()))
                 .profileAvatarDataUrl(candidate.getProfileAvatarDataUrl())
                 .email(candidate.getEmail())
@@ -187,6 +196,7 @@ public class CircleViewAssembler {
                 .relationLabel(socialPresentationHelper.relationLabel(relationStatus))
                 .relationBadgeClass(socialPresentationHelper.relationBadgeClass(relationStatus))
                 .blockedByCurrentUser(blockedByCurrentUser)
+                .exactResolutionEligible(true)
                 .build();
     }
 

@@ -69,6 +69,53 @@ export interface ActionResultDTO {
   message: string
 }
 
+export interface AdminAgentPlaygroundRequestDTO {
+  prompt: string
+}
+
+export interface AdminAgentPlaygroundResponseDTO {
+  provider: string
+  externalLlmConfigured: boolean
+  promptSourceLanguage: string
+  promptTranslationProvider: string
+  promptTranslationApplied: boolean
+  promptTranslationReliable: boolean
+  originalPrompt: string
+  translatedPrompt: string
+  title: string
+  summary: string
+  resolutionRequirements: AgentResolutionRequirementDTO[]
+  clarificationContract: AgentClarificationContractDTO
+  executionReadiness: AgentExecutionReadinessDTO
+  matchedSignals: string[]
+  unresolvedInputs: string[]
+  warnings: string[]
+  suggestedWorkflows: string[]
+  nextSteps: string[]
+}
+
+export interface AdminAgentSimulationRequestDTO {
+  prompt: string
+}
+
+export interface AdminAgentSimulationResponseDTO {
+  planningOnly: boolean
+  safeToExecute: boolean
+  promptSourceLanguage: string
+  translatedPrompt: string
+  selectedIntentId: string
+  resolutionConfidence: AgentResolutionConfidenceDTO
+  capabilityAssessments: AgentCapabilityAssessmentDTO[]
+  intentLineage: AgentIntentLineageDTO
+  endpointPlan: AgentEndpointPlanDTO[]
+  clarificationContract: AgentClarificationContractDTO
+  executionReadiness: AgentExecutionReadinessDTO
+  matchedSignals: string[]
+  unresolvedInputs: string[]
+  blockingReasons: string[]
+  suggestedWorkflows: string[]
+}
+
 export interface AdminApplicationsQueryDTO {
   q: string | null
   status: QuestApplicationStatus | null
@@ -116,6 +163,59 @@ export interface AdminUserDetailDTO {
   contacts: CircleContactDTO[]
 }
 
+export interface AgentCapabilityAssessmentDTO {
+  capabilityId: string
+  status: string
+  reason: string
+}
+
+export interface AgentClarificationContractDTO {
+  clarificationRequired: boolean
+  failClosedOnAmbiguity: boolean
+  reason: string
+  unresolvedFields: string[]
+}
+
+export interface AgentEndpointPlanDTO {
+  endpointId: string
+  method: string
+  path: string
+}
+
+export interface AgentExecutionReadinessDTO {
+  planningOnly: boolean
+  translationReady: boolean
+  requiresExternalTranslationProvider: boolean
+  currentLocationCapabilityRequired: boolean
+  currentLocationCapabilityStatus: string
+  destructiveConfirmationRequired: boolean
+  multiActorContextRequired: boolean
+}
+
+export interface AgentIntentLineageDTO {
+  intentId: string
+  sourcePromptExamples: string[]
+  resolutionWorkflows: string[]
+  targetEndpoints: string[]
+  safetyPolicies: string[]
+  expectedReadModels: string[]
+}
+
+export interface AgentResolutionConfidenceDTO {
+  score: number
+  tier: string
+  reasons: string[]
+}
+
+export interface AgentResolutionRequirementDTO {
+  entityType: string
+  workflowId: string
+  scope: string
+  selectionRule: string
+  ambiguityPolicy: string
+  endpointHint: string
+}
+
 export interface ApiErrorResponseDTO {
   code: string
   message: string
@@ -142,6 +242,9 @@ export interface AppUserResponseDTO {
   id: number
   email: string
   username: string
+  resolutionKey: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
   profileNavigation: NavigationTargetDTO
   profileDescription: string | null
   profileAvatarDataUrl: string | null
@@ -186,6 +289,9 @@ export interface ChatContactDTO {
   profileAvatarDataUrl: string | null
   circleIds: number[]
   circleNames: string[]
+  resolutionKey: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
   online: boolean
   lastActiveAt: string | null
 }
@@ -194,6 +300,9 @@ export interface ChatConversationSummaryDTO {
   conversationId: number
   otherUserId: number
   otherUsername: string
+  resolutionKey: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
   otherUserProfileDescription: string | null
   otherUserAvatarDataUrl: string | null
   otherUserOnline: boolean
@@ -294,6 +403,9 @@ export interface CircleGroupRequestDTO {
 export interface CircleGroupResponseDTO {
   id: number
   name: string
+  resolutionKey: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
   memberCount: number
   memberPreviewLabel: string
   members: CircleMemberDTO[]
@@ -318,6 +430,7 @@ export interface CircleRelationDTO {
   relationLabel: string
   relationBadgeClass: string
   blockedByCurrentUser: boolean
+  exactResolutionEligible: boolean
 }
 
 export interface CircleRequestCreateDTO {
@@ -344,6 +457,9 @@ export interface CircleRequestResponseDTO {
   recipientProfileAvatarDataUrl: string | null
   counterpartUserId: number
   counterpartUsername: string
+  resolutionKey: string | null
+  resolutionLabel: string | null
+  exactResolutionEligible: boolean
   counterpartProfileDescription: string | null
   counterpartProfileAvatarDataUrl: string | null
   requestSummaryLabel: string
@@ -363,6 +479,9 @@ export interface CircleSearchResultDTO {
   locationLabel: string
   distanceKm: number
   distanceLabel: string
+  resolutionKey: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
   relationStatus: CircleRelationStatus
   relationLabel: string
   relationBadgeClass: string
@@ -654,7 +773,7 @@ export interface QuestApplicationPresentationDTO {
 
 export interface QuestApplicationRequestDTO {
   message: string
-  proposedPrice: number
+  proposedPrice: number | null
 }
 
 export interface QuestApplicationResponseDTO {
@@ -674,6 +793,9 @@ export interface QuestApplicationResponseDTO {
   applicantProfileAvatarDataUrl: string | null
   questNavigation: NavigationTargetDTO
   applicantNavigation: NavigationTargetDTO
+  resolutionKey: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
   message: string
   proposedPrice: number
   status: QuestApplicationStatus
@@ -691,6 +813,8 @@ export interface QuestApplicationsViewDTO {
   featuredApplication: QuestApplicationResponseDTO | null
   approvedApplications: QuestApplicationResponseDTO[]
   visibleApplications: QuestApplicationResponseDTO[]
+  pendingApplicationCount: number
+  oldestPendingApplicationId: number | null
   hiddenApplicationsCount: number
   selectedApplicationId: number | null
   canRevealHiddenApplications: boolean
@@ -806,6 +930,9 @@ export interface QuestNewsItemResponseDTO {
   circleRequestId: number | null
   destinationType: QuestNewsDestinationType
   destinationId: number | null
+  resolutionKey: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
   navigation: NavigationTargetDTO
   actorUserId: number
   actorUsername: string
@@ -883,6 +1010,9 @@ export interface QuestResponseDTO {
   creatorProfileAvatarDataUrl: string | null
   questNavigation: NavigationTargetDTO
   creatorNavigation: NavigationTargetDTO
+  resolutionKey: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
   title: string
   description: string
   awardAmount: number
@@ -1016,6 +1146,9 @@ export interface UserLocationSettingsRequestDTO {
 export interface UserProfileViewDTO {
   profile: AppUserResponseDTO
   ownProfile: boolean
+  resolutionKey: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
   relation: CircleRelationDTO
   primaryAction: ProfilePrimaryActionDTO
   showBlockAction: boolean
@@ -1066,6 +1199,10 @@ export interface WorkmarketOptionsDTO {
   questLocationVisibilities: QuestLocationVisibilityOptionDTO[]
 }
 
+export type AdminAgentPlaygroundRequest = AdminAgentPlaygroundRequestDTO
+export type AdminAgentPlaygroundResponse = AdminAgentPlaygroundResponseDTO
+export type AdminAgentSimulationRequest = AdminAgentSimulationRequestDTO
+export type AdminAgentSimulationResponse = AdminAgentSimulationResponseDTO
 export type AdminApplicationsQuery = AdminApplicationsQueryDTO
 export type AdminCircleGroup = AdminCircleGroupResponseDTO
 export type AdminCircleOverview = AdminCircleOverviewDTO

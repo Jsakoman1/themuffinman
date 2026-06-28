@@ -17,6 +17,9 @@ import java.util.List;
 public class UserProfileViewDTO {
     private AppUserResponseDTO profile;
     private boolean ownProfile;
+    private String resolutionKey;
+    private String resolutionLabel;
+    private boolean exactResolutionEligible;
     private CircleRelationDTO relation;
     private ProfilePrimaryActionDTO primaryAction;
     private boolean showBlockAction;

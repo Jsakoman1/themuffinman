@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {QuestApplication} from "../../api/workmarketApi.ts"
 import {formatQuestTermForDisplay} from "../../../../shared/questSchedule.ts"
+import {formatApplicationPrice} from "../../shared/pricing.ts"
 
 withDefaults(defineProps<{
   application: QuestApplication
@@ -22,9 +23,9 @@ withDefaults(defineProps<{
         </span>
       </div>
 
-      <div class="surface-price-pill surface-price-pill--hero quest-overview-aside__reward">
+      <div v-if="application.proposedPrice !== null && application.proposedPrice !== undefined" class="surface-price-pill surface-price-pill--hero quest-overview-aside__reward">
         <span class="surface-price-pill__label">Proposed price</span>
-        <span class="surface-price-pill__amount">$ {{ application.proposedPrice }}</span>
+        <span class="surface-price-pill__amount">{{ formatApplicationPrice(application.proposedPrice) }}</span>
       </div>
 
       <div class="quest-overview-aside__row quest-overview-aside__row--stack">

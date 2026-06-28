@@ -16,4 +16,5 @@ public class CircleRelationDTO {
     private String relationLabel;
     private String relationBadgeClass;
     private boolean blockedByCurrentUser;
+    private boolean exactResolutionEligible;
 }

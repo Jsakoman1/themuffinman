@@ -10,6 +10,9 @@ type ChatWindowState = {
   conversationId: number
   otherUserId: number
   otherUsername: string
+  resolutionKey: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
   otherUserProfileDescription: string | null
   otherUserAvatarDataUrl: string | null
   otherUserOnline: boolean
@@ -280,6 +283,9 @@ export const useAppChat = () => {
       }
 
       windowState.otherUsername = summary.otherUsername
+      windowState.resolutionKey = summary.resolutionKey
+      windowState.resolutionLabel = summary.resolutionLabel
+      windowState.exactResolutionEligible = summary.exactResolutionEligible
       windowState.otherUserProfileDescription = summary.otherUserProfileDescription ?? null
       windowState.otherUserAvatarDataUrl = summary.otherUserAvatarDataUrl ?? null
       windowState.otherUserOnline = summary.otherUserOnline
@@ -295,6 +301,9 @@ export const useAppChat = () => {
       openWindows.value.push({
         ...existingWindow,
         otherUsername: summary.otherUsername,
+        resolutionKey: summary.resolutionKey,
+        resolutionLabel: summary.resolutionLabel,
+        exactResolutionEligible: summary.exactResolutionEligible,
         otherUserProfileDescription: summary.otherUserProfileDescription ?? null,
         otherUserAvatarDataUrl: summary.otherUserAvatarDataUrl ?? null,
         otherUserOnline: summary.otherUserOnline,
@@ -309,6 +318,9 @@ export const useAppChat = () => {
       conversationId: summary.conversationId,
       otherUserId: summary.otherUserId,
       otherUsername: summary.otherUsername,
+      resolutionKey: summary.resolutionKey,
+      resolutionLabel: summary.resolutionLabel,
+      exactResolutionEligible: summary.exactResolutionEligible,
       otherUserProfileDescription: summary.otherUserProfileDescription ?? null,
       otherUserAvatarDataUrl: summary.otherUserAvatarDataUrl ?? null,
       otherUserOnline: summary.otherUserOnline,
@@ -409,6 +421,9 @@ export const useAppChat = () => {
       conversationId: windowState.conversationId,
       otherUserId: windowState.otherUserId,
       otherUsername: windowState.otherUsername,
+      resolutionKey: windowState.resolutionKey,
+      resolutionLabel: windowState.resolutionLabel,
+      exactResolutionEligible: windowState.exactResolutionEligible,
       otherUserProfileDescription: windowState.otherUserProfileDescription,
       otherUserAvatarDataUrl: windowState.otherUserAvatarDataUrl,
       otherUserOnline: windowState.otherUserOnline,

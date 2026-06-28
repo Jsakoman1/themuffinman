@@ -13,6 +13,7 @@ import QuestDetailEditForm from "../components/shared/QuestDetailEditForm.vue"
 import ApplicationManagementCard from "../components/shared/ApplicationManagementCard.vue"
 import {routeForNavigationTarget} from "../shared/navigationTargets.ts"
 import {formatInstantForInput} from "../../../shared/questSchedule.ts"
+import {formatApplicationPrice, isQuestFree} from "../shared/pricing.ts"
 const {
   router,
   quest,
@@ -326,7 +327,8 @@ const openApplicantProfile = (applicationId: number) => {
               :message="applicationMessage"
               :price="proposedPrice"
               :price-placeholder="String(quest.awardAmount ?? '')"
-              quickfill-label="Use suggested"
+              :quickfill-label="isQuestFree(quest.awardAmount) ? undefined : 'Use suggested'"
+              :show-price="!isQuestFree(quest.awardAmount)"
               :can-submit="canSubmitApplication"
               @update:message="applicationMessage = $event"
               @update:price="proposedPrice = $event"
@@ -342,7 +344,9 @@ const openApplicantProfile = (applicationId: number) => {
                 </span>
               </div>
 
-              <div class="surface-price">$ {{ myApplication.proposedPrice }}</div>
+              <div v-if="myApplication.proposedPrice !== null && myApplication.proposedPrice !== undefined" class="surface-price">
+                {{ formatApplicationPrice(myApplication.proposedPrice) }}
+              </div>
 
               <ProfileBio
                 v-if="richTextHasContent(myApplication.message)"

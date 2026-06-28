@@ -19,6 +19,9 @@ public class AppUserResponseDTO {
     private Long id;
     private String email;
     private String username;
+    private String resolutionKey;
+    private String resolutionLabel;
+    private boolean exactResolutionEligible;
     private NavigationTargetDTO profileNavigation;
     @Nullable
     private String profileDescription;

@@ -40,6 +40,9 @@ public class QuestApplicationResponseDTO {
     private String applicantProfileAvatarDataUrl;
     private NavigationTargetDTO questNavigation;
     private NavigationTargetDTO applicantNavigation;
+    private String resolutionKey;
+    private String resolutionLabel;
+    private boolean exactResolutionEligible;
 
     private String message;
     private BigDecimal proposedPrice;

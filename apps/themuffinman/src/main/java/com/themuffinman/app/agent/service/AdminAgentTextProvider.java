@@ -1,0 +1,29 @@
+package com.themuffinman.app.agent.service;
+
+import java.util.List;
+
+public interface AdminAgentTextProvider {
+
+    String providerName();
+
+    boolean isConfigured();
+
+    String generatePlanningSummary(
+            String prompt,
+            List<String> suggestedWorkflows,
+            List<String> matchedSignals,
+            List<String> unresolvedInputs,
+            List<String> warnings
+    );
+
+    default AdminAgentPromptTranslation translatePromptToEnglish(String prompt) {
+        return AdminAgentPromptTranslation.builder()
+                .sourceLanguage("unknown")
+                .originalPrompt(prompt)
+                .translatedPrompt(prompt)
+                .translationProvider(providerName())
+                .translationApplied(false)
+                .translationReliable(false)
+                .build();
+    }
+}

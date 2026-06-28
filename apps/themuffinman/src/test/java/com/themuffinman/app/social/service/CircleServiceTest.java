@@ -410,6 +410,9 @@ class CircleServiceTest {
         var result = circleService.getCircles(currentUser);
 
         assertEquals(1, result.size());
+        assertEquals("circle:10", result.getFirst().getResolutionKey());
+        assertEquals("Friends", result.getFirst().getResolutionLabel());
+        assertEquals(true, result.getFirst().isExactResolutionEligible());
         assertEquals(2, result.getFirst().getMemberCount());
         assertEquals("alice, bob", result.getFirst().getMemberPreviewLabel());
     }
@@ -452,6 +455,9 @@ class CircleServiceTest {
         assertEquals(1, result.getItems().size());
         assertEquals(1, result.getTotalItems());
         assertEquals(1, result.getTotalPages());
+        assertEquals("circle-request:11", result.getItems().getFirst().getResolutionKey());
+        assertEquals("alice", result.getItems().getFirst().getResolutionLabel());
+        assertEquals(true, result.getItems().getFirst().isExactResolutionEligible());
         assertEquals(2L, result.getItems().getFirst().getCounterpartUserId());
         assertEquals("alice", result.getItems().getFirst().getCounterpartUsername());
         assertEquals("Wants to connect", result.getItems().getFirst().getRequestSummaryLabel());
@@ -486,6 +492,9 @@ class CircleServiceTest {
         CircleRequestListResponseDTO result = circleService.getOutgoingRequests(currentUser, "mentor", 0, 10);
 
         assertEquals(1, result.getItems().size());
+        assertEquals("circle-request:12", result.getItems().getFirst().getResolutionKey());
+        assertEquals("bob", result.getItems().getFirst().getResolutionLabel());
+        assertEquals(true, result.getItems().getFirst().isExactResolutionEligible());
         assertEquals(3L, result.getItems().getFirst().getCounterpartUserId());
         assertEquals("bob", result.getItems().getFirst().getCounterpartUsername());
         assertEquals("Invite sent", result.getItems().getFirst().getRequestSummaryLabel());

@@ -22,35 +22,144 @@ The machine-readable source of truth is:
 - Keep workflows procedural, explicit, and dependency-ordered.
 - Prefer hard failure over implicit fallback when the spec does not define a safe next step.
 - Every workflow step should point to concrete source files or concrete endpoint contracts.
+- Resolve entities before mutating them.
+- Clarify ambiguous natural-language targets instead of guessing.
 - A logic change is not complete when only code and tests are updated.
+- For protected documentation-sync phrases, reuse canonical wording from YAML instead of writing near-equivalent variants by hand.
+
+## Generic Contracts
+
+- Entity resolution must be reusable across user, quest, circle, application, conversation, and current-location flows.
+- Resolution results must use exact candidate rules inside an explicit scope such as owned quests, accepted contacts, owner circles, or quest applications.
+- The same read-before-write pattern should be extended across the remaining endpoint surface instead of inventing feature-specific resolution logic.
+- Read-only surfaces should still be modeled explicitly so future agents do not infer capability boundaries from UI behavior alone.
+- Clarification is a first-class contract, not an ad hoc UI behavior.
+- If translation, target resolution, destructive confirmation, or multi-actor context is missing, the safe outcome is to stop.
+- Mutating intents must stay classified by machine-readable risk groups so validation can enforce read-only, destructive, multi-actor, and admin-only boundaries consistently.
+
+Unified clarification contract:
+- fail closed on ambiguity
+- prefer exact one-candidate resolution
+- surface unresolved fields explicitly
+- do not convert approximate matches into silent mutations
+
+Unified destructive confirmation contract:
+- destructive actions require exact target resolution first
+- destructive actions require explicit confirmation second
+- destructive actions must not treat free-form delete phrasing as final authorization
+
+Unified multi-actor contract:
+- workflows that need another user's acceptance, application, confirmation, or message authority must require real actor context
+- a planning layer may describe those missing actor-side prerequisites, but it must not invent them
 
 ## Current Scope
 
 Initial agent-safe workflows:
+- `resolve_user_candidate`
+- `resolve_circle_candidate`
+- `resolve_circle_recipient`
+- `resolve_outgoing_circle_request`
+- `resolve_news_item_candidate`
+- `resolve_current_location_input`
 - `create_user`
+- `create_user_as_admin`
 - `set_profile_location`
+- `set_profile_current_location`
+- `set_profile_details`
+- `open_auth_identity`
+- `open_current_user_account`
+- `open_app_user_options`
+- `open_user_record`
+- `open_admin_user_detail`
+- `update_user_as_admin`
+- `delete_user_as_admin`
+- `open_user_profile`
 - `create_circle_connection`
 - `accept_circle_connection`
+- `cancel_circle_request`
 - `create_circle`
+- `update_circle`
+- `delete_circle`
+- `block_user`
+- `unblock_user`
 - `assign_circle_members`
+- `open_circle_overview`
+- `open_admin_circle_overview`
+- `open_my_circle_relations`
+- `open_circle_relation`
+- `search_nearby_users`
+- `find_owned_quest_candidates`
+- `inspect_owned_quest_pending_applications`
+- `select_oldest_pending_application`
+- `find_my_pending_application_candidates`
+- `find_admin_application_candidates`
+- `open_application_detail`
+- `open_quest_applications`
+- `resolve_chat_conversation`
+- `open_chat_conversation`
+- `open_chat_conversation_messages`
+- `send_chat_message`
+- `heartbeat_chat_presence`
+- `mark_chat_conversation_read`
+- `mark_all_news_read`
+- `mark_news_item_read`
+- `open_location_debug_status`
+- `open_dashboard`
+- `open_dashboard_summary`
+- `open_quest_feed`
+- `open_quest_preset`
+- `open_quest_record`
 - `create_quest`
+- `update_quest`
 - `apply_to_quest`
+- `update_my_application`
+- `withdraw_my_application`
+- `update_admin_application`
+- `delete_admin_application`
 - `approve_application`
 - `decline_application`
+- `delete_quest`
 - `start_quest`
 - `complete_quest`
 - `confirm_quest_term_change`
 - `reject_quest_term_change`
 - `request_owner_term_change`
 - `create_review`
+- `authenticate_user`
 - `create_user_with_quests`
 - `create_circle_only_quest_for_selected_people`
 - `prepare_circle_only_quest_flow_to_start`
 - `voice_prepare_scheduled_circle_only_quest_for_selected_people`
 
+Related admin tooling:
+- an admin agent playground may help classify prompts and surface workflow warnings
+- that playground should translate prompts into a stable planning language before deterministic workflow classification
+- that playground is a planning surface only and never executes mutations directly
+- when configured, the same admin endpoint may request a backend-managed OpenAI planning summary and still fall back to deterministic backend rules
+- planner responses should keep deterministic matched signals and unresolved inputs separate from provider-authored summary text
+
 Initial machine policies:
 - `uniqueness_policy`
 - `edge_case_policy`
+- `automation_read_model_inventory`
+- `intent_safety_catalog`
+- `capability_registry`
+- `intent_lineage_tracking`
+- `prompt_drift_detection`
+- `dry_run_execution_simulation`
+- `backend_contract_snapshots`
+- `service_workflow_inventory`
+- `permission_matrix`
+- `state_transition_audit`
+- `request_validation_gate`
+- `frontend_contract_generation`
+- `automation_safe_ui_contract_layer`
+- `frontend_safety_regressions`
+- `frontend_feature_expectations`
+- `documentation_coverage_manifest`
+- `frontend_contract_gate`
+- `dead_path_tracker`
+- `feature_completion_manifest_validation`
 
 Initial dependency domains:
 - identity
@@ -80,6 +189,7 @@ Whenever a change affects:
 - uniqueness rules
 - batch generation rules
 - edge-case resolution rules
+- admin-generation or sandbox-generation coverage for entities and workflows
 
 update:
 - `docs/business-logic.md`
@@ -96,19 +206,48 @@ No logic-only change is complete until the affected docs, agent artifacts, and v
 
 ## Current Voice-Agent Boundary
 
-Covered execution actions:
+Modeled high-impact execution actions for future executor wiring:
+- approve application after deterministic target resolution
+- decline application after deterministic target resolution
+- delete quest only after exact owned-quest resolution plus explicit destructive confirmation
 - complete quest
 - confirm term change
 - reject term change
 
-Still intentionally not modeled for autonomous execution:
-- delete quest
+Still intentionally not ready for autonomous execution today because no executor exists:
+- any mutation path that only has planning output and no authenticated execution layer yet
 - admin-only quest correction flows not represented in normal owner or worker automation
 
 Composite execution boundary:
 - A voice agent may prepare a circle-only quest flow up to `ASSIGNED` or `STARTED` only if each actor-side step has real authenticated context.
 - It must not invent applications, connection acceptances, or term confirmations on behalf of another user.
 - If the flow requires another actor and that actor context is missing, the safe outcome is to stop.
+
+Pre-executor readiness rule:
+- Before any future executor mutates quests, applications, or circle relations from natural-language input, it must first resolve the target entity through documented read workflows.
+- Approval commands such as "approve the first applicant" must rely on deterministic backend read data, not incidental UI ordering.
+- Delete commands such as "delete my quest that and that" must stop on ambiguous quest matches and require explicit destructive confirmation before mutation.
+- The same fail-closed pattern now also applies to outgoing circle-request cancellation, pending-application self-service, owner-circle deletion, and chat read actions.
+- Executor-critical read DTOs must stay explicitly inventoried in `docs/agent-operating-model.yaml`, including required resolution or selection fields plus at least one verification test path.
+- Validation must fail if those inventoried DTOs drop required fields or if their declared verification tests disappear from the repo.
+- Mutating intents must stay listed in the machine safety catalog with explicit write-risk grouping, exact-target resolution links where needed, and destructive or multi-actor requirements where applicable.
+- Capability dependencies such as external translation, current location, admin authority, second-actor context, and destructive confirmation must stay registered explicitly instead of being inferred from planner text.
+- Dry-run simulation must be able to traverse resolution, clarification, capability checks, safety policy checks, and endpoint selection without mutating production state.
+- Intent lineage must keep source prompts, resolution workflows, target endpoints, safety policies, and expected read DTO usage connected so intent changes can be audited deterministically.
+- Prompt drift detection must keep the multilingual golden matrix stable by validating translation outcome, classified intent, unresolved fields, blocking contracts, and drift fingerprints over time.
+- Backend contract snapshots must fail fast when key planner, resolution, chat, or executor-read DTO shapes drift through renames, removals, or reordered semantics.
+- Service workflow inventory must keep mutating backend service methods, their covered intents, docs, and tests explicitly registered instead of relying on tribal knowledge.
+- Permission matrix rules must keep destructive, multi-actor, admin-only, and orchestration intents tied to explicit actor scopes instead of letting future executors infer authority from prompt wording.
+- State-transition audit must keep quest and application lifecycle transitions explicit, including allowed actors, preconditions, forbidden states, and verification tests.
+- Request validation completeness gates must keep bean-validation annotations, service-side validation markers, docs, and verification tests aligned for mutation request DTOs.
+- Frontend planner and simulation contracts should prefer generated DTO aliases over hand-maintained duplicate types whenever the backend source already exists.
+- The admin-agent UI must separate informational planner output from execution-blocking safety flags instead of interpreting ambiguity, destructive confirmation, translation reliability, or multi-actor risk ad hoc inside the page.
+- Frontend safety regressions must keep explicit negative scenarios for ambiguity, destructive confirmation, multi-actor, translation-unreliable, and current-location-required states, plus at least one safe dry-run path.
+- Feature-scoped frontend expectations should keep the admin-agent page, API client, contract gate, and safety-view-model files tied to the same planner contract surface.
+- Documentation coverage scans must fail if automation-relevant controllers, mappers, or tracked agent service files appear in code without matching source-of-truth registration.
+- The multilingual golden prompt matrix must stay executable so Croatian, English, German, Mandarin, and mixed-slang prompts keep the same planning contracts over time.
+- Frontend contract gates must fail fast if the admin-agent planner response shape drifts away from the frontend TypeScript contract surface.
+- Feature completion manifests may be kept under `.agents/feature-manifests/` and validated against `docs/feature-completion-manifest.schema.json` when a change uses the plan-driven workflow.
 
 ## Sandbox Boundary
 
@@ -119,6 +258,9 @@ Composite execution boundary:
 - Sandbox flow must be limited to admin or developer-controlled environments.
 - Sandbox flow must never reuse production intents in a way that hides synthetic behavior from the caller.
 - Synthetic flows should eventually write identifiable markers on created data once backend support exists.
+- When product logic expands, affected admin-generation and sandbox-generation flows must be reviewed and extended in the same change so generated data stays aligned with current backend rules.
+- review and extend affected admin or sandbox generation flows
+- synthetic admin-generation flows must be kept current with newly introduced feature logic, validations, and edge cases
 
 ## Modeling Rule
 
@@ -132,6 +274,9 @@ Composite execution boundary:
 
 ## New Workmarket Execution Notes
 
+- `create_quest` accepts `awardAmount == 0` for a free quest, but still rejects negative amounts.
+- `apply_to_quest` requires a proposed price only for paid quests.
+- `apply_to_quest` must omit proposed price for free quests instead of sending `0`.
 - `start_quest` requires `ASSIGNED` status and execution authority.
 - `complete_quest` requires `IN_PROGRESS` status and execution authority.
 - `confirm_quest_term_change` requires `WAITING_CONFIRMATION` plus approved-worker or admin authority.

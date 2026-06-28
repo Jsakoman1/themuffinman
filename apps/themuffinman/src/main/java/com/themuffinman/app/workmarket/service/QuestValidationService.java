@@ -161,8 +161,8 @@ public class QuestValidationService {
             throw ServiceErrors.badRequest("Award amount is required");
         }
 
-        if (awardAmount.compareTo(BigDecimal.valueOf(0.01)) < 0) {
-            throw ServiceErrors.badRequest("Award amount must be at least 0.01");
+        if (awardAmount.compareTo(BigDecimal.ZERO) < 0) {
+            throw ServiceErrors.badRequest("Award amount cannot be negative");
         }
     }
 

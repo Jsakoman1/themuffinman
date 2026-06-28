@@ -3,6 +3,7 @@ import {computed, ref} from "vue"
 import RichTextEditor from "../../../../components/editor/AsyncRichTextEditor.vue"
 import ProfileBio from "../../../../components/profile/ProfileBio.vue"
 import InlineEditableField from "./InlineEditableField.vue"
+import {formatApplicationPrice} from "../../shared/pricing.ts"
 
 const props = defineProps<{
   message: string
@@ -10,6 +11,7 @@ const props = defineProps<{
   pricePlaceholder?: string
   quickfillLabel?: string
   inlineEditable?: boolean
+  showPrice?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -20,8 +22,7 @@ const emit = defineEmits<{
 
 const editingMessage = ref(false)
 const editingPrice = ref(false)
-
-const displayPrice = computed(() => props.price?.trim() ? `$ ${props.price.trim()}` : "Not set")
+const displayPrice = computed(() => props.price?.trim() ? `$ ${props.price.trim()}` : formatApplicationPrice(null))
 </script>
 
 <template>
@@ -61,7 +62,7 @@ const displayPrice = computed(() => props.price?.trim() ? `$ ${props.price.trim(
     </div>
 
     <InlineEditableField
-      v-if="props.inlineEditable !== false"
+      v-if="props.inlineEditable !== false && props.showPrice !== false"
       label="Proposed price"
       :editing="editingPrice"
       field-class="ui-edit-field--price"
@@ -89,7 +90,7 @@ const displayPrice = computed(() => props.price?.trim() ? `$ ${props.price.trim(
       </template>
     </InlineEditableField>
 
-    <div v-else class="ui-edit-field ui-edit-field--price field">
+    <div v-else-if="props.showPrice !== false" class="ui-edit-field ui-edit-field--price field">
       <div class="field__header">
         <span class="label">Proposed price</span>
         <button v-if="quickfillLabel" class="button button--ghost calendar-application-form__quickfill" type="button" @click="emit('quickfill')">

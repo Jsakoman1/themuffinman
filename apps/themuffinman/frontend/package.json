@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "generate:contracts": "node ./scripts/generate-workmarket-contracts.mjs",
-    "type-check": "vue-tsc --noEmit"
+    "type-check": "vue-tsc --noEmit",
+    "validate:admin-agent-ui": "node ./scripts/validate-admin-agent-ui-scenarios.mjs"
   },
   "dependencies": {
     "@tiptap/extension-image": "^3.7.2",

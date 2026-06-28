@@ -61,6 +61,7 @@ Current covered modules:
 - A profile is more than identity basics; it also includes avatar, rich-text description, and location settings.
 - Profile description is sanitized before being returned.
 - Avatar input is normalized before save.
+- Current-location updates are a distinct capability from free-text address edits and require trusted device coordinates or reverse lookup before save.
 - Public profile view is relation-aware, so the same profile can expose different primary actions depending on who is viewing it.
 - Profile view also includes open quest count, recent open quests, and separate employer or worker rating summaries.
 
@@ -196,6 +197,22 @@ Current covered modules:
 - Create a quest plus synthetic applications from selected workers.
 - Push a quest through approve, start, complete, and review states for UI and reporting tests.
 
+## Admin Agent Playground
+
+- Admins can use a lightweight agent playground to try prompts against a backend planning surface.
+- The current playground is for safe prompt and workflow testing only.
+- It does not execute mutations and it does not rely on the ChatGPT consumer app.
+- The playground now runs a translation layer before workflow classification so prompts do not have to be written only in English.
+- Local fallback translation is intentionally limited and mainly covers known planning phrases, while broader language support depends on a backend-managed provider.
+- The planner now also returns structured resolution, clarification, and execution-readiness contracts instead of only free-form warnings.
+- The same agent-safe pattern is now expected across quest updates, application self-service, circle-group management, outgoing request cancellation, and chat read actions.
+- The same agent-safe pattern now also covers profile self-update, notification read actions, and admin-side application correction or deletion.
+- The operating model now also explicitly covers common read surfaces such as dashboard, circle overview, quest detail, application detail, chat history, and admin debug status instead of leaving them implicit.
+- When configured, the same admin endpoint can ask a backend-managed OpenAI provider for a concise planning summary.
+- If OpenAI is not configured or fails, the playground falls back to the deterministic local planner instead of blocking the admin UI.
+- The response should separate the free-form summary from deterministic planner output such as matched signals, unresolved inputs, warnings, and suggested workflows.
+- The provider-written summary should stay bounded by the deterministic planner output instead of inventing new workflow ids or missing-input requirements.
+
 ## Chat
 
 ### What the module does
@@ -245,6 +262,7 @@ Current covered modules:
 - Workspace combines recent conversations, contact list, owned circles, unread conversation count, and online contact count.
 - Contacts are derived from the current user's circle memberships plus existing conversation counterparts.
 - Chat workspace only includes current accepted circle contacts.
+- Contact and conversation read models now expose deterministic resolution hints for future agent-safe chat targeting.
 - The workspace is already shaped for UI consumption and is not just a raw join of tables.
 
 ### Presence and realtime
@@ -320,6 +338,7 @@ Current covered modules:
 ### Search and nearby discovery
 
 - General user search is relationship-aware and shows different actions depending on relation status.
+- Future agent flows must stop on ambiguous recipient matches instead of guessing which person a partial name means.
 - Invite candidates are simply users with no current relation.
 - Blocked users are shown only when the current user initiated the block.
 - Nearby discovery only works when the current user has a discoverable saved location.
@@ -330,6 +349,9 @@ Current covered modules:
 - Social responses already include labels, badge classes, summary labels, and primary or secondary actions.
 - The frontend is not expected to infer relation semantics from raw timestamps alone.
 - Profile and search actions are relation-aware, including invite, accept, cancel, block, unblock, and open-circles behaviors.
+- Search and relation read models now also carry deterministic resolution hints so future automation can identify exact targets without rebuilding labels client-side.
+- Outgoing request rows and owned circle rows also carry deterministic resolution hints so future automation can cancel or delete exact targets without guessing.
+- Admin and direct user read models now also carry deterministic resolution hints so future automation can target exact accounts without rebuilding labels client-side.
 
 ### Who can do what
 
@@ -392,10 +414,13 @@ Current covered modules:
 - Users apply to open quests with a message and a proposed price.
 - Only one application per user per quest is allowed.
 - Owners and admins can approve or decline pending applications.
+- Owner-side application views now expose deterministic pending-selection metadata so future automation can know whether pending applications exist and which pending application is the oldest.
 - Approved applications fill worker slots up to the quest assignee target.
 - If all spots are filled, the quest becomes `ASSIGNED` and remaining pending applications are declined automatically.
 - Owners and admins can only decline applications while the quest is still open and the application is still pending.
 - Applicants can update or withdraw only while the application is still pending.
+- Pending-application self-service should resolve one exact current pending application before update or withdrawal.
+- Notification item read should resolve one exact current news item before mutation, while mark-all-read stays scoped to the authenticated user's own feed.
 
 ### Dashboard
 
@@ -437,6 +462,9 @@ Current covered modules:
 - Quest creation requires title, description, award amount, and valid time/location input.
 - By default a quest is circle-oriented unless the creator explicitly opens it to everyone.
 - Owners can edit most quest fields.
+- Future automation must resolve exactly one owned quest before owner-side actions such as approve, decline, or delete.
+- The same read-before-write rule should be reused for owner-side quest update, owner-circle update or delete, outgoing circle-request cancellation, and chat read actions.
+- Deleting a quest is a destructive owner action and should require explicit confirmation after exact quest resolution.
 - Admins can additionally change quest ownership and perform broader status updates.
 - Quest detail is not just raw data; it is assembled with viewer-specific actions and presentation fields.
 - Quest list is available both as free search and as backend-defined presets like available work, my visible quests, and my active quests.
@@ -573,6 +601,7 @@ Current covered modules:
 - The creator owns the quest.
 - A quest can be public to everyone or limited to selected circles.
 - A quest can have a schedule, a deadline, images, a reward amount, and a target number of assignees.
+- A quest reward amount can also be `0`, which means the quest is free.
 - A quest can also carry location data and visibility rules that affect who can see it.
 
 ### Chat
@@ -585,7 +614,8 @@ Current covered modules:
 
 - A quest title is required.
 - A quest description is required and must contain meaningful rich text content.
-- A quest reward amount is required and must be at least `0.01`.
+- A quest reward amount is required and cannot be negative.
+- A quest with reward amount `0` is treated as a free quest.
 - A quest can contain up to 10 images.
 - Quest images must be image data URLs.
 - The assignee target defaults to `1` and cannot be less than `1`.
@@ -594,6 +624,8 @@ Current covered modules:
 - If the term is fixed, create requires a `scheduledAt`.
 - Custom quest location requires at least one location field.
 - A quest using custom location must resolve to usable coordinates before save.
+- Applications for paid quests must include a proposed price of at least `0.01`.
+- Applications for free quests must not include a proposed price.
 
 ## Time and Term Rules
 
@@ -626,6 +658,10 @@ A quest is a task posted by one user so other users can apply, coordinate, and c
 ### Why can some quests be circle-only?
 
 Because the creator may want the task visible only to trusted people or selected groups.
+
+### Why do some quests show as free and hide the application price?
+
+Because a quest with reward amount `0` is treated as free, so applicants do not negotiate or submit a price for it.
 
 ### Why does chat require circles?
 

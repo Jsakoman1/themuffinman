@@ -4,6 +4,7 @@ import {QUEST_IMAGE_PROCESSING_ERROR_MESSAGE, QUEST_IMAGE_TOO_LARGE_MESSAGE} fro
 import {compressQuestImageFile} from "../../../../shared/imageCompression.ts"
 import {formatInstantForInput, parseInstantFromInput} from "../../../../shared/questSchedule.ts"
 import {workmarketApi, type CircleGroup, type Quest, type QuestAudienceOption, type QuestLocationVisibilityOption} from "../../api/workmarketApi.ts"
+import {buildQuestAwardAmountInput} from "../../shared/pricing.ts"
 
 type QuestDetailEditState = {
   quest: Ref<Quest | null>
@@ -150,7 +151,7 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
       await workmarketApi.updateQuest(state.quest.value.id, {
         title: editTitle.value.trim(),
         description: editDescription.value,
-        awardAmount: Number(editAwardAmount.value),
+        awardAmount: buildQuestAwardAmountInput(editAwardAmount.value),
         assigneeTarget: Number(editAssigneeTarget.value || "1"),
         showApprovedApplicants: editShowApprovedApplicants.value,
         scheduledAt: editScheduledAt.value ? parseInstantFromInput(editScheduledAt.value) : null,

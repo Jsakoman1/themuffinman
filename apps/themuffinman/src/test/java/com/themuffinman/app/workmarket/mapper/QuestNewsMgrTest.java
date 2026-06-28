@@ -25,6 +25,9 @@ class QuestNewsMgrTest {
         var dto = questNewsMgr.toDto(item);
 
         assertEquals("+", dto.getIconGlyph());
+        assertEquals("news:7", dto.getResolutionKey());
+        assertEquals("New circle request", dto.getResolutionLabel());
+        assertTrue(dto.isExactResolutionEligible());
         assertTrue(dto.isCanAcceptCircleRequest());
         assertTrue(dto.isCanDeclineCircleRequest());
     }

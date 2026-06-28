@@ -1,0 +1,84 @@
+cases:
+  - id: hr_approve_first_applicant
+    prompt: "Ako ima vise prijava na moj quest approvaj onog tko se applicirao prvi"
+    driftFingerprint: "lang=hr|signals=application_approval,oldest_pending_selection|workflows=find_owned_quest_candidates,inspect_owned_quest_pending_applications,select_oldest_pending_application,approve_application|clarify=true|destructive=false|multi=true"
+    expected:
+      promptSourceLanguage: "hr"
+      translationProvider: "local"
+      translationApplied: true
+      translationReliable: true
+      clarificationRequired: true
+      destructiveConfirmationRequired: false
+      multiActorContextRequired: true
+      currentLocationCapabilityRequired: false
+      matchedSignals: [application_approval, oldest_pending_selection]
+      suggestedWorkflows: [find_owned_quest_candidates, inspect_owned_quest_pending_applications, select_oldest_pending_application, approve_application]
+      unresolvedInputs: [exact owned quest identity]
+  - id: en_delete_quest
+    prompt: "Delete my quest Garden Help"
+    driftFingerprint: "lang=en|signals=quest_deletion|workflows=find_owned_quest_candidates,delete_quest|clarify=true|destructive=true|multi=false"
+    expected:
+      promptSourceLanguage: "en"
+      translationProvider: "local"
+      translationApplied: false
+      translationReliable: true
+      clarificationRequired: true
+      destructiveConfirmationRequired: true
+      multiActorContextRequired: false
+      currentLocationCapabilityRequired: false
+      matchedSignals: [quest_deletion]
+      suggestedWorkflows: [find_owned_quest_candidates, delete_quest]
+      unresolvedInputs: [exact owned quest identity, destructive confirmation]
+  - id: de_current_location
+    prompt: "Ändere meinen Account-Standort auf meinen aktuellen Standort"
+    driftFingerprint: "lang=de|signals=current_location_update|workflows=resolve_current_location_input,set_profile_current_location|clarify=true|destructive=false|multi=false"
+    providerTranslation:
+      sourceLanguage: "de"
+      translatedPrompt: "change my account location to my current location"
+      reliable: true
+    expected:
+      promptSourceLanguage: "de"
+      translationProvider: "openai"
+      translationApplied: true
+      translationReliable: true
+      clarificationRequired: true
+      destructiveConfirmationRequired: false
+      multiActorContextRequired: false
+      currentLocationCapabilityRequired: true
+      matchedSignals: [current_location_update]
+      suggestedWorkflows: [resolve_current_location_input, set_profile_current_location]
+      unresolvedInputs: [current device coordinates]
+  - id: zh_friend_request
+    prompt: "给 Tom 发送好友请求"
+    driftFingerprint: "lang=zh|signals=connection_request|workflows=resolve_circle_recipient,create_circle_connection|clarify=true|destructive=false|multi=false"
+    providerTranslation:
+      sourceLanguage: "zh"
+      translatedPrompt: "send friend request to Tom"
+      reliable: true
+    expected:
+      promptSourceLanguage: "zh"
+      translationProvider: "openai"
+      translationApplied: true
+      translationReliable: true
+      clarificationRequired: true
+      destructiveConfirmationRequired: false
+      multiActorContextRequired: false
+      currentLocationCapabilityRequired: false
+      matchedSignals: [connection_request]
+      suggestedWorkflows: [resolve_circle_recipient, create_circle_connection]
+      unresolvedInputs: [exact recipient identity]
+  - id: mixed_slang_admin_delete_user
+    prompt: "pls obriši user Tom asap"
+    driftFingerprint: "lang=hr|signals=admin_user_deletion|workflows=resolve_user_candidate,delete_user_as_admin|clarify=true|destructive=true|multi=false"
+    expected:
+      promptSourceLanguage: "hr"
+      translationProvider: "local"
+      translationApplied: true
+      translationReliable: true
+      clarificationRequired: true
+      destructiveConfirmationRequired: true
+      multiActorContextRequired: false
+      currentLocationCapabilityRequired: false
+      matchedSignals: [admin_user_deletion]
+      suggestedWorkflows: [resolve_user_candidate, delete_user_as_admin]
+      unresolvedInputs: [exact user identity, destructive confirmation]

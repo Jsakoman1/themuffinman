@@ -1,0 +1,41 @@
+featureId: agent_safety_enforcement_round2
+title: Agent safety enforcement round 2
+status: complete
+riskTier: high
+planFile: .agents/agent-safety-enforcement-round2-plan.md
+summary:
+  - Add stronger enforcement layers for producer coverage, capability boundaries, feature completion tracking, dead-path checks, and frontend contract safety.
+  - Add reusable `.agents` templates and documented plan-creation rules for future multi-layer feature work.
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: true
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
+    - apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+    - Makefile
+    - apps/themuffinman/Makefile
+  docPaths:
+    - AGENTS.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/agent-operating-model.schema.json
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    - docs/feature-completion-manifest.schema.json
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
+  auditCommands:
+    - make audit-agent-safety
+    - ./mvnw test
+    - npm run type-check

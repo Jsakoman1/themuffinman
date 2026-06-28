@@ -1,6 +1,7 @@
 import {QUEST_IMAGE_PROCESSING_ERROR_MESSAGE, QUEST_IMAGE_TOO_LARGE_MESSAGE} from "../../../../shared/clientMessages.ts"
 import {compressQuestImageFile} from "../../../../shared/imageCompression.ts"
 import {workmarketApi} from "../../api/workmarketApi.ts"
+import {buildQuestAwardAmountInput} from "../../shared/pricing.ts"
 import type {QuestMutationContext} from "./questMutationTypes.ts"
 
 export const useQuestDashboardQuestEditMutations = ({
@@ -21,7 +22,7 @@ export const useQuestDashboardQuestEditMutations = ({
       run: () => workmarketApi.updateQuest(questId, {
         title: state.editQuestTitle.value.trim(),
         description: state.editQuestDescription.value,
-        awardAmount: Number(state.editQuestAwardAmount.value),
+        awardAmount: buildQuestAwardAmountInput(state.editQuestAwardAmount.value),
         assigneeTarget: Number(state.editQuestAssigneeTarget.value || "1"),
         showApprovedApplicants: state.editQuestShowApprovedApplicants.value,
         scheduledAt,

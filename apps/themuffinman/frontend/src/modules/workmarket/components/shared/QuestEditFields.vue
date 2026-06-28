@@ -7,6 +7,7 @@ import type {CircleGroup, QuestAudienceOption} from "../../api/workmarketApi.ts"
 import type {QuestStatus} from "../../domain/workmarketDomain.ts"
 import {formatInstantForDisplay} from "../../../../shared/questSchedule.ts"
 import InlineEditableField from "./InlineEditableField.vue"
+import {formatQuestReward} from "../../shared/pricing.ts"
 
 const minimumScheduleValue = new Date().toISOString().slice(0, 16)
 
@@ -153,7 +154,7 @@ const creatorLabel = computed(() => {
           </div>
         </template>
         <template #display>
-          <div class="ui-inline-readonly-text">{{ awardAmount?.trim() ? `$ ${awardAmount.trim()}` : "Not set" }}</div>
+          <div class="ui-inline-readonly-text">{{ awardAmount?.trim() ? formatQuestReward(Number(awardAmount.trim())) : "Not set" }}</div>
         </template>
       </InlineEditableField>
 

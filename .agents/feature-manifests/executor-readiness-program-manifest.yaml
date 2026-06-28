@@ -1,0 +1,58 @@
+featureId: executor_readiness_program
+title: Executor readiness program
+status: complete
+riskTier: executor-critical
+planFile: .agents/executor-readiness-program-plan.md
+summary:
+  - Build the next large executor-readiness control package in phased increments.
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: true
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - scripts/bootstrap-feature-work.sh
+    - scripts/feature-closeout-audit.sh
+    - Makefile
+    - apps/themuffinman/Makefile
+    - apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentCapabilityAssessmentDTO.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentEndpointPlanDTO.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentIntentLineageDTO.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionConfidenceDTO.java
+    - apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs
+    - apps/themuffinman/frontend/scripts/validate-admin-agent-ui-scenarios.mjs
+    - apps/themuffinman/frontend/scripts/fixtures/admin-agent-ui-scenarios.json
+    - apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
+    - apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts
+    - apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts
+    - apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+    - apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts
+    - apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue
+  docPaths:
+    - AGENTS.md
+    - docs/feature-completion-manifest.schema.json
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.schema.json
+    - docs/agent-operating-model.yaml
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
+    - apps/themuffinman/src/test/resources/agent/admin-agent-golden-prompt-matrix.yaml
+  auditCommands:
+    - make audit-agent-safety
+    - ./mvnw test
+    - npm run type-check
+    - npm run build
+    - npm run validate:admin-agent-ui

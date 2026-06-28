@@ -93,6 +93,9 @@ class ChatServiceTest {
 
         assertEquals(7L, result.getConversationId());
         assertEquals(otherUser.getId(), result.getOtherUserId());
+        assertEquals("conversation:7", result.getResolutionKey());
+        assertEquals("Chat with john", result.getResolutionLabel());
+        assertEquals(true, result.isExactResolutionEligible());
         verify(chatConversationRepository).save(any(ChatConversation.class));
     }
 
@@ -202,6 +205,8 @@ class ChatServiceTest {
         assertEquals(1, result.getUnreadConversationCount());
         assertEquals(1, result.getOnlineContactCount());
         assertEquals("Family", result.getCircles().getFirst().getName());
+        assertEquals("chat-contact:2", result.getContacts().getFirst().getResolutionKey());
+        assertEquals("conversation:5", result.getConversations().getFirst().getResolutionKey());
     }
 
     @Test

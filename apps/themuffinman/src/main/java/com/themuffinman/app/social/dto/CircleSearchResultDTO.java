@@ -21,6 +21,9 @@ public class CircleSearchResultDTO {
     private String locationLabel;
     private Double distanceKm;
     private String distanceLabel;
+    private String resolutionKey;
+    private String resolutionLabel;
+    private boolean exactResolutionEligible;
     private CircleRelationStatus relationStatus;
     private String relationLabel;
     private String relationBadgeClass;

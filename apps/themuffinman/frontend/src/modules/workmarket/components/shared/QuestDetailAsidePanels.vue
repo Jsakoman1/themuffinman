@@ -7,6 +7,7 @@ import UiStarRatingInput from "../../../../components/ui/UiStarRatingInput.vue"
 import {richTextHasContent} from "../../../../shared/richText.ts"
 import type {Quest, QuestApplication, QuestDetail} from "../../api/workmarketApi.ts"
 import {formatQuestScheduleForDisplay, formatQuestTermForDisplay} from "../../../../shared/questSchedule.ts"
+import {formatApplicationPrice, formatQuestReward} from "../../shared/pricing.ts"
 
 const props = withDefaults(defineProps<{
   quest?: Quest | null
@@ -88,7 +89,7 @@ const emit = defineEmits<{
       <div class="quest-overview-aside">
         <div class="surface-price-pill surface-price-pill--hero quest-overview-aside__reward">
           <span class="surface-price-pill__label">Reward</span>
-          <span class="surface-price-pill__amount">$ {{ quest.awardAmount }}</span>
+          <span class="surface-price-pill__amount">{{ formatQuestReward(quest.awardAmount) }}</span>
         </div>
 
         <div class="quest-overview-aside__row quest-overview-aside__row--stack">
@@ -175,7 +176,9 @@ const emit = defineEmits<{
         </span>
       </template>
 
-      <div class="surface-price">$ {{ myApplication.proposedPrice }}</div>
+      <div v-if="myApplication.proposedPrice !== null && myApplication.proposedPrice !== undefined" class="surface-price">
+        {{ formatApplicationPrice(myApplication.proposedPrice) }}
+      </div>
 
       <ProfileBio
         v-if="richTextHasContent(myApplication.message)"

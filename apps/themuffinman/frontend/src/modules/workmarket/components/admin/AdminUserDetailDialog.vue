@@ -14,6 +14,7 @@ import ProfileIdentityEditor from "../shared/ProfileIdentityEditor.vue"
 import ProfileLocationEditor from "../shared/ProfileLocationEditor.vue"
 import {routeForNavigationTarget} from "../../shared/navigationTargets.ts"
 import {workmarketApi} from "../../api/workmarketApi.ts"
+import {formatQuestReward} from "../../shared/pricing.ts"
 import type {
   AdminUserDetail,
   AppUserRequest,
@@ -452,7 +453,7 @@ watch(() => [props.open, props.userId] as const, ([open]) => {
                   v-for="quest in targetUser.openQuests"
                   :key="quest.id"
                   :title="quest.title"
-                  :meta="`$ ${quest.awardAmount} · ${formatQuestTermForDisplay(quest.scheduledAt, quest.endsAt, quest.termFixed)}`"
+                  :meta="`${formatQuestReward(quest.awardAmount)} · ${formatQuestTermForDisplay(quest.scheduledAt, quest.endsAt, quest.termFixed)}`"
                   :status-class="quest.presentation.statusBadgeClass"
                   :status-label="quest.presentation.statusLabel"
                   :description="quest.description"

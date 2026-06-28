@@ -10,6 +10,7 @@ import type {QuestStatus} from "../../domain/workmarketDomain.ts"
 import {formatInstantForDisplay} from "../../../../shared/questSchedule.ts"
 import InlineEditableField from "./InlineEditableField.vue"
 import {useDebouncedWatch} from "../../../../composables/useDebouncedWatch.ts"
+import {formatQuestReward} from "../../shared/pricing.ts"
 
 const props = withDefaults(defineProps<{
   formId?: string
@@ -419,7 +420,7 @@ useDebouncedWatch(customLocationQuery, () => {
               </div>
               </template>
               <template #display>
-              <div class="ui-inline-readonly-text">{{ awardAmount?.trim() ? `$ ${awardAmount.trim()}` : "Not set" }}</div>
+              <div class="ui-inline-readonly-text">{{ awardAmount?.trim() ? formatQuestReward(Number(awardAmount.trim())) : "Not set" }}</div>
               </template>
             </InlineEditableField>
 

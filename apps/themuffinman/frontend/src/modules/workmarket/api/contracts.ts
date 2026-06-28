@@ -45,7 +45,6 @@ export type {
   QuestApplicationDetail,
   QuestApplicationDetailSections,
   QuestApplicationListResponse,
-  QuestApplicationRequest,
   QuestApplicationsView,
   QuestDetail,
   QuestDetailSections,
@@ -66,10 +65,20 @@ export type {
 } from "../../../contracts/index.ts"
 
 export type ActionResult = import("../../../contracts/index.ts").ActionResultDTO
-export type AdminQuestApplicationUpdateRequest = import("../../../contracts/index.ts").AdminQuestApplicationUpdateRequestDTO
 export type AdminUserDetail = import("../../../contracts/index.ts").AdminUserDetailDTO
-export type QuestRequest = import("../../../contracts/index.ts").QuestRequestDTO & {
+export type AdminAgentPlaygroundRequest = import("../../../contracts/index.ts").AdminAgentPlaygroundRequest
+export type AdminAgentPlaygroundResponse = import("../../../contracts/index.ts").AdminAgentPlaygroundResponse
+export type AdminAgentSimulationRequest = import("../../../contracts/index.ts").AdminAgentSimulationRequest
+export type AdminAgentSimulationResponse = import("../../../contracts/index.ts").AdminAgentSimulationResponse
+export type QuestRequest = Omit<import("../../../contracts/index.ts").QuestRequestDTO, "awardAmount"> & {
+  awardAmount: number | null
   images?: string[]
+}
+export type QuestApplicationRequest = Omit<import("../../../contracts/index.ts").QuestApplicationRequestDTO, "proposedPrice"> & {
+  proposedPrice?: number | null
+}
+export type AdminQuestApplicationUpdateRequest = Omit<import("../../../contracts/index.ts").AdminQuestApplicationUpdateRequestDTO, "proposedPrice"> & {
+  proposedPrice?: number | null
 }
 export type AdminApplicationsQuery = Partial<Omit<import("../../../contracts/index.ts").AdminApplicationsQueryDTO, "status">> & {
   status?: QuestApplicationStatus | "ALL"

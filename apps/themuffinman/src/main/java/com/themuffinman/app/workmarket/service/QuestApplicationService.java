@@ -45,7 +45,7 @@ public class QuestApplicationService {
         Quest quest = requireVisibleOpenQuest(questId, currentUser);
         validateNotQuestCreator(quest, currentUser);
         validateNoDuplicateApplication(questId, currentUser.getId());
-        validateApplicationInput(dto);
+        validateApplicationInput(dto, quest);
 
         QuestApplication application = questApplicationMgr.toEntity(dto, quest, currentUser);
         QuestApplicationResponseDTO response = saveAndMapApplication(application);
@@ -66,9 +66,15 @@ public class QuestApplicationService {
         Quest quest = requireQuest(questId);
         validateQuestOwnerOrAdmin(quest, currentUser);
 
-        List<QuestApplicationResponseDTO> sortedApplications = questApplicationRepository.findByQuestId(questId).stream()
+        List<QuestApplication> applications = questApplicationRepository.findByQuestId(questId);
+        List<QuestApplicationResponseDTO> sortedApplications = applications.stream()
                 .sorted(Comparator.comparing(QuestApplication::getId).reversed())
                 .map(application -> withAllowedActions(questApplicationMgr.toDto(application), resolveManagementActions(application)))
+                .toList();
+        List<QuestApplication> oldestPendingApplications = applications.stream()
+                .filter(application -> application.getStatus() == QuestApplicationStatus.PENDING)
+                .sorted(Comparator.comparing(QuestApplication::getCreatedAt, Comparator.nullsLast(Comparator.naturalOrder()))
+                        .thenComparing(QuestApplication::getId))
                 .toList();
 
         List<QuestApplicationResponseDTO> approvedApplications = sortedApplications.stream()
@@ -84,6 +90,8 @@ public class QuestApplicationService {
                 .featuredApplication(featuredApplication)
                 .approvedApplications(approvedApplications)
                 .visibleApplications(visibleApplications)
+                .pendingApplicationCount(oldestPendingApplications.size())
+                .oldestPendingApplicationId(oldestPendingApplications.isEmpty() ? null : oldestPendingApplications.getFirst().getId())
                 .hiddenApplicationsCount(hiddenApplicationsCount)
                 .selectedApplicationId(resolveSelectedApplicationId(approvedApplications, visibleApplications))
                 .canRevealHiddenApplications(canRevealHiddenApplications)
@@ -102,6 +110,8 @@ public class QuestApplicationService {
                 .featuredApplication(approvedApplications.isEmpty() ? null : approvedApplications.getFirst())
                 .approvedApplications(approvedApplications)
                 .visibleApplications(List.of())
+                .pendingApplicationCount(0)
+                .oldestPendingApplicationId(null)
                 .hiddenApplicationsCount(0)
                 .selectedApplicationId(approvedApplications.isEmpty() ? null : approvedApplications.getFirst().getId())
                 .canRevealHiddenApplications(false)
@@ -176,6 +186,9 @@ public class QuestApplicationService {
         }
 
         if (dto.getProposedPrice() != null) {
+            if (isFreeQuest(application.getQuest())) {
+                throw ServiceErrors.badRequest("Free quest applications cannot have a proposed price");
+            }
             if (dto.getProposedPrice().compareTo(java.math.BigDecimal.valueOf(0.01)) < 0) {
                 throw ServiceErrors.badRequest("Proposed price must be at least 0.01");
             }
@@ -211,7 +224,7 @@ public class QuestApplicationService {
     @Transactional
     public QuestApplicationResponseDTO updateMyApplication(Long questId, QuestApplicationRequestDTO dto, AppUser currentUser) {
         QuestApplication application = requirePendingMyApplication(questId, currentUser);
-        validateApplicationInput(dto);
+        validateApplicationInput(dto, application.getQuest());
         application.setMessage(RichTextInputValidator.sanitize(dto.getMessage()));
         application.setProposedPrice(dto.getProposedPrice());
         QuestApplicationResponseDTO response = saveAndMapApplication(application);
@@ -502,7 +515,7 @@ public class QuestApplicationService {
         }
     }
 
-    private void validateApplicationInput(QuestApplicationRequestDTO dto) {
+    private void validateApplicationInput(QuestApplicationRequestDTO dto, Quest quest) {
         if (dto == null) {
             throw ServiceErrors.badRequest("Quest application request is required");
         }
@@ -511,13 +524,24 @@ public class QuestApplicationService {
             throw ServiceErrors.badRequest("Application message is required");
         }
 
+        if (isFreeQuest(quest)) {
+            if (dto.getProposedPrice() != null) {
+                throw ServiceErrors.badRequest("Free quest applications cannot have a proposed price");
+            }
+            return;
+        }
+
         if (dto.getProposedPrice() == null) {
-            throw ServiceErrors.badRequest("Proposed price is required");
+            throw ServiceErrors.badRequest("Proposed price is required for paid quests");
         }
 
         if (dto.getProposedPrice().compareTo(java.math.BigDecimal.valueOf(0.01)) < 0) {
             throw ServiceErrors.badRequest("Proposed price must be at least 0.01");
         }
+    }
+
+    private boolean isFreeQuest(Quest quest) {
+        return quest.getAwardAmount() != null && quest.getAwardAmount().compareTo(java.math.BigDecimal.ZERO) == 0;
     }
 
     private void validateQuestOwnerOrAdmin(Quest quest, AppUser currentUser) {

@@ -81,6 +81,7 @@ const saveApplication = async () => {
                 :message="props.dashboard.editApplicationMessage"
                 :price="props.dashboard.editApplicationPrice"
                 price-placeholder="50"
+                :show-price="application.proposedPrice != null"
                 @update:message="props.dashboard.editApplicationMessage = $event"
                 @update:price="props.dashboard.editApplicationPrice = $event"
               />
