@@ -1,0 +1,75 @@
+---
+intent_lineage:
+- intent_id: create_circle_connection
+  source_prompt_examples:
+  - Send friend request to Tom
+  - Pošalji friend request Tomu
+  - 给 Tom 发送好友请求
+  resolution_workflows:
+  - resolve_circle_recipient
+  target_endpoints:
+  - create_circle_request
+  safety_policies:
+  - fail_closed_ambiguity
+  - recipient_acceptance_required
+  expected_read_models:
+  - app_user_resolution_view
+  - circle_search_result_resolution_view
+- intent_id: approve_application
+  source_prompt_examples:
+  - Approve the first applicant for my quest
+  - Ako ima vise prijava approvaj onog tko se applicirao prvi
+  resolution_workflows:
+  - find_owned_quest_candidates
+  - inspect_owned_quest_pending_applications
+  - select_oldest_pending_application
+  target_endpoints:
+  - approve_application
+  safety_policies:
+  - fail_closed_ambiguity
+  - multi_actor_authority
+  - oldest_pending_selection
+  expected_read_models:
+  - quest_resolution_view
+  - quest_applications_selection_view
+  - quest_application_resolution_view
+- intent_id: delete_quest
+  source_prompt_examples:
+  - Delete my quest Garden Help
+  - Obriši moj quest Taj i Taj
+  resolution_workflows:
+  - find_owned_quest_candidates
+  target_endpoints:
+  - delete_quest
+  safety_policies:
+  - fail_closed_ambiguity
+  - destructive_confirmation
+  expected_read_models:
+  - quest_resolution_view
+- intent_id: set_profile_current_location
+  source_prompt_examples:
+  - Change my account location to my current location
+  - Promijeni lokaciju mog accounta na trenutnu
+  resolution_workflows:
+  - resolve_current_location_input
+  target_endpoints:
+  - update_current_user
+  safety_policies:
+  - current_location_capability
+  - fail_closed_ambiguity
+  expected_read_models:
+  - user_profile_resolution_view
+- intent_id: delete_user_as_admin
+  source_prompt_examples:
+  - Delete user Tom
+  - pls obriši user Tom asap
+  resolution_workflows:
+  - resolve_user_candidate
+  target_endpoints:
+  - delete_user_as_admin
+  safety_policies:
+  - destructive_confirmation
+  - admin_authority
+  - fail_closed_ambiguity
+  expected_read_models:
+  - app_user_resolution_view

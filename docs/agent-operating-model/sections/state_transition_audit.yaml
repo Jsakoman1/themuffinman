@@ -1,0 +1,210 @@
+---
+state_transition_audit:
+- id: quest_assignment_on_approval
+  intent_id: approve_application
+  entity: quest
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
+  from_states:
+  - OPEN
+  to_states:
+  - OPEN
+  - ASSIGNED
+  allowed_actors:
+  - owner
+  - admin
+  preconditions:
+  - application is pending
+  - approved count is below assignee target
+  forbidden_states:
+  - WAITING_CONFIRMATION
+  - IN_PROGRESS
+  - COMPLETED
+  - CANCELLED
+  source_refs:
+  - quest_application_service
+  - quest_state_transition_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+- id: application_approval
+  intent_id: approve_application
+  entity: quest_application
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestApplicationStatus
+  from_states:
+  - PENDING
+  to_states:
+  - APPROVED
+  allowed_actors:
+  - owner
+  - admin
+  preconditions:
+  - quest is open
+  - application is pending
+  forbidden_states:
+  - DECLINED
+  - WITHDRAWN
+  source_refs:
+  - quest_application_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+- id: application_decline
+  intent_id: decline_application
+  entity: quest_application
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestApplicationStatus
+  from_states:
+  - PENDING
+  to_states:
+  - DECLINED
+  allowed_actors:
+  - owner
+  - admin
+  preconditions:
+  - quest is open
+  - application is pending
+  forbidden_states:
+  - APPROVED
+  - WITHDRAWN
+  source_refs:
+  - quest_application_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+- id: application_withdraw
+  intent_id: withdraw_my_application
+  entity: quest_application
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestApplicationStatus
+  from_states:
+  - PENDING
+  to_states:
+  - WITHDRAWN
+  allowed_actors:
+  - applicant
+  preconditions:
+  - application belongs to acting user
+  - application is pending
+  forbidden_states:
+  - APPROVED
+  - DECLINED
+  source_refs:
+  - quest_application_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+- id: quest_start
+  intent_id: start_quest
+  entity: quest
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
+  from_states:
+  - ASSIGNED
+  to_states:
+  - IN_PROGRESS
+  allowed_actors:
+  - owner
+  - approved_worker
+  - admin
+  preconditions:
+  - quest is assigned
+  - actor has execution authority
+  forbidden_states:
+  - OPEN
+  - WAITING_CONFIRMATION
+  - COMPLETED
+  - CANCELLED
+  source_refs:
+  - quest_service
+  - quest_state_transition_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+- id: quest_completion
+  intent_id: complete_quest
+  entity: quest
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
+  from_states:
+  - IN_PROGRESS
+  to_states:
+  - COMPLETED
+  allowed_actors:
+  - owner
+  - approved_worker
+  - admin
+  preconditions:
+  - quest is in progress
+  - actor has execution authority
+  forbidden_states:
+  - OPEN
+  - ASSIGNED
+  - WAITING_CONFIRMATION
+  - CANCELLED
+  source_refs:
+  - quest_service
+  - quest_state_transition_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+- id: owner_term_change_request
+  intent_id: request_owner_term_change
+  entity: quest
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
+  from_states:
+  - ASSIGNED
+  - IN_PROGRESS
+  to_states:
+  - WAITING_CONFIRMATION
+  allowed_actors:
+  - owner
+  preconditions:
+  - quest is active for owner
+  - worker side confirmation is still pending
+  forbidden_states:
+  - OPEN
+  - COMPLETED
+  - CANCELLED
+  source_refs:
+  - quest_state_transition_service
+  - quest_update_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+- id: worker_or_admin_term_confirmation
+  intent_id: confirm_quest_term_change
+  entity: quest
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
+  from_states:
+  - WAITING_CONFIRMATION
+  to_states:
+  - ASSIGNED
+  - IN_PROGRESS
+  allowed_actors:
+  - approved_worker
+  - admin
+  preconditions:
+  - quest is waiting confirmation
+  - actor has term-decision authority
+  forbidden_states:
+  - OPEN
+  - COMPLETED
+  - CANCELLED
+  source_refs:
+  - quest_service
+  - quest_state_transition_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+- id: worker_or_admin_term_rejection
+  intent_id: reject_quest_term_change
+  entity: quest
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
+  from_states:
+  - WAITING_CONFIRMATION
+  to_states:
+  - ASSIGNED
+  - IN_PROGRESS
+  allowed_actors:
+  - approved_worker
+  - admin
+  preconditions:
+  - quest is waiting confirmation
+  - actor has term-decision authority
+  forbidden_states:
+  - OPEN
+  - COMPLETED
+  - CANCELLED
+  source_refs:
+  - quest_service
+  - quest_state_transition_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java

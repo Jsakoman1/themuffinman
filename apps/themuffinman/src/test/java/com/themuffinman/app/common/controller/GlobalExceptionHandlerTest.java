@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.themuffinman.app.identity.controller.AuthController;
 import com.themuffinman.app.identity.dto.auth.LoginRequest;
 import com.themuffinman.app.identity.dto.auth.RegisterRequest;
+import com.themuffinman.app.identity.mapper.AuthMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.identity.security.JwtService;
+import com.themuffinman.app.identity.service.AuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -36,7 +38,8 @@ class GlobalExceptionHandlerTest {
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
         validator.afterPropertiesSet();
 
-        AuthController authController = new AuthController(appUserRepository, passwordEncoder, jwtService);
+        AuthService authService = new AuthService(appUserRepository, passwordEncoder, jwtService, new AuthMgr());
+        AuthController authController = new AuthController(authService);
         mockMvc = MockMvcBuilders.standaloneSetup(authController)
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .setValidator(validator)

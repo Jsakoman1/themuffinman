@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-06-28T13:11:45Z",
+  "summary": {
+    "missingSourceRefCount": 0,
+    "missingDocumentationCoverageCount": 0,
+    "missingServiceWorkflowCoverageCount": 0
+  },
+  "missingSourceRefs": [
+
+  ],
+  "missingDocumentationCoverage": [
+
+  ],
+  "missingServiceWorkflowCoverage": [
+
+  ]
+}

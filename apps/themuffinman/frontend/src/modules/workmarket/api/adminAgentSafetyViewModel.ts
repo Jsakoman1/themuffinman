@@ -1,15 +1,10 @@
 import type {
+  AdminAgentSafetyFlagIdGenerated,
   AdminAgentPlaygroundResponse,
   AdminAgentSimulationResponse
 } from "./contracts.ts"
 
-export type AdminAgentSafetyFlagId =
-  | "translation_unreliable"
-  | "ambiguity"
-  | "destructive_confirmation"
-  | "multi_actor"
-  | "current_location"
-  | "simulation_not_safe"
+export type AdminAgentSafetyFlagId = AdminAgentSafetyFlagIdGenerated
 
 export type AdminAgentSafetyFlag = {
   id: AdminAgentSafetyFlagId

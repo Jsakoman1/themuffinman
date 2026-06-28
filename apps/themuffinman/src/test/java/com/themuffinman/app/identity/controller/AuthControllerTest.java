@@ -1,38 +1,33 @@
 package com.themuffinman.app.identity.controller;
 
+import com.themuffinman.app.identity.dto.auth.AuthResponse;
 import com.themuffinman.app.identity.dto.auth.LoginRequest;
 import com.themuffinman.app.identity.dto.auth.RegisterRequest;
+import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.identity.service.AuthService;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Valid;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-import jakarta.validation.Valid;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import com.themuffinman.app.identity.dto.auth.AuthResponse;
-import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.identity.repository.AppUserRepository;
-import com.themuffinman.app.identity.security.JwtService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 
 import java.lang.reflect.Method;
 import java.time.Instant;
-import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
-import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
 class AuthControllerTest {
@@ -41,13 +36,7 @@ class AuthControllerTest {
     private static final Validator VALIDATOR = VALIDATOR_FACTORY.getValidator();
 
     @Mock
-    private AppUserRepository appUserRepository;
-
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
-    @Mock
-    private JwtService jwtService;
+    private AuthService authService;
 
     @InjectMocks
     private AuthController authController;
@@ -64,6 +53,44 @@ class AuthControllerTest {
 
         assertTrue(registerMethod.getParameters()[0].isAnnotationPresent(Valid.class));
         assertTrue(loginMethod.getParameters()[0].isAnnotationPresent(Valid.class));
+    }
+
+    @Test
+    void registerDelegatesToAuthService() {
+        RegisterRequest request = new RegisterRequest("user@example.com", "new-user", "strongPassword1");
+        AuthResponse expected = new AuthResponse(1L, "user@example.com", "new-user", null, null, Instant.now(), "USER", "jwt-token");
+        when(authService.register(request)).thenReturn(expected);
+
+        AuthResponse response = authController.register(request);
+
+        assertEquals(expected, response);
+        verify(authService).register(request);
+    }
+
+    @Test
+    void loginDelegatesToAuthService() {
+        LoginRequest request = new LoginRequest("user@example.com", "strongPassword1");
+        AuthResponse expected = new AuthResponse(1L, "user@example.com", "new-user", null, null, Instant.now(), "USER", "jwt-token");
+        when(authService.login(request)).thenReturn(expected);
+
+        AuthResponse response = authController.login(request);
+
+        assertEquals(expected, response);
+        verify(authService).login(request);
+    }
+
+    @Test
+    void meDelegatesAuthenticatedPrincipalToAuthService() {
+        AppUser appUser = new AppUser();
+        appUser.setId(7L);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(appUser, null);
+        AuthResponse expected = new AuthResponse(7L, "user@example.com", "user", null, null, Instant.now(), "USER", null);
+        when(authService.me(appUser)).thenReturn(expected);
+
+        AuthResponse response = authController.me(authentication);
+
+        assertEquals(expected, response);
+        verify(authService).me(appUser);
     }
 
     @Test
@@ -96,57 +123,6 @@ class AuthControllerTest {
 
         assertTrue(VALIDATOR.validate(registerRequest).isEmpty());
         assertTrue(VALIDATOR.validate(loginRequest).isEmpty());
-    }
-
-    @Test
-    void loginNormalizesEmailBeforeLookup() {
-        AppUser appUser = new AppUser();
-        appUser.setId(7L);
-        appUser.setEmail("user@example.com");
-        appUser.setUsername("user");
-        appUser.setPasswordHash("encoded-password");
-        appUser.setCreatedAt(Instant.parse("2026-01-01T12:00:00Z"));
-
-        when(appUserRepository.findByEmail("user@example.com")).thenReturn(Optional.of(appUser));
-        when(passwordEncoder.matches("strongPassword1", "encoded-password")).thenReturn(true);
-        when(jwtService.generateToken(appUser)).thenReturn("jwt-token");
-
-        AuthResponse response = authController.login(new LoginRequest(" User@Example.com ", "strongPassword1"));
-
-        verify(appUserRepository).findByEmail("user@example.com");
-        assertEquals("jwt-token", response.token());
-        assertEquals("user@example.com", response.email());
-    }
-
-    @Test
-    void loginUsesSameUnauthorizedMessageForMissingEmail() {
-        when(appUserRepository.findByEmail("user@example.com")).thenReturn(Optional.empty());
-
-        ResponseStatusException exception = assertThrows(
-                ResponseStatusException.class,
-                () -> authController.login(new LoginRequest("user@example.com", "strongPassword1"))
-        );
-
-        assertEquals(UNAUTHORIZED, exception.getStatusCode());
-        assertEquals("Invalid email or password", exception.getReason());
-    }
-
-    @Test
-    void loginUsesSameUnauthorizedMessageForWrongPassword() {
-        AppUser appUser = new AppUser();
-        appUser.setEmail("user@example.com");
-        appUser.setPasswordHash("encoded-password");
-
-        when(appUserRepository.findByEmail("user@example.com")).thenReturn(Optional.of(appUser));
-        when(passwordEncoder.matches("wrong-password", "encoded-password")).thenReturn(false);
-
-        ResponseStatusException exception = assertThrows(
-                ResponseStatusException.class,
-                () -> authController.login(new LoginRequest("user@example.com", "wrong-password"))
-        );
-
-        assertEquals(UNAUTHORIZED, exception.getStatusCode());
-        assertEquals("Invalid email or password", exception.getReason());
     }
 
     private void assertHasViolation(Set<? extends ConstraintViolation<?>> violations, String propertyPath) {

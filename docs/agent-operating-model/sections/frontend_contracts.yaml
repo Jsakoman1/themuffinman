@@ -1,0 +1,109 @@
+---
+frontend_contracts:
+- id: admin_agent_playground_response_contract
+  backend_java_class: com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO
+  frontend_contract_file: apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
+  frontend_gate_file: apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+  frontend_type: AdminAgentPlaygroundResponse
+  required_fields:
+  - provider
+  - externalLlmConfigured
+  - promptSourceLanguage
+  - promptTranslationProvider
+  - promptTranslationApplied
+  - promptTranslationReliable
+  - originalPrompt
+  - translatedPrompt
+  - title
+  - summary
+  - resolutionRequirements
+  - clarificationContract
+  - executionReadiness
+  - matchedSignals
+  - unresolvedInputs
+  - warnings
+  - suggestedWorkflows
+  - nextSteps
+- id: admin_agent_simulation_response_contract
+  backend_java_class: com.themuffinman.app.agent.dto.AdminAgentSimulationResponseDTO
+  frontend_contract_file: apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
+  frontend_gate_file: apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+  frontend_type: AdminAgentSimulationResponse
+  required_fields:
+  - planningOnly
+  - safeToExecute
+  - promptSourceLanguage
+  - translatedPrompt
+  - selectedIntentId
+  - resolutionConfidence
+  - capabilityAssessments
+  - intentLineage
+  - endpointPlan
+  - clarificationContract
+  - executionReadiness
+  - matchedSignals
+  - unresolvedInputs
+  - blockingReasons
+  - suggestedWorkflows
+- id: admin_agent_clarification_contract
+  backend_java_class: com.themuffinman.app.agent.dto.AgentClarificationContractDTO
+  frontend_contract_file: apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
+  frontend_gate_file: apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+  frontend_type: AdminAgentPlaygroundResponse["clarificationContract"]
+  required_fields:
+  - clarificationRequired
+  - failClosedOnAmbiguity
+  - reason
+  - unresolvedFields
+- id: admin_agent_execution_readiness_contract
+  backend_java_class: com.themuffinman.app.agent.dto.AgentExecutionReadinessDTO
+  frontend_contract_file: apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
+  frontend_gate_file: apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+  frontend_type: AdminAgentPlaygroundResponse["executionReadiness"]
+  required_fields:
+  - planningOnly
+  - translationReady
+  - requiresExternalTranslationProvider
+  - currentLocationCapabilityRequired
+  - currentLocationCapabilityStatus
+  - destructiveConfirmationRequired
+  - multiActorContextRequired
+- id: admin_agent_resolution_confidence_contract
+  backend_java_class: com.themuffinman.app.agent.dto.AgentResolutionConfidenceDTO
+  frontend_contract_file: apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
+  frontend_gate_file: apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+  frontend_type: AdminAgentSimulationResponse["resolutionConfidence"]
+  required_fields:
+  - score
+  - tier
+  - reasons
+- id: admin_agent_capability_assessment_contract
+  backend_java_class: com.themuffinman.app.agent.dto.AgentCapabilityAssessmentDTO
+  frontend_contract_file: apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
+  frontend_gate_file: apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+  frontend_type: AdminAgentSimulationResponse["capabilityAssessments"][number]
+  required_fields:
+  - capabilityId
+  - status
+  - reason
+- id: admin_agent_intent_lineage_contract
+  backend_java_class: com.themuffinman.app.agent.dto.AgentIntentLineageDTO
+  frontend_contract_file: apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
+  frontend_gate_file: apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+  frontend_type: NonNullable<AdminAgentSimulationResponse["intentLineage"]>
+  required_fields:
+  - intentId
+  - sourcePromptExamples
+  - resolutionWorkflows
+  - targetEndpoints
+  - safetyPolicies
+  - expectedReadModels
+- id: admin_agent_endpoint_plan_contract
+  backend_java_class: com.themuffinman.app.agent.dto.AgentEndpointPlanDTO
+  frontend_contract_file: apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
+  frontend_gate_file: apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+  frontend_type: AdminAgentSimulationResponse["endpointPlan"][number]
+  required_fields:
+  - endpointId
+  - method
+  - path

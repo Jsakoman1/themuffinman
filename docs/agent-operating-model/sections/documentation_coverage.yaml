@@ -1,0 +1,121 @@
+---
+documentation_coverage:
+  auto_scans:
+  - id: controller_surface
+    root_path: apps/themuffinman/src/main/java/com/themuffinman/app
+    path_contains: "/controller/"
+    file_suffix: Controller.java
+  - id: mapper_surface
+    root_path: apps/themuffinman/src/main/java/com/themuffinman/app
+    path_contains: "/mapper/"
+    file_suffix: ".java"
+  - id: agent_service_surface
+    root_path: apps/themuffinman/src/main/java/com/themuffinman/app
+    path_contains: "/agent/service/"
+    file_suffix: ".java"
+  required_source_ref_groups:
+  - id: automation_services
+    source_refs:
+    - admin_agent_playground_service
+    - local_admin_agent_prompt_translator
+    - openai_admin_agent_client
+    - auth_service
+    - auth_mgr
+    - app_user_service
+    - app_user_lookup_service
+    - dashboard_service
+    - quest_service
+    - quest_application_service
+    - user_review_service
+    - quest_news_service
+    - quest_access_policy_service
+    - quest_update_service
+    - quest_state_transition_service
+    - quest_validation_service
+    - quest_visibility_service
+    - quest_query_service
+    - quest_execution_primitive_service
+    - create_quest_use_case
+    - update_quest_use_case
+    - delete_quest_use_case
+    - start_quest_use_case
+    - complete_quest_use_case
+    - confirm_quest_term_change_use_case
+    - reject_quest_term_change_use_case
+    - location_settings_service
+    - location_lookup_service
+    - circle_relation_service
+    - circle_service
+    - circle_membership_service
+    - circle_view_assembler
+    - chat_service
+  - id: automation_docs
+    source_refs:
+    - business_logic_doc
+    - domain_technical_doc
+    - documentation_sync_policy_doc
+    - agents_doc
+  - id: automation_contract_dtos
+    source_refs:
+    - admin_agent_playground_request_dto
+    - admin_agent_playground_response_dto
+    - admin_agent_simulation_request_dto
+    - admin_agent_simulation_response_dto
+    - agent_capability_assessment_dto
+    - agent_clarification_contract_dto
+    - agent_endpoint_plan_dto
+    - agent_execution_readiness_dto
+    - agent_intent_lineage_dto
+    - agent_resolution_confidence_dto
+    - agent_resolution_requirement_dto
+  - id: chat_contract_dtos
+    source_refs:
+    - chat_circle_option_dto
+    - chat_contact_dto
+    - chat_conversation_summary_dto
+    - chat_message_dto
+    - chat_message_request_dto
+    - chat_open_conversation_request_dto
+    - chat_socket_client_message_dto
+    - chat_socket_event_dto
+    - chat_workspace_dto
+  - id: identity_contract_dtos
+    source_refs:
+    - admin_user_detail_dto
+    - app_user_request_dto
+    - app_user_response_dto
+    - profile_primary_action_dto
+    - user_profile_view_dto
+    - auth_response_dto
+    - login_request_dto
+    - register_request_dto
+  - id: location_contract_dtos
+    source_refs:
+    - database_table_status_dto
+    - exact_location_visibility_scope_option_dto
+    - location_debug_status_dto
+    - location_lookup_candidate_dto
+    - location_lookup_request_dto
+    - location_lookup_response_dto
+    - location_mode_option_dto
+    - location_reverse_lookup_request_dto
+    - quest_location_visibility_option_dto
+    - user_location_settings_dto
+    - user_location_settings_request_dto
+  - id: automation_tests
+    source_refs:
+    - auth_service_test
+    - request_dto_validation_test
+    - quest_use_case_contract_test
+    - quest_workflow_scenario_test
+    - agent_operating_scenario_test
+    - agent_operating_model_validation_test
+    - app_user_mgr_test
+    - circle_service_test
+    - chat_service_test
+    - quest_mgr_test
+    - quest_news_mgr_test
+    - quest_application_service_test
+    - admin_agent_playground_service_test
+    - admin_agent_golden_prompt_matrix_test
+    - admin_agent_capability_boundary_test

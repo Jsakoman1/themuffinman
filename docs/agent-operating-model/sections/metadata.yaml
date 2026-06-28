@@ -1,0 +1,11 @@
+---
+metadata:
+  version: 0.2.0
+  status: active
+  default_failure_mode: fail_closed
+  notes:
+  - This file is intentionally procedural and machine-oriented.
+  - If a safe branch is not defined here, the agent must stop instead of guessing.
+  - Sandbox flows are modeled separately from production-like flows.
+  - Admin planning surfaces may use backend-managed LLM summaries, but deterministic
+    backend safety rules remain authoritative.

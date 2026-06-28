@@ -1,0 +1,45 @@
+featureId: backend_audit_domain_tagging
+title: Backend audit domain tagging
+status: complete
+riskTier: high
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - agent-contract
+planFile: .agents/backend-audit-domain-tagging-plan.md
+summary:
+  - Add explicit domain and owner assignment to the full backend audit inventory.
+  - Tighten chat DTO contracts as the next strict automation-relevant subset.
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: true
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - scripts/generate-backend-audit-inventory.rb
+  docPaths:
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/agent-operating-model/sections/backend_audit_coverage.yaml
+    - docs/agent-operating-model/sections/source_of_truth.yaml
+    - docs/agent-operating-model/sections/documentation_coverage.yaml
+    - docs/agent-operating-model.schema.json
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    - docs/domain-technical.md
+    - docs/generated/backend-audit-inventory.json
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  generatorCommands:
+    - make generate-agent-operating-model
+    - make generate-agent-artifacts
+  auditCommands:
+    - make audit-agent-safety
+    - ./mvnw test
+    - npm run type-check
+    - npm run build

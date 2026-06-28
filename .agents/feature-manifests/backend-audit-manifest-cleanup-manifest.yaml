@@ -1,0 +1,40 @@
+featureId: backend_audit_manifest_cleanup
+title: Backend audit manifest cleanup
+status: complete
+riskTier: medium
+changeMode: small-change
+changeImpact: contract-neutral-refactor
+changeProfiles:
+  - agent-contract
+planFile: .agents/backend-audit-manifest-cleanup-plan.md
+summary:
+  - Restore plan-to-manifest continuity for the completed backend-audit program without changing runtime behavior.
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: false
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths: []
+  docPaths:
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - .agents/backend-audit-manifest-cleanup-plan.md
+    - .agents/feature-manifests/backend-audit-tiering-manifest.yaml
+    - .agents/feature-manifests/backend-audit-tightening-manifest.yaml
+    - .agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml
+    - .agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml
+    - .agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  generatorCommands:
+    - make generate-agent-operating-model
+  auditCommands:
+    - make audit-agent-safety
+    - ./mvnw -Dtest=AgentOperatingModelValidationTest test
+    - make feature-closeout-audit manifest=.agents/feature-manifests/backend-audit-tiering-manifest.yaml
+    - make feature-closeout-audit manifest=.agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml

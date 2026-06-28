@@ -1,0 +1,394 @@
+---
+policies:
+  uniqueness:
+    default_rule: When generating multiple entities of the same type, vary meaningful
+      business fields instead of adding cosmetic suffixes only.
+    rules:
+    - entity: user_batch_input
+      must_differ_by:
+      - email
+      - username
+      notes:
+      - Email uniqueness is hard-required by backend logic.
+      - Username should also differ in batch creation to avoid operational ambiguity.
+    - entity: quest_batch_input
+      must_differ_by:
+      - title
+      - description
+      notes:
+      - If generating multiple quests for one owner, do not reuse the same title+description
+        pair.
+      - Prefer varying scheduled time, reward amount, audience, and location mode
+        when requested.
+  edge_cases:
+  - id: missing_profile_location_for_profile_backed_quest
+    condition: Quest requests visible profile-backed location but the acting user
+      has unusable profile location.
+    resolution: Run set_profile_location first or switch the quest to supported custom/off
+      location behavior.
+    failure_mode: retry_with_precondition
+    source_refs:
+    - location_settings_service
+    - quest_validation_service
+    - service_errors
+  - id: invalid_circle_visibility_selection
+    condition: Quest or exact-location visibility references circles not owned by
+      the acting user.
+    resolution: Reject the request instead of silently rewriting the selection.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_visibility_service
+    - location_settings_service
+    - service_errors
+  - id: no_circle_contacts_for_exact_user_visibility
+    condition: Exact profile location is requested for selected users who are not
+      connected through circles.
+    resolution: Reject the request and require valid connected users only.
+    failure_mode: fail_closed
+    source_refs:
+    - location_settings_service
+    - service_errors
+  - id: unresolved_custom_location
+    condition: Custom quest or profile address cannot resolve into usable coordinates.
+    resolution: Stop and require lookup-backed selection, reverse lookup, or corrected
+      manual address.
+    failure_mode: fail_closed
+    source_refs:
+    - location_settings_service
+    - location_lookup_controller
+    - service_errors
+  - id: insufficient_unique_batch_payloads
+    condition: Batch creation request cannot produce the requested count of meaningfully
+      distinct payloads.
+    resolution: Stop and ask for broader generation constraints or reduced count.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_validation_service
+    - rich_text_validator
+  - id: duplicate_circle_name_for_owner
+    condition: Circle creation or rename reuses a name already owned by the same user.
+    resolution: Reject the request instead of silently renaming the circle.
+    failure_mode: fail_closed
+    source_refs:
+    - circle_service
+    - service_errors
+  - id: assigning_non_connection_to_circle
+    condition: A user is being assigned to circles without an accepted circle relation
+      to the acting owner.
+    resolution: Reject the request and require an existing accepted connection first.
+    failure_mode: fail_closed
+    source_refs:
+    - circle_service
+    - circle_membership_service
+    - service_errors
+  - id: circle_request_requires_recipient_acceptance
+    condition: A new connection invite exists but the recipient has not accepted it
+      yet.
+    resolution: Do not treat the relation as connected. Either stop, or require an
+      explicit recipient-side accept step.
+    failure_mode: fail_closed
+    source_refs:
+    - circle_relation_service
+    - circle_service
+    - service_errors
+  - id: automated_accept_without_recipient_context
+    condition: A workflow attempts to accept a circle request without acting as the
+      request recipient.
+    resolution: Reject the automation path and require recipient-authenticated or
+      multi-actor execution context.
+    failure_mode: fail_closed
+    source_refs:
+    - circle_relation_service
+    - service_errors
+  - id: duplicate_quest_application
+    condition: The acting user already has an application for the same quest.
+    resolution: Reject the second application instead of overwriting the first one
+      silently.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_application_service
+    - service_errors
+  - id: quest_creator_cannot_apply
+    condition: The acting user is the creator of the quest they are trying to apply
+      to.
+    resolution: Reject the application.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_application_service
+    - service_errors
+  - id: free_quest_application_price_mismatch
+    condition: An application payload sends a price for a free quest or omits the
+      price for a paid quest.
+    resolution: Reject the payload and require quest-priced applications to match
+      the target quest pricing mode exactly.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_application_service
+    - quest_application_request_dto
+    - service_errors
+  - id: approving_application_with_no_open_slots
+    condition: A quest already has all worker spots filled for its assignee target.
+    resolution: Reject further approvals until status or assignees change.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_application_service
+    - service_errors
+  - id: declining_application_when_not_open_or_pending
+    condition: A decline action is attempted when the quest is not OPEN or the application
+      is not PENDING.
+    resolution: Reject the decline action instead of mutating a non-pending application.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_application_service
+    - service_errors
+  - id: starting_quest_before_assigned
+    condition: A quest is being started before it reaches ASSIGNED status.
+    resolution: Reject the start action.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_state_transition_service
+    - quest_service
+    - service_errors
+  - id: completing_quest_before_in_progress
+    condition: A quest is being completed before it reaches IN_PROGRESS status.
+    resolution: Reject the complete action.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_state_transition_service
+    - quest_service
+    - service_errors
+  - id: term_change_decision_without_authority
+    condition: A quest term-change confirmation or rejection is attempted by someone
+      other than an admin or approved applicant.
+    resolution: Reject the action and require real approved-worker or admin context.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_state_transition_service
+    - quest_access_policy_service
+    - service_errors
+  - id: term_change_decision_without_pending_state
+    condition: A quest term-change confirmation or rejection is attempted when the
+      quest is not in WAITING_CONFIRMATION or lacks restorable pending state.
+    resolution: Reject the action instead of guessing a status or applying time fields.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_state_transition_service
+    - quest_service
+    - service_errors
+  - id: auto_start_without_real_applications
+    condition: A prepare-to-start flow tries to approve or start a quest before real
+      applications exist from authenticated applicant contexts.
+    resolution: Stop the composite workflow and require real applicant-side execution
+      first.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_application_service
+    - quest_service
+    - service_errors
+  - id: unexpected_applicant_outside_selected_people
+    condition: A selected-people circle-only quest receives an application from someone
+      outside the intended selected worker set.
+    resolution: Do not auto-approve that application. Either leave it pending for
+      manual review or explicitly decline it through owner/admin context.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_application_service
+    - quest_visibility_service
+    - service_errors
+  - id: owner_term_change_requires_worker_decision
+    condition: An owner changes the term on an assigned or in-progress quest and expects
+      the change to apply immediately.
+    resolution: Move the quest into WAITING_CONFIRMATION and require approved-worker
+      or admin term decision flow.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_update_service
+    - quest_state_transition_service
+    - service_errors
+  - id: relative_schedule_without_timezone
+    condition: A voice flow uses relative time such as tomorrow, next week, or tonight
+      without a reliable caller timezone.
+    resolution: Stop and require explicit timezone or an already resolved absolute
+      timestamp.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_validation_service
+    - service_errors
+  - id: ambiguous_circle_recipient_lookup
+    condition: A friend-request or selected-people prompt does not resolve to exactly
+      one concrete user candidate.
+    resolution: Stop and require explicit recipient disambiguation instead of guessing
+      from partial name matches.
+    failure_mode: fail_closed
+    source_refs:
+    - circle_service
+    - app_user_lookup_service
+    - service_errors
+  - id: ambiguous_generic_user_lookup
+    condition: A profile, social, or chat prompt does not resolve to exactly one concrete
+      user target.
+    resolution: Stop and require explicit target disambiguation instead of guessing
+      from partial names or stale contact memory.
+    failure_mode: fail_closed
+    source_refs:
+    - circle_service
+    - app_user_lookup_service
+    - service_errors
+  - id: ambiguous_owned_quest_lookup
+    condition: A quest-management prompt matches zero or multiple owned quests after
+      scoped lookup.
+    resolution: Stop and require the exact quest target instead of guessing by title
+      fragment.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_service
+    - quest_query_service
+    - service_errors
+  - id: ambiguous_outgoing_circle_request_lookup
+    condition: A cancel-request prompt matches zero or multiple outgoing pending requests
+      after scoped lookup.
+    resolution: Stop and require the exact outgoing request target instead of guessing
+      by counterpart name.
+    failure_mode: fail_closed
+    source_refs:
+    - circle_service
+    - circle_relation_service
+    - service_errors
+  - id: ambiguous_pending_application_lookup
+    condition: An application-edit or withdrawal prompt matches zero or multiple pending
+      applications for the acting user.
+    resolution: Stop and require the exact pending application target instead of guessing
+      by quest title fragment.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_application_service
+    - service_errors
+  - id: ambiguous_chat_conversation_lookup
+    condition: A chat-read prompt matches zero or multiple currently accessible conversations.
+    resolution: Stop and require explicit conversation disambiguation instead of guessing
+      from stale chat previews.
+    failure_mode: fail_closed
+    source_refs:
+    - chat_service
+    - service_errors
+  - id: ambiguous_news_item_lookup
+    condition: A news-read prompt matches zero or multiple notification items for
+      the acting user.
+    resolution: Stop and require explicit notification disambiguation instead of guessing
+      from vague message text.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_news_service
+    - service_errors
+  - id: ambiguous_admin_application_lookup
+    condition: An admin application-management prompt matches zero or multiple applications
+      after scoped admin lookup.
+    resolution: Stop and require the exact application target instead of guessing
+      by quest title or applicant fragment.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_application_service
+    - service_errors
+  - id: no_pending_applications_for_owned_quest
+    condition: An owner-side approval or decline prompt targets a quest that currently
+      has no pending applications.
+    resolution: Stop and report that no pending applications are available for selection.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_application_service
+    - service_errors
+  - id: destructive_delete_without_confirmation
+    condition: A delete-quest prompt resolves the target quest but lacks explicit
+      destructive confirmation.
+    resolution: Stop and require explicit deletion confirmation before calling the
+      delete endpoint.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_service
+    - service_errors
+  - id: destructive_circle_delete_without_confirmation
+    condition: A delete-circle prompt resolves the target owner circle but lacks explicit
+      destructive confirmation.
+    resolution: Stop and require explicit deletion confirmation before calling the
+      circle delete endpoint.
+    failure_mode: fail_closed
+    source_refs:
+    - circle_service
+    - service_errors
+  - id: destructive_admin_application_delete_without_confirmation
+    condition: An admin application-delete prompt resolves the target application
+      but lacks explicit destructive confirmation.
+    resolution: Stop and require explicit deletion confirmation before calling the
+      admin application delete endpoint.
+    failure_mode: fail_closed
+    source_refs:
+    - quest_application_service
+    - service_errors
+  - id: destructive_admin_user_delete_without_confirmation
+    condition: An admin user-delete prompt resolves the target user but lacks explicit
+      destructive confirmation.
+    resolution: Stop and require explicit deletion confirmation before calling the
+      admin user delete endpoint.
+    failure_mode: fail_closed
+    source_refs:
+    - app_user_service
+    - service_errors
+  - id: current_location_without_trusted_coordinates
+    condition: A current-location profile update is requested without trusted device
+      coordinates.
+    resolution: Stop and require current device coordinates or a reverse-lookup-backed
+      location selection instead of guessing from vague place text.
+    failure_mode: fail_closed
+    source_refs:
+    - location_settings_service
+    - location_lookup_controller
+    - service_errors
+  - id: chat_target_without_current_contact_eligibility
+    condition: A chat prompt targets someone who is not a current accepted contact.
+    resolution: Stop and require a current accepted relation instead of opening or
+      preserving chat access through stale or pending relations.
+    failure_mode: fail_closed
+    source_refs:
+    - chat_service
+    - circle_relation_service
+    - service_errors
+  - id: unresolved_selected_people
+    condition: Selected people in a voice flow cannot be resolved safely into concrete
+      user ids or accepted connections.
+    resolution: Stop and require disambiguation instead of guessing the audience.
+    failure_mode: fail_closed
+    source_refs:
+    - app_user_lookup_service
+    - circle_service
+    - circle_relation_service
+    - service_errors
+  - id: sandbox_flow_without_admin_or_dev_scope
+    condition: A sandbox or synthetic flow is requested outside admin authority or
+      outside explicitly allowed developer-controlled scope.
+    resolution: Reject the sandbox flow instead of falling back to production mutation
+      paths.
+    failure_mode: fail_closed
+    source_refs:
+    - agents_doc
+    - documentation_sync_policy_doc
+    - service_errors
+  - id: sandbox_flow_without_synthetic_marker_plan
+    condition: A sandbox flow creates synthetic entities without a plan to keep them
+      distinguishable from real user data.
+    resolution: Stop and require explicit synthetic-marker strategy before backend
+      implementation.
+    failure_mode: fail_closed
+    source_refs:
+    - business_logic_doc
+    - domain_technical_doc
+  - id: chat_without_current_accepted_relation
+    condition: A user tries to open, keep, or see chat access through a pending, blocked,
+      or stale social relation.
+    resolution: Filter the contact or conversation out of chat workspace and reject
+      direct chat access until a current accepted relation exists.
+    failure_mode: fail_closed
+    source_refs:
+    - chat_service
+    - circle_relation_service
+    - circle_membership_service
+    - service_errors

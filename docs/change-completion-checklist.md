@@ -7,7 +7,7 @@ It does not replace the source rules in `AGENTS.md`, `docs/documentation-sync-po
 Use it as the fast review path before considering a feature complete.
 
 For multi-file, multi-layer, or high-risk logical changes, start with a temporary plan in `.agents/<short-feature-topic>-plan.md` before substantial edits.
-Prefer `make bootstrap-feature-work topic=<short-feature-topic> [risk=<tier>]` when you want the plan and matching manifest created together.
+Prefer `make bootstrap-feature-work topic=<short-feature-topic> [risk=<tier>] [mode=<mode>] [impact=<impact>] [profiles=<csv>]` when you want the plan and matching manifest created together.
 
 ## Checklist
 
@@ -18,6 +18,7 @@ Prefer `make bootstrap-feature-work topic=<short-feature-topic> [risk=<tier>]` w
 2. Domain tests
 - Add or extend tests that cover the changed logic, edge cases, and regressions.
 - Keep existing affected test suites passing.
+- If the change expands a workflow, prefer both a use-case contract test and a scenario-style workflow test.
 
 3. Business meaning
 - Update `docs/business-logic.md` if the change affects user-facing behavior, permissions, workflow meaning, or FAQ-level explanation.
@@ -30,15 +31,22 @@ Prefer `make bootstrap-feature-work topic=<short-feature-topic> [risk=<tier>]` w
 
 6. Agent-safe machine contract
 - Update `docs/agent-operating-model.yaml` if the change affects intents, workflow order, defaults, edge cases, enums, dependencies, endpoint mapping, or source refs.
+- If the machine contract is maintained through `docs/agent-operating-model/sections/*.yaml`, regenerate the combined YAML before validation.
 - Update the automation read-model inventory there if executor-critical DTO fields, producers, or verifier tests changed.
 - Update the intent safety catalog there if mutating intent risk, exact-target resolution, destructive confirmation, or multi-actor requirements changed.
 - Update capability registry, intent lineage, dry-run simulation contract, and prompt drift metadata there if planner safety dependencies or executor-prep behavior changed.
 - Update backend contract snapshots, service workflow inventory, permission matrix, state-transition audit, and request-validation gates there if backend mutation contracts changed.
 - Update the documentation coverage manifest there if automation-relevant controllers, mappers, or tracked agent services changed.
 - Update generated frontend contracts, frontend contract gates, automation-safe UI safety layers, regression scenarios, and frontend feature expectations there if planner-facing contracts or workflow coverage changed.
+- Update backend audit tier rules there if strict-vs-report-only backend coverage changed.
+- Update backend audit domain ownership there if repo structure, domain routing, or control ownership changed.
+- When tightening backend audit, prefer rule-scoped subsets with clear product value before raising an entire broad tier at once.
 
 7. Schema and validation
 - Update `docs/agent-operating-model.schema.json` if the YAML structure itself changes.
+- Regenerate `docs/generated/agent-endpoint-inventory.json` and `docs/generated/automation-read-model-inventory.json` if controller or automation DTO surfaces changed.
+- Regenerate `docs/generated/source-of-truth-audit.json` if tracked controllers, services, mappers, or workflow tests changed.
+- Regenerate `docs/generated/backend-audit-inventory.json` if backend classification rules or broad backend package coverage changed.
 - Keep `apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java` passing.
 
 8. Propagation rules
@@ -59,6 +67,8 @@ Prefer `make bootstrap-feature-work topic=<short-feature-topic> [risk=<tier>]` w
 
 11. Optional feature manifest
 - If the change uses the plan-driven workflow, keep a matching machine-readable manifest under `.agents/feature-manifests/` and update it before closing the task.
+- Declare the correct `changeMode`, `changeImpact`, and `changeProfiles` so required docs, generators, and validation commands are enforced automatically.
+- Keep manifest artifact groups precise and non-overlapping; do not list test files in `codePaths` or repeat the same path across artifact buckets.
 - Use `make feature-closeout-audit manifest=<manifest-file>` as a fast close-out check before final validation on plan-driven changes.
 
 ## Temporary Working Notes

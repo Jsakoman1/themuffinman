@@ -1,0 +1,47 @@
+featureId: backend_audit_tiering
+title: Backend audit tiering
+status: complete
+riskTier: high
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - agent-contract
+planFile: .agents/backend-audit-tiering-plan.md
+summary:
+  - Add full-backend audit tier classification with fail-hard executor-critical coverage and report-first broader inventory.
+  - Generate backend audit inventory and validate the new operating-model section.
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: true
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - scripts/generate-backend-audit-inventory.rb
+    - scripts/generate-agent-operating-model.rb
+    - scripts/generate-source-of-truth-audit.rb
+    - Makefile
+    - apps/themuffinman/Makefile
+  docPaths:
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/agent-operating-model/sections/backend_audit_coverage.yaml
+    - docs/agent-operating-model.schema.json
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    - docs/domain-technical.md
+    - docs/generated/backend-audit-inventory.json
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  generatorCommands:
+    - make generate-agent-operating-model
+    - make generate-agent-artifacts
+  auditCommands:
+    - make audit-agent-safety
+    - ./mvnw test
+    - npm run type-check
+    - npm run build

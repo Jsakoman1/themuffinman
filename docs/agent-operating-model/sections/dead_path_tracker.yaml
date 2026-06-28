@@ -1,0 +1,17 @@
+---
+dead_path_tracker:
+  critical_prompt_matrix_workflows:
+  - create_circle_connection
+  - approve_application
+  - delete_quest
+  - set_profile_current_location
+  - delete_user_as_admin
+  allow_source_refs_without_direct_workflow_usage:
+  - admin_agent_prompt_translation
+  - admin_agent_prompt_translator
+  - admin_agent_text_provider
+  - openai_admin_agent_client
+  - admin_agent_golden_prompt_matrix_test
+  - admin_agent_capability_boundary_test
+  - circle_request_mgr
+  - user_review_mgr

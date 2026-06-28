@@ -1,0 +1,83 @@
+---
+documentation_sync:
+  required_docs:
+  - AGENTS.md
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  - docs/agent-operating-model.yaml
+  - docs/feature-completion-manifest.schema.json
+  - docs/documentation-sync-policy.md
+  required_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
+  rules:
+  - id: documentation_updates_required_for_logic_changes
+    description: Logical changes must propagate into the living docs and agent-safety
+      artifacts in the same change.
+    source_refs:
+    - agents_doc
+    - business_logic_doc
+    - domain_technical_doc
+    - documentation_sync_policy_doc
+    doc_paths:
+    - AGENTS.md
+    - docs/agent-operating-model.md
+    - docs/documentation-sync-policy.md
+    must_contain_all:
+    - update all affected living docs in the same change
+    - No logic-only change is complete until the affected docs, agent artifacts, and
+      validation tests are updated together.
+    - A logic change is not complete when only code and tests are updated.
+  - id: admin_generation_flows_expand_with_feature_logic
+    description: Feature expansions that change entity logic or workflow shape must
+      propagate into admin-generation and sandbox-generation flow docs.
+    source_refs:
+    - agents_doc
+    - documentation_sync_policy_doc
+    - domain_technical_doc
+    doc_paths:
+    - AGENTS.md
+    - docs/agent-operating-model.md
+    - docs/documentation-sync-policy.md
+    must_contain_all:
+    - review and extend affected admin or sandbox generation flows
+    - admin-generation or sandbox-generation coverage for entities and workflows
+    - synthetic admin-generation flows must be kept current with newly introduced
+      feature logic, validations, and edge cases
+  - id: chat_requires_current_accepted_relation
+    description: Chat access must stay restricted to current accepted relations, not
+      pending or stale ones.
+    source_refs:
+    - chat_service
+    - circle_relation_service
+    - circle_membership_service
+    - business_logic_doc
+    - domain_technical_doc
+    doc_paths:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    - docs/documentation-sync-policy.md
+    must_contain_all:
+    - Pending circle requests do not create chat eligibility.
+    - Chat workspace only includes current accepted circle contacts.
+    - Existing conversation history does not preserve chat access after the accepted
+      relation is lost.
+  - id: sandbox_flow_stays_separate_from_production_flow
+    description: Sandbox and synthetic flows must stay explicitly separated from production-like
+      user actions.
+    source_refs:
+    - business_logic_doc
+    - domain_technical_doc
+    - documentation_sync_policy_doc
+    doc_paths:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    must_contain_all:
+    - Sandbox flow must stay separate from real-life product flow.
+    - sandbox behavior must stay separate from production mutation semantics
+    - Internal sandbox flow is a separate capability from production-like voice flow.

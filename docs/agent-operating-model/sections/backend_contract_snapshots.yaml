@@ -1,0 +1,290 @@
+---
+backend_contract_snapshots:
+- id: admin_agent_playground_response_snapshot
+  java_class: com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO
+  declared_fields:
+  - provider
+  - externalLlmConfigured
+  - promptSourceLanguage
+  - promptTranslationProvider
+  - promptTranslationApplied
+  - promptTranslationReliable
+  - originalPrompt
+  - translatedPrompt
+  - title
+  - summary
+  - resolutionRequirements
+  - clarificationContract
+  - executionReadiness
+  - matchedSignals
+  - unresolvedInputs
+  - warnings
+  - suggestedWorkflows
+  - nextSteps
+  semantic_required_fields:
+  - promptSourceLanguage
+  - promptTranslationReliable
+  - resolutionRequirements
+  - clarificationContract
+  - executionReadiness
+  - matchedSignals
+  - unresolvedInputs
+  - suggestedWorkflows
+  source_refs:
+  - admin_agent_playground_service
+  - admin_agent_playground_service_test
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: admin_agent_simulation_response_snapshot
+  java_class: com.themuffinman.app.agent.dto.AdminAgentSimulationResponseDTO
+  declared_fields:
+  - planningOnly
+  - safeToExecute
+  - promptSourceLanguage
+  - translatedPrompt
+  - selectedIntentId
+  - resolutionConfidence
+  - capabilityAssessments
+  - intentLineage
+  - endpointPlan
+  - clarificationContract
+  - executionReadiness
+  - matchedSignals
+  - unresolvedInputs
+  - blockingReasons
+  - suggestedWorkflows
+  semantic_required_fields:
+  - planningOnly
+  - safeToExecute
+  - selectedIntentId
+  - resolutionConfidence
+  - capabilityAssessments
+  - intentLineage
+  - endpointPlan
+  - clarificationContract
+  - executionReadiness
+  - blockingReasons
+  source_refs:
+  - admin_agent_playground_service
+  - admin_agent_playground_service_test
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: app_user_response_snapshot
+  java_class: com.themuffinman.app.identity.dto.AppUserResponseDTO
+  declared_fields:
+  - id
+  - email
+  - username
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  - profileNavigation
+  - profileDescription
+  - profileAvatarDataUrl
+  - locationSettings
+  - createdAt
+  - openQuestCount
+  - openQuests
+  - role
+  semantic_required_fields:
+  - id
+  - email
+  - username
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  - locationSettings
+  - openQuestCount
+  - openQuests
+  - role
+  source_refs:
+  - app_user_mgr
+  - app_user_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: quest_response_snapshot
+  java_class: com.themuffinman.app.workmarket.dto.QuestResponseDTO
+  declared_fields:
+  - id
+  - creatorId
+  - creatorUsername
+  - creatorProfileDescription
+  - creatorProfileAvatarDataUrl
+  - questNavigation
+  - creatorNavigation
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  - title
+  - description
+  - awardAmount
+  - assigneeTarget
+  - showApprovedApplicants
+  - approvedApplicationCount
+  - remainingAssigneeSlots
+  - scheduledAt
+  - endsAt
+  - termFixed
+  - pendingScheduledAt
+  - pendingEndsAt
+  - pendingTermFixed
+  - reopenedAt
+  - audience
+  - locationVisibility
+  - locationSource
+  - locationLabel
+  - locationCountry
+  - locationLocality
+  - locationPostalCode
+  - locationStreet
+  - locationHouseNumber
+  - visibleToCircles
+  - images
+  - status
+  - viewerRelation
+  - allowedActions
+  - hasApplied
+  - myApplicationId
+  - canViewApplications
+  - presentation
+  semantic_required_fields:
+  - id
+  - creatorId
+  - creatorUsername
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  - title
+  - description
+  - awardAmount
+  - assigneeTarget
+  - showApprovedApplicants
+  - approvedApplicationCount
+  - remainingAssigneeSlots
+  - audience
+  - locationVisibility
+  - locationSource
+  - visibleToCircles
+  - status
+  - viewerRelation
+  - allowedActions
+  - canViewApplications
+  - presentation
+  source_refs:
+  - quest_mgr
+  - quest_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+- id: quest_application_response_snapshot
+  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO
+  declared_fields:
+  - id
+  - questId
+  - questTitle
+  - questCreatorUsername
+  - questDescription
+  - questStatus
+  - questAssigneeTarget
+  - questScheduledAt
+  - questEndsAt
+  - questTermFixed
+  - applicantId
+  - applicantUsername
+  - applicantProfileDescription
+  - applicantProfileAvatarDataUrl
+  - questNavigation
+  - applicantNavigation
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  - message
+  - proposedPrice
+  - status
+  - allowedActions
+  - presentation
+  - createdAt
+  semantic_required_fields:
+  - id
+  - questId
+  - questTitle
+  - questStatus
+  - applicantId
+  - applicantUsername
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  - message
+  - proposedPrice
+  - status
+  - allowedActions
+  - presentation
+  - createdAt
+  source_refs:
+  - quest_application_mgr
+  - quest_application_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: quest_applications_view_snapshot
+  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO
+  declared_fields:
+  - featuredApplication
+  - approvedApplications
+  - visibleApplications
+  - pendingApplicationCount
+  - oldestPendingApplicationId
+  - hiddenApplicationsCount
+  - selectedApplicationId
+  - canRevealHiddenApplications
+  - showingAllApplications
+  - revealLabel
+  semantic_required_fields:
+  - approvedApplications
+  - visibleApplications
+  - pendingApplicationCount
+  - oldestPendingApplicationId
+  - hiddenApplicationsCount
+  - canRevealHiddenApplications
+  - showingAllApplications
+  - revealLabel
+  source_refs:
+  - quest_application_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_conversation_summary_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatConversationSummaryDTO
+  declared_fields:
+  - conversationId
+  - otherUserId
+  - otherUsername
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  - otherUserProfileDescription
+  - otherUserAvatarDataUrl
+  - otherUserOnline
+  - otherUserLastActiveAt
+  - lastMessagePreview
+  - lastMessageAt
+  - lastMessageFromCurrentUser
+  - lastMessageHasImage
+  - unreadCount
+  semantic_required_fields:
+  - conversationId
+  - otherUserId
+  - otherUsername
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  - otherUserOnline
+  - unreadCount
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java

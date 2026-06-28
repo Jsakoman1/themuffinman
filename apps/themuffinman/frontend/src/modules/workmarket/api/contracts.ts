@@ -1,6 +1,10 @@
 import type {QuestApplicationStatus} from "../domain/workmarketDomain.ts"
 
 export type {
+  AdminAgentSafetyFlagIdGenerated,
+  AgentEndpointId,
+  AgentIntentId,
+  AgentRequiredUnresolvedInput,
   ActionResultDTO,
   AdminQuestApplicationUpdateRequestDTO,
   AdminCircleGroup,
@@ -62,6 +66,13 @@ export type {
   UserReview,
   UserReviewRequest,
   WorkmarketOptions
+} from "../../../contracts/index.ts"
+
+export {
+  ADMIN_AGENT_SAFETY_FLAG_IDS,
+  AGENT_ENDPOINT_IDS,
+  AGENT_INTENT_IDS,
+  AGENT_REQUIRED_UNRESOLVED_INPUTS
 } from "../../../contracts/index.ts"
 
 export type ActionResult = import("../../../contracts/index.ts").ActionResultDTO

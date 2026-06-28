@@ -2,6 +2,10 @@ featureId: sample_feature
 title: Sample feature completion manifest
 status: draft
 riskTier: medium
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - backend-logic
 planFile: .agents/sample-feature-plan.md
 summary:
   - Replace this with a short completion summary.
@@ -18,4 +22,5 @@ artifacts:
   codePaths: []
   docPaths: []
   testPaths: []
+  generatorCommands: []
   auditCommands: []

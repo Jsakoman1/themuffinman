@@ -1,0 +1,12 @@
+---
+frontend_feature_expectations:
+- id: admin_agent_frontend_surface
+  when_contract_ids:
+  - admin_agent_playground_response_contract
+  - admin_agent_simulation_response_contract
+  required_files:
+  - apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue
+  - apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
+  - apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts
+  - apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+  - apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts

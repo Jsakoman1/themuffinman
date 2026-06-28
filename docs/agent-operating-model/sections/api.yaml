@@ -1,0 +1,393 @@
+---
+api:
+  endpoints:
+  - id: auth_register
+    method: POST
+    path: "/auth/register"
+    controller_class: com.themuffinman.app.identity.controller.AuthController
+    handler_method: register
+  - id: auth_me
+    method: GET
+    path: "/auth/me"
+    controller_class: com.themuffinman.app.identity.controller.AuthController
+    handler_method: me
+  - id: auth_login
+    method: POST
+    path: "/auth/login"
+    controller_class: com.themuffinman.app.identity.controller.AuthController
+    handler_method: login
+  - id: get_current_user
+    method: GET
+    path: "/app_users/me"
+    controller_class: com.themuffinman.app.identity.controller.AppUserController
+    handler_method: getCurrentAppUser
+  - id: create_user_as_admin
+    method: POST
+    path: "/app_users"
+    controller_class: com.themuffinman.app.identity.controller.AppUserController
+    handler_method: createAppUser
+  - id: get_all_app_users
+    method: GET
+    path: "/app_users"
+    controller_class: com.themuffinman.app.identity.controller.AppUserController
+    handler_method: getAllAppUsers
+  - id: get_app_user_options
+    method: GET
+    path: "/app_users/options"
+    controller_class: com.themuffinman.app.identity.controller.AppUserController
+    handler_method: getAppUserOptions
+  - id: get_app_user
+    method: GET
+    path: "/app_users/{id}"
+    controller_class: com.themuffinman.app.identity.controller.AppUserController
+    handler_method: getAppUser
+  - id: get_admin_user_detail
+    method: GET
+    path: "/app_users/{id}/admin-detail"
+    controller_class: com.themuffinman.app.identity.controller.AppUserController
+    handler_method: getAdminUserDetail
+  - id: update_user_as_admin
+    method: PUT
+    path: "/app_users/{id}"
+    controller_class: com.themuffinman.app.identity.controller.AppUserController
+    handler_method: updateAppUser
+  - id: delete_user_as_admin
+    method: DELETE
+    path: "/app_users/{id}"
+    controller_class: com.themuffinman.app.identity.controller.AppUserController
+    handler_method: deleteAppUser
+  - id: update_current_user
+    method: PUT
+    path: "/app_users/me"
+    controller_class: com.themuffinman.app.identity.controller.AppUserController
+    handler_method: updateCurrentAppUser
+  - id: get_profile_view
+    method: GET
+    path: "/app_users/{id}/profile-view"
+    controller_class: com.themuffinman.app.identity.controller.AppUserController
+    handler_method: getProfileView
+  - id: get_my_news
+    method: GET
+    path: "/news/me"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestNewsController
+    handler_method: getMyNews
+  - id: mark_all_news_read
+    method: PATCH
+    path: "/news/me/read"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestNewsController
+    handler_method: markMyNewsAsRead
+  - id: mark_news_item_read
+    method: PATCH
+    path: "/news/me/{id}/read"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestNewsController
+    handler_method: markMyNewsItemAsRead
+  - id: get_news_unread_count
+    method: GET
+    path: "/news/me/unread-count"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestNewsController
+    handler_method: getUnreadCount
+  - id: run_admin_agent_playground
+    method: POST
+    path: "/admin/agent/playground"
+    controller_class: com.themuffinman.app.agent.controller.AdminAgentController
+    handler_method: runPlaygroundPrompt
+  - id: run_admin_agent_simulation
+    method: POST
+    path: "/admin/agent/simulate"
+    controller_class: com.themuffinman.app.agent.controller.AdminAgentController
+    handler_method: runSimulation
+  - id: get_dashboard
+    method: GET
+    path: "/dashboard/me"
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
+    handler_method: getMyDashboard
+  - id: get_dashboard_summary
+    method: GET
+    path: "/dashboard/me/summary"
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
+    handler_method: getMySummary
+  - id: create_quest
+    method: POST
+    path: "/quests"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
+    handler_method: createQuest
+  - id: get_all_quests
+    method: GET
+    path: "/quests"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
+    handler_method: getAllQuests
+  - id: search_quests
+    method: GET
+    path: "/quests/search"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
+    handler_method: searchQuests
+  - id: get_quest_preset
+    method: GET
+    path: "/quests/presets/{preset}"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
+    handler_method: getQuestPreset
+  - id: get_quest_by_id
+    method: GET
+    path: "/quests/{id}"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
+    handler_method: getQuestById
+  - id: get_quest_detail
+    method: GET
+    path: "/quests/{id}/detail"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
+    handler_method: getQuestDetailById
+  - id: get_location_debug_status
+    method: GET
+    path: "/location/admin/status"
+    controller_class: com.themuffinman.app.location.controller.LocationLookupController
+    handler_method: getDebugStatus
+  - id: lookup_location
+    method: POST
+    path: "/location/lookup"
+    controller_class: com.themuffinman.app.location.controller.LocationLookupController
+    handler_method: lookup
+  - id: reverse_lookup_location
+    method: POST
+    path: "/location/reverse-lookup"
+    controller_class: com.themuffinman.app.location.controller.LocationLookupController
+    handler_method: reverseLookup
+  - id: create_circle_request
+    method: POST
+    path: "/circles/requests"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: createCircleRequest
+  - id: accept_circle_request
+    method: PATCH
+    path: "/circles/requests/{id}/accept"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: acceptCircleRequest
+  - id: get_incoming_circle_requests
+    method: GET
+    path: "/circles/requests/incoming"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: getIncomingRequests
+  - id: get_outgoing_circle_requests
+    method: GET
+    path: "/circles/requests/outgoing"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: getOutgoingRequests
+  - id: search_circle_users
+    method: GET
+    path: "/circles/search"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: searchCircleUsers
+  - id: get_blocked_users
+    method: GET
+    path: "/circles/blocked"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: getBlockedUsers
+  - id: create_circle
+    method: POST
+    path: "/circles/groups"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: createCircle
+  - id: get_circle_overview
+    method: GET
+    path: "/circles/me/overview"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: getOverview
+  - id: get_admin_circle_overview
+    method: GET
+    path: "/circles/admin/overview"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: getAdminOverview
+  - id: update_circle
+    method: PUT
+    path: "/circles/groups/{id}"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: updateCircle
+  - id: delete_circle
+    method: DELETE
+    path: "/circles/groups/{id}"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: deleteCircle
+  - id: delete_circle_as_admin
+    method: DELETE
+    path: "/circles/admin/groups/{id}"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: deleteCircleAsAdmin
+  - id: get_circles
+    method: GET
+    path: "/circles/groups"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: getCircles
+  - id: get_my_circle_relations
+    method: GET
+    path: "/circles"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: getMyCircles
+  - id: get_circle_candidates
+    method: GET
+    path: "/circles/candidates"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: getInviteCandidates
+  - id: get_circle_connections
+    method: GET
+    path: "/circles/connections"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: getConnections
+  - id: get_circle_relation
+    method: GET
+    path: "/circles/relations/{userId}"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: getRelationWithUser
+  - id: get_nearby_users
+    method: GET
+    path: "/circles/nearby"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: getNearbyUsers
+  - id: update_connection_circles
+    method: PUT
+    path: "/circles/connections/{userId}/circles"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: updateConnectionCircles
+  - id: update_connection_circles_bulk
+    method: PUT
+    path: "/circles/connections/circles/bulk"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: updateConnectionCirclesBulk
+  - id: cancel_circle_request
+    method: DELETE
+    path: "/circles/requests/{id}"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: deleteCircleRequest
+  - id: block_user
+    method: POST
+    path: "/circles/blocks"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: blockCircleUser
+  - id: unblock_user
+    method: DELETE
+    path: "/circles/blocks/{userId}"
+    controller_class: com.themuffinman.app.social.controller.CircleController
+    handler_method: unblockCircleUser
+  - id: apply_to_quest
+    method: POST
+    path: "/quests/{questId}/applications"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+    handler_method: applyForQuest
+  - id: get_quest_applications
+    method: GET
+    path: "/quests/{questId}/applications"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+    handler_method: getApplicationsForQuest
+  - id: get_my_quest_applications
+    method: GET
+    path: "/quests/applications/me"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+    handler_method: getMyApplications
+  - id: get_application_detail
+    method: GET
+    path: "/applications/{applicationId}/detail"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+    handler_method: getApplicationDetail
+  - id: get_admin_applications
+    method: GET
+    path: "/admin/applications"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+    handler_method: getAllApplicationsForAdmin
+  - id: get_quest_applications_view
+    method: GET
+    path: "/quests/{questId}/applications/view"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+    handler_method: getApplicationsViewForQuest
+  - id: update_my_application
+    method: PUT
+    path: "/quests/{questId}/applications/me"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+    handler_method: updateMyApplication
+  - id: withdraw_my_application
+    method: PATCH
+    path: "/quests/{questId}/applications/me/withdraw"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+    handler_method: withdrawMyApplication
+  - id: update_admin_application
+    method: PUT
+    path: "/admin/applications/{applicationId}"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+    handler_method: updateApplicationForAdmin
+  - id: delete_admin_application
+    method: DELETE
+    path: "/admin/applications/{applicationId}"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+    handler_method: deleteApplicationForAdmin
+  - id: approve_application
+    method: PATCH
+    path: "/quests/{questId}/applications/{applicationId}/approve"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+    handler_method: approveApplication
+  - id: decline_application
+    method: PATCH
+    path: "/quests/{questId}/applications/{applicationId}/decline"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
+    handler_method: declineApplication
+  - id: start_quest
+    method: PATCH
+    path: "/quests/{id}/start"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
+    handler_method: startQuest
+  - id: complete_quest
+    method: PATCH
+    path: "/quests/{id}/complete"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
+    handler_method: completeQuest
+  - id: confirm_quest_term_change
+    method: PATCH
+    path: "/quests/{id}/term/confirm"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
+    handler_method: confirmQuestTermChange
+  - id: reject_quest_term_change
+    method: PATCH
+    path: "/quests/{id}/term/reject"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
+    handler_method: rejectQuestTermChange
+  - id: update_quest
+    method: PUT
+    path: "/quests/{id}"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
+    handler_method: updateQuest
+  - id: delete_quest
+    method: DELETE
+    path: "/quests/{id}"
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
+    handler_method: deleteQuest
+  - id: create_or_update_review
+    method: POST
+    path: "/quests/{questId}/reviews"
+    controller_class: com.themuffinman.app.workmarket.controller.UserReviewController
+    handler_method: createOrUpdateReview
+  - id: get_chat_workspace
+    method: GET
+    path: "/chat/workspace"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getWorkspace
+  - id: open_chat_conversation
+    method: POST
+    path: "/chat/conversations/open"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: openConversation
+  - id: send_chat_message
+    method: POST
+    path: "/chat/conversations/{conversationId}/messages"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: sendMessage
+  - id: get_chat_conversation_messages
+    method: GET
+    path: "/chat/conversations/{conversationId}/messages"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getConversationMessages
+  - id: mark_chat_conversation_read
+    method: PATCH
+    path: "/chat/conversations/{conversationId}/read"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: markConversationRead
+  - id: chat_presence_heartbeat
+    method: POST
+    path: "/chat/presence/heartbeat"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: heartbeat

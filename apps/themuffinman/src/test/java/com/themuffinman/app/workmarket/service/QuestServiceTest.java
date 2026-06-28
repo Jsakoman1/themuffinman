@@ -94,6 +94,14 @@ class QuestServiceTest {
     private QuestUpdateService questUpdateService;
     private QuestValidationService questValidationService;
     private QuestStateTransitionService questStateTransitionService;
+    private QuestExecutionPrimitiveService questExecutionPrimitiveService;
+    private CreateQuestUseCase createQuestUseCase;
+    private UpdateQuestUseCase updateQuestUseCase;
+    private DeleteQuestUseCase deleteQuestUseCase;
+    private StartQuestUseCase startQuestUseCase;
+    private CompleteQuestUseCase completeQuestUseCase;
+    private ConfirmQuestTermChangeUseCase confirmQuestTermChangeUseCase;
+    private RejectQuestTermChangeUseCase rejectQuestTermChangeUseCase;
     private WorkmarketPresentationHelper workmarketPresentationHelper;
     private QuestViewAssembler questViewAssembler;
 
@@ -117,6 +125,27 @@ class QuestServiceTest {
                 locationSettingsService,
                 questApplicationRepository
         );
+        questExecutionPrimitiveService = new QuestExecutionPrimitiveService(
+                questRepository,
+                questApplicationRepository,
+                appUserLookupService,
+                questAccessPolicyService,
+                questStateTransitionService,
+                questWorkflowNotificationService
+        );
+        createQuestUseCase = new CreateQuestUseCase(
+                questValidationService,
+                questStateTransitionService,
+                questExecutionPrimitiveService,
+                questMgr,
+                locationSettingsService
+        );
+        updateQuestUseCase = new UpdateQuestUseCase(questExecutionPrimitiveService, questUpdateService);
+        deleteQuestUseCase = new DeleteQuestUseCase(questExecutionPrimitiveService);
+        startQuestUseCase = new StartQuestUseCase(questExecutionPrimitiveService);
+        completeQuestUseCase = new CompleteQuestUseCase(questExecutionPrimitiveService);
+        confirmQuestTermChangeUseCase = new ConfirmQuestTermChangeUseCase(questExecutionPrimitiveService, questStateTransitionService);
+        rejectQuestTermChangeUseCase = new RejectQuestTermChangeUseCase(questExecutionPrimitiveService, questStateTransitionService);
         workmarketPresentationHelper = new WorkmarketPresentationHelper();
         questViewAssembler = new QuestViewAssembler(
                 questMgr,
@@ -130,20 +159,22 @@ class QuestServiceTest {
         );
         questService = new QuestService(
                 questRepository,
-                appUserLookupService,
                 questApplicationRepository,
                 questApplicationMgr,
                 questApplicationService,
-                questWorkflowNotificationService,
                 questVisibilityService,
-                questValidationService,
-                questStateTransitionService,
                 questAccessPolicyService,
                 questQueryService,
-                questUpdateService,
+                questExecutionPrimitiveService,
+                createQuestUseCase,
+                updateQuestUseCase,
+                deleteQuestUseCase,
+                startQuestUseCase,
+                completeQuestUseCase,
+                confirmQuestTermChangeUseCase,
+                rejectQuestTermChangeUseCase,
                 questMgr,
-                questViewAssembler,
-                locationSettingsService
+                questViewAssembler
         );
     }
 

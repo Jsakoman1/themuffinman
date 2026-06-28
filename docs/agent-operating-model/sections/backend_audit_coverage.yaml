@@ -1,0 +1,188 @@
+---
+backend_audit_coverage:
+  current_enforcement:
+    fail_hard_tiers:
+      - executor_critical
+    report_only_tiers:
+      - automation_relevant
+      - internal_support
+      - out_of_scope
+    strict_source_of_truth_rule_ids:
+      - automation_contract_dto_surface
+      - chat_contract_dto_surface
+      - identity_contract_dto_surface
+      - location_contract_dto_surface
+    strict_documentation_rule_ids:
+      - automation_contract_dto_surface
+      - chat_contract_dto_surface
+      - identity_contract_dto_surface
+      - location_contract_dto_surface
+  future_tightening:
+    - phase: next
+      target_tier: automation_relevant
+      goal: Require source-of-truth registration and documentation coverage once classification coverage stays stable, domain-owned, and low-noise.
+    - phase: later
+      target_tier: internal_support
+      goal: Keep explicit inventory and ownership visibility across the rest of the backend without forcing workflow-coupled fail-hard rules for every support class.
+  domain_ownership:
+    - id: agent
+      owner_id: agent_platform
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/agent/
+    - id: chat
+      owner_id: chat_domain
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/chat/
+    - id: common
+      owner_id: platform_core
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/common/
+    - id: identity
+      owner_id: identity_domain
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/identity/
+    - id: location
+      owner_id: location_domain
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/location/
+    - id: social
+      owner_id: social_domain
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/social/
+    - id: workmarket
+      owner_id: workmarket_domain
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/
+    - id: platform
+      owner_id: platform_core
+      file_names:
+        - TheMuffinManApplication.java
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/config/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/controller/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/dto/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/mapper/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/model/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/repository/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/security/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/service/
+  tiers:
+    - id: executor_critical
+      description: Files that directly control agent-safe execution, mutation entrypoints, source mappings, or deterministic workflow behavior.
+      current_gate: fail_hard
+      required_artifacts:
+        - source_of_truth
+        - documentation_coverage
+        - service_workflow_inventory_when_mutating
+    - id: automation_relevant
+      description: Files that shape planner-visible DTOs, read models, helper services, or automation-facing backend data without being the strict execution chokepoint.
+      current_gate: report_only
+      required_artifacts:
+        - backend_audit_inventory
+        - future_source_of_truth_target
+    - id: internal_support
+      description: Internal infrastructure, repositories, models, config, and support code that should stay inventoried but not coupled to full agent-safe registration today.
+      current_gate: report_only
+      required_artifacts:
+        - backend_audit_inventory
+    - id: out_of_scope
+      description: Bootstrap or framework entrypoint files that stay visible in inventory but are intentionally excluded from stricter agent-safe registration.
+      current_gate: report_only
+      required_artifacts:
+        - backend_audit_inventory
+  classification_rules:
+    - id: bootstrap_entrypoint
+      tier: out_of_scope
+      file_names:
+        - TheMuffinManApplication.java
+    - id: executor_controller_surface
+      tier: executor_critical
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/
+    - id: executor_mapper_surface
+      tier: executor_critical
+      path_contains_any:
+        - /mapper/
+    - id: executor_use_case_surface
+      tier: executor_critical
+      file_suffixes:
+        - UseCase.java
+    - id: executor_agent_service_surface
+      tier: executor_critical
+      path_contains_any:
+        - /agent/service/
+    - id: executor_tracked_service_surface
+      tier: executor_critical
+      file_names:
+        - AuthService.java
+        - AppUserService.java
+        - AppUserLookupService.java
+        - DashboardService.java
+        - QuestService.java
+        - QuestApplicationService.java
+        - UserReviewService.java
+        - QuestNewsService.java
+        - QuestAccessPolicyService.java
+        - QuestUpdateService.java
+        - QuestStateTransitionService.java
+        - QuestValidationService.java
+        - QuestVisibilityService.java
+        - QuestQueryService.java
+        - QuestExecutionPrimitiveService.java
+        - LocationSettingsService.java
+        - LocationLookupService.java
+        - CircleRelationService.java
+        - CircleService.java
+        - CircleMembershipService.java
+        - CircleViewAssembler.java
+        - ChatService.java
+    - id: automation_contract_dto_surface
+      tier: automation_relevant
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/
+    - id: chat_contract_dto_surface
+      tier: automation_relevant
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/
+    - id: identity_contract_dto_surface
+      tier: automation_relevant
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/
+    - id: location_contract_dto_surface
+      tier: automation_relevant
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/
+    - id: automation_relevant_dto_surface
+      tier: automation_relevant
+      path_contains_any:
+        - /dto/
+    - id: automation_relevant_remaining_service_surface
+      tier: automation_relevant
+      path_contains_any:
+        - /service/
+    - id: internal_support_config_surface
+      tier: internal_support
+      path_contains_any:
+        - /config/
+    - id: internal_support_model_surface
+      tier: internal_support
+      path_contains_any:
+        - /model/
+    - id: internal_support_repository_surface
+      tier: internal_support
+      path_contains_any:
+        - /repository/
+    - id: internal_support_security_surface
+      tier: internal_support
+      path_contains_any:
+        - /security/
+        - /websocket/
+    - id: internal_support_common_surface
+      tier: internal_support
+      path_contains_any:
+        - /common/

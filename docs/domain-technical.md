@@ -49,12 +49,45 @@ Primary migrations:
 
 Primary files:
 - `identity/controller/AuthController.java`
+- `identity/service/AuthService.java`
+- `identity/mapper/AuthMgr.java`
 - `identity/security/JwtService.java`
 - `identity/security/JwtAuthFilter.java`
 - `identity/security/RepositoryUserDetailsService.java`
 - `identity/dto/auth/RegisterRequest.java`
 - `identity/dto/auth/LoginRequest.java`
 - `identity/dto/auth/AuthResponse.java`
+
+Technical notes:
+- `AuthController` is transport-only and delegates register, login, and current-user response assembly to `AuthService`.
+- `AuthMgr` is the backend-owned mapper for `AuthResponse`, so auth response shaping stays consistent with the rest of the identity module.
+
+## Control-System Technical Notes
+
+Primary files:
+- `apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java`
+- `scripts/generate-agent-operating-model.rb`
+- `scripts/generate-agent-endpoint-inventory.rb`
+- `scripts/generate-automation-read-model-inventory.rb`
+- `scripts/generate-source-of-truth-audit.rb`
+- `apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs`
+
+Technical notes:
+- Feature manifests are now classified by `changeMode`, `changeImpact`, and `changeProfiles` so required docs, tests, generator commands, and close-out audits can be enforced in validation.
+- Feature manifest artifact lists are now also validator-checked for path existence, duplicate entries, and clean separation between runtime code and test-only files.
+- Mutating intents are modeled explicitly in the operating contract with `preconditions`, `state_changes`, `side_effects`, `notifications`, and `blocking_conditions`.
+- Use-case workflow tests standardize the mutation pattern around target resolution, authority, state validation, persistence, notification, and fail-closed exits.
+- Scenario tests are the runtime proof layer above unit tests and should cover canonical multi-step workflows plus negative fail-closed behavior.
+- `docs/generated/source-of-truth-audit.json` is the drift report for tracked controllers, services, mappers, and tests that are missing source registration or workflow/documentation coverage.
+- `docs/generated/backend-audit-inventory.json` is the full-backend classification report, includes explicit domain and owner assignment for every backend file, and stays the staging layer for future stricter audit coverage beyond the current executor-critical surface.
+- The first stricter `automation_relevant` slice is the admin-agent DTO contract surface, which now requires source registration and documentation coverage before broader DTO tightening.
+- The second stricter `automation_relevant` slice is the chat DTO contract surface, which keeps workspace, conversation, message, and socket DTO contracts inside the same registration and documentation gate.
+- The third stricter `automation_relevant` slice is the identity DTO contract surface, which keeps auth, profile, and admin-user DTO contracts inside the same registration and documentation gate.
+- The fourth stricter `automation_relevant` slice is the location DTO contract surface, which keeps lookup, visibility, debug, and user-location DTO contracts inside the same registration and documentation gate.
+- Frontend planner support should prefer generated workflow-aware helpers from the operating model over hand-maintained intent or safety identifiers.
 
 ### User account management
 
@@ -405,11 +438,15 @@ Primary migrations:
 
 Primary files:
 - `workmarket/service/QuestService.java`
+- `workmarket/service/CreateQuestUseCase.java`
+- `workmarket/service/UpdateQuestUseCase.java`
+- `workmarket/service/DeleteQuestUseCase.java`
 - `workmarket/service/QuestUpdateService.java`
 - `workmarket/service/QuestValidationService.java`
 - `workmarket/service/QuestVisibilityService.java`
 - `workmarket/service/QuestAccessPolicyService.java`
 - `workmarket/service/QuestQueryService.java`
+- `workmarket/service/QuestExecutionPrimitiveService.java`
 - `workmarket/service/QuestViewAssembler.java`
 - `workmarket/model/Quest.java`
 - `workmarket/model/QuestStatus.java`
@@ -422,6 +459,8 @@ Primary files:
 Technical notes:
 - `QuestRequestDTO` requires `awardAmount`, but the accepted floor is `0.00`, not `0.01`.
 - `QuestValidationService` treats `awardAmount == 0` as a valid free-quest configuration and still rejects negative values.
+- `QuestService` now stays as the facade and read-model entrypoint while create, update, and delete mutations delegate into explicit use-case services.
+- `QuestExecutionPrimitiveService` centralizes quest target resolution, owner or execution authority checks, state gating, persistence, and notification fan-out for agent-safe mutation flows.
 
 ### Applications
 
@@ -452,6 +491,11 @@ Technical notes:
 Primary files:
 - `workmarket/service/QuestStateTransitionService.java`
 - `workmarket/service/QuestService.java`
+- `workmarket/service/StartQuestUseCase.java`
+- `workmarket/service/CompleteQuestUseCase.java`
+- `workmarket/service/ConfirmQuestTermChangeUseCase.java`
+- `workmarket/service/RejectQuestTermChangeUseCase.java`
+- `workmarket/service/QuestExecutionPrimitiveService.java`
 - `workmarket/service/QuestAccessPolicyService.java`
 - `workmarket/service/QuestWorkflowNotificationService.java`
 - `workmarket/dto/QuestAllowedAction.java`
@@ -461,9 +505,10 @@ Primary files:
 
 Technical notes:
 - `QuestStateTransitionService.validateQuestExecutionAuthority` allows owner, admin, or approved applicant to run execution actions.
-- `QuestService.startQuest` requires `ASSIGNED` and transitions the quest to `IN_PROGRESS`.
-- `QuestService.completeQuest` requires `IN_PROGRESS` and transitions the quest to `COMPLETED`.
+- `StartQuestUseCase.execute` requires `ASSIGNED` and transitions the quest to `IN_PROGRESS`.
+- `CompleteQuestUseCase.execute` requires `IN_PROGRESS` and transitions the quest to `COMPLETED`.
 - `QuestStateTransitionService.validateQuestTermDecisionAuthority` allows only admin or approved applicant to confirm or reject pending term changes.
+- `ConfirmQuestTermChangeUseCase.execute` and `RejectQuestTermChangeUseCase.execute` both enter through the shared execution primitive service before delegating the actual transition to `QuestStateTransitionService`.
 - `QuestStateTransitionService.confirmQuestTermChange` applies pending term fields, restores the previous quest status, and clears the pending state.
 - `QuestStateTransitionService.rejectQuestTermChange` restores the previous quest status without applying pending term fields, then clears the pending state.
 - If `termChangePreviousStatus` is missing while resolving a term decision, the backend fails instead of inventing a fallback status.

@@ -1,0 +1,1365 @@
+[
+  {
+    "javaClass": "com.themuffinman.app.agent.dto.AdminAgentPlaygroundRequestDTO",
+    "fields": [
+      "prompt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO",
+    "fields": [
+      "provider",
+      "externalLlmConfigured",
+      "promptSourceLanguage",
+      "promptTranslationProvider",
+      "promptTranslationApplied",
+      "promptTranslationReliable",
+      "originalPrompt",
+      "translatedPrompt",
+      "title",
+      "summary",
+      "resolutionRequirements",
+      "clarificationContract",
+      "executionReadiness",
+      "matchedSignals",
+      "unresolvedInputs",
+      "warnings",
+      "suggestedWorkflows",
+      "nextSteps"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.agent.dto.AdminAgentSimulationRequestDTO",
+    "fields": [
+      "prompt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.agent.dto.AdminAgentSimulationResponseDTO",
+    "fields": [
+      "planningOnly",
+      "safeToExecute",
+      "promptSourceLanguage",
+      "translatedPrompt",
+      "selectedIntentId",
+      "resolutionConfidence",
+      "capabilityAssessments",
+      "intentLineage",
+      "endpointPlan",
+      "clarificationContract",
+      "executionReadiness",
+      "matchedSignals",
+      "unresolvedInputs",
+      "blockingReasons",
+      "suggestedWorkflows"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.agent.dto.AgentCapabilityAssessmentDTO",
+    "fields": [
+      "capabilityId",
+      "status",
+      "reason"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.agent.dto.AgentClarificationContractDTO",
+    "fields": [
+      "clarificationRequired",
+      "failClosedOnAmbiguity",
+      "reason",
+      "unresolvedFields"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.agent.dto.AgentEndpointPlanDTO",
+    "fields": [
+      "endpointId",
+      "method",
+      "path"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.agent.dto.AgentExecutionReadinessDTO",
+    "fields": [
+      "planningOnly",
+      "translationReady",
+      "requiresExternalTranslationProvider",
+      "currentLocationCapabilityRequired",
+      "currentLocationCapabilityStatus",
+      "destructiveConfirmationRequired",
+      "multiActorContextRequired"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.agent.dto.AgentIntentLineageDTO",
+    "fields": [
+      "intentId",
+      "sourcePromptExamples",
+      "resolutionWorkflows",
+      "targetEndpoints",
+      "safetyPolicies",
+      "expectedReadModels"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.agent.dto.AgentResolutionConfidenceDTO",
+    "fields": [
+      "score",
+      "tier",
+      "reasons"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.agent.dto.AgentResolutionRequirementDTO",
+    "fields": [
+      "entityType",
+      "workflowId",
+      "scope",
+      "selectionRule",
+      "ambiguityPolicy",
+      "endpointHint"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatCircleOptionDTO",
+    "fields": [
+      "id",
+      "name"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatContactDTO",
+    "fields": [
+      "userId",
+      "username",
+      "profileDescription",
+      "profileAvatarDataUrl",
+      "circleIds",
+      "circleNames",
+      "resolutionKey",
+      "resolutionLabel",
+      "exactResolutionEligible",
+      "online",
+      "lastActiveAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatConversationSummaryDTO",
+    "fields": [
+      "conversationId",
+      "otherUserId",
+      "otherUsername",
+      "resolutionKey",
+      "resolutionLabel",
+      "exactResolutionEligible",
+      "otherUserProfileDescription",
+      "otherUserAvatarDataUrl",
+      "otherUserOnline",
+      "otherUserLastActiveAt",
+      "lastMessagePreview",
+      "lastMessageAt",
+      "lastMessageFromCurrentUser",
+      "lastMessageHasImage",
+      "unreadCount"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatMessageDTO",
+    "fields": [
+      "id",
+      "conversationId",
+      "senderUserId",
+      "senderUsername",
+      "senderAvatarDataUrl",
+      "messageBody",
+      "imageDataUrl",
+      "createdAt",
+      "readAt",
+      "ownMessage"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatMessageRequestDTO",
+    "fields": [
+      "messageBody",
+      "imageDataUrl"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatOpenConversationRequestDTO",
+    "fields": [
+      "otherUserId"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatSocketClientMessageDTO",
+    "fields": [
+      "type",
+      "conversationId"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatSocketEventDTO",
+    "fields": [
+      "type",
+      "conversationId",
+      "actorUserId",
+      "reason",
+      "unreadNewsCount"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatWorkspaceDTO",
+    "fields": [
+      "conversations",
+      "contacts",
+      "circles",
+      "unreadConversationCount",
+      "onlineContactCount"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.common.dto.ActionResultDTO",
+    "fields": [
+      "action",
+      "message"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.common.dto.LabelValueDTO",
+    "fields": [
+      "label",
+      "value"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.common.dto.NavigationTargetDTO",
+    "fields": [
+      "type",
+      "entityId"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.dto.ApiErrorResponseDTO",
+    "fields": [
+      "code",
+      "message",
+      "fieldErrors"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.dto.ApiFieldErrorDTO",
+    "fields": [
+      "field",
+      "code",
+      "message"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.identity.dto.AdminUserDetailDTO",
+    "fields": [
+      "user",
+      "appUserRoles",
+      "locationModes",
+      "exactLocationVisibilityScopes",
+      "circles",
+      "contacts"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.identity.dto.AppUserRequestDTO",
+    "fields": [
+      "profileDescription",
+      "profileAvatarDataUrl",
+      "locationSettings",
+      "role"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.identity.dto.AppUserResponseDTO",
+    "fields": [
+      "id",
+      "email",
+      "username",
+      "resolutionKey",
+      "resolutionLabel",
+      "exactResolutionEligible",
+      "profileNavigation",
+      "profileDescription",
+      "profileAvatarDataUrl",
+      "locationSettings",
+      "createdAt",
+      "openQuestCount",
+      "openQuests",
+      "role"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.identity.dto.ProfilePrimaryActionDTO",
+    "fields": [
+      "type",
+      "label",
+      "enabled",
+      "navigation"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.identity.dto.UserProfileViewDTO",
+    "fields": [
+      "profile",
+      "ownProfile",
+      "resolutionKey",
+      "resolutionLabel",
+      "exactResolutionEligible",
+      "relation",
+      "primaryAction",
+      "showBlockAction",
+      "blockActionEnabled",
+      "blockActionLabel",
+      "employerRating",
+      "workerRating",
+      "recentReviews"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.identity.dto.auth.AuthResponse",
+    "fields": [
+      "id",
+      "email",
+      "username",
+      "profileDescription",
+      "profileAvatarDataUrl",
+      "createdAt",
+      "role",
+      "token"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.identity.dto.auth.LoginRequest",
+    "fields": [
+      "email",
+      "password"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.identity.dto.auth.RegisterRequest",
+    "fields": [
+      "email",
+      "3",
+      "username",
+      "8",
+      "password"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.location.dto.DatabaseTableStatusDTO",
+    "fields": [
+      "tableName",
+      "rowCount"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.location.dto.ExactLocationVisibilityScopeOptionDTO",
+    "fields": [
+      "value",
+      "label",
+      "description"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.location.dto.LocationDebugStatusDTO",
+    "fields": [
+      "configured",
+      "provider",
+      "lookupCacheEntries",
+      "reverseLookupCacheEntries",
+      "lookupRequests",
+      "reverseLookupRequests",
+      "providerLookupCalls",
+      "providerReverseLookupCalls",
+      "lookupCacheHits",
+      "reverseLookupCacheHits",
+      "rateLimitedRequests",
+      "usersWithCoordinates",
+      "questsWithCoordinates",
+      "usersWithProviderMetadata",
+      "questsWithProviderMetadata",
+      "currentMonthProviderRequests",
+      "currentMonthProviderLookupRequests",
+      "currentMonthProviderReverseLookupRequests",
+      "databaseSizeBytes",
+      "tableStatuses"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.location.dto.LocationLookupCandidateDTO",
+    "fields": [
+      "provider",
+      "providerPlaceId",
+      "label",
+      "countryCode",
+      "country",
+      "locality",
+      "postalCode",
+      "street",
+      "houseNumber",
+      "latitude",
+      "longitude",
+      "resolvedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.location.dto.LocationLookupRequestDTO",
+    "fields": [
+      "query"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.location.dto.LocationLookupResponseDTO",
+    "fields": [
+      "configured",
+      "provider",
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.location.dto.LocationModeOptionDTO",
+    "fields": [
+      "value",
+      "label",
+      "description"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.location.dto.LocationReverseLookupRequestDTO",
+    "fields": [
+      "latitude",
+      "longitude"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.location.dto.QuestLocationVisibilityOptionDTO",
+    "fields": [
+      "value",
+      "label",
+      "description"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.location.dto.UserLocationSettingsDTO",
+    "fields": [
+      "mode",
+      "defaultRadiusKm",
+      "hasCoordinates",
+      "sharingSummary",
+      "visibilitySummary",
+      "exactVisibilityScope",
+      "exactVisibleCircleIds",
+      "exactVisibleUserIds",
+      "provider",
+      "providerPlaceId",
+      "label",
+      "countryCode",
+      "country",
+      "locality",
+      "postalCode",
+      "street",
+      "houseNumber",
+      "latitude",
+      "longitude",
+      "resolvedAt",
+      "updatedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.location.dto.UserLocationSettingsRequestDTO",
+    "fields": [
+      "mode",
+      "defaultRadiusKm",
+      "exactVisibilityScope",
+      "exactVisibleCircleIds",
+      "exactVisibleUserIds",
+      "provider",
+      "providerPlaceId",
+      "label",
+      "countryCode",
+      "country",
+      "locality",
+      "postalCode",
+      "street",
+      "houseNumber",
+      "latitude",
+      "longitude",
+      "resolvedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.AdminCircleGroupResponseDTO",
+    "fields": [
+      "id",
+      "name",
+      "ownerId",
+      "ownerUsername",
+      "memberCount",
+      "memberPreviewLabel",
+      "members"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.AdminCircleOverviewDTO",
+    "fields": [
+      "circles",
+      "acceptedConnections",
+      "pendingRequests",
+      "blockedRelations"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.AdminCircleRelationRowDTO",
+    "fields": [
+      "id",
+      "requesterUsername",
+      "recipientUsername",
+      "statusLabel",
+      "statusBadgeClass"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.BulkCircleMembershipUpdateDTO",
+    "fields": [
+      "circleId",
+      "userIds",
+      "action"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleBlockCreateDTO",
+    "fields": [
+      "blockedUserId"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleCandidateDTO",
+    "fields": [
+      "id",
+      "username",
+      "profileDescription",
+      "profileAvatarDataUrl",
+      "email"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleConnectionsQueryDTO",
+    "fields": [
+      "q",
+      "circleId",
+      "unassigned",
+      "page",
+      "size"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleContactDTO",
+    "fields": [
+      "relationId",
+      "userId",
+      "username",
+      "profileDescription",
+      "profileAvatarDataUrl",
+      "circleIds",
+      "circleNames",
+      "circleSummaryLabel"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleContactListResponseDTO",
+    "fields": [
+      "items",
+      "page",
+      "size",
+      "totalItems",
+      "totalPages"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleGroupRequestDTO",
+    "fields": [
+      "name"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleGroupResponseDTO",
+    "fields": [
+      "id",
+      "name",
+      "resolutionKey",
+      "resolutionLabel",
+      "exactResolutionEligible",
+      "memberCount",
+      "memberPreviewLabel",
+      "members"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleMemberDTO",
+    "fields": [
+      "userId",
+      "username",
+      "profileDescription",
+      "profileAvatarDataUrl"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleOverviewDTO",
+    "fields": [
+      "connectionCount",
+      "unassignedConnectionCount",
+      "incomingRequestCount",
+      "outgoingRequestCount"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleRelationDTO",
+    "fields": [
+      "relationStatus",
+      "relationLabel",
+      "relationBadgeClass",
+      "blockedByCurrentUser",
+      "exactResolutionEligible"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleRequestCreateDTO",
+    "fields": [
+      "recipientId"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleRequestListResponseDTO",
+    "fields": [
+      "items",
+      "page",
+      "size",
+      "totalItems",
+      "totalPages"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleRequestResponseDTO",
+    "fields": [
+      "id",
+      "requesterId",
+      "requesterUsername",
+      "requesterProfileDescription",
+      "requesterProfileAvatarDataUrl",
+      "recipientId",
+      "recipientUsername",
+      "recipientProfileDescription",
+      "recipientProfileAvatarDataUrl",
+      "counterpartUserId",
+      "counterpartUsername",
+      "resolutionKey",
+      "resolutionLabel",
+      "exactResolutionEligible",
+      "counterpartProfileDescription",
+      "counterpartProfileAvatarDataUrl",
+      "requestSummaryLabel",
+      "primaryAction",
+      "secondaryAction",
+      "createdAt",
+      "acceptedAt",
+      "blockedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleSearchResultDTO",
+    "fields": [
+      "id",
+      "username",
+      "profileDescription",
+      "profileAvatarDataUrl",
+      "email",
+      "locationLabel",
+      "distanceKm",
+      "distanceLabel",
+      "resolutionKey",
+      "resolutionLabel",
+      "exactResolutionEligible",
+      "relationStatus",
+      "relationLabel",
+      "relationBadgeClass",
+      "primaryAction",
+      "secondaryAction",
+      "blockedByCurrentUser"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleSearchResultListResponseDTO",
+    "fields": [
+      "items",
+      "page",
+      "size",
+      "totalItems",
+      "totalPages"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.CircleSummaryDTO",
+    "fields": [
+      "id",
+      "name"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.ConnectionCircleUpdateDTO",
+    "fields": [
+      "circleIds"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.PageQueryDTO",
+    "fields": [
+      "page",
+      "size"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.dto.TextPageQueryDTO",
+    "fields": [
+      "q",
+      "page",
+      "size"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.social.model.CircleRequest",
+    "fields": [
+      "id",
+      "requester",
+      "recipient",
+      "acceptedAt",
+      "blockedAt",
+      "blockedBy"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.AdminApplicationsQueryDTO",
+    "fields": [
+      "q",
+      "status",
+      "page",
+      "size"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.AdminQuestApplicationUpdateRequestDTO",
+    "fields": [
+      "message",
+      "proposedPrice",
+      "status"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.AppUserRoleOptionDTO",
+    "fields": [
+      "value",
+      "label"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardApplicationGroupDTO",
+    "fields": [
+      "key",
+      "label",
+      "tone",
+      "count",
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardNotificationItemDTO",
+    "fields": [
+      "id",
+      "type",
+      "typeLabel",
+      "badgeClass",
+      "iconGlyph",
+      "title",
+      "message",
+      "actorUsername",
+      "questTitle",
+      "questId",
+      "applicationId",
+      "circleRequestId",
+      "createdAt",
+      "readAt",
+      "destinationType",
+      "destinationId",
+      "navigation",
+      "unread",
+      "canAcceptCircleRequest",
+      "canDeclineCircleRequest"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardNotificationsSectionDTO",
+    "fields": [
+      "unreadItems",
+      "recentItems"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardOpenWorkSectionDTO",
+    "fields": [
+      "waitingQuests",
+      "openQuests"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardPlannerItemDTO",
+    "fields": [
+      "id",
+      "questId",
+      "title",
+      "navigation",
+      "scheduledAt",
+      "endsAt",
+      "kind",
+      "kindLabel",
+      "tone",
+      "hasRange"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardPlannerSectionDTO",
+    "fields": [
+      "scheduledItems",
+      "flexibleItems"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardQuestGroupDTO",
+    "fields": [
+      "key",
+      "label",
+      "tone",
+      "count",
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardResponseDTO",
+    "fields": [
+      "options",
+      "summary",
+      "sections",
+      "quests",
+      "myQuests",
+      "availableQuests",
+      "myApplications",
+      "recentNews",
+      "incomingCircleRequests",
+      "circles",
+      "appUsers"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardSectionsDTO",
+    "fields": [
+      "recentMyQuests",
+      "recentMyApplications",
+      "activeWorkApplications",
+      "incomingWorkQuests",
+      "outgoingWorkApplications",
+      "visibleMyQuests",
+      "visibleMyApplications",
+      "myQuestGroups",
+      "myApplicationGroups",
+      "recentIncomingCircleRequests",
+      "openWork",
+      "planner",
+      "notifications"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardSummaryDTO",
+    "fields": [
+      "adminModeEnabled",
+      "questCount",
+      "visibleMyQuestsCount",
+      "pendingWorkApplicationsCount",
+      "activeWorkApplicationsCount",
+      "activeMyQuestsCount",
+      "activeWorkCount",
+      "completedMyQuestsCount",
+      "openQuestCount",
+      "assignedQuestCount",
+      "waitingConfirmationQuestCount",
+      "unreadNewsCount",
+      "totalUserCount",
+      "adminUserCount"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDetailContextSectionDTO",
+    "fields": [
+      "questLabel",
+      "postedByLabel",
+      "showStatus",
+      "showTerm",
+      "showWorkers"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDetailNavigationSectionDTO",
+    "fields": [
+      "canOpenQuest",
+      "canOpenPostedBy",
+      "questId",
+      "questNavigation",
+      "postedByNavigation"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDetailResponseDTO",
+    "fields": [
+      "summary",
+      "sections",
+      "application",
+      "quest"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDetailSectionsDTO",
+    "fields": [
+      "quest",
+      "navigation",
+      "context"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO",
+    "fields": [
+      "items",
+      "page",
+      "size",
+      "totalItems",
+      "totalPages"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationPresentationDTO",
+    "fields": [
+      "statusLabel",
+      "statusBadgeClass",
+      "statusSurfaceClass",
+      "questStatusLabel",
+      "questStatusBadgeClass",
+      "questAssigneeTargetVisible",
+      "questAssigneeTargetLabel",
+      "canEdit",
+      "canWithdraw",
+      "autoOpenEditForm",
+      "canApprove",
+      "canDecline",
+      "showManagementActions"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO",
+    "fields": [
+      "id",
+      "questId",
+      "questTitle",
+      "questCreatorUsername",
+      "questDescription",
+      "questStatus",
+      "questAssigneeTarget",
+      "questScheduledAt",
+      "questEndsAt",
+      "questTermFixed",
+      "applicantId",
+      "applicantUsername",
+      "applicantProfileDescription",
+      "applicantProfileAvatarDataUrl",
+      "questNavigation",
+      "applicantNavigation",
+      "resolutionKey",
+      "resolutionLabel",
+      "exactResolutionEligible",
+      "message",
+      "proposedPrice",
+      "status",
+      "allowedActions",
+      "presentation",
+      "createdAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationStatusFilterOptionDTO",
+    "fields": [
+      "value",
+      "label"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO",
+    "fields": [
+      "featuredApplication",
+      "approvedApplications",
+      "visibleApplications",
+      "pendingApplicationCount",
+      "oldestPendingApplicationId",
+      "hiddenApplicationsCount",
+      "selectedApplicationId",
+      "canRevealHiddenApplications",
+      "showingAllApplications",
+      "revealLabel"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestAudienceFilterOptionDTO",
+    "fields": [
+      "value",
+      "label"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestAudienceOptionDTO",
+    "fields": [
+      "value",
+      "label",
+      "description"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailExecutionSectionDTO",
+    "fields": [
+      "visible",
+      "primaryAction",
+      "primaryActionLabel",
+      "helperText"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailManagementSectionDTO",
+    "fields": [
+      "editVisible",
+      "deleteVisible",
+      "postingSettingsVisible",
+      "audienceLabel",
+      "visibleToCirclesLabel"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailNavigationSectionDTO",
+    "fields": [
+      "listNavigation"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailResponseDTO",
+    "fields": [
+      "summary",
+      "sections",
+      "quest",
+      "myApplication",
+      "applicationsView"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailReviewSectionDTO",
+    "fields": [
+      "visible",
+      "canSubmit",
+      "introTitle",
+      "introSubtitle",
+      "placeholder",
+      "submitLabel",
+      "emptyStateMessage",
+      "target",
+      "submittedReview"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailReviewTargetDTO",
+    "fields": [
+      "userId",
+      "username",
+      "roleLabel"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailSectionsDTO",
+    "fields": [
+      "navigation",
+      "myApplication",
+      "applicationsView",
+      "review",
+      "execution",
+      "termChange",
+      "management"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailTermChangeSectionDTO",
+    "fields": [
+      "visible",
+      "actionable",
+      "summaryLabel",
+      "confirmLabel",
+      "rejectLabel",
+      "currentScheduledAt",
+      "currentEndsAt",
+      "currentTermFixed",
+      "pendingScheduledAt",
+      "pendingEndsAt",
+      "pendingTermFixed"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestListResponseDTO",
+    "fields": [
+      "items",
+      "page",
+      "size",
+      "totalItems",
+      "totalPages"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO",
+    "fields": [
+      "id",
+      "type",
+      "typeLabel",
+      "badgeClass",
+      "iconGlyph",
+      "title",
+      "message",
+      "questId",
+      "questTitle",
+      "applicationId",
+      "circleRequestId",
+      "destinationType",
+      "destinationId",
+      "resolutionKey",
+      "resolutionLabel",
+      "exactResolutionEligible",
+      "navigation",
+      "actorUserId",
+      "actorUsername",
+      "canAcceptCircleRequest",
+      "canDeclineCircleRequest",
+      "readAt",
+      "createdAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestPresentationDTO",
+    "fields": [
+      "statusLabel",
+      "statusBadgeClass",
+      "statusSurfaceClass",
+      "timeTypeLabel",
+      "audienceLabel",
+      "locationLabel",
+      "locationSourceSummary",
+      "locationVisibilitySummary",
+      "assigneeTargetVisible",
+      "assigneeTargetLabel",
+      "slotProgressLabel",
+      "remainingSlotsLabel",
+      "approvedApplicantsVisible",
+      "canEdit",
+      "canApply",
+      "canViewApplications",
+      "canManuallyAssign",
+      "primaryExecutionActionLabel",
+      "termChangeSummaryLabel",
+      "termChangeConfirmLabel",
+      "termChangeRejectLabel",
+      "postingSettingsVisible",
+      "visibleToCirclesLabel",
+      "autoOpenEditForm",
+      "termChangeVisible",
+      "termChangeActionable",
+      "applicationSentVisible",
+      "canOpenMyApplication",
+      "deleteVisible",
+      "reopenedBadgeVisible",
+      "awaitingConfirmationBadgeVisible",
+      "primaryExecutionAction",
+      "executionHelperText"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestRequestDTO",
+    "fields": [
+      "assigneeTarget",
+      "showApprovedApplicants",
+      "scheduledAt",
+      "endsAt",
+      "termFixed",
+      "audience",
+      "selectedCircleIds",
+      "creatorId",
+      "status",
+      "locationVisibility",
+      "locationSource",
+      "locationLabel",
+      "locationCountryCode",
+      "locationCountry",
+      "locationLocality",
+      "locationPostalCode",
+      "locationStreet",
+      "locationHouseNumber"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestResponseDTO",
+    "fields": [
+      "id",
+      "creatorId",
+      "creatorUsername",
+      "creatorProfileDescription",
+      "creatorProfileAvatarDataUrl",
+      "questNavigation",
+      "creatorNavigation",
+      "resolutionKey",
+      "resolutionLabel",
+      "exactResolutionEligible",
+      "title",
+      "description",
+      "awardAmount",
+      "assigneeTarget",
+      "showApprovedApplicants",
+      "approvedApplicationCount",
+      "remainingAssigneeSlots",
+      "scheduledAt",
+      "endsAt",
+      "termFixed",
+      "pendingScheduledAt",
+      "pendingEndsAt",
+      "pendingTermFixed",
+      "reopenedAt",
+      "audience",
+      "locationVisibility",
+      "locationSource",
+      "locationLabel",
+      "locationCountry",
+      "locationLocality",
+      "locationPostalCode",
+      "locationStreet",
+      "locationHouseNumber",
+      "visibleToCircles",
+      "images",
+      "status",
+      "viewerRelation",
+      "allowedActions",
+      "hasApplied",
+      "myApplicationId",
+      "canViewApplications",
+      "presentation"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestSearchDefaultsDTO",
+    "fields": [
+      "defaultSort",
+      "defaultRadiusKm",
+      "radiusOptionsKm",
+      "hasViewerLocation",
+      "nearbyDefaultEnabled"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestSearchRequestDTO",
+    "fields": [
+      "q",
+      "status",
+      "audience",
+      "dateFrom",
+      "dateTo",
+      "viewerTimeZone",
+      "viewerTimezoneOffsetMinutes",
+      "excludeMine",
+      "withImages",
+      "scheduledOnly",
+      "radiusKm",
+      "sort",
+      "page",
+      "size"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestSortOptionDTO",
+    "fields": [
+      "value",
+      "label"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestStatusFilterOptionDTO",
+    "fields": [
+      "value",
+      "label"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestStatusOptionDTO",
+    "fields": [
+      "value",
+      "label"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.UserRatingSummaryDTO",
+    "fields": [
+      "averageStars",
+      "reviewCount"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.UserReviewRequestDTO",
+    "fields": [
+      "reviewedUserId",
+      "stars",
+      "comment"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.UserReviewResponseDTO",
+    "fields": [
+      "id",
+      "questId",
+      "questTitle",
+      "questNavigation",
+      "reviewerUserId",
+      "reviewerUsername",
+      "reviewedUserId",
+      "reviewedRole",
+      "stars",
+      "comment",
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO",
+    "fields": [
+      "appUserRoles",
+      "questStatusFilters",
+      "questApplicationStatusFilters",
+      "questStatuses",
+      "questAudiences",
+      "questAudienceFilters",
+      "questSortOptions",
+      "questSearchDefaults",
+      "locationModes",
+      "exactLocationVisibilityScopes",
+      "questLocationVisibilities"
+    ]
+  }
+]

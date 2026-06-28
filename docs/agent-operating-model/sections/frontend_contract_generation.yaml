@@ -1,0 +1,13 @@
+---
+frontend_contract_generation:
+  script: apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs
+  generated_contract_file: apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  required_aliases:
+  - AdminAgentPlaygroundRequest
+  - AdminAgentPlaygroundResponse
+  - AdminAgentSimulationRequest
+  - AdminAgentSimulationResponse
+  - AgentIntentId
+  - AgentEndpointId
+  - AdminAgentSafetyFlagIdGenerated
+  - AgentRequiredUnresolvedInput

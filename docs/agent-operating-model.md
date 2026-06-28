@@ -6,6 +6,8 @@ It exists to reduce the risk of future automation, batch agents, or voice agents
 
 The machine-readable source of truth is:
 - `docs/agent-operating-model.yaml`
+- generated from `docs/agent-operating-model/sections/*.yaml` by `scripts/generate-agent-operating-model.rb`
+- cross-checked against `docs/generated/agent-endpoint-inventory.json` and `docs/generated/automation-read-model-inventory.json`
 - validated by `docs/agent-operating-model.schema.json`
 - enforced by `apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java`
 
@@ -19,6 +21,7 @@ The machine-readable source of truth is:
 
 - Treat backend code as the final execution authority.
 - Treat `agent-operating-model.yaml` as the machine-operational contract for high-impact workflows.
+- Treat the section files under `docs/agent-operating-model/sections/` as the editable source for that machine contract and regenerate the combined YAML after changes.
 - Keep workflows procedural, explicit, and dependency-ordered.
 - Prefer hard failure over implicit fallback when the spec does not define a safe next step.
 - Every workflow step should point to concrete source files or concrete endpoint contracts.
@@ -161,6 +164,32 @@ Initial machine policies:
 - `dead_path_tracker`
 - `feature_completion_manifest_validation`
 
+Additional control surfaces:
+- `mutating_intent_contracts`
+- `backend_audit_coverage`
+- generated source-of-truth audit
+- workflow-aware frontend helper generation
+- canonical workflow scenarios
+
+Current mutation execution pattern:
+- controllers stay transport-only and delegate to backend services
+- auth flows resolve through `AuthService` plus `AuthMgr`
+- quest mutations enter explicit use-case services such as `CreateQuestUseCase`, `StartQuestUseCase`, and `ConfirmQuestTermChangeUseCase`
+- shared quest execution primitives handle target resolution, actor authority, state validation, persistence, and notification fan-out
+- every mutating intent should now also declare explicit preconditions, state changes, side effects, notifications, and blocking conditions in the machine contract
+
+Current control-test pattern:
+- use-case contract tests verify target resolution, authority gate, state gate, persistence, notification, and fail-closed behavior
+- canonical scenario tests verify multi-step runtime flows such as quest lifecycle, term-change confirmation, destructive failure paths, and ambiguity failure
+- generated source-of-truth audit fails if tracked controllers, mappers, services, or tests exist in code without matching agent-documentation coverage
+- generated backend audit inventory classifies the full backend into `executor_critical`, `automation_relevant`, `internal_support`, and `out_of_scope`
+- generated backend audit inventory also assigns every backend file to an explicit domain and owner so drift review can stay product-oriented instead of file-list oriented
+- current fail-hard enforcement stays intentionally limited to `executor_critical`, while broader backend coverage stays inventory-first and report-first
+- the first stricter `automation_relevant` subset is the admin-agent planner DTO contract surface, which now requires source registration plus documentation coverage even though the wider tier is still report-first
+- the second stricter `automation_relevant` subset is the chat DTO contract surface, so chat workspace, conversation, message, and socket contract files cannot drift away from source registration or documentation coverage
+- the third stricter `automation_relevant` subset is the identity DTO contract surface, so auth, profile, and admin-user contract DTOs now sit behind the same registration and documentation gate
+- the fourth stricter `automation_relevant` subset is the location DTO contract surface, so lookup, visibility, debug, and user-location contract DTOs now sit behind the same registration and documentation gate
+
 Initial dependency domains:
 - identity
 - workmarket
@@ -245,9 +274,15 @@ Pre-executor readiness rule:
 - Frontend safety regressions must keep explicit negative scenarios for ambiguity, destructive confirmation, multi-actor, translation-unreliable, and current-location-required states, plus at least one safe dry-run path.
 - Feature-scoped frontend expectations should keep the admin-agent page, API client, contract gate, and safety-view-model files tied to the same planner contract surface.
 - Documentation coverage scans must fail if automation-relevant controllers, mappers, or tracked agent service files appear in code without matching source-of-truth registration.
+- Source-of-truth audit must also fail if those files are missing from documentation coverage or mutating service workflow inventory.
+- Full backend inventory should still classify the rest of the backend even when those files are not yet part of strict fail-hard registration.
 - The multilingual golden prompt matrix must stay executable so Croatian, English, German, Mandarin, and mixed-slang prompts keep the same planning contracts over time.
 - Frontend contract gates must fail fast if the admin-agent planner response shape drifts away from the frontend TypeScript contract surface.
+- Frontend workflow-aware helpers should be generated from the operating model so intent ids, endpoint ids, unresolved-input ids, and safety-flag ids do not drift into hand-maintained UI enums.
 - Feature completion manifests may be kept under `.agents/feature-manifests/` and validated against `docs/feature-completion-manifest.schema.json` when a change uses the plan-driven workflow.
+- Feature manifests should classify changes by mode, impact, and change profiles so required docs, tests, generators, and close-out commands are enforced mechanically.
+- Backend audit tightening should happen in phases: first classify everything, then harden `automation_relevant`, and only later decide whether additional support tiers deserve stronger gates.
+- The current first tightening step is planner/admin-agent DTO coverage because it has high automation value and low ambiguity compared with the wider DTO surface.
 
 ## Sandbox Boundary
 

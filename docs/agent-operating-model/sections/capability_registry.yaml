@@ -1,0 +1,43 @@
+---
+capability_registry:
+- id: admin_authority
+  description: Authenticated admin authority to access admin-only planning and simulation
+    surfaces.
+  required_for_intents:
+  - run_admin_agent_playground
+  - simulate_admin_agent_execution
+- id: external_translation_provider
+  description: Reliable provider-backed translation for prompts the local translator
+    cannot safely normalize.
+  required_for_intents:
+  - run_admin_agent_playground
+  - simulate_admin_agent_execution
+- id: current_location
+  description: Trusted device coordinates or reverse-lookup-backed current location
+    capability.
+  required_for_intents:
+  - set_profile_current_location
+  - simulate_admin_agent_execution
+- id: second_actor_context
+  description: Real second-actor authority, acceptance, or confirmation context for
+    multi-actor workflows.
+  required_for_intents:
+  - accept_circle_connection
+  - approve_application
+  - decline_application
+  - confirm_quest_term_change
+  - reject_quest_term_change
+  - create_circle_only_quest_for_selected_people
+  - prepare_circle_only_quest_flow_to_start
+  - voice_prepare_scheduled_circle_only_quest_for_selected_people
+  - create_sandbox_user_with_circle_and_quest_flow
+  - simulate_admin_agent_execution
+- id: destructive_confirmation
+  description: Explicit destructive confirmation before destructive mutation endpoints.
+  required_for_intents:
+  - delete_user_as_admin
+  - delete_circle
+  - delete_circle_as_admin
+  - delete_admin_application
+  - delete_quest
+  - simulate_admin_agent_execution

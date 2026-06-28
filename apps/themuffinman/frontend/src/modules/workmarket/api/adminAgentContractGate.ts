@@ -1,6 +1,16 @@
 import type {
+  AgentEndpointId,
+  AgentIntentId,
+  AgentRequiredUnresolvedInput,
+  AdminAgentSafetyFlagIdGenerated,
   AdminAgentPlaygroundResponse,
   AdminAgentSimulationResponse
+} from "./contracts.ts"
+import {
+  ADMIN_AGENT_SAFETY_FLAG_IDS,
+  AGENT_ENDPOINT_IDS,
+  AGENT_INTENT_IDS,
+  AGENT_REQUIRED_UNRESOLVED_INPUTS
 } from "./contracts.ts"
 
 type AssertAllKeysCovered<T, Keys extends readonly (keyof T)[]> =
@@ -109,6 +119,10 @@ const _intentLineageCoverage: AssertAllKeysCovered<NonNullable<AdminAgentSimulat
 const _endpointPlanCoverage: AssertAllKeysCovered<AdminAgentSimulationResponse["endpointPlan"][number], typeof adminAgentEndpointPlanKeys> = true
 
 export const adminAgentContractGate = {
+  knownIntentIds: AGENT_INTENT_IDS as readonly AgentIntentId[],
+  knownEndpointIds: AGENT_ENDPOINT_IDS as readonly AgentEndpointId[],
+  requiredUnresolvedInputs: AGENT_REQUIRED_UNRESOLVED_INPUTS as readonly AgentRequiredUnresolvedInput[],
+  safetyFlagIds: ADMIN_AGENT_SAFETY_FLAG_IDS as readonly AdminAgentSafetyFlagIdGenerated[],
   adminAgentPlaygroundResponseKeys,
   adminAgentSimulationResponseKeys,
   adminAgentClarificationContractKeys,

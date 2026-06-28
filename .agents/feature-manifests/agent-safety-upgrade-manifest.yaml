@@ -1,0 +1,47 @@
+featureId: agent_safety_upgrade
+title: Agent safety upgrade
+status: complete
+riskTier: high
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - agent-contract
+  - frontend-contract
+planFile: .agents/agent-safety-upgrade-plan.md
+summary:
+  - Add mutation risk classification, intent safety validation, multilingual prompt matrix coverage, and documentation coverage validation.
+  - Add local agent-safety audit commands and sync the process docs around the new control layer.
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: true
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - Makefile
+    - apps/themuffinman/Makefile
+    - apps/themuffinman/frontend/package.json
+    - apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+  docPaths:
+    - AGENTS.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/agent-operating-model.schema.json
+    - docs/domain-technical.md
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
+    - apps/themuffinman/src/test/resources/agent/admin-agent-golden-prompt-matrix.yaml
+  generatorCommands:
+    - make generate-agent-operating-model
+  auditCommands:
+    - make audit-agent-safety
+    - ./mvnw test
+    - npm run type-check
+    - npm run build

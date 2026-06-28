@@ -1,0 +1,64 @@
+featureId: agent_operating_refactor
+title: Agent Operating Refactor
+status: complete
+riskTier: executor-critical
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - backend-logic
+  - agent-contract
+  - workflow-expansion
+planFile: .agents/agent-operating-refactor-plan.md
+summary:
+  - Refactor backend control and workflow entrypoints for stronger automation safety.
+  - Expand contract validation and generate more of the operating-model surface from code.
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: true
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UpdateQuestUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeleteQuestUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/StartQuestUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/RejectQuestTermChangeUseCase.java
+    - scripts/generate-agent-operating-model.rb
+    - scripts/generate-agent-endpoint-inventory.rb
+    - scripts/generate-automation-read-model-inventory.rb
+  docPaths:
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/agent-operating-model/sections/
+    - docs/domain-technical.md
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    - docs/generated/agent-endpoint-inventory.json
+    - docs/generated/automation-read-model-inventory.json
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+  generatorCommands:
+    - make generate-agent-operating-model
+    - make generate-agent-artifacts
+  auditCommands:
+    - make audit-agent-safety
+    - ./mvnw test
+    - npm run type-check
+    - npm run build

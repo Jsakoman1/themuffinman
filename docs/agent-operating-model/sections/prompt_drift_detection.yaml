@@ -1,0 +1,15 @@
+---
+prompt_drift_detection:
+  matrix_resource: apps/themuffinman/src/test/resources/agent/admin-agent-golden-prompt-matrix.yaml
+  required_case_fields:
+  - id
+  - prompt
+  - driftFingerprint
+  - expected
+  fingerprint_dimensions:
+  - promptSourceLanguage
+  - matchedSignals
+  - suggestedWorkflows
+  - clarificationRequired
+  - destructiveConfirmationRequired
+  - multiActorContextRequired

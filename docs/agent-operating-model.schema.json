@@ -5,11 +5,13 @@
   "required": [
     "metadata",
     "source_of_truth",
+    "backend_audit_coverage",
     "enums",
     "api",
     "intents",
     "policies",
     "automation_read_models",
+    "mutating_intent_contracts",
     "intent_safety_catalog",
     "documentation_coverage",
     "frontend_contract_generation",
@@ -56,6 +58,125 @@
           "type": "array",
           "minItems": 1,
           "items": {"$ref": "#/$defs/fileRef"}
+        }
+      }
+    },
+    "backend_audit_coverage": {
+      "type": "object",
+      "required": ["current_enforcement", "future_tightening", "domain_ownership", "tiers", "classification_rules"],
+      "additionalProperties": false,
+      "properties": {
+        "current_enforcement": {
+          "type": "object",
+          "required": ["fail_hard_tiers", "report_only_tiers", "strict_source_of_truth_rule_ids", "strict_documentation_rule_ids"],
+          "additionalProperties": false,
+          "properties": {
+            "fail_hard_tiers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"type": "string", "minLength": 1}
+            },
+            "report_only_tiers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"type": "string", "minLength": 1}
+            },
+            "strict_source_of_truth_rule_ids": {
+              "type": "array",
+              "items": {"type": "string", "minLength": 1}
+            },
+            "strict_documentation_rule_ids": {
+              "type": "array",
+              "items": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "domain_ownership": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "owner_id"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "owner_id": {"type": "string", "minLength": 1},
+              "file_names": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              },
+              "path_prefixes": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              },
+              "path_contains_any": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        },
+        "future_tightening": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["phase", "target_tier", "goal"],
+            "additionalProperties": false,
+            "properties": {
+              "phase": {"type": "string", "minLength": 1},
+              "target_tier": {"type": "string", "minLength": 1},
+              "goal": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "tiers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "description", "current_gate", "required_artifacts"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "description": {"type": "string", "minLength": 1},
+              "current_gate": {"type": "string", "enum": ["fail_hard", "report_only"]},
+              "required_artifacts": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        },
+        "classification_rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "tier"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "tier": {"type": "string", "minLength": 1},
+              "file_names": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              },
+              "file_suffixes": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              },
+              "path_prefixes": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              },
+              "path_contains_any": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
         }
       }
     },
@@ -242,6 +363,36 @@
             "items": {"type": "string", "minLength": 1}
           },
           "verification_tests": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "mutating_intent_contracts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "intent_id",
+          "preconditions",
+          "state_changes",
+          "side_effects",
+          "notifications",
+          "blocking_conditions",
+          "source_refs"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "intent_id": {"type": "string", "minLength": 1},
+          "preconditions": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "state_changes": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "side_effects": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "notifications": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "blocking_conditions": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "source_refs": {
             "type": "array",
             "minItems": 1,
             "items": {"type": "string", "minLength": 1}

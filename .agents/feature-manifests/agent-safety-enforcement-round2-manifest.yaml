@@ -2,6 +2,11 @@ featureId: agent_safety_enforcement_round2
 title: Agent safety enforcement round 2
 status: complete
 riskTier: high
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - agent-contract
+  - frontend-contract
 planFile: .agents/agent-safety-enforcement-round2-plan.md
 summary:
   - Add stronger enforcement layers for producer coverage, capability boundaries, feature completion tracking, dead-path checks, and frontend contract safety.
@@ -17,9 +22,6 @@ checklist:
   multilingualCoverageChecked: true
 artifacts:
   codePaths:
-    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
-    - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
-    - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
     - apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
     - Makefile
     - apps/themuffinman/Makefile
@@ -28,6 +30,7 @@ artifacts:
     - docs/agent-operating-model.md
     - docs/agent-operating-model.yaml
     - docs/agent-operating-model.schema.json
+    - docs/domain-technical.md
     - docs/documentation-sync-policy.md
     - docs/change-completion-checklist.md
     - docs/feature-completion-manifest.schema.json
@@ -35,7 +38,10 @@ artifacts:
     - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
     - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
     - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
+  generatorCommands:
+    - make generate-agent-operating-model
   auditCommands:
     - make audit-agent-safety
     - ./mvnw test
     - npm run type-check
+    - npm run build

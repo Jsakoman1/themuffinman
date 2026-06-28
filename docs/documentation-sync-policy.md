@@ -17,15 +17,37 @@ This file defines how logical code changes must propagate into living documentat
 - admin-generation or sandbox-generation coverage for entities and workflows
 - For multi-file, multi-layer, or high-risk logical changes, create a temporary implementation plan in `.agents/` before substantial edits and close it only after validation is green.
 - Prefer bootstrapping that plan and its matching feature manifest through `make bootstrap-feature-work` when the change is large enough to justify the plan-driven workflow.
+- Treat feature manifests as profile-driven control artifacts, not free-form notes.
+- Keep feature-manifest artifact lists precise: runtime code belongs in `codePaths`, tests and test resources belong in `testPaths`, and the same path must not be listed in multiple artifact groups.
 - Purely cosmetic edits are excluded.
+
+## Change Classification
+
+- `small-change` is for cosmetic edits or contract-neutral refactors that do not change workflow meaning, endpoint contracts, or automation expectations.
+- `major-change` is for backend logic, agent contract, workflow, or planner-surface changes that touch multiple maintenance surfaces.
+- `cosmetic` means wording, formatting, or non-semantic cleanup only.
+- `contract-neutral-refactor` means code movement or simplification with preserved runtime contract.
+- `logic-drift` means behavior, validation, workflow, or automation meaning changed and docs must move with it.
+
+## Feature Manifest Profiles
+
+- `backend-logic` changes must include backend validation plus `docs/domain-technical.md`.
+- `agent-contract` changes must include `docs/agent-operating-model.md`, `docs/agent-operating-model.yaml`, the generator step, and `make audit-agent-safety`.
+- `frontend-contract` changes must include generated frontend contracts plus `npm run type-check` and `npm run build`.
+- `workflow-expansion` changes must include generated agent artifacts and at least one scenario-style test.
+- Use `make bootstrap-feature-work topic=<topic> [risk=<tier>] [mode=<mode>] [impact=<impact>] [profiles=<csv>]` so the plan and manifest start with the correct control profile.
 
 ## Authoring Discipline
 
 - When `docs/agent-operating-model.yaml` uses `documentation_sync.rules[*].must_contain_all`, treat those phrases as canonical wording, not as paraphrase prompts.
+- When the machine-operating model is edited through `docs/agent-operating-model/sections/*.yaml`, regenerate `docs/agent-operating-model.yaml` and the generated inventory artifacts before final validation.
 - Copy protected phrases directly between YAML and target docs when the rule is meant to enforce the same meaning in multiple places.
 - Validation should ignore case, punctuation, markdown markers, and whitespace differences, but it should not ignore wording drift that changes or weakens meaning.
 - If a phrase keeps drifting, reduce synonyms and near-duplicates instead of adding more variants just to satisfy the test.
 - Run `AgentOperatingModelValidationTest` after editing protected docs, YAML rules, generation-flow docs, or agent-safety instructions.
+- Regenerate `docs/generated/agent-endpoint-inventory.json` and `docs/generated/automation-read-model-inventory.json` when controller mappings or automation DTO fields change.
+- Regenerate `docs/generated/source-of-truth-audit.json` when tracked controllers, services, mappers, or workflow tests change.
+- Regenerate `docs/generated/backend-audit-inventory.json` when backend package coverage, classification rules, or strict audit tiers change.
 
 update all affected living docs in the same change
 
@@ -40,6 +62,7 @@ For logical product changes, review and update as needed:
 - `docs/domain-technical.md`
 - `docs/agent-operating-model.md`
 - `docs/agent-operating-model.yaml`
+- `docs/agent-improvement-backlog.md` when finishing or reprioritizing long-running agent/control-system tightening work
 - `docs/documentation-sync-policy.md`
 - `docs/change-completion-checklist.md`
 - `docs/feature-completion-manifest.schema.json`
@@ -82,8 +105,15 @@ Rule:
 - keep capability registries, intent lineage mappings, dry-run simulation contracts, and prompt drift fingerprints aligned with the actual planner surface
 - keep backend contract snapshots, service workflow inventory, permission matrix rules, state-transition audit, and request-validation gates aligned with the actual backend mutation surface
 - keep generated frontend contracts, automation-safe UI safety layers, frontend regression scenarios, and frontend feature expectations aligned with the actual planner and simulation surface
+- keep generated workflow-aware frontend helpers, intent ids, endpoint ids, unresolved-input ids, and safety-flag ids aligned with the actual operating model
 - keep frontend planner-response contract gates, dead-path checks, and feature completion manifests aligned with the actual implementation state
 - keep feature risk tiers, bootstrap workflow, and close-out audit workflow aligned with the actual delivery process
+- keep backend audit tier classification aligned with the actual repo structure so full backend inventory stays complete even while only one tier is fail-hard today
+- keep backend audit domain ownership aligned with the actual repo structure so review can route drift to the right product surface and owner
+- tighten broader backend audit in small rule-scoped slices, starting with high-value low-noise planner/admin-agent DTO contracts before wider automation-relevant DTO or service coverage
+- tighten broader backend audit in small rule-scoped slices, with chat DTO contracts now added as the second strict automation-relevant subset
+- tighten broader backend audit in small rule-scoped slices, with identity DTO contracts now added as the third strict automation-relevant subset
+- tighten broader backend audit in small rule-scoped slices, with location DTO contracts now added as the fourth strict automation-relevant subset
 
 ### Sandbox or synthetic-data logic
 

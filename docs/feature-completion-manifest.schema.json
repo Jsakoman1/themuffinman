@@ -2,13 +2,24 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Feature Completion Manifest",
   "type": "object",
-  "required": ["featureId", "title", "status", "riskTier", "planFile", "checklist", "artifacts"],
+  "required": ["featureId", "title", "status", "riskTier", "changeMode", "changeImpact", "changeProfiles", "planFile", "checklist", "artifacts"],
   "additionalProperties": false,
   "properties": {
     "featureId": {"type": "string", "minLength": 1},
     "title": {"type": "string", "minLength": 1},
     "status": {"type": "string", "enum": ["draft", "in_progress", "complete"]},
     "riskTier": {"type": "string", "enum": ["low", "medium", "high", "executor-critical"]},
+    "changeMode": {"type": "string", "enum": ["small-change", "major-change"]},
+    "changeImpact": {"type": "string", "enum": ["cosmetic", "contract-neutral-refactor", "logic-drift"]},
+    "changeProfiles": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["backend-logic", "agent-contract", "frontend-contract", "workflow-expansion"]
+      }
+    },
     "planFile": {"type": "string", "pattern": "^\\.agents/.+-plan\\.md$"},
     "summary": {
       "type": "array",
@@ -40,12 +51,13 @@
     },
     "artifacts": {
       "type": "object",
-      "required": ["codePaths", "docPaths", "testPaths", "auditCommands"],
+      "required": ["codePaths", "docPaths", "testPaths", "generatorCommands", "auditCommands"],
       "additionalProperties": false,
       "properties": {
         "codePaths": {"type": "array", "items": {"type": "string", "minLength": 1}},
         "docPaths": {"type": "array", "items": {"type": "string", "minLength": 1}},
         "testPaths": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "generatorCommands": {"type": "array", "items": {"type": "string", "minLength": 1}},
         "auditCommands": {"type": "array", "items": {"type": "string", "minLength": 1}}
       }
     }

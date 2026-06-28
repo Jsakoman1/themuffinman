@@ -1,0 +1,470 @@
+[
+  {
+    "controllerClass": "com.themuffinman.app.agent.controller.AdminAgentController",
+    "handlerMethod": "runPlaygroundPrompt",
+    "httpMethod": "POST",
+    "path": "/admin/agent/playground"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.agent.controller.AdminAgentController",
+    "handlerMethod": "runSimulation",
+    "httpMethod": "POST",
+    "path": "/admin/agent/simulate"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "getWorkspace",
+    "httpMethod": "GET",
+    "path": "/chat/workspace"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "openConversation",
+    "httpMethod": "POST",
+    "path": "/chat/conversations/open"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "getConversationMessages",
+    "httpMethod": "GET",
+    "path": "/chat/conversations/{conversationId}/messages"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "sendMessage",
+    "httpMethod": "POST",
+    "path": "/chat/conversations/{conversationId}/messages"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "markConversationRead",
+    "httpMethod": "PATCH",
+    "path": "/chat/conversations/{conversationId}/read"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "heartbeat",
+    "httpMethod": "POST",
+    "path": "/chat/presence/heartbeat"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AppUserController",
+    "handlerMethod": "createAppUser",
+    "httpMethod": "POST",
+    "path": "/app_users"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AppUserController",
+    "handlerMethod": "getAllAppUsers",
+    "httpMethod": "GET",
+    "path": "/app_users"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AppUserController",
+    "handlerMethod": "getAppUserOptions",
+    "httpMethod": "GET",
+    "path": "/app_users/options"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AppUserController",
+    "handlerMethod": "getCurrentAppUser",
+    "httpMethod": "GET",
+    "path": "/app_users/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AppUserController",
+    "handlerMethod": "getAppUser",
+    "httpMethod": "GET",
+    "path": "/app_users/{id}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AppUserController",
+    "handlerMethod": "getAdminUserDetail",
+    "httpMethod": "GET",
+    "path": "/app_users/{id}/admin-detail"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AppUserController",
+    "handlerMethod": "getProfileView",
+    "httpMethod": "GET",
+    "path": "/app_users/{id}/profile-view"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AppUserController",
+    "handlerMethod": "deleteAppUser",
+    "httpMethod": "DELETE",
+    "path": "/app_users/{id}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AppUserController",
+    "handlerMethod": "updateAppUser",
+    "httpMethod": "PUT",
+    "path": "/app_users/{id}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AppUserController",
+    "handlerMethod": "updateCurrentAppUser",
+    "httpMethod": "PUT",
+    "path": "/app_users/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AuthController",
+    "handlerMethod": "register",
+    "httpMethod": "POST",
+    "path": "/auth/register"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AuthController",
+    "handlerMethod": "login",
+    "httpMethod": "POST",
+    "path": "/auth/login"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.identity.controller.AuthController",
+    "handlerMethod": "me",
+    "httpMethod": "GET",
+    "path": "/auth/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.location.controller.LocationLookupController",
+    "handlerMethod": "lookup",
+    "httpMethod": "POST",
+    "path": "/location/lookup"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.location.controller.LocationLookupController",
+    "handlerMethod": "reverseLookup",
+    "httpMethod": "POST",
+    "path": "/location/reverse-lookup"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.location.controller.LocationLookupController",
+    "handlerMethod": "getDebugStatus",
+    "httpMethod": "GET",
+    "path": "/location/admin/status"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "getOverview",
+    "httpMethod": "GET",
+    "path": "/circles/me/overview"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "getAdminOverview",
+    "httpMethod": "GET",
+    "path": "/circles/admin/overview"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "createCircle",
+    "httpMethod": "POST",
+    "path": "/circles/groups"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "updateCircle",
+    "httpMethod": "PUT",
+    "path": "/circles/groups/{id}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "deleteCircle",
+    "httpMethod": "DELETE",
+    "path": "/circles/groups/{id}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "deleteCircleAsAdmin",
+    "httpMethod": "DELETE",
+    "path": "/circles/admin/groups/{id}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "getCircles",
+    "httpMethod": "GET",
+    "path": "/circles/groups"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "updateConnectionCircles",
+    "httpMethod": "PUT",
+    "path": "/circles/connections/{userId}/circles"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "updateConnectionCirclesBulk",
+    "httpMethod": "PUT",
+    "path": "/circles/connections/circles/bulk"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "getMyCircles",
+    "httpMethod": "GET",
+    "path": "/circles"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "getIncomingRequests",
+    "httpMethod": "GET",
+    "path": "/circles/requests/incoming"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "getOutgoingRequests",
+    "httpMethod": "GET",
+    "path": "/circles/requests/outgoing"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "getInviteCandidates",
+    "httpMethod": "GET",
+    "path": "/circles/candidates"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "getConnections",
+    "httpMethod": "GET",
+    "path": "/circles/connections"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "getRelationWithUser",
+    "httpMethod": "GET",
+    "path": "/circles/relations/{userId}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "searchCircleUsers",
+    "httpMethod": "GET",
+    "path": "/circles/search"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "getBlockedUsers",
+    "httpMethod": "GET",
+    "path": "/circles/blocked"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "getNearbyUsers",
+    "httpMethod": "GET",
+    "path": "/circles/nearby"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "createCircleRequest",
+    "httpMethod": "POST",
+    "path": "/circles/requests"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "acceptCircleRequest",
+    "httpMethod": "PATCH",
+    "path": "/circles/requests/{id}/accept"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "deleteCircleRequest",
+    "httpMethod": "DELETE",
+    "path": "/circles/requests/{id}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "blockCircleUser",
+    "httpMethod": "POST",
+    "path": "/circles/blocks"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.social.controller.CircleController",
+    "handlerMethod": "unblockCircleUser",
+    "httpMethod": "DELETE",
+    "path": "/circles/blocks/{userId}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
+    "handlerMethod": "getMyDashboard",
+    "httpMethod": "GET",
+    "path": "/dashboard/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
+    "handlerMethod": "getMySummary",
+    "httpMethod": "GET",
+    "path": "/dashboard/me/summary"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "handlerMethod": "applyForQuest",
+    "httpMethod": "POST",
+    "path": "/quests/{questId}/applications"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "handlerMethod": "getApplicationsForQuest",
+    "httpMethod": "GET",
+    "path": "/quests/{questId}/applications"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "handlerMethod": "getApplicationsViewForQuest",
+    "httpMethod": "GET",
+    "path": "/quests/{questId}/applications/view"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "handlerMethod": "getMyApplications",
+    "httpMethod": "GET",
+    "path": "/quests/applications/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "handlerMethod": "getApplicationDetail",
+    "httpMethod": "GET",
+    "path": "/applications/{applicationId}/detail"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "handlerMethod": "getAllApplicationsForAdmin",
+    "httpMethod": "GET",
+    "path": "/admin/applications"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "handlerMethod": "updateApplicationForAdmin",
+    "httpMethod": "PUT",
+    "path": "/admin/applications/{applicationId}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "handlerMethod": "deleteApplicationForAdmin",
+    "httpMethod": "DELETE",
+    "path": "/admin/applications/{applicationId}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "handlerMethod": "updateMyApplication",
+    "httpMethod": "PUT",
+    "path": "/quests/{questId}/applications/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "handlerMethod": "withdrawMyApplication",
+    "httpMethod": "PATCH",
+    "path": "/quests/{questId}/applications/me/withdraw"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "handlerMethod": "approveApplication",
+    "httpMethod": "PATCH",
+    "path": "/quests/{questId}/applications/{applicationId}/approve"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "handlerMethod": "declineApplication",
+    "httpMethod": "PATCH",
+    "path": "/quests/{questId}/applications/{applicationId}/decline"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "handlerMethod": "createQuest",
+    "httpMethod": "POST",
+    "path": "/quests"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "handlerMethod": "getAllQuests",
+    "httpMethod": "GET",
+    "path": "/quests"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "handlerMethod": "searchQuests",
+    "httpMethod": "GET",
+    "path": "/quests/search"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "handlerMethod": "getQuestPreset",
+    "httpMethod": "GET",
+    "path": "/quests/presets/{preset}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "handlerMethod": "getQuestById",
+    "httpMethod": "GET",
+    "path": "/quests/{id}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "handlerMethod": "getQuestDetailById",
+    "httpMethod": "GET",
+    "path": "/quests/{id}/detail"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "handlerMethod": "deleteQuest",
+    "httpMethod": "DELETE",
+    "path": "/quests/{id}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "handlerMethod": "updateQuest",
+    "httpMethod": "PUT",
+    "path": "/quests/{id}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "handlerMethod": "startQuest",
+    "httpMethod": "PATCH",
+    "path": "/quests/{id}/start"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "handlerMethod": "completeQuest",
+    "httpMethod": "PATCH",
+    "path": "/quests/{id}/complete"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "handlerMethod": "confirmQuestTermChange",
+    "httpMethod": "PATCH",
+    "path": "/quests/{id}/term/confirm"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "handlerMethod": "rejectQuestTermChange",
+    "httpMethod": "PATCH",
+    "path": "/quests/{id}/term/reject"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestNewsController",
+    "handlerMethod": "getMyNews",
+    "httpMethod": "GET",
+    "path": "/news/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestNewsController",
+    "handlerMethod": "getUnreadCount",
+    "httpMethod": "GET",
+    "path": "/news/me/unread-count"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestNewsController",
+    "handlerMethod": "markMyNewsAsRead",
+    "httpMethod": "PATCH",
+    "path": "/news/me/read"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestNewsController",
+    "handlerMethod": "markMyNewsItemAsRead",
+    "httpMethod": "PATCH",
+    "path": "/news/me/{id}/read"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.UserReviewController",
+    "handlerMethod": "createOrUpdateReview",
+    "httpMethod": "POST",
+    "path": "/quests/{questId}/reviews"
+  }
+]

@@ -17,6 +17,13 @@ fi
 plan_file="$(sed -n 's/^planFile: //p' "$manifest_path" | head -n 1)"
 manifest_status="$(sed -n 's/^status: //p' "$manifest_path" | head -n 1)"
 risk_tier="$(sed -n 's/^riskTier: //p' "$manifest_path" | head -n 1)"
+change_mode="$(sed -n 's/^changeMode: //p' "$manifest_path" | head -n 1)"
+change_impact="$(sed -n 's/^changeImpact: //p' "$manifest_path" | head -n 1)"
+change_profiles="$(awk '
+  /^changeProfiles:/ {in_profiles=1; next}
+  in_profiles && /^  - / {sub(/^  - /, ""); print; next}
+  in_profiles {exit}
+' "$manifest_path" | paste -sd ',' -)"
 
 if [[ -z "$plan_file" ]]; then
   echo "manifest is missing planFile: $manifest_path" >&2
@@ -33,6 +40,9 @@ echo "  Manifest: $manifest_path"
 echo "  Plan:     $repo_root/$plan_file"
 echo "  Status:   ${manifest_status:-unknown}"
 echo "  Risk:     ${risk_tier:-unknown}"
+echo "  Mode:     ${change_mode:-unknown}"
+echo "  Impact:   ${change_impact:-unknown}"
+echo "  Profiles: ${change_profiles:-none}"
 
 required_commands=()
 if [[ "$risk_tier" == "executor-critical" || "$risk_tier" == "high" ]]; then
@@ -47,6 +57,13 @@ echo "Required checks:"
 for command in "${required_commands[@]}"; do
   echo "  - $command"
 done
+
+echo "Declared generators:"
+awk '
+  /^  generatorCommands:/ {in_generators=1; next}
+  in_generators && /^  auditCommands:/ {exit}
+  in_generators && /^    - / {sub(/^    - /, ""); print "  - " $0}
+' "$manifest_path" || true
 
 echo "Checklist status:"
 grep -E '^  (tempPlanCreated|codeImplemented|backendTestsPassed|frontendValidationPassed|docsSynced|agentModelSynced|destructivePolicyChecked|multilingualCoverageChecked): ' "$manifest_path" || true

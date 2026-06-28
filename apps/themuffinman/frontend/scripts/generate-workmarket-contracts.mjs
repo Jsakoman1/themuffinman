@@ -1,12 +1,23 @@
 import {mkdir, readdir, readFile, writeFile} from "node:fs/promises"
 import path from "node:path"
 import {fileURLToPath} from "node:url"
+import {parse as parseYaml} from "yaml"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const backendRoot = path.resolve(__dirname, "../../src/main/java/com/themuffinman/app")
 const outputPath = path.resolve(__dirname, "../src/contracts/generated/themuffinmanContract.ts")
+const operatingModelPath = path.resolve(__dirname, "../../../../docs/agent-operating-model.yaml")
+
+const adminAgentSafetyFlagIds = [
+  "translation_unreliable",
+  "ambiguity",
+  "destructive_confirmation",
+  "multi_actor",
+  "current_location",
+  "simulation_not_safe"
+]
 
 const transportAliases = {
   AppUser: "AppUserResponseDTO",
@@ -160,6 +171,29 @@ function buildOutput(enums) {
   }
 
   return lines
+}
+
+function buildAgentWorkflowOutput(operatingModel) {
+  const intentIds = [...new Set((operatingModel.intents ?? []).map((intent) => intent.id))].sort()
+  const endpointIds = [...new Set((operatingModel.api?.endpoints ?? []).map((endpoint) => endpoint.id))].sort()
+  const unresolvedInputs = [...new Set((operatingModel.intents ?? [])
+    .flatMap((intent) => intent.required_inputs ?? []))]
+    .sort()
+
+  return [
+    `export const AGENT_INTENT_IDS = [${intentIds.map((item) => `"${item}"`).join(", ")}] as const`,
+    "export type AgentIntentId = typeof AGENT_INTENT_IDS[number]",
+    "",
+    `export const AGENT_ENDPOINT_IDS = [${endpointIds.map((item) => `"${item}"`).join(", ")}] as const`,
+    "export type AgentEndpointId = typeof AGENT_ENDPOINT_IDS[number]",
+    "",
+    `export const ADMIN_AGENT_SAFETY_FLAG_IDS = [${adminAgentSafetyFlagIds.map((item) => `"${item}"`).join(", ")}] as const`,
+    "export type AdminAgentSafetyFlagIdGenerated = typeof ADMIN_AGENT_SAFETY_FLAG_IDS[number]",
+    "",
+    `export const AGENT_REQUIRED_UNRESOLVED_INPUTS = [${unresolvedInputs.map((item) => JSON.stringify(item)).join(", ")}] as const`,
+    "export type AgentRequiredUnresolvedInput = typeof AGENT_REQUIRED_UNRESOLVED_INPUTS[number]",
+    ""
+  ]
 }
 
 const SIMPLE_TYPE_MAP = new Map([
@@ -381,11 +415,13 @@ async function main() {
   const parsedDtos = (await Promise.all(dtoFiles.map(parseDtoFile)))
     .filter((entry) => entry !== null)
     .sort((left, right) => left.interfaceName.localeCompare(right.interfaceName))
+  const operatingModel = parseYaml(await readFile(operatingModelPath, "utf8"))
 
   await mkdir(path.dirname(outputPath), {recursive: true})
   const outputLines = [
     ...buildOutput(parsedEnums),
-    ...buildDtoOutput(parsedDtos)
+    ...buildDtoOutput(parsedDtos),
+    ...buildAgentWorkflowOutput(operatingModel)
   ]
   await writeFile(outputPath, `${outputLines.join("\n").trimEnd()}\n`, "utf8")
 }

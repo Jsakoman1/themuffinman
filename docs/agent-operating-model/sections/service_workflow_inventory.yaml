@@ -1,0 +1,302 @@
+---
+service_workflow_inventory:
+- id: identity_user_write_flows
+  service_class: com.themuffinman.app.identity.service.AppUserService
+  service_methods:
+  - createAppUser
+  - updateAppUser
+  - updateAppUserAsAdmin
+  - deleteUser
+  covered_intents:
+  - create_user
+  - create_user_as_admin
+  - set_profile_location
+  - set_profile_details
+  - set_profile_current_location
+  - update_user_as_admin
+  - delete_user_as_admin
+  automation_relevant: true
+  source_refs:
+  - app_user_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java
+- id: circle_relation_write_flows
+  service_class: com.themuffinman.app.social.service.CircleRelationService
+  service_methods:
+  - createCircleRequest
+  - acceptCircleRequest
+  - deleteCircleRequest
+  - blockCircleUser
+  - unblockCircleUser
+  covered_intents:
+  - create_circle_connection
+  - accept_circle_connection
+  - cancel_circle_request
+  - block_user
+  - unblock_user
+  automation_relevant: true
+  source_refs:
+  - circle_relation_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
+- id: quest_facade_write_flows
+  service_class: com.themuffinman.app.workmarket.service.QuestService
+  service_methods:
+  - createQuest
+  - updateQuest
+  - deleteQuest
+  - startQuest
+  - completeQuest
+  - confirmQuestTermChange
+  - rejectQuestTermChange
+  covered_intents:
+  - create_quest
+  - update_quest
+  - delete_quest
+  - start_quest
+  - complete_quest
+  - confirm_quest_term_change
+  - reject_quest_term_change
+  - request_owner_term_change
+  automation_relevant: true
+  source_refs:
+  - quest_service
+  - create_quest_use_case
+  - update_quest_use_case
+  - delete_quest_use_case
+  - start_quest_use_case
+  - complete_quest_use_case
+  - confirm_quest_term_change_use_case
+  - reject_quest_term_change_use_case
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+- id: circle_group_write_flows
+  service_class: com.themuffinman.app.social.service.CircleService
+  service_methods:
+  - createCircle
+  - updateCircle
+  - deleteCircle
+  - deleteCircleAsAdmin
+  - updateConnectionCircles
+  - updateConnectionCirclesBulk
+  covered_intents:
+  - create_circle
+  - update_circle
+  - delete_circle
+  - delete_circle_as_admin
+  - assign_circle_members
+  automation_relevant: true
+  source_refs:
+  - circle_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
+- id: quest_create_write_flow
+  service_class: com.themuffinman.app.workmarket.service.CreateQuestUseCase
+  service_methods:
+  - execute
+  covered_intents:
+  - create_quest
+  automation_relevant: true
+  source_refs:
+  - create_quest_use_case
+  - quest_execution_primitive_service
+  - quest_validation_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java
+- id: quest_update_write_flow
+  service_class: com.themuffinman.app.workmarket.service.UpdateQuestUseCase
+  service_methods:
+  - execute
+  covered_intents:
+  - update_quest
+  - request_owner_term_change
+  automation_relevant: true
+  source_refs:
+  - update_quest_use_case
+  - quest_execution_primitive_service
+  - quest_update_service
+  - quest_state_transition_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java
+- id: quest_delete_write_flow
+  service_class: com.themuffinman.app.workmarket.service.DeleteQuestUseCase
+  service_methods:
+  - execute
+  covered_intents:
+  - delete_quest
+  automation_relevant: true
+  source_refs:
+  - delete_quest_use_case
+  - quest_execution_primitive_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+- id: quest_start_write_flow
+  service_class: com.themuffinman.app.workmarket.service.StartQuestUseCase
+  service_methods:
+  - execute
+  covered_intents:
+  - start_quest
+  automation_relevant: true
+  source_refs:
+  - start_quest_use_case
+  - quest_execution_primitive_service
+  - quest_state_transition_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+- id: quest_complete_write_flow
+  service_class: com.themuffinman.app.workmarket.service.CompleteQuestUseCase
+  service_methods:
+  - execute
+  covered_intents:
+  - complete_quest
+  automation_relevant: true
+  source_refs:
+  - complete_quest_use_case
+  - quest_execution_primitive_service
+  - quest_state_transition_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+- id: quest_confirm_term_change_write_flow
+  service_class: com.themuffinman.app.workmarket.service.ConfirmQuestTermChangeUseCase
+  service_methods:
+  - execute
+  covered_intents:
+  - confirm_quest_term_change
+  automation_relevant: true
+  source_refs:
+  - confirm_quest_term_change_use_case
+  - quest_execution_primitive_service
+  - quest_state_transition_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+- id: quest_reject_term_change_write_flow
+  service_class: com.themuffinman.app.workmarket.service.RejectQuestTermChangeUseCase
+  service_methods:
+  - execute
+  covered_intents:
+  - reject_quest_term_change
+  automation_relevant: true
+  source_refs:
+  - reject_quest_term_change_use_case
+  - quest_execution_primitive_service
+  - quest_state_transition_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+- id: quest_application_write_flows
+  service_class: com.themuffinman.app.workmarket.service.QuestApplicationService
+  service_methods:
+  - applyForQuest
+  - updateMyApplication
+  - withdrawMyApplication
+  - approveApplication
+  - declineApplication
+  - updateApplicationForAdmin
+  - deleteApplicationForAdmin
+  covered_intents:
+  - apply_to_quest
+  - update_my_application
+  - withdraw_my_application
+  - approve_application
+  - decline_application
+  - update_admin_application
+  - delete_admin_application
+  automation_relevant: true
+  source_refs:
+  - quest_application_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java
+- id: chat_write_flows
+  service_class: com.themuffinman.app.chat.service.ChatService
+  service_methods:
+  - openConversation
+  - sendMessage
+  - markConversationRead
+  - heartbeat
+  covered_intents:
+  - open_chat_conversation
+  - send_chat_message
+  - mark_chat_conversation_read
+  - heartbeat_chat_presence
+  automation_relevant: true
+  source_refs:
+  - chat_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+- id: news_write_flows
+  service_class: com.themuffinman.app.workmarket.service.QuestNewsService
+  service_methods:
+  - markMyNewsAsRead
+  - markMyNewsItemAsRead
+  covered_intents:
+  - mark_all_news_read
+  - mark_news_item_read
+  automation_relevant: true
+  source_refs:
+  - quest_news_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java
+- id: review_write_flows
+  service_class: com.themuffinman.app.workmarket.service.UserReviewService
+  service_methods:
+  - createOrUpdateReview
+  covered_intents:
+  - create_review
+  automation_relevant: true
+  source_refs:
+  - user_review_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java

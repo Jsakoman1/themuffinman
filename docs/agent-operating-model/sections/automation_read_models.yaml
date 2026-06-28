@@ -1,0 +1,119 @@
+---
+automation_read_models:
+- id: app_user_resolution_view
+  java_class: com.themuffinman.app.identity.dto.AppUserResponseDTO
+  required_fields:
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  producer_source_refs:
+  - app_user_mgr
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java
+- id: user_profile_resolution_view
+  java_class: com.themuffinman.app.identity.dto.UserProfileViewDTO
+  required_fields:
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  producer_source_refs:
+  - app_user_mgr
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java
+- id: circle_search_result_resolution_view
+  java_class: com.themuffinman.app.social.dto.CircleSearchResultDTO
+  required_fields:
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  producer_source_refs:
+  - circle_view_assembler
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
+- id: circle_group_resolution_view
+  java_class: com.themuffinman.app.social.dto.CircleGroupResponseDTO
+  required_fields:
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  producer_source_refs:
+  - circle_view_assembler
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
+- id: circle_request_resolution_view
+  java_class: com.themuffinman.app.social.dto.CircleRequestResponseDTO
+  required_fields:
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  producer_source_refs:
+  - circle_view_assembler
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
+- id: circle_relation_resolution_flag
+  java_class: com.themuffinman.app.social.dto.CircleRelationDTO
+  required_fields:
+  - exactResolutionEligible
+  producer_source_refs:
+  - circle_view_assembler
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
+- id: chat_conversation_resolution_view
+  java_class: com.themuffinman.app.chat.dto.ChatConversationSummaryDTO
+  required_fields:
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  producer_source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+- id: chat_contact_resolution_view
+  java_class: com.themuffinman.app.chat.dto.ChatContactDTO
+  required_fields:
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  producer_source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+- id: quest_resolution_view
+  java_class: com.themuffinman.app.workmarket.dto.QuestResponseDTO
+  required_fields:
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  producer_source_refs:
+  - quest_mgr
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java
+- id: quest_application_resolution_view
+  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO
+  required_fields:
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  producer_source_refs:
+  - quest_application_mgr
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+- id: quest_news_resolution_view
+  java_class: com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO
+  required_fields:
+  - resolutionKey
+  - resolutionLabel
+  - exactResolutionEligible
+  producer_source_refs:
+  - quest_news_mgr
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java
+- id: quest_applications_selection_view
+  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO
+  required_fields:
+  - pendingApplicationCount
+  - oldestPendingApplicationId
+  producer_source_refs:
+  - quest_application_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
