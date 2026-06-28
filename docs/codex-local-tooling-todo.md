@@ -559,6 +559,255 @@ Use it for tooling that should produce compact outputs Codex can consume instead
   - This should not hide failures; it should aggregate them into one readable report.
   - Useful for large multi-layer changes where Codex otherwise spends many tokens coordinating closeout steps.
 
+- [ ] CODEX-LOCAL-GENERATED-NOISE-FILTER: Add a shared filter that excludes generated reports, large inventories, and transient `.agents/` plans from default `diff-summary`, `context-pack`, `audit-router`, and `fast-check` output unless explicitly requested.
+  Proposed entrypoints:
+  - Shared support in `scripts/local_tooling_common.rb`
+  - Optional flags: `include_generated=true`, `include_agents=true`
+  Proposed outputs:
+  - Existing report JSON and Markdown files with `filtered_file_count` and `excluded_file_count`
+  Notes:
+  - This should make session-start summaries much cheaper to read when generated artifacts dominate the working tree.
+  - Keep full output available for audit/debug sessions, but default Codex-facing reports should prioritize hand-authored source files.
+
+- [ ] CODEX-LOCAL-TASK-CONTEXT-BUDGETS: Add size budgets to context packs and summaries so generated Markdown never expands beyond a small, predictable token footprint.
+  Proposed entrypoints:
+  - `make context-pack topic=<topic> budget=small|medium|large`
+  - `make session-handoff topic=<topic> budget=small|medium|large`
+  Proposed outputs:
+  - Existing context pack and handoff reports with `budget`, `omitted_sections`, and `read_next` fields
+  Notes:
+  - The default should be small enough for Codex to read first in nearly every implementation session.
+  - Larger output should be opt-in when broad review is explicitly needed.
+
+- [ ] CODEX-LOCAL-SELECTIVE-GENERATED-ARTIFACT-COMMIT-GUIDE: Generate a report that separates source changes from generated audit outputs and recommends which generated files should be committed for the current task.
+  Proposed entrypoints:
+  - `ruby scripts/audits/audit-generated-commit-scope.rb`
+  - `make audit-generated-commit-scope`
+  Proposed outputs:
+  - `docs/generated/local-tooling/generated-commit-scope.json`
+  - `docs/generated/local-tooling/generated-commit-scope-summary.md`
+  Notes:
+  - This would reduce accidental large commits of stale or unrelated generated reports.
+  - It should classify outputs as `task_required`, `supporting_context`, `stale_or_unrelated`, or `do_not_commit_by_default`.
+
+- [ ] CODEX-LOCAL-FEATURE-SLICE-RECOMMENDER: Generate a recommended implementation slice plan from a feature topic, including the smallest backend, frontend, docs, tests, and generated-artifact scope that should be changed together.
+  Proposed entrypoints:
+  - `ruby scripts/audits/recommend-feature-slices.rb topic=<topic>`
+  - `make recommend-feature-slices topic=<topic>`
+  Proposed outputs:
+  - `docs/generated/local-tooling/feature-slices/<topic>.json`
+  - `docs/generated/local-tooling/feature-slices/<topic>-summary.md`
+  Notes:
+  - This should reduce oversized Codex turns by proposing sequential phases before implementation starts.
+  - Use repo map, endpoint packs, validation matrix, and docs preflight as inputs.
+
+- [ ] CODEX-LOCAL-ARCHITECTURE-DECISION-INDEX: Maintain a compact local index of important architectural decisions, current conventions, and non-obvious invariants that Codex should read before touching a domain.
+  Proposed entrypoints:
+  - `ruby scripts/audits/generate-architecture-decision-index.rb`
+  - `make architecture-decision-index`
+  Proposed outputs:
+  - `docs/generated/local-tooling/architecture-decision-index.json`
+  - `docs/generated/local-tooling/architecture-decision-index-summary.md`
+  Notes:
+  - Pull from living docs, agent operating docs, and stable source conventions.
+  - This should reduce repeated explanation of why business logic belongs in backend services, why docs sync matters, and which generated artifacts are authoritative.
+
+- [ ] CODEX-LOCAL-CHANGESET-RISK-SCORER: Score a current changeset by risk factors such as controller contracts, entity/migration drift, workflow state changes, permission logic, docs-sync requirements, and generated-artifact churn.
+  Proposed entrypoints:
+  - `ruby scripts/audits/score-changeset-risk.rb [files...]`
+  - `make changeset-risk`
+  Proposed outputs:
+  - `docs/generated/local-tooling/changeset-risk.json`
+  - `docs/generated/local-tooling/changeset-risk-summary.md`
+  Notes:
+  - Output should be concise enough to read before choosing validation scope.
+  - Prefer transparent rule-based scoring over vague natural-language risk labels.
+
+- [ ] CODEX-LOCAL-FAILURE-KNOWLEDGE-BASE: Capture recurring validation failures and their fixes into a compact local troubleshooting index.
+  Proposed entrypoints:
+  - `ruby scripts/audits/update-failure-knowledge-base.rb source=<diagnostic-report>`
+  - `make failure-knowledge-base`
+  Proposed outputs:
+  - `docs/generated/local-tooling/failure-knowledge-base.json`
+  - `docs/generated/local-tooling/failure-knowledge-base-summary.md`
+  Notes:
+  - This should help Codex resolve repeated Maven, frontend type-check, Flyway, and documentation validation failures without rereading long logs.
+  - Keep entries factual: failure pattern, owning surface, likely cause, verified fix, and source report.
+
+- [ ] CODEX-LOCAL-PROMPTABLE-CODEBASE-CAPSULE: Generate a very small "read this first" capsule for new Codex sessions with current repo layout, active conventions, current open backlogs, and the preferred first commands.
+  Proposed entrypoints:
+  - `ruby scripts/audits/generate-codebase-capsule.rb`
+  - `make codebase-capsule`
+  Proposed outputs:
+  - `docs/generated/local-tooling/codebase-capsule.md`
+  - `docs/generated/local-tooling/codebase-capsule.json`
+  Notes:
+  - This should be intentionally shorter than repo map and audit summary index.
+  - Use it as the default first read before broad work.
+
+- [ ] CODEX-LOCAL-TARGETED-TEST-MINIMIZER: Given changed files, generate the smallest high-confidence command set that covers direct unit tests, scenario tests, contract/type checks, and affected docs validation.
+  Proposed entrypoints:
+  - `ruby scripts/audits/recommend-targeted-tests.rb [files...]`
+  - `make recommend-targeted-tests files=<csv>`
+  Proposed outputs:
+  - `docs/generated/local-tooling/targeted-tests.json`
+  - `docs/generated/local-tooling/targeted-tests-summary.md`
+  Notes:
+  - This should complement, not replace, full validation for high-risk changes.
+  - Include why each command was selected and which risk remains uncovered.
+
+- [ ] CODEX-LOCAL-TEST-FLAKINESS-AND-DURATION-TRACKER: Track local test durations and repeated failures so Codex can choose cheaper targeted checks and identify unstable tests.
+  Proposed entrypoints:
+  - Wrapper support around backend and frontend validation commands.
+  - `make test-history-summary`
+  Proposed outputs:
+  - `docs/generated/local-tooling/test-history.json`
+  - `docs/generated/local-tooling/test-history-summary.md`
+  Notes:
+  - Keep raw logs out of git by default.
+  - Store only compact metadata: command, duration, pass/fail, failing tests, and top error patterns.
+
+- [ ] CODEX-LOCAL-FIXTURE-DUPLICATION-AUDIT: Detect repeated backend test setup patterns and recommend fixture-builder extraction candidates.
+  Proposed entrypoints:
+  - `ruby scripts/audits/audit-test-fixture-duplication.rb`
+  - `make audit-test-fixture-duplication`
+  Proposed outputs:
+  - `docs/generated/local-tooling/test-fixture-duplication.json`
+  - `docs/generated/local-tooling/test-fixture-duplication-summary.md`
+  Notes:
+  - Focus on users, circles, quests, applications, location settings, and chat setup.
+  - This should support `IMPL-TEST-FIXTURE-STANDARDIZATION`.
+
+- [ ] CODEX-LOCAL-ARCHITECTURE-DRIFT-AUDIT: Flag oversized classes, controllers with business logic, Vue views with product logic, repeated permission checks, and services that mix query, mutation, policy, and mapping responsibilities.
+  Proposed entrypoints:
+  - `ruby scripts/audits/audit-architecture-drift.rb`
+  - `make audit-architecture-drift`
+  Proposed outputs:
+  - `docs/generated/local-tooling/architecture-drift.json`
+  - `docs/generated/local-tooling/architecture-drift-summary.md`
+  Notes:
+  - Keep it report-first and threshold-based to avoid noisy rewrites.
+  - Link findings to implementation backlog IDs when possible.
+
+- [ ] CODEX-LOCAL-DOC-TEMPLATE-COVERAGE-AUDIT: Check whether changes that add workflows, endpoints, DTOs, migrations, permissions, or modules used the expected documentation template sections.
+  Proposed entrypoints:
+  - `ruby scripts/audits/audit-doc-template-coverage.rb [files...]`
+  - `make audit-doc-template-coverage`
+  Proposed outputs:
+  - `docs/generated/local-tooling/doc-template-coverage.json`
+  - `docs/generated/local-tooling/doc-template-coverage-summary.md`
+  Notes:
+  - This should make documentation updates repeatable without making docs verbose.
+  - Feed from `AGENT-DOC-TEMPLATE-BY-CHANGE-TYPE`.
+
+- [ ] CODEX-LOCAL-CONTRACT-TEST-GAP-AUDIT: Map endpoints and DTOs to backend tests, frontend contract usage, generated contracts, and documented behavior to find missing contract checks.
+  Proposed entrypoints:
+  - `ruby scripts/audits/audit-contract-test-gaps.rb`
+  - `make audit-contract-test-gaps`
+  Proposed outputs:
+  - `docs/generated/local-tooling/contract-test-gaps.json`
+  - `docs/generated/local-tooling/contract-test-gaps-summary.md`
+  Notes:
+  - Prioritize automation-relevant and planner-visible DTOs first.
+  - This should reduce silent backend/frontend drift.
+
+- [ ] CODEX-LOCAL-MUTATION-SAFETY-AUDIT: Identify mutation endpoints and services without scenario tests for permissions, invalid transitions, ownership checks, and side effects.
+  Proposed entrypoints:
+  - `ruby scripts/audits/audit-mutation-safety.rb`
+  - `make audit-mutation-safety`
+  Proposed outputs:
+  - `docs/generated/local-tooling/mutation-safety.json`
+  - `docs/generated/local-tooling/mutation-safety-summary.md`
+  Notes:
+  - Focus on high-risk operations before broad coverage.
+  - Use the result to choose self-test scope before changing workflows.
+
+- [ ] CODEX-LOCAL-DOCS-AS-TESTS-AUDIT: Extract protected behavioral statements from business/domain docs and report whether corresponding tests or audit checks exist.
+  Proposed entrypoints:
+  - `ruby scripts/audits/audit-docs-as-tests.rb`
+  - `make audit-docs-as-tests`
+  Proposed outputs:
+  - `docs/generated/local-tooling/docs-as-tests.json`
+  - `docs/generated/local-tooling/docs-as-tests-summary.md`
+  Notes:
+  - Start with workflow states, permissions, visibility, and sandbox/production separation.
+  - Keep extraction conservative to avoid false precision.
+
+- [ ] CODEX-LOCAL-FEATURE-CLOSEOUT-ENFORCER: Replace advisory closeout output with a local hard-fail auditor that validates manifest schema, checklist completion, validation evidence, artifact paths, duplicate artifact buckets, backlog links, and plan completion.
+  Proposed entrypoints:
+  - `ruby scripts/audits/enforce-feature-closeout.rb manifest=<manifest-file>`
+  - `make enforce-feature-closeout manifest=<manifest-file>`
+  Proposed outputs:
+  - `docs/generated/local-tooling/closeout-enforcement/<feature-id>.json`
+  - `docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md`
+  Required checks:
+  - Fail if `status: complete` is missing for final closeout.
+  - Fail if any required checklist field is false without an allowed `not_applicable` evidence record.
+  - Fail if required profile commands have no validation evidence.
+  - Fail if generated artifact commands are declared but output files are missing or stale.
+  - Fail if the same path appears in more than one artifact group.
+  - Fail if backlog created/resolved IDs do not match persistent backlog state.
+  - Fail if the referenced plan is missing or lacks completion evidence.
+
+- [ ] CODEX-LOCAL-VALIDATION-EVIDENCE-RECORDER: Add a small wrapper that records validation command results into a feature manifest or companion evidence file.
+  Proposed entrypoints:
+  - `ruby scripts/audits/record-validation-evidence.rb manifest=<manifest-file> -- <command...>`
+  - `make record-validation manifest=<manifest-file> command="<command>"`
+  Proposed outputs:
+  - Updated `.agents/feature-manifests/<feature-id>-manifest.yaml`
+  - Optional `docs/generated/local-tooling/validation-evidence/<feature-id>.json`
+  Notes:
+  - Capture command, scope, result, timestamp, duration, summary, output path, and skipped reason.
+  - Keep raw command logs out of git by default.
+  - This should feed `CODEX-LOCAL-FEATURE-CLOSEOUT-ENFORCER`.
+
+- [ ] CODEX-LOCAL-MANIFEST-DECISION-AUDIT: Determine whether the current changeset requires a feature manifest and report the reason.
+  Proposed entrypoints:
+  - `ruby scripts/audits/audit-manifest-decision.rb [files...]`
+  - `make audit-manifest-decision files=<csv>`
+  Proposed outputs:
+  - `docs/generated/local-tooling/manifest-decision.json`
+  - `docs/generated/local-tooling/manifest-decision-summary.md`
+  Rules:
+  - Require manifest for multi-file multi-layer changes.
+  - Require manifest for high-risk, executor-critical, agent-contract, workflow-expansion, frontend-contract, schema, generated-artifact, or automation-safety changes.
+  - Allow skip for cosmetic or single-file contract-neutral refactors with a documented reason.
+
+- [ ] CODEX-LOCAL-PLAN-COMPLETION-AUDIT: Validate temporary plans and master plans against referenced manifests and child plans.
+  Proposed entrypoints:
+  - `ruby scripts/audits/audit-plan-completion.rb plan=<plan-file>`
+  - `make audit-plan-completion plan=<plan-file>`
+  Proposed outputs:
+  - `docs/generated/local-tooling/plan-completion/<plan-id>.json`
+  - `docs/generated/local-tooling/plan-completion/<plan-id>-summary.md`
+  Checks:
+  - Plan exists and has a completion evidence section.
+  - Required task checkboxes are complete or explicitly deferred to a backlog ID.
+  - Master plans list child plans and each child status is complete or explicitly deferred.
+  - Feature manifest status does not claim complete while plan evidence is incomplete.
+
+- [ ] CODEX-LOCAL-DOC-SYNC-DUPLICATE-CLEANUP-AUDIT: Find duplicated protected phrases, fragment-only policy bullets, and conflicting doc-sync wording across `AGENTS.md`, documentation policy, checklist, and operating model docs.
+  Proposed entrypoints:
+  - `ruby scripts/audits/audit-doc-sync-duplicates.rb`
+  - `make audit-doc-sync-duplicates`
+  Proposed outputs:
+  - `docs/generated/local-tooling/doc-sync-duplicates.json`
+  - `docs/generated/local-tooling/doc-sync-duplicates-summary.md`
+  Notes:
+  - Must preserve exact protected canonical phrases.
+  - Should recommend consolidation targets without auto-rewriting docs.
+
+- [ ] CODEX-LOCAL-CLOSEOUT-REPORT-GENERATOR: Generate a final closeout report suitable for Codex final responses and commit review.
+  Proposed entrypoints:
+  - `ruby scripts/audits/generate-closeout-report.rb manifest=<manifest-file>`
+  - `make closeout-report manifest=<manifest-file>`
+  Proposed outputs:
+  - `docs/generated/local-tooling/closeout-reports/<feature-id>.json`
+  - `docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md`
+  Notes:
+  - Include changed files, validation evidence, docs delta, generated artifact delta, backlog delta, and residual risks.
+  - Keep the summary short enough to paste into a final response without rereading the whole repo.
+
 ## Operating Notes
 
 - Prefer scripts that generate compact machine-readable output plus one short human summary.

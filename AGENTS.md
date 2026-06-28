@@ -76,6 +76,14 @@ Planned modules:
   `.agents/`, without per-file confirmation.
 - Ask only when a command needs sandbox escalation, external side effects, or some other higher-risk approval outside
   normal workspace editing.
+- When the user explicitly assigns a broad autonomous work session, says they will be away, or asks Codex to work through
+  a large TODO/backlog batch, front-load any required approval requests that can be identified safely, then continue
+  through all safe implementation, documentation, generated-artifact, and validation phases without waiting for
+  additional user signals.
+- For those autonomous sessions, use a master plan plus narrower child plans whenever the work is broad, long-running,
+  high-complexity, or spans unrelated implementation surfaces; stop only for required approval, destructive action,
+  direct conflicts with user changes, or genuinely unsafe ambiguity.
+- Even during autonomous sessions, do not commit or push unless the user explicitly includes commit or push in the task.
 
 ## Living Documentation
 
