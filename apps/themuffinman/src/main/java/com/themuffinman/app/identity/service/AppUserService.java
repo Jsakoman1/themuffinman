@@ -15,6 +15,7 @@ import com.themuffinman.app.common.normalization.UserInputNormalizer;
 import com.themuffinman.app.workmarket.repository.QuestRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class AppUserService {
         return appUserRepository.save(appUser);
     }
 
+    @Transactional(readOnly = true)
     public List<AppUser> getAllAppUsers(String query) {
         String normalizedQuery = SearchQueryNormalizer.normalize(query).toLowerCase();
 
@@ -54,14 +56,17 @@ public class AppUserService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public AppUser getAppUser(Long id) {
         return appUserLookupService.requireById(id);
     }
 
+    @Transactional(readOnly = true)
     public long countQuestsByCreatorId(Long creatorId) {
         return questRepository.countByCreatorIdAndStatus(creatorId, QuestStatus.OPEN);
     }
 
+    @Transactional(readOnly = true)
     public List<com.themuffinman.app.workmarket.dto.QuestResponseDTO> getOpenQuestsByCreatorId(Long creatorId) {
         return questRepository.findByCreatorIdAndStatusOrderByIdDesc(creatorId, QuestStatus.OPEN)
                 .stream()

@@ -1,0 +1,14 @@
+{
+  "audit-summary-index": {
+    "updated_at": "2026-06-28T21:06:09Z",
+    "output": "docs/generated/local-tooling/audit-summary-index.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "e3f0f946152d4f3781cb4750cf1aa6395944b51ef73af667ad428f1f849af548"
+  },
+  "audit-registry-artifacts": {
+    "updated_at": "2026-06-28T21:06:09Z",
+    "output": "docs/generated/local-tooling/audit-registry-artifacts.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "1b4b99bafaa2f0de74d000df5e3d04ae9ab593d0a521690f258f74b20eb9f54f"
+  }
+}

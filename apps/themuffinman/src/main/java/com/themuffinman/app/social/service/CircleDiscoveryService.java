@@ -10,6 +10,7 @@ import com.themuffinman.app.social.model.CircleRequest;
 import com.themuffinman.app.social.repository.CircleRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CircleDiscoveryService {
     private final AppUserRepository appUserRepository;
     private final CircleRequestRepository circleRequestRepository;

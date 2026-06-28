@@ -1,0 +1,417 @@
+{
+  "generated_at": "2026-06-28T20:30:23Z",
+  "files": [
+    {
+      "file": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadNotifications"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
+      "uses_feedback_runner": true,
+      "uses_run_with_feedback": true,
+      "has_after_success": true,
+      "refresh_calls": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadPage"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "fetchProfile",
+        "loadErrorMessage"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "fetchProfile",
+        "loadErrorMessage"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadBlockedPage",
+        "loadCircles",
+        "loadConnectionsPage",
+        "loadInboxPage",
+        "loadNearbyPage",
+        "loadOverview",
+        "loadSuggestions"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
+      "uses_feedback_runner": true,
+      "uses_run_with_feedback": true,
+      "has_after_success": true,
+      "refresh_calls": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesPagination.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadConnectionsPage",
+        "loadInboxPage"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadBlockedPage",
+        "loadConnectionsPage",
+        "loadDirectoryResults",
+        "loadDiscoverResults",
+        "loadInboxPage",
+        "loadNearbyPage",
+        "loadSuggestions"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
+      "uses_feedback_runner": true,
+      "uses_run_with_feedback": true,
+      "has_after_success": true,
+      "refresh_calls": [
+        "fetchProfile",
+        "loadErrorMessage",
+        "loadProfileView"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+      "uses_feedback_runner": true,
+      "uses_run_with_feedback": true,
+      "has_after_success": true,
+      "refresh_calls": [
+        "loadOverview"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadDetail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadQuests"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "fetchAppUsers"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersMutationActions.ts",
+      "uses_feedback_runner": true,
+      "uses_run_with_feedback": true,
+      "has_after_success": true,
+      "refresh_calls": [
+        "fetchAppUsers"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardMutationRunner.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": true,
+      "refresh_calls": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questMutationTypes.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadApplicationDetail",
+        "loadApplicationsForQuest",
+        "loadQuestDetail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadQuests"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadQuests"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": true,
+      "refresh_calls": [
+        "loadApplicationDetail",
+        "loadApplicationsForQuest",
+        "loadQuestDetail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "fetchDashboard",
+        "loadApplicationDetail",
+        "loadApplicationsForQuest",
+        "loadQuestDetail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadApplicationDetail",
+        "loadApplicationsForQuest",
+        "loadQuestDetail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardMutationActions.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadApplicationDetail",
+        "loadApplicationsForQuest",
+        "loadQuestDetail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": true,
+      "refresh_calls": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": true,
+      "refresh_calls": [
+        "loadApplicationsForQuest",
+        "loadQuestDetail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestLifecycleMutations.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": true,
+      "refresh_calls": [
+        "loadQuestDetail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDebugState.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "fetchError"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailDataActions.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "fetchQuestDetail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadEditMetadata"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
+      "uses_feedback_runner": true,
+      "uses_run_with_feedback": true,
+      "has_after_success": true,
+      "refresh_calls": [
+        "loadApplications",
+        "loadStatusFilterOptions"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageActions.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "fetchAppUsers"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardActions.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadApplicationDetail",
+        "loadApplicationsForQuest",
+        "loadQuestDetail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageActions.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "fetchQuestDetail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadEditMetadata"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestSearchResults.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadPage",
+        "loadQuests"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadApplications"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadOverview"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadApplication"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/services/sessionService.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadToken",
+        "loadUser"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/shared/imageCompression.ts",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadImage"
+      ]
+    }
+  ]
+}

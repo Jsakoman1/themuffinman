@@ -1,0 +1,274 @@
+{
+  "generated_at": "2026-06-28T20:30:13Z",
+  "mapper_count": 7,
+  "mapper_usages": [
+    {
+      "mapper": "AppUserMgr",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java",
+      "domain": "identity",
+      "methods": [
+        "toDto",
+        "withProfileStats"
+      ],
+      "risk_flags": [
+        "navigation_logic",
+        "relation_dereference",
+        "rich_text_sanitization",
+        "service_backed"
+      ],
+      "usage_count": 5,
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+          "caller_class": "AppUserController",
+          "caller_method": "getAppUser",
+          "classification": "controller_facing",
+          "mapper_method": "withProfileStats"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
+          "caller_class": "AdminUserDetailService",
+          "caller_method": "getDetail",
+          "classification": "read_oriented",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
+          "caller_class": "AdminUserDetailService",
+          "caller_method": "getDetail",
+          "classification": "read_oriented",
+          "mapper_method": "withProfileStats"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
+          "caller_class": "UserProfileViewService",
+          "caller_method": "getProfileView",
+          "classification": "read_oriented",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
+          "caller_class": "UserProfileViewService",
+          "caller_method": "getProfileView",
+          "classification": "read_oriented",
+          "mapper_method": "withProfileStats"
+        }
+      ]
+    },
+    {
+      "mapper": "AuthMgr",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java",
+      "domain": "identity",
+      "methods": [
+        "toResponse"
+      ],
+      "risk_flags": [
+        "relation_dereference",
+        "rich_text_sanitization"
+      ],
+      "usage_count": 3,
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
+          "caller_class": "AuthService",
+          "caller_method": "login",
+          "classification": "supporting",
+          "mapper_method": "toResponse"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
+          "caller_class": "AuthService",
+          "caller_method": "me",
+          "classification": "supporting",
+          "mapper_method": "toResponse"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
+          "caller_class": "AuthService",
+          "caller_method": "register",
+          "classification": "supporting",
+          "mapper_method": "toResponse"
+        }
+      ]
+    },
+    {
+      "mapper": "CircleRequestMgr",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/mapper/CircleRequestMgr.java",
+      "domain": "social",
+      "methods": [
+        "toDto"
+      ],
+      "risk_flags": [
+        "relation_dereference",
+        "rich_text_sanitization"
+      ],
+      "usage_count": 3,
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
+          "caller_class": "CircleRelationService",
+          "caller_method": "acceptCircleRequest",
+          "classification": "mutating",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
+          "caller_class": "CircleRelationService",
+          "caller_method": "blockCircleUser",
+          "classification": "mutating",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
+          "caller_class": "CircleRelationService",
+          "caller_method": "createCircleRequest",
+          "classification": "mutating",
+          "mapper_method": "toDto"
+        }
+      ]
+    },
+    {
+      "mapper": "QuestApplicationMgr",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestApplicationMgr.java",
+      "domain": "workmarket",
+      "methods": [
+        "toDto",
+        "toEntity"
+      ],
+      "risk_flags": [
+        "navigation_logic",
+        "relation_dereference",
+        "rich_text_sanitization"
+      ],
+      "usage_count": 7,
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "applyForQuest",
+          "classification": "mutating",
+          "mapper_method": "toEntity"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "getAllApplicationsForAdmin",
+          "classification": "read_oriented",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "getApplicationsForQuest",
+          "classification": "read_oriented",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "getApplicationsViewForQuest",
+          "classification": "read_oriented",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "getPublicApprovedApplicationsViewForQuest",
+          "classification": "read_oriented",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "searchApplicationsForAdmin",
+          "classification": "read_oriented",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "toApplicantResponse",
+          "classification": "read_oriented",
+          "mapper_method": "toDto"
+        }
+      ]
+    },
+    {
+      "mapper": "QuestMgr",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java",
+      "domain": "workmarket",
+      "methods": [
+        "toDto",
+        "toEntity",
+        "withViewerContext"
+      ],
+      "risk_flags": [
+        "navigation_logic",
+        "relation_dereference",
+        "rich_text_sanitization",
+        "service_backed"
+      ],
+      "usage_count": 3,
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java",
+          "caller_class": "CreateQuestUseCase",
+          "caller_method": "execute",
+          "classification": "supporting",
+          "mapper_method": "toEntity"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+          "caller_class": "QuestViewAssembler",
+          "caller_method": "toResponse",
+          "classification": "read_oriented",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+          "caller_class": "QuestViewAssembler",
+          "caller_method": "toResponse",
+          "classification": "read_oriented",
+          "mapper_method": "withViewerContext"
+        }
+      ]
+    },
+    {
+      "mapper": "QuestNewsMgr",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgr.java",
+      "domain": "workmarket",
+      "methods": [
+        "toDto"
+      ],
+      "risk_flags": [
+        "navigation_logic"
+      ],
+      "usage_count": 0,
+      "callers": [
+
+      ]
+    },
+    {
+      "mapper": "UserReviewMgr",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/UserReviewMgr.java",
+      "domain": "workmarket",
+      "methods": [
+        "toDto"
+      ],
+      "risk_flags": [
+        "navigation_logic",
+        "relation_dereference"
+      ],
+      "usage_count": 1,
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+          "caller_class": "UserReviewService",
+          "caller_method": "createOrUpdateReview",
+          "classification": "mutating",
+          "mapper_method": "toDto"
+        }
+      ]
+    }
+  ]
+}

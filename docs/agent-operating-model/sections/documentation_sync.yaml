@@ -6,6 +6,7 @@ documentation_sync:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   - docs/agent-operating-model.yaml
+  - docs/implementation-backlog.md
   - docs/feature-completion-manifest.schema.json
   - docs/documentation-sync-policy.md
   required_tests:
@@ -31,6 +32,39 @@ documentation_sync:
     - No logic-only change is complete until the affected docs, agent artifacts, and
       validation tests are updated together.
     - A logic change is not complete when only code and tests are updated.
+    - For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file.
+    - Do not paraphrase, shorten, reorder, or partially restate protected canonical wording.
+  - id: master_plan_allowed_for_complex_batches
+    description: Broad or long-running work may use one master plan plus explicit child plans when that keeps the batch auditable and reduces unnecessary operator interaction.
+    source_refs:
+    - agents_doc
+    - documentation_sync_policy_doc
+    doc_paths:
+    - AGENTS.md
+    - docs/agent-operating-model.md
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    must_contain_all:
+    - For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
+    - Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
+  - id: persistent_backlog_tracks_deferred_work
+    description: Deferred implementation and control-system follow-ups must stay in
+      persistent backlog files with stable IDs, and resolved items must be removed
+      when completed.
+    source_refs:
+    - agents_doc
+    - implementation_backlog_doc
+    - documentation_sync_policy_doc
+    - agent_improvement_backlog_doc
+    doc_paths:
+    - AGENTS.md
+    - docs/agent-operating-model.md
+    - docs/documentation-sync-policy.md
+    - docs/implementation-backlog.md
+    - docs/agent-improvement-backlog.md
+    must_contain_all:
+    - Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it.
+    - When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or `FIXME(<ID>):` references in the same change.
   - id: admin_generation_flows_expand_with_feature_logic
     description: Feature expansions that change entity logic or workflow shape must
       propagate into admin-generation and sandbox-generation flow docs.

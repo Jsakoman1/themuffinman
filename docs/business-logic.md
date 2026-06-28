@@ -419,6 +419,7 @@ Current covered modules:
 - If all spots are filled, the quest becomes `ASSIGNED` and remaining pending applications are declined automatically.
 - Owners and admins can only decline applications while the quest is still open and the application is still pending.
 - Applicants can update or withdraw only while the application is still pending.
+- The quest detail view now exposes the same pending applicant self-service actions, including withdraw, directly on the user's own application card.
 - Pending-application self-service should resolve one exact current pending application before update or withdrawal.
 - Notification item read should resolve one exact current news item before mutation, while mark-all-read stays scoped to the authenticated user's own feed.
 

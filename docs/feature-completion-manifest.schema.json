@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Feature Completion Manifest",
   "type": "object",
-  "required": ["featureId", "title", "status", "riskTier", "changeMode", "changeImpact", "changeProfiles", "planFile", "checklist", "artifacts"],
+  "required": ["featureId", "title", "status", "riskTier", "changeMode", "changeImpact", "changeProfiles", "planFile", "backlog", "checklist", "artifacts"],
   "additionalProperties": false,
   "properties": {
     "featureId": {"type": "string", "minLength": 1},
@@ -24,6 +24,24 @@
     "summary": {
       "type": "array",
       "items": {"type": "string", "minLength": 1}
+    },
+    "backlog": {
+      "type": "object",
+      "required": ["reviewed", "createdIds", "resolvedIds"],
+      "additionalProperties": false,
+      "properties": {
+        "reviewed": {"type": "boolean"},
+        "createdIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Z0-9_-]+$"}
+        },
+        "resolvedIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Z0-9_-]+$"}
+        }
+      }
     },
     "checklist": {
       "type": "object",

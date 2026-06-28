@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-28T13:11:45Z",
+  "generatedAt": "2026-06-28T19:43:51Z",
   "summary": {
     "totalFiles": 255,
     "classifiedFiles": 255,
@@ -1163,8 +1163,8 @@
       "registeredInSourceOfTruth": true,
       "sourceRefId": "app_user_service",
       "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": true,
       "currentGate": "fail_hard"
     },
     {
@@ -1189,8 +1189,8 @@
       "registeredInSourceOfTruth": false,
       "sourceRefId": null,
       "documentationCovered": false,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": false,
       "currentGate": "report_only"
     },
     {
@@ -1969,8 +1969,8 @@
       "registeredInSourceOfTruth": true,
       "sourceRefId": "circle_membership_service",
       "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": false,
       "currentGate": "fail_hard"
     },
     {
@@ -1995,8 +1995,8 @@
       "registeredInSourceOfTruth": true,
       "sourceRefId": "circle_service",
       "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": true,
       "currentGate": "fail_hard"
     },
     {
@@ -3087,8 +3087,8 @@
       "registeredInSourceOfTruth": true,
       "sourceRefId": "dashboard_service",
       "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": false,
       "currentGate": "fail_hard"
     },
     {
@@ -3139,8 +3139,8 @@
       "registeredInSourceOfTruth": true,
       "sourceRefId": "quest_execution_primitive_service",
       "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": true,
       "currentGate": "fail_hard"
     },
     {

@@ -4,11 +4,13 @@ import com.themuffinman.app.location.dto.DatabaseTableStatusDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AdminDatabaseMetricsService {
 
     private final JdbcTemplate jdbcTemplate;

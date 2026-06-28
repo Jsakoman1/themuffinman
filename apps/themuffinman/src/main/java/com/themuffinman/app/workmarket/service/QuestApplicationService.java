@@ -31,6 +31,7 @@ import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class QuestApplicationService {
 
     private final QuestApplicationRepository questApplicationRepository;
@@ -123,8 +124,12 @@ public class QuestApplicationService {
     public List<QuestApplicationResponseDTO> getApplicationsForApplicant(AppUser currentUser) {
         return questApplicationRepository.findByApplicantId(currentUser.getId())
                 .stream()
-                .map(application -> withAllowedActions(questApplicationMgr.toDto(application), resolveApplicantActions(application)))
+                .map(this::toApplicantResponse)
                 .toList();
+    }
+
+    public QuestApplicationResponseDTO toApplicantResponse(QuestApplication application) {
+        return withAllowedActions(questApplicationMgr.toDto(application), resolveApplicantActions(application));
     }
 
     public List<QuestApplicationResponseDTO> getAllApplicationsForAdmin(AppUser currentUser) {

@@ -13,6 +13,7 @@ export const createQuestDetailViewState = (state: {
 }) => {
   const isActionInProgress = ref(false)
   const isDeleteConfirmDialogOpen = ref(false)
+  const isWithdrawConfirmDialogOpen = ref(false)
   const showTermChangeDetails = ref(false)
   const reviewStars = ref(0)
   const reviewComment = ref("")
@@ -46,6 +47,7 @@ export const createQuestDetailViewState = (state: {
   return {
     isActionInProgress,
     isDeleteConfirmDialogOpen,
+    isWithdrawConfirmDialogOpen,
     showTermChangeDetails,
     reviewStars,
     reviewComment,

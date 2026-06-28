@@ -19,6 +19,7 @@ Purpose: track a multi-step feature change from initial scope through final vali
 
 - Keep this file inside `.agents/`.
 - Prefer naming it `.agents/<short-feature-topic>-plan.md`.
+- If the work grows broad, long-running, or high-complexity, prefer one master plan that coordinates multiple child plans in explicit sequence.
 - Treat it as working memory, not as a permanent source of truth.
 
 ## Completion Check

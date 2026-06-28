@@ -1,0 +1,49 @@
+# Endpoint Contract Pack admin
+
+- Generated At: `2026-06-28T21:02:37Z`
+- Endpoint Family: `admin`
+## `endpoints`
+
+- `{:method: "GET", :path: "/admin/applications", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java", :dtos: ["QuestApplicationResponseDTO", "QuestApplicationsViewDTO"]}`
+- `{:method: "DELETE", :path: "/admin/applications/{applicationId}", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java", :dtos: ["ActionResultDTO", "QuestApplicationRequestDTO"]}`
+- `{:method: "PUT", :path: "/admin/applications/{applicationId}", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java", :dtos: ["ActionResultDTO", "AdminQuestApplicationUpdateRequestDTO"]}`
+
+## `dto_files`
+
+- `apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationRequestDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationsViewDTO.java`
+
+## `frontend_callsites`
+
+- `{:file: "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/moduleRegistry.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts", :matched_paths: ["/admin/applications", "applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts", :matched_paths: ["/admin/applications", "applications", "{applicationId}"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue", :matched_paths: ["/admin/applications", "applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/applyDashboardResponse.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardDataState.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardErrorState.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestListState.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/dashboardFacades.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts", :matched_paths: ["{applicationId}"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/applyQuestDetailState.ts", :matched_paths: ["applications"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDataState.ts", :matched_paths: ["applications"]}`
+
+## `docs`
+
+

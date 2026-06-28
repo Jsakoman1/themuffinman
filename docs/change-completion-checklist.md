@@ -8,6 +8,8 @@ Use it as the fast review path before considering a feature complete.
 
 For multi-file, multi-layer, or high-risk logical changes, start with a temporary plan in `.agents/<short-feature-topic>-plan.md` before substantial edits.
 Prefer `make bootstrap-feature-work topic=<short-feature-topic> [risk=<tier>] [mode=<mode>] [impact=<impact>] [profiles=<csv>]` when you want the plan and matching manifest created together.
+For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
+Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
 
 ## Checklist
 
@@ -53,23 +55,42 @@ Prefer `make bootstrap-feature-work topic=<short-feature-topic> [risk=<tier>] [m
 - Update `docs/documentation-sync-policy.md` only if the documentation or validation process itself changes.
 - Update `docs/feature-completion-manifest.schema.json` if the machine-readable feature manifest structure changes.
 - Update `AGENTS.md` only if repository-wide working rules or mandatory maintenance surfaces change.
+- If a change touches protected documentation-sync wording, copy the exact canonical phrase verbatim into every required file instead of paraphrasing it.
 
-9. Automation readiness
+9. Persistent backlog hygiene
+- Add newly discovered deferred implementation work to `docs/implementation-backlog.md` with a stable ID before closing the change.
+- Add newly discovered deferred agent/control-system work to `docs/agent-improvement-backlog.md` with a stable ID before closing the change.
+- If inline `TODO/FIXME` notes are needed, use `TODO(<ID>):` or `FIXME(<ID>):` and keep the same ID open in one persistent backlog file.
+- When implementing a backlog item, remove it from the open backlog and clear matching inline references in the same change.
+- Run `make audit-todo` after backlog or inline TODO changes.
+
+10. Automation readiness
 - Confirm new natural-language management flows use the existing resolution and clarification pattern instead of inventing a feature-specific one.
 - Confirm new destructive flows require explicit confirmation.
 - Confirm multi-actor flows do not invent another actor's authority or actions.
+- For every newly introduced workflow or self-service action, explicitly check whether the feature needs:
+  `docs/agent-operating-model.md`
+  `docs/agent-operating-model.yaml`
+  generated agent inventories or contract snapshots
+  frontend safety wiring or generated contracts
+  synthetic admin-generation or sandbox-generation updates
+- If a feature reuses an existing intent, still review whether backend read DTOs, resolution fields, and UI action surfaces changed in a way that future automation depends on.
+- If a feature adds a new backend DTO field or new action visibility rule, review sibling read surfaces that expose the same entity so automation does not inherit partial coverage.
 
-10. Final gates
+11. Final gates
 - Run `./mvnw test` for backend changes.
 - Run `make audit-agent-safety` when agent-safety contracts, multilingual planning behavior, or machine-operating docs changed.
+- Run `make audit-todo` when backlog state or inline TODO references changed.
 - Run `npm run type-check` and `npm run build` for frontend changes.
 - Confirm previously existing behavior still matches the updated docs and contracts.
 
-11. Optional feature manifest
+12. Optional feature manifest
 - If the change uses the plan-driven workflow, keep a matching machine-readable manifest under `.agents/feature-manifests/` and update it before closing the task.
 - Declare the correct `changeMode`, `changeImpact`, and `changeProfiles` so required docs, generators, and validation commands are enforced automatically.
+- Keep the manifest `backlog.reviewed`, `backlog.createdIds`, and `backlog.resolvedIds` aligned with the actual open backlog state.
 - Keep manifest artifact groups precise and non-overlapping; do not list test files in `codePaths` or repeat the same path across artifact buckets.
 - Use `make feature-closeout-audit manifest=<manifest-file>` as a fast close-out check before final validation on plan-driven changes.
+- If the task is orchestrated through a master plan plus child plans, update the master plan to reflect the final state of the whole batch before closing the task.
 
 ## Temporary Working Notes
 

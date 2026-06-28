@@ -9,6 +9,10 @@ changeProfiles:
 planFile: .agents/backend-audit-location-dto-tightening-plan.md
 summary:
   - Promote the location DTO contract surface into the strict automation-relevant audit subset.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
 checklist:
   tempPlanCreated: true
   codeImplemented: true

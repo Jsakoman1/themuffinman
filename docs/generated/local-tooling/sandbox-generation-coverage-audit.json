@@ -1,0 +1,452 @@
+{
+  "generated_at": "2026-06-28T20:30:21Z",
+  "entities": [
+    {
+      "entity": "ActionResult",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AdminAgentPlaygroundRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AdminAgentPlaygroundResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AdminAgentSimulationRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AdminAgentSimulationResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AdminApplicationsQuery",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AdminCircleGroupResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AdminCircleOverview",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AdminCircleRelationRow",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AdminQuestApplicationUpdateRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AdminUserDetail",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AgentCapabilityAssessment",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AgentClarificationContract",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AgentEndpointPlan",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AgentExecutionReadiness",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AgentIntentLineage",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AgentResolutionConfidence",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AgentResolutionRequirement",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ApiErrorResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ApiFieldError",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AppUserRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AppUserResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AppUserRoleOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "BulkCircleMembershipUpdate",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ChatCircleOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ChatContact",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ChatConversationSummary",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ChatMessage",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ChatMessageRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ChatOpenConversationRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ChatSocketClientMessage",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ChatSocketEvent",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ChatWorkspace",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleBlockCreate",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleCandidate",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleConnectionsQuery",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleContact",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleContactListResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleGroupRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleGroupResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleMember",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleOverview",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleRelation",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleRequestCreate",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleRequestListResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleRequestResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleSearchResult",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleSearchResultListResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "CircleSummary",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ConnectionCircleUpdate",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardApplicationGroup",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardNotificationItem",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardNotificationsSection",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardOpenWorkSection",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardPlannerItem",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardPlannerSection",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardQuestGroup",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardSections",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardSummary",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DatabaseTableStatus",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ExactLocationVisibilityScopeOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "LabelValue",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "LocationDebugStatus",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "LocationLookupCandidate",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "LocationLookupRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "LocationLookupResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "LocationModeOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "LocationReverseLookupRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "NavigationTarget",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "PageQuery",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ProfilePrimaryAction",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestApplicationDetailContextSection",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestApplicationDetailNavigationSection",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestApplicationDetailResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestApplicationDetailSections",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestApplicationListResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestApplicationPresentation",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestApplicationRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestApplicationResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestApplicationStatusFilterOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestApplicationsView",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestAudienceFilterOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestAudienceOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestDetailExecutionSection",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestDetailManagementSection",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestDetailNavigationSection",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestDetailResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestDetailReviewSection",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestDetailReviewTarget",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestDetailSections",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestDetailTermChangeSection",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestListResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestLocationVisibilityOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestNewsItemResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestPresentation",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestSearchDefaults",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestSearchRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestSortOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestStatusFilterOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestStatusOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "TextPageQuery",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "UserLocationSettings",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "UserLocationSettingsRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "UserProfileView",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "UserRatingSummary",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "UserReviewRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "UserReviewResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "WorkmarketOptions",
+      "sandbox_or_synthetic_mentioned": true
+    }
+  ],
+  "missing": [
+
+  ]
+}

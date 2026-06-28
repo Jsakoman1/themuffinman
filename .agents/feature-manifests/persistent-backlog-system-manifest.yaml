@@ -1,0 +1,59 @@
+featureId: persistent_backlog_system
+title: Persistent Backlog System
+status: complete
+riskTier: high
+changeMode: major-change
+changeImpact: contract-neutral-refactor
+changeProfiles:
+  - agent-contract
+planFile: .agents/persistent-backlog-system-plan.md
+summary:
+  - Add a persistent implementation backlog with stable IDs and explicit intake and close-out rules.
+  - Add a todo audit script plus manifest and validation hooks so backlog review is enforced in the existing close-out flow.
+backlog:
+  reviewed: true
+  createdIds:
+    - IMPL-BUSINESS-HUB-MODULE
+    - IMPL-THING-SHARING-MODULE
+    - IMPL-CAR-SHARING-MODULE
+    - IMPL-SHARED-CHAT-MODULE-SURFACE
+  resolvedIds: []
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: true
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - Makefile
+    - .agents/templates/feature-completion-manifest.template.yaml
+    - scripts/feature-closeout-audit.sh
+    - scripts/todo-audit.rb
+  docPaths:
+    - AGENTS.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/agent-operating-model/sections/documentation_sync.yaml
+    - docs/agent-operating-model/sections/source_of_truth.yaml
+    - docs/agent-improvement-backlog.md
+    - docs/change-completion-checklist.md
+    - docs/documentation-sync-policy.md
+    - docs/feature-completion-manifest.schema.json
+    - docs/generated/backend-audit-inventory.json
+    - docs/generated/source-of-truth-audit.json
+    - docs/implementation-backlog.md
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  generatorCommands:
+    - make generate-agent-operating-model
+    - make generate-agent-artifacts
+  auditCommands:
+    - make audit-agent-safety
+    - make audit-todo
+    - ./mvnw test
+    - npm run type-check
+    - npm run build

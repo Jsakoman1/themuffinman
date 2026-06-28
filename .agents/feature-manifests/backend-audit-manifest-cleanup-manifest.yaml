@@ -9,6 +9,10 @@ changeProfiles:
 planFile: .agents/backend-audit-manifest-cleanup-plan.md
 summary:
   - Restore plan-to-manifest continuity for the completed backend-audit program without changing runtime behavior.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
 checklist:
   tempPlanCreated: true
   codeImplemented: true

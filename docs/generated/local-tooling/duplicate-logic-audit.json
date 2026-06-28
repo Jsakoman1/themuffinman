@@ -1,0 +1,423 @@
+{
+  "generated_at": "2026-06-28T20:30:14Z",
+  "scanned_file_count": 136,
+  "active_route_backed_file_count": 31,
+  "candidate_count": 8,
+  "frontend_status_mapping_candidates": [
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "line": 205,
+      "snippet": "const statusLabel = computed(() =>",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "line": 80,
+      "snippet": "const statusLabel = computed(() =>",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    }
+  ],
+  "frontend_permission_gate_candidates": [
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "line": 119,
+      "snippet": "<div v-if=\"quest.status !== 'CANCELLED' && !canApply && !applicationSentVisible && !myApplication\" class=\"surface-stack surface-stack--compact\">",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "line": 102,
+      "snippet": "props.audience === \"CIRCLES\" && props.selectedCircleIds.length === 0",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "line": 751,
+      "snippet": "v-if=\"inlineEditable && audience === 'CIRCLES'\"",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "line": 799,
+      "snippet": "<UiFieldGroup v-else-if=\"audience === 'CIRCLES'\" label=\"Visible to circles\">",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "line": 251,
+      "snippet": "v-if=\"showAudience !== false && audience === 'CIRCLES'\"",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardPostWorkState.ts",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "line": 16,
+      "snippet": "if (audience === \"CIRCLES\") {",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+      "active_route_backed": true,
+      "module_key": "workmarket",
+      "line": 110,
+      "snippet": "const isOwnerView = computed(() => canEdit.value)",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+      "active_route_backed": true,
+      "module_key": "workmarket",
+      "line": 112,
+      "snippet": "const showApplicationsSection = computed(() => isOwnerView.value && !!applicationsView.value)",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+      "active_route_backed": true,
+      "module_key": "workmarket",
+      "line": 113,
+      "snippet": "const showOfferSection = computed(() => !isOwnerView.value && (canApply.value || applicationSentVisible.value || !!myApplication.value))",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    }
+  ],
+  "frontend_transition_eligibility_candidates": [
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
+      "active_route_backed": true,
+      "module_key": "workmarket",
+      "line": 68,
+      "snippet": "const canSubmitApplication = computed(() =>",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "line": 37,
+      "snippet": "const canSubmitApplication = computed(() =>",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "line": 4,
+      "snippet": "export const canSubmitQuestApplicationDraft = (message: string, proposedPrice: string, questAwardAmount: number | null | undefined) => {",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+      "active_route_backed": true,
+      "module_key": "workmarket",
+      "line": 112,
+      "snippet": "const showApplicationsSection = computed(() => isOwnerView.value && !!applicationsView.value)",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+      "active_route_backed": true,
+      "module_key": "workmarket",
+      "line": 113,
+      "snippet": "const showOfferSection = computed(() => !isOwnerView.value && (canApply.value || applicationSentVisible.value || !!myApplication.value))",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+      "active_route_backed": true,
+      "module_key": "workmarket",
+      "line": 117,
+      "snippet": "const ownerQuestHasChanges = computed(() => {",
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    }
+  ],
+  "review_shortlist": [
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+      "active_route_backed": true,
+      "module_key": "workmarket",
+      "score": 11,
+      "status_mapping_count": 0,
+      "permission_gate_count": 3,
+      "transition_eligibility_count": 3,
+      "example_findings": [
+        {
+          "line": 110,
+          "snippet": "const isOwnerView = computed(() => canEdit.value)"
+        },
+        {
+          "line": 112,
+          "snippet": "const showApplicationsSection = computed(() => isOwnerView.value && !!applicationsView.value)"
+        },
+        {
+          "line": 113,
+          "snippet": "const showOfferSection = computed(() => !isOwnerView.value && (canApply.value || applicationSentVisible.value || !!myApplication.value))"
+        }
+      ],
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "score": 9,
+      "status_mapping_count": 1,
+      "permission_gate_count": 3,
+      "transition_eligibility_count": 0,
+      "example_findings": [
+        {
+          "line": 205,
+          "snippet": "const statusLabel = computed(() =>"
+        },
+        {
+          "line": 102,
+          "snippet": "props.audience === \"CIRCLES\" && props.selectedCircleIds.length === 0"
+        },
+        {
+          "line": 751,
+          "snippet": "v-if=\"inlineEditable && audience === 'CIRCLES'\""
+        }
+      ],
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "score": 5,
+      "status_mapping_count": 1,
+      "permission_gate_count": 1,
+      "transition_eligibility_count": 0,
+      "example_findings": [
+        {
+          "line": 80,
+          "snippet": "const statusLabel = computed(() =>"
+        },
+        {
+          "line": 251,
+          "snippet": "v-if=\"showAudience !== false && audience === 'CIRCLES'\""
+        }
+      ],
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
+      "active_route_backed": true,
+      "module_key": "workmarket",
+      "score": 3,
+      "status_mapping_count": 0,
+      "permission_gate_count": 0,
+      "transition_eligibility_count": 1,
+      "example_findings": [
+        {
+          "line": 68,
+          "snippet": "const canSubmitApplication = computed(() =>"
+        }
+      ],
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "score": 2,
+      "status_mapping_count": 0,
+      "permission_gate_count": 1,
+      "transition_eligibility_count": 0,
+      "example_findings": [
+        {
+          "line": 119,
+          "snippet": "<div v-if=\"quest.status !== 'CANCELLED' && !canApply && !applicationSentVisible && !myApplication\" class=\"surface-stack surface-stack--compact\">"
+        }
+      ],
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardPostWorkState.ts",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "score": 2,
+      "status_mapping_count": 0,
+      "permission_gate_count": 1,
+      "transition_eligibility_count": 0,
+      "example_findings": [
+        {
+          "line": 16,
+          "snippet": "if (audience === \"CIRCLES\") {"
+        }
+      ],
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "score": 1,
+      "status_mapping_count": 0,
+      "permission_gate_count": 0,
+      "transition_eligibility_count": 1,
+      "example_findings": [
+        {
+          "line": 37,
+          "snippet": "const canSubmitApplication = computed(() =>"
+        }
+      ],
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
+      "active_route_backed": false,
+      "module_key": "workmarket",
+      "score": 1,
+      "status_mapping_count": 0,
+      "permission_gate_count": 0,
+      "transition_eligibility_count": 1,
+      "example_findings": [
+        {
+          "line": 4,
+          "snippet": "export const canSubmitQuestApplicationDraft = (message: string, proposedPrice: string, questAwardAmount: number | null | undefined) => {"
+        }
+      ],
+      "canonical_backend_files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+      ]
+    }
+  ]
+}

@@ -119,6 +119,7 @@ public class CircleRelationService {
         circleRequestRepository.delete(circleRequest);
     }
 
+    @Transactional(readOnly = true)
     public boolean isCircleBetween(AppUser leftUser, AppUser rightUser) {
         if (leftUser == null || rightUser == null) {
             return false;
@@ -129,6 +130,7 @@ public class CircleRelationService {
                 .orElse(false);
     }
 
+    @Transactional(readOnly = true)
     public Optional<CircleRequest> findRelation(AppUser leftUser, AppUser rightUser) {
         return circleRequestRepository.findBetweenUsers(leftUser.getId(), rightUser.getId());
     }

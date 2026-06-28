@@ -11,6 +11,10 @@ planFile: .agents/agent-safety-enforcement-round2-plan.md
 summary:
   - Add stronger enforcement layers for producer coverage, capability boundaries, feature completion tracking, dead-path checks, and frontend contract safety.
   - Add reusable `.agents` templates and documented plan-creation rules for future multi-layer feature work.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
 checklist:
   tempPlanCreated: true
   codeImplemented: true

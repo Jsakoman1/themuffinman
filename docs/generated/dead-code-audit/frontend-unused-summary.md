@@ -1,0 +1,30 @@
+# Frontend Dead Code Audit
+
+- Generated At: `2026-06-28T20:30:16Z`
+- Files Scanned: `224`
+## `likely_unused_files`
+
+- `{:file: "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue", :basename: "UiAmountField", :refs: 0, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/components/ui/UiLaunchCard.vue", :basename: "UiLaunchCard", :refs: 0, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/components/ui/UiMetricPills.vue", :basename: "UiMetricPills", :refs: 0, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/components/ui/UiReadonlyField.vue", :basename: "UiReadonlyField", :refs: 0, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/components/ui/UiSplitLayout.vue", :basename: "UiSplitLayout", :refs: 0, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue", :basename: "QuestEditFields", :refs: 0, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/shared/questNews.ts", :basename: "questNews", :refs: 0, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/lib/dashboardCalendar.ts", :basename: "dashboardCalendar", :refs: 1, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/lib/questListPagination.ts", :basename: "questListPagination", :refs: 1, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/modules/social/composables/circles/circlePagination.ts", :basename: "circlePagination", :refs: 1, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/modules/social/composables/circles/circleSelection.ts", :basename: "circleSelection", :refs: 1, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts", :basename: "socialActions", :refs: 1, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/styles/base.css", :basename: "base", :refs: 1, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/styles/dashboard-components.css", :basename: "dashboard-components", :refs: 1, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/styles/dashboard-layout.css", :basename: "dashboard-layout", :refs: 1, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/styles/detail-surfaces.css", :basename: "detail-surfaces", :refs: 1, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/styles/dialogs.css", :basename: "dialogs", :refs: 1, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/styles/forms-feedback.css", :basename: "forms-feedback", :refs: 1, :route_refs: 0, :status: "likely_unused"}`
+
+## `unused_dependencies`
+
+- `@tiptap/pm`
+- `yaml`
+

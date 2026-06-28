@@ -43,11 +43,13 @@ echo "  Risk:     ${risk_tier:-unknown}"
 echo "  Mode:     ${change_mode:-unknown}"
 echo "  Impact:   ${change_impact:-unknown}"
 echo "  Profiles: ${change_profiles:-none}"
+echo "  Backlog reviewed: $(sed -n 's/^  reviewed: //p' "$manifest_path" | head -n 1)"
 
 required_commands=()
 if [[ "$risk_tier" == "executor-critical" || "$risk_tier" == "high" ]]; then
   required_commands+=("make audit-agent-safety")
 fi
+required_commands+=("make audit-todo")
 
 if grep -q "frontendValidationPassed: true" "$manifest_path"; then
   required_commands+=("npm run type-check")
@@ -67,3 +69,12 @@ awk '
 
 echo "Checklist status:"
 grep -E '^  (tempPlanCreated|codeImplemented|backendTestsPassed|frontendValidationPassed|docsSynced|agentModelSynced|destructivePolicyChecked|multilingualCoverageChecked): ' "$manifest_path" || true
+
+echo "Backlog links:"
+awk '
+  /^backlog:/ {in_backlog=1; next}
+  in_backlog && /^checklist:/ {exit}
+  in_backlog && /^  / {print}
+' "$manifest_path" || true
+
+ruby "$repo_root/scripts/todo-audit.rb" --manifest "$1"

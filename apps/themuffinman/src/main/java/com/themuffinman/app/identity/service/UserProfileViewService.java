@@ -14,9 +14,11 @@ import com.themuffinman.app.workmarket.model.ReviewRole;
 import com.themuffinman.app.workmarket.service.UserReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserProfileViewService {
     private final AppUserService appUserService;
     private final CircleService circleService;

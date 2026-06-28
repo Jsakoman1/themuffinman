@@ -10,6 +10,10 @@ planFile: .agents/backend-audit-tiering-plan.md
 summary:
   - Add full-backend audit tier classification with fail-hard executor-critical coverage and report-first broader inventory.
   - Generate backend audit inventory and validate the new operating-model section.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
 checklist:
   tempPlanCreated: true
   codeImplemented: true

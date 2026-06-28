@@ -1,0 +1,14 @@
+{
+  "generated_at": "2026-06-28T20:30:21Z",
+  "at_value_usages": [
+
+  ],
+  "configuration_properties_classes": [
+    "apps/themuffinman/src/main/java/com/themuffinman/app/TheMuffinManApplication.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/config/AgentProperties.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/config/BootstrapProperties.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/config/LocationProviderProperties.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/config/RetentionProperties.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityProperties.java"
+  ]
+}

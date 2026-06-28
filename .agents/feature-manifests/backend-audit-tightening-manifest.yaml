@@ -10,6 +10,10 @@ planFile: .agents/backend-audit-tightening-plan.md
 summary:
   - Introduce strict rule-scoped enforcement inside automation-relevant backend audit coverage.
   - Tighten admin-agent DTO contracts as the first low-noise strict subset.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
 checklist:
   tempPlanCreated: true
   codeImplemented: true

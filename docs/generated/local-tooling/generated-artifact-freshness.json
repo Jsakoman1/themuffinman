@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-06-28T20:30:13Z",
+  "artifact_count": 5,
+  "stale_count": 0,
+  "artifacts": [
+    {
+      "label": "agent_endpoint_inventory",
+      "artifact": "docs/generated/agent-endpoint-inventory.json",
+      "status": "fresh",
+      "artifact_exists": true,
+      "artifact_mtime": "2026-06-28T13:49:58Z",
+      "newest_source": "scripts/generate-agent-endpoint-inventory.rb",
+      "newest_source_mtime": "2026-06-28T13:36:24Z",
+      "source_count": 15,
+      "regenerate_command": "ruby scripts/generate-agent-endpoint-inventory.rb"
+    },
+    {
+      "label": "automation_read_model_inventory",
+      "artifact": "docs/generated/automation-read-model-inventory.json",
+      "status": "fresh",
+      "artifact_exists": true,
+      "artifact_mtime": "2026-06-28T13:49:58Z",
+      "newest_source": "scripts/generate-automation-read-model-inventory.rb",
+      "newest_source_mtime": "2026-06-28T13:36:24Z",
+      "source_count": 113,
+      "regenerate_command": "ruby scripts/generate-automation-read-model-inventory.rb"
+    },
+    {
+      "label": "source_of_truth_audit",
+      "artifact": "docs/generated/source-of-truth-audit.json",
+      "status": "fresh",
+      "artifact_exists": true,
+      "artifact_mtime": "2026-06-28T19:43:51Z",
+      "newest_source": "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
+      "newest_source_mtime": "2026-06-28T19:38:44Z",
+      "source_count": 294,
+      "regenerate_command": "ruby scripts/generate-source-of-truth-audit.rb"
+    },
+    {
+      "label": "backend_audit_inventory",
+      "artifact": "docs/generated/backend-audit-inventory.json",
+      "status": "fresh",
+      "artifact_exists": true,
+      "artifact_mtime": "2026-06-28T19:43:51Z",
+      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "newest_source_mtime": "2026-06-28T19:38:44Z",
+      "source_count": 257,
+      "regenerate_command": "ruby scripts/generate-backend-audit-inventory.rb"
+    },
+    {
+      "label": "frontend_generated_contract",
+      "artifact": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "status": "fresh",
+      "artifact_exists": true,
+      "artifact_mtime": "2026-06-28T19:43:51Z",
+      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "newest_source_mtime": "2026-06-28T19:38:44Z",
+      "source_count": 367,
+      "regenerate_command": "node apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs"
+    }
+  ]
+}

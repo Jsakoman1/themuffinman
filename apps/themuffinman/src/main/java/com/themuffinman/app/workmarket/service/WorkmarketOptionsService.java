@@ -23,11 +23,13 @@ import com.themuffinman.app.workmarket.model.QuestAudience;
 import com.themuffinman.app.workmarket.model.QuestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class WorkmarketOptionsService {
     private final LocationSettingsService locationSettingsService;
 

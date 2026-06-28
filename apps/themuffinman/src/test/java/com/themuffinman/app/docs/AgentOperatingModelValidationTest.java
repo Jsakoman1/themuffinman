@@ -25,6 +25,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +101,7 @@ class AgentOperatingModelValidationTest {
         validateRequestValidationGate(yaml.path("request_validation_gate"), repoRoot, sourceFiles);
         validateCompositeWorkflowSafety(yaml.path("intents"), yaml.path("intent_safety_catalog"));
         validateDocumentationSync(yaml.path("documentation_sync"), repoRoot, sourceFiles.keySet());
+        validatePersistentBacklogSystem(repoRoot);
         validateFeatureCompletionManifests(repoRoot);
     }
 
@@ -831,12 +833,15 @@ class AgentOperatingModelValidationTest {
         Path planTemplatePath = repoRoot.resolve(".agents/templates/feature-implementation-plan.template.md");
         Path bootstrapScriptPath = repoRoot.resolve("scripts/bootstrap-feature-work.sh");
         Path closeoutAuditScriptPath = repoRoot.resolve("scripts/feature-closeout-audit.sh");
+        Path todoAuditScriptPath = repoRoot.resolve("scripts/todo-audit.rb");
+        Map<String, String> openBacklogEntries = readOpenBacklogEntries(repoRoot);
 
         assertTrue(Files.exists(schemaPath), "feature-completion-manifest.schema.json must exist");
         assertTrue(Files.exists(templatePath), "feature completion manifest template must exist");
         assertTrue(Files.exists(planTemplatePath), "feature implementation plan template must exist");
         assertTrue(Files.exists(bootstrapScriptPath), "bootstrap-feature-work.sh must exist");
         assertTrue(Files.exists(closeoutAuditScriptPath), "feature-closeout-audit.sh must exist");
+        assertTrue(Files.exists(todoAuditScriptPath), "todo-audit.rb must exist");
         assertTrue(Files.isDirectory(manifestsDir), ".agents/feature-manifests must exist");
 
         JsonNode schemaNode = JSON_MAPPER.readTree(Files.readString(schemaPath));
@@ -863,6 +868,9 @@ class AgentOperatingModelValidationTest {
             String changeMode = manifestNode.path("changeMode").asText();
             String changeImpact = manifestNode.path("changeImpact").asText();
             Set<String> changeProfiles = readStringSet(manifestNode.path("changeProfiles"));
+            boolean backlogReviewed = manifestNode.path("backlog").path("reviewed").asBoolean();
+            List<String> createdBacklogIds = readStringList(manifestNode.path("backlog").path("createdIds"));
+            List<String> resolvedBacklogIds = readStringList(manifestNode.path("backlog").path("resolvedIds"));
             List<String> auditCommands = readStringList(manifestNode.path("artifacts").path("auditCommands"));
             List<String> generatorCommands = readStringList(manifestNode.path("artifacts").path("generatorCommands"));
             List<String> codePaths = readStringList(manifestNode.path("artifacts").path("codePaths"));
@@ -896,6 +904,26 @@ class AgentOperatingModelValidationTest {
             assertTrue(codeTestOverlap.isEmpty(),
                     () -> "Feature manifest must not list the same path in both codePaths and testPaths: " + codeTestOverlap + " in " + manifestPath);
 
+            Set<String> createdResolvedOverlap = new LinkedHashSet<>(createdBacklogIds);
+            createdResolvedOverlap.retainAll(new LinkedHashSet<>(resolvedBacklogIds));
+            assertTrue(createdResolvedOverlap.isEmpty(),
+                    () -> "Feature manifest backlog.createdIds and backlog.resolvedIds must not overlap: " + createdResolvedOverlap + " in " + manifestPath);
+
+            if (!createdBacklogIds.isEmpty() || !resolvedBacklogIds.isEmpty()) {
+                assertTrue(docPaths.contains("docs/implementation-backlog.md") || docPaths.contains("docs/agent-improvement-backlog.md"),
+                        () -> "Feature manifest with backlog links must include a persistent backlog docPath: " + manifestPath);
+            }
+            for (String createdBacklogId : createdBacklogIds) {
+                assertTrue(openBacklogEntries.containsKey(createdBacklogId),
+                        () -> "Feature manifest created backlog ID must stay open in a persistent backlog file: "
+                                + createdBacklogId + " in " + manifestPath);
+            }
+            for (String resolvedBacklogId : resolvedBacklogIds) {
+                assertFalse(openBacklogEntries.containsKey(resolvedBacklogId),
+                        () -> "Feature manifest resolved backlog ID must be removed from open backlog files: "
+                                + resolvedBacklogId + " in " + manifestPath);
+            }
+
             if ("high".equals(riskTier) || "executor-critical".equals(riskTier)) {
                 assertTrue(auditCommands.contains("make audit-agent-safety"),
                         () -> "High-risk or executor-critical manifest must require make audit-agent-safety: " + manifestPath);
@@ -905,10 +933,17 @@ class AgentOperatingModelValidationTest {
                         () -> "Manifest with frontend validation must include npm run type-check audit command: " + manifestPath);
             }
             if ("complete".equals(manifestNode.path("status").asText())) {
+                assertTrue(backlogReviewed,
+                        () -> "Completed manifest must mark backlog.reviewed=true: " + manifestPath);
                 assertTrue(manifestNode.path("checklist").path("codeImplemented").asBoolean(),
                         () -> "Completed manifest must mark codeImplemented=true: " + manifestPath);
                 assertTrue(manifestNode.path("checklist").path("backendTestsPassed").asBoolean(),
                         () -> "Completed manifest must mark backendTestsPassed=true: " + manifestPath);
+                List<String> openPlanTasks = Files.readAllLines(referencedPlan).stream()
+                        .filter(line -> line.startsWith("- [ ]"))
+                        .toList();
+                assertTrue(openPlanTasks.isEmpty(),
+                        () -> "Completed manifest must not reference a plan with open tasks: " + manifestPath);
             }
 
             if ("major-change".equals(changeMode)) {
@@ -960,6 +995,56 @@ class AgentOperatingModelValidationTest {
                         () -> "workflow-expansion manifest must include at least one ScenarioTest: " + manifestPath);
             }
         }
+    }
+
+    private static void validatePersistentBacklogSystem(Path repoRoot) throws Exception {
+        Path implementationBacklogPath = repoRoot.resolve("docs/implementation-backlog.md");
+        Path agentImprovementBacklogPath = repoRoot.resolve("docs/agent-improvement-backlog.md");
+        Path todoAuditScriptPath = repoRoot.resolve("scripts/todo-audit.rb");
+
+        assertTrue(Files.exists(implementationBacklogPath), "docs/implementation-backlog.md must exist");
+        assertTrue(Files.exists(agentImprovementBacklogPath), "docs/agent-improvement-backlog.md must exist");
+        assertTrue(Files.exists(todoAuditScriptPath), "scripts/todo-audit.rb must exist");
+
+        Map<String, String> openBacklogEntries = readOpenBacklogEntries(repoRoot);
+        assertFalse(openBacklogEntries.isEmpty(), "Persistent backlog files must contain at least one open backlog item");
+    }
+
+    private static Map<String, String> readOpenBacklogEntries(Path repoRoot) throws Exception {
+        Map<String, String> openEntries = new LinkedHashMap<>();
+        for (String backlogPath : List.of("docs/implementation-backlog.md", "docs/agent-improvement-backlog.md")) {
+            Path path = repoRoot.resolve(backlogPath);
+            assertTrue(Files.exists(path), () -> "Missing persistent backlog file: " + backlogPath);
+            List<String> lines = Files.readAllLines(path);
+            for (int index = 0; index < lines.size(); index++) {
+                String line = lines.get(index);
+                int lineNumber = index + 1;
+                if (line.startsWith("- [x]")) {
+                    throw new AssertionError("Resolved backlog entries must be removed instead of kept as closed checkboxes: "
+                            + backlogPath + ":" + lineNumber);
+                }
+                if (!line.startsWith("- [ ]")) {
+                    continue;
+                }
+
+                int colonIndex = line.indexOf(": ");
+                assertTrue(colonIndex > "- [ ] ".length(),
+                        () -> "Persistent backlog entries must use '- [ ] BACKLOG_ID: description': "
+                                + backlogPath + ":" + lineNumber);
+
+                String backlogId = line.substring("- [ ] ".length(), colonIndex);
+                assertTrue(backlogId.matches("[A-Z0-9_-]+"),
+                        () -> "Persistent backlog ID must use uppercase letters, digits, underscore, or dash: "
+                                + backlogPath + ":" + lineNumber);
+
+                String location = backlogPath + ":" + lineNumber;
+                assertFalse(openEntries.containsKey(backlogId),
+                        () -> "Duplicate persistent backlog ID " + backlogId + " in "
+                                + openEntries.get(backlogId) + " and " + location);
+                openEntries.put(backlogId, location);
+            }
+        }
+        return openEntries;
     }
 
     private static void validateCapabilityRegistry(JsonNode capabilityRegistryNode, JsonNode intentsNode, JsonNode intentSafetyCatalogNode) {

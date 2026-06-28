@@ -9,6 +9,10 @@ changeProfiles:
 planFile: .agents/sample-feature-plan.md
 summary:
   - Replace this with a short completion summary.
+backlog:
+  reviewed: false
+  createdIds: []
+  resolvedIds: []
 checklist:
   tempPlanCreated: false
   codeImplemented: false

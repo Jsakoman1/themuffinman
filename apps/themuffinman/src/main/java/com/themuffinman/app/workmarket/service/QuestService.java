@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class QuestService {
 
     private final QuestRepository questRepository;
@@ -190,7 +191,7 @@ public class QuestService {
         Quest quest = getQuestById(id, currentUser);
         QuestResponseDTO questResponse = toResponse(quest, currentUser, applicationsByQuestId);
         QuestApplication viewerApplication = currentUser == null ? null : applicationsByQuestId.get(quest.getId());
-        QuestApplicationResponseDTO myApplication = viewerApplication == null ? null : questApplicationMgr.toDto(viewerApplication);
+        QuestApplicationResponseDTO myApplication = toViewerApplicationResponse(viewerApplication, currentUser);
         QuestApplicationsViewDTO applicationsView = questResponse.isCanViewApplications()
                 ? questApplicationService.getApplicationsViewForQuest(quest.getId(), currentUser, false)
                 : (questResponse.isShowApprovedApplicants()
@@ -224,7 +225,7 @@ public class QuestService {
                 .orElseThrow(() -> ServiceErrors.notFound("Quest application not found with id " + applicationId));
         Quest quest = questExecutionPrimitiveService.resolveTarget(application.getQuest().getId());
         questExecutionPrimitiveService.validateApplicationDetailAccess(application, quest, currentUser);
-        QuestApplicationResponseDTO applicationResponse = questApplicationMgr.toDto(application);
+        QuestApplicationResponseDTO applicationResponse = toViewerApplicationResponse(application, currentUser);
         QuestResponseDTO questResponse = toResponse(quest, currentUser);
 
         return QuestApplicationDetailResponseDTO.builder()
@@ -342,6 +343,18 @@ public class QuestService {
 
     private QuestResponseDTO toResponse(Quest quest, AppUser currentUser, Map<Long, QuestApplication> applicationsByQuestId) {
         return questViewAssembler.toResponse(quest, currentUser, applicationsByQuestId);
+    }
+
+    private QuestApplicationResponseDTO toViewerApplicationResponse(QuestApplication application, AppUser currentUser) {
+        if (application == null) {
+            return null;
+        }
+
+        if (currentUser != null && application.getApplicant() != null && currentUser.getId().equals(application.getApplicant().getId())) {
+            return questApplicationService.toApplicantResponse(application);
+        }
+
+        return questApplicationMgr.toDto(application);
     }
 
     private List<Quest> loadQuestSearchScope(AppUser currentUser, Integer radiusKm) {

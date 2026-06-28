@@ -1,0 +1,9 @@
+# Naming Consistency Audit
+
+- Generated At: `2026-06-28T20:30:21Z`
+## `targets`
+
+- `{:target: "applicant_vs_worker", :counts: {:backend: {"applicant": 131, "worker": 18, "assignee": 83}, :frontend: {"applicant": 103, "worker": 19, "assignee": 80}, :docs: {"applicant": 229, "worker": 129, "assignee": 62}}}`
+- `{:target: "quest_detail_vs_record", :counts: {:backend: {"quest detail": 0, "quest record": 0}, :frontend: {"quest detail": 2, "quest record": 0}, :docs: {"quest detail": 14, "quest record": 8}}}`
+- `{:target: "circle_connection_wording", :counts: {:backend: {"circle connection": 0, "invite": 15, "request": 962}, :frontend: {"circle connection": 0, "invite": 31, "request": 478}, :docs: {"circle connection": 12, "invite": 89, "request": 1222}}}`
+

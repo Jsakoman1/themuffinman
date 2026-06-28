@@ -6,6 +6,7 @@ import {routeForNavigationTarget} from "../../shared/navigationTargets.ts"
 export const useQuestDetailUiActions = (
   state: QuestDetailPageState & {
     isActionInProgress: {value: boolean}
+    isWithdrawConfirmDialogOpen: {value: boolean}
     reviewSection: {value: {target?: {userId: number} | null} | null}
     reviewStars: {value: number}
     reviewComment: {value: string}
@@ -16,6 +17,7 @@ export const useQuestDetailUiActions = (
     deleteQuest: () => Promise<boolean>
     rejectQuestTermChange: () => Promise<boolean>
     submitReview: (reviewedUserId: number, stars: number, comment: string) => Promise<boolean>
+    withdrawMyApplication: () => Promise<boolean>
   }
 ) => {
   const actionBanner = useTimedBanner()
@@ -83,6 +85,33 @@ export const useQuestDetailUiActions = (
     })()
   }
 
+  const handleWithdrawApplication = () => {
+    state.isWithdrawConfirmDialogOpen.value = true
+  }
+
+  const cancelWithdrawApplication = () => {
+    state.isWithdrawConfirmDialogOpen.value = false
+  }
+
+  const confirmWithdrawApplication = () => {
+    state.isWithdrawConfirmDialogOpen.value = false
+    state.isActionInProgress.value = true
+    setActionMessage("Withdrawing application...", "warning")
+
+    void (async () => {
+      const withdrawn = await mutations.withdrawMyApplication()
+      if (!withdrawn) {
+        state.isActionInProgress.value = false
+        return
+      }
+
+      setActionMessage("Application withdrawn.")
+      closeAfterDelay(() => {
+        state.isActionInProgress.value = false
+      })
+    })()
+  }
+
   const handleConfirmTermChange = () => {
     state.isActionInProgress.value = true
     setActionMessage("Confirming quest term...", "warning")
@@ -127,6 +156,9 @@ export const useQuestDetailUiActions = (
     handleDeleteQuest,
     cancelDeleteQuest,
     confirmDeleteQuest,
+    handleWithdrawApplication,
+    cancelWithdrawApplication,
+    confirmWithdrawApplication,
     handleConfirmTermChange,
     handleRejectTermChange
   }

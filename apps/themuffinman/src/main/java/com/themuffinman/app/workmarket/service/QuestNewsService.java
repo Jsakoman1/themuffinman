@@ -18,6 +18,7 @@ import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class QuestNewsService {
 
     private static final int DEFAULT_LIMIT = 8;

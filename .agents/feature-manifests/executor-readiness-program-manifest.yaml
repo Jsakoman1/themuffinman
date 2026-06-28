@@ -11,6 +11,10 @@ changeProfiles:
 planFile: .agents/executor-readiness-program-plan.md
 summary:
   - Build the next large executor-readiness control package in phased increments.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
 checklist:
   tempPlanCreated: true
   codeImplemented: true

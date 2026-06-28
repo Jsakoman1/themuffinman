@@ -69,6 +69,44 @@ Primary files:
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java`
+- `scripts/local_tooling_common.rb`
+- `scripts/audits/audit-change-impact-preflight.rb`
+- `scripts/audits/audit-read-surface-inventory.rb`
+- `scripts/audits/audit-mapper-usage.rb`
+- `scripts/audits/audit-generated-artifact-freshness.rb`
+- `scripts/audits/audit-api-contract-drift.rb`
+- `scripts/audits/audit-repository-fetch.rb`
+- `scripts/audits/audit-endpoint-callsite-linker.rb`
+- `scripts/audits/audit-frontend-route-surfaces.rb`
+- `scripts/audits/audit-frontend-stale-surfaces.rb`
+- `scripts/audits/audit-frontend-state-logic-duplication.rb`
+- `scripts/audits/audit-duplicate-logic.rb`
+- `scripts/audits/audit-permission-rule-duplication.rb`
+- `scripts/audits/local_tooling_batch_audits.rb`
+- `scripts/audits/audit-frontend-dead-code.rb`
+- `scripts/audits/audit-backend-dead-code.rb`
+- `scripts/audits/audit-dead-code.rb`
+- `scripts/audits/audit-state-transition-coverage.rb`
+- `scripts/audits/audit-docs-to-code-drift.rb`
+- `scripts/audits/audit-doc-coverage-gap.rb`
+- `scripts/audits/audit-automation-readiness-gap.rb`
+- `scripts/audits/audit-agent-model-feature-coverage.rb`
+- `scripts/audits/audit-sandbox-generation-coverage.rb`
+- `scripts/audits/audit-domain-ownership-inventory.rb`
+- `scripts/audits/audit-config-sprawl.rb`
+- `scripts/audits/audit-naming-consistency.rb`
+- `scripts/audits/audit-dormant-code.rb`
+- `scripts/audits/audit-manual-cleanup-candidate-report.rb`
+- `scripts/audits/audit-file-relation-graph.rb`
+- `scripts/audits/audit-test-surface-inventory.rb`
+- `scripts/audits/audit-error-pattern.rb`
+- `scripts/audits/audit-rich-text-safety.rb`
+- `scripts/audits/audit-async-mutation-flow.rb`
+- `scripts/audits/audit-style-token-usage.rb`
+- `scripts/audits/audit-feature-intro-check.rb`
+- `scripts/audits/audit-make-target-index.rb`
+- `scripts/audits/audit-documentation.rb`
 - `scripts/generate-agent-operating-model.rb`
 - `scripts/generate-agent-endpoint-inventory.rb`
 - `scripts/generate-automation-read-model-inventory.rb`
@@ -88,6 +126,20 @@ Technical notes:
 - The third stricter `automation_relevant` slice is the identity DTO contract surface, which keeps auth, profile, and admin-user DTO contracts inside the same registration and documentation gate.
 - The fourth stricter `automation_relevant` slice is the location DTO contract surface, which keeps lookup, visibility, debug, and user-location DTO contracts inside the same registration and documentation gate.
 - Frontend planner support should prefer generated workflow-aware helpers from the operating model over hand-maintained intent or safety identifiers.
+- `docs/generated/local-tooling/change-impact-preflight.json` and `change-impact-preflight-summary.md` provide a compact dependency map for changed files so Codex can start from likely docs, tests, generated artifacts, and sibling read surfaces instead of broad repo discovery.
+- `docs/generated/local-tooling/read-surface-inventory.json` and `read-surface-inventory-summary.md` inventory read-oriented backend service methods, DTO assembly hints, repository usage, read-only transaction coverage, and a narrower `transaction_relevant` slice so helper-only services do not inflate the main transaction-gap count.
+- `docs/generated/local-tooling/mapper-usage-audit.json` and `mapper-usage-audit-summary.md` show where rich mappers are used and classify caller context as controller-facing, mutating, read-oriented, or supporting.
+- `docs/generated/local-tooling/generated-artifact-freshness.json` and `generated-artifact-freshness-summary.md` report whether generated contracts and inventories appear stale relative to their tracked source inputs.
+- `docs/generated/local-tooling/api-contract-drift.json` and `api-contract-drift-summary.md` compare backend DTO fields, generated frontend contract fields, and observed frontend field references.
+- `docs/generated/local-tooling/api-contract-drift-cleanup-shortlist.md` is the review-first shortlist for manual DTO cleanup, separating likely UI-dead fields from admin, automation, and diagnostics payloads that should not be removed blindly.
+- `docs/generated/local-tooling/repository-fetch-audit.json` and `repository-fetch-audit-summary.md` connect repository query methods, explicit fetch coverage, downstream service callers, helper usage, and likely lazy relation dereferences so Codex can audit fetch risk without manual controller-to-repository tracing.
+- `docs/generated/local-tooling/endpoint-callsite-linker.json` and `endpoint-callsite-linker-summary.md` connect backend endpoints to frontend API client methods and importing pages, views, or composables so feature-entry navigation can start from one compact report.
+- `docs/generated/local-tooling/frontend-route-surface-inventory.json` and `frontend-route-surface-inventory-summary.md` invert that same navigation from the frontend side, listing each route surface, its primary composables, API clients, and linked backend endpoints.
+- `docs/generated/local-tooling/frontend-stale-surface-audit.json` and `frontend-stale-surface-audit-summary.md` classify frontend files into active, likely-unused, route-detached, callsite-detached, or review-needed buckets using import reachability plus route and endpoint context.
+- `docs/generated/local-tooling/frontend-state-logic-duplication-audit.json` and `frontend-state-logic-duplication-audit-summary.md` cluster repeated frontend mutation runners, workflow action names, dialog open-close helpers, and feedback-error patterns across active route-backed surfaces.
+- `docs/generated/local-tooling/duplicate-logic-audit.json` and `duplicate-logic-audit-summary.md` shortlist frontend-local status mapping, permission gating, and transition-eligibility helpers that may duplicate backend presentation or policy logic.
+- `docs/generated/local-tooling/permission-rule-duplication-audit.json` and `permission-rule-duplication-audit-summary.md` separate backend permission sources, backend presentation-flag derivation, frontend passthrough gates, and frontend-local permission gates so cross-layer action drift can be reviewed from one compact report.
+- The batch audit engine under `scripts/audits/local_tooling_batch_audits.rb` now also generates compact dead-code, transition-coverage, docs-drift, automation-readiness, sandbox-coverage, ownership, config, naming, dormant-code, cleanup, relation-graph, test-surface, error-pattern, rich-text-safety, async-mutation, style-token, feature-intro, make-target-index, and audit-documentation reports.
 
 ### User account management
 
@@ -482,6 +534,7 @@ Technical notes:
 - `QuestApplicationsViewDTO` now carries deterministic owner-side pending selection metadata through `pendingApplicationCount` and `oldestPendingApplicationId`.
 - `QuestResponseDTO` and `QuestApplicationResponseDTO` now carry deterministic resolution metadata for exact target selection.
 - Applicant-side pending-application update and withdrawal flows are modeled as exact application resolution followed by the same backend validation rules used by the existing service methods.
+- `QuestService.getQuestDetailResponseById` and `QuestService.getApplicationDetailResponseById` now preserve applicant self-service action flags on self-owned pending applications so the frontend can render withdraw actions consistently on detail surfaces.
 - `QuestNewsItemResponseDTO` now also carries deterministic resolution metadata so item-specific notification actions can target one exact backend row.
 - `QuestApplicationService.approveApplication` and `QuestApplicationService.declineApplication` both require an `OPEN` quest plus owner-or-admin authority.
 - `QuestApplicationService.declineApplication` only mutates `PENDING` applications and transitions them to `DECLINED`.

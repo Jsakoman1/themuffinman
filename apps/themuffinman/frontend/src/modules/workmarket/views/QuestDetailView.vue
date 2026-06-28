@@ -29,6 +29,7 @@ const {
   proposedPrice,
   isActionInProgress,
   isDeleteConfirmDialogOpen,
+  isWithdrawConfirmDialogOpen,
   showTermChangeDetails,
   reviewStars,
   reviewComment,
@@ -51,6 +52,9 @@ const {
   handleDeleteQuest,
   cancelDeleteQuest,
   confirmDeleteQuest,
+  handleWithdrawApplication,
+  cancelWithdrawApplication,
+  confirmWithdrawApplication,
   handleConfirmTermChange,
   handleRejectTermChange,
   editTitle,
@@ -173,6 +177,16 @@ const openApplicantProfile = (applicationId: number) => {
       :busy="isSaving || isActionInProgress"
       @close="cancelDeleteQuest"
       @confirm="confirmDeleteQuest"
+    />
+    <UiConfirmDialog
+      :open="isWithdrawConfirmDialogOpen"
+      title="Withdraw application"
+      message="Are you sure you want to withdraw this application?"
+      confirm-label="Withdraw"
+      confirm-tone="danger"
+      :busy="isSaving || isActionInProgress"
+      @close="cancelWithdrawApplication"
+      @confirm="confirmWithdrawApplication"
     />
 
     <UiDialog
@@ -357,6 +371,15 @@ const openApplicantProfile = (applicationId: number) => {
               <div class="surface-actions">
                 <button class="button button--secondary" type="button" @click="router.push(`/applications/${myApplication.id}`)">
                   Open my application
+                </button>
+                <button
+                  v-if="myApplication.presentation.canWithdraw"
+                  class="button button--danger"
+                  type="button"
+                  :disabled="isSaving || isActionInProgress"
+                  @click="handleWithdrawApplication"
+                >
+                  Withdraw application
                 </button>
               </div>
             </div>

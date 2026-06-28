@@ -3,19 +3,16 @@ package com.themuffinman.app.workmarket.service;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
-import com.themuffinman.app.workmarket.dto.DashboardResponseDTO;
-import com.themuffinman.app.workmarket.dto.DashboardSectionsDTO;
-import com.themuffinman.app.workmarket.dto.DashboardSummaryDTO;
-import com.themuffinman.app.workmarket.dto.ApplicationAllowedAction;
-import com.themuffinman.app.workmarket.dto.QuestApplicationPresentationDTO;
-import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO;
-import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
-import com.themuffinman.app.workmarket.mapper.QuestApplicationMgr;
 import com.themuffinman.app.workmarket.mapper.QuestNewsMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
+import com.themuffinman.app.workmarket.dto.DashboardResponseDTO;
+import com.themuffinman.app.workmarket.dto.DashboardSectionsDTO;
+import com.themuffinman.app.workmarket.dto.DashboardSummaryDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
@@ -26,6 +23,7 @@ import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.workmarket.repository.QuestApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -34,6 +32,7 @@ import java.util.function.Predicate;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class DashboardService {
 
     private final QuestService questService;
@@ -42,10 +41,9 @@ public class DashboardService {
     private final AppUserRepository appUserRepository;
     private final CircleService circleService;
     private final AppUserService appUserService;
-    private final QuestApplicationMgr questApplicationMgr;
+    private final QuestApplicationService questApplicationService;
     private final QuestNewsMgr questNewsMgr;
     private final AppUserMgr appUserMgr;
-    private final WorkmarketPresentationHelper presentationHelper;
     private final WorkmarketOptionsService workmarketOptionsService;
     private final DashboardSectionsFactory dashboardSectionsFactory;
 
@@ -174,45 +172,8 @@ public class DashboardService {
                 .sorted(Comparator
                         .comparing((QuestApplication application) -> APPLICATION_STATUS_SORT_ORDER.getOrDefault(application.getStatus(), Integer.MAX_VALUE))
                         .thenComparing(QuestApplication::getId, Comparator.reverseOrder()))
-                .map(application -> withAllowedActions(questApplicationMgr.toDto(application), resolveApplicantActions(application)))
+                .map(questApplicationService::toApplicantResponse)
                 .toList();
-    }
-
-    private QuestApplicationResponseDTO withAllowedActions(
-            QuestApplicationResponseDTO dto,
-            List<ApplicationAllowedAction> allowedActions
-    ) {
-        if (dto == null) {
-            return null;
-        }
-
-        dto.setAllowedActions(List.copyOf(allowedActions));
-        boolean canApprove = allowedActions.contains(ApplicationAllowedAction.APPROVE);
-        boolean canDecline = allowedActions.contains(ApplicationAllowedAction.DECLINE);
-        dto.setPresentation(QuestApplicationPresentationDTO.builder()
-                .statusLabel(presentationHelper.formatApplicationStatus(dto.getStatus()))
-                .statusBadgeClass(presentationHelper.badgeClassForApplicationStatus(dto.getStatus()))
-                .statusSurfaceClass(presentationHelper.surfaceClassForApplicationStatus(dto.getStatus()))
-                .questStatusLabel(presentationHelper.formatQuestStatus(dto.getQuestStatus()))
-                .questStatusBadgeClass(presentationHelper.badgeClassForQuestStatus(dto.getQuestStatus()))
-                .questAssigneeTargetVisible(presentationHelper.showAssigneeTarget(dto.getQuestAssigneeTarget()))
-                .questAssigneeTargetLabel(presentationHelper.formatAssigneeTarget(dto.getQuestAssigneeTarget()))
-                .canEdit(allowedActions.contains(ApplicationAllowedAction.EDIT))
-                .canWithdraw(allowedActions.contains(ApplicationAllowedAction.WITHDRAW))
-                .autoOpenEditForm(allowedActions.contains(ApplicationAllowedAction.EDIT))
-                .canApprove(canApprove)
-                .canDecline(canDecline)
-                .showManagementActions(canApprove || canDecline)
-                .build());
-        return dto;
-    }
-
-    private List<ApplicationAllowedAction> resolveApplicantActions(QuestApplication application) {
-        if (application.getStatus() != QuestApplicationStatus.PENDING) {
-            return List.of();
-        }
-
-        return List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW);
     }
 
     private List<AppUserResponseDTO> getDashboardAppUsers(AppUser currentUser) {

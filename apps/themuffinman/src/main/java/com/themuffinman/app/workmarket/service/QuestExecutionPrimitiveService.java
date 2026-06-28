@@ -13,6 +13,7 @@ import com.themuffinman.app.workmarket.repository.QuestApplicationRepository;
 import com.themuffinman.app.workmarket.repository.QuestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,7 @@ public class QuestExecutionPrimitiveService {
     private final QuestStateTransitionService questStateTransitionService;
     private final QuestWorkflowNotificationService questWorkflowNotificationService;
 
+    @Transactional(readOnly = true)
     public Quest resolveTarget(Long questId) {
         return questRepository.findByIdWithCreator(questId)
                 .orElseThrow(() -> ServiceErrors.notFound("Quest not found with id " + questId));
@@ -42,12 +44,14 @@ public class QuestExecutionPrimitiveService {
         return quest;
     }
 
+    @Transactional(readOnly = true)
     public Quest resolveTargetForTermDecision(Long questId, AppUser actor) {
         Quest quest = resolveTarget(questId);
         validateTermDecisionAuthority(quest, actor);
         return quest;
     }
 
+    @Transactional(readOnly = true)
     public AppUser resolveCreator(QuestRequestDTO dto, AppUser actor) {
         if (questAccessPolicyService.isAdmin(actor) && dto.getCreatorId() != null) {
             return appUserLookupService.requireById(dto.getCreatorId(), "Creator not found with id " + dto.getCreatorId());

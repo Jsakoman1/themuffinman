@@ -189,6 +189,10 @@ source_of_truth:
     path: docs/domain-technical.md
   - id: documentation_sync_policy_doc
     path: docs/documentation-sync-policy.md
+  - id: implementation_backlog_doc
+    path: docs/implementation-backlog.md
+  - id: agent_improvement_backlog_doc
+    path: docs/agent-improvement-backlog.md
   - id: app_user_mgr_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java
   - id: circle_service_test

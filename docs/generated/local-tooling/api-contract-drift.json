@@ -1,0 +1,5511 @@
+{
+  "generated_at": "2026-06-28T20:30:13Z",
+  "dto_count": 111,
+  "missing_contract_count": 0,
+  "zero_usage_field_count": 78,
+  "dtos": [
+    {
+      "dto": "ActionResultDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "action",
+          "in_generated_contract": true,
+          "frontend_usage_count": 13,
+          "drift_category": "used"
+        },
+        {
+          "field": "message",
+          "in_generated_contract": true,
+          "frontend_usage_count": 86,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AdminAgentPlaygroundRequestDTO",
+      "backend_field_count": 1,
+      "generated_contract_present": true,
+      "generated_field_count": 1,
+      "fields": [
+        {
+          "field": "prompt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AdminAgentPlaygroundResponseDTO",
+      "backend_field_count": 18,
+      "generated_contract_present": true,
+      "generated_field_count": 18,
+      "fields": [
+        {
+          "field": "clarificationContract",
+          "in_generated_contract": true,
+          "frontend_usage_count": 7,
+          "drift_category": "used"
+        },
+        {
+          "field": "executionReadiness",
+          "in_generated_contract": true,
+          "frontend_usage_count": 15,
+          "drift_category": "used"
+        },
+        {
+          "field": "externalLlmConfigured",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "matchedSignals",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "nextSteps",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "originalPrompt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "promptSourceLanguage",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "promptTranslationApplied",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "promptTranslationProvider",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "promptTranslationReliable",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "provider",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionRequirements",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "suggestedWorkflows",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "summary",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "title",
+          "in_generated_contract": true,
+          "frontend_usage_count": 104,
+          "drift_category": "used"
+        },
+        {
+          "field": "translatedPrompt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "unresolvedInputs",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "warnings",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AdminAgentSimulationRequestDTO",
+      "backend_field_count": 1,
+      "generated_contract_present": true,
+      "generated_field_count": 1,
+      "fields": [
+        {
+          "field": "prompt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AdminAgentSimulationResponseDTO",
+      "backend_field_count": 15,
+      "generated_contract_present": true,
+      "generated_field_count": 15,
+      "fields": [
+        {
+          "field": "blockingReasons",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "capabilityAssessments",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "clarificationContract",
+          "in_generated_contract": true,
+          "frontend_usage_count": 7,
+          "drift_category": "used"
+        },
+        {
+          "field": "endpointPlan",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "executionReadiness",
+          "in_generated_contract": true,
+          "frontend_usage_count": 15,
+          "drift_category": "used"
+        },
+        {
+          "field": "intentLineage",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "matchedSignals",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "planningOnly",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "promptSourceLanguage",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionConfidence",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        },
+        {
+          "field": "safeToExecute",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "selectedIntentId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "suggestedWorkflows",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "translatedPrompt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "unresolvedInputs",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AdminApplicationsQueryDTO",
+      "backend_field_count": 4,
+      "generated_contract_present": true,
+      "generated_field_count": 4,
+      "fields": [
+        {
+          "field": "page",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "q",
+          "in_generated_contract": true,
+          "frontend_usage_count": 11,
+          "drift_category": "used"
+        },
+        {
+          "field": "size",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        },
+        {
+          "field": "status",
+          "in_generated_contract": true,
+          "frontend_usage_count": 39,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AdminCircleGroupResponseDTO",
+      "backend_field_count": 7,
+      "generated_contract_present": true,
+      "generated_field_count": 7,
+      "fields": [
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "memberCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "memberPreviewLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "members",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "name",
+          "in_generated_contract": true,
+          "frontend_usage_count": 23,
+          "drift_category": "used"
+        },
+        {
+          "field": "ownerId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "ownerUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AdminCircleOverviewDTO",
+      "backend_field_count": 4,
+      "generated_contract_present": true,
+      "generated_field_count": 4,
+      "fields": [
+        {
+          "field": "acceptedConnections",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "blockedRelations",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "circles",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        },
+        {
+          "field": "pendingRequests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AdminCircleRelationRowDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "recipientUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "requesterUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "statusBadgeClass",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "statusLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AdminQuestApplicationUpdateRequestDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "message",
+          "in_generated_contract": true,
+          "frontend_usage_count": 86,
+          "drift_category": "used"
+        },
+        {
+          "field": "proposedPrice",
+          "in_generated_contract": true,
+          "frontend_usage_count": 37,
+          "drift_category": "used"
+        },
+        {
+          "field": "status",
+          "in_generated_contract": true,
+          "frontend_usage_count": 39,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AdminUserDetailDTO",
+      "backend_field_count": 6,
+      "generated_contract_present": true,
+      "generated_field_count": 6,
+      "fields": [
+        {
+          "field": "appUserRoles",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "circles",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        },
+        {
+          "field": "contacts",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactLocationVisibilityScopes",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationModes",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "user",
+          "in_generated_contract": true,
+          "frontend_usage_count": 26,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AgentCapabilityAssessmentDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "capabilityId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "reason",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "status",
+          "in_generated_contract": true,
+          "frontend_usage_count": 39,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AgentClarificationContractDTO",
+      "backend_field_count": 4,
+      "generated_contract_present": true,
+      "generated_field_count": 4,
+      "fields": [
+        {
+          "field": "clarificationRequired",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "failClosedOnAmbiguity",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "reason",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "unresolvedFields",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        }
+      ]
+    },
+    {
+      "dto": "AgentEndpointPlanDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "endpointId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "method",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "path",
+          "in_generated_contract": true,
+          "frontend_usage_count": 57,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AgentExecutionReadinessDTO",
+      "backend_field_count": 7,
+      "generated_contract_present": true,
+      "generated_field_count": 7,
+      "fields": [
+        {
+          "field": "currentLocationCapabilityRequired",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "currentLocationCapabilityStatus",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "destructiveConfirmationRequired",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "multiActorContextRequired",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "planningOnly",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "requiresExternalTranslationProvider",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "translationReady",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AgentIntentLineageDTO",
+      "backend_field_count": 6,
+      "generated_contract_present": true,
+      "generated_field_count": 6,
+      "fields": [
+        {
+          "field": "expectedReadModels",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "intentId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "resolutionWorkflows",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "safetyPolicies",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "sourcePromptExamples",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "targetEndpoints",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AgentResolutionConfidenceDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "reasons",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "score",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "tier",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AgentResolutionRequirementDTO",
+      "backend_field_count": 6,
+      "generated_contract_present": true,
+      "generated_field_count": 6,
+      "fields": [
+        {
+          "field": "ambiguityPolicy",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "endpointHint",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "entityType",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "scope",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "selectionRule",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "workflowId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ApiErrorResponseDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "code",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "fieldErrors",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "message",
+          "in_generated_contract": true,
+          "frontend_usage_count": 86,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ApiFieldErrorDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "code",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "field",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "message",
+          "in_generated_contract": true,
+          "frontend_usage_count": 86,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AppUserRequestDTO",
+      "backend_field_count": 4,
+      "generated_contract_present": true,
+      "generated_field_count": 7,
+      "fields": [
+        {
+          "field": "locationSettings",
+          "in_generated_contract": true,
+          "frontend_usage_count": 44,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 17,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "role",
+          "in_generated_contract": true,
+          "frontend_usage_count": 26,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AppUserResponseDTO",
+      "backend_field_count": 14,
+      "generated_contract_present": true,
+      "generated_field_count": 14,
+      "fields": [
+        {
+          "field": "createdAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 21,
+          "drift_category": "used"
+        },
+        {
+          "field": "email",
+          "in_generated_contract": true,
+          "frontend_usage_count": 35,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactResolutionEligible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationSettings",
+          "in_generated_contract": true,
+          "frontend_usage_count": 44,
+          "drift_category": "used"
+        },
+        {
+          "field": "openQuestCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "openQuests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 17,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileNavigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "resolutionKey",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "role",
+          "in_generated_contract": true,
+          "frontend_usage_count": 26,
+          "drift_category": "used"
+        },
+        {
+          "field": "username",
+          "in_generated_contract": true,
+          "frontend_usage_count": 50,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "AppUserRoleOptionDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "value",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2125,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "BulkCircleMembershipUpdateDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "action",
+          "in_generated_contract": true,
+          "frontend_usage_count": 13,
+          "drift_category": "used"
+        },
+        {
+          "field": "circleId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 23,
+          "drift_category": "used"
+        },
+        {
+          "field": "userIds",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ChatCircleOptionDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "name",
+          "in_generated_contract": true,
+          "frontend_usage_count": 23,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ChatContactDTO",
+      "backend_field_count": 11,
+      "generated_contract_present": true,
+      "generated_field_count": 11,
+      "fields": [
+        {
+          "field": "circleIds",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        },
+        {
+          "field": "circleNames",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactResolutionEligible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "lastActiveAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "online",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 17,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionKey",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "userId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 39,
+          "drift_category": "used"
+        },
+        {
+          "field": "username",
+          "in_generated_contract": true,
+          "frontend_usage_count": 50,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ChatConversationSummaryDTO",
+      "backend_field_count": 15,
+      "generated_contract_present": true,
+      "generated_field_count": 15,
+      "fields": [
+        {
+          "field": "conversationId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 56,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactResolutionEligible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "lastMessageAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "lastMessageFromCurrentUser",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "lastMessageHasImage",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "lastMessagePreview",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "otherUserAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 11,
+          "drift_category": "used"
+        },
+        {
+          "field": "otherUserId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "otherUserLastActiveAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "otherUserOnline",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "otherUserProfileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "otherUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionKey",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "unreadCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 22,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ChatMessageDTO",
+      "backend_field_count": 10,
+      "generated_contract_present": true,
+      "generated_field_count": 10,
+      "fields": [
+        {
+          "field": "conversationId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 56,
+          "drift_category": "used"
+        },
+        {
+          "field": "createdAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 21,
+          "drift_category": "used"
+        },
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "imageDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "messageBody",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "ownMessage",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "readAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "senderAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "senderUserId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "senderUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        }
+      ]
+    },
+    {
+      "dto": "ChatMessageRequestDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "imageDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "messageBody",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ChatOpenConversationRequestDTO",
+      "backend_field_count": 1,
+      "generated_contract_present": true,
+      "generated_field_count": 1,
+      "fields": [
+        {
+          "field": "otherUserId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ChatSocketClientMessageDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "conversationId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 56,
+          "drift_category": "used"
+        },
+        {
+          "field": "type",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ChatSocketEventDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "actorUserId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "conversationId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 56,
+          "drift_category": "used"
+        },
+        {
+          "field": "reason",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "type",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "unreadNewsCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ChatWorkspaceDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "circles",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        },
+        {
+          "field": "contacts",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "conversations",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "onlineContactCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "unreadConversationCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleBlockCreateDTO",
+      "backend_field_count": 1,
+      "generated_contract_present": true,
+      "generated_field_count": 1,
+      "fields": [
+        {
+          "field": "blockedUserId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleCandidateDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "email",
+          "in_generated_contract": true,
+          "frontend_usage_count": 35,
+          "drift_category": "used"
+        },
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 17,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "username",
+          "in_generated_contract": true,
+          "frontend_usage_count": 50,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleConnectionsQueryDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "circleId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 23,
+          "drift_category": "used"
+        },
+        {
+          "field": "page",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "q",
+          "in_generated_contract": true,
+          "frontend_usage_count": 11,
+          "drift_category": "used"
+        },
+        {
+          "field": "size",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        },
+        {
+          "field": "unassigned",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        }
+      ]
+    },
+    {
+      "dto": "CircleContactDTO",
+      "backend_field_count": 8,
+      "generated_contract_present": true,
+      "generated_field_count": 8,
+      "fields": [
+        {
+          "field": "circleIds",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        },
+        {
+          "field": "circleNames",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "circleSummaryLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 17,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "relationId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "userId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 39,
+          "drift_category": "used"
+        },
+        {
+          "field": "username",
+          "in_generated_contract": true,
+          "frontend_usage_count": 50,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleContactListResponseDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "items",
+          "in_generated_contract": true,
+          "frontend_usage_count": 67,
+          "drift_category": "used"
+        },
+        {
+          "field": "page",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "size",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        },
+        {
+          "field": "totalItems",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "totalPages",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleGroupRequestDTO",
+      "backend_field_count": 1,
+      "generated_contract_present": true,
+      "generated_field_count": 1,
+      "fields": [
+        {
+          "field": "name",
+          "in_generated_contract": true,
+          "frontend_usage_count": 23,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleGroupResponseDTO",
+      "backend_field_count": 8,
+      "generated_contract_present": true,
+      "generated_field_count": 8,
+      "fields": [
+        {
+          "field": "exactResolutionEligible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "memberCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "memberPreviewLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "members",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "name",
+          "in_generated_contract": true,
+          "frontend_usage_count": 23,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionKey",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleMemberDTO",
+      "backend_field_count": 4,
+      "generated_contract_present": true,
+      "generated_field_count": 4,
+      "fields": [
+        {
+          "field": "profileAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 17,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "userId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 39,
+          "drift_category": "used"
+        },
+        {
+          "field": "username",
+          "in_generated_contract": true,
+          "frontend_usage_count": 50,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleOverviewDTO",
+      "backend_field_count": 4,
+      "generated_contract_present": true,
+      "generated_field_count": 4,
+      "fields": [
+        {
+          "field": "connectionCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "incomingRequestCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "outgoingRequestCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "unassignedConnectionCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleRelationDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "blockedByCurrentUser",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "exactResolutionEligible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "relationBadgeClass",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "relationLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "relationStatus",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        }
+      ]
+    },
+    {
+      "dto": "CircleRequestCreateDTO",
+      "backend_field_count": 1,
+      "generated_contract_present": true,
+      "generated_field_count": 1,
+      "fields": [
+        {
+          "field": "recipientId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleRequestListResponseDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "items",
+          "in_generated_contract": true,
+          "frontend_usage_count": 67,
+          "drift_category": "used"
+        },
+        {
+          "field": "page",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "size",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        },
+        {
+          "field": "totalItems",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "totalPages",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleRequestResponseDTO",
+      "backend_field_count": 22,
+      "generated_contract_present": true,
+      "generated_field_count": 22,
+      "fields": [
+        {
+          "field": "acceptedAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "blockedAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "counterpartProfileAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "counterpartProfileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "counterpartUserId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "counterpartUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "createdAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 21,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactResolutionEligible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "primaryAction",
+          "in_generated_contract": true,
+          "frontend_usage_count": 19,
+          "drift_category": "used"
+        },
+        {
+          "field": "recipientId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "recipientProfileAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "recipientProfileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "recipientUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "requestSummaryLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "requesterId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "requesterProfileAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "requesterProfileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "requesterUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionKey",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "secondaryAction",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleSearchResultDTO",
+      "backend_field_count": 17,
+      "generated_contract_present": true,
+      "generated_field_count": 17,
+      "fields": [
+        {
+          "field": "blockedByCurrentUser",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "distanceKm",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "distanceLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "email",
+          "in_generated_contract": true,
+          "frontend_usage_count": 35,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactResolutionEligible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "primaryAction",
+          "in_generated_contract": true,
+          "frontend_usage_count": 19,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 17,
+          "drift_category": "used"
+        },
+        {
+          "field": "profileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "relationBadgeClass",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "relationLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "relationStatus",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "resolutionKey",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "secondaryAction",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "username",
+          "in_generated_contract": true,
+          "frontend_usage_count": 50,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleSearchResultListResponseDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "items",
+          "in_generated_contract": true,
+          "frontend_usage_count": 67,
+          "drift_category": "used"
+        },
+        {
+          "field": "page",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "size",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        },
+        {
+          "field": "totalItems",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "totalPages",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "CircleSummaryDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "name",
+          "in_generated_contract": true,
+          "frontend_usage_count": 23,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ConnectionCircleUpdateDTO",
+      "backend_field_count": 1,
+      "generated_contract_present": true,
+      "generated_field_count": 1,
+      "fields": [
+        {
+          "field": "circleIds",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "DashboardApplicationGroupDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "count",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "items",
+          "in_generated_contract": true,
+          "frontend_usage_count": 67,
+          "drift_category": "used"
+        },
+        {
+          "field": "key",
+          "in_generated_contract": true,
+          "frontend_usage_count": 76,
+          "drift_category": "used"
+        },
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "tone",
+          "in_generated_contract": true,
+          "frontend_usage_count": 42,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "DashboardNotificationItemDTO",
+      "backend_field_count": 20,
+      "generated_contract_present": true,
+      "generated_field_count": 20,
+      "fields": [
+        {
+          "field": "actorUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "applicationId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "badgeClass",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "canAcceptCircleRequest",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "canDeclineCircleRequest",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "circleRequestId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "createdAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 21,
+          "drift_category": "used"
+        },
+        {
+          "field": "destinationId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "destinationType",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "iconGlyph",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "message",
+          "in_generated_contract": true,
+          "frontend_usage_count": 86,
+          "drift_category": "used"
+        },
+        {
+          "field": "navigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "questId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 77,
+          "drift_category": "used"
+        },
+        {
+          "field": "questTitle",
+          "in_generated_contract": true,
+          "frontend_usage_count": 18,
+          "drift_category": "used"
+        },
+        {
+          "field": "readAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "title",
+          "in_generated_contract": true,
+          "frontend_usage_count": 104,
+          "drift_category": "used"
+        },
+        {
+          "field": "type",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "typeLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "unread",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        }
+      ]
+    },
+    {
+      "dto": "DashboardNotificationsSectionDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "recentItems",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "unreadItems",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "DashboardOpenWorkSectionDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "openQuests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "waitingQuests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "DashboardPlannerItemDTO",
+      "backend_field_count": 10,
+      "generated_contract_present": true,
+      "generated_field_count": 10,
+      "fields": [
+        {
+          "field": "endsAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 37,
+          "drift_category": "used"
+        },
+        {
+          "field": "hasRange",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "kind",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "kindLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 11,
+          "drift_category": "used"
+        },
+        {
+          "field": "navigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "questId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 77,
+          "drift_category": "used"
+        },
+        {
+          "field": "scheduledAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 34,
+          "drift_category": "used"
+        },
+        {
+          "field": "title",
+          "in_generated_contract": true,
+          "frontend_usage_count": 104,
+          "drift_category": "used"
+        },
+        {
+          "field": "tone",
+          "in_generated_contract": true,
+          "frontend_usage_count": 42,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "DashboardPlannerSectionDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "flexibleItems",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "scheduledItems",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "DashboardQuestGroupDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "count",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "items",
+          "in_generated_contract": true,
+          "frontend_usage_count": 67,
+          "drift_category": "used"
+        },
+        {
+          "field": "key",
+          "in_generated_contract": true,
+          "frontend_usage_count": 76,
+          "drift_category": "used"
+        },
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "tone",
+          "in_generated_contract": true,
+          "frontend_usage_count": 42,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "DashboardResponseDTO",
+      "backend_field_count": 11,
+      "generated_contract_present": true,
+      "generated_field_count": 11,
+      "fields": [
+        {
+          "field": "appUsers",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "availableQuests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "circles",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        },
+        {
+          "field": "incomingCircleRequests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "myApplications",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "myQuests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "options",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "quests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "recentNews",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "sections",
+          "in_generated_contract": true,
+          "frontend_usage_count": 31,
+          "drift_category": "used"
+        },
+        {
+          "field": "summary",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "DashboardSectionsDTO",
+      "backend_field_count": 13,
+      "generated_contract_present": true,
+      "generated_field_count": 13,
+      "fields": [
+        {
+          "field": "activeWorkApplications",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "incomingWorkQuests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "myApplicationGroups",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "myQuestGroups",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "notifications",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "openWork",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "outgoingWorkApplications",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "planner",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "recentIncomingCircleRequests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "recentMyApplications",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "recentMyQuests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "visibleMyApplications",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "visibleMyQuests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "DashboardSummaryDTO",
+      "backend_field_count": 14,
+      "generated_contract_present": true,
+      "generated_field_count": 14,
+      "fields": [
+        {
+          "field": "activeMyQuestsCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "activeWorkApplicationsCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "activeWorkCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "adminModeEnabled",
+          "in_generated_contract": true,
+          "frontend_usage_count": 13,
+          "drift_category": "used"
+        },
+        {
+          "field": "adminUserCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "assignedQuestCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "completedMyQuestsCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "openQuestCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "pendingWorkApplicationsCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "questCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "totalUserCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "unreadNewsCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "visibleMyQuestsCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "waitingConfirmationQuestCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "DatabaseTableStatusDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "rowCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "tableName",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ExactLocationVisibilityScopeOptionDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "description",
+          "in_generated_contract": true,
+          "frontend_usage_count": 52,
+          "drift_category": "used"
+        },
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "value",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2125,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "LabelValueDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "value",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2125,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "LocationDebugStatusDTO",
+      "backend_field_count": 20,
+      "generated_contract_present": true,
+      "generated_field_count": 20,
+      "fields": [
+        {
+          "field": "configured",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        },
+        {
+          "field": "currentMonthProviderLookupRequests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "currentMonthProviderRequests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "currentMonthProviderReverseLookupRequests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "databaseSizeBytes",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "lookupCacheEntries",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "lookupCacheHits",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "lookupRequests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "provider",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "providerLookupCalls",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "providerReverseLookupCalls",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "questsWithCoordinates",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "questsWithProviderMetadata",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "rateLimitedRequests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "reverseLookupCacheEntries",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "reverseLookupCacheHits",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "reverseLookupRequests",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "tableStatuses",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "usersWithCoordinates",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "usersWithProviderMetadata",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "LocationLookupCandidateDTO",
+      "backend_field_count": 12,
+      "generated_contract_present": true,
+      "generated_field_count": 12,
+      "fields": [
+        {
+          "field": "country",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "countryCode",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "houseNumber",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "latitude",
+          "in_generated_contract": true,
+          "frontend_usage_count": 13,
+          "drift_category": "used"
+        },
+        {
+          "field": "locality",
+          "in_generated_contract": true,
+          "frontend_usage_count": 15,
+          "drift_category": "used"
+        },
+        {
+          "field": "longitude",
+          "in_generated_contract": true,
+          "frontend_usage_count": 13,
+          "drift_category": "used"
+        },
+        {
+          "field": "postalCode",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "provider",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "providerPlaceId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 7,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolvedAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 7,
+          "drift_category": "used"
+        },
+        {
+          "field": "street",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "LocationLookupRequestDTO",
+      "backend_field_count": 1,
+      "generated_contract_present": true,
+      "generated_field_count": 1,
+      "fields": [
+        {
+          "field": "query",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "LocationLookupResponseDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "configured",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        },
+        {
+          "field": "items",
+          "in_generated_contract": true,
+          "frontend_usage_count": 67,
+          "drift_category": "used"
+        },
+        {
+          "field": "provider",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "LocationModeOptionDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "description",
+          "in_generated_contract": true,
+          "frontend_usage_count": 52,
+          "drift_category": "used"
+        },
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "value",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2125,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "LocationReverseLookupRequestDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "latitude",
+          "in_generated_contract": true,
+          "frontend_usage_count": 13,
+          "drift_category": "used"
+        },
+        {
+          "field": "longitude",
+          "in_generated_contract": true,
+          "frontend_usage_count": 13,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "NavigationTargetDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "entityId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "type",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "PageQueryDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "page",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "size",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "ProfilePrimaryActionDTO",
+      "backend_field_count": 4,
+      "generated_contract_present": true,
+      "generated_field_count": 4,
+      "fields": [
+        {
+          "field": "enabled",
+          "in_generated_contract": true,
+          "frontend_usage_count": 11,
+          "drift_category": "used"
+        },
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "navigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "type",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestApplicationDetailContextSectionDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "postedByLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "questLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "showStatus",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "showTerm",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "showWorkers",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestApplicationDetailNavigationSectionDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "canOpenPostedBy",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "canOpenQuest",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "postedByNavigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "questId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 77,
+          "drift_category": "used"
+        },
+        {
+          "field": "questNavigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestApplicationDetailResponseDTO",
+      "backend_field_count": 4,
+      "generated_contract_present": true,
+      "generated_field_count": 4,
+      "fields": [
+        {
+          "field": "application",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "quest",
+          "in_generated_contract": true,
+          "frontend_usage_count": 85,
+          "drift_category": "used"
+        },
+        {
+          "field": "sections",
+          "in_generated_contract": true,
+          "frontend_usage_count": 31,
+          "drift_category": "used"
+        },
+        {
+          "field": "summary",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestApplicationDetailSectionsDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "context",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "navigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "quest",
+          "in_generated_contract": true,
+          "frontend_usage_count": 85,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestApplicationListResponseDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "items",
+          "in_generated_contract": true,
+          "frontend_usage_count": 67,
+          "drift_category": "used"
+        },
+        {
+          "field": "page",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "size",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        },
+        {
+          "field": "totalItems",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "totalPages",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestApplicationPresentationDTO",
+      "backend_field_count": 13,
+      "generated_contract_present": true,
+      "generated_field_count": 13,
+      "fields": [
+        {
+          "field": "autoOpenEditForm",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "canApprove",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "canDecline",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "canEdit",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "canWithdraw",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "questAssigneeTargetLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "questAssigneeTargetVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "questStatusBadgeClass",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "questStatusLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "showManagementActions",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "statusBadgeClass",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "statusLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "statusSurfaceClass",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestApplicationRequestDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+
+      ]
+    },
+    {
+      "dto": "QuestApplicationResponseDTO",
+      "backend_field_count": 25,
+      "generated_contract_present": true,
+      "generated_field_count": 25,
+      "fields": [
+        {
+          "field": "allowedActions",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "applicantId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "applicantNavigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "applicantProfileAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "applicantProfileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "applicantUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "createdAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 21,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactResolutionEligible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "message",
+          "in_generated_contract": true,
+          "frontend_usage_count": 86,
+          "drift_category": "used"
+        },
+        {
+          "field": "presentation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 82,
+          "drift_category": "used"
+        },
+        {
+          "field": "proposedPrice",
+          "in_generated_contract": true,
+          "frontend_usage_count": 37,
+          "drift_category": "used"
+        },
+        {
+          "field": "questAssigneeTarget",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "questCreatorUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "questDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "questEndsAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 17,
+          "drift_category": "used"
+        },
+        {
+          "field": "questId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 77,
+          "drift_category": "used"
+        },
+        {
+          "field": "questNavigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "questScheduledAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "questStatus",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "questTermFixed",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "questTitle",
+          "in_generated_contract": true,
+          "frontend_usage_count": 18,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionKey",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "status",
+          "in_generated_contract": true,
+          "frontend_usage_count": 39,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestApplicationStatusFilterOptionDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "value",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2125,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestApplicationsViewDTO",
+      "backend_field_count": 10,
+      "generated_contract_present": true,
+      "generated_field_count": 10,
+      "fields": [
+        {
+          "field": "approvedApplications",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "canRevealHiddenApplications",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "featuredApplication",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "hiddenApplicationsCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "oldestPendingApplicationId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "pendingApplicationCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "revealLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "selectedApplicationId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "showingAllApplications",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "visibleApplications",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestAudienceFilterOptionDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "value",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2125,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestAudienceOptionDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "description",
+          "in_generated_contract": true,
+          "frontend_usage_count": 52,
+          "drift_category": "used"
+        },
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "value",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2125,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestDetailExecutionSectionDTO",
+      "backend_field_count": 4,
+      "generated_contract_present": true,
+      "generated_field_count": 4,
+      "fields": [
+        {
+          "field": "helperText",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "primaryAction",
+          "in_generated_contract": true,
+          "frontend_usage_count": 19,
+          "drift_category": "used"
+        },
+        {
+          "field": "primaryActionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "visible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestDetailManagementSectionDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "audienceLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        },
+        {
+          "field": "deleteVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        },
+        {
+          "field": "editVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "postingSettingsVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "visibleToCirclesLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestDetailNavigationSectionDTO",
+      "backend_field_count": 1,
+      "generated_contract_present": true,
+      "generated_field_count": 1,
+      "fields": [
+        {
+          "field": "listNavigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestDetailResponseDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "applicationsView",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "myApplication",
+          "in_generated_contract": true,
+          "frontend_usage_count": 7,
+          "drift_category": "used"
+        },
+        {
+          "field": "quest",
+          "in_generated_contract": true,
+          "frontend_usage_count": 85,
+          "drift_category": "used"
+        },
+        {
+          "field": "sections",
+          "in_generated_contract": true,
+          "frontend_usage_count": 31,
+          "drift_category": "used"
+        },
+        {
+          "field": "summary",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestDetailReviewSectionDTO",
+      "backend_field_count": 9,
+      "generated_contract_present": true,
+      "generated_field_count": 9,
+      "fields": [
+        {
+          "field": "canSubmit",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "emptyStateMessage",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "introSubtitle",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "introTitle",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "placeholder",
+          "in_generated_contract": true,
+          "frontend_usage_count": 7,
+          "drift_category": "used"
+        },
+        {
+          "field": "submitLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "submittedReview",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "target",
+          "in_generated_contract": true,
+          "frontend_usage_count": 86,
+          "drift_category": "used"
+        },
+        {
+          "field": "visible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestDetailReviewTargetDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "roleLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "userId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 39,
+          "drift_category": "used"
+        },
+        {
+          "field": "username",
+          "in_generated_contract": true,
+          "frontend_usage_count": 50,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestDetailSectionsDTO",
+      "backend_field_count": 7,
+      "generated_contract_present": true,
+      "generated_field_count": 7,
+      "fields": [
+        {
+          "field": "applicationsView",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "execution",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "management",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "myApplication",
+          "in_generated_contract": true,
+          "frontend_usage_count": 7,
+          "drift_category": "used"
+        },
+        {
+          "field": "navigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "review",
+          "in_generated_contract": true,
+          "frontend_usage_count": 11,
+          "drift_category": "used"
+        },
+        {
+          "field": "termChange",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestDetailTermChangeSectionDTO",
+      "backend_field_count": 11,
+      "generated_contract_present": true,
+      "generated_field_count": 11,
+      "fields": [
+        {
+          "field": "actionable",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        },
+        {
+          "field": "confirmLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "currentEndsAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "currentScheduledAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "currentTermFixed",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "pendingEndsAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "pendingScheduledAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "pendingTermFixed",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "rejectLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "summaryLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "visible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestListResponseDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "items",
+          "in_generated_contract": true,
+          "frontend_usage_count": 67,
+          "drift_category": "used"
+        },
+        {
+          "field": "page",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "size",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        },
+        {
+          "field": "totalItems",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "totalPages",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestLocationVisibilityOptionDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "description",
+          "in_generated_contract": true,
+          "frontend_usage_count": 52,
+          "drift_category": "used"
+        },
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "value",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2125,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestNewsItemResponseDTO",
+      "backend_field_count": 23,
+      "generated_contract_present": true,
+      "generated_field_count": 23,
+      "fields": [
+        {
+          "field": "actorUserId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "actorUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "applicationId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "badgeClass",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "canAcceptCircleRequest",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "canDeclineCircleRequest",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "circleRequestId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "createdAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 21,
+          "drift_category": "used"
+        },
+        {
+          "field": "destinationId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "destinationType",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "exactResolutionEligible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "iconGlyph",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "message",
+          "in_generated_contract": true,
+          "frontend_usage_count": 86,
+          "drift_category": "used"
+        },
+        {
+          "field": "navigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "questId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 77,
+          "drift_category": "used"
+        },
+        {
+          "field": "questTitle",
+          "in_generated_contract": true,
+          "frontend_usage_count": 18,
+          "drift_category": "used"
+        },
+        {
+          "field": "readAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionKey",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "title",
+          "in_generated_contract": true,
+          "frontend_usage_count": 104,
+          "drift_category": "used"
+        },
+        {
+          "field": "type",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "typeLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestPresentationDTO",
+      "backend_field_count": 33,
+      "generated_contract_present": true,
+      "generated_field_count": 33,
+      "fields": [
+        {
+          "field": "applicationSentVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "approvedApplicantsVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "assigneeTargetLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "assigneeTargetVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "audienceLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        },
+        {
+          "field": "autoOpenEditForm",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "awaitingConfirmationBadgeVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "canApply",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "canEdit",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "canManuallyAssign",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "canOpenMyApplication",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "canViewApplications",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "deleteVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        },
+        {
+          "field": "executionHelperText",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "locationLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationSourceSummary",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationVisibilitySummary",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "postingSettingsVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "primaryExecutionAction",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "primaryExecutionActionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "remainingSlotsLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "reopenedBadgeVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "slotProgressLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "statusBadgeClass",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "statusLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "statusSurfaceClass",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "termChangeActionable",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "termChangeConfirmLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "termChangeRejectLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "termChangeSummaryLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "termChangeVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "timeTypeLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "visibleToCirclesLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestRequestDTO",
+      "backend_field_count": 15,
+      "generated_contract_present": true,
+      "generated_field_count": 21,
+      "fields": [
+        {
+          "field": "audience",
+          "in_generated_contract": true,
+          "frontend_usage_count": 34,
+          "drift_category": "used"
+        },
+        {
+          "field": "endsAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 37,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationCountry",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationCountryCode",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "locationHouseNumber",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationLocality",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationPostalCode",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationSource",
+          "in_generated_contract": true,
+          "frontend_usage_count": 41,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationStreet",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationVisibility",
+          "in_generated_contract": true,
+          "frontend_usage_count": 30,
+          "drift_category": "used"
+        },
+        {
+          "field": "scheduledAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 34,
+          "drift_category": "used"
+        },
+        {
+          "field": "showApprovedApplicants",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "status",
+          "in_generated_contract": true,
+          "frontend_usage_count": 39,
+          "drift_category": "used"
+        },
+        {
+          "field": "termFixed",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestResponseDTO",
+      "backend_field_count": 42,
+      "generated_contract_present": true,
+      "generated_field_count": 42,
+      "fields": [
+        {
+          "field": "allowedActions",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "approvedApplicationCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "assigneeTarget",
+          "in_generated_contract": true,
+          "frontend_usage_count": 17,
+          "drift_category": "used"
+        },
+        {
+          "field": "audience",
+          "in_generated_contract": true,
+          "frontend_usage_count": 34,
+          "drift_category": "used"
+        },
+        {
+          "field": "awardAmount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 41,
+          "drift_category": "used"
+        },
+        {
+          "field": "canViewApplications",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "creatorId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "creatorNavigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "creatorProfileAvatarDataUrl",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "creatorProfileDescription",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "creatorUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "description",
+          "in_generated_contract": true,
+          "frontend_usage_count": 52,
+          "drift_category": "used"
+        },
+        {
+          "field": "endsAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 37,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactResolutionEligible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "hasApplied",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "images",
+          "in_generated_contract": true,
+          "frontend_usage_count": 28,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationCountry",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationHouseNumber",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 6,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationLocality",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationPostalCode",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationSource",
+          "in_generated_contract": true,
+          "frontend_usage_count": 41,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationStreet",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationVisibility",
+          "in_generated_contract": true,
+          "frontend_usage_count": 30,
+          "drift_category": "used"
+        },
+        {
+          "field": "myApplicationId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "pendingEndsAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "pendingScheduledAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "pendingTermFixed",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "presentation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 82,
+          "drift_category": "used"
+        },
+        {
+          "field": "questNavigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "remainingAssigneeSlots",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "reopenedAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "resolutionKey",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "scheduledAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 34,
+          "drift_category": "used"
+        },
+        {
+          "field": "showApprovedApplicants",
+          "in_generated_contract": true,
+          "frontend_usage_count": 12,
+          "drift_category": "used"
+        },
+        {
+          "field": "status",
+          "in_generated_contract": true,
+          "frontend_usage_count": 39,
+          "drift_category": "used"
+        },
+        {
+          "field": "termFixed",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "title",
+          "in_generated_contract": true,
+          "frontend_usage_count": 104,
+          "drift_category": "used"
+        },
+        {
+          "field": "viewerRelation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "visibleToCircles",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestSearchDefaultsDTO",
+      "backend_field_count": 5,
+      "generated_contract_present": true,
+      "generated_field_count": 5,
+      "fields": [
+        {
+          "field": "defaultRadiusKm",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "defaultSort",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "hasViewerLocation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "nearbyDefaultEnabled",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "radiusOptionsKm",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestSearchRequestDTO",
+      "backend_field_count": 14,
+      "generated_contract_present": true,
+      "generated_field_count": 14,
+      "fields": [
+        {
+          "field": "audience",
+          "in_generated_contract": true,
+          "frontend_usage_count": 34,
+          "drift_category": "used"
+        },
+        {
+          "field": "dateFrom",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "dateTo",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "excludeMine",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "page",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "q",
+          "in_generated_contract": true,
+          "frontend_usage_count": 11,
+          "drift_category": "used"
+        },
+        {
+          "field": "radiusKm",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "scheduledOnly",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "size",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        },
+        {
+          "field": "sort",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "status",
+          "in_generated_contract": true,
+          "frontend_usage_count": 39,
+          "drift_category": "used"
+        },
+        {
+          "field": "viewerTimeZone",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "viewerTimezoneOffsetMinutes",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "withImages",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestSortOptionDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "value",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2125,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestStatusFilterOptionDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "value",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2125,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestStatusOptionDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "value",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2125,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "TextPageQueryDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "page",
+          "in_generated_contract": true,
+          "frontend_usage_count": 16,
+          "drift_category": "used"
+        },
+        {
+          "field": "q",
+          "in_generated_contract": true,
+          "frontend_usage_count": 11,
+          "drift_category": "used"
+        },
+        {
+          "field": "size",
+          "in_generated_contract": true,
+          "frontend_usage_count": 32,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "UserLocationSettingsDTO",
+      "backend_field_count": 21,
+      "generated_contract_present": true,
+      "generated_field_count": 21,
+      "fields": [
+        {
+          "field": "country",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "countryCode",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "defaultRadiusKm",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactVisibilityScope",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactVisibleCircleIds",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactVisibleUserIds",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "hasCoordinates",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "houseNumber",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "latitude",
+          "in_generated_contract": true,
+          "frontend_usage_count": 13,
+          "drift_category": "used"
+        },
+        {
+          "field": "locality",
+          "in_generated_contract": true,
+          "frontend_usage_count": 15,
+          "drift_category": "used"
+        },
+        {
+          "field": "longitude",
+          "in_generated_contract": true,
+          "frontend_usage_count": 13,
+          "drift_category": "used"
+        },
+        {
+          "field": "mode",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "postalCode",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "provider",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "providerPlaceId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 7,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolvedAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 7,
+          "drift_category": "used"
+        },
+        {
+          "field": "sharingSummary",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "street",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "updatedAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "visibilitySummary",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "UserLocationSettingsRequestDTO",
+      "backend_field_count": 17,
+      "generated_contract_present": true,
+      "generated_field_count": 17,
+      "fields": [
+        {
+          "field": "country",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "countryCode",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "defaultRadiusKm",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactVisibilityScope",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactVisibleCircleIds",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactVisibleUserIds",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "houseNumber",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "label",
+          "in_generated_contract": true,
+          "frontend_usage_count": 145,
+          "drift_category": "used"
+        },
+        {
+          "field": "latitude",
+          "in_generated_contract": true,
+          "frontend_usage_count": 13,
+          "drift_category": "used"
+        },
+        {
+          "field": "locality",
+          "in_generated_contract": true,
+          "frontend_usage_count": 15,
+          "drift_category": "used"
+        },
+        {
+          "field": "longitude",
+          "in_generated_contract": true,
+          "frontend_usage_count": 13,
+          "drift_category": "used"
+        },
+        {
+          "field": "mode",
+          "in_generated_contract": true,
+          "frontend_usage_count": 14,
+          "drift_category": "used"
+        },
+        {
+          "field": "postalCode",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "provider",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "providerPlaceId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 7,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolvedAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 7,
+          "drift_category": "used"
+        },
+        {
+          "field": "street",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "UserProfileViewDTO",
+      "backend_field_count": 13,
+      "generated_contract_present": true,
+      "generated_field_count": 13,
+      "fields": [
+        {
+          "field": "blockActionEnabled",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "blockActionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "employerRating",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactResolutionEligible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "ownProfile",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "primaryAction",
+          "in_generated_contract": true,
+          "frontend_usage_count": 19,
+          "drift_category": "used"
+        },
+        {
+          "field": "profile",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "recentReviews",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "relation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "resolutionKey",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "resolutionLabel",
+          "in_generated_contract": true,
+          "frontend_usage_count": 9,
+          "drift_category": "used"
+        },
+        {
+          "field": "showBlockAction",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "workerRating",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "UserRatingSummaryDTO",
+      "backend_field_count": 2,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+        {
+          "field": "averageStars",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        },
+        {
+          "field": "reviewCount",
+          "in_generated_contract": true,
+          "frontend_usage_count": 4,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "UserReviewRequestDTO",
+      "backend_field_count": 3,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+        {
+          "field": "comment",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        },
+        {
+          "field": "reviewedUserId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "stars",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "UserReviewResponseDTO",
+      "backend_field_count": 12,
+      "generated_contract_present": true,
+      "generated_field_count": 12,
+      "fields": [
+        {
+          "field": "comment",
+          "in_generated_contract": true,
+          "frontend_usage_count": 5,
+          "drift_category": "used"
+        },
+        {
+          "field": "createdAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 21,
+          "drift_category": "used"
+        },
+        {
+          "field": "id",
+          "in_generated_contract": true,
+          "frontend_usage_count": 259,
+          "drift_category": "used"
+        },
+        {
+          "field": "questId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 77,
+          "drift_category": "used"
+        },
+        {
+          "field": "questNavigation",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
+          "drift_category": "used"
+        },
+        {
+          "field": "questTitle",
+          "in_generated_contract": true,
+          "frontend_usage_count": 18,
+          "drift_category": "used"
+        },
+        {
+          "field": "reviewedRole",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "reviewedUserId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "reviewerUserId",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        },
+        {
+          "field": "reviewerUsername",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "stars",
+          "in_generated_contract": true,
+          "frontend_usage_count": 8,
+          "drift_category": "used"
+        },
+        {
+          "field": "updatedAt",
+          "in_generated_contract": true,
+          "frontend_usage_count": 0,
+          "drift_category": "unused_in_frontend"
+        }
+      ]
+    },
+    {
+      "dto": "WorkmarketOptionsDTO",
+      "backend_field_count": 11,
+      "generated_contract_present": true,
+      "generated_field_count": 11,
+      "fields": [
+        {
+          "field": "appUserRoles",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "exactLocationVisibilityScopes",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "locationModes",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "questApplicationStatusFilters",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "questAudienceFilters",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "questAudiences",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "questLocationVisibilities",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "questSearchDefaults",
+          "in_generated_contract": true,
+          "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "questSortOptions",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "questStatusFilters",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "questStatuses",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        }
+      ]
+    }
+  ]
+}

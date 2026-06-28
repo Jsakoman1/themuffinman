@@ -17,7 +17,12 @@ This file defines how logical code changes must propagate into living documentat
 - admin-generation or sandbox-generation coverage for entities and workflows
 - For multi-file, multi-layer, or high-risk logical changes, create a temporary implementation plan in `.agents/` before substantial edits and close it only after validation is green.
 - Prefer bootstrapping that plan and its matching feature manifest through `make bootstrap-feature-work` when the change is large enough to justify the plan-driven workflow.
+- For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
+- Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
 - Treat feature manifests as profile-driven control artifacts, not free-form notes.
+- Treat `docs/implementation-backlog.md` as the persistent source of truth for open implementation follow-ups, and `docs/agent-improvement-backlog.md` as the persistent source of truth for open agent/control-system follow-ups.
+- Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it.
+- When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or `FIXME(<ID>):` references in the same change.
 - Keep feature-manifest artifact lists precise: runtime code belongs in `codePaths`, tests and test resources belong in `testPaths`, and the same path must not be listed in multiple artifact groups.
 - Purely cosmetic edits are excluded.
 
@@ -36,15 +41,20 @@ This file defines how logical code changes must propagate into living documentat
 - `frontend-contract` changes must include generated frontend contracts plus `npm run type-check` and `npm run build`.
 - `workflow-expansion` changes must include generated agent artifacts and at least one scenario-style test.
 - Use `make bootstrap-feature-work topic=<topic> [risk=<tier>] [mode=<mode>] [impact=<impact>] [profiles=<csv>]` so the plan and manifest start with the correct control profile.
+- Every newly introduced workflow or self-service action must include an explicit feature-introduction review for agent-operating docs, machine-readable intents and endpoints, generated contract or inventory artifacts, and any synthetic admin-generation or sandbox-generation flow coverage that depends on the changed behavior.
 
 ## Authoring Discipline
 
 - When `docs/agent-operating-model.yaml` uses `documentation_sync.rules[*].must_contain_all`, treat those phrases as canonical wording, not as paraphrase prompts.
+- For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file.
+- For protected phrases, copy the exact canonical sentence verbatim into every required file.
+- Do not paraphrase, shorten, reorder, or partially restate protected canonical wording.
 - When the machine-operating model is edited through `docs/agent-operating-model/sections/*.yaml`, regenerate `docs/agent-operating-model.yaml` and the generated inventory artifacts before final validation.
 - Copy protected phrases directly between YAML and target docs when the rule is meant to enforce the same meaning in multiple places.
 - Validation should ignore case, punctuation, markdown markers, and whitespace differences, but it should not ignore wording drift that changes or weakens meaning.
 - If a phrase keeps drifting, reduce synonyms and near-duplicates instead of adding more variants just to satisfy the test.
 - Run `AgentOperatingModelValidationTest` after editing protected docs, YAML rules, generation-flow docs, or agent-safety instructions.
+- Run `make audit-todo` when backlog entries or inline `TODO/FIXME` references were added, resolved, or moved.
 - Regenerate `docs/generated/agent-endpoint-inventory.json` and `docs/generated/automation-read-model-inventory.json` when controller mappings or automation DTO fields change.
 - Regenerate `docs/generated/source-of-truth-audit.json` when tracked controllers, services, mappers, or workflow tests change.
 - Regenerate `docs/generated/backend-audit-inventory.json` when backend package coverage, classification rules, or strict audit tiers change.
@@ -62,6 +72,7 @@ For logical product changes, review and update as needed:
 - `docs/domain-technical.md`
 - `docs/agent-operating-model.md`
 - `docs/agent-operating-model.yaml`
+- `docs/implementation-backlog.md`
 - `docs/agent-improvement-backlog.md` when finishing or reprioritizing long-running agent/control-system tightening work
 - `docs/documentation-sync-policy.md`
 - `docs/change-completion-checklist.md`
@@ -107,6 +118,7 @@ Rule:
 - keep generated frontend contracts, automation-safe UI safety layers, frontend regression scenarios, and frontend feature expectations aligned with the actual planner and simulation surface
 - keep generated workflow-aware frontend helpers, intent ids, endpoint ids, unresolved-input ids, and safety-flag ids aligned with the actual operating model
 - keep frontend planner-response contract gates, dead-path checks, and feature completion manifests aligned with the actual implementation state
+- keep persistent backlog IDs, inline `TODO/FIXME` references, and close-out manifest backlog links aligned with the actual implementation state
 - keep feature risk tiers, bootstrap workflow, and close-out audit workflow aligned with the actual delivery process
 - keep backend audit tier classification aligned with the actual repo structure so full backend inventory stays complete even while only one tier is fail-hard today
 - keep backend audit domain ownership aligned with the actual repo structure so review can route drift to the right product surface and owner

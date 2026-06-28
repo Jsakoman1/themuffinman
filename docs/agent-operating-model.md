@@ -22,7 +22,11 @@ The machine-readable source of truth is:
 - Treat backend code as the final execution authority.
 - Treat `agent-operating-model.yaml` as the machine-operational contract for high-impact workflows.
 - Treat the section files under `docs/agent-operating-model/sections/` as the editable source for that machine contract and regenerate the combined YAML after changes.
+- Treat `docs/implementation-backlog.md` and `docs/agent-improvement-backlog.md` as the persistent open-work registries for deferred implementation and deferred control-system work.
+- For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file.
 - Keep workflows procedural, explicit, and dependency-ordered.
+- For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
+- Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
 - Prefer hard failure over implicit fallback when the spec does not define a safe next step.
 - Every workflow step should point to concrete source files or concrete endpoint contracts.
 - Resolve entities before mutating them.
@@ -39,6 +43,9 @@ The machine-readable source of truth is:
 - Clarification is a first-class contract, not an ad hoc UI behavior.
 - If translation, target resolution, destructive confirmation, or multi-actor context is missing, the safe outcome is to stop.
 - Mutating intents must stay classified by machine-readable risk groups so validation can enforce read-only, destructive, multi-actor, and admin-only boundaries consistently.
+- Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it.
+- Deferred implementation or control-system follow-ups must use stable backlog IDs, and matching inline `TODO(<ID>):` or `FIXME(<ID>):` notes must not outlive the open backlog item they reference.
+- Do not paraphrase, shorten, reorder, or partially restate protected canonical wording.
 
 Unified clarification contract:
 - fail closed on ambiguity
@@ -225,7 +232,10 @@ update:
 - `docs/domain-technical.md`
 - `docs/agent-operating-model.md`
 - `docs/agent-operating-model.yaml`
+- `docs/implementation-backlog.md` when new deferred implementation work is discovered or resolved
+- `docs/agent-improvement-backlog.md` when deferred control-system work is discovered, reprioritized, or resolved
 - `docs/documentation-sync-policy.md`
+- When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or `FIXME(<ID>):` references in the same change.
 
 and keep the validation test passing.
 

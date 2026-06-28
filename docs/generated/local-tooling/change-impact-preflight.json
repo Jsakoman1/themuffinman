@@ -1,0 +1,2651 @@
+{
+  "generated_at": "2026-06-28T20:30:13Z",
+  "changed_file_count": 107,
+  "changed_files": [
+    {
+      "path": ".agents/feature-manifests/agent-control-phase-two-manifest.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/feature-manifests/backend-audit-tiering-manifest.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/feature-manifests/executor-readiness-program-manifest.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/templates/feature-completion-manifest.template.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "AGENTS.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "Makefile",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts",
+      "category": "frontend_composable",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "npm",
+        "run",
+        "type-check",
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailMutationActions.ts",
+      "category": "frontend_composable",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "npm",
+        "run",
+        "type-check",
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailUiActions.ts",
+      "category": "frontend_composable",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "npm",
+        "run",
+        "type-check",
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+      "category": "frontend_view",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "npm",
+        "run",
+        "type-check",
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserLookupService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserLookupService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserLookupService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java",
+      "category": "backend_service",
+      "domain": "location",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/location-services.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/GeoapifyLocationLookupClient.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
+      "category": "backend_service",
+      "domain": "location",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/location-services.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/GeoapifyLocationLookupClient.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+      "category": "backend_service",
+      "domain": "social",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java",
+      "category": "backend_service",
+      "domain": "social",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
+      "category": "backend_service",
+      "domain": "social",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+      "category": "backend_service",
+      "domain": "social",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+      "category": "other",
+      "domain": "docs",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/change-completion-checklist.md"
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/agent-improvement-backlog.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/agent-operating-model.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/agent-operating-model.yaml",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/business-logic.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/change-completion-checklist.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/documentation-sync-policy.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/domain-technical.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/feature-completion-manifest.schema.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/backend-audit-inventory.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/source-of-truth-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "scripts/feature-closeout-audit.sh",
+      "category": "script",
+      "domain": "unknown",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "scripts/generate-source-of-truth-audit.rb",
+      "category": "script",
+      "domain": "unknown",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/agent-model-feature-coverage-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/aggregate-dead-code-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/api-contract-drift-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/async-mutation-flow-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/audit-documentation-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/automation-readiness-gap-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/backend-dead-code-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/change-impact-preflight-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/config-sprawl-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/doc-coverage-gap-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/docs-to-code-drift-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/domain-ownership-inventory-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/dormant-code-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/duplicate-logic-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/endpoint-callsite-linker-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/error-pattern-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/feature-intro-check-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/feature-manifests/persistent-backlog-system-manifest.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/file-relation-graph-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/frontend-dead-code-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/frontend-route-surface-inventory-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/frontend-stale-surface-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/frontend-state-logic-duplication-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/generated-artifact-freshness-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/local-tooling-audits-master-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/local-tooling-followup-cleanup-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/local-tooling-remaining-23-master-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/make-target-index-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/manual-cleanup-candidate-report-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/mapper-usage-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/naming-consistency-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/permission-rule-duplication-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/persistent-backlog-system-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/quest-application-dto-audit-todo.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/quest-application-lazy-proxy-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/quest-application-withdraw-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/read-surface-inventory-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/read-transaction-final-gap-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/read-transaction-second-pass-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/read-transaction-third-pass-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/repository-fetch-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/rich-text-safety-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/sandbox-generation-coverage-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/state-transition-coverage-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/style-token-usage-audit-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/test-surface-inventory-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/config/",
+      "category": "other",
+      "domain": "config",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "docs/codex-local-tooling-todo.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/implementation-backlog.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/tooling/",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "scripts/audits/",
+      "category": "script",
+      "domain": "unknown",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "scripts/local_tooling_common.rb",
+      "category": "script",
+      "domain": "unknown",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "scripts/todo-audit.rb",
+      "category": "script",
+      "domain": "unknown",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    }
+  ],
+  "unique_docs": [
+    "docs/agent-operating-model.md",
+    "docs/agent-operating-model.yaml",
+    "docs/business-logic.md",
+    "docs/change-completion-checklist.md",
+    "docs/codex-local-tooling-todo.md",
+    "docs/domain-technical.md",
+    "docs/location-services.md"
+  ],
+  "unique_tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+  ],
+  "unique_generated_artifacts": [
+    "docs/generated/agent-endpoint-inventory.json",
+    "docs/generated/automation-read-model-inventory.json",
+    "docs/generated/backend-audit-inventory.json",
+    "docs/generated/source-of-truth-audit.json"
+  ],
+  "suggested_commands": [
+    "./mvnw",
+    "build",
+    "generate-agent-artifacts",
+    "make",
+    "npm",
+    "run",
+    "test",
+    "type-check"
+  ]
+}

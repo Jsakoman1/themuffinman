@@ -45,7 +45,7 @@ def mutating_service_candidate?(path)
   source = File.read(path)
   return false unless source.include?("@Transactional")
 
-  source.match?(/\b(create|update|delete|approve|decline|confirm|reject|apply|withdraw|start|complete|mark|send|block|unblock|accept)\w*\s*\(/)
+  source.match?(/^\s*(?:public|protected|private)\s+[A-Za-z0-9_<>, ?\[\]]+\s+(?:create|update|delete|approve|decline|confirm|reject|apply|withdraw|start|complete|mark|send|block|unblock|accept)\w*\s*\(/m)
 end
 
 def tracked_test_candidate?(path)

@@ -10,6 +10,10 @@ planFile: .agents/backend-audit-domain-tagging-plan.md
 summary:
   - Add explicit domain and owner assignment to the full backend audit inventory.
   - Tighten chat DTO contracts as the next strict automation-relevant subset.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
 checklist:
   tempPlanCreated: true
   codeImplemented: true

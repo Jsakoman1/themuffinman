@@ -11,6 +11,10 @@ planFile: .agents/agent-safety-upgrade-plan.md
 summary:
   - Add mutation risk classification, intent safety validation, multilingual prompt matrix coverage, and documentation coverage validation.
   - Add local agent-safety audit commands and sync the process docs around the new control layer.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
 checklist:
   tempPlanCreated: true
   codeImplemented: true

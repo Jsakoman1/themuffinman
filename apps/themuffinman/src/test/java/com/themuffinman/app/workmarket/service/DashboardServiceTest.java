@@ -20,7 +20,6 @@ import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.workmarket.repository.QuestApplicationRepository;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.social.service.CircleService;
-import com.themuffinman.app.workmarket.mapper.QuestApplicationMgr;
 import com.themuffinman.app.workmarket.mapper.QuestNewsMgr;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,7 +57,7 @@ class DashboardServiceTest {
     private AppUserService appUserService;
 
     @Mock
-    private QuestApplicationMgr questApplicationMgr;
+    private QuestApplicationService questApplicationService;
 
     @Mock
     private QuestNewsMgr questNewsMgr;
@@ -71,9 +70,6 @@ class DashboardServiceTest {
 
     @Spy
     private DashboardSectionsFactory dashboardSectionsFactory = new DashboardSectionsFactory();
-
-    @Spy
-    private WorkmarketPresentationHelper presentationHelper = new WorkmarketPresentationHelper();
 
     @InjectMocks
     private DashboardService dashboardService;
@@ -258,6 +254,7 @@ class DashboardServiceTest {
                 .status(QuestApplicationStatus.PENDING)
                 .proposedPrice(java.math.BigDecimal.TEN)
                 .createdAt(Instant.parse("2026-06-24T10:00:00Z"))
+                .allowedActions(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW))
                 .build();
 
         when(questService.getAllQuests(currentUser)).thenReturn(List.of(quest));
@@ -265,7 +262,7 @@ class DashboardServiceTest {
         when(questNewsService.getMyNews(currentUser)).thenReturn(List.of());
         when(circleService.getIncomingRequests(currentUser)).thenReturn(List.of());
         when(circleService.getCircles(currentUser)).thenReturn(List.of());
-        when(questApplicationMgr.toDto(application)).thenReturn(applicationDto);
+        when(questApplicationService.toApplicantResponse(application)).thenReturn(applicationDto);
         when(questService.toResponses(List.of(quest), currentUser)).thenReturn(List.of(
                 QuestResponseDTO.builder().id(11L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.workmarket.dto.QuestViewerRelation.VIEWER).build()
         ));

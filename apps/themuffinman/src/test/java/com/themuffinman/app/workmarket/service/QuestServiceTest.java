@@ -1,5 +1,6 @@
 package com.themuffinman.app.workmarket.service;
 
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedAction;
 import com.themuffinman.app.workmarket.dto.QuestAllowedAction;
 import com.themuffinman.app.workmarket.dto.QuestApplicationDetailResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
@@ -47,6 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -564,7 +566,7 @@ class QuestServiceTest {
                 .audience(QuestAudience.CIRCLES)
                 .visibleToCircles(List.of(CircleSummaryDTO.builder().id(9L).name("Trusted neighbours").build()))
                 .build());
-        when(questApplicationMgr.toDto(myApplication)).thenReturn(QuestApplicationResponseDTO.builder().id(52L).build());
+        when(questApplicationService.toApplicantResponse(myApplication)).thenReturn(QuestApplicationResponseDTO.builder().id(52L).build());
         when(questApplicationService.getApplicationsViewForQuest(33L, currentUser, false)).thenReturn(
                 com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO.builder()
                         .visibleApplications(List.of(
@@ -610,7 +612,7 @@ class QuestServiceTest {
         when(questVisibilityService.canViewQuest(applicant, quest)).thenReturn(true);
         when(questApplicationRepository.findByApplicantId(applicant.getId())).thenReturn(List.of(myApplication));
         when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder().id(quest.getId()).status(quest.getStatus()).creatorId(creator.getId()).build());
-        when(questApplicationMgr.toDto(myApplication)).thenReturn(QuestApplicationResponseDTO.builder()
+        when(questApplicationService.toApplicantResponse(myApplication)).thenReturn(QuestApplicationResponseDTO.builder()
                 .id(52L)
                 .questId(33L)
                 .status(QuestApplicationStatus.APPROVED)
@@ -628,6 +630,45 @@ class QuestServiceTest {
         assertEquals("You are the approved applicant for this quest.", result.getSections().getExecution().getHelperText());
         assertEquals(false, result.getSections().getManagement().isPostingSettingsVisible());
         assertEquals(null, result.getSections().getManagement().getVisibleToCirclesLabel());
+    }
+
+    @Test
+    void getQuestDetailResponseByIdUsesApplicantActionsForMyPendingApplication() {
+        stubQuestViewerContext();
+        AppUser applicant = createUser(5L, "worker");
+        AppUser creator = createUser(7L, "creator");
+
+        Quest quest = new Quest();
+        quest.setId(33L);
+        quest.setCreator(creator);
+        quest.setTitle("Assemble shelf");
+        quest.setStatus(QuestStatus.OPEN);
+
+        QuestApplication myApplication = new QuestApplication();
+        myApplication.setId(52L);
+        myApplication.setQuest(quest);
+        myApplication.setApplicant(applicant);
+        myApplication.setStatus(QuestApplicationStatus.PENDING);
+
+        QuestApplicationResponseDTO myApplicationDto = QuestApplicationResponseDTO.builder()
+                .id(52L)
+                .questId(33L)
+                .status(QuestApplicationStatus.PENDING)
+                .allowedActions(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW))
+                .build();
+
+        when(questRepository.findByIdWithCreator(33L)).thenReturn(Optional.of(quest));
+        when(questVisibilityService.canViewQuest(applicant, quest)).thenReturn(true);
+        when(questApplicationRepository.findByApplicantId(applicant.getId())).thenReturn(List.of(myApplication));
+        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder().id(quest.getId()).status(quest.getStatus()).creatorId(creator.getId()).build());
+        when(questApplicationService.toApplicantResponse(myApplication)).thenReturn(myApplicationDto);
+
+        QuestDetailResponseDTO result = questService.getQuestDetailResponseById(33L, applicant);
+
+        assertNotNull(result.getMyApplication());
+        assertEquals(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW), result.getMyApplication().getAllowedActions());
+        verify(questApplicationService).toApplicantResponse(myApplication);
+        verify(questApplicationMgr, never()).toDto(myApplication);
     }
 
     @Test
@@ -664,15 +705,17 @@ class QuestServiceTest {
                         .entityId(7L)
                         .build())
                 .build());
-        when(questApplicationMgr.toDto(application)).thenReturn(QuestApplicationResponseDTO.builder()
+        when(questApplicationService.toApplicantResponse(application)).thenReturn(QuestApplicationResponseDTO.builder()
                 .id(52L)
                 .questId(33L)
                 .questTitle("Assemble shelf")
+                .allowedActions(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW))
                 .build());
 
         QuestApplicationDetailResponseDTO result = questService.getApplicationDetailResponseById(52L, applicant);
 
         assertEquals(52L, result.getSummary().getId());
+        assertEquals(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW), result.getApplication().getAllowedActions());
         assertEquals(33L, result.getSections().getQuest().getId());
         assertEquals(QuestViewerRelation.APPLICANT, result.getSections().getQuest().getViewerRelation());
         assertEquals(true, result.getSections().getNavigation().isCanOpenQuest());
@@ -683,6 +726,8 @@ class QuestServiceTest {
         assertEquals(true, result.getSections().getContext().isShowStatus());
         assertEquals(true, result.getSections().getContext().isShowTerm());
         assertEquals(true, result.getSections().getContext().isShowWorkers());
+        verify(questApplicationService).toApplicantResponse(application);
+        verify(questApplicationMgr, never()).toDto(application);
     }
 
     @Test

@@ -12,6 +12,10 @@ planFile: .agents/agent-operating-refactor-plan.md
 summary:
   - Refactor backend control and workflow entrypoints for stronger automation safety.
   - Expand contract validation and generate more of the operating-model surface from code.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
 checklist:
   tempPlanCreated: true
   codeImplemented: true

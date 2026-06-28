@@ -1,0 +1,3317 @@
+{
+  "generated_at": "2026-06-28T20:30:14Z",
+  "file_count": 244,
+  "likely_unused_count": 7,
+  "route_detached_count": 0,
+  "callsite_detached_count": 1,
+  "review_needed_count": 13,
+  "files": [
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "likely_unused"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiLaunchCard.vue",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "likely_unused"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiMetricPills.vue",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "likely_unused"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiReadonlyField.vue",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "likely_unused"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiSplitLayout.vue",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "likely_unused"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "likely_unused"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/shared/questNews.ts",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "likely_unused"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
+      "category": "frontend_api",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "callsite_detached"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/base.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/calendar.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/chat.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/circles.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/dashboard-components.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/dashboard-layout.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/detail-surfaces.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/dialogs.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/forms-feedback.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/modules.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/notifications.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/profile.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/topbar.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/App.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/main.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/api/apiErrors.ts",
+      "category": "other",
+      "importer_count": 18,
+      "importers": [
+        "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardMutationRunner.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailMutationRunner.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailDataActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/api/httpClient.ts",
+      "category": "other",
+      "importer_count": 15,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/auth.ts",
+      "category": "other",
+      "importer_count": 16,
+      "importers": [
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/httpDebug.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/UserSettingsView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/applyDashboardResponse.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardProfileState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questDraftState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/app/AppBrand.vue",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/App.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/app/AppModuleNav.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/ui/UiAdminPageSection.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/App.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/editor/AsyncRichTextEditor.vue",
+      "category": "other",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationEditFields.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileDescriptionEditor.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/editor/AsyncRichTextEditor.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/editor/RichTextEditorLoading.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/editor/AsyncRichTextEditor.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/profile/ProfileAvatar.vue",
+      "category": "other",
+      "importer_count": 7,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/profile/ProfileEntityCard.vue",
+        "apps/themuffinman/frontend/src/components/profile/ProfileSummaryCard.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileIdentityEditor.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/profile/ProfileBio.vue",
+      "category": "other",
+      "importer_count": 13,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/profile/ProfileEntityCard.vue",
+        "apps/themuffinman/frontend/src/components/profile/ProfileOpenQuestItem.vue",
+        "apps/themuffinman/frontend/src/components/profile/ProfileSummaryCard.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationEditFields.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationManagementCard.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileDescriptionEditor.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailHero.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/profile/ProfileEntityCard.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/profile/ProfileOpenQuestItem.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/profile/ProfileReviewItem.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/profile/ProfileSummaryCard.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiAdminPageSection.vue",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiAdminTableSection.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiAdminTableShell.vue",
+      "category": "other",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiAuthCard.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiChoiceChips.vue",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue",
+      "category": "other",
+      "importer_count": 8,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiDialog.vue",
+      "category": "other",
+      "importer_count": 14,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiEventPill.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlannerFlexible.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiFieldGroup.vue",
+      "category": "other",
+      "importer_count": 15,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersCreateForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/InlineEditableField.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileDescriptionEditor.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileIdentityEditor.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiFilterBar.vue",
+      "category": "other",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiFormActions.vue",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersCreateForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersList.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiInfoGrid.vue",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiInlineCardLink.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/profile/ProfileOpenQuestItem.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiListItem.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiPagination.vue",
+      "category": "other",
+      "importer_count": 5,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/ui/UiAdminTableShell.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiRequestError.vue",
+      "category": "other",
+      "importer_count": 5,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiSearchableMultiSelect.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileLocationEditor.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiSectionHeader.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DashboardSummaryListSection.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiStarRatingInput.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiStatCard.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiStatusBanner.vue",
+      "category": "other",
+      "importer_count": 7,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiSurfaceSection.vue",
+      "category": "other",
+      "importer_count": 20,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/profile/ProfileSummaryCard.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiAdminPageSection.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiAdminTableSection.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiToast.vue",
+      "category": "other",
+      "importer_count": 5,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/ui/UiWorkspace.vue",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DetailDialogFrame.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
+      "category": "frontend_composable",
+      "importer_count": 5,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/useAutoDismissFeedback.ts",
+      "category": "frontend_composable",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersUiState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardProfileState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts",
+      "category": "frontend_composable",
+      "importer_count": 5,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/useDialogActionState.ts",
+      "category": "frontend_composable",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createApplicationDialogViewState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/useMountedAsync.ts",
+      "category": "frontend_composable",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts",
+      "category": "frontend_composable",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestSearchResults.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/useTimedBanner.ts",
+      "category": "frontend_composable",
+      "importer_count": 7,
+      "importers": [
+        "apps/themuffinman/frontend/src/composables/useDialogActionState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersUiState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardProfileState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDebugState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailUiActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/contracts/index.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/contracts/index.ts",
+      "category": "frontend_contract",
+      "importer_count": 6,
+      "importers": [
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/domain/workmarketDomain.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/env.d.ts",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/httpDebug.ts",
+      "category": "other",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDebugState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/lib/dashboardCalendar.ts",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardWorkPlannerState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/lib/dialogFlow.ts",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDialogUiActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailUiActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/lib/questListPagination.ts",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/lib/searchQuery.ts",
+      "category": "other",
+      "importer_count": 6,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/main.ts",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+      "category": "frontend_api",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+      "category": "frontend_api",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+        "apps/themuffinman/frontend/src/services/sessionService.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/identity/auth.ts",
+      "category": "other",
+      "importer_count": 5,
+      "importers": [
+        "apps/themuffinman/frontend/src/auth.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesDirectoryPanel.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/UserProfileView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/views/UserSettingsView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/composables/circles/circlePagination.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesPagination.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/composables/circles/circleSelection.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesPagination.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
+      "category": "frontend_composable",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/views/UserProfileView.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/views/UserSettingsView.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+      "category": "frontend_api",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+      "category": "frontend_api",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+      "category": "frontend_api",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+      "category": "frontend_api",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
+      "category": "frontend_api",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
+      "category": "frontend_api",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+      "category": "frontend_api",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+      "category": "frontend_api",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+      "category": "frontend_api",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+      "category": "frontend_api",
+      "importer_count": 11,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/shared/queryParams.ts",
+      "category": "frontend_api",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
+      "category": "frontend_api",
+      "importer_count": 65,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesDirectoryPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/circleSelection.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
+      "category": "other",
+      "importer_count": 6,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersCreateForm.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersList.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardEditSheet.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestApplyForm.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardPostWork.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestSummaryRow.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DashboardSummaryListButton.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlannerFlexible.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationEditFields.vue",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestApplyForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationManagementCard.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationSummaryCard.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DashboardSummaryListButton.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DashboardSummaryListSection.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DetailDialogFrame.vue",
+      "category": "other",
+      "importer_count": 13,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DetailUtilitySection.vue",
+      "category": "other",
+      "importer_count": 12,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/InlineEditableField.vue",
+      "category": "other",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationEditFields.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileLocationEditor.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileDescriptionEditor.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileIdentityEditor.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileLocationEditor.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestApplyForm.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardPostWork.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailEditForm.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailEditForm.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailHero.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersDataState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersFormState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersSearchState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersUiState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersMutationActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/applyDashboardResponse.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createApplicationDialogViewState.ts",
+      "category": "frontend_composable",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardDataState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardErrorState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardMutationRunner.ts",
+      "category": "frontend_composable",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questMutationTypes.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardOpenWorkState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardOptionState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardProfileState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestListState.ts",
+      "category": "frontend_composable",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardTabState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardWorkPlannerState.ts",
+      "category": "frontend_composable",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlannerFlexible.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
+      "category": "frontend_composable",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDialogUiActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/dashboardFacades.ts",
+      "category": "frontend_composable",
+      "importer_count": 24,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardPostWork.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questDraftState.ts",
+      "category": "frontend_composable",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questMutationTypes.ts",
+      "category": "frontend_composable",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestLifecycleMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardPostWorkState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardPostWork.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardMutationActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardMutationActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardMutationActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestLifecycleMutations.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardMutationActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDialogUiActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/applyQuestDetailState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/questDetailStateHelpers.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDataState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDebugState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailMutationRunner.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailMutationActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/questDetailStateHelpers.ts",
+      "category": "frontend_composable",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailDataActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailMutationActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailDataActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailMutationActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailUiActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPage.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPage.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageState.ts",
+      "category": "frontend_composable",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPage.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboard.ts",
+      "category": "frontend_composable",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/dashboardFacades.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboard.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardState.ts",
+      "category": "frontend_composable",
+      "importer_count": 9,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/applyDashboardResponse.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questMutationTypes.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboard.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPage.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageActions.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPage.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageState.ts",
+      "category": "frontend_composable",
+      "importer_count": 8,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/applyQuestDetailState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailMutationRunner.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/questDetailStateHelpers.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailDataActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailUiActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPage.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageActions.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
+      "category": "frontend_composable",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestSearchResults.ts",
+      "category": "frontend_composable",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/domain/workmarketDomain.ts",
+      "category": "other",
+      "importer_count": 15,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersCreateForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersFormState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardTabState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/shared/filterValues.ts",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/shared/navigationTargets.ts",
+      "category": "other",
+      "importer_count": 13,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailUiActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/shared/pricing.ts",
+      "category": "other",
+      "importer_count": 22,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationEditFields.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationManagementCard.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationSummaryCard.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/router.ts",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/main.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/services/sessionService.ts",
+      "category": "other",
+      "importer_count": 7,
+      "importers": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/identity/auth.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/shared/clientMessages.ts",
+      "category": "other",
+      "importer_count": 7,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
+        "apps/themuffinman/frontend/src/shared/imageCompression.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/shared/imageCompression.ts",
+      "category": "other",
+      "importer_count": 7,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/shared/profileFormatting.ts",
+      "category": "other",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue",
+        "apps/themuffinman/frontend/src/components/profile/ProfileAvatar.vue",
+        "apps/themuffinman/frontend/src/components/profile/ProfileBio.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/shared/questSchedule.ts",
+      "category": "other",
+      "importer_count": 20,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationSummaryCard.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/shared/richText.ts",
+      "category": "other",
+      "importer_count": 10,
+      "importers": [
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestSummaryRow.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationManagementCard.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailHero.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+        "apps/themuffinman/frontend/src/shared/profileFormatting.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/style.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    }
+  ]
+}

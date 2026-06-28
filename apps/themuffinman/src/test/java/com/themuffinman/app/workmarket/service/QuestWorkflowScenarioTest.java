@@ -16,6 +16,7 @@ import com.themuffinman.app.workmarket.repository.UserReviewRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -156,6 +157,29 @@ class QuestWorkflowScenarioTest {
 
         assertEquals(404, exception.getStatusCode().value());
         assertTrue(exception.getReason().contains("Quest not found"));
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    void questDetailResponseLoadsMyApplicationOutsideOuterTransaction() {
+        AppUser owner = saveUser("owner-detail-outside-tx");
+        AppUser worker = saveUser("worker-detail-outside-tx");
+
+        Quest quest = questService.createQuest(questRequest("Free pickup", Instant.parse("2026-07-07T10:00:00Z")), owner);
+        quest.setAwardAmount(BigDecimal.ZERO);
+        quest = questRepository.save(quest);
+        questApplicationService.applyForQuest(
+                quest.getId(),
+                QuestApplicationRequestDTO.builder().message("I can help").build(),
+                worker
+        );
+
+        var detail = questService.getQuestDetailResponseById(quest.getId(), worker);
+
+        assertNotNull(detail.getMyApplication());
+        assertEquals(worker.getId(), detail.getMyApplication().getApplicantId());
+        assertEquals(worker.getUsername(), detail.getMyApplication().getApplicantUsername());
+        assertEquals("Free pickup", detail.getMyApplication().getQuestTitle());
     }
 
     private Quest createAssignedQuest(AppUser owner, AppUser worker, String title) {

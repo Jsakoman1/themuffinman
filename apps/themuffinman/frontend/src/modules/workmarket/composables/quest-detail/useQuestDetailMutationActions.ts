@@ -60,6 +60,29 @@ export const useQuestDetailMutationActions = (state: QuestDetailPageState) => {
     return true
   }
 
+  const withdrawMyApplication = async () => {
+    const withdrawn = await runQuestMutation(
+      () => workmarketApi.withdrawMyApplication(state.questId.value),
+      "Could not withdraw application."
+    )
+
+    if (!withdrawn) {
+      return false
+    }
+
+    const detail = await runQuestMutation(
+      () => workmarketApi.getQuestDetail(state.questId.value),
+      "Could not refresh quest."
+    )
+
+    if (!detail) {
+      return false
+    }
+
+    replaceQuestDetailState(state, detail)
+    return true
+  }
+
   const confirmQuestTermChange = async () => {
     const updatedQuest = await runQuestMutation(
       () => workmarketApi.confirmQuestTermChange(state.questId.value),
@@ -117,6 +140,7 @@ export const useQuestDetailMutationActions = (state: QuestDetailPageState) => {
 
   return {
     applyForQuest,
+    withdrawMyApplication,
     updateStatus,
     confirmQuestTermChange,
     rejectQuestTermChange,

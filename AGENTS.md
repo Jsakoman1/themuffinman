@@ -64,6 +64,9 @@ Planned modules:
 - Add or extend JUnit tests whenever backend behavior changes.
 - Keep `./mvnw test` passing for backend changes.
 - Run `npm run type-check` and `npm run build` for frontend changes.
+- When fixing a `LazyInitializationException` or DTO-mapping bug in one backend read path, audit sibling read surfaces that use the same entity mapper or repository fetch pattern before closing the change.
+- Prefer one service-level DTO assembly path per viewer role or use case instead of duplicating mapper-plus-action wiring across multiple read services.
+- If a repeated inspection task could be moved onto the local machine through a stable script, generated report, inventory, or audit helper, Codex may propose it and either implement it directly or record it in `docs/codex-local-tooling-todo.md`.
 
 ## Collaboration
 
@@ -84,6 +87,8 @@ Planned modules:
     - `docs/agent-operating-model.yaml` for machine-readable workflow rules, dependencies, defaults, enums, and endpoint
       mappings
     - `docs/agent-operating-model.schema.json` for validating the YAML structure
+    - `docs/implementation-backlog.md` for persistent open implementation and product-delivery work that should survive
+      across Codex sessions
     - `docs/agent-improvement-backlog.md` for persistent forward-looking agent/control-system tightening work that
       should survive across Codex sessions
     - `docs/feature-completion-manifest.schema.json` for validating machine-readable per-feature completion manifests
@@ -97,6 +102,10 @@ Planned modules:
 - Prefer the filename pattern `.agents/<short-feature-topic>-plan.md`.
 - If a requested change is too large for one safe pass, split it into sequential implementation phases instead of
   forcing one oversized batch.
+- For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
+- Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
+- A master plan should name the child plans explicitly, define execution order, and include a final closeout pass that
+  verifies implementation, documentation, and validation status across the whole batch.
 - Reusable templates for temporary plans and feature completion manifests live under `.agents/templates/`.
 - When business rules, domain models, permissions, validations, workflows, endpoint contracts, or automation assumptions
   change, update all affected living docs in the same change unless the edit is purely cosmetic.
@@ -122,9 +131,21 @@ Planned modules:
   from the stronger source rules.
 - Keep machine-readable feature completion manifests aligned with the actual implementation state when that workflow is
   used for a change.
+- For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file.
+- For any phrase protected by `docs/agent-operating-model.yaml` `documentation_sync.rules[*].must_contain_all`, copy
+  the exact canonical text verbatim into every required target file.
+- Do not paraphrase, shorten, reorder, or partially restate protected canonical wording.
+- Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID
+  before closing the change that discovered it.
+- If inline `TODO/FIXME` notes are needed, use `TODO(<ID>):` or `FIXME(<ID>):` and keep the same ID open in one
+  persistent backlog file.
+- When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or
+  `FIXME(<ID>):` references in the same change.
 - No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together.
 - When adding or changing protected documentation phrases in `agent-operating-model.yaml`, copy the canonical wording
   directly into the target docs instead of paraphrasing.
+- If a protected phrase is needed in more than one file, reuse the exact same sentence each time instead of writing
+  file-specific variants.
 - Treat case, punctuation, and markdown formatting as non-semantic, but treat wording changes as semantic unless the
   YAML rule is updated too.
 - Before finishing documentation or agent-safety edits, run the validation test and fix wording drift at the source

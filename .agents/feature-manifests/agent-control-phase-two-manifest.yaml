@@ -13,6 +13,10 @@ planFile: .agents/agent-control-phase-two-plan.md
 summary:
   - Strengthen manifest enforcement, source-of-truth audits, canonical scenarios, and generated frontend workflow helpers.
   - Add explicit mutating intent contracts, workflow contract tests, and profile-aware close-out discipline.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
 checklist:
   tempPlanCreated: true
   codeImplemented: true

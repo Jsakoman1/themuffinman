@@ -7,6 +7,7 @@ import com.themuffinman.app.social.model.CircleMembership;
 import com.themuffinman.app.social.repository.CircleGroupRepository;
 import com.themuffinman.app.social.repository.CircleMembershipRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -29,10 +30,12 @@ public class CircleMembershipService {
         this.circleMembershipRepository = circleMembershipRepository;
     }
 
+    @Transactional(readOnly = true)
     public boolean isCircleMember(Long circleId, Long memberUserId) {
         return circleMembershipRepository.existsByCircleIdAndMemberId(circleId, memberUserId);
     }
 
+    @Transactional(readOnly = true)
     public List<CircleGroup> getOwnedCirclesByIds(AppUser owner, List<Long> circleIds) {
         if (circleIds == null || circleIds.isEmpty()) {
             return List.of();
@@ -46,14 +49,17 @@ public class CircleMembershipService {
         return circles;
     }
 
+    @Transactional(readOnly = true)
     public List<CircleMembership> getMembershipsByOwner(Long ownerId) {
         return circleMembershipRepository.findByCircleOwnerId(ownerId);
     }
 
+    @Transactional(readOnly = true)
     public List<CircleMembership> getMembershipsForContact(Long contactId, Long ownerId) {
         return circleMembershipRepository.findByMemberIdAndCircleOwnerId(contactId, ownerId);
     }
 
+    @Transactional(readOnly = true)
     public Map<Long, List<CircleMembership>> getMembershipsByUserIdForOwner(Long ownerId) {
         return getMembershipsByOwner(ownerId).stream()
                 .collect(Collectors.groupingBy(membership -> membership.getMember().getId()));

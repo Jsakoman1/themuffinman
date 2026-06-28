@@ -30,6 +30,7 @@ import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.social.repository.CircleRequestRepository;
 import com.themuffinman.app.social.repository.CircleGroupRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Comparator;
@@ -51,6 +52,7 @@ public class CircleService {
     private final CircleRequestMgr circleRequestMgr;
     private final CircleViewAssembler circleViewAssembler;
 
+    @Transactional(readOnly = true)
     public List<CircleRequestResponseDTO> getMyCircles(AppUser currentUser) {
         return circleRequestRepository.findAcceptedByUserId(currentUser.getId())
                 .stream()
@@ -58,6 +60,7 @@ public class CircleService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public AdminCircleOverviewDTO getAdminOverview(AppUser currentUser, String query) {
         validateAdmin(currentUser);
         return circleViewAssembler.buildAdminOverview(
@@ -67,6 +70,7 @@ public class CircleService {
         );
     }
 
+    @Transactional(readOnly = true)
     public CircleOverviewDTO getOverview(AppUser currentUser) {
         List<CircleContactDTO> connections = loadConnections(currentUser);
         List<CircleRequestResponseDTO> incomingRequests = loadIncomingRequests(currentUser);
@@ -74,12 +78,14 @@ public class CircleService {
         return circleViewAssembler.buildOverview(connections, incomingRequests, outgoingRequests);
     }
 
+    @Transactional(readOnly = true)
     public List<CircleGroupResponseDTO> getCircles(AppUser currentUser) {
         return circleGroupRepository.findAllDetailedByOwnerId(currentUser.getId()).stream()
                 .map(circleViewAssembler::toCircleDto)
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<CircleGroupResponseDTO> getCirclesForUserAsAdmin(Long userId, AppUser currentUser) {
         validateAdmin(currentUser);
         AppUser targetUser = appUserLookupService.requireById(userId);
@@ -88,6 +94,7 @@ public class CircleService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<AdminCircleGroupResponseDTO> getAllCirclesForAdmin() {
         return circleGroupRepository.findAllDetailed().stream()
                 .map(circleViewAssembler::toAdminCircleDto)
@@ -95,10 +102,12 @@ public class CircleService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<CircleContactDTO> getConnections(AppUser currentUser) {
         return loadConnections(currentUser);
     }
 
+    @Transactional(readOnly = true)
     public CircleContactListResponseDTO getConnections(AppUser currentUser, String query, Long circleId, boolean unassigned, int page, int size) {
         List<CircleContactDTO> connections = loadConnections(currentUser).stream()
                 .filter(connection -> circleViewAssembler.matchesConnectionQuery(connection, query))
@@ -107,6 +116,7 @@ public class CircleService {
         return circleViewAssembler.buildCircleContactListResponse(connections, page, size);
     }
 
+    @Transactional(readOnly = true)
     public List<CircleContactDTO> getConnectionsForUserAsAdmin(Long userId, AppUser currentUser) {
         validateAdmin(currentUser);
         return loadConnections(appUserLookupService.requireById(userId));
@@ -120,10 +130,12 @@ public class CircleService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<CircleRequestResponseDTO> getIncomingRequests(AppUser currentUser) {
         return loadIncomingRequests(currentUser);
     }
 
+    @Transactional(readOnly = true)
     public CircleRequestListResponseDTO getIncomingRequests(AppUser currentUser, String query, int page, int size) {
         List<CircleRequestResponseDTO> requests = loadIncomingRequests(currentUser).stream()
                 .filter(request -> circleViewAssembler.matchesRequestQuery(request.getCounterpartUsername(), request.getCounterpartProfileDescription(), query))
@@ -139,10 +151,12 @@ public class CircleService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<CircleRequestResponseDTO> getOutgoingRequests(AppUser currentUser) {
         return loadOutgoingRequests(currentUser);
     }
 
+    @Transactional(readOnly = true)
     public CircleRequestListResponseDTO getOutgoingRequests(AppUser currentUser, String query, int page, int size) {
         List<CircleRequestResponseDTO> requests = loadOutgoingRequests(currentUser).stream()
                 .filter(request -> circleViewAssembler.matchesRequestQuery(request.getCounterpartUsername(), request.getCounterpartProfileDescription(), query))
@@ -158,10 +172,12 @@ public class CircleService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<CircleSearchResultDTO> getInviteCandidates(AppUser currentUser) {
         return getInviteCandidatesPage(currentUser, 0, 12).getItems();
     }
 
+    @Transactional(readOnly = true)
     public CircleSearchResultListResponseDTO searchCircleUsers(AppUser currentUser, String query, int page, int size) {
         String normalizedQuery = circleViewAssembler.normalizeSearchQuery(query);
         if (normalizedQuery.length() < 2) {
@@ -177,6 +193,7 @@ public class CircleService {
         return circleViewAssembler.buildCircleSearchResultListResponse(results, page, size);
     }
 
+    @Transactional(readOnly = true)
     public CircleSearchResultListResponseDTO getInviteCandidatesPage(AppUser currentUser, int page, int size) {
         List<CircleSearchResultDTO> results = appUserRepository.findAll().stream()
                 .filter(candidate -> !candidate.getId().equals(currentUser.getId()))
@@ -187,6 +204,7 @@ public class CircleService {
         return circleViewAssembler.buildCircleSearchResultListResponse(results, page, size);
     }
 
+    @Transactional(readOnly = true)
     public CircleSearchResultListResponseDTO getBlockedUsers(AppUser currentUser, String query, int page, int size) {
         String normalizedQuery = circleViewAssembler.normalizeSearchQuery(query);
 
@@ -204,6 +222,7 @@ public class CircleService {
         return circleViewAssembler.buildCircleSearchResultListResponse(results, page, size);
     }
 
+    @Transactional(readOnly = true)
     public CircleRelationDTO getRelationWithUser(AppUser currentUser, Long otherUserId) {
         if (currentUser == null || otherUserId == null) {
             return circleViewAssembler.toRelationDto(CircleRelationStatus.NONE, false);
@@ -215,6 +234,7 @@ public class CircleService {
         return circleViewAssembler.toRelationDto(relationStatus, circleViewAssembler.isBlockedByCurrentUser(relation, currentUser.getId()));
     }
 
+    @Transactional(readOnly = true)
     public List<CircleSearchResultDTO> searchCircleUsers(AppUser currentUser, String query) {
         return searchCircleUsers(currentUser, query, 0, Integer.MAX_VALUE).getItems();
     }
@@ -239,14 +259,17 @@ public class CircleService {
         circleRelationService.unblockCircleUser(blockedUserId, currentUser);
     }
 
+    @Transactional(readOnly = true)
     public boolean isCircleBetween(AppUser leftUser, AppUser rightUser) {
         return circleRelationService.isCircleBetween(leftUser, rightUser);
     }
 
+    @Transactional(readOnly = true)
     public boolean isCircleMember(Long circleId, Long memberUserId) {
         return circleMembershipService.isCircleMember(circleId, memberUserId);
     }
 
+    @Transactional(readOnly = true)
     public List<CircleGroup> getOwnedCirclesByIds(AppUser owner, List<Long> circleIds) {
         return circleMembershipService.getOwnedCirclesByIds(owner, circleIds);
     }

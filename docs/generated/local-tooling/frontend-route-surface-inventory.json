@@ -1,0 +1,2080 @@
+{
+  "generated_at": "2026-06-28T20:30:14Z",
+  "route_count": 23,
+  "surface_route_count": 19,
+  "redirect_route_count": 4,
+  "placeholder_route_count": 4,
+  "routes": [
+    {
+      "route_path": "/",
+      "redirect": "/work",
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": false,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/login",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+      "component_symbol": "LoginView",
+      "requires_auth": false,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+        "authApi.login"
+      ],
+      "backend_endpoints": [
+        "POST /auth/login"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "POST /auth/login",
+          "backend_controller": "AuthController",
+          "backend_method": "login",
+          "client_object": "authApi",
+          "client_method": "login",
+          "client_file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue"
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/register",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+      "component_symbol": "RegisterView",
+      "requires_auth": false,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+        "authApi.register"
+      ],
+      "backend_endpoints": [
+        "POST /auth/register"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "POST /auth/register",
+          "backend_controller": "AuthController",
+          "backend_method": "register",
+          "client_object": "authApi",
+          "client_method": "register",
+          "client_file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue"
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/work",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
+      "component_symbol": "QuestsPage",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboard.ts"
+      ],
+      "api_clients": [
+        "applicationsApi.applyForQuest",
+        "applicationsApi.approveApplication",
+        "applicationsApi.declineApplication",
+        "applicationsApi.getApplicationDetail",
+        "applicationsApi.getQuestApplicationsView",
+        "applicationsApi.updateMyApplication",
+        "applicationsApi.withdrawMyApplication",
+        "dashboardApi.getDashboard",
+        "newsApi.markMyNewsAsRead",
+        "newsApi.markMyNewsItemAsRead",
+        "questsApi.getQuestDetail"
+      ],
+      "backend_endpoints": [
+        "GET /applications/:param/detail",
+        "GET /dashboard/me",
+        "GET /quests/:param/applications/view",
+        "GET /quests/:param/detail",
+        "PATCH /news/me/:param/read",
+        "PATCH /news/me/read",
+        "PATCH /quests/:param/applications/:param/approve",
+        "PATCH /quests/:param/applications/:param/decline",
+        "PATCH /quests/:param/applications/me/withdraw",
+        "POST /quests/:param/applications",
+        "PUT /quests/:param/applications/me"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "POST /quests/:param/applications",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "applyForQuest",
+          "client_object": "applicationsApi",
+          "client_method": "applyForQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/applications/:param/approve",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "approveApplication",
+          "client_object": "applicationsApi",
+          "client_method": "approveApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/applications/:param/decline",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "declineApplication",
+          "client_object": "applicationsApi",
+          "client_method": "declineApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /applications/:param/detail",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "getApplicationDetail",
+          "client_object": "applicationsApi",
+          "client_method": "getApplicationDetail",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /quests/:param/applications/view",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "getApplicationsViewForQuest",
+          "client_object": "applicationsApi",
+          "client_method": "getQuestApplicationsView",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PUT /quests/:param/applications/me",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "updateMyApplication",
+          "client_object": "applicationsApi",
+          "client_method": "updateMyApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/applications/me/withdraw",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "withdrawMyApplication",
+          "client_object": "applicationsApi",
+          "client_method": "withdrawMyApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /dashboard/me",
+          "backend_controller": "DashboardController",
+          "backend_method": "getMyDashboard",
+          "client_object": "dashboardApi",
+          "client_method": "getDashboard",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /news/me/read",
+          "backend_controller": "QuestNewsController",
+          "backend_method": "markMyNewsAsRead",
+          "client_object": "newsApi",
+          "client_method": "markMyNewsAsRead",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /news/me/:param/read",
+          "backend_controller": "QuestNewsController",
+          "backend_method": "markMyNewsItemAsRead",
+          "client_object": "newsApi",
+          "client_method": "markMyNewsItemAsRead",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /quests/:param/detail",
+          "backend_controller": "QuestController",
+          "backend_method": "getQuestDetailById",
+          "client_object": "questsApi",
+          "client_method": "getQuestDetail",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/quests",
+      "redirect": "/work",
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": false,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/circles",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+      "component_symbol": "CirclesView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts"
+      ],
+      "api_clients": [
+        "applicationsApi.getApplicationDetail",
+        "applicationsApi.getQuestApplicationsView",
+        "circlesApi.acceptCircleRequest",
+        "circlesApi.blockCircleUser",
+        "circlesApi.createCircle",
+        "circlesApi.createCircleRequest",
+        "circlesApi.deleteCircle",
+        "circlesApi.deleteCircleRequest",
+        "circlesApi.getBlockedCircleUsersPage",
+        "circlesApi.getCircleConnectionsPage",
+        "circlesApi.getCircleOverview",
+        "circlesApi.getIncomingCircleRequestsPage",
+        "circlesApi.getInviteCandidatesPage",
+        "circlesApi.getNearbyCircleUsersPage",
+        "circlesApi.getOutgoingCircleRequestsPage",
+        "circlesApi.searchCircleUsersPage",
+        "circlesApi.unblockCircleUser",
+        "circlesApi.updateCircle",
+        "circlesApi.updateConnectionCircles",
+        "circlesApi.updateConnectionCirclesBulk",
+        "dashboardApi.getDashboard",
+        "newsApi.markMyNewsAsRead",
+        "newsApi.markMyNewsItemAsRead",
+        "questsApi.getQuestDetail",
+        "usersApi.getUserProfileView",
+        "usersApi.updateCurrentAppUser"
+      ],
+      "backend_endpoints": [
+        "DELETE /circles/blocks/:param",
+        "DELETE /circles/groups/:param",
+        "DELETE /circles/requests/:param",
+        "GET /app_users/:param/profile-view",
+        "GET /applications/:param/detail",
+        "GET /circles/blocked",
+        "GET /circles/candidates",
+        "GET /circles/connections",
+        "GET /circles/me/overview",
+        "GET /circles/nearby",
+        "GET /circles/requests/incoming",
+        "GET /circles/requests/outgoing",
+        "GET /circles/search",
+        "GET /dashboard/me",
+        "GET /quests/:param/applications/view",
+        "GET /quests/:param/detail",
+        "PATCH /circles/requests/:param/accept",
+        "PATCH /news/me/:param/read",
+        "PATCH /news/me/read",
+        "POST /circles/blocks",
+        "POST /circles/groups",
+        "POST /circles/requests",
+        "PUT /app_users/me",
+        "PUT /circles/connections/:param/circles",
+        "PUT /circles/connections/circles/bulk",
+        "PUT /circles/groups/:param"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "GET /applications/:param/detail",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "getApplicationDetail",
+          "client_object": "applicationsApi",
+          "client_method": "getApplicationDetail",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /quests/:param/applications/view",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "getApplicationsViewForQuest",
+          "client_object": "applicationsApi",
+          "client_method": "getQuestApplicationsView",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /circles/requests/:param/accept",
+          "backend_controller": "CircleController",
+          "backend_method": "acceptCircleRequest",
+          "client_object": "circlesApi",
+          "client_method": "acceptCircleRequest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /circles/blocks",
+          "backend_controller": "CircleController",
+          "backend_method": "blockCircleUser",
+          "client_object": "circlesApi",
+          "client_method": "blockCircleUser",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /circles/groups",
+          "backend_controller": "CircleController",
+          "backend_method": "createCircle",
+          "client_object": "circlesApi",
+          "client_method": "createCircle",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /circles/requests",
+          "backend_controller": "CircleController",
+          "backend_method": "createCircleRequest",
+          "client_object": "circlesApi",
+          "client_method": "createCircleRequest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "DELETE /circles/groups/:param",
+          "backend_controller": "CircleController",
+          "backend_method": "deleteCircle",
+          "client_object": "circlesApi",
+          "client_method": "deleteCircle",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "DELETE /circles/requests/:param",
+          "backend_controller": "CircleController",
+          "backend_method": "deleteCircleRequest",
+          "client_object": "circlesApi",
+          "client_method": "deleteCircleRequest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /circles/blocked",
+          "backend_controller": "CircleController",
+          "backend_method": "getBlockedUsers",
+          "client_object": "circlesApi",
+          "client_method": "getBlockedCircleUsersPage",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /circles/connections",
+          "backend_controller": "CircleController",
+          "backend_method": "getConnections",
+          "client_object": "circlesApi",
+          "client_method": "getCircleConnectionsPage",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /circles/me/overview",
+          "backend_controller": "CircleController",
+          "backend_method": "getOverview",
+          "client_object": "circlesApi",
+          "client_method": "getCircleOverview",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /circles/requests/incoming",
+          "backend_controller": "CircleController",
+          "backend_method": "getIncomingRequests",
+          "client_object": "circlesApi",
+          "client_method": "getIncomingCircleRequestsPage",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /circles/candidates",
+          "backend_controller": "CircleController",
+          "backend_method": "getInviteCandidates",
+          "client_object": "circlesApi",
+          "client_method": "getInviteCandidatesPage",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /circles/nearby",
+          "backend_controller": "CircleController",
+          "backend_method": "getNearbyUsers",
+          "client_object": "circlesApi",
+          "client_method": "getNearbyCircleUsersPage",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /circles/requests/outgoing",
+          "backend_controller": "CircleController",
+          "backend_method": "getOutgoingRequests",
+          "client_object": "circlesApi",
+          "client_method": "getOutgoingCircleRequestsPage",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /circles/search",
+          "backend_controller": "CircleController",
+          "backend_method": "searchCircleUsers",
+          "client_object": "circlesApi",
+          "client_method": "searchCircleUsersPage",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "DELETE /circles/blocks/:param",
+          "backend_controller": "CircleController",
+          "backend_method": "unblockCircleUser",
+          "client_object": "circlesApi",
+          "client_method": "unblockCircleUser",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PUT /circles/groups/:param",
+          "backend_controller": "CircleController",
+          "backend_method": "updateCircle",
+          "client_object": "circlesApi",
+          "client_method": "updateCircle",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PUT /circles/connections/:param/circles",
+          "backend_controller": "CircleController",
+          "backend_method": "updateConnectionCircles",
+          "client_object": "circlesApi",
+          "client_method": "updateConnectionCircles",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PUT /circles/connections/circles/bulk",
+          "backend_controller": "CircleController",
+          "backend_method": "updateConnectionCirclesBulk",
+          "client_object": "circlesApi",
+          "client_method": "updateConnectionCirclesBulk",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /dashboard/me",
+          "backend_controller": "DashboardController",
+          "backend_method": "getMyDashboard",
+          "client_object": "dashboardApi",
+          "client_method": "getDashboard",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /news/me/read",
+          "backend_controller": "QuestNewsController",
+          "backend_method": "markMyNewsAsRead",
+          "client_object": "newsApi",
+          "client_method": "markMyNewsAsRead",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /news/me/:param/read",
+          "backend_controller": "QuestNewsController",
+          "backend_method": "markMyNewsItemAsRead",
+          "client_object": "newsApi",
+          "client_method": "markMyNewsItemAsRead",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /quests/:param/detail",
+          "backend_controller": "QuestController",
+          "backend_method": "getQuestDetailById",
+          "client_object": "questsApi",
+          "client_method": "getQuestDetail",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /app_users/:param/profile-view",
+          "backend_controller": "AppUserController",
+          "backend_method": "getProfileView",
+          "client_object": "usersApi",
+          "client_method": "getUserProfileView",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PUT /app_users/me",
+          "backend_controller": "AppUserController",
+          "backend_method": "updateCurrentAppUser",
+          "client_object": "usersApi",
+          "client_method": "updateCurrentAppUser",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/work/:id",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+      "component_symbol": "QuestDetailView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+        "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts"
+      ],
+      "api_clients": [
+        "applicationsApi.applyForQuest",
+        "applicationsApi.createQuestReview",
+        "applicationsApi.withdrawMyApplication",
+        "locationApi.lookupLocation",
+        "questsApi.completeQuest",
+        "questsApi.confirmQuestTermChange",
+        "questsApi.deleteQuest",
+        "questsApi.getQuestDetail",
+        "questsApi.rejectQuestTermChange",
+        "questsApi.startQuest",
+        "questsApi.updateQuest",
+        "usersApi.getAppUserOptions"
+      ],
+      "backend_endpoints": [
+        "DELETE /quests/:param",
+        "GET /app_users/options",
+        "GET /quests/:param/detail",
+        "PATCH /quests/:param/applications/me/withdraw",
+        "PATCH /quests/:param/complete",
+        "PATCH /quests/:param/start",
+        "PATCH /quests/:param/term/confirm",
+        "PATCH /quests/:param/term/reject",
+        "POST /location/lookup",
+        "POST /quests/:param/applications",
+        "POST /quests/:param/reviews",
+        "PUT /quests/:param"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "POST /quests/:param/applications",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "applyForQuest",
+          "client_object": "applicationsApi",
+          "client_method": "applyForQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /quests/:param/reviews",
+          "backend_controller": "UserReviewController",
+          "backend_method": "createOrUpdateReview",
+          "client_object": "applicationsApi",
+          "client_method": "createQuestReview",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/applications/me/withdraw",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "withdrawMyApplication",
+          "client_object": "applicationsApi",
+          "client_method": "withdrawMyApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /location/lookup",
+          "backend_controller": "LocationLookupController",
+          "backend_method": "lookup",
+          "client_object": "locationApi",
+          "client_method": "lookupLocation",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/complete",
+          "backend_controller": "QuestController",
+          "backend_method": "completeQuest",
+          "client_object": "questsApi",
+          "client_method": "completeQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/term/confirm",
+          "backend_controller": "QuestController",
+          "backend_method": "confirmQuestTermChange",
+          "client_object": "questsApi",
+          "client_method": "confirmQuestTermChange",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "DELETE /quests/:param",
+          "backend_controller": "QuestController",
+          "backend_method": "deleteQuest",
+          "client_object": "questsApi",
+          "client_method": "deleteQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /quests/:param/detail",
+          "backend_controller": "QuestController",
+          "backend_method": "getQuestDetailById",
+          "client_object": "questsApi",
+          "client_method": "getQuestDetail",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/term/reject",
+          "backend_controller": "QuestController",
+          "backend_method": "rejectQuestTermChange",
+          "client_object": "questsApi",
+          "client_method": "rejectQuestTermChange",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/start",
+          "backend_controller": "QuestController",
+          "backend_method": "startQuest",
+          "client_object": "questsApi",
+          "client_method": "startQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PUT /quests/:param",
+          "backend_controller": "QuestController",
+          "backend_method": "updateQuest",
+          "client_object": "questsApi",
+          "client_method": "updateQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /app_users/options",
+          "backend_controller": "AppUserController",
+          "backend_method": "getAppUserOptions",
+          "client_object": "usersApi",
+          "client_method": "getAppUserOptions",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/quests/:id",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+      "component_symbol": "QuestDetailView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+        "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts"
+      ],
+      "api_clients": [
+        "applicationsApi.applyForQuest",
+        "applicationsApi.createQuestReview",
+        "applicationsApi.withdrawMyApplication",
+        "locationApi.lookupLocation",
+        "questsApi.completeQuest",
+        "questsApi.confirmQuestTermChange",
+        "questsApi.deleteQuest",
+        "questsApi.getQuestDetail",
+        "questsApi.rejectQuestTermChange",
+        "questsApi.startQuest",
+        "questsApi.updateQuest",
+        "usersApi.getAppUserOptions"
+      ],
+      "backend_endpoints": [
+        "DELETE /quests/:param",
+        "GET /app_users/options",
+        "GET /quests/:param/detail",
+        "PATCH /quests/:param/applications/me/withdraw",
+        "PATCH /quests/:param/complete",
+        "PATCH /quests/:param/start",
+        "PATCH /quests/:param/term/confirm",
+        "PATCH /quests/:param/term/reject",
+        "POST /location/lookup",
+        "POST /quests/:param/applications",
+        "POST /quests/:param/reviews",
+        "PUT /quests/:param"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "POST /quests/:param/applications",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "applyForQuest",
+          "client_object": "applicationsApi",
+          "client_method": "applyForQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /quests/:param/reviews",
+          "backend_controller": "UserReviewController",
+          "backend_method": "createOrUpdateReview",
+          "client_object": "applicationsApi",
+          "client_method": "createQuestReview",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/applications/me/withdraw",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "withdrawMyApplication",
+          "client_object": "applicationsApi",
+          "client_method": "withdrawMyApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /location/lookup",
+          "backend_controller": "LocationLookupController",
+          "backend_method": "lookup",
+          "client_object": "locationApi",
+          "client_method": "lookupLocation",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/complete",
+          "backend_controller": "QuestController",
+          "backend_method": "completeQuest",
+          "client_object": "questsApi",
+          "client_method": "completeQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/term/confirm",
+          "backend_controller": "QuestController",
+          "backend_method": "confirmQuestTermChange",
+          "client_object": "questsApi",
+          "client_method": "confirmQuestTermChange",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "DELETE /quests/:param",
+          "backend_controller": "QuestController",
+          "backend_method": "deleteQuest",
+          "client_object": "questsApi",
+          "client_method": "deleteQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /quests/:param/detail",
+          "backend_controller": "QuestController",
+          "backend_method": "getQuestDetailById",
+          "client_object": "questsApi",
+          "client_method": "getQuestDetail",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/term/reject",
+          "backend_controller": "QuestController",
+          "backend_method": "rejectQuestTermChange",
+          "client_object": "questsApi",
+          "client_method": "rejectQuestTermChange",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/start",
+          "backend_controller": "QuestController",
+          "backend_method": "startQuest",
+          "client_object": "questsApi",
+          "client_method": "startQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PUT /quests/:param",
+          "backend_controller": "QuestController",
+          "backend_method": "updateQuest",
+          "client_object": "questsApi",
+          "client_method": "updateQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /app_users/options",
+          "backend_controller": "AppUserController",
+          "backend_method": "getAppUserOptions",
+          "client_object": "usersApi",
+          "client_method": "getAppUserOptions",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/applications/:id",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
+      "component_symbol": "ApplicationDetailView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+        "applicationsApi.getApplicationDetail"
+      ],
+      "backend_endpoints": [
+        "GET /applications/:param/detail"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "GET /applications/:param/detail",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "getApplicationDetail",
+          "client_object": "applicationsApi",
+          "client_method": "getApplicationDetail",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/users/:id",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/social/views/UserProfileView.vue",
+      "component_symbol": "UserProfileView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts"
+      ],
+      "api_clients": [
+        "circlesApi.blockCircleUser",
+        "circlesApi.createCircleRequest",
+        "circlesApi.unblockCircleUser",
+        "usersApi.getUserProfileView",
+        "usersApi.updateCurrentAppUser"
+      ],
+      "backend_endpoints": [
+        "DELETE /circles/blocks/:param",
+        "GET /app_users/:param/profile-view",
+        "POST /circles/blocks",
+        "POST /circles/requests",
+        "PUT /app_users/me"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "POST /circles/blocks",
+          "backend_controller": "CircleController",
+          "backend_method": "blockCircleUser",
+          "client_object": "circlesApi",
+          "client_method": "blockCircleUser",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /circles/requests",
+          "backend_controller": "CircleController",
+          "backend_method": "createCircleRequest",
+          "client_object": "circlesApi",
+          "client_method": "createCircleRequest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "DELETE /circles/blocks/:param",
+          "backend_controller": "CircleController",
+          "backend_method": "unblockCircleUser",
+          "client_object": "circlesApi",
+          "client_method": "unblockCircleUser",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /app_users/:param/profile-view",
+          "backend_controller": "AppUserController",
+          "backend_method": "getProfileView",
+          "client_object": "usersApi",
+          "client_method": "getUserProfileView",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PUT /app_users/me",
+          "backend_controller": "AppUserController",
+          "backend_method": "updateCurrentAppUser",
+          "client_object": "usersApi",
+          "client_method": "updateCurrentAppUser",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/settings",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/social/views/UserSettingsView.vue",
+      "component_symbol": "UserSettingsView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+        "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts"
+      ],
+      "api_clients": [
+        "circlesApi.blockCircleUser",
+        "circlesApi.createCircleRequest",
+        "circlesApi.getCircleConnectionsPage",
+        "circlesApi.unblockCircleUser",
+        "locationApi.lookupLocation",
+        "locationApi.reverseLookupLocation",
+        "usersApi.getAppUserOptions",
+        "usersApi.getUserProfileView",
+        "usersApi.updateCurrentAppUser"
+      ],
+      "backend_endpoints": [
+        "DELETE /circles/blocks/:param",
+        "GET /app_users/:param/profile-view",
+        "GET /app_users/options",
+        "GET /circles/connections",
+        "POST /circles/blocks",
+        "POST /circles/requests",
+        "POST /location/lookup",
+        "POST /location/reverse-lookup",
+        "PUT /app_users/me"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "POST /circles/blocks",
+          "backend_controller": "CircleController",
+          "backend_method": "blockCircleUser",
+          "client_object": "circlesApi",
+          "client_method": "blockCircleUser",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /circles/requests",
+          "backend_controller": "CircleController",
+          "backend_method": "createCircleRequest",
+          "client_object": "circlesApi",
+          "client_method": "createCircleRequest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /circles/connections",
+          "backend_controller": "CircleController",
+          "backend_method": "getConnections",
+          "client_object": "circlesApi",
+          "client_method": "getCircleConnectionsPage",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "DELETE /circles/blocks/:param",
+          "backend_controller": "CircleController",
+          "backend_method": "unblockCircleUser",
+          "client_object": "circlesApi",
+          "client_method": "unblockCircleUser",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /location/lookup",
+          "backend_controller": "LocationLookupController",
+          "backend_method": "lookup",
+          "client_object": "locationApi",
+          "client_method": "lookupLocation",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /location/reverse-lookup",
+          "backend_controller": "LocationLookupController",
+          "backend_method": "reverseLookup",
+          "client_object": "locationApi",
+          "client_method": "reverseLookupLocation",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /app_users/options",
+          "backend_controller": "AppUserController",
+          "backend_method": "getAppUserOptions",
+          "client_object": "usersApi",
+          "client_method": "getAppUserOptions",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /app_users/:param/profile-view",
+          "backend_controller": "AppUserController",
+          "backend_method": "getProfileView",
+          "client_object": "usersApi",
+          "client_method": "getUserProfileView",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PUT /app_users/me",
+          "backend_controller": "AppUserController",
+          "backend_method": "updateCurrentAppUser",
+          "client_object": "usersApi",
+          "client_method": "updateCurrentAppUser",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/admin",
+      "redirect": "/admin/work",
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": true,
+      "requires_admin": true,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/admin/work",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
+      "component_symbol": "AdminOverviewPage",
+      "requires_auth": true,
+      "requires_admin": true,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+        "adminApi.getAdminLocationStatus",
+        "dashboardApi.getDashboardSummary"
+      ],
+      "backend_endpoints": [
+        "GET /dashboard/me/summary",
+        "GET /location/admin/status"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "GET /location/admin/status",
+          "backend_controller": "LocationLookupController",
+          "backend_method": "getDebugStatus",
+          "client_object": "adminApi",
+          "client_method": "getAdminLocationStatus",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /dashboard/me/summary",
+          "backend_controller": "DashboardController",
+          "backend_method": "getMySummary",
+          "client_object": "dashboardApi",
+          "client_method": "getDashboardSummary",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/admin/quests",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
+      "component_symbol": "AdminQuestsPage",
+      "requires_auth": true,
+      "requires_admin": true,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+        "apps/themuffinman/frontend/src/composables/useMountedAsync.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createApplicationDialogViewState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/dashboardFacades.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDialogUiActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboard.ts"
+      ],
+      "api_clients": [
+        "applicationsApi.applyForQuest",
+        "applicationsApi.approveApplication",
+        "applicationsApi.declineApplication",
+        "applicationsApi.getApplicationDetail",
+        "applicationsApi.getQuestApplicationsView",
+        "applicationsApi.updateMyApplication",
+        "applicationsApi.withdrawMyApplication",
+        "dashboardApi.getDashboard",
+        "locationApi.lookupLocation",
+        "newsApi.markMyNewsAsRead",
+        "newsApi.markMyNewsItemAsRead",
+        "questsApi.confirmQuestTermChange",
+        "questsApi.deleteQuest",
+        "questsApi.getQuestDetail",
+        "questsApi.rejectQuestTermChange",
+        "questsApi.searchQuests"
+      ],
+      "backend_endpoints": [
+        "DELETE /quests/:param",
+        "GET /applications/:param/detail",
+        "GET /dashboard/me",
+        "GET /quests/:param/applications/view",
+        "GET /quests/:param/detail",
+        "GET /quests/search",
+        "PATCH /news/me/:param/read",
+        "PATCH /news/me/read",
+        "PATCH /quests/:param/applications/:param/approve",
+        "PATCH /quests/:param/applications/:param/decline",
+        "PATCH /quests/:param/applications/me/withdraw",
+        "PATCH /quests/:param/term/confirm",
+        "PATCH /quests/:param/term/reject",
+        "POST /location/lookup",
+        "POST /quests/:param/applications",
+        "PUT /quests/:param/applications/me"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "POST /quests/:param/applications",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "applyForQuest",
+          "client_object": "applicationsApi",
+          "client_method": "applyForQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/applications/:param/approve",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "approveApplication",
+          "client_object": "applicationsApi",
+          "client_method": "approveApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/applications/:param/decline",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "declineApplication",
+          "client_object": "applicationsApi",
+          "client_method": "declineApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /applications/:param/detail",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "getApplicationDetail",
+          "client_object": "applicationsApi",
+          "client_method": "getApplicationDetail",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /quests/:param/applications/view",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "getApplicationsViewForQuest",
+          "client_object": "applicationsApi",
+          "client_method": "getQuestApplicationsView",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PUT /quests/:param/applications/me",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "updateMyApplication",
+          "client_object": "applicationsApi",
+          "client_method": "updateMyApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/applications/me/withdraw",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "withdrawMyApplication",
+          "client_object": "applicationsApi",
+          "client_method": "withdrawMyApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /dashboard/me",
+          "backend_controller": "DashboardController",
+          "backend_method": "getMyDashboard",
+          "client_object": "dashboardApi",
+          "client_method": "getDashboard",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /location/lookup",
+          "backend_controller": "LocationLookupController",
+          "backend_method": "lookup",
+          "client_object": "locationApi",
+          "client_method": "lookupLocation",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /news/me/read",
+          "backend_controller": "QuestNewsController",
+          "backend_method": "markMyNewsAsRead",
+          "client_object": "newsApi",
+          "client_method": "markMyNewsAsRead",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /news/me/:param/read",
+          "backend_controller": "QuestNewsController",
+          "backend_method": "markMyNewsItemAsRead",
+          "client_object": "newsApi",
+          "client_method": "markMyNewsItemAsRead",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/term/confirm",
+          "backend_controller": "QuestController",
+          "backend_method": "confirmQuestTermChange",
+          "client_object": "questsApi",
+          "client_method": "confirmQuestTermChange",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "DELETE /quests/:param",
+          "backend_controller": "QuestController",
+          "backend_method": "deleteQuest",
+          "client_object": "questsApi",
+          "client_method": "deleteQuest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /quests/:param/detail",
+          "backend_controller": "QuestController",
+          "backend_method": "getQuestDetailById",
+          "client_object": "questsApi",
+          "client_method": "getQuestDetail",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/term/reject",
+          "backend_controller": "QuestController",
+          "backend_method": "rejectQuestTermChange",
+          "client_object": "questsApi",
+          "client_method": "rejectQuestTermChange",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /quests/search",
+          "backend_controller": "QuestController",
+          "backend_method": "searchQuests",
+          "client_object": "questsApi",
+          "client_method": "searchQuests",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/admin/users",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
+      "component_symbol": "AdminUsersPage",
+      "requires_auth": true,
+      "requires_admin": true,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+        "apps/themuffinman/frontend/src/composables/useMountedAsync.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPage.ts"
+      ],
+      "api_clients": [
+        "adminApi.getAdminUserDetail",
+        "locationApi.lookupLocation",
+        "usersApi.createAppUser",
+        "usersApi.deleteAppUser",
+        "usersApi.getAppUserOptions",
+        "usersApi.getAppUsers",
+        "usersApi.updateAppUser"
+      ],
+      "backend_endpoints": [
+        "DELETE /app_users/:param",
+        "GET /app_users",
+        "GET /app_users/:param/admin-detail",
+        "GET /app_users/options",
+        "POST /app_users",
+        "POST /location/lookup",
+        "PUT /app_users/:param"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "GET /app_users/:param/admin-detail",
+          "backend_controller": "AppUserController",
+          "backend_method": "getAdminUserDetail",
+          "client_object": "adminApi",
+          "client_method": "getAdminUserDetail",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /location/lookup",
+          "backend_controller": "LocationLookupController",
+          "backend_method": "lookup",
+          "client_object": "locationApi",
+          "client_method": "lookupLocation",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /app_users",
+          "backend_controller": "AppUserController",
+          "backend_method": "createAppUser",
+          "client_object": "usersApi",
+          "client_method": "createAppUser",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "DELETE /app_users/:param",
+          "backend_controller": "AppUserController",
+          "backend_method": "deleteAppUser",
+          "client_object": "usersApi",
+          "client_method": "deleteAppUser",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /app_users/options",
+          "backend_controller": "AppUserController",
+          "backend_method": "getAppUserOptions",
+          "client_object": "usersApi",
+          "client_method": "getAppUserOptions",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /app_users",
+          "backend_controller": "AppUserController",
+          "backend_method": "getAllAppUsers",
+          "client_object": "usersApi",
+          "client_method": "getAppUsers",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PUT /app_users/:param",
+          "backend_controller": "AppUserController",
+          "backend_method": "updateAppUser",
+          "client_object": "usersApi",
+          "client_method": "updateAppUser",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/admin/applications",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+      "component_symbol": "AdminApplicationsPage",
+      "requires_auth": true,
+      "requires_admin": true,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts"
+      ],
+      "api_clients": [
+        "adminApi.getAdminApplications",
+        "applicationsApi.approveApplication",
+        "applicationsApi.declineApplication",
+        "applicationsApi.deleteAdminApplication",
+        "applicationsApi.updateAdminApplication",
+        "usersApi.getAppUserOptions"
+      ],
+      "backend_endpoints": [
+        "DELETE /admin/applications/:param",
+        "GET /admin/applications",
+        "GET /app_users/options",
+        "PATCH /quests/:param/applications/:param/approve",
+        "PATCH /quests/:param/applications/:param/decline",
+        "PUT /admin/applications/:param"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "GET /admin/applications",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "getAllApplicationsForAdmin",
+          "client_object": "adminApi",
+          "client_method": "getAdminApplications",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/applications/:param/approve",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "approveApplication",
+          "client_object": "applicationsApi",
+          "client_method": "approveApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PATCH /quests/:param/applications/:param/decline",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "declineApplication",
+          "client_object": "applicationsApi",
+          "client_method": "declineApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "DELETE /admin/applications/:param",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "deleteApplicationForAdmin",
+          "client_object": "applicationsApi",
+          "client_method": "deleteAdminApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "PUT /admin/applications/:param",
+          "backend_controller": "QuestApplicationController",
+          "backend_method": "updateApplicationForAdmin",
+          "client_object": "applicationsApi",
+          "client_method": "updateAdminApplication",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /app_users/options",
+          "backend_controller": "AppUserController",
+          "backend_method": "getAppUserOptions",
+          "client_object": "usersApi",
+          "client_method": "getAppUserOptions",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/admin/circles",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+      "component_symbol": "AdminCirclesPage",
+      "requires_auth": true,
+      "requires_admin": true,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+        "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
+        "apps/themuffinman/frontend/src/composables/useAutoDismissFeedback.ts",
+        "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts"
+      ],
+      "api_clients": [
+        "adminApi.deleteAdminCircle",
+        "adminApi.deleteAdminCircleRequest",
+        "adminApi.getAdminCircleOverview"
+      ],
+      "backend_endpoints": [
+        "DELETE /circles/admin/groups/:param",
+        "DELETE /circles/requests/:param",
+        "GET /circles/admin/overview"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "DELETE /circles/admin/groups/:param",
+          "backend_controller": "CircleController",
+          "backend_method": "deleteCircleAsAdmin",
+          "client_object": "adminApi",
+          "client_method": "deleteAdminCircle",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "DELETE /circles/requests/:param",
+          "backend_controller": "CircleController",
+          "backend_method": "deleteCircleRequest",
+          "client_object": "adminApi",
+          "client_method": "deleteAdminCircleRequest",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "GET /circles/admin/overview",
+          "backend_controller": "CircleController",
+          "backend_method": "getAdminOverview",
+          "client_object": "adminApi",
+          "client_method": "getAdminCircleOverview",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/admin/agent",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+      "component_symbol": "AdminAgentPage",
+      "requires_auth": true,
+      "requires_admin": true,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+        "adminApi.runAdminAgentPrompt",
+        "adminApi.runAdminAgentSimulation"
+      ],
+      "backend_endpoints": [
+        "POST /admin/agent/playground",
+        "POST /admin/agent/simulate"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "POST /admin/agent/playground",
+          "backend_controller": "AdminAgentController",
+          "backend_method": "runPlaygroundPrompt",
+          "client_object": "adminApi",
+          "client_method": "runAdminAgentPrompt",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /admin/agent/simulate",
+          "backend_controller": "AdminAgentController",
+          "backend_method": "runSimulation",
+          "client_object": "adminApi",
+          "client_method": "runAdminAgentSimulation",
+          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/app-users",
+      "redirect": "/admin/users",
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": false,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/business",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
+      "component_symbol": "ModulePlaceholderView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": true,
+      "module_key": "business",
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/things",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
+      "component_symbol": "ModulePlaceholderView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": true,
+      "module_key": "things",
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/rides",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
+      "component_symbol": "ModulePlaceholderView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": true,
+      "module_key": "rides",
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/chat",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
+      "component_symbol": "ModulePlaceholderView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": true,
+      "module_key": "chat",
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2717 @@
+{
+  "generated_at": "2026-06-28T20:30:13Z",
+  "repository_count": 12,
+  "repository_method_count": 70,
+  "high_risk_count": 0,
+  "medium_risk_count": 10,
+  "repository_methods": [
+    {
+      "repository": "AppUserRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java",
+      "domain": "identity",
+      "method": "findByEmail",
+      "return_type": "Optional<AppUser>",
+      "returned_entity": "AppUser",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 3,
+      "likely_lazy_relations_touched_downstream": [
+        "role",
+        "servletRequest"
+      ],
+      "risk_level": "medium",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/websocket/ChatWebSocketAuthInterceptor.java",
+          "caller_class": "ChatWebSocketAuthInterceptor",
+          "caller_method": "beforeHandshake",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "servletRequest"
+          ],
+          "body_signals": [
+            "relation_dereference"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/security/RepositoryUserDetailsService.java",
+          "caller_class": "RepositoryUserDetailsService",
+          "caller_method": "loadUserByUsername",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "role"
+          ],
+          "body_signals": [
+            "relation_dereference"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
+          "caller_class": "AuthService",
+          "caller_method": "login",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "mapper_or_assembler"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "ChatConversationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatConversationRepository.java",
+      "domain": "chat",
+      "method": "findByLeftParticipantIdAndRightParticipantId",
+      "return_type": "Optional<ChatConversation>",
+      "returned_entity": "ChatConversation",
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "medium",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+          "caller_class": "ChatService",
+          "caller_method": "openConversation",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "ChatMessageRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageRepository.java",
+      "domain": "chat",
+      "method": "findConversationIdsWithExpiredImages",
+      "return_type": "List<Long>",
+      "returned_entity": "Long",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+        "chat"
+      ],
+      "risk_level": "medium",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+          "caller_class": "ChatService",
+          "caller_method": "redactExpiredImages",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "chat"
+          ],
+          "body_signals": [
+            "relation_dereference"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "ChatMessageRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageRepository.java",
+      "domain": "chat",
+      "method": "findConversationIdsWithExpiredMessages",
+      "return_type": "List<Long>",
+      "returned_entity": "Long",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+        "chat"
+      ],
+      "risk_level": "medium",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+          "caller_class": "ChatService",
+          "caller_method": "deleteExpiredMessages",
+          "caller_classification": "mutating",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "chat"
+          ],
+          "body_signals": [
+            "relation_dereference"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "ChatPresenceRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatPresenceRepository.java",
+      "domain": "chat",
+      "method": "findByUserId",
+      "return_type": "Optional<ChatPresence>",
+      "returned_entity": "ChatPresence",
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 3,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "medium",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+          "caller_class": "ChatService",
+          "caller_method": "openConversation",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatPresenceService.java",
+          "caller_class": "ChatPresenceService",
+          "caller_method": "markActive",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatPresenceService.java",
+          "caller_class": "ChatPresenceService",
+          "caller_method": "markInactive",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "CircleGroupRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleGroupRepository.java",
+      "domain": "social",
+      "method": "findAllByOwnerIdAndIdIn",
+      "return_type": "List<CircleGroup>",
+      "returned_entity": "CircleGroup",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 2,
+      "likely_lazy_relations_touched_downstream": [
+        "circle"
+      ],
+      "risk_level": "medium",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java",
+          "caller_class": "CircleMembershipService",
+          "caller_method": "getOwnedCirclesByIds",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java",
+          "caller_class": "CircleMembershipService",
+          "caller_method": "syncConnectionCircles",
+          "caller_classification": "mutating",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "circle"
+          ],
+          "body_signals": [
+            "relation_dereference",
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "findByIdDetailed",
+      "return_type": "Optional<QuestApplication>",
+      "returned_entity": "QuestApplication",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "applicant",
+        "quest"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 3,
+      "likely_lazy_relations_touched_downstream": [
+        "proposedPrice"
+      ],
+      "risk_level": "medium",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+          "caller_class": "QuestService",
+          "caller_method": "getApplicationDetailResponseById",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "quest"
+          ],
+          "body_signals": [
+            "dto_builder",
+            "relation_dereference"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "deleteApplicationForAdmin",
+          "caller_classification": "mutating",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "updateApplicationForAdmin",
+          "caller_classification": "mutating",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "proposedPrice"
+          ],
+          "body_signals": [
+            "relation_dereference"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "findByQuestIdAndApplicantIdAndStatus",
+      "return_type": "Optional<QuestApplication>",
+      "returned_entity": "QuestApplication",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "applicant",
+        "quest"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 2,
+      "likely_lazy_relations_touched_downstream": [
+        "creator"
+      ],
+      "risk_level": "medium",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+          "caller_class": "QuestStateTransitionService",
+          "caller_method": "validateQuestExecutionAuthority",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "creator"
+          ],
+          "body_signals": [
+            "relation_dereference"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+          "caller_class": "QuestStateTransitionService",
+          "caller_method": "validateQuestTermDecisionAuthority",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestNewsRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestNewsRepository.java",
+      "domain": "workmarket",
+      "method": "findByRecipientUserIdOrderByCreatedAtDesc",
+      "return_type": "List<QuestNewsItem>",
+      "returned_entity": "QuestNewsItem",
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "medium",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsService.java",
+          "caller_class": "QuestNewsService",
+          "caller_method": "getMyNews",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "UserReviewRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/UserReviewRepository.java",
+      "domain": "workmarket",
+      "method": "findByQuestIdAndReviewerIdAndReviewedUserId",
+      "return_type": "Optional<UserReview>",
+      "returned_entity": "UserReview",
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "medium",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+          "caller_class": "QuestViewAssembler",
+          "caller_method": "buildQuestDetailReviewSection",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "AppUserRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java",
+      "domain": "identity",
+      "method": "countByLocationLatitudeIsNotNullAndLocationLongitudeIsNotNull",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
+          "caller_class": "LocationLookupService",
+          "caller_method": "getDebugStatus",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "AppUserRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java",
+      "domain": "identity",
+      "method": "countByLocationProviderPlaceIdIsNotNull",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
+          "caller_class": "LocationLookupService",
+          "caller_method": "getDebugStatus",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "AppUserRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java",
+      "domain": "identity",
+      "method": "countByRole",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java",
+          "caller_class": "AppUserService",
+          "caller_method": "deleteUser",
+          "caller_classification": "mutating",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "AppUserRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java",
+      "domain": "identity",
+      "method": "existsByEmail",
+      "return_type": "boolean",
+      "returned_entity": null,
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
+          "caller_class": "AuthService",
+          "caller_method": "register",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "mapper_or_assembler"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "AppUserRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java",
+      "domain": "identity",
+      "method": "existsByEmailAndIdNot",
+      "return_type": "boolean",
+      "returned_entity": null,
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "AppUserRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java",
+      "domain": "identity",
+      "method": "searchByUsernameOrEmail",
+      "return_type": "List<AppUser>",
+      "returned_entity": "AppUser",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "ChatConversationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatConversationRepository.java",
+      "domain": "chat",
+      "method": "findDetailedById",
+      "return_type": "Optional<ChatConversation>",
+      "returned_entity": "ChatConversation",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "lastMessageSender",
+        "leftParticipant",
+        "rightParticipant"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "ChatConversationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatConversationRepository.java",
+      "domain": "chat",
+      "method": "findDetailedByParticipantId",
+      "return_type": "List<ChatConversation>",
+      "returned_entity": "ChatConversation",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "lastMessageSender",
+        "leftParticipant",
+        "rightParticipant"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+          "caller_class": "ChatService",
+          "caller_method": "getWorkspace",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder",
+            "relation_dereference",
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "ChatMessageRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageRepository.java",
+      "domain": "chat",
+      "method": "deleteByCreatedAtBefore",
+      "return_type": "int",
+      "returned_entity": null,
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+        "chat"
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+          "caller_class": "ChatService",
+          "caller_method": "deleteExpiredMessages",
+          "caller_classification": "mutating",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "chat"
+          ],
+          "body_signals": [
+            "relation_dereference"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "ChatMessageRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageRepository.java",
+      "domain": "chat",
+      "method": "findDetailedByConversationId",
+      "return_type": "List<ChatMessage>",
+      "returned_entity": "ChatMessage",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "sender"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+          "caller_class": "ChatService",
+          "caller_method": "getConversationMessages",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "ChatMessageRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageRepository.java",
+      "domain": "chat",
+      "method": "findLatestDetailedByConversationId",
+      "return_type": "List<ChatMessage>",
+      "returned_entity": "ChatMessage",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "sender"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "ChatMessageRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageRepository.java",
+      "domain": "chat",
+      "method": "findUnreadCountsByConversationIds",
+      "return_type": "List<UnreadCountRow>",
+      "returned_entity": null,
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+          "caller_class": "ChatService",
+          "caller_method": "getWorkspace",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder",
+            "relation_dereference",
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "ChatMessageRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageRepository.java",
+      "domain": "chat",
+      "method": "findUnreadIncomingByConversationId",
+      "return_type": "List<ChatMessage>",
+      "returned_entity": "ChatMessage",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+          "caller_class": "ChatService",
+          "caller_method": "markConversationRead",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "ChatMessageRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageRepository.java",
+      "domain": "chat",
+      "method": "getConversationId",
+      "return_type": "Long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "ChatMessageRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageRepository.java",
+      "domain": "chat",
+      "method": "getUnreadCount",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "ChatMessageRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageRepository.java",
+      "domain": "chat",
+      "method": "redactExpiredImages",
+      "return_type": "int",
+      "returned_entity": null,
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+        "chat"
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+          "caller_class": "ChatService",
+          "caller_method": "redactExpiredImages",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "chat"
+          ],
+          "body_signals": [
+            "relation_dereference"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "ChatPresenceRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatPresenceRepository.java",
+      "domain": "chat",
+      "method": "findByUserIds",
+      "return_type": "List<ChatPresence>",
+      "returned_entity": "ChatPresence",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "CircleGroupRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleGroupRepository.java",
+      "domain": "social",
+      "method": "existsByOwnerIdAndNameIgnoreCase",
+      "return_type": "boolean",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 2,
+      "likely_lazy_relations_touched_downstream": [
+        "name"
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+          "caller_class": "CircleService",
+          "caller_method": "createCircle",
+          "caller_classification": "mutating",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "mapper_or_assembler"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+          "caller_class": "CircleService",
+          "caller_method": "updateCircle",
+          "caller_classification": "mutating",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "name"
+          ],
+          "body_signals": [
+            "mapper_or_assembler",
+            "relation_dereference"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "CircleGroupRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleGroupRepository.java",
+      "domain": "social",
+      "method": "findAllDetailed",
+      "return_type": "List<CircleGroup>",
+      "returned_entity": "CircleGroup",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "member",
+        "memberships",
+        "owner"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+          "caller_class": "CircleService",
+          "caller_method": "getAllCirclesForAdmin",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "CircleGroupRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleGroupRepository.java",
+      "domain": "social",
+      "method": "findAllDetailedByOwnerId",
+      "return_type": "List<CircleGroup>",
+      "returned_entity": "CircleGroup",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "member",
+        "memberships"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 2,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+          "caller_class": "CircleService",
+          "caller_method": "getCircles",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "stream_mapping"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+          "caller_class": "CircleService",
+          "caller_method": "getCirclesForUserAsAdmin",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "CircleGroupRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleGroupRepository.java",
+      "domain": "social",
+      "method": "findByIdAndOwnerId",
+      "return_type": "Optional<CircleGroup>",
+      "returned_entity": "CircleGroup",
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "CircleMembershipRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleMembershipRepository.java",
+      "domain": "social",
+      "method": "deleteByCircleId",
+      "return_type": "void",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "CircleMembershipRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleMembershipRepository.java",
+      "domain": "social",
+      "method": "existsByCircleIdAndMemberId",
+      "return_type": "boolean",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java",
+          "caller_class": "CircleMembershipService",
+          "caller_method": "isCircleMember",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "CircleMembershipRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleMembershipRepository.java",
+      "domain": "social",
+      "method": "findByCircleOwnerId",
+      "return_type": "List<CircleMembership>",
+      "returned_entity": "CircleMembership",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "circle",
+        "member"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java",
+          "caller_class": "CircleMembershipService",
+          "caller_method": "getMembershipsByOwner",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "CircleMembershipRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleMembershipRepository.java",
+      "domain": "social",
+      "method": "findByMemberIdAndCircleOwnerId",
+      "return_type": "List<CircleMembership>",
+      "returned_entity": "CircleMembership",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "circle",
+        "member"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java",
+          "caller_class": "CircleMembershipService",
+          "caller_method": "getMembershipsForContact",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "CircleRequestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleRequestRepository.java",
+      "domain": "social",
+      "method": "findAcceptedByUserId",
+      "return_type": "List<CircleRequest>",
+      "returned_entity": "CircleRequest",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "recipient",
+        "requester"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+          "caller_class": "CircleService",
+          "caller_method": "getMyCircles",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "CircleRequestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleRequestRepository.java",
+      "domain": "social",
+      "method": "findAllDetailed",
+      "return_type": "List<CircleRequest>",
+      "returned_entity": "CircleRequest",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "blockedBy",
+        "recipient",
+        "requester"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+          "caller_class": "CircleService",
+          "caller_method": "getAdminOverview",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "mapper_or_assembler"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "CircleRequestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleRequestRepository.java",
+      "domain": "social",
+      "method": "findBetweenUsers",
+      "return_type": "Optional<CircleRequest>",
+      "returned_entity": "CircleRequest",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "recipient",
+        "requester"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
+          "caller_class": "CircleRelationService",
+          "caller_method": "findRelation",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "CircleRequestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleRequestRepository.java",
+      "domain": "social",
+      "method": "findBlockedByUserId",
+      "return_type": "List<CircleRequest>",
+      "returned_entity": "CircleRequest",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "blockedBy",
+        "recipient",
+        "requester"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+          "caller_class": "CircleService",
+          "caller_method": "getBlockedUsers",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "requester"
+          ],
+          "body_signals": [
+            "mapper_or_assembler",
+            "relation_dereference",
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "CircleRequestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleRequestRepository.java",
+      "domain": "social",
+      "method": "findIncomingPendingByRecipientId",
+      "return_type": "List<CircleRequest>",
+      "returned_entity": "CircleRequest",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "recipient",
+        "requester"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "CircleRequestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleRequestRepository.java",
+      "domain": "social",
+      "method": "findOutgoingPendingByRequesterId",
+      "return_type": "List<CircleRequest>",
+      "returned_entity": "CircleRequest",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "recipient",
+        "requester"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "LocationLookupEventRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/repository/LocationLookupEventRepository.java",
+      "domain": "location",
+      "method": "countByCreatedAtGreaterThanEqual",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
+          "caller_class": "LocationLookupService",
+          "caller_method": "getDebugStatus",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "LocationLookupEventRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/repository/LocationLookupEventRepository.java",
+      "domain": "location",
+      "method": "countByCreatedAtGreaterThanEqualAndRequestType",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 2,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
+          "caller_class": "LocationLookupService",
+          "caller_method": "getDebugStatus",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
+          "caller_class": "LocationLookupService",
+          "caller_method": "getDebugStatus",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "countByApplicantId",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "countByQuestIdAndStatus",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 3,
+      "likely_lazy_relations_touched_downstream": [
+        "creator"
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+          "caller_class": "QuestViewAssembler",
+          "caller_method": "toResponse",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "mapper_or_assembler"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "approveApplication",
+          "caller_classification": "mutating",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+          "caller_class": "QuestStateTransitionService",
+          "caller_method": "applyOwnerQuestStatusChange",
+          "caller_classification": "mutating",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "creator"
+          ],
+          "body_signals": [
+            "relation_dereference"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "deleteByQuestId",
+      "return_type": "void",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java",
+          "caller_class": "QuestExecutionPrimitiveService",
+          "caller_method": "deleteMutationData",
+          "caller_classification": "mutating",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "existsByQuestId",
+      "return_type": "boolean",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "existsByQuestIdAndApplicantId",
+      "return_type": "boolean",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "findAllDetailed",
+      "return_type": "List<QuestApplication>",
+      "returned_entity": "QuestApplication",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "applicant",
+        "quest"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 2,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "getAllApplicationsForAdmin",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "mapper_or_assembler",
+            "stream_mapping"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "searchApplicationsForAdmin",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder",
+            "mapper_or_assembler",
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "findByApplicantId",
+      "return_type": "List<QuestApplication>",
+      "returned_entity": "QuestApplication",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "applicant",
+        "quest"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 3,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+          "caller_class": "DashboardService",
+          "caller_method": "getMyDashboard",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder",
+            "stream_mapping"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+          "caller_class": "DashboardService",
+          "caller_method": "getMySummary",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "getApplicationsForApplicant",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "findByIdAndQuestId",
+      "return_type": "Optional<QuestApplication>",
+      "returned_entity": "QuestApplication",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "applicant",
+        "quest"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "findByQuestId",
+      "return_type": "List<QuestApplication>",
+      "returned_entity": "QuestApplication",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "applicant",
+        "quest"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 4,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "getApplicationsForQuest",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "mapper_or_assembler",
+            "stream_mapping"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "getApplicationsViewForQuest",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder",
+            "mapper_or_assembler",
+            "relation_dereference",
+            "stream_mapping"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestWorkflowNotificationService.java",
+          "caller_class": "QuestWorkflowNotificationService",
+          "caller_method": "notifyQuestApplicants",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestWorkflowNotificationService.java",
+          "caller_class": "QuestWorkflowNotificationService",
+          "caller_method": "notifyQuestDeleted",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "findByQuestIdAndApplicantId",
+      "return_type": "Optional<QuestApplication>",
+      "returned_entity": "QuestApplication",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "applicant",
+        "quest"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "domain": "workmarket",
+      "method": "findByQuestIdAndStatus",
+      "return_type": "List<QuestApplication>",
+      "returned_entity": "QuestApplication",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "applicant",
+        "quest"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 2,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+          "caller_class": "QuestApplicationService",
+          "caller_method": "getPublicApprovedApplicationsViewForQuest",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder",
+            "mapper_or_assembler",
+            "relation_dereference",
+            "stream_mapping"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestWorkflowNotificationService.java",
+          "caller_class": "QuestWorkflowNotificationService",
+          "caller_method": "notifyApprovedApplicant",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestNewsRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestNewsRepository.java",
+      "domain": "workmarket",
+      "method": "countByRecipientUserIdAndReadAtIsNull",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsService.java",
+          "caller_class": "QuestNewsService",
+          "caller_method": "getUnreadCount",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestNewsRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestNewsRepository.java",
+      "domain": "workmarket",
+      "method": "deleteByCreatedAtBefore",
+      "return_type": "int",
+      "returned_entity": null,
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+        "notifications"
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsService.java",
+          "caller_class": "QuestNewsService",
+          "caller_method": "deleteExpiredNews",
+          "caller_classification": "mutating",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "notifications"
+          ],
+          "body_signals": [
+            "relation_dereference"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestNewsRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestNewsRepository.java",
+      "domain": "workmarket",
+      "method": "findByIdAndRecipientUserId",
+      "return_type": "Optional<QuestNewsItem>",
+      "returned_entity": "QuestNewsItem",
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsService.java",
+          "caller_class": "QuestNewsService",
+          "caller_method": "markMyNewsItemAsRead",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestNewsRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestNewsRepository.java",
+      "domain": "workmarket",
+      "method": "markAllAsRead",
+      "return_type": "int",
+      "returned_entity": null,
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsService.java",
+          "caller_class": "QuestNewsService",
+          "caller_method": "markMyNewsAsRead",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestRepository.java",
+      "domain": "workmarket",
+      "method": "countByCreatorId",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "QuestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestRepository.java",
+      "domain": "workmarket",
+      "method": "countByCreatorIdAndStatus",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java",
+          "caller_class": "AppUserService",
+          "caller_method": "countQuestsByCreatorId",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestRepository.java",
+      "domain": "workmarket",
+      "method": "countByLocationLatitudeIsNotNullAndLocationLongitudeIsNotNull",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
+          "caller_class": "LocationLookupService",
+          "caller_method": "getDebugStatus",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestRepository.java",
+      "domain": "workmarket",
+      "method": "countByLocationProviderPlaceIdIsNotNull",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
+          "caller_class": "LocationLookupService",
+          "caller_method": "getDebugStatus",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestRepository.java",
+      "domain": "workmarket",
+      "method": "findAllWithCreator",
+      "return_type": "List<Quest>",
+      "returned_entity": "Quest",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "creator",
+        "images",
+        "visibleToCircles"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+          "caller_class": "QuestService",
+          "caller_method": "getAllQuests",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestRepository.java",
+      "domain": "workmarket",
+      "method": "findAllWithCreatorByIds",
+      "return_type": "List<Quest>",
+      "returned_entity": "Quest",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "creator",
+        "images",
+        "visibleToCircles"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "QuestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestRepository.java",
+      "domain": "workmarket",
+      "method": "findByCreatorIdAndStatusOrderByIdDesc",
+      "return_type": "List<Quest>",
+      "returned_entity": "Quest",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "creator",
+        "images",
+        "visibleToCircles"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "QuestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestRepository.java",
+      "domain": "workmarket",
+      "method": "findByIdWithCreator",
+      "return_type": "Optional<Quest>",
+      "returned_entity": "Quest",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "creator",
+        "images",
+        "visibleToCircles"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java",
+          "caller_class": "QuestExecutionPrimitiveService",
+          "caller_method": "resolveTarget",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "UserReviewRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/UserReviewRepository.java",
+      "domain": "workmarket",
+      "method": "findRecentByReviewedUserId",
+      "return_type": "List<UserReview>",
+      "returned_entity": "UserReview",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+        "quest",
+        "reviewedUser",
+        "reviewer"
+      ],
+      "fetch_coverage": "explicit_fetch",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+          "caller_class": "UserReviewService",
+          "caller_method": "getRecentReviewsForProfile",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "UserReviewRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/UserReviewRepository.java",
+      "domain": "workmarket",
+      "method": "getAverageStars",
+      "return_type": "Double",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "UserReviewRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/UserReviewRepository.java",
+      "domain": "workmarket",
+      "method": "getReviewCount",
+      "return_type": "long",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "UserReviewRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/UserReviewRepository.java",
+      "domain": "workmarket",
+      "method": "summarizeByReviewedUserIdAndReviewedRole",
+      "return_type": "UserRatingSummaryProjection",
+      "returned_entity": "UserRatingSummaryProjection",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    }
+  ]
+}

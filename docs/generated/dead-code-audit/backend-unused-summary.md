@@ -1,0 +1,15 @@
+# Backend Dead Code Audit
+
+- Generated At: `2026-06-28T20:30:18Z`
+- Java Files Scanned: `255`
+## `high_confidence`
+
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java", :class_name: "ChatRetentionService", :refs: 1, :confidence: "high_confidence"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/security/RepositoryUserDetailsService.java", :class_name: "RepositoryUserDetailsService", :refs: 1, :confidence: "high_confidence"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleCandidateDTO.java", :class_name: "CircleCandidateDTO", :refs: 1, :confidence: "high_confidence"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsRetentionService.java", :class_name: "QuestNewsRetentionService", :refs: 1, :confidence: "high_confidence"}`
+
+## `review_needed`
+
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java", :class_name: "LabelValueDTO", :refs: 2, :confidence: "review_needed"}`
+

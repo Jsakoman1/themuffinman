@@ -11,9 +11,11 @@ import com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO;
 import com.themuffinman.app.workmarket.service.WorkmarketOptionsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AdminUserDetailService {
     private final AppUserLookupService appUserLookupService;
     private final AppUserService appUserService;
