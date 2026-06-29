@@ -41,6 +41,7 @@ Before broad repository searches, read the compact local context in this order:
 - `audit-doc-staleness-scoring`
 - `audit-doc-sync-duplicates`
 - `audit-doc-sync-preflight`
+- `audit-doc-sync-required-surfaces`
 - `audit-doc-template-coverage`
 - `audit-docs-as-tests`
 - `audit-docs-to-code-drift`
@@ -84,12 +85,17 @@ Before broad repository searches, read the compact local context in this order:
 - `audit-test-surface-inventory`
 - `audit-todo`
 - `audit-validation-evidence-quality`
+- `autofill-feature-closeout`
 - `bootstrap-feature-work`
 - `changeset-playbook`
 - `changeset-risk`
+- `clean-text-noise`
 - `closeout-bundle`
 - `closeout-report`
 - `codebase-capsule`
+- `codex-context`
+- `codex-context-clean`
+- `codex-context-explain`
 - `context-pack`
 - `diagnose-backend-test`
 - `diagnose-frontend-build`

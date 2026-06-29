@@ -24,7 +24,7 @@ public class CircleSearchResultDTO {
     private String resolutionKey;
     private String resolutionLabel;
     private boolean exactResolutionEligible;
-    private CircleRelationStatus relationStatus;
+    private CircleRelationStatusDTO relationStatus;
     private String relationLabel;
     private String relationBadgeClass;
     private ProfilePrimaryActionDTO primaryAction;

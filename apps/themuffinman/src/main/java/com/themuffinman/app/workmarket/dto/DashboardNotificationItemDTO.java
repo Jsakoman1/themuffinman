@@ -34,7 +34,7 @@ public class DashboardNotificationItemDTO {
     private Instant createdAt;
     @Nullable
     private Instant readAt;
-    private DashboardNotificationDestinationType destinationType;
+    private DashboardNotificationDestinationTypeDTO destinationType;
     @Nullable
     private Long destinationId;
     @Nullable

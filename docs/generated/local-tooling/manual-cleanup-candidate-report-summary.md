@@ -1,6 +1,6 @@
 # Manual Cleanup Candidate Report
 
-- Generated At: `2026-06-29T12:47:25Z`
+- Generated At: `2026-06-29T19:55:00Z`
 ## `shortlist`
 
 - `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue"}`
@@ -14,6 +14,7 @@
 - `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/lib/dashboardCalendar.ts"}`
 - `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/lib/questListPagination.ts"}`
 - `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java"}`
+- `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java"}`
 - `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/security/RepositoryUserDetailsService.java"}`
 - `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleCandidateDTO.java"}`
 - `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsRetentionService.java"}`

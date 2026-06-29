@@ -3,8 +3,8 @@ package com.themuffinman.app.workmarket.service;
 import com.themuffinman.app.common.concepts.ActorIdentity;
 import com.themuffinman.app.common.concepts.ModuleOwnership;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.workmarket.dto.QuestAllowedAction;
-import com.themuffinman.app.workmarket.dto.QuestViewerRelation;
+import com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
@@ -17,55 +17,55 @@ import java.util.List;
 @Service
 public class QuestAccessPolicyService {
 
-    public QuestViewerRelation resolveViewerRelation(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {
+    public QuestViewerRelationDTO resolveViewerRelation(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {
         if (currentUser == null) {
-            return QuestViewerRelation.VIEWER;
+            return QuestViewerRelationDTO.VIEWER;
         }
 
         if (isQuestOwner(quest, currentUser)) {
-            return QuestViewerRelation.OWNER;
+            return QuestViewerRelationDTO.OWNER;
         }
 
         if (isAdmin(currentUser)) {
-            return QuestViewerRelation.ADMIN;
+            return QuestViewerRelationDTO.ADMIN;
         }
 
         if (viewerApplication != null && viewerApplication.getStatus() == QuestApplicationStatus.APPROVED) {
-            return QuestViewerRelation.APPROVED_APPLICANT;
+            return QuestViewerRelationDTO.APPROVED_APPLICANT;
         }
 
         if (viewerApplication != null) {
-            return QuestViewerRelation.APPLICANT;
+            return QuestViewerRelationDTO.APPLICANT;
         }
 
-        return QuestViewerRelation.VIEWER;
+        return QuestViewerRelationDTO.VIEWER;
     }
 
-    public List<QuestAllowedAction> resolveAllowedActions(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {
-        List<QuestAllowedAction> allowedActions = new ArrayList<>();
+    public List<QuestAllowedActionDTO> resolveAllowedActions(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {
+        List<QuestAllowedActionDTO> allowedActions = new ArrayList<>();
         boolean approvedApplicant = viewerApplication != null && viewerApplication.getStatus() == QuestApplicationStatus.APPROVED;
 
         if (canManageQuest(quest, currentUser)) {
-            allowedActions.add(QuestAllowedAction.EDIT);
-            allowedActions.add(QuestAllowedAction.VIEW_APPLICATIONS);
-            allowedActions.add(QuestAllowedAction.DELETE);
+            allowedActions.add(QuestAllowedActionDTO.EDIT);
+            allowedActions.add(QuestAllowedActionDTO.VIEW_APPLICATIONS);
+            allowedActions.add(QuestAllowedActionDTO.DELETE);
         }
 
         if (canApplyToQuest(quest, currentUser, viewerApplication)) {
-            allowedActions.add(QuestAllowedAction.APPLY);
+            allowedActions.add(QuestAllowedActionDTO.APPLY);
         }
 
         if (canExecuteQuest(quest, currentUser, approvedApplicant) && quest.getStatus() == QuestStatus.ASSIGNED) {
-            allowedActions.add(QuestAllowedAction.START);
+            allowedActions.add(QuestAllowedActionDTO.START);
         }
 
         if (canExecuteQuest(quest, currentUser, approvedApplicant) && quest.getStatus() == QuestStatus.IN_PROGRESS) {
-            allowedActions.add(QuestAllowedAction.COMPLETE);
+            allowedActions.add(QuestAllowedActionDTO.COMPLETE);
         }
 
         if (canDecideQuestTermChange(quest, currentUser, approvedApplicant) && quest.getStatus() == QuestStatus.WAITING_CONFIRMATION) {
-            allowedActions.add(QuestAllowedAction.CONFIRM_TERM_CHANGE);
-            allowedActions.add(QuestAllowedAction.REJECT_TERM_CHANGE);
+            allowedActions.add(QuestAllowedActionDTO.CONFIRM_TERM_CHANGE);
+            allowedActions.add(QuestAllowedActionDTO.REJECT_TERM_CHANGE);
         }
 
         return allowedActions;

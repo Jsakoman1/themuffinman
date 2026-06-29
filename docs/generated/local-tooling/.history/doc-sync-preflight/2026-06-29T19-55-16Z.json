@@ -1,0 +1,3263 @@
+{
+  "generated_at": "2026-06-29T12:47:32Z",
+  "files": [
+    {
+      "file": ".agents/agent-control-phase-two-plan.md",
+      "category": "other",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": ".agents/agent-operating-refactor-plan.md",
+      "category": "other",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": ".agents/agent-safety-enforcement-round2-plan.md",
+      "category": "other",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": ".agents/agent-safety-upgrade-plan.md",
+      "category": "other",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": ".agents/backend-audit-domain-tagging-plan.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/backend-audit-identity-dto-tightening-plan.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/backend-audit-location-dto-tightening-plan.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/backend-audit-manifest-cleanup-plan.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/backend-audit-tiering-plan.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/backend-audit-tightening-plan.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/executor-readiness-program-plan.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/agent-control-phase-two-manifest.yaml",
+      "category": "other",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
+      "category": "other",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml",
+      "category": "other",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml",
+      "category": "other",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-tiering-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/executor-readiness-program-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/persistent-backlog-system-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/persistent-backlog-system-plan.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/templates/feature-completion-manifest.template.yaml",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/templates/feature-implementation-plan.template.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".gitignore",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "Makefile",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/README.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/package.json",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs",
+      "category": "frontend_script",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/scripts/validate-admin-agent-ui-scenarios.mjs",
+      "category": "frontend_script",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+      "category": "frontend_view",
+      "domain": "social",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+      "category": "frontend_view",
+      "domain": "social",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
+      "category": "frontend_composable",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
+      "category": "frontend_composable",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts",
+      "category": "frontend_composable",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
+      "category": "frontend_composable",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+      "category": "frontend_view",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+      "category": "frontend_view",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
+      "category": "frontend_view",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
+      "category": "frontend_view",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
+      "category": "frontend_view",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
+      "category": "frontend_view",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+      "category": "frontend_view",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/router.ts",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/style.css",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
+      "category": "backend_service",
+      "domain": "location",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/location-services.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+      "category": "backend_repository",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestRepository.java",
+      "category": "backend_repository",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestUpdateService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestVisibilityService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestWorkflowNotificationService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/agent-improvement-backlog.md",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model.md",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model.schema.json",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/api.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/documentation_coverage.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/documentation_sync.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/frontend_contract_generation.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/intent_safety_catalog.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/intents.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/policies.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/request_validation_gate.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/service_workflow_inventory.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/source_of_truth.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/business-logic.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/change-completion-checklist.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/codex-local-tooling-todo.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/documentation-sync-policy.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/domain-technical.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/feature-completion-manifest.schema.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/agent-endpoint-inventory.json",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/generated/automation-read-model-inventory.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/backend-audit-inventory.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/dead-code-audit/backend-unused-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/dead-code-audit/backend-unused.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/dead-code-audit/dead-code-summary-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/dead-code-audit/dead-code-summary.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/dead-code-audit/frontend-unused-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/dead-code-audit/frontend-unused.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/.cache/audit-inputs.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/agent-model-feature-coverage-audit.json",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/api-contract-drift-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/api-contract-drift.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/api-contract-snapshot-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/api-contract-snapshot.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/async-mutation-flow-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/async-mutation-flow-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/audit-documentation-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/audit-documentation.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/audit-registry-artifacts-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/audit-registry-artifacts.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/audit-router-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/audit-router.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/audit-summary-index.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/audit-summary-index.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/automation-readiness-gap-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/automation-readiness-gap-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/backend-dependency-graph-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/backend-dependency-graph.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/change-impact-preflight-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/change-impact-preflight.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/config-sprawl-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/config-sprawl-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/diff-summary.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/diff-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/doc-canonical-phrases.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/doc-coverage-gap-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/doc-coverage-gap-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/doc-sync-preflight.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/docs-to-code-drift-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/docs-to-code-drift-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/domain-ownership-inventory-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/domain-ownership-inventory.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/dormant-code-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/dormant-code-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/duplicate-logic-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/duplicate-logic-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-callsite-linker-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-callsite-linker.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/admin-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/admin.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/agent-summary.md",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/agent.json",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/app_users-summary.md",
+      "category": "docs",
+      "domain": "identity",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/app_users.json",
+      "category": "docs",
+      "domain": "identity",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/applications-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/applications.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/auth-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/auth.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/chat-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/chat.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/circles-summary.md",
+      "category": "docs",
+      "domain": "social",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/circles.json",
+      "category": "docs",
+      "domain": "social",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/dashboard-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/dashboard.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/index-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/index.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/location-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/location.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/news-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/news.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/quests-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/quests.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/error-pattern-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/error-pattern-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/fast-check-report-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/fast-check-report.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/feature-intro-check-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/feature-intro-check.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/file-relation-graph-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/file-relation-graph.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/frontend-route-surface-inventory-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/frontend-route-surface-inventory.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/frontend-stale-surface-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/frontend-stale-surface-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/frontend-state-logic-duplication-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/frontend-state-logic-duplication-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/frontend-usage-graph-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/frontend-usage-graph.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/generated-artifact-freshness.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/make-target-index-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/make-target-index.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/manual-cleanup-candidate-report-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/manual-cleanup-candidate-report.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/mapper-usage-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/mapper-usage-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/migration-entity-drift-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/migration-entity-drift-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/naming-consistency-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/naming-consistency-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/permission-rule-duplication-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/permission-rule-duplication-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/read-surface-inventory-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/read-surface-inventory.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/repo-map-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/repo-map.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/repository-fetch-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/repository-fetch-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/rich-text-safety-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/rich-text-safety-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/sandbox-data-coverage-pack.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/sandbox-generation-coverage-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/sandbox-generation-coverage-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/state-transition-coverage-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/state-transition-coverage-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/style-token-usage-audit-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/style-token-usage-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/symbol-index-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/symbol-index.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/test-gap-recommendations-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/test-gap-recommendations.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/test-surface-inventory-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/test-surface-inventory.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/validation-matrix-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/validation-matrix.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/source-of-truth-audit.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/implementation-backlog.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/tooling/codex-local-audits.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/tooling/codex-local-audits.yml",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "package.json",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-change-impact-preflight.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/local_tooling_batch_audits.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/local_tooling_extended_tools.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/feature-closeout-audit.sh",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/generate-agent-operating-model.rb",
+      "category": "script",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md",
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/generate-source-of-truth-audit.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/local_tooling_common.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/todo-audit.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": ".agents/local-context-batch-two-plan.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/local-tooling-parallel-followup-plan.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/templates/validation-evidence.template.yaml",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": ".agents/todo-master-plan.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/chat/README.md",
+      "category": "other",
+      "domain": "chat",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/identity/README.md",
+      "category": "other",
+      "domain": "identity",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/social/README.md",
+      "category": "other",
+      "domain": "social",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/README.md",
+      "category": "other",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
+      "category": "frontend_api",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/styles/business.css",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/styles/chat-module.css",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/styles/rides.css",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/styles/things.css",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/README.md",
+      "category": "other",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/README.md",
+      "category": "other",
+      "domain": "chat",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/README.md",
+      "category": "other",
+      "domain": "common",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/README.md",
+      "category": "other",
+      "domain": "identity",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/README.md",
+      "category": "other",
+      "domain": "location",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/location-services.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java",
+      "category": "backend_service",
+      "domain": "location",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/location-services.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/README.md",
+      "category": "other",
+      "domain": "social",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/README.md",
+      "category": "other",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeclineApplicationUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UpdateMyApplicationUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WithdrawMyApplicationUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/resources/db/migration/V31__create_business_profile_table.sql",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/resources/db/migration/V32__create_thing_sharing_tables.sql",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/resources/db/migration/V33__create_ride_offer_tables.sql",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceLayeringConventionTest.java",
+      "category": "other",
+      "domain": "common",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/RepositoryFetchProfileContractTest.java",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/WorkflowStateMachineCatalogTest.java",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
+      "category": "backend_service",
+      "domain": "location",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/location-services.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/documentation_ownership.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ]
+    },
+    {
+      "file": "docs/cross-domain-glossary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/docs-as-contract-slices.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/docs-as-contract-slices.yaml",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/example-scenario-library.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/README.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/artifact-policy.yaml",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/architecture-decision-index-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/architecture-decision-index.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/architecture-drift-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/architecture-drift.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/changeset-playbook-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/changeset-playbook.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/changeset-risk-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/changeset-risk.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/codebase-capsule.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/codebase-capsule.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/contract-test-gaps-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/contract-test-gaps.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/doc-staleness-scoring-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/doc-staleness-scoring.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/doc-sync-duplicates-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/doc-sync-duplicates.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/doc-template-coverage-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/doc-template-coverage.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/docs-as-tests-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/docs-as-tests.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/business-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/business.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/rides-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/rides.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/things-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/endpoint-contract-packs/things.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/failure-knowledge-base-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/failure-knowledge-base.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/generated-commit-scope-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/generated-commit-scope.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/hotspots-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/hotspots.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/manifest-decision-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/manifest-decision.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/manifest-path-resolution.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/mutation-safety-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/mutation-safety.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/targeted-tests-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/targeted-tests.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/test-fixture-duplication-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/test-fixture-duplication.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/test-history-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/test-history.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/validation-preset-summary.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/generated/local-tooling/validation-preset.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/regression-scenario-catalog.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/regression-scenario-catalog.yaml",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/validation-evidence.schema.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/workflow-state-machines.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "docs/workflow-state-machines.yaml",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-architecture-drift.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-contract-test-gaps.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-delta-report.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-doc-staleness-scoring.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-doc-sync-duplicates.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-doc-template-coverage.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-docs-as-tests.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-generated-commit-scope.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-manifest-decision.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-mutation-safety.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-plan-completion.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-test-fixture-duplication.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-validation-evidence-quality.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/enforce-feature-closeout.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/generate-architecture-decision-index.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/generate-changeset-playbook.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/generate-closeout-report.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/generate-codebase-capsule.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/generate-domain-pack.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/generate-dto-usage-pack.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/generate-plan-code-map.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/generate-post-merge-retrospective.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/generate-test-history-summary.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/generate-workflow-slice-pack.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/link-symbol-to-tests.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/rank-changeset-hotspots.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/recommend-feature-slices.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/recommend-targeted-tests.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/recommend-validation-preset.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/record-validation-evidence.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/resolve-manifest-path.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/score-changeset-risk.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    },
+    {
+      "file": "scripts/audits/update-failure-knowledge-base.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md"
+      ]
+    }
+  ],
+  "unique_docs": [
+    "docs/agent-operating-model.md",
+    "docs/agent-operating-model.yaml",
+    "docs/business-logic.md",
+    "docs/codex-local-tooling-todo.md",
+    "docs/domain-technical.md",
+    "docs/location-services.md"
+  ]
+}

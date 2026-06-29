@@ -2,9 +2,9 @@ package com.themuffinman.app.identity.service;
 
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.common.normalization.UserInputNormalizer;
-import com.themuffinman.app.identity.dto.auth.AuthResponse;
-import com.themuffinman.app.identity.dto.auth.LoginRequest;
-import com.themuffinman.app.identity.dto.auth.RegisterRequest;
+import com.themuffinman.app.identity.dto.auth.AuthResponseDTO;
+import com.themuffinman.app.identity.dto.auth.LoginRequestDTO;
+import com.themuffinman.app.identity.dto.auth.RegisterRequestDTO;
 import com.themuffinman.app.identity.mapper.AuthMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
@@ -23,7 +23,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthMgr authMgr;
 
-    public AuthResponse register(RegisterRequest registerRequest) {
+    public AuthResponseDTO register(RegisterRequestDTO registerRequest) {
         String email = UserInputNormalizer.normalizeEmail(registerRequest.email());
         if (appUserRepository.existsByEmail(email)) {
             throw ServiceErrors.conflict("Email already exists");
@@ -33,7 +33,7 @@ public class AuthService {
         return authMgr.toResponse(savedAppUser, jwtService.generateToken(savedAppUser));
     }
 
-    public AuthResponse login(LoginRequest loginRequest) {
+    public AuthResponseDTO login(LoginRequestDTO loginRequest) {
         String email = UserInputNormalizer.normalizeEmail(loginRequest.email());
         AppUser appUser = appUserRepository.findByEmail(email)
                 .orElseThrow(() -> ServiceErrors.unauthorized("Invalid email or password"));
@@ -45,11 +45,11 @@ public class AuthService {
         return authMgr.toResponse(appUser, jwtService.generateToken(appUser));
     }
 
-    public AuthResponse me(AppUser appUser) {
+    public AuthResponseDTO me(AppUser appUser) {
         return authMgr.toResponse(appUser, null);
     }
 
-    private AppUser buildRegisteredUser(RegisterRequest registerRequest, String email) {
+    private AppUser buildRegisteredUser(RegisterRequestDTO registerRequest, String email) {
         AppUser appUser = new AppUser();
         appUser.setEmail(email);
         appUser.setUsername(registerRequest.username());

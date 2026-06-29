@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CircleRelationDTO {
-    private CircleRelationStatus relationStatus;
+    private CircleRelationStatusDTO relationStatus;
     private String relationLabel;
     private String relationBadgeClass;
     private boolean blockedByCurrentUser;

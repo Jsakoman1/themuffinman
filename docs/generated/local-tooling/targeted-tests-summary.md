@@ -1,42 +1,89 @@
 # Targeted Tests
 
-- Generated At: `2026-06-29T15:10:33Z`
-- Original File Count: `8`
+- Generated At: `2026-06-29T19:55:15Z`
+- Original File Count: `86`
 - Filtered File Count: `0`
 - Excluded File Count: `0`
 ## `files_considered`
 
-- `.gitignore`
-- `Makefile`
-- `docs/codex-local-tooling-todo.md`
-- `docs/tooling/codex-local-audits.yml`
-- `scripts/audits/local_tooling_extended_tools.rb`
-- `scripts/local_tooling_common.rb`
-- `scripts/audits/codex-context.rb`
-- `scripts/audits/codex_local_context_gateway.rb`
+- `.agents/templates/feature-completion-manifest.template.yaml`
+- `.agents/templates/feature-implementation-plan.template.md`
+- `AGENTS.md`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipUpdateDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSearchResultDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialPresentationHelper.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java`
 
 ## `domains`
 
+- `common`
+- `identity`
+- `location`
 - `shared`
+- `social`
+- `workmarket`
 
 ## `categories`
 
+- `backend_controller`
+- `backend_dto`
+- `backend_mapper`
+- `backend_service`
 - `docs`
 - `other`
 - `script`
 
 ## `direct_tests`
 
+- `apps/themuffinman/src/test/java/com/themuffinman/app/common/concepts/CoreConceptsTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/common/validation/RichTextInputValidatorTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java`
 
 ## `recommended_commands`
 
-- `{:command: "make audit-documentation", :reason: "Docs, plans, or agent artifacts changed.", :confidence: "high", :covers: ["docs/codex-local-tooling-todo.md", "docs/tooling/codex-local-audits.yml"], :uncovered: []}`
-- `{:command: "make audit-doc-canonical-phrases", :reason: "Protected documentation wording may be affected by docs or agent-safety edits.", :confidence: "medium", :covers: ["docs/codex-local-tooling-todo.md", "docs/tooling/codex-local-audits.yml"], :uncovered: ["Does not validate Java-side agent operating model tests."]}`
-- `{:command: "make audit-generated-artifact-freshness", :reason: "Generated artifacts, generation scripts, or Make targets changed.", :confidence: "high", :covers: ["Makefile", "scripts/audits/local_tooling_extended_tools.rb", "scripts/local_tooling_common.rb", "scripts/audits/codex-context.rb", "scripts/audits/codex_local_context_gateway.rb"], :uncovered: []}`
+- `{:command: "cd apps/themuffinman && ./mvnw test -Dtest=CoreConceptsTest,GlobalExceptionHandlerTest,RichTextInputValidatorTest,AuthControllerTest,AppUserMgrTest,JwtAuthFilterTest,JwtServiceTest,AdminUserDetailServiceTest", :reason: "Runs nearest backend tests for changed Java files.", :confidence: "high", :covers: ["apps/themuffinman/src/test/java/com/themuffinman/app/common/concepts/CoreConceptsTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/common/validation/RichTextInputValidatorTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java"], :uncovered: ["Some backend files only matched by domain or broad category."]}`
+- `{:command: "make audit-documentation", :reason: "Docs, plans, or agent artifacts changed.", :confidence: "high", :covers: [".agents/templates/feature-completion-manifest.template.yaml", ".agents/templates/feature-implementation-plan.template.md", "docs/tooling/codex-local-audits.md", ".agents/feature-manifests/codex-workflow-lean-context-manifest.yaml"], :uncovered: []}`
+- `{:command: "make audit-doc-canonical-phrases", :reason: "Protected documentation wording may be affected by docs or agent-safety edits.", :confidence: "medium", :covers: ["docs/tooling/codex-local-audits.md"], :uncovered: ["Does not validate Java-side agent operating model tests."]}`
+- `{:command: "make audit-generated-artifact-freshness", :reason: "Generated artifacts, generation scripts, or Make targets changed.", :confidence: "high", :covers: ["scripts/bootstrap-feature-work.sh"], :uncovered: []}`
 - `{:command: "make audit-generated-commit-scope", :reason: "Classifies changed generated artifacts before closeout.", :confidence: "medium", :covers: [], :uncovered: ["Advisory only; reviewer still chooses which generated files belong in the changeset."]}`
+- `{:command: "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest", :reason: "Regression scenario `workmarket-quest-lifecycle` covers Quest create, update, delete, start, complete, and term-change flows must resolve actors, validate state, persist changes, and publish expected notifications.", :confidence: "high", :covers: ["apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java"], :uncovered: []}`
+- `{:command: "cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest", :reason: "Regression scenario `workmarket-application-lifecycle` covers Application apply, applicant edit, withdraw, owner approve, owner decline, and admin mutation flows must enforce ownership, status, pricing, and notification rules.", :confidence: "high", :covers: ["apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"], :uncovered: []}`
+- `{:command: "cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest", :reason: "Regression scenario `workmarket-dashboard-read-model` covers Dashboard sections, applicant actions, open-work groups, and notification destinations must stay backend-prepared and role-aware.", :confidence: "medium", :covers: ["apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java"], :uncovered: []}`
+- `{:command: "cd apps/themuffinman && ./mvnw test -Dtest=CircleServiceTest,CircleRelationServiceTest,ChatServiceTest", :reason: "Regression scenario `social-chat-relation-access` covers Circle membership, accepted relation state, blocking, discovery, and chat eligibility must not leak pending or stale contacts.", :confidence: "high", :covers: ["apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java"], :uncovered: []}`
+- `{:command: "cd apps/themuffinman && ./mvnw test -Dtest=LocationAccessPolicyServiceTest,LocationLookupServiceTest", :reason: "Regression scenario `location-exact-visibility` covers Exact location access must allow owners, respect circle and explicit-user scopes, and avoid provider calls when lookup is disabled.", :confidence: "high", :covers: ["apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"], :uncovered: []}`
+- `{:command: "cd apps/themuffinman && ./mvnw test -Dtest=AppUserServiceTest,AdminUserDetailServiceTest,AuthControllerTest", :reason: "Regression scenario `identity-admin-account-safety` covers Account creation, deletion, role changes, duplicate email checks, profile sanitization, and admin detail access must stay fail-closed.", :confidence: "high", :covers: ["apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java"], :uncovered: []}`
 
 ## `residual_risk`
 
+- `Multiple domains changed; targeted commands do not prove cross-domain integration.`
+- `Backend behavior changed; full `cd apps/themuffinman && ./mvnw test` may still be required before closeout.`
 
 ## `notes`
 

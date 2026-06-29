@@ -1,9 +1,9 @@
 # Doc Template Coverage
 
-- Generated at: `2026-06-29T12:47:32Z`
-- Files considered: `373`
-- Change types: `6`
-- Review needed: `1`
+- Generated at: `2026-06-29T19:55:16Z`
+- Files considered: `271`
+- Change types: `5`
+- Review needed: `0`
 
 ## dto-contract
 
@@ -28,12 +28,6 @@
 - Template: `.agents/templates/docs/new-permission-rule.template.md`
 - Status: `covered`
 - Missing sections: `none`
-
-## schema-migration
-
-- Template: `.agents/templates/docs/schema-migration.template.md`
-- Status: `review`
-- Missing sections: `Runtime Compatibility`
 
 ## workflow
 

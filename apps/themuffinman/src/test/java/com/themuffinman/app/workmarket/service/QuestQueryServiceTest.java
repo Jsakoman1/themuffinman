@@ -3,7 +3,7 @@ package com.themuffinman.app.workmarket.service;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.location.model.QuestLocationVisibility;
 import com.themuffinman.app.location.model.UserLocationMode;
-import com.themuffinman.app.location.service.LocationSettingsService;
+import com.themuffinman.app.location.service.LocationGeoService;
 import com.themuffinman.app.workmarket.model.Quest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,20 +25,20 @@ import static org.mockito.Mockito.when;
 class QuestQueryServiceTest {
 
     @Mock
-    private LocationSettingsService locationSettingsService;
+    private LocationGeoService locationGeoService;
 
     private QuestQueryService questQueryService;
 
     @BeforeEach
     void setUp() {
-        questQueryService = new QuestQueryService(locationSettingsService);
-        lenient().when(locationSettingsService.isQuestSearchable(any(Quest.class))).thenAnswer(invocation -> {
+        questQueryService = new QuestQueryService(locationGeoService);
+        lenient().when(locationGeoService.isQuestSearchable(any(Quest.class))).thenAnswer(invocation -> {
             Quest quest = invocation.getArgument(0);
             return quest.getLocationVisibility() != QuestLocationVisibility.OFF
                     && quest.getLocationLatitude() != null
                     && quest.getLocationLongitude() != null;
         });
-        lenient().when(locationSettingsService.distanceKm(any(BigDecimal.class), any(BigDecimal.class), any(BigDecimal.class), any(BigDecimal.class)))
+        lenient().when(locationGeoService.distanceKm(any(BigDecimal.class), any(BigDecimal.class), any(BigDecimal.class), any(BigDecimal.class)))
                 .thenAnswer(invocation -> haversineKm(
                         invocation.getArgument(0),
                         invocation.getArgument(1),

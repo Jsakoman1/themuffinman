@@ -3,7 +3,7 @@ package com.themuffinman.app.location.controller;
 import com.themuffinman.app.location.dto.LocationLookupRequestDTO;
 import com.themuffinman.app.location.dto.LocationLookupResponseDTO;
 import com.themuffinman.app.location.dto.LocationLookupCandidateDTO;
-import com.themuffinman.app.location.dto.LocationDebugStatusDTO;
+import com.themuffinman.app.location.dto.LocationDebugStatusViewDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.location.dto.LocationReverseLookupRequestDTO;
@@ -36,7 +36,7 @@ public class LocationLookupController {
     }
 
     @GetMapping("/admin/status")
-    public LocationDebugStatusDTO getDebugStatus(@AuthenticationPrincipal AppUser currentUser) {
+    public LocationDebugStatusViewDTO getDebugStatus(@AuthenticationPrincipal AppUser currentUser) {
         validateAdmin(currentUser);
         return locationLookupService.getDebugStatus();
     }

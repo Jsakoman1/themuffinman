@@ -3,7 +3,7 @@ package com.themuffinman.app.workmarket.mapper;
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
 import com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO;
-import com.themuffinman.app.workmarket.dto.QuestNewsDestinationType;
+import com.themuffinman.app.workmarket.dto.QuestNewsDestinationTypeDTO;
 import com.themuffinman.app.workmarket.model.QuestNewsItem;
 import com.themuffinman.app.workmarket.service.WorkmarketPresentationHelper;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +19,14 @@ public class QuestNewsMgr {
             return null;
         }
 
-        QuestNewsDestinationType destinationType = QuestNewsDestinationType.QUEST_LIST;
+        QuestNewsDestinationTypeDTO destinationType = QuestNewsDestinationTypeDTO.QUEST_LIST;
         Long destinationId = null;
         NavigationTargetDTO navigation = NavigationTargetDTO.builder()
                 .type(NavigationTargetType.QUEST_LIST)
                 .entityId(null)
                 .build();
         if (item.getApplicationId() != null) {
-            destinationType = QuestNewsDestinationType.APPLICATION;
+            destinationType = QuestNewsDestinationTypeDTO.APPLICATION;
             destinationId = item.getApplicationId();
             navigation = NavigationTargetDTO.builder()
                     .type(NavigationTargetType.APPLICATION_DETAIL)
@@ -39,7 +39,7 @@ public class QuestNewsMgr {
                     .entityId(null)
                     .build();
         } else if (item.getQuestId() != null) {
-            destinationType = QuestNewsDestinationType.QUEST;
+            destinationType = QuestNewsDestinationTypeDTO.QUEST;
             destinationId = item.getQuestId();
             navigation = NavigationTargetDTO.builder()
                     .type(NavigationTargetType.QUEST_DETAIL)

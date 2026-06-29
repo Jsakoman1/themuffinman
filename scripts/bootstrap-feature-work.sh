@@ -100,6 +100,9 @@ manifest_decision = sys.argv[11]
 
 title = slug.replace("-", " ").replace("_", " ").title()
 
+def join_items(items):
+    return "; ".join(item for item in items if item)
+
 if workflow_tier == "auto":
     if input_mode in {"tiny", "small-change"}:
         workflow_tier = "tier1-tiny-change"
@@ -118,25 +121,49 @@ if manifest_decision == "auto":
     else:
         manifest_decision = "required"
 
-context_commands = ["make codex-context topic=<topic> intent='<intent>'"]
+context_commands = [
+    "make diff-summary",
+    "make audit-summary-index",
+    "make codex-context topic=<topic> intent='<intent>'",
+    "make codex-context-explain",
+]
 routing_commands = ["make recommend-targeted-tests"]
+targeted_checks = ["make recommend-targeted-tests"]
+broader_checks = ["none by default"]
 validation_commands = ["make audit-todo"]
 closeout_commands = ["make audit-todo"]
 expected_docs = ["resolver-driven"]
 expected_artifacts = ["resolver-driven"]
-expected_tests = ["make recommend-targeted-tests"]
+implementation_slices = [
+    "Confirm the changed-file list, resolver outputs, and scope before editing.",
+    "Implement the first bounded slice and keep it small enough to validate independently.",
+    "Sync only the docs and generated artifacts the resolver marks as affected.",
+    "Run validation, record evidence if required, and close the plan cleanly.",
+]
 open_questions = ["Need changed-file routing to confirm docs, manifest, and validation scope."]
 scope = "Replace with the concrete feature scope."
 out_of_scope = "Replace with explicit exclusions if they matter."
+final_response_evidence = [
+    "What changed.",
+    "What was validated.",
+    "Any remaining risks or not-run checks.",
+]
 
 if workflow_tier == "tier1-tiny-change":
     routing_commands = ["make recommend-targeted-tests"]
-    validation_commands = ["make recommend-targeted-tests", "make audit-todo"]
+    targeted_checks = ["make recommend-targeted-tests"]
+    broader_checks = ["none by default"]
+    validation_commands = ["make recommend-targeted-tests", "make clean-text-noise max_lines=80", "make audit-todo"]
     closeout_commands = ["make audit-todo"]
     expected_docs = ["Usually none beyond directly changed docs unless meaning changed."]
     expected_artifacts = ["None by default."]
-    expected_tests = ["Cheapest relevant targeted check only."]
     open_questions = ["If meaning, contracts, or generated artifacts changed, escalate to a higher tier."]
+    implementation_slices = [
+        "Confirm the single-file scope and validate the smallest useful check.",
+        "Make the change and avoid widening the diff.",
+        "Clean any noisy validation output before summarizing evidence.",
+        "Run `make audit-todo` and stop once the change is closed.",
+    ]
 elif workflow_tier == "tier2-normal-feature":
     routing_commands = [
         "make audit-router files=<csv>",
@@ -144,12 +171,19 @@ elif workflow_tier == "tier2-normal-feature":
         "make audit-manifest-decision files=<csv>",
         "make recommend-validation-preset files=<csv>",
     ]
-    validation_commands = ["make recommend-validation-preset files=<csv>"]
+    targeted_checks = ["make recommend-validation-preset files=<csv>"]
+    broader_checks = ["Only broaden if risk or resolver output requires it."]
+    validation_commands = ["make recommend-validation-preset files=<csv>", "make clean-text-noise max_lines=80"]
     closeout_commands = ["make audit-todo", f"make audit-plan-completion plan=.agents/{slug}-plan.md"]
     expected_docs = ["Use audit-doc-sync-required-surfaces output."]
     expected_artifacts = ["Refresh only generated artifacts that the resolver marks as affected."]
-    expected_tests = ["Use recommend-validation-preset output."]
     open_questions = ["Resolver still needs to confirm whether a manifest is required."]
+    implementation_slices = [
+        "Confirm router outputs and document the actual scope in the plan.",
+        "Implement the first bounded slice and keep the public contract stable unless a deliberate change is planned.",
+        "Update only the docs and generated artifacts surfaced by the resolver.",
+        "Run the recommended preset, clean noisy output, and close the plan once complete.",
+    ]
 elif workflow_tier == "tier3-high-risk-multi-layer":
     routing_commands = [
         "make audit-router files=<csv>",
@@ -158,8 +192,11 @@ elif workflow_tier == "tier3-high-risk-multi-layer":
         "make resolve-manifest-path files=<csv>",
         "make recommend-validation-preset files=<csv>",
     ]
+    targeted_checks = ["make recommend-validation-preset files=<csv>"]
+    broader_checks = ["Use manifest-backed evidence for every required command and artifact refresh."]
     validation_commands = [
         "make recommend-validation-preset files=<csv>",
+        "make clean-text-noise max_lines=80",
         f"make record-validation manifest=.agents/feature-manifests/{slug}-manifest.yaml command='<command>'",
     ]
     closeout_commands = [
@@ -172,8 +209,13 @@ elif workflow_tier == "tier3-high-risk-multi-layer":
     ]
     expected_docs = ["Use audit-doc-sync-required-surfaces output.", "Expect workflow and closeout docs to move when process rules changed."]
     expected_artifacts = ["Manifest-backed evidence, generated artifacts, and resolver-reported outputs."]
-    expected_tests = ["Targeted checks plus any risk-required broader validation."]
     open_questions = ["Resolver still needs the changed-file list to lock docs, artifacts, and validation scope."]
+    implementation_slices = [
+        "Lock scope with router and manifest-decision outputs before the first edit.",
+        "Implement one safe slice at a time and record evidence as each command or artifact completes.",
+        "Sync resolver-reported docs and generated artifacts before expanding beyond the first slice.",
+        "Run the full closeout sequence only after validation evidence is complete.",
+    ]
 else:
     routing_commands = [
         "make audit-router files=<csv>",
@@ -182,9 +224,12 @@ else:
         "make resolve-manifest-path files=<csv>",
         "make recommend-validation-preset files=<csv>",
     ]
+    targeted_checks = ["make audit-agent-safety", "ruby scripts/generate-agent-operating-model.rb"]
+    broader_checks = ["Use the generated agent-operating-model artifacts and safety tests."]
     validation_commands = [
         "ruby scripts/generate-agent-operating-model.rb",
         "make audit-agent-safety",
+        "make clean-text-noise max_lines=80",
         "make recommend-validation-preset files=<csv>",
     ]
     closeout_commands = [
@@ -205,8 +250,13 @@ else:
         "docs/agent-operating-model.yaml",
     ]
     expected_artifacts = ["Generated agent-operating-model and resolver-reported artifacts."]
-    expected_tests = ["Agent operating model validation and agent-safety audits."]
     open_questions = ["If the batch is broad, split it into a master plan and narrower child plans before substantial edits."]
+    implementation_slices = [
+        "Confirm workflow and machine-operational scope before changing any rules.",
+        "Update the operating-model and any referenced generated artifacts together.",
+        "Run agent-safety and validation checks before expanding the slice.",
+        "Close out with the full workflow only after the docs and generated artifacts are aligned.",
+    ]
 
 manifest_path_text = (
     f".agents/feature-manifests/{slug}-manifest.yaml"
@@ -221,13 +271,21 @@ plan_text = plan_text.replace("- Scope: TBD", f"- Scope: {scope}")
 plan_text = plan_text.replace("- Out of scope: TBD", f"- Out of scope: {out_of_scope}")
 plan_text = plan_text.replace("- Manifest decision: TBD", f"- Manifest decision: {manifest_decision}")
 plan_text = plan_text.replace("- Manifest path: TBD", f"- Manifest path: {manifest_path_text}")
-plan_text = plan_text.replace("- Context commands: TBD", "- Context commands: " + "; ".join(context_commands))
-plan_text = plan_text.replace("- Routing commands: TBD", "- Routing commands: " + "; ".join(routing_commands))
-plan_text = plan_text.replace("- Validation commands: TBD", "- Validation commands: " + "; ".join(validation_commands))
-plan_text = plan_text.replace("- Closeout commands: TBD", "- Closeout commands: " + "; ".join(closeout_commands))
+plan_text = plan_text.replace("- Context commands: TBD", "- Context commands: " + join_items(context_commands))
+plan_text = plan_text.replace("- Routing commands: TBD", "- Routing commands: " + join_items(routing_commands))
+plan_text = plan_text.replace("- Validation commands: TBD", "- Validation commands: " + join_items(validation_commands))
+plan_text = plan_text.replace("- Closeout commands: TBD", "- Closeout commands: " + join_items(closeout_commands))
+plan_text = plan_text.replace("- [ ] Slice 1: TBD", f"- [ ] {implementation_slices[0]}")
+plan_text = plan_text.replace("- [ ] Slice 2: TBD", f"- [ ] {implementation_slices[1]}")
+plan_text = plan_text.replace("- [ ] Slice 3: TBD", f"- [ ] {implementation_slices[2]}")
+plan_text = plan_text.replace("- [ ] Slice 4: TBD", f"- [ ] {implementation_slices[3]}")
+plan_text = plan_text.replace("- Targeted checks: TBD", "- Targeted checks: " + join_items(targeted_checks))
+plan_text = plan_text.replace("- Broader checks: TBD", "- Broader checks: " + join_items(broader_checks))
+plan_text = plan_text.replace("- Skipped checks or reasons: TBD", "- Skipped checks or reasons: none identified yet")
 plan_text = plan_text.replace("- Expected docs: TBD", "- Expected docs: " + "; ".join(expected_docs))
 plan_text = plan_text.replace("- Expected generated artifacts: TBD", "- Expected generated artifacts: " + "; ".join(expected_artifacts))
-plan_text = plan_text.replace("- Expected tests: TBD", "- Expected tests: " + "; ".join(expected_tests))
+plan_text = plan_text.replace("- Required closeout checks: TBD", "- Required closeout checks: " + join_items(closeout_commands))
+plan_text = plan_text.replace("- Final response evidence: TBD", "- Final response evidence: " + "; ".join(final_response_evidence))
 plan_text = plan_text.replace("- Resolver outputs still needed: TBD", "- Resolver outputs still needed: " + "; ".join(open_questions))
 plan_text = plan_text.replace("- Risks or approvals: TBD", "- Risks or approvals: none identified yet")
 plan_path.write_text(plan_text)

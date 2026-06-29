@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:27Z",
+  "generated_at": "2026-06-29T19:55:02Z",
   "backend_fields": [
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
@@ -82,7 +82,7 @@
       "snippet": "private String profileDescription;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponse.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java",
       "line": 10,
       "snippet": "String profileDescription,"
     },
@@ -177,13 +177,13 @@
       "snippet": ".recipientProfileDescription(RichTextInputValidator.sanitize(circleRequest.getRecipient().getProfileDescription()))"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
-      "line": 141,
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "line": 126,
       "snippet": ".filter(request -> circleViewAssembler.matchesRequestQuery(request.getCounterpartUsername(), request.getCounterpartProfileDescription(), query))"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
-      "line": 162,
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "line": 139,
       "snippet": ".filter(request -> circleViewAssembler.matchesRequestQuery(request.getCounterpartUsername(), request.getCounterpartProfileDescription(), query))"
     },
     {
@@ -318,17 +318,17 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java",
-      "line": 38,
+      "line": 33,
       "snippet": ".creatorProfileDescription(RichTextInputValidator.sanitize(quest.getCreator().getProfileDescription()))"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java",
-      "line": 52,
+      "line": 47,
       "snippet": ".description(RichTextInputValidator.sanitize(quest.getDescription()))"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java",
-      "line": 147,
+      "line": 114,
       "snippet": "quest.setDescription(RichTextInputValidator.sanitize(dto.getDescription()));"
     },
     {
@@ -348,12 +348,12 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
-      "line": 106,
+      "line": 118,
       "snippet": ".description(\"See scheduled work and open days\")"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
-      "line": 111,
+      "line": 123,
       "snippet": ".description(\"Offer jobs, track applications, and open the right flow when needed\")"
     },
     {
@@ -398,17 +398,17 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-      "line": 85,
+      "line": 81,
       "snippet": ".placeholder(\"Add a short comment.\")"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-      "line": 98,
+      "line": 94,
       "snippet": ".placeholder(\"Add a short comment.\")"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-      "line": 117,
+      "line": 113,
       "snippet": ".placeholder(\"Write a short comment about this \" + target.getRoleLabel() + \".\")"
     },
     {
@@ -810,8 +810,8 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
-      "line": 5,
-      "snippet": "return richTextHasContent(message) && (isQuestFree(questAwardAmount) || Number(proposedPrice) >= 0.01)"
+      "line": 14,
+      "snippet": "if (rules?.messageRequired !== false && !richTextHasContent(message)) {"
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",

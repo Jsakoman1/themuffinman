@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-29T12:47:27Z",
-  "statement_count": 152,
+  "generated_at": "2026-06-29T19:55:02Z",
+  "statement_count": 156,
   "protected_phrase_count": 0,
   "review_needed_count": 0,
   "high_priority_count": 0,
@@ -79,11 +79,15 @@
       "evidence_matches": [
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
-          "score": 6
+          "score": 7
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
           "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+          "score": 5
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
@@ -111,10 +115,6 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
-          "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
           "score": 4
         }
       ],
@@ -164,12 +164,12 @@
           "score": 3
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 3
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-          "score": 2
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 3
         }
       ],
       "priority": "none"
@@ -244,6 +244,10 @@
           "score": 7
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+          "score": 6
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 6
         },
@@ -264,7 +268,7 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
           "score": 5
         },
         {
@@ -273,10 +277,6 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
           "score": 5
         }
       ],
@@ -314,6 +314,14 @@
           "score": 8
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+          "score": 7
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+          "score": 7
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
           "score": 7
         },
@@ -323,14 +331,6 @@
         },
         {
           "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 7
-        },
-        {
-          "path": "docs/regression-scenario-catalog.yaml",
           "score": 7
         }
       ],
@@ -360,6 +360,10 @@
           "score": 8
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+          "score": 8
+        },
+        {
           "path": "docs/regression-scenario-catalog.yaml",
           "score": 8
         },
@@ -373,10 +377,6 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
-          "score": 7
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
           "score": 7
         },
         {
@@ -708,7 +708,7 @@
           "score": 4
         },
         {
-          "path": "scripts/audits/audit-manifest-decision.rb",
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 4
         }
       ],
@@ -736,6 +736,10 @@
           "score": 8
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 8
+        },
+        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 8
         },
@@ -745,10 +749,6 @@
         },
         {
           "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
           "score": 7
         },
         {
@@ -953,6 +953,10 @@
           "score": 6
         },
         {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 6
+        },
+        {
           "path": "docs/agent-operating-model/sections/frontend_contracts.yaml",
           "score": 5
         },
@@ -962,10 +966,6 @@
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
           "score": 5
         },
         {
@@ -1115,6 +1115,10 @@
           "score": 6
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+          "score": 5
+        },
+        {
           "path": "docs/agent-operating-model/sections/api.yaml",
           "score": 5
         },
@@ -1141,10 +1145,6 @@
         {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-          "score": 3
         }
       ],
       "priority": "none"
@@ -1236,6 +1236,10 @@
           "score": 6
         },
         {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 6
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 5
         },
@@ -1249,10 +1253,6 @@
         },
         {
           "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-duplicate-logic.rb",
           "score": 5
         }
       ],
@@ -1270,11 +1270,11 @@
       ],
       "evidence_matches": [
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 8
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
           "score": 7
         },
         {
@@ -1324,6 +1324,10 @@
       ],
       "evidence_matches": [
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "score": 8
+        },
+        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 8
         },
@@ -1349,10 +1353,6 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-          "score": 7
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
           "score": 7
         },
         {
@@ -1456,6 +1456,10 @@
           "score": 7
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+          "score": 7
+        },
+        {
           "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
           "score": 7
         },
@@ -1465,10 +1469,6 @@
         },
         {
           "path": "docs/regression-scenario-catalog.yaml",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 7
         }
       ],
@@ -1576,7 +1576,7 @@
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
           "score": 7
         }
       ],
@@ -1714,11 +1714,11 @@
           "score": 10
         },
         {
-          "path": "docs/regression-scenario-catalog.yaml",
-          "score": 9
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 10
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "path": "docs/regression-scenario-catalog.yaml",
           "score": 9
         },
         {
@@ -1760,6 +1760,10 @@
           "score": 7
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+          "score": 4
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
           "score": 4
         },
@@ -1790,10 +1794,6 @@
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
           "score": 3
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
-          "score": 3
         }
       ],
       "priority": "none"
@@ -1811,7 +1811,7 @@
       "evidence_matches": [
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-          "score": 7
+          "score": 8
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
@@ -1884,7 +1884,15 @@
           "score": 5
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 5
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 4
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
           "score": 4
         },
         {
@@ -1893,14 +1901,6 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
           "score": 4
         }
       ],
@@ -2027,11 +2027,11 @@
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 8
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 9
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 8
         },
         {
@@ -2190,7 +2190,7 @@
       "evidence_matches": [
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 11
+          "score": 12
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
@@ -2199,6 +2199,10 @@
         {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 10
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 9
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
@@ -2221,12 +2225,8 @@
           "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/audit-contract-test-gaps.rb",
-          "score": 6
+          "path": "scripts/audits/record-validation-evidence.rb",
+          "score": 7
         }
       ],
       "priority": "none"
@@ -2329,11 +2329,11 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
           "score": 5
         }
       ],
@@ -2395,128 +2395,501 @@
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 58,
+      "line": 7,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
-      "statement": "Update `docs/documentation-sync-policy.md` only if the documentation or validation process itself changes.",
+      "statement": "Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it.",
       "expected_evidence": [
-        "documentation_sync_audit",
-        "validation_or_closeout_audit"
+        "scenario_or_workflow_test"
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 7
-        },
-        {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 7
+          "score": 9
         },
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 6
         },
         {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
           "score": 6
-        },
-        {
-          "path": "scripts/audits/score-changeset-risk.rb",
-          "score": 6
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/change-completion-checklist.md",
-      "line": 61,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "Use `documentation_ownership` in `docs/agent-operating-model.yaml` as the machine-readable starting point for required living docs, generated artifacts, and validation checks by domain and change category.",
-      "expected_evidence": [
-        "permission_or_policy_test",
-        "documentation_sync_audit",
-        "contract_or_dto_audit",
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 13
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 12
+          "score": 5
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "score": 4
         },
         {
           "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 12
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 12
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 12
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 12
-        },
-        {
-          "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 11
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/audit-doc-template-coverage.rb",
-          "score": 10
+          "score": 4
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 62,
+      "line": 34,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "targeted validation only",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 3
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/regression-scenario-catalog.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/change-completion-checklist.md",
+      "line": 51,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "targeted validation required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 3
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/regression-scenario-catalog.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/change-completion-checklist.md",
+      "line": 71,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
-      "statement": "For new workflows, endpoints, DTO contracts, modules, permission rules, or schema migrations, start from the matching `.agents/templates/docs/` documentation template and keep only the sections that apply to the concrete change.",
+      "statement": "manifest required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-plan-completion.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/change-completion-checklist.md",
+      "line": 73,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "validation evidence required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 3
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/change-completion-checklist.md",
+      "line": 74,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "full closeout required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 3
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 3
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 3
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/change-completion-checklist.md",
+      "line": 93,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "manifest required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-plan-completion.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/change-completion-checklist.md",
+      "line": 95,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "machine-operational validation required when affected",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 3
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/regression-scenario-catalog.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/change-completion-checklist.md",
+      "line": 96,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "full closeout required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 3
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 3
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 3
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/change-completion-checklist.md",
+      "line": 109,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "Manifest is required for high-risk business logic, invoice-critical behavior, DB migrations, frontend/backend contract changes, generated artifact changes, agent/tooling/workflow changes, 3+ meaningful surfaces, broad autonomous changes, and resolver-required changes.",
       "expected_evidence": [
         "scenario_or_workflow_test",
-        "permission_or_policy_test",
-        "documentation_sync_audit",
-        "contract_or_dto_audit"
+        "contract_or_dto_audit",
+        "validation_or_closeout_audit"
       ],
       "evidence_matches": [
         {
@@ -2524,11 +2897,19 @@
           "score": 14
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
           "score": 13
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 12
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 12
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
           "score": 10
         },
         {
@@ -2536,55 +2917,67 @@
           "score": 10
         },
         {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 10
-        },
-        {
           "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
           "score": 9
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 8
+          "path": "scripts/audits/audit-change-impact-preflight.rb",
+          "score": 9
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 8
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 9
         },
         {
-          "path": "scripts/audits/audit-doc-template-coverage.rb",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 8
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 9
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 63,
+      "line": 110,
       "kind": "behavioral_statement",
       "rule_id": null,
-      "domain": "shared",
-      "statement": "Use `docs/example-scenario-library.md` as the short canonical pattern reference for adding endpoints, changing workflow transitions, adding DTO contracts, adding migrations, and updating docs.",
+      "domain": "agent",
+      "statement": "Manifest is optional for single backend service changes, single frontend component changes, small bugfixes, small test-only changes, small docs-only corrections, and small internal refactors without behavior, contract, DB, generated-artifact, or agent-safety impact.",
       "expected_evidence": [
-        "scenario_or_workflow_test",
         "documentation_sync_audit",
-        "contract_or_dto_audit"
+        "contract_or_dto_audit",
+        "validation_or_closeout_audit"
       ],
       "evidence_matches": [
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 12
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 9
         },
         {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 9
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
           "score": 6
         },
         {
@@ -2592,246 +2985,116 @@
           "score": 6
         },
         {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 5
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/change-completion-checklist.md",
+      "line": 128,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "Update `docs/feature-completion-manifest.schema.json` only if the manifest structure changes.",
+      "expected_evidence": [
+        "documentation_sync_audit",
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 7
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 6
         },
         {
-          "path": "scripts/audits/audit-contract-test-gaps.rb",
+          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
           "score": 6
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/score-changeset-risk.rb",
+          "score": 6
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/change-completion-checklist.md",
+      "line": 133,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "Normal features run targeted validation first and broaden only if risk requires it.",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 5
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 4
         },
         {
           "path": "scripts/audits/audit-mutation-safety.rb",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 5
+          "score": 4
         },
         {
           "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 5
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/change-completion-checklist.md",
-      "line": 69,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "If a change touches protected documentation-sync wording, copy the exact canonical phrase verbatim into every required file instead of paraphrasing it.",
-      "expected_evidence": [
-        "documentation_sync_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 11
-        },
-        {
-          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 9
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 6
+          "score": 4
         },
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 5
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/change-completion-checklist.md",
-      "line": 100,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "Manifest required: use a machine-readable manifest under `.agents/feature-manifests/` for multi-file, multi-layer, high-risk, executor-critical, workflow-expansion, agent-contract, frontend-contract, backend-logic, generated-artifact, or master-plan-driven changes.",
-      "expected_evidence": [
-        "scenario_or_workflow_test",
-        "contract_or_dto_audit",
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 11
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 11
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 4
-        },
-        {
-          "path": "scripts/audits/audit-manifest-decision.rb",
-          "score": 4
-        },
-        {
-          "path": "scripts/audits/audit-plan-completion.rb",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
           "score": 3
-        },
-        {
-          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
-          "score": 3
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/change-completion-checklist.md",
-      "line": 102,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "Manifest skipped with reason: if a non-trivial change does not use a manifest, record a one-line reason in the temporary plan or final closeout that names why the required category does not apply.",
-      "expected_evidence": [
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 12
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 12
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 12
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 9
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/audit-manifest-decision.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/generate-closeout-report.rb",
-          "score": 6
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
-          "score": 5
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/change-completion-checklist.md",
-      "line": 104,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "shared",
-      "statement": "Declare the correct `changeMode`, `changeImpact`, and `changeProfiles` so required docs, generators, and validation commands are enforced automatically.",
-      "expected_evidence": [
-        "documentation_sync_audit",
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 4
         },
         {
           "path": "docs/regression-scenario-catalog.yaml",
-          "score": 4
-        },
-        {
-          "path": "scripts/audits/generate-closeout-report.rb",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
-          "score": 3
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 3
-        },
-        {
-          "path": "scripts/audits/audit-change-impact-preflight.rb",
           "score": 3
         }
       ],
@@ -2839,654 +3102,50 @@
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 111,
+      "line": 153,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
-      "statement": "Use `make feature-closeout-audit manifest=<manifest-file>` as a hard-fail close-out check before final validation on plan-driven changes. Completed manifests must include structured validation evidence for required checks, a completed plan state, and a ready closeout decision.",
-      "expected_evidence": [
-        "scenario_or_workflow_test",
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 12
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 11
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/audit-plan-completion.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 6
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/change-completion-checklist.md",
-      "line": 112,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "Use `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]` when closing a temporary plan, master plan, or completed manifest-backed change; the audit fails open task checkboxes that are not explicitly deferred to a stable backlog ID.",
-      "expected_evidence": [
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 13
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 8
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/audit-plan-completion.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 5
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 14,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "social",
-      "statement": "If a change affects business meaning, permissions, validations, workflows, state transitions, automation assumptions, contact eligibility, visibility, or endpoint contracts, all affected documentation files must be updated in the same change.",
-      "expected_evidence": [
-        "scenario_or_workflow_test",
-        "permission_or_policy_test",
-        "documentation_sync_audit",
-        "contract_or_dto_audit",
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 13
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 9
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 9
-        },
-        {
-          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 9
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 8
-        },
-        {
-          "path": "docs/regression-scenario-catalog.yaml",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 8
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 17,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "For multi-file, multi-layer, or high-risk logical changes, create a temporary implementation plan in `.agents/` before substantial edits and close it only after validation is green.",
-      "expected_evidence": [
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 13
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 13
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 9
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 6
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 5
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 19,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "A feature manifest is required for multi-file, multi-layer, high-risk, executor-critical, workflow-expansion, agent-contract, frontend-contract, backend-logic, generated-artifact, or master-plan-driven changes.",
-      "expected_evidence": [
-        "scenario_or_workflow_test",
-        "contract_or_dto_audit",
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 13
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/audit-manifest-decision.rb",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 4
-        },
-        {
-          "path": "scripts/audits/record-validation-evidence.rb",
-          "score": 4
-        },
-        {
-          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
-          "score": 3
-        },
-        {
-          "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 3
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 20,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "A feature manifest is optional only for cosmetic and single-file contract-neutral refactors that do not alter behavior, contracts, generated artifacts, validation scope, or documentation meaning.",
+      "statement": "Do not claim completion while required validation, docs, or closeout gates remain open.",
       "expected_evidence": [
         "documentation_sync_audit",
-        "contract_or_dto_audit",
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 13
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/audit-manifest-decision.rb",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/record-validation-evidence.rb",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 6
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 21,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "If a non-trivial change does not use a manifest, the temporary plan or final closeout must record a one-line skipped-with-reason decision explaining why the required category does not apply.",
-      "expected_evidence": [
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 11
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/audit-manifest-decision.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/generate-closeout-report.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
-          "score": 5
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 26,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "Completed feature manifests must pass `make feature-closeout-audit manifest=<manifest-file>`, including structured validation evidence for every required profile check, completed plan evidence, and a ready closeout decision.",
-      "expected_evidence": [
         "validation_or_closeout_audit"
       ],
       "evidence_matches": [
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 12
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 12
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
           "score": 9
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 9
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 7
         },
         {
-          "path": "scripts/audits/audit-plan-completion.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/record-validation-evidence.rb",
-          "score": 7
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 6
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 6
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 27,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "Temporary plans, master plans, and completed manifest-backed changes must pass `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]` when plan completion evidence is part of the closeout boundary.",
-      "expected_evidence": [
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 15
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 12
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/audit-plan-completion.rb",
-          "score": 9
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 7
         },
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 6
         },
         {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 5
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 33,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "Keep feature-manifest artifact lists precise: runtime code belongs in `codePaths`, tests and test resources belong in `testPaths`, and the same path must not be listed in multiple artifact groups.",
-      "expected_evidence": [
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 13
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/audit-change-impact-preflight.rb",
-          "score": 7
         },
         {
           "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
           "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 6
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 35,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "Validation evidence must name exact commands, scopes, `ranAt`, generated-artifact actions, and concrete reasons for skipped checks, and pass `make audit-validation-evidence-quality` instead of relying on vague closeout text.",
-      "expected_evidence": [
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 12
-        },
-        {
-          "path": "scripts/audits/audit-validation-evidence-quality.rb",
-          "score": 12
         },
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 11
+          "score": 6
         },
         {
           "path": "scripts/audits/record-validation-evidence.rb",
-          "score": 10
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 8
-        },
-        {
-          "path": "docs/regression-scenario-catalog.yaml",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 6
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 48,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "shared",
-      "statement": "`logic-drift` means behavior, validation, workflow, or automation meaning changed and docs must move with it.",
-      "expected_evidence": [
-        "scenario_or_workflow_test",
-        "documentation_sync_audit",
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 9
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/score-changeset-risk.rb",
           "score": 6
         },
         {
@@ -3497,284 +3156,8 @@
       "priority": "none"
     },
     {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 52,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "shared",
-      "statement": "`backend-logic` changes must include backend validation plus `docs/domain-technical.md`.",
-      "expected_evidence": [
-        "documentation_sync_audit",
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/audit-change-impact-preflight.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 6
-        },
-        {
-          "path": "docs/regression-scenario-catalog.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-contract-test-gaps.rb",
-          "score": 5
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 53,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "`agent-contract` changes must include `docs/agent-operating-model.md`, `docs/agent-operating-model.yaml`, the generator step, and `make audit-agent-safety`.",
-      "expected_evidence": [
-        "documentation_sync_audit",
-        "contract_or_dto_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 11
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 11
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/audit-change-impact-preflight.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/score-changeset-risk.rb",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 6
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 54,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "`frontend-contract` changes must include generated frontend contracts, `npm run validate:contracts`, `npm run type-check`, and `npm run build`.",
-      "expected_evidence": [
-        "contract_or_dto_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/audit-change-impact-preflight.rb",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/record-validation-evidence.rb",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/score-changeset-risk.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/audit-generated-commit-scope.rb",
-          "score": 6
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 55,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "`workflow-expansion` changes must include generated agent artifacts and at least one scenario-style test.",
-      "expected_evidence": [
-        "scenario_or_workflow_test"
-      ],
-      "evidence_matches": [
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/audit-change-impact-preflight.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-manifest-decision.rb",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-validation-evidence-quality.rb",
-          "score": 5
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 57,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "workmarket",
-      "statement": "Every newly introduced workflow or self-service action must include an explicit feature-introduction review for agent-operating docs, machine-readable intents and endpoints, generated contract or inventory artifacts, and any synthetic admin-generation or sandbox-generation flow coverage that depends on the changed behavior.",
-      "expected_evidence": [
-        "scenario_or_workflow_test",
-        "permission_or_policy_test",
-        "sandbox_or_generation_audit",
-        "documentation_sync_audit",
-        "contract_or_dto_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 9
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/audit-mutation-safety.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 7
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-          "score": 6
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 62,
+      "source": "docs/change-completion-checklist.md",
+      "line": 159,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -3827,8 +3210,8 @@
       "priority": "none"
     },
     {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 63,
+      "source": "docs/change-completion-checklist.md",
+      "line": 160,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -3859,173 +3242,61 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 66,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "shared",
-      "statement": "Validation should ignore case, punctuation, markdown markers, and whitespace differences, but it should not ignore wording drift that changes or weakens meaning.",
-      "expected_evidence": [
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 7
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
-          "score": 5
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/regression-scenario-catalog.yaml",
-          "score": 4
-        },
-        {
-          "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 4
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 68,
+      "line": 7,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
-      "statement": "Run `AgentOperatingModelValidationTest` after editing protected docs, YAML rules, generation-flow docs, or agent-safety instructions.",
+      "statement": "Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it.",
       "expected_evidence": [
-        "documentation_sync_audit",
-        "validation_or_closeout_audit"
+        "scenario_or_workflow_test"
       ],
       "evidence_matches": [
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 8
-        },
         {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 7
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/metadata.yaml",
-          "score": 4
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 73,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "agent",
-      "statement": "Keep documentation ownership mapping aligned with backend audit domains and change categories so required living docs, generated artifacts, and validation checks stay machine-readable.",
-      "expected_evidence": [
-        "permission_or_policy_test",
-        "documentation_sync_audit",
-        "contract_or_dto_audit",
-        "validation_or_closeout_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 13
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 13
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 12
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 11
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/audit-change-impact-preflight.rb",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/score-changeset-risk.rb",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 9
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 5
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
+          "score": 4
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 76,
+      "line": 21,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4080,109 +3351,53 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 129,
+      "line": 22,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
-      "statement": "extend affected admin-generation, batch-generation, or sandbox-generation workflows whenever a new feature changes what safe generated entities or transitions should contain",
+      "statement": "For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file.",
       "expected_evidence": [
-        "scenario_or_workflow_test",
-        "permission_or_policy_test",
-        "sandbox_or_generation_audit"
+        "documentation_sync_audit"
       ],
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 9
         },
         {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
-          "score": 6
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 7
         },
         {
           "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
           "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-manifest-decision.rb",
-          "score": 5
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/documentation-sync-policy.md",
-      "line": 131,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "shared",
-      "statement": "keep executor-critical read DTO inventory aligned with required resolution fields, deterministic selection fields, producer references, and verifier tests",
-      "expected_evidence": [
-        "contract_or_dto_audit"
-      ],
-      "evidence_matches": [
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 10
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 8
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/enums.yaml",
+          "score": 4
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/automation_read_models.yaml",
-          "score": 6
+          "score": 4
         },
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 5
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
           "score": 4
         }
       ],
@@ -4190,61 +3405,38 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 170,
+      "line": 23,
       "kind": "behavioral_statement",
       "rule_id": null,
-      "domain": "agent",
-      "statement": "sandbox behavior must stay explicitly separated from production-like user flows",
+      "domain": "shared",
+      "statement": "Do not paraphrase, shorten, reorder, or partially restate protected canonical wording.",
       "expected_evidence": [
-        "sandbox_or_generation_audit"
+        "scenario_or_workflow_test",
+        "documentation_sync_audit"
       ],
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 9
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
           "score": 6
         },
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 6
+          "score": 3
         },
         {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 5
+          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
+          "score": 2
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 5
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 2
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 171,
+      "line": 26,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -4284,16 +3476,989 @@
           "score": 6
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
+          "score": 5
+        },
+        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 5
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
+          "score": 4
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 32,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "Use `docs/feature-delivery-workflow.md` only when the tier or resolver requires the full workflow.",
+      "expected_evidence": [
+        "scenario_or_workflow_test",
+        "documentation_sync_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 4
         },
         {
-          "path": "scripts/audits/audit-doc-template-coverage.rb",
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
           "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 4
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 3
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
+          "score": 3
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 43,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "targeted validation only",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 3
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/regression-scenario-catalog.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 46,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "Required closeout:",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/record-validation-evidence.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 57,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "targeted validation required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 3
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/regression-scenario-catalog.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 58,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "broader validation only if risk requires it",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 3
+        },
+        {
+          "path": "docs/regression-scenario-catalog.yaml",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 3
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 60,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "Required closeout:",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/record-validation-evidence.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 70,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "manifest required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-plan-completion.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 73,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "validation evidence required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 3
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 74,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "full closeout audit required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 3
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 81,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "manifest required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-plan-completion.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 84,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "validation test required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 3
+        },
+        {
+          "path": "docs/regression-scenario-catalog.yaml",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 3
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java",
+          "score": 2
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/common/validation/RichTextInputValidatorTest.java",
+          "score": 2
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 85,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "full closeout audit required",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 3
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 89,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "Manifest required for:",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 2
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/audit-plan-completion.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 2
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 2
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 99,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "changes where `make audit-manifest-decision` says `required`",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 3
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 3
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/audit-change-impact-preflight.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/score-changeset-risk.rb",
+          "score": 3
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 110,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "If a non-trivial change does not use a manifest, the temporary plan or final closeout must record a one-line skipped-with-reason decision.",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 10
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 10
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 9
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 9
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/generate-closeout-report.rb",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/record-validation-evidence.rb",
+          "score": 6
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 128,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "Manifest-backed work must pass `make feature-closeout-audit manifest=<manifest-file>`.",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 7
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 5
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/audit-plan-completion.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 4
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 129,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "Completed manifest-backed changes must keep structured validation evidence for every required profile check, completed plan evidence, and a ready closeout decision.",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 14
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 12
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 11
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 10
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 10
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 10
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 10
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 9
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 8
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 130,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "Validation evidence must name exact commands, scopes, `ranAt`, generated-artifact actions, and concrete skipped-check reasons, and pass `make audit-validation-evidence-quality`.",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 12
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 11
+        },
+        {
+          "path": "scripts/audits/audit-validation-evidence-quality.rb",
+          "score": 10
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 9
+        },
+        {
+          "path": "scripts/audits/record-validation-evidence.rb",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 6
         }
       ],
       "priority": "none"
@@ -4436,15 +4601,15 @@
           "score": 10
         },
         {
+          "path": "scripts/audits/record-validation-evidence.rb",
+          "score": 9
+        },
+        {
           "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
           "score": 8
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/record-validation-evidence.rb",
           "score": 8
         },
         {
@@ -4456,7 +4621,7 @@
           "score": 7
         },
         {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 7
         }
       ],
@@ -4486,6 +4651,10 @@
           "score": 6
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "score": 6
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
           "score": 6
         },
@@ -4499,10 +4668,6 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-          "score": 5
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
           "score": 5
         },
         {
@@ -4542,14 +4707,22 @@
         },
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 9
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 8
         },
         {
           "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 6
+          "score": 7
         },
         {
           "path": "scripts/audits/audit-change-impact-preflight.rb",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 6
         },
         {
@@ -4558,14 +4731,6 @@
         },
         {
           "path": "scripts/audits/generate-closeout-report.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/record-validation-evidence.rb",
           "score": 6
         }
       ],
@@ -4606,24 +4771,24 @@
           "score": 8
         },
         {
-          "path": "scripts/audits/audit-manifest-decision.rb",
-          "score": 5
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 6
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 4
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 5
         },
         {
           "path": "scripts/audits/audit-plan-completion.rb",
           "score": 4
         },
         {
-          "path": "scripts/audits/record-validation-evidence.rb",
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 4
         },
         {
-          "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 3
+          "path": "scripts/audits/record-validation-evidence.rb",
+          "score": 4
         }
       ],
       "priority": "none"
@@ -4650,6 +4815,10 @@
           "score": 9
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 9
+        },
+        {
           "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 8
         },
@@ -4676,10 +4845,6 @@
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-change-impact-preflight.rb",
-          "score": 5
         }
       ],
       "priority": "none"
@@ -4697,10 +4862,14 @@
       "evidence_matches": [
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 9
+          "score": 11
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 8
         },
         {
@@ -4716,23 +4885,19 @@
           "score": 7
         },
         {
+          "path": "scripts/audits/record-validation-evidence.rb",
+          "score": 7
+        },
+        {
           "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 6
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
+          "score": 5
+        },
+        {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 5
         }
       ],
@@ -4755,6 +4920,10 @@
           "score": 13
         },
         {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 12
+        },
+        {
           "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 10
         },
@@ -4763,11 +4932,11 @@
           "score": 8
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 8
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "path": "scripts/audits/record-validation-evidence.rb",
           "score": 7
         },
         {
@@ -4776,18 +4945,14 @@
         },
         {
           "path": "scripts/audits/audit-manifest-decision.rb",
-          "score": 5
+          "score": 6
         },
         {
-          "path": "scripts/audits/audit-plan-completion.rb",
-          "score": 5
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 6
         },
         {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
           "score": 5
         }
       ],
@@ -4807,7 +4972,7 @@
       "evidence_matches": [
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 11
+          "score": 13
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
@@ -4826,23 +4991,23 @@
           "score": 6
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 6
+        },
+        {
           "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 5
         },
         {
+          "path": "scripts/audits/record-validation-evidence.rb",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
+          "score": 4
+        },
+        {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 4
-        },
-        {
-          "path": "scripts/audits/audit-docs-as-tests.rb",
-          "score": 4
-        },
-        {
-          "path": "scripts/audits/audit-plan-completion.rb",
-          "score": 4
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
           "score": 4
         }
       ],
@@ -4865,7 +5030,7 @@
         },
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 10
+          "score": 11
         },
         {
           "path": "scripts/audits/audit-plan-completion.rb",
@@ -4884,20 +5049,20 @@
           "score": 7
         },
         {
+          "path": "scripts/audits/record-validation-evidence.rb",
+          "score": 7
+        },
+        {
           "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 6
         },
         {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 5
         }
       ],
       "priority": "none"
@@ -4930,6 +5095,18 @@
           "score": 7
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 6
+        },
+        {
           "path": "scripts/audits/generate-architecture-decision-index.rb",
           "score": 6
         },
@@ -4938,23 +5115,11 @@
           "score": 5
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 5
-        },
-        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 5
         },
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-manifest-decision.rb",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 5
         }
       ],
@@ -4978,6 +5143,10 @@
           "score": 13
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 11
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 10
         },
@@ -4994,6 +5163,10 @@
           "score": 7
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 7
+        },
+        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 7
         },
@@ -5004,14 +5177,6 @@
         {
           "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 6
         }
       ],
       "priority": "none"
@@ -5033,8 +5198,16 @@
           "score": 12
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 8
+        },
+        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 6
         },
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
@@ -5053,19 +5226,11 @@
           "score": 5
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 5
-        },
-        {
           "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 5
         },
         {
           "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/score-changeset-risk.rb",
           "score": 5
         }
       ],
@@ -5095,6 +5260,10 @@
           "score": 9
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 9
+        },
+        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 8
         },
@@ -5107,20 +5276,16 @@
           "score": 7
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
+          "score": 5
+        },
+        {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 5
         },
         {
-          "path": "scripts/audits/audit-manifest-decision.rb",
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
           "score": 5
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/api.yaml",
-          "score": 4
         }
       ],
       "priority": "none"
@@ -5143,6 +5308,10 @@
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 8
         },
         {
@@ -5171,10 +5340,6 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 5
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 5
         }
       ],
@@ -5210,6 +5375,10 @@
           "score": 6
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 6
+        },
+        {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 6
         },
@@ -5227,10 +5396,6 @@
         },
         {
           "path": "scripts/audits/audit-change-impact-preflight.rb",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 5
         }
       ],
@@ -5250,7 +5415,7 @@
       "evidence_matches": [
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 15
+          "score": 14
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
@@ -5262,6 +5427,10 @@
         },
         {
           "path": "scripts/audits/audit-plan-completion.rb",
+          "score": 9
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 9
         },
         {
@@ -5283,10 +5452,6 @@
         {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 8
-        },
-        {
-          "path": "scripts/audits/audit-change-impact-preflight.rb",
-          "score": 7
         }
       ],
       "priority": "none"
@@ -5370,7 +5535,11 @@
         },
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 11
+          "score": 12
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 10
         },
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
@@ -5381,24 +5550,20 @@
           "score": 6
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 6
+        },
+        {
           "path": "scripts/audits/audit-change-impact-preflight.rb",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 6
         },
         {
           "path": "scripts/audits/generate-architecture-decision-index.rb",
           "score": 6
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/score-changeset-risk.rb",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 5
         }
       ],
       "priority": "none"
@@ -5425,11 +5590,15 @@
           "score": 7
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 7
+        },
+        {
           "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
           "score": 6
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 6
         },
         {
@@ -5451,10 +5620,6 @@
         {
           "path": "scripts/audits/score-changeset-risk.rb",
           "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/frontend_contracts.yaml",
-          "score": 4
         }
       ],
       "priority": "none"
@@ -5484,12 +5649,20 @@
           "score": 10
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 9
+        },
+        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 8
         },
         {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 7
         },
         {
           "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
@@ -5502,14 +5675,6 @@
         {
           "path": "scripts/audits/score-changeset-risk.rb",
           "score": 7
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
-          "score": 6
         }
       ],
       "priority": "none"
@@ -5583,15 +5748,15 @@
       ],
       "evidence_matches": [
         {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 11
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 10
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 10
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
           "score": 10
         },
         {
@@ -5702,15 +5867,15 @@
           "score": 8
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 7
+        },
+        {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 7
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
           "score": 6
         },
         {
@@ -5722,15 +5887,15 @@
           "score": 6
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 6
+        },
+        {
           "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
           "score": 5
         },
         {
           "path": "docs/regression-scenario-catalog.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-doc-template-coverage.rb",
           "score": 5
         }
       ],
@@ -5782,12 +5947,12 @@
           "score": 7
         },
         {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 7
         },
         {
-          "path": "scripts/audits/audit-change-impact-preflight.rb",
-          "score": 6
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 7
         }
       ],
       "priority": "none"
@@ -5830,6 +5995,10 @@
           "score": 6
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 5
+        },
+        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 4
         },
@@ -5840,10 +6009,6 @@
         {
           "path": "scripts/audits/generate-architecture-decision-index.rb",
           "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/automation_read_models.yaml",
-          "score": 3
         }
       ],
       "priority": "none"
@@ -6031,10 +6196,6 @@
           "score": 13
         },
         {
-          "path": "scripts/audits/audit-duplicate-logic.rb",
-          "score": 9
-        },
-        {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 9
         },
@@ -6055,7 +6216,7 @@
           "score": 8
         },
         {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "path": "scripts/audits/audit-duplicate-logic.rb",
           "score": 8
         },
         {
@@ -6064,6 +6225,10 @@
         },
         {
           "path": "scripts/audits/audit-generated-artifact-freshness.rb",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/audit-mutation-safety.rb",
           "score": 7
         }
       ],
@@ -6101,15 +6266,15 @@
           "score": 7
         },
         {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 7
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 6
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
           "score": 6
         },
         {
@@ -6356,12 +6521,12 @@
           "score": 9
         },
         {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
           "score": 6
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 5
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 6
         },
         {
           "path": "scripts/audits/generate-architecture-decision-index.rb",
@@ -6533,6 +6698,10 @@
           "score": 7
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 7
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 6
         },
@@ -6550,10 +6719,6 @@
         },
         {
           "path": "scripts/audits/audit-mutation-safety.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
           "score": 6
         }
       ],
@@ -6653,15 +6818,15 @@
           "score": 2
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+          "score": 2
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
           "score": 2
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-          "score": 2
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
           "score": 2
         }
       ],
@@ -6715,7 +6880,7 @@
           "score": 3
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
           "score": 3
         }
       ],
@@ -6753,12 +6918,12 @@
           "score": 8
         },
         {
-          "path": "docs/regression-scenario-catalog.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
           "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-          "score": 7
+          "path": "docs/regression-scenario-catalog.yaml",
+          "score": 8
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
@@ -6787,11 +6952,11 @@
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-          "score": 9
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "score": 10
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
           "score": 9
         },
         {
@@ -7070,12 +7235,16 @@
           "score": 9
         },
         {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 9
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 8
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 8
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 6
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
@@ -7091,10 +7260,6 @@
         },
         {
           "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
-          "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-duplicate-logic.rb",
           "score": 5
         }
       ],
@@ -7278,6 +7443,10 @@
           "score": 7
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 6
+        },
+        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 5
         },
@@ -7308,10 +7477,6 @@
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 4
-        },
-        {
-          "path": "scripts/audits/audit-contract-test-gaps.rb",
-          "score": 4
         }
       ],
       "priority": "none"
@@ -7341,10 +7506,6 @@
           "score": 9
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 9
-        },
-        {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 8
         },
@@ -7357,15 +7518,19 @@
           "score": 8
         },
         {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 8
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
           "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
           "score": 7
         }
       ],
@@ -7387,7 +7552,15 @@
           "score": 7
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
+          "score": 6
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
           "score": 6
         },
         {
@@ -7403,15 +7576,7 @@
           "score": 5
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
-          "score": 5
-        },
-        {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
           "score": 5
         },
         {
@@ -7607,6 +7772,10 @@
           "score": 6
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+          "score": 5
+        },
+        {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
           "score": 5
         },
@@ -7632,10 +7801,6 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-          "score": 3
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 3
         }
       ],
@@ -7715,6 +7880,10 @@
           "score": 5
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+          "score": 5
+        },
+        {
           "path": "docs/agent-operating-model/sections/permission_matrix.yaml",
           "score": 5
         },
@@ -7736,10 +7905,6 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-          "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
           "score": 4
         },
         {
@@ -7815,11 +7980,15 @@
       ],
       "evidence_matches": [
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+          "score": 5
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
           "score": 4
         },
         {
@@ -7848,10 +8017,6 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-          "score": 3
-        },
-        {
-          "path": "docs/agent-operating-model/sections/api.yaml",
           "score": 3
         }
       ],
@@ -7951,15 +8116,15 @@
           "score": 5
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 5
-        },
-        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
           "score": 4
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+          "score": 4
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
           "score": 4
         }
       ],
@@ -8009,11 +8174,11 @@
           "score": 4
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 4
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+          "score": 3
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
           "score": 3
         }
       ],
@@ -8209,6 +8374,10 @@
           "score": 9
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 9
+        },
+        {
           "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 9
         },
@@ -8226,10 +8395,6 @@
         },
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/audit-change-impact-preflight.rb",
           "score": 7
         }
       ],

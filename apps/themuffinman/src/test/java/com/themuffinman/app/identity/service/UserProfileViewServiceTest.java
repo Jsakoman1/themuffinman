@@ -3,7 +3,7 @@ package com.themuffinman.app.identity.service;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
 import com.themuffinman.app.social.dto.CircleRelationDTO;
-import com.themuffinman.app.social.dto.CircleRelationStatus;
+import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import com.themuffinman.app.social.service.SocialRelationActionHelper;
 import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.social.service.SocialPresentationHelper;
@@ -81,7 +81,7 @@ class UserProfileViewServiceTest {
         AppUser profileUser = createUser(2L, "target");
         AppUserResponseDTO profileDto = AppUserResponseDTO.builder().id(2L).username("target").build();
         CircleRelationDTO relation = CircleRelationDTO.builder()
-                .relationStatus(CircleRelationStatus.INCOMING_REQUEST)
+                .relationStatus(CircleRelationStatusDTO.INCOMING_REQUEST)
                 .blockedByCurrentUser(false)
                 .build();
 
@@ -109,7 +109,7 @@ class UserProfileViewServiceTest {
         AppUser profileUser = createUser(4L, "blocked");
         AppUserResponseDTO profileDto = AppUserResponseDTO.builder().id(4L).username("blocked").build();
         CircleRelationDTO relation = CircleRelationDTO.builder()
-                .relationStatus(CircleRelationStatus.BLOCKED)
+                .relationStatus(CircleRelationStatusDTO.BLOCKED)
                 .blockedByCurrentUser(false)
                 .build();
 

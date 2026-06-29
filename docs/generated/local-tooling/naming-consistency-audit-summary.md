@@ -1,9 +1,9 @@
 # Naming Consistency Audit
 
-- Generated At: `2026-06-29T17:54:45Z`
+- Generated At: `2026-06-29T19:54:59Z`
 ## `targets`
 
-- `{:target: "applicant_vs_worker", :counts: {:backend: {"applicant": 141, "worker": 18, "assignee": 83}, :frontend: {"applicant": 103, "worker": 19, "assignee": 80}, :docs: {"applicant": 275, "worker": 137, "assignee": 66}}}`
+- `{:target: "applicant_vs_worker", :counts: {:backend: {"applicant": 145, "worker": 18, "assignee": 77}, :frontend: {"applicant": 103, "worker": 19, "assignee": 80}, :docs: {"applicant": 283, "worker": 137, "assignee": 66}}}`
 - `{:target: "quest_detail_vs_record", :counts: {:backend: {"quest detail": 0, "quest record": 0}, :frontend: {"quest detail": 2, "quest record": 0}, :docs: {"quest detail": 17, "quest record": 8}}}`
-- `{:target: "circle_connection_wording", :counts: {:backend: {"circle connection": 0, "invite": 15, "request": 1100}, :frontend: {"circle connection": 0, "invite": 31, "request": 537}, :docs: {"circle connection": 12, "invite": 92, "request": 2668}}}`
+- `{:target: "circle_connection_wording", :counts: {:backend: {"circle connection": 0, "invite": 19, "request": 1120}, :frontend: {"circle connection": 0, "invite": 31, "request": 537}, :docs: {"circle connection": 12, "invite": 100, "request": 2728}}}`
 

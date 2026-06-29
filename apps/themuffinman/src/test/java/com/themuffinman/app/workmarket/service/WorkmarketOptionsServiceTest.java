@@ -1,6 +1,6 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.location.service.LocationSettingsService;
+import com.themuffinman.app.location.service.LocationGeoService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class WorkmarketOptionsServiceTest {
 
     @Mock
-    private LocationSettingsService locationSettingsService;
+    private LocationGeoService locationGeoService;
 
     @Test
     void getOptionsReturnsGeneratedFilterCollections() {
-        var workmarketOptionsService = new WorkmarketOptionsService(locationSettingsService);
+        var workmarketOptionsService = new WorkmarketOptionsService(locationGeoService);
         var result = workmarketOptionsService.getOptions(null);
 
         assertTrue(result.getQuestStatusFilters().stream().anyMatch(option -> "ALL".equals(option.getValue())));

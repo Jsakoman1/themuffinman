@@ -1,6 +1,6 @@
 # Frontend Route Surface Inventory
 
-- Generated at: `2026-06-29T12:47:10Z`
+- Generated at: `2026-06-29T19:54:44Z`
 - Routes: `23`
 - Routes with concrete surfaces: `19`
 - Redirect routes: `4`

@@ -1,18 +1,18 @@
 # Endpoint Contract Pack auth
 
-- Generated At: `2026-06-29T12:47:29Z`
+- Generated At: `2026-06-29T19:55:04Z`
 - Endpoint Family: `auth`
 ## `endpoints`
 
-- `{:method: "POST", :path: "/auth/login", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java", :dtos: ["AuthResponse", "RegisterRequest", "LoginRequest"]}`
-- `{:method: "GET", :path: "/auth/me", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java", :dtos: ["AuthResponse"]}`
-- `{:method: "POST", :path: "/auth/register", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java", :dtos: ["AuthResponse", "RegisterRequest", "LoginRequest"]}`
+- `{:method: "POST", :path: "/auth/login", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java", :dtos: ["AuthResponseDTO", "RegisterRequestDTO", "LoginRequestDTO"]}`
+- `{:method: "GET", :path: "/auth/me", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java", :dtos: ["AuthResponseDTO"]}`
+- `{:method: "POST", :path: "/auth/register", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java", :dtos: ["AuthResponseDTO", "RegisterRequestDTO", "LoginRequestDTO"]}`
 
 ## `dto_files`
 
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponse.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequest.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequest.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java`
 
 ## `frontend_callsites`
 

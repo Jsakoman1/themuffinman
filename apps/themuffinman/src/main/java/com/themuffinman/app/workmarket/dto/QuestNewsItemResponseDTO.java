@@ -28,7 +28,7 @@ public class QuestNewsItemResponseDTO {
     private Long applicationId;
     @Nullable
     private Long circleRequestId;
-    private QuestNewsDestinationType destinationType;
+    private QuestNewsDestinationTypeDTO destinationType;
     @Nullable
     private Long destinationId;
     private String resolutionKey;

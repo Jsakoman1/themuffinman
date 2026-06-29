@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-06-29T17:54:45Z",
+  "generated_at": "2026-06-29T19:54:59Z",
   "targets": [
     {
       "target": "applicant_vs_worker",
       "counts": {
         "backend": {
-          "applicant": 141,
+          "applicant": 145,
           "worker": 18,
-          "assignee": 83
+          "assignee": 77
         },
         "frontend": {
           "applicant": 103,
@@ -15,7 +15,7 @@
           "assignee": 80
         },
         "docs": {
-          "applicant": 275,
+          "applicant": 283,
           "worker": 137,
           "assignee": 66
         }
@@ -43,8 +43,8 @@
       "counts": {
         "backend": {
           "circle connection": 0,
-          "invite": 15,
-          "request": 1100
+          "invite": 19,
+          "request": 1120
         },
         "frontend": {
           "circle connection": 0,
@@ -53,8 +53,8 @@
         },
         "docs": {
           "circle connection": 12,
-          "invite": 92,
-          "request": 2668
+          "invite": 100,
+          "request": 2728
         }
       }
     }

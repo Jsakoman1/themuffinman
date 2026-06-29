@@ -1,6 +1,6 @@
 # Frontend Dead Code Audit
 
-- Generated At: `2026-06-29T12:47:13Z`
+- Generated At: `2026-06-29T19:54:46Z`
 - Files Scanned: `233`
 ## `likely_unused_files`
 

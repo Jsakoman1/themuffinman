@@ -2,7 +2,7 @@ package com.themuffinman.app.identity.service;
 
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.social.dto.CircleRelationDTO;
-import com.themuffinman.app.social.dto.CircleRelationStatus;
+import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import com.themuffinman.app.identity.dto.ProfilePrimaryActionDTO;
 import com.themuffinman.app.identity.dto.UserProfileViewDTO;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
@@ -38,9 +38,9 @@ public class UserProfileViewService {
         boolean ownProfile = currentUser != null && currentUser.getId().equals(profileUser.getId());
         CircleRelationDTO relation = ownProfile
                 ? CircleRelationDTO.builder()
-                        .relationStatus(CircleRelationStatus.NONE)
-                        .relationLabel(socialPresentationHelper.relationLabel(CircleRelationStatus.NONE))
-                        .relationBadgeClass(socialPresentationHelper.relationBadgeClass(CircleRelationStatus.NONE))
+                        .relationStatus(CircleRelationStatusDTO.NONE)
+                        .relationLabel(socialPresentationHelper.relationLabel(CircleRelationStatusDTO.NONE))
+                        .relationBadgeClass(socialPresentationHelper.relationBadgeClass(CircleRelationStatusDTO.NONE))
                         .blockedByCurrentUser(false)
                         .exactResolutionEligible(true)
                         .build()
@@ -58,8 +58,8 @@ public class UserProfileViewService {
                         relation.getRelationStatus(),
                         relation.isBlockedByCurrentUser()
                 ))
-                .showBlockAction(!ownProfile && relation.getRelationStatus() != CircleRelationStatus.BLOCKED)
-                .blockActionEnabled(!ownProfile && relation.getRelationStatus() != CircleRelationStatus.BLOCKED)
+                .showBlockAction(!ownProfile && relation.getRelationStatus() != CircleRelationStatusDTO.BLOCKED)
+                .blockActionEnabled(!ownProfile && relation.getRelationStatus() != CircleRelationStatusDTO.BLOCKED)
                 .blockActionLabel(socialRelationActionHelper.blockActionLabel())
                 .employerRating(userReviewService.getRatingSummary(profileUser.getId(), ReviewRole.EMPLOYER))
                 .workerRating(userReviewService.getRatingSummary(profileUser.getId(), ReviewRole.WORKER))

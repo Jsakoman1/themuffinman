@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-29T12:47:10Z",
-  "dto_count": 124,
-  "missing_contract_count": 0,
+  "generated_at": "2026-06-29T19:54:43Z",
+  "dto_count": 137,
+  "missing_contract_count": 9,
   "zero_usage_field_count": 79,
   "dtos": [
     {
@@ -125,7 +125,7 @@
         {
           "field": "summary",
           "in_generated_contract": true,
-          "frontend_usage_count": 14,
+          "frontend_usage_count": 13,
           "drift_category": "used"
         },
         {
@@ -927,9 +927,36 @@
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2200,
+          "frontend_usage_count": 2196,
           "drift_category": "used"
         }
+      ]
+    },
+    {
+      "dto": "ApplicationAllowedActionDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": false,
+      "generated_field_count": 0,
+      "fields": [
+
+      ]
+    },
+    {
+      "dto": "AuthResponseDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": true,
+      "generated_field_count": 8,
+      "fields": [
+
+      ]
+    },
+    {
+      "dto": "BulkCircleMembershipActionDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": false,
+      "generated_field_count": 0,
+      "fields": [
+
       ]
     },
     {
@@ -1861,6 +1888,15 @@
       ]
     },
     {
+      "dto": "CircleRelationStatusDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": false,
+      "generated_field_count": 0,
+      "fields": [
+
+      ]
+    },
+    {
       "dto": "CircleRequestCreateDTO",
       "backend_field_count": 1,
       "generated_contract_present": true,
@@ -2313,6 +2349,15 @@
       ]
     },
     {
+      "dto": "DashboardNotificationDestinationTypeDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": false,
+      "generated_field_count": 0,
+      "fields": [
+
+      ]
+    },
+    {
       "dto": "DashboardNotificationItemDTO",
       "backend_field_count": 20,
       "generated_contract_present": true,
@@ -2675,7 +2720,7 @@
         {
           "field": "summary",
           "in_generated_contract": true,
-          "frontend_usage_count": 14,
+          "frontend_usage_count": 13,
           "drift_category": "used"
         }
       ]
@@ -2865,7 +2910,7 @@
       ]
     },
     {
-      "dto": "DatabaseTableStatusDTO",
+      "dto": "DatabaseTableStatusViewDTO",
       "backend_field_count": 2,
       "generated_contract_present": true,
       "generated_field_count": 2,
@@ -2905,7 +2950,7 @@
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2200,
+          "frontend_usage_count": 2196,
           "drift_category": "used"
         }
       ]
@@ -2925,13 +2970,13 @@
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2200,
+          "frontend_usage_count": 2196,
           "drift_category": "used"
         }
       ]
     },
     {
-      "dto": "LocationDebugStatusDTO",
+      "dto": "LocationDebugStatusViewDTO",
       "backend_field_count": 20,
       "generated_contract_present": true,
       "generated_field_count": 20,
@@ -3199,7 +3244,7 @@
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2200,
+          "frontend_usage_count": 2196,
           "drift_category": "used"
         }
       ]
@@ -3222,6 +3267,15 @@
           "frontend_usage_count": 13,
           "drift_category": "used"
         }
+      ]
+    },
+    {
+      "dto": "LoginRequestDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": true,
+      "generated_field_count": 2,
+      "fields": [
+
       ]
     },
     {
@@ -3294,6 +3348,15 @@
           "frontend_usage_count": 10,
           "drift_category": "used"
         }
+      ]
+    },
+    {
+      "dto": "QuestAllowedActionDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": false,
+      "generated_field_count": 0,
+      "fields": [
+
       ]
     },
     {
@@ -3387,7 +3450,7 @@
         {
           "field": "quest",
           "in_generated_contract": true,
-          "frontend_usage_count": 106,
+          "frontend_usage_count": 111,
           "drift_category": "used"
         },
         {
@@ -3399,7 +3462,7 @@
         {
           "field": "summary",
           "in_generated_contract": true,
-          "frontend_usage_count": 14,
+          "frontend_usage_count": 13,
           "drift_category": "used"
         }
       ]
@@ -3425,7 +3488,39 @@
         {
           "field": "quest",
           "in_generated_contract": true,
-          "frontend_usage_count": 106,
+          "frontend_usage_count": 111,
+          "drift_category": "used"
+        }
+      ]
+    },
+    {
+      "dto": "QuestApplicationDraftRulesViewDTO",
+      "backend_field_count": 4,
+      "generated_contract_present": true,
+      "generated_field_count": 4,
+      "fields": [
+        {
+          "field": "messageRequired",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "minimumProposedPrice",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "proposedPriceRequired",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "suggestedApplicationPrice",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
           "drift_category": "used"
         }
       ]
@@ -3632,7 +3727,7 @@
         {
           "field": "presentation",
           "in_generated_contract": true,
-          "frontend_usage_count": 82,
+          "frontend_usage_count": 99,
           "drift_category": "used"
         },
         {
@@ -3736,7 +3831,7 @@
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2200,
+          "frontend_usage_count": 2196,
           "drift_category": "used"
         }
       ]
@@ -3824,7 +3919,7 @@
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2200,
+          "frontend_usage_count": 2196,
           "drift_category": "used"
         }
       ]
@@ -3850,9 +3945,18 @@
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2200,
+          "frontend_usage_count": 2196,
           "drift_category": "used"
         }
+      ]
+    },
+    {
+      "dto": "QuestDetailExecutionActionDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": false,
+      "generated_field_count": 0,
+      "fields": [
+
       ]
     },
     {
@@ -3948,19 +4052,19 @@
         {
           "field": "applicationsView",
           "in_generated_contract": true,
-          "frontend_usage_count": 14,
+          "frontend_usage_count": 13,
           "drift_category": "used"
         },
         {
           "field": "myApplication",
           "in_generated_contract": true,
-          "frontend_usage_count": 8,
+          "frontend_usage_count": 7,
           "drift_category": "used"
         },
         {
           "field": "quest",
           "in_generated_contract": true,
-          "frontend_usage_count": 106,
+          "frontend_usage_count": 111,
           "drift_category": "used"
         },
         {
@@ -3972,7 +4076,7 @@
         {
           "field": "summary",
           "in_generated_contract": true,
-          "frontend_usage_count": 14,
+          "frontend_usage_count": 13,
           "drift_category": "used"
         }
       ]
@@ -4074,7 +4178,7 @@
         {
           "field": "applicationsView",
           "in_generated_contract": true,
-          "frontend_usage_count": 14,
+          "frontend_usage_count": 13,
           "drift_category": "used"
         },
         {
@@ -4092,7 +4196,7 @@
         {
           "field": "myApplication",
           "in_generated_contract": true,
-          "frontend_usage_count": 8,
+          "frontend_usage_count": 7,
           "drift_category": "used"
         },
         {
@@ -4190,6 +4294,15 @@
       ]
     },
     {
+      "dto": "QuestListPresetDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": false,
+      "generated_field_count": 0,
+      "fields": [
+
+      ]
+    },
+    {
       "dto": "QuestListResponseDTO",
       "backend_field_count": 5,
       "generated_contract_present": true,
@@ -4248,9 +4361,18 @@
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2200,
+          "frontend_usage_count": 2196,
           "drift_category": "used"
         }
+      ]
+    },
+    {
+      "dto": "QuestNewsDestinationTypeDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": false,
+      "generated_field_count": 0,
+      "fields": [
+
       ]
     },
     {
@@ -4401,14 +4523,26 @@
     },
     {
       "dto": "QuestPresentationDTO",
-      "backend_field_count": 33,
+      "backend_field_count": 39,
       "generated_contract_present": true,
-      "generated_field_count": 33,
+      "generated_field_count": 39,
       "fields": [
+        {
+          "field": "applicationDraftRules",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
         {
           "field": "applicationSentVisible",
           "in_generated_contract": true,
-          "frontend_usage_count": 3,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
+          "field": "applicationsSectionVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
           "drift_category": "used"
         },
         {
@@ -4450,7 +4584,7 @@
         {
           "field": "canApply",
           "in_generated_contract": true,
-          "frontend_usage_count": 5,
+          "frontend_usage_count": 4,
           "drift_category": "used"
         },
         {
@@ -4508,6 +4642,24 @@
           "drift_category": "used"
         },
         {
+          "field": "myApplicationAsideVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "offerSectionVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 1,
+          "drift_category": "used"
+        },
+        {
+          "field": "overviewStatusVisible",
+          "in_generated_contract": true,
+          "frontend_usage_count": 2,
+          "drift_category": "used"
+        },
+        {
           "field": "postingSettingsVisible",
           "in_generated_contract": true,
           "frontend_usage_count": 4,
@@ -4559,6 +4711,12 @@
           "field": "statusSurfaceClass",
           "in_generated_contract": true,
           "frontend_usage_count": 3,
+          "drift_category": "used"
+        },
+        {
+          "field": "suggestedApplicationPrice",
+          "in_generated_contract": true,
+          "frontend_usage_count": 10,
           "drift_category": "used"
         },
         {
@@ -4736,7 +4894,7 @@
         {
           "field": "awardAmount",
           "in_generated_contract": true,
-          "frontend_usage_count": 41,
+          "frontend_usage_count": 27,
           "drift_category": "used"
         },
         {
@@ -4886,7 +5044,7 @@
         {
           "field": "presentation",
           "in_generated_contract": true,
-          "frontend_usage_count": 82,
+          "frontend_usage_count": 99,
           "drift_category": "used"
         },
         {
@@ -5108,7 +5266,7 @@
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2200,
+          "frontend_usage_count": 2196,
           "drift_category": "used"
         }
       ]
@@ -5128,7 +5286,7 @@
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2200,
+          "frontend_usage_count": 2196,
           "drift_category": "used"
         }
       ]
@@ -5148,9 +5306,27 @@
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2200,
+          "frontend_usage_count": 2196,
           "drift_category": "used"
         }
+      ]
+    },
+    {
+      "dto": "QuestViewerRelationDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": false,
+      "generated_field_count": 0,
+      "fields": [
+
+      ]
+    },
+    {
+      "dto": "RegisterRequestDTO",
+      "backend_field_count": 0,
+      "generated_contract_present": true,
+      "generated_field_count": 3,
+      "fields": [
+
       ]
     },
     {

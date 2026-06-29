@@ -1,6 +1,6 @@
 # Workflow Slice quest-application
 
-- Generated At: `2026-06-29T12:47:30Z`
+- Generated At: `2026-06-29T19:55:08Z`
 - Workflow: `quest-application`
 - `state_machine`: `8` entries
 ## `service_files`
@@ -21,14 +21,13 @@
 
 ## `frontend_actions`
 
-- `{:path: "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts", :category: "frontend_contract", :domain: "shared", :lines: 1395}`
+- `{:path: "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts", :category: "frontend_contract", :domain: "shared", :lines: 1408}`
 
 ## `docs_refs`
 
 - `docs/agent-operating-model.yaml`
 - `docs/agent-operating-model/sections/source_of_truth.yaml`
 - `docs/domain-technical.md`
-- `docs/generated/local-tooling/change-impact-preflight-summary.md`
 - `docs/generated/local-tooling/diff-summary.md`
 - `docs/generated/local-tooling/domain-packs/workmarket-summary.md`
 - `docs/generated/local-tooling/workflow-slices/quest-application-summary.md`
@@ -37,10 +36,6 @@
 
 ## `recommended_commands`
 
-- `cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest,QuestApplicationUseCaseContractTest,QuestApplicationServiceTest,DashboardServiceTest,AdminAgentPlaygroundServiceTest,AgentOperatingScenarioTest,AgentOperatingModelValidationTest`
-- `cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest`
-- `cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest`
-- `cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest`
 
 ## `residual_risk`
 

@@ -48,7 +48,7 @@ public class QuestApplicationResponseDTO {
     private BigDecimal proposedPrice;
 
     private QuestApplicationStatus status;
-    private List<ApplicationAllowedAction> allowedActions;
+    private List<ApplicationAllowedActionDTO> allowedActions;
     private QuestApplicationPresentationDTO presentation;
     private Instant createdAt;
 }

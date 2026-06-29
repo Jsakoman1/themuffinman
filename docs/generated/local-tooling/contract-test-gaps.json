@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:34Z",
+  "generated_at": "2026-06-29T19:55:19Z",
   "endpoint_count": 89,
   "review_needed_count": 0,
   "high_priority_count": 0,
@@ -798,7 +798,7 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java",
       "domain": "identity",
       "dtos": [
-        "AuthResponse"
+        "AuthResponseDTO"
       ],
       "automation_relevant": false,
       "backend_tests": [
@@ -817,18 +817,15 @@
         "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
         "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
         "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
         "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
-        "apps/themuffinman/frontend/src/router.ts",
-        "apps/themuffinman/frontend/src/services/sessionService.ts"
+        "apps/themuffinman/frontend/src/router.ts"
       ],
       "missing_generated_contract_dtos": [
 
       ],
       "documented_refs": [
         "/auth/register",
-        "AuthController",
-        "AuthResponse"
+        "AuthController"
       ],
       "gaps": [
 
@@ -841,7 +838,7 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java",
       "domain": "identity",
       "dtos": [
-        "AuthResponse"
+        "AuthResponseDTO"
       ],
       "automation_relevant": false,
       "backend_tests": [
@@ -864,7 +861,6 @@
         "apps/themuffinman/frontend/src/modules/identity/auth.ts",
         "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
         "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
         "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
         "apps/themuffinman/frontend/src/router.ts"
       ],
@@ -873,8 +869,7 @@
       ],
       "documented_refs": [
         "/auth/login",
-        "AuthController",
-        "AuthResponse"
+        "AuthController"
       ],
       "gaps": [
 
@@ -887,7 +882,7 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java",
       "domain": "identity",
       "dtos": [
-        "AuthResponse"
+        "AuthResponseDTO"
       ],
       "automation_relevant": false,
       "backend_tests": [
@@ -919,8 +914,7 @@
       ],
       "documented_refs": [
         "/auth/me",
-        "AuthController",
-        "AuthResponse"
+        "AuthController"
       ],
       "gaps": [
 
@@ -933,7 +927,7 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
       "domain": "location",
       "dtos": [
-        "LocationDebugStatusDTO"
+        "LocationDebugStatusViewDTO"
       ],
       "automation_relevant": true,
       "backend_tests": [
@@ -944,7 +938,6 @@
         "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
         "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
         "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileLocationEditor.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
@@ -955,8 +948,7 @@
       ],
       "documented_refs": [
         "/location/lookup",
-        "LocationLookupController",
-        "LocationDebugStatusDTO"
+        "LocationLookupController"
       ],
       "gaps": [
 
@@ -969,7 +961,7 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
       "domain": "location",
       "dtos": [
-        "LocationDebugStatusDTO"
+        "LocationDebugStatusViewDTO"
       ],
       "automation_relevant": true,
       "backend_tests": [
@@ -978,16 +970,14 @@
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts"
       ],
       "missing_generated_contract_dtos": [
 
       ],
       "documented_refs": [
         "/location/reverse-lookup",
-        "LocationLookupController",
-        "LocationDebugStatusDTO"
+        "LocationLookupController"
       ],
       "gaps": [
 
@@ -1000,7 +990,7 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
       "domain": "location",
       "dtos": [
-        "LocationDebugStatusDTO"
+        "LocationDebugStatusViewDTO"
       ],
       "automation_relevant": true,
       "backend_tests": [
@@ -1026,8 +1016,7 @@
       ],
       "documented_refs": [
         "/location/admin/status",
-        "LocationLookupController",
-        "LocationDebugStatusDTO"
+        "LocationLookupController"
       ],
       "gaps": [
 
@@ -2118,12 +2107,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/App.vue",
@@ -2167,12 +2156,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
@@ -2216,12 +2205,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
@@ -2264,12 +2253,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
@@ -2312,12 +2301,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/App.vue",
@@ -2360,12 +2349,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/App.vue",
@@ -2408,12 +2397,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/ui/UiRequestError.vue",
@@ -2456,12 +2445,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
@@ -2505,12 +2494,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
@@ -2545,12 +2534,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
@@ -2585,12 +2574,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/App.vue",
@@ -2633,12 +2622,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
@@ -2679,12 +2668,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
@@ -2727,12 +2716,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
@@ -2775,12 +2764,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
@@ -2825,12 +2814,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
@@ -2875,12 +2864,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
@@ -2925,12 +2914,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts"
@@ -2963,12 +2952,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
@@ -3005,12 +2994,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/ui/UiRequestError.vue",
@@ -3054,12 +3043,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
@@ -3096,12 +3085,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
@@ -3138,12 +3127,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/App.vue",
@@ -3187,12 +3176,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
@@ -3234,12 +3223,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue",
@@ -3283,12 +3272,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/api/httpClient.ts",
@@ -3332,12 +3321,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/App.vue",
@@ -3380,12 +3369,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
@@ -3420,12 +3409,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
@@ -3468,12 +3457,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
@@ -3517,12 +3506,12 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
       ],
       "frontend_usage": [
         "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",

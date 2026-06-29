@@ -1,5 +1,5 @@
 # Audit Documentation
 
-- Generated At: `2026-06-29T12:47:28Z`
+- Generated At: `2026-06-29T19:55:03Z`
 - Documentation Path: `docs/tooling/codex-local-audits.md`
-- Target Count: `103`
+- Target Count: `109`

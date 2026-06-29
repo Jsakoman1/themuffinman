@@ -1,6 +1,6 @@
 # Error Pattern Audit
 
-- Generated At: `2026-06-29T12:47:27Z`
+- Generated At: `2026-06-29T19:55:02Z`
 ## `hits`
 
 - `{:pattern: "response_status_exception", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/common/controller/GlobalExceptionHandler.java", :line: 18, :snippet: "import org.springframework.web.server.ResponseStatusException;"}`

@@ -1,6 +1,6 @@
 # Async Mutation Flow Audit
 
-- Generated At: `2026-06-29T12:47:27Z`
+- Generated At: `2026-06-29T19:55:03Z`
 ## `files`
 
 - `{:file: "apps/themuffinman/frontend/src/components/app/AppChatTray.vue", :uses_feedback_runner: false, :uses_run_with_feedback: false, :has_after_success: false, :refresh_calls: []}`

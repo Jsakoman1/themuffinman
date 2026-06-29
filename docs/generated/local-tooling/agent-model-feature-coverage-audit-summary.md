@@ -1,6 +1,6 @@
 # Agent Model Feature Coverage Audit
 
-- Generated At: `2026-06-29T12:47:18Z`
+- Generated At: `2026-06-29T19:54:52Z`
 ## `features`
 
 - `{:feature: "AdminAgent", :in_agent_model: true, :in_simulation: true}`

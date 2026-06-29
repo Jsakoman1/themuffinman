@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-29T12:47:24Z",
-  "file_count": 465,
+  "generated_at": "2026-06-29T19:54:59Z",
+  "file_count": 479,
   "groups": [
     {
       "domain": "chat",
@@ -138,7 +138,7 @@
       "domain": "location",
       "owner": "backend",
       "layer": "service",
-      "file_count": 7
+      "file_count": 10
     },
     {
       "domain": "shared",
@@ -228,7 +228,7 @@
       "domain": "social",
       "owner": "backend",
       "layer": "service",
-      "file_count": 7
+      "file_count": 8
     },
     {
       "domain": "social",
@@ -264,7 +264,7 @@
       "domain": "workmarket",
       "owner": "backend",
       "layer": "dto",
-      "file_count": 56
+      "file_count": 57
     },
     {
       "domain": "workmarket",
@@ -294,7 +294,7 @@
       "domain": "workmarket",
       "owner": "backend",
       "layer": "service",
-      "file_count": 32
+      "file_count": 41
     },
     {
       "domain": "workmarket",

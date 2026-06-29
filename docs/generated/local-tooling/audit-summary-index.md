@@ -1,6 +1,6 @@
 # Audit Summary Index
 
-- Generated At: `2026-06-29T17:51:25Z`
+- Generated At: `2026-06-29T19:55:22Z`
 ## `registry`
 
 - `{:target: "audit-change-impact-preflight", :script: "scripts/audits/audit-change-impact-preflight.rb", :output: "docs/generated/local-tooling/change-impact-preflight-summary.md", :output_exists: true}`
@@ -31,25 +31,25 @@
 
 ## `summaries`
 
-- `{:path: "docs/generated/dead-code-audit/backend-unused-summary.md", :mtime: "2026-06-29T12:47:16Z", :bytes: 1277}`
-- `{:path: "docs/generated/dead-code-audit/dead-code-summary-summary.md", :mtime: "2026-06-29T12:47:16Z", :bytes: 2174}`
-- `{:path: "docs/generated/dead-code-audit/frontend-unused-summary.md", :mtime: "2026-06-29T12:47:13Z", :bytes: 3181}`
-- `{:path: "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md", :mtime: "2026-06-29T12:47:18Z", :bytes: 1134}`
-- `{:path: "docs/generated/local-tooling/api-contract-drift-summary.md", :mtime: "2026-06-29T12:47:10Z", :bytes: 5241}`
-- `{:path: "docs/generated/local-tooling/api-contract-snapshot-summary.md", :mtime: "2026-06-29T12:47:35Z", :bytes: 6231}`
-- `{:path: "docs/generated/local-tooling/architecture-decision-index-summary.md", :mtime: "2026-06-29T17:51:00Z", :bytes: 1239}`
-- `{:path: "docs/generated/local-tooling/architecture-drift-summary.md", :mtime: "2026-06-29T12:47:18Z", :bytes: 6018}`
-- `{:path: "docs/generated/local-tooling/async-mutation-flow-audit-summary.md", :mtime: "2026-06-29T12:47:27Z", :bytes: 4713}`
+- `{:path: "docs/generated/dead-code-audit/backend-unused-summary.md", :mtime: "2026-06-29T19:54:50Z", :bytes: 1279}`
+- `{:path: "docs/generated/dead-code-audit/dead-code-summary-summary.md", :mtime: "2026-06-29T19:54:50Z", :bytes: 2290}`
+- `{:path: "docs/generated/dead-code-audit/frontend-unused-summary.md", :mtime: "2026-06-29T19:54:46Z", :bytes: 3181}`
+- `{:path: "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md", :mtime: "2026-06-29T19:54:52Z", :bytes: 1134}`
+- `{:path: "docs/generated/local-tooling/api-contract-drift-summary.md", :mtime: "2026-06-29T19:54:43Z", :bytes: 4491}`
+- `{:path: "docs/generated/local-tooling/api-contract-snapshot-summary.md", :mtime: "2026-06-29T19:55:22Z", :bytes: 6252}`
+- `{:path: "docs/generated/local-tooling/architecture-decision-index-summary.md", :mtime: "2026-06-29T19:54:52Z", :bytes: 1239}`
+- `{:path: "docs/generated/local-tooling/architecture-drift-summary.md", :mtime: "2026-06-29T19:54:52Z", :bytes: 5825}`
+- `{:path: "docs/generated/local-tooling/async-mutation-flow-audit-summary.md", :mtime: "2026-06-29T19:55:03Z", :bytes: 4713}`
 - `{:path: "docs/generated/local-tooling/audit-deltas/audit-router-summary.md", :mtime: "2026-06-29T12:08:39Z", :bytes: 1373}`
-- `{:path: "docs/generated/local-tooling/audit-deltas/diff-summary-summary.md", :mtime: "2026-06-29T15:10:38Z", :bytes: 1853}`
-- `{:path: "docs/generated/local-tooling/audit-documentation-summary.md", :mtime: "2026-06-29T12:47:28Z", :bytes: 143}`
-- `{:path: "docs/generated/local-tooling/audit-registry-artifacts-summary.md", :mtime: "2026-06-29T17:26:10Z", :bytes: 142}`
+- `{:path: "docs/generated/local-tooling/audit-deltas/diff-summary-summary.md", :mtime: "2026-06-29T19:55:21Z", :bytes: 3577}`
+- `{:path: "docs/generated/local-tooling/audit-documentation-summary.md", :mtime: "2026-06-29T19:55:03Z", :bytes: 143}`
+- `{:path: "docs/generated/local-tooling/audit-registry-artifacts-summary.md", :mtime: "2026-06-29T17:51:25Z", :bytes: 142}`
 - `{:path: "docs/generated/local-tooling/audit-router-summary.md", :mtime: "2026-06-29T12:04:50Z", :bytes: 5717}`
-- `{:path: "docs/generated/local-tooling/automation-readiness-gap-audit-summary.md", :mtime: "2026-06-29T12:47:18Z", :bytes: 3501}`
-- `{:path: "docs/generated/local-tooling/backend-dependency-graph-summary.md", :mtime: "2026-06-29T12:47:34Z", :bytes: 9830}`
-- `{:path: "docs/generated/local-tooling/change-impact-preflight-summary.md", :mtime: "2026-06-29T17:51:00Z", :bytes: 1132}`
-- `{:path: "docs/generated/local-tooling/changeset-playbook-summary.md", :mtime: "2026-06-29T12:47:29Z", :bytes: 8696}`
-- `{:path: "docs/generated/local-tooling/changeset-risk-summary.md", :mtime: "2026-06-29T17:42:07Z", :bytes: 346}`
+- `{:path: "docs/generated/local-tooling/automation-readiness-gap-audit-summary.md", :mtime: "2026-06-29T19:54:52Z", :bytes: 3501}`
+- `{:path: "docs/generated/local-tooling/backend-dependency-graph-summary.md", :mtime: "2026-06-29T19:55:19Z", :bytes: 9830}`
+- `{:path: "docs/generated/local-tooling/change-impact-preflight-summary.md", :mtime: "2026-06-29T19:54:42Z", :bytes: 1191}`
+- `{:path: "docs/generated/local-tooling/changeset-playbook-summary.md", :mtime: "2026-06-29T19:55:06Z", :bytes: 6669}`
+- `{:path: "docs/generated/local-tooling/changeset-risk-summary.md", :mtime: "2026-06-29T19:54:42Z", :bytes: 335}`
 - `{:path: "docs/generated/local-tooling/closeout-autofill/codex_context_optimization-summary.md", :mtime: "2026-06-29T15:56:58Z", :bytes: 1980}`
 - `{:path: "docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow-summary.md", :mtime: "2026-06-29T17:09:37Z", :bytes: 2670}`
 - `{:path: "docs/generated/local-tooling/closeout-bundle-summary.md", :mtime: "2026-06-28T21:09:18Z", :bytes: 2817}`

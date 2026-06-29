@@ -2,8 +2,8 @@ package com.themuffinman.app.location.service;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.themuffinman.app.identity.repository.AppUserRepository;
-import com.themuffinman.app.location.dto.DatabaseTableStatusDTO;
-import com.themuffinman.app.location.dto.LocationDebugStatusDTO;
+import com.themuffinman.app.location.dto.DatabaseTableStatusViewDTO;
+import com.themuffinman.app.location.dto.LocationDebugStatusViewDTO;
 import com.themuffinman.app.location.dto.LocationLookupCandidateDTO;
 import com.themuffinman.app.location.dto.LocationLookupResponseDTO;
 import com.themuffinman.app.location.model.LocationLookupEvent;
@@ -117,11 +117,11 @@ class LocationLookupServiceTest {
                 .thenAnswer(invocation -> invocation.getArgument(1) == LocationLookupEventType.LOOKUP ? 7L : 5L);
         when(adminDatabaseMetricsService.getDatabaseSizeBytes()).thenReturn(9_437_184L);
         when(adminDatabaseMetricsService.getTableStatuses()).thenReturn(List.of(
-                DatabaseTableStatusDTO.builder().tableName("app_user").rowCount(10L).build(),
-                DatabaseTableStatusDTO.builder().tableName("quest").rowCount(20L).build()
+                DatabaseTableStatusViewDTO.builder().tableName("app_user").rowCount(10L).build(),
+                DatabaseTableStatusViewDTO.builder().tableName("quest").rowCount(20L).build()
         ));
 
-        LocationDebugStatusDTO status = locationLookupService.getDebugStatus();
+        LocationDebugStatusViewDTO status = locationLookupService.getDebugStatus();
 
         assertEquals(12L, status.getCurrentMonthProviderRequests());
         assertEquals(7L, status.getCurrentMonthProviderLookupRequests());

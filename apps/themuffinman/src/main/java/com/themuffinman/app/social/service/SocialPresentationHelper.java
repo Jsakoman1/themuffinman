@@ -1,6 +1,6 @@
 package com.themuffinman.app.social.service;
 
-import com.themuffinman.app.social.dto.CircleRelationStatus;
+import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 @Component
 public class SocialPresentationHelper {
 
-    public String relationLabel(CircleRelationStatus status) {
+    public String relationLabel(CircleRelationStatusDTO status) {
         if (status == null) {
             return "";
         }
@@ -22,16 +22,16 @@ public class SocialPresentationHelper {
         };
     }
 
-    public String relationBadgeClass(CircleRelationStatus status) {
-        if (status == CircleRelationStatus.BLOCKED) {
+    public String relationBadgeClass(CircleRelationStatusDTO status) {
+        if (status == CircleRelationStatusDTO.BLOCKED) {
             return "badge badge--danger";
         }
 
-        if (status == CircleRelationStatus.INCOMING_REQUEST || status == CircleRelationStatus.OUTGOING_REQUEST) {
+        if (status == CircleRelationStatusDTO.INCOMING_REQUEST || status == CircleRelationStatusDTO.OUTGOING_REQUEST) {
             return "badge badge--warning";
         }
 
-        if (status == CircleRelationStatus.NONE) {
+        if (status == CircleRelationStatusDTO.NONE) {
             return "badge badge--accent";
         }
 

@@ -1,6 +1,6 @@
 # Doc Coverage Gap Audit
 
-- Generated At: `2026-06-29T12:47:18Z`
+- Generated At: `2026-06-29T19:54:52Z`
 - Surfaces Scanned: `174`
 ## `gaps`
 

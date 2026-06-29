@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-06-29T12:47:25Z",
-  "tests_scanned": 47,
+  "generated_at": "2026-06-29T19:55:00Z",
+  "tests_scanned": 49,
   "shared_fixture_file": "apps/themuffinman/src/test/java/com/themuffinman/app/testing/TestFixtures.java",
   "extraction_candidates": [
     {
       "focus": "users",
-      "file_count": 36,
-      "total_hits": 344,
+      "file_count": 37,
+      "total_hits": 346,
       "top_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
@@ -21,8 +21,8 @@
     },
     {
       "focus": "quests",
-      "file_count": 14,
-      "total_hits": 123,
+      "file_count": 15,
+      "total_hits": 126,
       "top_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
@@ -52,22 +52,6 @@
       "recommendation": "Extend existing `TestFixtures` coverage for repeated applications setup instead of adding another local helper."
     },
     {
-      "focus": "location-settings",
-      "file_count": 9,
-      "total_hits": 36,
-      "top_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java"
-      ],
-      "recommendation": "Extend existing `TestFixtures` coverage for repeated location-settings setup instead of adding another local helper."
-    },
-    {
       "focus": "circles",
       "file_count": 7,
       "total_hits": 44,
@@ -81,13 +65,28 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java"
       ],
       "recommendation": "Extend existing `TestFixtures` coverage for repeated circles setup instead of adding another local helper."
+    },
+    {
+      "focus": "location-settings",
+      "file_count": 7,
+      "total_hits": 28,
+      "top_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java"
+      ],
+      "recommendation": "Extend existing `TestFixtures` coverage for repeated location-settings setup instead of adding another local helper."
     }
   ],
   "repeated_entities": [
     {
       "entity": "AppUser",
-      "file_count": 36,
-      "total_hits": 97,
+      "file_count": 37,
+      "total_hits": 99,
       "files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
@@ -105,8 +104,8 @@
     },
     {
       "entity": "Quest",
-      "file_count": 12,
-      "total_hits": 60,
+      "file_count": 13,
+      "total_hits": 63,
       "files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
@@ -115,11 +114,11 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java"
       ]
     },
     {
@@ -221,7 +220,7 @@
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
       "domain": "social",
-      "setup_score": 155,
+      "setup_score": 158,
       "focus_hits": {
         "users": 60,
         "circles": 28
@@ -232,7 +231,7 @@
       },
       "set_call_count": 97,
       "dto_builder_count": 13,
-      "before_each_count": 0,
+      "before_each_count": 1,
       "local_helper_count": 1,
       "uses_shared_test_fixtures": false
     },
@@ -407,25 +406,6 @@
       "uses_shared_test_fixtures": true
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-      "domain": "workmarket",
-      "setup_score": 27,
-      "focus_hits": {
-        "users": 1,
-        "quests": 7,
-        "location-settings": 8
-      },
-      "entity_hits": {
-        "AppUser": 1,
-        "Quest": 1
-      },
-      "set_call_count": 13,
-      "dto_builder_count": 0,
-      "before_each_count": 1,
-      "local_helper_count": 1,
-      "uses_shared_test_fixtures": false
-    },
-    {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java",
       "domain": "identity",
       "setup_score": 26,
@@ -438,6 +418,25 @@
       "set_call_count": 2,
       "dto_builder_count": 8,
       "before_each_count": 0,
+      "local_helper_count": 1,
+      "uses_shared_test_fixtures": false
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+      "domain": "workmarket",
+      "setup_score": 25,
+      "focus_hits": {
+        "users": 1,
+        "quests": 7,
+        "location-settings": 6
+      },
+      "entity_hits": {
+        "AppUser": 1,
+        "Quest": 1
+      },
+      "set_call_count": 13,
+      "dto_builder_count": 0,
+      "before_each_count": 1,
       "local_helper_count": 1,
       "uses_shared_test_fixtures": false
     },
@@ -479,23 +478,6 @@
       "uses_shared_test_fixtures": false
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-      "domain": "social",
-      "setup_score": 19,
-      "focus_hits": {
-        "users": 5,
-        "location-settings": 8
-      },
-      "entity_hits": {
-        "AppUser": 1
-      },
-      "set_call_count": 10,
-      "dto_builder_count": 0,
-      "before_each_count": 0,
-      "local_helper_count": 1,
-      "uses_shared_test_fixtures": false
-    },
-    {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
       "domain": "identity",
       "setup_score": 17,
@@ -509,6 +491,23 @@
       "dto_builder_count": 5,
       "before_each_count": 0,
       "local_helper_count": 0,
+      "uses_shared_test_fixtures": false
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+      "domain": "social",
+      "setup_score": 17,
+      "focus_hits": {
+        "users": 5,
+        "location-settings": 6
+      },
+      "entity_hits": {
+        "AppUser": 1
+      },
+      "set_call_count": 10,
+      "dto_builder_count": 0,
+      "before_each_count": 0,
+      "local_helper_count": 1,
       "uses_shared_test_fixtures": false
     },
     {
@@ -533,20 +532,20 @@
       "uses_shared_test_fixtures": false
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java",
-      "domain": "rides",
-      "setup_score": 15,
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+      "domain": "workmarket",
+      "setup_score": 16,
       "focus_hits": {
-        "users": 1,
-        "circles": 1
+        "users": 2,
+        "quests": 2
       },
       "entity_hits": {
-        "AppUser": 1,
-        "CircleGroup": 1
+        "AppUser": 2,
+        "Quest": 2
       },
-      "set_call_count": 15,
-      "dto_builder_count": 3,
-      "before_each_count": 0,
+      "set_call_count": 17,
+      "dto_builder_count": 0,
+      "before_each_count": 1,
       "local_helper_count": 0,
       "uses_shared_test_fixtures": false
     }
@@ -968,10 +967,10 @@
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
       "domain": "social",
-      "setup_score": 19,
+      "setup_score": 17,
       "focus_hits": {
         "users": 5,
-        "location-settings": 8
+        "location-settings": 6
       },
       "entity_hits": {
         "AppUser": 1
@@ -1020,7 +1019,7 @@
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
       "domain": "social",
-      "setup_score": 155,
+      "setup_score": 158,
       "focus_hits": {
         "users": 60,
         "circles": 28
@@ -1031,7 +1030,7 @@
       },
       "set_call_count": 97,
       "dto_builder_count": 13,
-      "before_each_count": 0,
+      "before_each_count": 1,
       "local_helper_count": 1,
       "uses_shared_test_fixtures": false
     },
@@ -1092,17 +1091,16 @@
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
       "domain": "workmarket",
-      "setup_score": 12,
+      "setup_score": 16,
       "focus_hits": {
-        "users": 1,
-        "quests": 1,
-        "location-settings": 2
+        "users": 2,
+        "quests": 2
       },
       "entity_hits": {
-        "AppUser": 1,
-        "Quest": 1
+        "AppUser": 2,
+        "Quest": 2
       },
-      "set_call_count": 9,
+      "set_call_count": 17,
       "dto_builder_count": 0,
       "before_each_count": 1,
       "local_helper_count": 0,
@@ -1163,6 +1161,20 @@
       "uses_shared_test_fixtures": true
     },
     {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+      "domain": "workmarket",
+      "setup_score": 4,
+      "focus_hits": {
+      },
+      "entity_hits": {
+      },
+      "set_call_count": 4,
+      "dto_builder_count": 0,
+      "before_each_count": 1,
+      "local_helper_count": 0,
+      "uses_shared_test_fixtures": false
+    },
+    {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
       "domain": "workmarket",
       "setup_score": 207,
@@ -1221,13 +1233,31 @@
       "uses_shared_test_fixtures": false
     },
     {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+      "domain": "workmarket",
+      "setup_score": 15,
+      "focus_hits": {
+        "users": 1,
+        "quests": 2
+      },
+      "entity_hits": {
+        "AppUser": 1,
+        "Quest": 2
+      },
+      "set_call_count": 14,
+      "dto_builder_count": 1,
+      "before_each_count": 1,
+      "local_helper_count": 0,
+      "uses_shared_test_fixtures": false
+    },
+    {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
       "domain": "workmarket",
-      "setup_score": 27,
+      "setup_score": 25,
       "focus_hits": {
         "users": 1,
         "quests": 7,
-        "location-settings": 8
+        "location-settings": 6
       },
       "entity_hits": {
         "AppUser": 1,
@@ -1344,9 +1374,8 @@
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java",
       "domain": "workmarket",
-      "setup_score": 2,
+      "setup_score": 0,
       "focus_hits": {
-        "location-settings": 2
       },
       "entity_hits": {
       },

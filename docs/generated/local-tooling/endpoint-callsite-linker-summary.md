@@ -1,6 +1,6 @@
 # Endpoint Callsite Linker
 
-- Generated at: `2026-06-29T12:47:10Z`
+- Generated at: `2026-06-29T19:54:43Z`
 - Backend endpoints: `87`
 - Frontend client methods: `95`
 - Linked endpoints: `87`

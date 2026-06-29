@@ -1,6 +1,6 @@
 # Make Target Index
 
-- Generated At: `2026-06-29T12:47:28Z`
+- Generated At: `2026-06-29T19:55:03Z`
 ## `targets`
 
 - `api-contract-snapshot`
@@ -44,6 +44,6 @@
 - `audit-doc-staleness-scoring`
 - `audit-doc-sync-duplicates`
 - `audit-doc-sync-preflight`
+- `audit-doc-sync-required-surfaces`
 - `audit-doc-template-coverage`
-- `audit-docs-as-tests`
 

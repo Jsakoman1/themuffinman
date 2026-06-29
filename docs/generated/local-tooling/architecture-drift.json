@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T17:54:45Z",
+  "generated_at": "2026-06-29T19:54:52Z",
   "mode": "report_first",
   "thresholds": {
     "service_lines": 420,
@@ -27,23 +27,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
-      "kind": "service",
-      "lines": 561,
-      "public_methods": 15,
-      "responsibility_markers": [
-        "query",
-        "mutation",
-        "policy",
-        "mapping"
-      ],
-      "flags": [
-        "oversized_service",
-        "many_public_methods",
-        "mixed_responsibilities"
-      ]
-    },
-    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
       "kind": "service",
       "lines": 403,
@@ -60,37 +43,8 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
       "kind": "service",
-      "lines": 389,
+      "lines": 285,
       "public_methods": 33,
-      "responsibility_markers": [
-        "query",
-        "mutation",
-        "policy",
-        "mapping"
-      ],
-      "flags": [
-        "many_public_methods",
-        "mixed_responsibilities"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
-      "kind": "service",
-      "lines": 380,
-      "public_methods": 17,
-      "responsibility_markers": [
-        "query",
-        "mutation"
-      ],
-      "flags": [
-        "many_public_methods"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-      "kind": "service",
-      "lines": 353,
-      "public_methods": 15,
       "responsibility_markers": [
         "query",
         "mutation",
@@ -203,6 +157,21 @@
       ]
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "kind": "service",
+      "lines": 197,
+      "public_methods": 17,
+      "responsibility_markers": [
+        "query",
+        "policy",
+        "mapping"
+      ],
+      "flags": [
+        "many_public_methods",
+        "mixed_responsibilities"
+      ]
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
       "kind": "service",
       "lines": 186,
@@ -261,6 +230,33 @@
       ]
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
+      "kind": "service",
+      "lines": 118,
+      "public_methods": 2,
+      "responsibility_markers": [
+        "query",
+        "mutation",
+        "policy"
+      ],
+      "flags": [
+        "mixed_responsibilities"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "kind": "service",
+      "lines": 113,
+      "public_methods": 15,
+      "responsibility_markers": [
+        "query",
+        "mutation"
+      ],
+      "flags": [
+        "many_public_methods"
+      ]
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java",
       "kind": "service",
       "lines": 106,
@@ -308,6 +304,20 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java",
       "kind": "service",
       "lines": 88,
+      "public_methods": 3,
+      "responsibility_markers": [
+        "query",
+        "mutation",
+        "mapping"
+      ],
+      "flags": [
+        "mixed_responsibilities"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java",
+      "kind": "service",
+      "lines": 76,
       "public_methods": 3,
       "responsibility_markers": [
         "query",
@@ -370,5 +380,5 @@
       ]
     }
   ],
-  "total_findings": 25
+  "total_findings": 26
 }

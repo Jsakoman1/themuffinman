@@ -93,11 +93,11 @@ public class DashboardService {
 
         List<QuestResponseDTO> questDtos = questService.toResponses(sortedQuests, currentUser);
         List<QuestResponseDTO> myQuestDtos = questDtos.stream()
-                .filter(quest -> quest.getViewerRelation() == com.themuffinman.app.workmarket.dto.QuestViewerRelation.OWNER)
+                .filter(quest -> quest.getViewerRelation() == com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO.OWNER)
                 .toList();
         List<QuestResponseDTO> availableQuestDtos = questDtos.stream()
                 .filter(quest -> quest.getStatus() == QuestStatus.OPEN)
-                .filter(quest -> quest.getViewerRelation() != com.themuffinman.app.workmarket.dto.QuestViewerRelation.OWNER)
+                .filter(quest -> quest.getViewerRelation() != com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO.OWNER)
                 .toList();
         DashboardSectionsDTO sections = dashboardSectionsFactory.buildSections(myQuestDtos, sortedApplications, recentNews, incomingCircleRequests);
 

@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-29T12:47:16Z",
+  "generated_at": "2026-06-29T19:54:50Z",
   "frontend_likely_unused_count": 19,
-  "backend_high_confidence_count": 4,
+  "backend_high_confidence_count": 5,
   "shortlist": [
     {
       "kind": "frontend",
@@ -66,6 +66,10 @@
     {
       "kind": "backend",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java"
     },
     {
       "kind": "backend",

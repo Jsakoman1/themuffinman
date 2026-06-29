@@ -1,8 +1,8 @@
 package com.themuffinman.app.identity.controller;
 
-import com.themuffinman.app.identity.dto.auth.AuthResponse;
-import com.themuffinman.app.identity.dto.auth.LoginRequest;
-import com.themuffinman.app.identity.dto.auth.RegisterRequest;
+import com.themuffinman.app.identity.dto.auth.AuthResponseDTO;
+import com.themuffinman.app.identity.dto.auth.LoginRequestDTO;
+import com.themuffinman.app.identity.dto.auth.RegisterRequestDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.service.AuthService;
 import jakarta.validation.ConstraintViolation;
@@ -48,8 +48,8 @@ class AuthControllerTest {
 
     @Test
     void registerAndLoginEndpointsRequireValidPayloads() throws Exception {
-        Method registerMethod = AuthController.class.getDeclaredMethod("register", RegisterRequest.class);
-        Method loginMethod = AuthController.class.getDeclaredMethod("login", LoginRequest.class);
+        Method registerMethod = AuthController.class.getDeclaredMethod("register", RegisterRequestDTO.class);
+        Method loginMethod = AuthController.class.getDeclaredMethod("login", LoginRequestDTO.class);
 
         assertTrue(registerMethod.getParameters()[0].isAnnotationPresent(Valid.class));
         assertTrue(loginMethod.getParameters()[0].isAnnotationPresent(Valid.class));
@@ -57,11 +57,11 @@ class AuthControllerTest {
 
     @Test
     void registerDelegatesToAuthService() {
-        RegisterRequest request = new RegisterRequest("user@example.com", "new-user", "strongPassword1");
-        AuthResponse expected = new AuthResponse(1L, "user@example.com", "new-user", null, null, Instant.now(), "USER", "jwt-token");
+        RegisterRequestDTO request = new RegisterRequestDTO("user@example.com", "new-user", "strongPassword1");
+        AuthResponseDTO expected = new AuthResponseDTO(1L, "user@example.com", "new-user", null, null, Instant.now(), "USER", "jwt-token");
         when(authService.register(request)).thenReturn(expected);
 
-        AuthResponse response = authController.register(request);
+        AuthResponseDTO response = authController.register(request);
 
         assertEquals(expected, response);
         verify(authService).register(request);
@@ -69,11 +69,11 @@ class AuthControllerTest {
 
     @Test
     void loginDelegatesToAuthService() {
-        LoginRequest request = new LoginRequest("user@example.com", "strongPassword1");
-        AuthResponse expected = new AuthResponse(1L, "user@example.com", "new-user", null, null, Instant.now(), "USER", "jwt-token");
+        LoginRequestDTO request = new LoginRequestDTO("user@example.com", "strongPassword1");
+        AuthResponseDTO expected = new AuthResponseDTO(1L, "user@example.com", "new-user", null, null, Instant.now(), "USER", "jwt-token");
         when(authService.login(request)).thenReturn(expected);
 
-        AuthResponse response = authController.login(request);
+        AuthResponseDTO response = authController.login(request);
 
         assertEquals(expected, response);
         verify(authService).login(request);
@@ -84,10 +84,10 @@ class AuthControllerTest {
         AppUser appUser = new AppUser();
         appUser.setId(7L);
         Authentication authentication = new UsernamePasswordAuthenticationToken(appUser, null);
-        AuthResponse expected = new AuthResponse(7L, "user@example.com", "user", null, null, Instant.now(), "USER", null);
+        AuthResponseDTO expected = new AuthResponseDTO(7L, "user@example.com", "user", null, null, Instant.now(), "USER", null);
         when(authService.me(appUser)).thenReturn(expected);
 
-        AuthResponse response = authController.me(authentication);
+        AuthResponseDTO response = authController.me(authentication);
 
         assertEquals(expected, response);
         verify(authService).me(appUser);
@@ -95,9 +95,9 @@ class AuthControllerTest {
 
     @Test
     void registerRequestRejectsInvalidValues() {
-        RegisterRequest request = new RegisterRequest("not-an-email", "ab", "short");
+        RegisterRequestDTO request = new RegisterRequestDTO("not-an-email", "ab", "short");
 
-        Set<ConstraintViolation<RegisterRequest>> violations = VALIDATOR.validate(request);
+        Set<ConstraintViolation<RegisterRequestDTO>> violations = VALIDATOR.validate(request);
 
         assertFalse(violations.isEmpty());
         assertHasViolation(violations, "email");
@@ -107,9 +107,9 @@ class AuthControllerTest {
 
     @Test
     void loginRequestRejectsInvalidValues() {
-        LoginRequest request = new LoginRequest("not-an-email", "");
+        LoginRequestDTO request = new LoginRequestDTO("not-an-email", "");
 
-        Set<ConstraintViolation<LoginRequest>> violations = VALIDATOR.validate(request);
+        Set<ConstraintViolation<LoginRequestDTO>> violations = VALIDATOR.validate(request);
 
         assertFalse(violations.isEmpty());
         assertHasViolation(violations, "email");
@@ -118,8 +118,8 @@ class AuthControllerTest {
 
     @Test
     void validAuthRequestsPassValidation() {
-        RegisterRequest registerRequest = new RegisterRequest("user@example.com", "new-user", "strongPassword1");
-        LoginRequest loginRequest = new LoginRequest("user@example.com", "strongPassword1");
+        RegisterRequestDTO registerRequest = new RegisterRequestDTO("user@example.com", "new-user", "strongPassword1");
+        LoginRequestDTO loginRequest = new LoginRequestDTO("user@example.com", "strongPassword1");
 
         assertTrue(VALIDATOR.validate(registerRequest).isEmpty());
         assertTrue(VALIDATOR.validate(loginRequest).isEmpty());

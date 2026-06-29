@@ -38,7 +38,7 @@ public class QuestPresentationDTO {
     @Nullable
     private BigDecimal suggestedApplicationPrice;
     @Nullable
-    private QuestApplicationDraftRulesDTO applicationDraftRules;
+    private QuestApplicationDraftRulesViewDTO applicationDraftRules;
     private boolean offerSectionVisible;
     private boolean applicationsSectionVisible;
     private boolean myApplicationAsideVisible;
@@ -63,7 +63,7 @@ public class QuestPresentationDTO {
     private boolean reopenedBadgeVisible;
     private boolean awaitingConfirmationBadgeVisible;
     @Nullable
-    private QuestDetailExecutionAction primaryExecutionAction;
+    private QuestDetailExecutionActionDTO primaryExecutionAction;
     @Nullable
     private String executionHelperText;
 }

@@ -1,6 +1,6 @@
 # Mapper Usage Audit
 
-- Generated at: `2026-06-29T12:47:09Z`
+- Generated at: `2026-06-29T19:54:42Z`
 - Mappers scanned: `10`
 
 ## `AppUserMgr`
@@ -49,7 +49,7 @@
 
 ## `QuestMgr`
 
-- Risk flags: `navigation_logic`, `relation_dereference`, `rich_text_sanitization`, `service_backed`
+- Risk flags: `navigation_logic`, `relation_dereference`, `rich_text_sanitization`
 - Usage count: `3`
 - `CreateQuestUseCase.execute` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java` -> `toEntity` (`supporting`)
 - `QuestViewAssembler.toResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java` -> `toDto` (`read_oriented`)

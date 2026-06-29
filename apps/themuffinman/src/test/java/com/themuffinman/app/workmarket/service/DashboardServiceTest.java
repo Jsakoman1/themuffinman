@@ -2,8 +2,8 @@ package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.workmarket.dto.DashboardSummaryDTO;
 import com.themuffinman.app.workmarket.dto.DashboardResponseDTO;
-import com.themuffinman.app.workmarket.dto.DashboardNotificationDestinationType;
-import com.themuffinman.app.workmarket.dto.ApplicationAllowedAction;
+import com.themuffinman.app.workmarket.dto.DashboardNotificationDestinationTypeDTO;
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
@@ -69,7 +69,11 @@ class DashboardServiceTest {
     private WorkmarketOptionsService workmarketOptionsService;
 
     @Spy
-    private DashboardSectionsFactory dashboardSectionsFactory = new DashboardSectionsFactory();
+    private DashboardSectionsFactory dashboardSectionsFactory = new DashboardSectionsFactory(
+            new DashboardSectionGrouper(),
+            new DashboardPlannerAssembler(),
+            new DashboardNotificationAssembler()
+    );
 
     @InjectMocks
     private DashboardService dashboardService;
@@ -195,8 +199,8 @@ class DashboardServiceTest {
         when(circleService.getIncomingRequests(currentUser)).thenReturn(List.of());
         when(circleService.getCircles(currentUser)).thenReturn(List.of());
         when(questService.toResponses(List.of(availableQuest, ownedQuest), currentUser)).thenReturn(List.of(
-                QuestResponseDTO.builder().id(2L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.workmarket.dto.QuestViewerRelation.VIEWER).build(),
-                QuestResponseDTO.builder().id(1L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.workmarket.dto.QuestViewerRelation.OWNER).build()
+                QuestResponseDTO.builder().id(2L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO.VIEWER).build(),
+                QuestResponseDTO.builder().id(1L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO.OWNER).build()
         ));
         when(workmarketOptionsService.getOptions(currentUser)).thenReturn(com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO.builder().build());
 
@@ -256,7 +260,7 @@ class DashboardServiceTest {
                 .status(QuestApplicationStatus.PENDING)
                 .proposedPrice(java.math.BigDecimal.TEN)
                 .createdAt(Instant.parse("2026-06-24T10:00:00Z"))
-                .allowedActions(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW))
+                .allowedActions(List.of(ApplicationAllowedActionDTO.EDIT, ApplicationAllowedActionDTO.WITHDRAW))
                 .build();
 
         when(questService.getAllQuests(currentUser)).thenReturn(List.of(quest));
@@ -266,12 +270,12 @@ class DashboardServiceTest {
         when(circleService.getCircles(currentUser)).thenReturn(List.of());
         when(questApplicationService.toApplicantResponse(application)).thenReturn(applicationDto);
         when(questService.toResponses(List.of(quest), currentUser)).thenReturn(List.of(
-                QuestResponseDTO.builder().id(11L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.workmarket.dto.QuestViewerRelation.VIEWER).build()
+                QuestResponseDTO.builder().id(11L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO.VIEWER).build()
         ));
 
         DashboardResponseDTO result = dashboardService.getMyDashboard(currentUser);
 
-        assertEquals(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW), result.getMyApplications().getFirst().getAllowedActions());
+        assertEquals(List.of(ApplicationAllowedActionDTO.EDIT, ApplicationAllowedActionDTO.WITHDRAW), result.getMyApplications().getFirst().getAllowedActions());
     }
 
     @Test
@@ -308,7 +312,7 @@ class DashboardServiceTest {
         DashboardResponseDTO result = dashboardService.getMyDashboard(currentUser);
 
         assertEquals(1, result.getSections().getNotifications().getRecentItems().size());
-        assertEquals(DashboardNotificationDestinationType.APPLICATION, result.getSections().getNotifications().getRecentItems().getFirst().getDestinationType());
+        assertEquals(DashboardNotificationDestinationTypeDTO.APPLICATION, result.getSections().getNotifications().getRecentItems().getFirst().getDestinationType());
         assertEquals(21L, result.getSections().getNotifications().getRecentItems().getFirst().getDestinationId());
     }
 }

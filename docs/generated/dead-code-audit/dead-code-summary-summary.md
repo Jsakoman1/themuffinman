@@ -1,8 +1,8 @@
 # Aggregate Dead Code Audit
 
-- Generated At: `2026-06-29T12:47:16Z`
+- Generated At: `2026-06-29T19:54:50Z`
 - Frontend Likely Unused Count: `19`
-- Backend High Confidence Count: `4`
+- Backend High Confidence Count: `5`
 ## `shortlist`
 
 - `{:kind: "frontend", :file: "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue"}`
@@ -21,6 +21,7 @@
 - `{:kind: "frontend", :file: "apps/themuffinman/frontend/src/styles/base.css"}`
 - `{:kind: "frontend", :file: "apps/themuffinman/frontend/src/styles/dashboard-components.css"}`
 - `{:kind: "backend", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java"}`
+- `{:kind: "backend", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java"}`
 - `{:kind: "backend", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/security/RepositoryUserDetailsService.java"}`
 - `{:kind: "backend", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleCandidateDTO.java"}`
 - `{:kind: "backend", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsRetentionService.java"}`

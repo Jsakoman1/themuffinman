@@ -1,8 +1,8 @@
 # Backend Dependency Graph
 
-- Generated At: `2026-06-29T12:47:34Z`
-- Node Count: `305`
-- Edge Count: `878`
+- Generated At: `2026-06-29T19:55:19Z`
+- Node Count: `319`
+- Edge Count: `978`
 ## `nodes`
 
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/TheMuffinManApplication.java", :class_name: "TheMuffinManApplication", :category: "other", :domain: "shared"}`

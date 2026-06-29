@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:25Z",
+  "generated_at": "2026-06-29T19:55:00Z",
   "shortlist": [
     {
       "source": "frontend-dead",
@@ -44,6 +44,10 @@
     {
       "source": "backend-dead",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java"
+    },
+    {
+      "source": "backend-dead",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java"
     },
     {
       "source": "backend-dead",

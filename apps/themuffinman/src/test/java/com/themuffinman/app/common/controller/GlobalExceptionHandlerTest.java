@@ -2,8 +2,8 @@ package com.themuffinman.app.common.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.themuffinman.app.identity.controller.AuthController;
-import com.themuffinman.app.identity.dto.auth.LoginRequest;
-import com.themuffinman.app.identity.dto.auth.RegisterRequest;
+import com.themuffinman.app.identity.dto.auth.LoginRequestDTO;
+import com.themuffinman.app.identity.dto.auth.RegisterRequestDTO;
 import com.themuffinman.app.identity.mapper.AuthMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
@@ -50,7 +50,7 @@ class GlobalExceptionHandlerTest {
     void invalidRegisterRequestReturnsStructuredFieldErrors() throws Exception {
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new RegisterRequest("bad-email", "ab", "short"))))
+                        .content(objectMapper.writeValueAsString(new RegisterRequestDTO("bad-email", "ab", "short"))))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"))
                 .andExpect(jsonPath("$.message").value("Validation failed"))
@@ -66,7 +66,7 @@ class GlobalExceptionHandlerTest {
 
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new RegisterRequest("user@example.com", "new-user", "strongPassword1"))))
+                        .content(objectMapper.writeValueAsString(new RegisterRequestDTO("user@example.com", "new-user", "strongPassword1"))))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.code").value("CONFLICT"))
                 .andExpect(jsonPath("$.message").value("Email already exists"))
@@ -84,7 +84,7 @@ class GlobalExceptionHandlerTest {
 
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new LoginRequest("user@example.com", "wrong-password"))))
+                        .content(objectMapper.writeValueAsString(new LoginRequestDTO("user@example.com", "wrong-password"))))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.code").value("UNAUTHORIZED"))
                 .andExpect(jsonPath("$.message").value("Invalid email or password"))

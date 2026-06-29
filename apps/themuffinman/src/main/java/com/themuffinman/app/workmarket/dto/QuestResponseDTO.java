@@ -74,8 +74,8 @@ public class QuestResponseDTO {
     private List<String> images;
 
     private QuestStatus status;
-    private QuestViewerRelation viewerRelation;
-    private List<QuestAllowedAction> allowedActions;
+    private QuestViewerRelationDTO viewerRelation;
+    private List<QuestAllowedActionDTO> allowedActions;
     private boolean hasApplied;
     @Nullable
     private Long myApplicationId;

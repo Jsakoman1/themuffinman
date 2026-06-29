@@ -1,6 +1,6 @@
 # Plan Code Map 86-codex-local-manifest-path-resolver
 
-- Generated At: `2026-06-29T12:47:30Z`
+- Generated At: `2026-06-29T19:55:10Z`
 - Plan: `.agents/todo-plans/86-codex-local-manifest-path-resolver.md`
 - Plan Id: `86-codex-local-manifest-path-resolver`
 ## `categories`
@@ -17,17 +17,17 @@
 
 ## `mapped_files`
 
-- `{:path: "docs/generated/local-tooling/changeset-playbook-summary.md", :category: "docs", :domain: "shared", :lines: 117, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, RESOLVER, Plan.", "Plan references the file path directly.", "Plan mentions generated artifacts."]}`
-- `{:path: "docs/generated/local-tooling/changeset-playbook.json", :category: "docs", :domain: "shared", :lines: 1054, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, RESOLVER, Plan.", "Plan references the file path directly.", "Plan mentions generated artifacts."]}`
-- `{:path: "docs/generated/local-tooling/manifest-path-resolution-summary.md", :category: "docs", :domain: "shared", :lines: 84, :reasons: ["Matched plan tokens: LOCAL, MANIFEST, PATH, Plan, Source, Backlog.", "Plan references the file path directly.", "Plan mentions generated artifacts."]}`
-- `{:path: "docs/generated/local-tooling/manifest-path-resolution.json", :category: "docs", :domain: "shared", :lines: 445, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Source.", "Plan references the file path directly.", "Plan mentions generated artifacts."]}`
+- `{:path: "docs/generated/local-tooling/changeset-playbook-summary.md", :category: "docs", :domain: "shared", :lines: 89, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, CHANGESET.", "Plan references the file path directly.", "Plan mentions generated artifacts."]}`
+- `{:path: "docs/generated/local-tooling/changeset-playbook.json", :category: "docs", :domain: "shared", :lines: 650, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Risk.", "Plan references the file path directly.", "Plan mentions generated artifacts."]}`
+- `{:path: "docs/generated/local-tooling/manifest-path-resolution-summary.md", :category: "docs", :domain: "shared", :lines: 62, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Master.", "Plan references the file path directly.", "Plan mentions generated artifacts."]}`
+- `{:path: "docs/generated/local-tooling/manifest-path-resolution.json", :category: "docs", :domain: "shared", :lines: 219, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Master.", "Plan references the file path directly.", "Plan mentions generated artifacts."]}`
 - `{:path: "docs/generated/local-tooling/validation-preset-summary.md", :category: "docs", :domain: "shared", :lines: 117, :reasons: ["Matched plan tokens: LOCAL, MANIFEST, PATH, Plan, Backlog, VALIDATION.", "Plan references the file path directly.", "Plan mentions generated artifacts."]}`
 - `{:path: "docs/generated/local-tooling/validation-preset.json", :category: "docs", :domain: "shared", :lines: 496, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Source.", "Plan references the file path directly.", "Plan mentions generated artifacts."]}`
 - `{:path: ".agents/todo-plans/86-codex-local-manifest-path-resolver.md", :category: "other", :domain: "shared", :lines: 67, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, RESOLVER, Plan.", "Plan references the file path directly."]}`
-- `{:path: "Makefile", :category: "other", :domain: "shared", :lines: 421, :reasons: ["Matched plan tokens: Makefile, CODEX, LOCAL, MANIFEST, PATH, RESOLVER.", "Plan references the file path directly."]}`
-- `{:path: "docs/codex-local-tooling-todo.md", :category: "docs", :domain: "shared", :lines: 928, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, RESOLVER, Plan.", "Plan references the file path directly."]}`
+- `{:path: "Makefile", :category: "other", :domain: "shared", :lines: 440, :reasons: ["Matched plan tokens: Makefile, CODEX, LOCAL, MANIFEST, PATH, RESOLVER.", "Plan references the file path directly."]}`
+- `{:path: "docs/codex-local-tooling-todo.md", :category: "docs", :domain: "shared", :lines: 962, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, RESOLVER, Plan.", "Plan references the file path directly."]}`
 - `{:path: "docs/domain-technical.md", :category: "docs", :domain: "shared", :lines: 1594, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Source.", "Plan references the file path directly."]}`
-- `{:path: "scripts/audits/local_tooling_extended_tools.rb", :category: "script", :domain: "shared", :lines: 2534, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, RESOLVER, Plan.", "Plan references the file path directly."]}`
+- `{:path: "scripts/audits/local_tooling_extended_tools.rb", :category: "script", :domain: "shared", :lines: 2772, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, RESOLVER, Plan.", "Plan references the file path directly."]}`
 - `{:path: "scripts/audits/resolve-manifest-path.rb", :category: "script", :domain: "shared", :lines: 6, :reasons: ["Matched plan tokens: MANIFEST, PATH, resolve-manifest-path, local_tooling_extended_tools.", "Plan references the file path directly."]}`
 - `{:path: "scripts/todo-audit.rb", :category: "script", :domain: "shared", :lines: 275, :reasons: ["Matched plan tokens: MANIFEST, PATH, Plan, Backlog, Item, Implementation.", "Plan references the file path directly."]}`
 - `{:path: ".agents/feature-manifests/agent-control-phase-two-manifest.yaml", :category: "other", :domain: "agent", :lines: 111, :reasons: ["Matched plan tokens: MANIFEST, Plan, Source, Backlog, VALIDATION, Read.", "Plan mentions manifests and this file is a feature manifest."]}`
@@ -40,8 +40,8 @@
 - `{:path: ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml", :category: "other", :domain: "shared", :lines: 88, :reasons: ["Matched plan tokens: MANIFEST, Plan, Backlog, VALIDATION, Record, Validation.", "Plan mentions manifests and this file is a feature manifest."]}`
 - `{:path: ".agents/feature-manifests/backend-audit-tiering-manifest.yaml", :category: "other", :domain: "shared", :lines: 95, :reasons: ["Matched plan tokens: MANIFEST, Plan, Source, Backlog, VALIDATION, Record.", "Plan mentions manifests and this file is a feature manifest."]}`
 - `{:path: ".agents/feature-manifests/backend-audit-tightening-manifest.yaml", :category: "other", :domain: "shared", :lines: 93, :reasons: ["Matched plan tokens: MANIFEST, Plan, Backlog, VALIDATION, Record, Validation.", "Plan mentions manifests and this file is a feature manifest."]}`
-- `{:path: ".agents/feature-manifests/executor-readiness-program-manifest.yaml", :category: "other", :domain: "shared", :lines: 116, :reasons: ["Matched plan tokens: MANIFEST, Plan, Backlog, VALIDATION, Read, Record.", "Plan mentions manifests and this file is a feature manifest."]}`
-- `{:path: ".agents/feature-manifests/persistent-backlog-system-manifest.yaml", :category: "other", :domain: "shared", :lines: 99, :reasons: ["Matched plan tokens: MANIFEST, Plan, Source, Backlog, VALIDATION, Implementation.", "Plan mentions manifests and this file is a feature manifest."]}`
+- `{:path: ".agents/feature-manifests/codex-context-optimization-manifest.yaml", :category: "other", :domain: "shared", :lines: 359, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, RESOLVER, Plan, Source.", "Plan mentions manifests and this file is a feature manifest."]}`
+- `{:path: ".agents/feature-manifests/codex-lean-context-manifest.yaml", :category: "other", :domain: "shared", :lines: 305, :reasons: ["Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Source.", "Plan mentions manifests and this file is a feature manifest."]}`
 
 ## `likely_docs`
 
@@ -49,6 +49,7 @@
 - `docs/agent-operating-model.yaml`
 - `docs/codex-local-tooling-todo.md`
 - `docs/domain-technical.md`
+- `docs/feature-delivery-workflow.md`
 
 ## `related_generated_artifacts`
 
@@ -84,6 +85,7 @@
 - `make audit-async-mutation-flow`
 - `make audit-frontend-usage-graph`
 - `make audit-doc-sync-preflight`
+- `make audit-doc-sync-required-surfaces`
 - `make audit-documentation`
 - `make audit-doc-canonical-phrases`
 - `make audit-test-gap-recommendations`
@@ -92,10 +94,8 @@
 ## `recommended_commands`
 
 - `make recommend-targeted-tests`
-- `make closeout-bundle manifest=.agents/feature-manifests/<feature-id>-manifest.yaml`
-- `make feature-closeout-audit manifest=.agents/feature-manifests/<feature-id>-manifest.yaml`
-- `npm --prefix apps/themuffinman/frontend run type-check`
-- `npm --prefix apps/themuffinman/frontend run build`
+- `make closeout-bundle manifest=.agents/feature-manifests/codex-workflow-lean-context-manifest.yaml`
+- `make feature-closeout-audit manifest=.agents/feature-manifests/codex-workflow-lean-context-manifest.yaml`
 - `make audit-documentation`
 - `make audit-doc-canonical-phrases`
 - `make audit-generated-artifact-freshness`
@@ -117,5 +117,4 @@
 
 ## `residual_risk`
 
-- `Manifest could not be resolved deterministically from the mapped files.`
 

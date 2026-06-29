@@ -1,14 +1,14 @@
 # Read Surface Inventory
 
-- Generated at: `2026-06-29T12:47:09Z`
-- Read surfaces: `107`
-- Transaction-relevant read surfaces: `59`
-- Missing explicit or inherited read-only coverage: `0`
+- Generated at: `2026-06-29T19:54:42Z`
+- Read surfaces: `146`
+- Transaction-relevant read surfaces: `87`
+- Missing explicit or inherited read-only coverage: `2`
 
 ## `AdminDatabaseMetricsService`
 
 - `getDatabaseSizeBytes` -> `long` | tx=`class` | relevant=`false` | repos=none | dto=none
-- `getTableStatuses` -> `List<DatabaseTableStatusDTO>` | tx=`class` | relevant=`true` | repos=none | dto=List<DatabaseTableStatusDTO>
+- `getTableStatuses` -> `List<DatabaseTableStatusViewDTO>` | tx=`class` | relevant=`true` | repos=none | dto=List<DatabaseTableStatusViewDTO>
 
 ## `AdminUserDetailService`
 
@@ -33,6 +33,12 @@
 ## `CircleDiscoveryService`
 
 - `getNearbyUsers` -> `CircleSearchResultListResponseDTO` | tx=`class` | relevant=`true` | repos=AppUserRepository | dto=CircleSearchResultListResponseDTO
+- `getInviteCandidates` -> `List<CircleSearchResultDTO>` | tx=`class` | relevant=`true` | repos=none | dto=List<CircleSearchResultDTO>
+- `getInviteCandidatesPage` -> `CircleSearchResultListResponseDTO` | tx=`class` | relevant=`true` | repos=AppUserRepository | dto=CircleSearchResultListResponseDTO
+- `searchCircleUsers` -> `CircleSearchResultListResponseDTO` | tx=`class` | relevant=`true` | repos=AppUserRepository | dto=CircleSearchResultListResponseDTO
+- `searchCircleUsers` -> `List<CircleSearchResultDTO>` | tx=`class` | relevant=`true` | repos=none | dto=List<CircleSearchResultDTO>
+- `getBlockedUsers` -> `CircleSearchResultListResponseDTO` | tx=`class` | relevant=`true` | repos=CircleRequestRepository | dto=CircleSearchResultListResponseDTO
+- `getRelationWithUser` -> `CircleRelationDTO` | tx=`class` | relevant=`true` | repos=AppUserRepository | dto=CircleRelationDTO
 
 ## `CircleMembershipService`
 
@@ -41,11 +47,7 @@
 - `getMembershipsForContact` -> `List<CircleMembership>` | tx=`method` | relevant=`true` | repos=CircleMembershipRepository | dto=none
 - `getMembershipsByUserIdForOwner` -> `Map<Long, List<CircleMembership>>` | tx=`method` | relevant=`false` | repos=none | dto=none
 
-## `CircleRelationService`
-
-- `findRelation` -> `Optional<CircleRequest>` | tx=`method` | relevant=`true` | repos=CircleRequestRepository | dto=none
-
-## `CircleService`
+## `CircleReadService`
 
 - `getMyCircles` -> `List<CircleRequestResponseDTO>` | tx=`method` | relevant=`true` | repos=CircleRequestRepository | dto=List<CircleRequestResponseDTO>
 - `getAdminOverview` -> `AdminCircleOverviewDTO` | tx=`method` | relevant=`true` | repos=CircleRequestRepository | dto=AdminCircleOverviewDTO
@@ -60,10 +62,32 @@
 - `getIncomingRequests` -> `CircleRequestListResponseDTO` | tx=`method` | relevant=`true` | repos=none | dto=CircleRequestListResponseDTO
 - `getOutgoingRequests` -> `List<CircleRequestResponseDTO>` | tx=`method` | relevant=`true` | repos=none | dto=List<CircleRequestResponseDTO>
 - `getOutgoingRequests` -> `CircleRequestListResponseDTO` | tx=`method` | relevant=`true` | repos=none | dto=CircleRequestListResponseDTO
+- `getOwnedCirclesByIds` -> `List<CircleGroup>` | tx=`method` | relevant=`false` | repos=none | dto=none
+- `findRelation` -> `Optional<CircleRequest>` | tx=`method` | relevant=`false` | repos=none | dto=none
+
+## `CircleRelationService`
+
+- `findRelation` -> `Optional<CircleRequest>` | tx=`method` | relevant=`true` | repos=CircleRequestRepository | dto=none
+
+## `CircleService`
+
+- `getMyCircles` -> `List<CircleRequestResponseDTO>` | tx=`method` | relevant=`true` | repos=none | dto=List<CircleRequestResponseDTO>
+- `getAdminOverview` -> `AdminCircleOverviewDTO` | tx=`method` | relevant=`true` | repos=none | dto=AdminCircleOverviewDTO
+- `getOverview` -> `CircleOverviewDTO` | tx=`method` | relevant=`true` | repos=none | dto=CircleOverviewDTO
+- `getCircles` -> `List<CircleGroupResponseDTO>` | tx=`method` | relevant=`true` | repos=none | dto=List<CircleGroupResponseDTO>
+- `getCirclesForUserAsAdmin` -> `List<CircleGroupResponseDTO>` | tx=`method` | relevant=`true` | repos=none | dto=List<CircleGroupResponseDTO>
+- `getAllCirclesForAdmin` -> `List<AdminCircleGroupResponseDTO>` | tx=`method` | relevant=`true` | repos=none | dto=List<AdminCircleGroupResponseDTO>
+- `getConnections` -> `List<CircleContactDTO>` | tx=`method` | relevant=`true` | repos=none | dto=List<CircleContactDTO>
+- `getConnections` -> `CircleContactListResponseDTO` | tx=`method` | relevant=`true` | repos=none | dto=CircleContactListResponseDTO
+- `getConnectionsForUserAsAdmin` -> `List<CircleContactDTO>` | tx=`method` | relevant=`true` | repos=none | dto=List<CircleContactDTO>
+- `getIncomingRequests` -> `List<CircleRequestResponseDTO>` | tx=`method` | relevant=`true` | repos=none | dto=List<CircleRequestResponseDTO>
+- `getIncomingRequests` -> `CircleRequestListResponseDTO` | tx=`method` | relevant=`true` | repos=none | dto=CircleRequestListResponseDTO
+- `getOutgoingRequests` -> `List<CircleRequestResponseDTO>` | tx=`method` | relevant=`true` | repos=none | dto=List<CircleRequestResponseDTO>
+- `getOutgoingRequests` -> `CircleRequestListResponseDTO` | tx=`method` | relevant=`true` | repos=none | dto=CircleRequestListResponseDTO
 - `getInviteCandidates` -> `List<CircleSearchResultDTO>` | tx=`method` | relevant=`true` | repos=none | dto=List<CircleSearchResultDTO>
-- `searchCircleUsers` -> `CircleSearchResultListResponseDTO` | tx=`method` | relevant=`true` | repos=AppUserRepository | dto=CircleSearchResultListResponseDTO
-- `getInviteCandidatesPage` -> `CircleSearchResultListResponseDTO` | tx=`method` | relevant=`true` | repos=AppUserRepository | dto=CircleSearchResultListResponseDTO
-- `getBlockedUsers` -> `CircleSearchResultListResponseDTO` | tx=`method` | relevant=`true` | repos=CircleRequestRepository | dto=CircleSearchResultListResponseDTO
+- `searchCircleUsers` -> `CircleSearchResultListResponseDTO` | tx=`method` | relevant=`true` | repos=none | dto=CircleSearchResultListResponseDTO
+- `getInviteCandidatesPage` -> `CircleSearchResultListResponseDTO` | tx=`method` | relevant=`true` | repos=none | dto=CircleSearchResultListResponseDTO
+- `getBlockedUsers` -> `CircleSearchResultListResponseDTO` | tx=`method` | relevant=`true` | repos=none | dto=CircleSearchResultListResponseDTO
 - `getRelationWithUser` -> `CircleRelationDTO` | tx=`method` | relevant=`true` | repos=none | dto=CircleRelationDTO
 - `searchCircleUsers` -> `List<CircleSearchResultDTO>` | tx=`method` | relevant=`true` | repos=none | dto=List<CircleSearchResultDTO>
 - `getOwnedCirclesByIds` -> `List<CircleGroup>` | tx=`method` | relevant=`false` | repos=none | dto=none
@@ -81,7 +105,16 @@
 - `buildCircleContactListResponse` -> `CircleContactListResponseDTO` | tx=`none` | relevant=`false` | repos=none | dto=CircleContactListResponseDTO
 - `buildCircleRequestListResponse` -> `CircleRequestListResponseDTO` | tx=`none` | relevant=`false` | repos=none | dto=CircleRequestListResponseDTO
 - `buildCircleSearchResultListResponse` -> `CircleSearchResultListResponseDTO` | tx=`none` | relevant=`false` | repos=none | dto=CircleSearchResultListResponseDTO
-- `resolveRelationStatus` -> `CircleRelationStatus` | tx=`none` | relevant=`false` | repos=none | dto=none
+- `resolveRelationStatus` -> `CircleRelationStatusDTO` | tx=`none` | relevant=`false` | repos=none | dto=CircleRelationStatusDTO
+
+## `DashboardPlannerAssembler`
+
+- `buildPlannerSection` -> `DashboardPlannerSectionDTO` | tx=`none` | relevant=`false` | repos=none | dto=DashboardPlannerSectionDTO
+
+## `DashboardSectionGrouper`
+
+- `buildQuestGroups` -> `List<DashboardQuestGroupDTO>` | tx=`none` | relevant=`true` | repos=none | dto=List<DashboardQuestGroupDTO>
+- `buildApplicationGroups` -> `List<DashboardApplicationGroupDTO>` | tx=`none` | relevant=`true` | repos=none | dto=List<DashboardApplicationGroupDTO>
 
 ## `DashboardService`
 
@@ -96,28 +129,44 @@
 
 - `lookup` -> `List<LocationLookupCandidateDTO>` | tx=`none` | relevant=`false` | repos=none | dto=List<LocationLookupCandidateDTO>,LocationLookupCandidateDTO
 
+## `LocationGeoService`
+
+- `resolveUserApproximateLocationLabel` -> `String` | tx=`class` | relevant=`false` | repos=none | dto=none
+
 ## `LocationLookupService`
 
 - `lookup` -> `LocationLookupResponseDTO` | tx=`none` | relevant=`false` | repos=none | dto=LocationLookupResponseDTO
 - `lookupFirst` -> `LocationLookupCandidateDTO` | tx=`none` | relevant=`false` | repos=none | dto=LocationLookupCandidateDTO
-- `getDebugStatus` -> `LocationDebugStatusDTO` | tx=`method` | relevant=`true` | repos=AppUserRepository,LocationLookupEventRepository,QuestRepository | dto=LocationDebugStatusDTO
+- `getDebugStatus` -> `LocationDebugStatusViewDTO` | tx=`method` | relevant=`true` | repos=AppUserRepository,LocationLookupEventRepository,QuestRepository | dto=LocationDebugStatusViewDTO
 
-## `LocationSettingsService`
+## `LocationQuestPresentationService`
 
-- `toDto` -> `UserLocationSettingsDTO` | tx=`none` | relevant=`false` | repos=none | dto=UserLocationSettingsDTO
-- `resolveQuestLocationLabel` -> `String` | tx=`none` | relevant=`false` | repos=none | dto=none
-- `resolveQuestLocationSourceSummary` -> `String` | tx=`none` | relevant=`false` | repos=none | dto=none
-- `resolveQuestLocationVisibilitySummary` -> `String` | tx=`none` | relevant=`false` | repos=none | dto=none
-- `resolveUserLocationSharingSummary` -> `String` | tx=`none` | relevant=`false` | repos=none | dto=none
-- `resolveUserLocationVisibilitySummary` -> `String` | tx=`none` | relevant=`false` | repos=none | dto=none
-- `resolveUserApproximateLocationLabel` -> `String` | tx=`none` | relevant=`false` | repos=none | dto=none
+- `resolveQuestLocationLabel` -> `String` | tx=`class` | relevant=`false` | repos=none | dto=none
+- `resolveQuestLocationSourceSummary` -> `String` | tx=`class` | relevant=`false` | repos=none | dto=none
+- `resolveQuestLocationVisibilitySummary` -> `String` | tx=`class` | relevant=`false` | repos=none | dto=none
+
+## `LocationSettingsViewService`
+
+- `toDto` -> `UserLocationSettingsDTO` | tx=`class` | relevant=`false` | repos=none | dto=UserLocationSettingsDTO
+- `resolveUserLocationSharingSummary` -> `String` | tx=`class` | relevant=`false` | repos=none | dto=none
+- `resolveUserLocationVisibilitySummary` -> `String` | tx=`class` | relevant=`false` | repos=none | dto=none
 
 ## `QuestAccessPolicyService`
 
-- `resolveViewerRelation` -> `QuestViewerRelation` | tx=`none` | relevant=`false` | repos=none | dto=none
-- `resolveAllowedActions` -> `List<QuestAllowedAction>` | tx=`none` | relevant=`false` | repos=none | dto=none
+- `resolveViewerRelation` -> `QuestViewerRelationDTO` | tx=`none` | relevant=`false` | repos=none | dto=QuestViewerRelationDTO
+- `resolveAllowedActions` -> `List<QuestAllowedActionDTO>` | tx=`none` | relevant=`false` | repos=none | dto=List<QuestAllowedActionDTO>
 
-## `QuestApplicationService`
+## `QuestApplicationAdminQueryService`
+
+- `getAllApplicationsForAdmin` -> `List<QuestApplicationResponseDTO>` | tx=`class` | relevant=`true` | repos=QuestApplicationRepository | dto=List<QuestApplicationResponseDTO>
+- `searchApplicationsForAdmin` -> `QuestApplicationListResponseDTO` | tx=`class` | relevant=`true` | repos=QuestApplicationRepository | dto=QuestApplicationListResponseDTO
+
+## `QuestApplicationPresentationAssembler`
+
+- `resolveApplicantActions` -> `List<ApplicationAllowedActionDTO>` | tx=`none` | relevant=`false` | repos=none | dto=List<ApplicationAllowedActionDTO>
+- `resolveManagementActions` -> `List<ApplicationAllowedActionDTO>` | tx=`none` | relevant=`false` | repos=none | dto=List<ApplicationAllowedActionDTO>
+
+## `QuestApplicationReadService`
 
 - `getApplicationsForQuest` -> `List<QuestApplicationResponseDTO>` | tx=`class` | relevant=`true` | repos=QuestApplicationRepository | dto=List<QuestApplicationResponseDTO>
 - `getApplicationsViewForQuest` -> `QuestApplicationsViewDTO` | tx=`class` | relevant=`true` | repos=QuestApplicationRepository | dto=QuestApplicationsViewDTO
@@ -125,8 +174,17 @@
 - `getApplicationsForApplicant` -> `List<QuestApplicationResponseDTO>` | tx=`class` | relevant=`true` | repos=QuestApplicationRepository | dto=List<QuestApplicationResponseDTO>
 - `toApplicantResponse` -> `QuestApplicationResponseDTO` | tx=`class` | relevant=`false` | repos=none | dto=QuestApplicationResponseDTO
 - `toViewerResponse` -> `QuestApplicationResponseDTO` | tx=`class` | relevant=`false` | repos=none | dto=QuestApplicationResponseDTO
-- `getAllApplicationsForAdmin` -> `List<QuestApplicationResponseDTO>` | tx=`class` | relevant=`true` | repos=QuestApplicationRepository | dto=List<QuestApplicationResponseDTO>
-- `searchApplicationsForAdmin` -> `QuestApplicationListResponseDTO` | tx=`class` | relevant=`true` | repos=QuestApplicationRepository | dto=QuestApplicationListResponseDTO
+
+## `QuestApplicationService`
+
+- `getApplicationsForQuest` -> `List<QuestApplicationResponseDTO>` | tx=`class` | relevant=`true` | repos=none | dto=List<QuestApplicationResponseDTO>
+- `getApplicationsViewForQuest` -> `QuestApplicationsViewDTO` | tx=`class` | relevant=`true` | repos=none | dto=QuestApplicationsViewDTO
+- `getPublicApprovedApplicationsViewForQuest` -> `QuestApplicationsViewDTO` | tx=`class` | relevant=`true` | repos=none | dto=QuestApplicationsViewDTO
+- `getApplicationsForApplicant` -> `List<QuestApplicationResponseDTO>` | tx=`class` | relevant=`true` | repos=none | dto=List<QuestApplicationResponseDTO>
+- `toApplicantResponse` -> `QuestApplicationResponseDTO` | tx=`class` | relevant=`false` | repos=none | dto=QuestApplicationResponseDTO
+- `toViewerResponse` -> `QuestApplicationResponseDTO` | tx=`class` | relevant=`false` | repos=none | dto=QuestApplicationResponseDTO
+- `getAllApplicationsForAdmin` -> `List<QuestApplicationResponseDTO>` | tx=`class` | relevant=`true` | repos=none | dto=List<QuestApplicationResponseDTO>
+- `searchApplicationsForAdmin` -> `QuestApplicationListResponseDTO` | tx=`class` | relevant=`true` | repos=none | dto=QuestApplicationListResponseDTO
 
 ## `QuestApplicationViewAssembler`
 
@@ -146,11 +204,16 @@
 - `getMyNews` -> `List<QuestNewsItem>` | tx=`class` | relevant=`true` | repos=QuestNewsRepository | dto=none
 - `getUnreadCount` -> `long` | tx=`class` | relevant=`true` | repos=QuestNewsRepository | dto=none
 
+## `QuestPresentationAssembler`
+
+- `buildDefaultPresentation` -> `QuestPresentationDTO` | tx=`none` | relevant=`false` | repos=none | dto=QuestPresentationDTO
+- `buildPresentation` -> `QuestPresentationDTO` | tx=`none` | relevant=`false` | repos=none | dto=QuestPresentationDTO
+
 ## `QuestQueryService`
 
 - `buildQuestPage` -> `PageWindow<Quest>` | tx=`none` | relevant=`false` | repos=none | dto=none
 
-## `QuestService`
+## `QuestReadService`
 
 - `getAllQuests` -> `List<Quest>` | tx=`class` | relevant=`true` | repos=QuestRepository | dto=none
 - `getAllQuestResponses` -> `List<QuestResponseDTO>` | tx=`class` | relevant=`true` | repos=none | dto=List<QuestResponseDTO>
@@ -162,6 +225,12 @@
 - `getApplicationDetailResponseById` -> `QuestApplicationDetailResponseDTO` | tx=`class` | relevant=`true` | repos=QuestApplicationRepository | dto=QuestApplicationDetailContextSectionDTO,QuestApplicationDetailNavigationSectionDTO,QuestApplicationDetailResponseDTO,QuestApplicationDetailSectionsDTO
 - `toResponse` -> `QuestResponseDTO` | tx=`class` | relevant=`false` | repos=none | dto=QuestResponseDTO
 - `toResponses` -> `List<QuestResponseDTO>` | tx=`class` | relevant=`false` | repos=none | dto=List<QuestResponseDTO>
+
+## `QuestService`
+
+- `getQuestById` -> `Quest` | tx=`class` | relevant=`false` | repos=none | dto=none
+- `getQuestResponseById` -> `QuestResponseDTO` | tx=`class` | relevant=`true` | repos=none | dto=QuestResponseDTO
+- `toResponse` -> `QuestResponseDTO` | tx=`class` | relevant=`false` | repos=none | dto=QuestResponseDTO
 
 ## `QuestViewAssembler`
 

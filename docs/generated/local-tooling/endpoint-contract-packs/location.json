@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:29Z",
+  "generated_at": "2026-06-29T19:55:04Z",
   "endpoint_family": "location",
   "endpoints": [
     {
@@ -7,7 +7,7 @@
       "path": "/location/admin/status",
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
       "dtos": [
-        "LocationDebugStatusDTO"
+        "LocationDebugStatusViewDTO"
       ]
     },
     {
@@ -19,7 +19,7 @@
         "LocationLookupRequestDTO",
         "LocationLookupCandidateDTO",
         "LocationReverseLookupRequestDTO",
-        "LocationDebugStatusDTO"
+        "LocationDebugStatusViewDTO"
       ]
     },
     {
@@ -31,12 +31,12 @@
         "LocationLookupRequestDTO",
         "LocationLookupCandidateDTO",
         "LocationReverseLookupRequestDTO",
-        "LocationDebugStatusDTO"
+        "LocationDebugStatusViewDTO"
       ]
     }
   ],
   "dto_files": [
-    "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusViewDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupCandidateDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupRequestDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupResponseDTO.java",

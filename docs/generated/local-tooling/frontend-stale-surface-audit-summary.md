@@ -1,6 +1,6 @@
 # Frontend Stale Surface Audit
 
-- Generated at: `2026-06-29T12:47:10Z`
+- Generated at: `2026-06-29T19:54:44Z`
 - Files scanned: `257`
 - Likely unused: `8`
 - Route detached: `1`

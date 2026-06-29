@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-29T12:47:28Z",
-  "symbol_count": 894,
+  "generated_at": "2026-06-29T19:55:04Z",
+  "symbol_count": 909,
   "symbols": [
     {
       "symbol": "AdminAgentController",
@@ -284,14 +284,6 @@
     },
     {
       "symbol": "BusinessProfile",
-      "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
-      "category": "frontend_api",
-      "domain": "business",
-      "refs": 31
-    },
-    {
-      "symbol": "BusinessProfile",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java",
       "category": "backend_model",
@@ -299,6 +291,14 @@
       "methods": [
 
       ],
+      "refs": 31
+    },
+    {
+      "symbol": "BusinessProfile",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+      "category": "frontend_api",
+      "domain": "business",
       "refs": 31
     },
     {
@@ -873,7 +873,7 @@
       "methods": [
 
       ],
-      "refs": 3
+      "refs": 2
     },
     {
       "symbol": "LocationProviderProperties",
@@ -1054,7 +1054,7 @@
         "forbidden",
         "unauthorized"
       ],
-      "refs": 200
+      "refs": 206
     },
     {
       "symbol": "SpringDomainEventPublisher",
@@ -1132,7 +1132,7 @@
       "methods": [
 
       ],
-      "refs": 539
+      "refs": 591
     },
     {
       "symbol": "AppUserController",
@@ -1164,7 +1164,7 @@
       "methods": [
         "requireById"
       ],
-      "refs": 15
+      "refs": 17
     },
     {
       "symbol": "AppUserMgr",
@@ -1220,7 +1220,7 @@
       "methods": [
 
       ],
-      "refs": 55
+      "refs": 56
     },
     {
       "symbol": "AppUserService",
@@ -1275,15 +1275,15 @@
       "refs": 3
     },
     {
-      "symbol": "AuthResponse",
+      "symbol": "AuthResponseDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponse.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java",
       "category": "backend_dto",
       "domain": "identity",
       "methods": [
 
       ],
-      "refs": 24
+      "refs": 13
     },
     {
       "symbol": "AuthService",
@@ -1325,15 +1325,15 @@
       "refs": 7
     },
     {
-      "symbol": "LoginRequest",
+      "symbol": "LoginRequestDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequest.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java",
       "category": "backend_dto",
       "domain": "identity",
       "methods": [
 
       ],
-      "refs": 10
+      "refs": 6
     },
     {
       "symbol": "LoginView",
@@ -1355,15 +1355,15 @@
       "refs": 23
     },
     {
-      "symbol": "RegisterRequest",
+      "symbol": "RegisterRequestDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequest.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java",
       "category": "backend_dto",
       "domain": "identity",
       "methods": [
 
       ],
-      "refs": 11
+      "refs": 7
     },
     {
       "symbol": "RegisterView",
@@ -1469,9 +1469,9 @@
       "refs": 2
     },
     {
-      "symbol": "DatabaseTableStatusDTO",
+      "symbol": "DatabaseTableStatusViewDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusDTO.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusViewDTO.java",
       "category": "backend_dto",
       "domain": "location",
       "methods": [
@@ -1502,7 +1502,7 @@
       "methods": [
 
       ],
-      "refs": 31
+      "refs": 32
     },
     {
       "symbol": "ExactLocationVisibilityScopeOptionDTO",
@@ -1539,18 +1539,35 @@
       "methods": [
         "canViewExactLocation"
       ],
-      "refs": 4
+      "refs": 5
     },
     {
-      "symbol": "LocationDebugStatusDTO",
+      "symbol": "LocationDebugStatusViewDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusDTO.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusViewDTO.java",
       "category": "backend_dto",
       "domain": "location",
       "methods": [
 
       ],
-      "refs": 9
+      "refs": 7
+    },
+    {
+      "symbol": "LocationGeoService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationGeoService.java",
+      "category": "backend_service",
+      "domain": "location",
+      "methods": [
+        "normalizeRadius",
+        "hasCoordinates",
+        "isQuestSearchable",
+        "isUserDiscoverableNearby",
+        "resolveUserApproximateLocationLabel",
+        "distanceKm",
+        "normalizeText"
+      ],
+      "refs": 8
     },
     {
       "symbol": "LocationLookupCandidateDTO",
@@ -1676,6 +1693,24 @@
       "refs": 13
     },
     {
+      "symbol": "LocationQuestPresentationService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java",
+      "category": "backend_service",
+      "domain": "location",
+      "methods": [
+        "resolveQuestLocationLabel",
+        "resolveQuestLocationSourceSummary",
+        "resolveQuestLocationVisibilitySummary",
+        "resolveEffectiveQuestLocationVisibility",
+        "buildApproximateQuestLocationLabel",
+        "buildExactQuestLocationLabel",
+        "joinParts",
+        "normalizeText"
+      ],
+      "refs": 3
+    },
+    {
       "symbol": "LocationReverseLookupRequestDTO",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationReverseLookupRequestDTO.java",
@@ -1693,23 +1728,14 @@
       "category": "backend_service",
       "domain": "location",
       "methods": [
-        "toDto",
         "applyUserLocationSettings",
         "applyQuestLocation",
         "applyLookupCandidateToUser",
         "normalizeRadius",
         "hasCoordinates",
-        "isQuestSearchable",
-        "resolveQuestLocationLabel",
-        "resolveQuestLocationSourceSummary",
-        "resolveQuestLocationVisibilitySummary",
-        "resolveUserLocationSharingSummary",
-        "resolveUserLocationVisibilitySummary",
-        "isUserDiscoverableNearby",
-        "resolveUserApproximateLocationLabel",
-        "distanceKm",
         "requireUsableLocation",
         "applyCustomQuestLocation",
+        "joinParts",
         "autoResolveUserCoordinates",
         "autoResolveQuestCoordinates",
         "resolveLocationCandidate",
@@ -1719,15 +1745,24 @@
         "copyUserLocationToQuest",
         "clearUserCoordinates",
         "clearQuestLocation",
-        "resolveEffectiveQuestLocationVisibility",
-        "buildApproximateQuestLocationLabel",
-        "buildExactQuestLocationLabel",
-        "joinParts",
         "normalizeCoordinate",
         "normalizeCountryCode",
         "normalizeText"
       ],
-      "refs": 22
+      "refs": 10
+    },
+    {
+      "symbol": "LocationSettingsViewService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java",
+      "category": "backend_service",
+      "domain": "location",
+      "methods": [
+        "toDto",
+        "resolveUserLocationSharingSummary",
+        "resolveUserLocationVisibilitySummary"
+      ],
+      "refs": 3
     },
     {
       "symbol": "QuestLocationSource",
@@ -1738,7 +1773,7 @@
       "methods": [
 
       ],
-      "refs": 21
+      "refs": 22
     },
     {
       "symbol": "QuestLocationVisibility",
@@ -1771,7 +1806,7 @@
       "methods": [
 
       ],
-      "refs": 31
+      "refs": 34
     },
     {
       "symbol": "UserLocationSettingsDTO",
@@ -1797,14 +1832,6 @@
     },
     {
       "symbol": "RideOffer",
-      "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
-      "category": "frontend_api",
-      "domain": "rides",
-      "refs": 19
-    },
-    {
-      "symbol": "RideOffer",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java",
       "category": "backend_model",
@@ -1812,6 +1839,14 @@
       "methods": [
 
       ],
+      "refs": 19
+    },
+    {
+      "symbol": "RideOffer",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+      "category": "frontend_api",
+      "domain": "rides",
       "refs": 19
     },
     {
@@ -1970,7 +2005,7 @@
       "refs": 12
     },
     {
-      "symbol": "APPLICATION_ALLOWED_ACTION_VALUES",
+      "symbol": "APPLICATION_ALLOWED_ACTION_DTO_VALUES",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -2095,7 +2130,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 13
+      "refs": 15
     },
     {
       "symbol": "AdminCircleOverview",
@@ -2111,7 +2146,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 10
+      "refs": 12
     },
     {
       "symbol": "AdminCircleRelationRowDTO",
@@ -2127,7 +2162,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 8
+      "refs": 10
     },
     {
       "symbol": "AdminUserDetailDTO",
@@ -2219,14 +2254,6 @@
     },
     {
       "symbol": "ApiErrorResponseDTO",
-      "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
-      "category": "frontend_contract",
-      "domain": "shared",
-      "refs": 10
-    },
-    {
-      "symbol": "ApiErrorResponseDTO",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiErrorResponseDTO.java",
       "category": "backend_dto",
@@ -2234,6 +2261,14 @@
       "methods": [
 
       ],
+      "refs": 10
+    },
+    {
+      "symbol": "ApiErrorResponseDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
       "refs": 10
     },
     {
@@ -2317,7 +2352,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 539
+      "refs": 591
     },
     {
       "symbol": "AppUserRequest",
@@ -2349,7 +2384,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 55
+      "refs": 56
     },
     {
       "symbol": "AppUserRoleOption",
@@ -2368,12 +2403,12 @@
       "refs": 11
     },
     {
-      "symbol": "ApplicationAllowedAction",
+      "symbol": "ApplicationAllowedActionDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 20
+      "refs": 19
     },
     {
       "symbol": "AsyncRichTextEditor",
@@ -2384,15 +2419,15 @@
       "refs": 4
     },
     {
-      "symbol": "AuthResponse",
+      "symbol": "AuthResponseDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 24
+      "refs": 13
     },
     {
-      "symbol": "BULK_CIRCLE_MEMBERSHIP_ACTION_VALUES",
+      "symbol": "BULK_CIRCLE_MEMBERSHIP_ACTION_DTO_VALUES",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -2400,7 +2435,7 @@
       "refs": 2
     },
     {
-      "symbol": "BulkCircleMembershipAction",
+      "symbol": "BulkCircleMembershipActionDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -2440,7 +2475,7 @@
       "refs": 15
     },
     {
-      "symbol": "CIRCLE_RELATION_STATUS_VALUES",
+      "symbol": "CIRCLE_RELATION_STATUS_DTO_VALUES",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -2645,7 +2680,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 23
+      "refs": 26
     },
     {
       "symbol": "CircleContactListResponse",
@@ -2661,7 +2696,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 10
+      "refs": 12
     },
     {
       "symbol": "CircleGroup",
@@ -2669,7 +2704,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 84
+      "refs": 86
     },
     {
       "symbol": "CircleGroupRequest",
@@ -2693,7 +2728,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 22
+      "refs": 25
     },
     {
       "symbol": "CircleMemberDTO",
@@ -2709,7 +2744,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 33
+      "refs": 34
     },
     {
       "symbol": "CircleOverview",
@@ -2725,7 +2760,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 10
+      "refs": 12
     },
     {
       "symbol": "CircleRelation",
@@ -2741,15 +2776,15 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 16
+      "refs": 19
     },
     {
-      "symbol": "CircleRelationStatus",
+      "symbol": "CircleRelationStatusDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 47
+      "refs": 46
     },
     {
       "symbol": "CircleRequest",
@@ -2757,7 +2792,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 73
+      "refs": 75
     },
     {
       "symbol": "CircleRequestCreate",
@@ -2789,7 +2824,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 12
+      "refs": 15
     },
     {
       "symbol": "CircleRequestResponseDTO",
@@ -2797,7 +2832,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 43
+      "refs": 47
     },
     {
       "symbol": "CircleSearchResultDTO",
@@ -2805,7 +2840,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 28
+      "refs": 31
     },
     {
       "symbol": "CircleSearchResultListResponseDTO",
@@ -2813,7 +2848,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 17
+      "refs": 21
     },
     {
       "symbol": "CircleSummary",
@@ -2829,7 +2864,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 8
+      "refs": 7
     },
     {
       "symbol": "ConnectionCircleUpdateDTO",
@@ -2848,7 +2883,7 @@
       "refs": 5
     },
     {
-      "symbol": "DASHBOARD_NOTIFICATION_DESTINATION_TYPE_VALUES",
+      "symbol": "DASHBOARD_NOTIFICATION_DESTINATION_TYPE_DTO_VALUES",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -2861,7 +2896,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 7
+      "refs": 11
     },
     {
       "symbol": "DashboardNavigationItemDTO",
@@ -2880,7 +2915,7 @@
       "refs": 7
     },
     {
-      "symbol": "DashboardNotificationDestinationType",
+      "symbol": "DashboardNotificationDestinationTypeDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -2893,7 +2928,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 12
+      "refs": 14
     },
     {
       "symbol": "DashboardNotificationsSectionDTO",
@@ -2917,7 +2952,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 19
+      "refs": 20
     },
     {
       "symbol": "DashboardPlannerSectionDTO",
@@ -2925,7 +2960,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 8
+      "refs": 10
     },
     {
       "symbol": "DashboardQuestGroupDTO",
@@ -2933,7 +2968,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 7
+      "refs": 11
     },
     {
       "symbol": "DashboardResponse",
@@ -2984,7 +3019,7 @@
       "refs": 14
     },
     {
-      "symbol": "DatabaseTableStatusDTO",
+      "symbol": "DatabaseTableStatusViewDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -3005,7 +3040,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 31
+      "refs": 32
     },
     {
       "symbol": "ExactLocationVisibilityScopeOptionDTO",
@@ -3069,15 +3104,15 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 3
+      "refs": 2
     },
     {
-      "symbol": "LocationDebugStatusDTO",
+      "symbol": "LocationDebugStatusViewDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 9
+      "refs": 7
     },
     {
       "symbol": "LocationLookupCandidate",
@@ -3168,12 +3203,12 @@
       "refs": 5
     },
     {
-      "symbol": "LoginRequest",
+      "symbol": "LoginRequestDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 10
+      "refs": 6
     },
     {
       "symbol": "ModulePlaceholderView",
@@ -3320,7 +3355,7 @@
       "refs": 4
     },
     {
-      "symbol": "QUEST_ALLOWED_ACTION_VALUES",
+      "symbol": "QUEST_ALLOWED_ACTION_DTO_VALUES",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -3344,7 +3379,7 @@
       "refs": 2
     },
     {
-      "symbol": "QUEST_DETAIL_EXECUTION_ACTION_VALUES",
+      "symbol": "QUEST_DETAIL_EXECUTION_ACTION_DTO_VALUES",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -3368,7 +3403,7 @@
       "refs": 9
     },
     {
-      "symbol": "QUEST_LIST_PRESET_VALUES",
+      "symbol": "QUEST_LIST_PRESET_DTO_VALUES",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -3392,7 +3427,7 @@
       "refs": 2
     },
     {
-      "symbol": "QUEST_NEWS_DESTINATION_TYPE_VALUES",
+      "symbol": "QUEST_NEWS_DESTINATION_TYPE_DTO_VALUES",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -3416,7 +3451,7 @@
       "refs": 2
     },
     {
-      "symbol": "QUEST_VIEWER_RELATION_VALUES",
+      "symbol": "QUEST_VIEWER_RELATION_DTO_VALUES",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -3429,10 +3464,10 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 392
+      "refs": 403
     },
     {
-      "symbol": "QuestAllowedAction",
+      "symbol": "QuestAllowedActionDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -3445,7 +3480,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 183
+      "refs": 190
     },
     {
       "symbol": "QuestApplicationAllowedAction",
@@ -3485,7 +3520,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 8
+      "refs": 9
     },
     {
       "symbol": "QuestApplicationDetailSections",
@@ -3497,6 +3532,14 @@
     },
     {
       "symbol": "QuestApplicationDetailSectionsDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 7
+    },
+    {
+      "symbol": "QuestApplicationDraftRulesViewDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -3517,7 +3560,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 8
+      "refs": 10
     },
     {
       "symbol": "QuestApplicationPresentationDTO",
@@ -3549,7 +3592,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 96
+      "refs": 114
     },
     {
       "symbol": "QuestApplicationStatus",
@@ -3557,7 +3600,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 110
+      "refs": 112
     },
     {
       "symbol": "QuestApplicationStatusFilterOptionDTO",
@@ -3581,7 +3624,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 19
+      "refs": 22
     },
     {
       "symbol": "QuestAudience",
@@ -3589,7 +3632,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 50
+      "refs": 53
     },
     {
       "symbol": "QuestAudienceFilterOptionDTO",
@@ -3624,7 +3667,7 @@
       "refs": 30
     },
     {
-      "symbol": "QuestDetailExecutionAction",
+      "symbol": "QuestDetailExecutionActionDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -3637,7 +3680,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 8
+      "refs": 7
     },
     {
       "symbol": "QuestDetailManagementSectionDTO",
@@ -3645,7 +3688,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 8
+      "refs": 7
     },
     {
       "symbol": "QuestDetailNavigationSectionDTO",
@@ -3661,7 +3704,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 8
+      "refs": 9
     },
     {
       "symbol": "QuestDetailReviewSectionDTO",
@@ -3669,7 +3712,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 10
+      "refs": 9
     },
     {
       "symbol": "QuestDetailReviewTargetDTO",
@@ -3677,7 +3720,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 10
+      "refs": 9
     },
     {
       "symbol": "QuestDetailSections",
@@ -3701,15 +3744,15 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 8
+      "refs": 7
     },
     {
-      "symbol": "QuestListPreset",
+      "symbol": "QuestListPresetDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 10
+      "refs": 7
     },
     {
       "symbol": "QuestListResponse",
@@ -3725,7 +3768,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 11
+      "refs": 13
     },
     {
       "symbol": "QuestLocationSource",
@@ -3733,7 +3776,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 21
+      "refs": 22
     },
     {
       "symbol": "QuestLocationVisibility",
@@ -3760,7 +3803,7 @@
       "refs": 11
     },
     {
-      "symbol": "QuestNewsDestinationType",
+      "symbol": "QuestNewsDestinationTypeDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -3781,7 +3824,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 16
+      "refs": 18
     },
     {
       "symbol": "QuestNewsType",
@@ -3821,7 +3864,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 79
+      "refs": 93
     },
     {
       "symbol": "QuestSearchDefaultsDTO",
@@ -3861,7 +3904,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 159
+      "refs": 163
     },
     {
       "symbol": "QuestStatusFilterOption",
@@ -3896,12 +3939,12 @@
       "refs": 12
     },
     {
-      "symbol": "QuestViewerRelation",
+      "symbol": "QuestViewerRelationDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 24
+      "refs": 25
     },
     {
       "symbol": "REVIEW_ROLE_VALUES",
@@ -3912,12 +3955,12 @@
       "refs": 2
     },
     {
-      "symbol": "RegisterRequest",
+      "symbol": "RegisterRequestDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 11
+      "refs": 7
     },
     {
       "symbol": "ReviewRole",
@@ -4336,7 +4379,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 31
+      "refs": 34
     },
     {
       "symbol": "UserLocationSettings",
@@ -4520,7 +4563,7 @@
       "file": "apps/themuffinman/frontend/src/services/sessionService.ts",
       "category": "other",
       "domain": "shared",
-      "refs": 781
+      "refs": 858
     },
     {
       "symbol": "endOfMonth",
@@ -4859,7 +4902,7 @@
       "methods": [
 
       ],
-      "refs": 13
+      "refs": 15
     },
     {
       "symbol": "AdminCircleOverviewDTO",
@@ -4870,7 +4913,7 @@
       "methods": [
 
       ],
-      "refs": 10
+      "refs": 12
     },
     {
       "symbol": "AdminCircleRelationRowDTO",
@@ -4892,9 +4935,9 @@
       "refs": 3
     },
     {
-      "symbol": "BulkCircleMembershipAction",
+      "symbol": "BulkCircleMembershipActionDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipAction.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipActionDTO.java",
       "category": "backend_dto",
       "domain": "social",
       "methods": [
@@ -4963,7 +5006,7 @@
       "methods": [
 
       ],
-      "refs": 23
+      "refs": 26
     },
     {
       "symbol": "CircleContactListResponseDTO",
@@ -4974,7 +5017,7 @@
       "methods": [
 
       ],
-      "refs": 10
+      "refs": 12
     },
     {
       "symbol": "CircleController",
@@ -5015,10 +5058,16 @@
       "domain": "social",
       "methods": [
         "getNearbyUsers",
+        "getInviteCandidates",
+        "getInviteCandidatesPage",
+        "searchCircleUsers",
+        "getBlockedUsers",
+        "getRelationWithUser",
         "mapNearbyUser",
+        "findRelation",
         "formatDistanceLabel"
       ],
-      "refs": 3
+      "refs": 4
     },
     {
       "symbol": "CircleGroup",
@@ -5029,7 +5078,7 @@
       "methods": [
 
       ],
-      "refs": 84
+      "refs": 86
     },
     {
       "symbol": "CircleGroupRepository",
@@ -5040,7 +5089,7 @@
       "methods": [
 
       ],
-      "refs": 8
+      "refs": 10
     },
     {
       "symbol": "CircleGroupRequestDTO",
@@ -5062,7 +5111,7 @@
       "methods": [
 
       ],
-      "refs": 22
+      "refs": 25
     },
     {
       "symbol": "CircleMemberDTO",
@@ -5084,7 +5133,7 @@
       "methods": [
 
       ],
-      "refs": 33
+      "refs": 34
     },
     {
       "symbol": "CircleMembershipRepository",
@@ -5111,7 +5160,7 @@
         "getMembershipsByUserIdForOwner",
         "syncConnectionCircles"
       ],
-      "refs": 9
+      "refs": 10
     },
     {
       "symbol": "CircleOverviewDTO",
@@ -5122,7 +5171,35 @@
       "methods": [
 
       ],
-      "refs": 10
+      "refs": 12
+    },
+    {
+      "symbol": "CircleReadService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "category": "backend_service",
+      "domain": "social",
+      "methods": [
+        "getMyCircles",
+        "getAdminOverview",
+        "getOverview",
+        "getCircles",
+        "getCirclesForUserAsAdmin",
+        "getAllCirclesForAdmin",
+        "getConnections",
+        "getConnectionsForUserAsAdmin",
+        "getIncomingRequests",
+        "getOutgoingRequests",
+        "isCircleBetween",
+        "isCircleMember",
+        "getOwnedCirclesByIds",
+        "findRelation",
+        "loadConnections",
+        "loadIncomingRequests",
+        "loadOutgoingRequests",
+        "validateAdmin"
+      ],
+      "refs": 2
     },
     {
       "symbol": "CircleRelationDTO",
@@ -5133,7 +5210,7 @@
       "methods": [
 
       ],
-      "refs": 16
+      "refs": 19
     },
     {
       "symbol": "CircleRelationService",
@@ -5155,18 +5232,18 @@
         "requireTargetUserId",
         "validateNotSelfAction"
       ],
-      "refs": 4
+      "refs": 5
     },
     {
-      "symbol": "CircleRelationStatus",
+      "symbol": "CircleRelationStatusDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatus.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatusDTO.java",
       "category": "backend_dto",
       "domain": "social",
       "methods": [
 
       ],
-      "refs": 47
+      "refs": 46
     },
     {
       "symbol": "CircleRequest",
@@ -5177,7 +5254,7 @@
       "methods": [
 
       ],
-      "refs": 73
+      "refs": 75
     },
     {
       "symbol": "CircleRequestCreateDTO",
@@ -5199,7 +5276,7 @@
       "methods": [
 
       ],
-      "refs": 12
+      "refs": 15
     },
     {
       "symbol": "CircleRequestMgr",
@@ -5232,7 +5309,7 @@
       "methods": [
 
       ],
-      "refs": 43
+      "refs": 47
     },
     {
       "symbol": "CircleSearchResultDTO",
@@ -5243,7 +5320,7 @@
       "methods": [
 
       ],
-      "refs": 28
+      "refs": 31
     },
     {
       "symbol": "CircleSearchResultListResponseDTO",
@@ -5254,7 +5331,7 @@
       "methods": [
 
       ],
-      "refs": 17
+      "refs": 21
     },
     {
       "symbol": "CircleService",
@@ -5271,11 +5348,8 @@
         "getAllCirclesForAdmin",
         "getConnections",
         "getConnectionsForUserAsAdmin",
-        "loadConnections",
         "getIncomingRequests",
-        "loadIncomingRequests",
         "getOutgoingRequests",
-        "loadOutgoingRequests",
         "getInviteCandidates",
         "searchCircleUsers",
         "getInviteCandidatesPage",
@@ -5295,7 +5369,6 @@
         "deleteCircleAsAdmin",
         "updateConnectionCircles",
         "updateConnectionCirclesBulk",
-        "findRelation",
         "buildBulkCircleUpdate",
         "requireCircleOwnedByCurrentUser",
         "normalizeCircleName",
@@ -5312,7 +5385,7 @@
       "methods": [
 
       ],
-      "refs": 8
+      "refs": 7
     },
     {
       "symbol": "CircleViewAssembler",
@@ -5348,7 +5421,7 @@
         "toAdminRelationRow",
         "normalizedHaystack"
       ],
-      "refs": 3
+      "refs": 4
     },
     {
       "symbol": "CirclesConnectionsPanel",
@@ -5630,14 +5703,6 @@
     },
     {
       "symbol": "ThingListing",
-      "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
-      "category": "frontend_api",
-      "domain": "things",
-      "refs": 31
-    },
-    {
-      "symbol": "ThingListing",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingListing.java",
       "category": "backend_model",
@@ -5645,6 +5710,14 @@
       "methods": [
 
       ],
+      "refs": 31
+    },
+    {
+      "symbol": "ThingListing",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "category": "frontend_api",
+      "domain": "things",
       "refs": 31
     },
     {
@@ -5899,7 +5972,7 @@
       "methods": [
 
       ],
-      "refs": 8
+      "refs": 10
     },
     {
       "symbol": "AdminQuestsPage",
@@ -5985,15 +6058,15 @@
       "refs": 7
     },
     {
-      "symbol": "ApplicationAllowedAction",
+      "symbol": "ApplicationAllowedActionDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedAction.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedActionDTO.java",
       "category": "backend_dto",
       "domain": "workmarket",
       "methods": [
 
       ],
-      "refs": 20
+      "refs": 19
     },
     {
       "symbol": "ApplicationDetailSections",
@@ -6056,7 +6129,7 @@
         "execute",
         "declineOtherPendingApplications"
       ],
-      "refs": 2
+      "refs": 3
     },
     {
       "symbol": "CircleConnectionsQuery",
@@ -6148,7 +6221,7 @@
       "methods": [
 
       ],
-      "refs": 7
+      "refs": 11
     },
     {
       "symbol": "DashboardApplicationsDialog",
@@ -6249,9 +6322,21 @@
       "refs": 7
     },
     {
-      "symbol": "DashboardNotificationDestinationType",
+      "symbol": "DashboardNotificationAssembler",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationType.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardNotificationAssembler.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "toRecentItems",
+        "toDashboardNotificationItem"
+      ],
+      "refs": 3
+    },
+    {
+      "symbol": "DashboardNotificationDestinationTypeDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationTypeDTO.java",
       "category": "backend_dto",
       "domain": "workmarket",
       "methods": [
@@ -6268,7 +6353,7 @@
       "methods": [
 
       ],
-      "refs": 12
+      "refs": 14
     },
     {
       "symbol": "DashboardNotificationsSectionDTO",
@@ -6309,6 +6394,23 @@
       "refs": 7
     },
     {
+      "symbol": "DashboardPlannerAssembler",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardPlannerAssembler.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "buildPlannerSection",
+        "buildQuestPlannerItem",
+        "buildApplicationPlannerItem",
+        "buildPlannerItem",
+        "addPlannerItem",
+        "resolvePlannerKindLabel",
+        "resolvePlannerTone"
+      ],
+      "refs": 3
+    },
+    {
       "symbol": "DashboardPlannerItemDTO",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerItemDTO.java",
@@ -6317,7 +6419,7 @@
       "methods": [
 
       ],
-      "refs": 19
+      "refs": 20
     },
     {
       "symbol": "DashboardPlannerSectionDTO",
@@ -6328,7 +6430,7 @@
       "methods": [
 
       ],
-      "refs": 8
+      "refs": 10
     },
     {
       "symbol": "DashboardPostWork",
@@ -6411,7 +6513,7 @@
       "methods": [
 
       ],
-      "refs": 7
+      "refs": 11
     },
     {
       "symbol": "DashboardQuestListFacade",
@@ -6441,6 +6543,22 @@
       "refs": 9
     },
     {
+      "symbol": "DashboardSectionGrouper",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionGrouper.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "buildQuestGroups",
+        "buildApplicationGroups",
+        "buildQuestGroup",
+        "buildApplicationGroup",
+        "resolveQuestGroupLabel",
+        "resolveApplicationGroupLabel"
+      ],
+      "refs": 3
+    },
+    {
       "symbol": "DashboardSectionsDTO",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java",
@@ -6464,16 +6582,9 @@
         "resolveQuestGroupLabel",
         "resolveApplicationGroupLabel",
         "buildPlannerSection",
-        "buildNotificationsSection",
-        "buildPlannerItem",
-        "addPlannerItem",
-        "buildQuestPlannerItem",
-        "buildApplicationPlannerItem",
-        "resolvePlannerKindLabel",
-        "resolvePlannerTone",
-        "toDashboardNotificationItem"
+        "buildNotificationsSection"
       ],
-      "refs": 2
+      "refs": 3
     },
     {
       "symbol": "DashboardService",
@@ -6564,7 +6675,7 @@
       "methods": [
         "execute"
       ],
-      "refs": 2
+      "refs": 3
     },
     {
       "symbol": "DeleteQuestUseCase",
@@ -6658,7 +6769,7 @@
       "methods": [
 
       ],
-      "refs": 392
+      "refs": 403
     },
     {
       "symbol": "QuestAccessPolicyService",
@@ -6681,9 +6792,9 @@
       "refs": 12
     },
     {
-      "symbol": "QuestAllowedAction",
+      "symbol": "QuestAllowedActionDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedAction.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedActionDTO.java",
       "category": "backend_dto",
       "domain": "workmarket",
       "methods": [
@@ -6700,7 +6811,35 @@
       "methods": [
 
       ],
-      "refs": 183
+      "refs": 190
+    },
+    {
+      "symbol": "QuestApplicationAdminQueryService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminQueryService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "getAllApplicationsForAdmin",
+        "searchApplicationsForAdmin",
+        "toManagementResponse",
+        "matchesAdminQuery",
+        "containsNormalized"
+      ],
+      "refs": 2
+    },
+    {
+      "symbol": "QuestApplicationAdminService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "updateApplicationForAdmin",
+        "deleteApplicationForAdmin",
+        "applyAdminStatusUpdate"
+      ],
+      "refs": 2
     },
     {
       "symbol": "QuestApplicationController",
@@ -6755,12 +6894,23 @@
       "methods": [
 
       ],
-      "refs": 8
+      "refs": 9
     },
     {
       "symbol": "QuestApplicationDetailSectionsDTO",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailSectionsDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "methods": [
+
+      ],
+      "refs": 7
+    },
+    {
+      "symbol": "QuestApplicationDraftRulesViewDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesViewDTO.java",
       "category": "backend_dto",
       "domain": "workmarket",
       "methods": [
@@ -6777,7 +6927,7 @@
       "methods": [
 
       ],
-      "refs": 8
+      "refs": 10
     },
     {
       "symbol": "QuestApplicationMgr",
@@ -6789,7 +6939,7 @@
         "toEntity",
         "toDto"
       ],
-      "refs": 7
+      "refs": 5
     },
     {
       "symbol": "QuestApplicationNewsEvent",
@@ -6814,6 +6964,19 @@
       "refs": 1
     },
     {
+      "symbol": "QuestApplicationPresentationAssembler",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "withAllowedActions",
+        "resolveApplicantActions",
+        "resolveManagementActions"
+      ],
+      "refs": 2
+    },
+    {
       "symbol": "QuestApplicationPresentationDTO",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationPresentationDTO.java",
@@ -6825,6 +6988,27 @@
       "refs": 8
     },
     {
+      "symbol": "QuestApplicationReadService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "getApplicationsForQuest",
+        "getApplicationsViewForQuest",
+        "getPublicApprovedApplicationsViewForQuest",
+        "getApplicationsForApplicant",
+        "toApplicantResponse",
+        "toViewerResponse",
+        "toManagementResponse",
+        "toPublicResponse",
+        "resolveVisibleApplications",
+        "resolveRevealLabel",
+        "resolveSelectedApplicationId"
+      ],
+      "refs": 2
+    },
+    {
       "symbol": "QuestApplicationRepository",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
@@ -6833,7 +7017,7 @@
       "methods": [
 
       ],
-      "refs": 34
+      "refs": 40
     },
     {
       "symbol": "QuestApplicationRequest",
@@ -6863,7 +7047,7 @@
       "methods": [
 
       ],
-      "refs": 96
+      "refs": 114
     },
     {
       "symbol": "QuestApplicationService",
@@ -6879,8 +7063,6 @@
         "getApplicationsForApplicant",
         "toApplicantResponse",
         "toViewerResponse",
-        "toManagementResponse",
-        "toPublicResponse",
         "getAllApplicationsForAdmin",
         "searchApplicationsForAdmin",
         "updateApplicationForAdmin",
@@ -6888,13 +7070,7 @@
         "updateMyApplication",
         "withdrawMyApplication",
         "approveApplication",
-        "declineApplication",
-        "resolveVisibleApplications",
-        "resolveRevealLabel",
-        "resolveSelectedApplicationId",
-        "matchesAdminQuery",
-        "applyAdminStatusUpdate",
-        "containsNormalized"
+        "declineApplication"
       ],
       "refs": 5
     },
@@ -6908,7 +7084,7 @@
         "isPending",
         "isActive"
       ],
-      "refs": 110
+      "refs": 112
     },
     {
       "symbol": "QuestApplicationStatusFilterOptionDTO",
@@ -6931,12 +7107,9 @@
         "toApplicantResponse",
         "toManagementResponse",
         "toPublicResponse",
-        "toViewerResponse",
-        "withAllowedActions",
-        "resolveApplicantActions",
-        "resolveManagementActions"
+        "toViewerResponse"
       ],
-      "refs": 3
+      "refs": 5
     },
     {
       "symbol": "QuestApplicationWorkflowSupport",
@@ -6958,7 +7131,7 @@
         "validateAdmin",
         "validateQuestIsOpen"
       ],
-      "refs": 8
+      "refs": 11
     },
     {
       "symbol": "QuestApplicationsViewDTO",
@@ -6969,7 +7142,7 @@
       "methods": [
 
       ],
-      "refs": 19
+      "refs": 22
     },
     {
       "symbol": "QuestApplyForm",
@@ -6988,7 +7161,7 @@
       "methods": [
 
       ],
-      "refs": 50
+      "refs": 53
     },
     {
       "symbol": "QuestAudienceFilterOptionDTO",
@@ -7091,9 +7264,9 @@
       "refs": 4
     },
     {
-      "symbol": "QuestDetailExecutionAction",
+      "symbol": "QuestDetailExecutionActionDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionAction.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionActionDTO.java",
       "category": "backend_dto",
       "domain": "workmarket",
       "methods": [
@@ -7110,7 +7283,7 @@
       "methods": [
 
       ],
-      "refs": 8
+      "refs": 7
     },
     {
       "symbol": "QuestDetailHero",
@@ -7129,7 +7302,7 @@
       "methods": [
 
       ],
-      "refs": 8
+      "refs": 7
     },
     {
       "symbol": "QuestDetailNavigationSectionDTO",
@@ -7159,7 +7332,7 @@
       "methods": [
 
       ],
-      "refs": 8
+      "refs": 9
     },
     {
       "symbol": "QuestDetailReviewSectionDTO",
@@ -7170,7 +7343,7 @@
       "methods": [
 
       ],
-      "refs": 10
+      "refs": 9
     },
     {
       "symbol": "QuestDetailReviewTargetDTO",
@@ -7181,7 +7354,7 @@
       "methods": [
 
       ],
-      "refs": 10
+      "refs": 9
     },
     {
       "symbol": "QuestDetailSectionsDTO",
@@ -7203,7 +7376,7 @@
       "methods": [
 
       ],
-      "refs": 8
+      "refs": 7
     },
     {
       "symbol": "QuestDetailView",
@@ -7246,15 +7419,15 @@
       "refs": 9
     },
     {
-      "symbol": "QuestListPreset",
+      "symbol": "QuestListPresetDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPreset.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPresetDTO.java",
       "category": "backend_dto",
       "domain": "workmarket",
       "methods": [
 
       ],
-      "refs": 10
+      "refs": 7
     },
     {
       "symbol": "QuestListResponseDTO",
@@ -7265,7 +7438,7 @@
       "methods": [
 
       ],
-      "refs": 11
+      "refs": 13
     },
     {
       "symbol": "QuestMgr",
@@ -7303,9 +7476,9 @@
       "refs": 1
     },
     {
-      "symbol": "QuestNewsDestinationType",
+      "symbol": "QuestNewsDestinationTypeDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationType.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationTypeDTO.java",
       "category": "backend_dto",
       "domain": "workmarket",
       "methods": [
@@ -7333,7 +7506,7 @@
       "methods": [
 
       ],
-      "refs": 16
+      "refs": 18
     },
     {
       "symbol": "QuestNewsMgr",
@@ -7406,6 +7579,22 @@
       "refs": 51
     },
     {
+      "symbol": "QuestPresentationAssembler",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPresentationAssembler.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "buildDefaultPresentation",
+        "buildPresentation",
+        "buildApplicationDraftRules",
+        "resolveVisibleToCirclesLabel",
+        "suggestedApplicationPrice",
+        "isFreeQuest"
+      ],
+      "refs": 4
+    },
+    {
       "symbol": "QuestPresentationDTO",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestPresentationDTO.java",
@@ -7441,6 +7630,30 @@
       "refs": 2
     },
     {
+      "symbol": "QuestReadService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "getAllQuests",
+        "getAllQuestResponses",
+        "searchQuests",
+        "getQuestListPreset",
+        "getQuestById",
+        "getQuestResponseById",
+        "getQuestDetailResponseById",
+        "getApplicationDetailResponseById",
+        "toResponse",
+        "toResponses",
+        "requireQuest",
+        "buildQuestListResponse",
+        "loadQuestSearchScope",
+        "getCurrentUserApplicationsByQuestId"
+      ],
+      "refs": 2
+    },
+    {
       "symbol": "QuestRepository",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestRepository.java",
@@ -7449,7 +7662,7 @@
       "methods": [
 
       ],
-      "refs": 17
+      "refs": 19
     },
     {
       "symbol": "QuestRequest",
@@ -7479,7 +7692,7 @@
       "methods": [
 
       ],
-      "refs": 79
+      "refs": 93
     },
     {
       "symbol": "QuestSearchDefaultsDTO",
@@ -7519,26 +7732,15 @@
       "domain": "workmarket",
       "methods": [
         "createQuest",
-        "getAllQuests",
-        "getAllQuestResponses",
-        "searchQuests",
-        "getQuestListPreset",
         "getQuestById",
         "getQuestResponseById",
-        "getQuestDetailResponseById",
-        "getApplicationDetailResponseById",
         "toResponse",
-        "toResponses",
         "deleteQuest",
         "updateQuest",
         "startQuest",
         "completeQuest",
         "confirmQuestTermChange",
-        "rejectQuestTermChange",
-        "requireQuest",
-        "buildQuestListResponse",
-        "loadQuestSearchScope",
-        "getCurrentUserApplicationsByQuestId"
+        "rejectQuestTermChange"
       ],
       "refs": 7
     },
@@ -7598,7 +7800,7 @@
         "isClosed",
         "isVisibleOwnerWork"
       ],
-      "refs": 159
+      "refs": 163
     },
     {
       "symbol": "QuestStatusFilter",
@@ -7682,21 +7884,20 @@
         "buildQuestDetailExecutionSection",
         "buildQuestDetailTermChangeSection",
         "buildQuestDetailManagementSection",
-        "resolveReviewTarget",
-        "buildQuestPresentation"
+        "resolveReviewTarget"
       ],
       "refs": 3
     },
     {
-      "symbol": "QuestViewerRelation",
+      "symbol": "QuestViewerRelationDTO",
       "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelation.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelationDTO.java",
       "category": "backend_dto",
       "domain": "workmarket",
       "methods": [
 
       ],
-      "refs": 24
+      "refs": 25
     },
     {
       "symbol": "QuestVisibilityService",
@@ -7945,7 +8146,7 @@
         "badgeClassForQuestNewsType",
         "iconGlyphForQuestNewsType"
       ],
-      "refs": 9
+      "refs": 8
     },
     {
       "symbol": "adminAgentContractGate",
@@ -8305,7 +8506,7 @@
       "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/pricing.ts",
       "category": "other",
       "domain": "workmarket",
-      "refs": 15
+      "refs": 3
     },
     {
       "symbol": "locationApi",

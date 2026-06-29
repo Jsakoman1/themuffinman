@@ -1,8 +1,8 @@
 package com.themuffinman.app.identity.service;
 
-import com.themuffinman.app.identity.dto.auth.AuthResponse;
-import com.themuffinman.app.identity.dto.auth.LoginRequest;
-import com.themuffinman.app.identity.dto.auth.RegisterRequest;
+import com.themuffinman.app.identity.dto.auth.AuthResponseDTO;
+import com.themuffinman.app.identity.dto.auth.LoginRequestDTO;
+import com.themuffinman.app.identity.dto.auth.RegisterRequestDTO;
 import com.themuffinman.app.identity.mapper.AuthMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
@@ -44,7 +44,7 @@ class AuthServiceTest {
 
     @Test
     void registerNormalizesEmailAndReturnsTokenizedResponse() {
-        RegisterRequest request = new RegisterRequest(" User@Example.com ", "new-user", "strongPassword1");
+        RegisterRequestDTO request = new RegisterRequestDTO(" User@Example.com ", "new-user", "strongPassword1");
         AppUser savedUser = new AppUser();
         savedUser.setId(3L);
         savedUser.setEmail("user@example.com");
@@ -55,7 +55,7 @@ class AuthServiceTest {
         when(appUserRepository.save(any(AppUser.class))).thenReturn(savedUser);
         when(jwtService.generateToken(savedUser)).thenReturn("jwt-token");
 
-        AuthResponse response = buildService().register(request);
+        AuthResponseDTO response = buildService().register(request);
 
         ArgumentCaptor<AppUser> captor = ArgumentCaptor.forClass(AppUser.class);
         verify(appUserRepository).save(captor.capture());
@@ -74,7 +74,7 @@ class AuthServiceTest {
 
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
-                () -> buildService().register(new RegisterRequest("user@example.com", "new-user", "strongPassword1"))
+                () -> buildService().register(new RegisterRequestDTO("user@example.com", "new-user", "strongPassword1"))
         );
 
         assertEquals(CONFLICT, exception.getStatusCode());
@@ -94,7 +94,7 @@ class AuthServiceTest {
         when(passwordEncoder.matches("strongPassword1", "encoded-password")).thenReturn(true);
         when(jwtService.generateToken(appUser)).thenReturn("jwt-token");
 
-        AuthResponse response = buildService().login(new LoginRequest(" User@Example.com ", "strongPassword1"));
+        AuthResponseDTO response = buildService().login(new LoginRequestDTO(" User@Example.com ", "strongPassword1"));
 
         verify(appUserRepository).findByEmail("user@example.com");
         assertEquals("jwt-token", response.token());
@@ -107,7 +107,7 @@ class AuthServiceTest {
 
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
-                () -> buildService().login(new LoginRequest("user@example.com", "strongPassword1"))
+                () -> buildService().login(new LoginRequestDTO("user@example.com", "strongPassword1"))
         );
 
         assertEquals(UNAUTHORIZED, exception.getStatusCode());
@@ -125,7 +125,7 @@ class AuthServiceTest {
 
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
-                () -> buildService().login(new LoginRequest("user@example.com", "wrong-password"))
+                () -> buildService().login(new LoginRequestDTO("user@example.com", "wrong-password"))
         );
 
         assertEquals(UNAUTHORIZED, exception.getStatusCode());
@@ -141,7 +141,7 @@ class AuthServiceTest {
         appUser.setRole(AppUserRole.ADMIN);
         appUser.setCreatedAt(Instant.parse("2026-01-01T12:00:00Z"));
 
-        AuthResponse response = buildService().me(appUser);
+        AuthResponseDTO response = buildService().me(appUser);
 
         assertEquals(7L, response.id());
         assertEquals("ADMIN", response.role());

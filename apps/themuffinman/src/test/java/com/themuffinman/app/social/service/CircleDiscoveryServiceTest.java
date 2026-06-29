@@ -3,7 +3,7 @@ package com.themuffinman.app.social.service;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.identity.repository.AppUserRepository;
-import com.themuffinman.app.location.service.LocationSettingsService;
+import com.themuffinman.app.location.service.LocationGeoService;
 import com.themuffinman.app.social.dto.CircleSearchResultListResponseDTO;
 import com.themuffinman.app.social.repository.CircleRequestRepository;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class CircleDiscoveryServiceTest {
     private CircleRequestRepository circleRequestRepository;
 
     @Mock
-    private LocationSettingsService locationSettingsService;
+    private LocationGeoService locationGeoService;
 
     @Spy
     private CircleViewAssembler circleViewAssembler = new CircleViewAssembler(
@@ -55,16 +55,16 @@ class CircleDiscoveryServiceTest {
         farAway.setLocationLatitude(BigDecimal.valueOf(47.2));
         farAway.setLocationLongitude(BigDecimal.valueOf(8.2));
 
-        when(locationSettingsService.isUserDiscoverableNearby(currentUser)).thenReturn(true);
-        when(locationSettingsService.isUserDiscoverableNearby(nearby)).thenReturn(true);
-        when(locationSettingsService.isUserDiscoverableNearby(farAway)).thenReturn(true);
-        when(locationSettingsService.normalizeRadius(2)).thenReturn(2);
-        when(locationSettingsService.distanceKm(currentUser.getLocationLatitude(), currentUser.getLocationLongitude(), nearby.getLocationLatitude(), nearby.getLocationLongitude()))
+        when(locationGeoService.isUserDiscoverableNearby(currentUser)).thenReturn(true);
+        when(locationGeoService.isUserDiscoverableNearby(nearby)).thenReturn(true);
+        when(locationGeoService.isUserDiscoverableNearby(farAway)).thenReturn(true);
+        when(locationGeoService.normalizeRadius(2)).thenReturn(2);
+        when(locationGeoService.distanceKm(currentUser.getLocationLatitude(), currentUser.getLocationLongitude(), nearby.getLocationLatitude(), nearby.getLocationLongitude()))
                 .thenReturn(0.6d);
-        when(locationSettingsService.distanceKm(currentUser.getLocationLatitude(), currentUser.getLocationLongitude(), farAway.getLocationLatitude(), farAway.getLocationLongitude()))
+        when(locationGeoService.distanceKm(currentUser.getLocationLatitude(), currentUser.getLocationLongitude(), farAway.getLocationLatitude(), farAway.getLocationLongitude()))
                 .thenReturn(5.4d);
-        when(locationSettingsService.resolveUserApproximateLocationLabel(nearby)).thenReturn("Villigen, Switzerland");
-        when(locationSettingsService.resolveUserApproximateLocationLabel(farAway)).thenReturn("Zurich, Switzerland");
+        when(locationGeoService.resolveUserApproximateLocationLabel(nearby)).thenReturn("Villigen, Switzerland");
+        when(locationGeoService.resolveUserApproximateLocationLabel(farAway)).thenReturn("Zurich, Switzerland");
         when(appUserRepository.findAll()).thenReturn(List.of(currentUser, nearby, farAway));
         when(circleRequestRepository.findBetweenUsers(1L, 2L)).thenReturn(Optional.empty());
         when(circleRequestRepository.findBetweenUsers(1L, 3L)).thenReturn(Optional.empty());

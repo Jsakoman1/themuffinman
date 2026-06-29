@@ -3,13 +3,13 @@ package com.themuffinman.app.social.service;
 import com.themuffinman.app.social.dto.CircleRequestCreateDTO;
 import com.themuffinman.app.social.dto.CircleBlockCreateDTO;
 import com.themuffinman.app.social.dto.AdminCircleOverviewDTO;
-import com.themuffinman.app.social.dto.BulkCircleMembershipAction;
+import com.themuffinman.app.social.dto.BulkCircleMembershipActionDTO;
 import com.themuffinman.app.social.dto.BulkCircleMembershipUpdateDTO;
 import com.themuffinman.app.social.dto.CircleOverviewDTO;
 import com.themuffinman.app.social.dto.CircleRelationDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestListResponseDTO;
-import com.themuffinman.app.social.dto.CircleRelationStatus;
+import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import com.themuffinman.app.social.dto.CircleSearchResultDTO;
 import com.themuffinman.app.social.dto.CircleSearchResultListResponseDTO;
 import com.themuffinman.app.social.dto.CircleContactDTO;
@@ -23,11 +23,12 @@ import com.themuffinman.app.social.model.CircleGroup;
 import com.themuffinman.app.social.model.CircleMembership;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.identity.service.AppUserLookupService;
+import com.themuffinman.app.location.service.LocationGeoService;
 import com.themuffinman.app.social.repository.CircleRequestRepository;
 import com.themuffinman.app.social.repository.CircleGroupRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -69,14 +70,49 @@ class CircleServiceTest {
     @Mock
     private CircleRequestMgr circleRequestMgr;
 
+    @Mock
+    private LocationGeoService locationGeoService;
+
     @Spy
     private CircleViewAssembler circleViewAssembler = new CircleViewAssembler(
             new SocialPresentationHelper(),
             new SocialRelationActionHelper()
     );
 
-    @InjectMocks
+    private CircleReadService circleReadService;
+
+    private CircleDiscoveryService circleDiscoveryService;
+
     private CircleService circleService;
+
+    @BeforeEach
+    void setUp() {
+        circleDiscoveryService = new CircleDiscoveryService(
+                appUserRepository,
+                circleRequestRepository,
+                circleViewAssembler,
+                locationGeoService
+        );
+        circleReadService = new CircleReadService(
+                circleRequestRepository,
+                appUserRepository,
+                appUserLookupService,
+                circleGroupRepository,
+                circleMembershipService,
+                circleRelationService,
+                circleRequestMgr,
+                circleViewAssembler
+        );
+        circleService = new CircleService(
+                appUserLookupService,
+                circleGroupRepository,
+                circleMembershipService,
+                circleRelationService,
+                circleDiscoveryService,
+                circleReadService,
+                circleViewAssembler
+        );
+    }
 
     @Test
     void deleteCircleRequestRejectsBlockedRelationship() {
@@ -302,7 +338,7 @@ class CircleServiceTest {
         List<CircleSearchResultDTO> result = circleService.searchCircleUsers(currentUser, "cand");
 
         assertEquals(1, result.size());
-        assertEquals(CircleRelationStatus.OUTGOING_REQUEST, result.getFirst().getRelationStatus());
+        assertEquals(CircleRelationStatusDTO.OUTGOING_REQUEST, result.getFirst().getRelationStatus());
         assertEquals("candidate", result.getFirst().getUsername());
     }
 
@@ -341,7 +377,7 @@ class CircleServiceTest {
         List<CircleSearchResultDTO> result = circleService.searchCircleUsers(currentUser, "cand");
 
         assertEquals(1, result.size());
-        assertEquals(CircleRelationStatus.BLOCKED, result.getFirst().getRelationStatus());
+        assertEquals(CircleRelationStatusDTO.BLOCKED, result.getFirst().getRelationStatus());
         assertEquals(true, result.getFirst().isBlockedByCurrentUser());
     }
 
@@ -589,7 +625,7 @@ class CircleServiceTest {
 
         assertEquals(1, result.size());
         assertEquals(2L, result.getFirst().getId());
-        assertEquals(CircleRelationStatus.NONE, result.getFirst().getRelationStatus());
+        assertEquals(CircleRelationStatusDTO.NONE, result.getFirst().getRelationStatus());
     }
 
     @Test
@@ -603,12 +639,12 @@ class CircleServiceTest {
         request.setBlockedAt(Instant.now());
         request.setBlockedBy(currentUser);
 
-        when(appUserLookupService.requireById(2L)).thenReturn(candidate);
+        when(appUserRepository.findById(2L)).thenReturn(Optional.of(candidate));
         when(circleRequestRepository.findBetweenUsers(1L, 2L)).thenReturn(Optional.of(request));
 
         CircleRelationDTO relation = circleService.getRelationWithUser(currentUser, 2L);
 
-        assertEquals(CircleRelationStatus.BLOCKED, relation.getRelationStatus());
+        assertEquals(CircleRelationStatusDTO.BLOCKED, relation.getRelationStatus());
         assertEquals(true, relation.isBlockedByCurrentUser());
     }
 
@@ -634,7 +670,7 @@ class CircleServiceTest {
 
         when(appUserLookupService.requireById(2L)).thenReturn(contact);
         when(circleRelationService.isCircleBetween(owner, contact)).thenReturn(true);
-        when(circleRequestRepository.findBetweenUsers(1L, 2L)).thenReturn(Optional.of(relation));
+        when(circleRelationService.findRelation(owner, contact)).thenReturn(Optional.of(relation));
         when(circleMembershipService.getMembershipsForContact(2L, 1L))
                 .thenReturn(List.of(savedMembership));
 
@@ -671,7 +707,7 @@ class CircleServiceTest {
         circleService.updateConnectionCirclesBulk(BulkCircleMembershipUpdateDTO.builder()
                 .circleId(10L)
                 .userIds(List.of(2L, 3L))
-                .action(BulkCircleMembershipAction.ADD)
+                .action(BulkCircleMembershipActionDTO.ADD)
                 .build(), owner);
 
         verify(circleMembershipService).syncConnectionCircles(owner, alice, List.of(10L));

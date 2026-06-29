@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:24Z",
+  "generated_at": "2026-06-29T19:54:59Z",
   "entities": [
     {
       "entity": "ActionResult",
@@ -91,6 +91,18 @@
     },
     {
       "entity": "AppUserRoleOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ApplicationAllowedAction",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AuthResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "BulkCircleMembershipAction",
       "sandbox_or_synthetic_mentioned": true
     },
     {
@@ -186,6 +198,10 @@
       "sandbox_or_synthetic_mentioned": true
     },
     {
+      "entity": "CircleRelationStatus",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
       "entity": "CircleRequestCreate",
       "sandbox_or_synthetic_mentioned": true
     },
@@ -226,6 +242,10 @@
       "sandbox_or_synthetic_mentioned": true
     },
     {
+      "entity": "DashboardNotificationDestinationType",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
       "entity": "DashboardNotificationItem",
       "sandbox_or_synthetic_mentioned": true
     },
@@ -262,7 +282,7 @@
       "sandbox_or_synthetic_mentioned": true
     },
     {
-      "entity": "DatabaseTableStatus",
+      "entity": "DatabaseTableStatusView",
       "sandbox_or_synthetic_mentioned": true
     },
     {
@@ -274,7 +294,7 @@
       "sandbox_or_synthetic_mentioned": true
     },
     {
-      "entity": "LocationDebugStatus",
+      "entity": "LocationDebugStatusView",
       "sandbox_or_synthetic_mentioned": true
     },
     {
@@ -298,6 +318,10 @@
       "sandbox_or_synthetic_mentioned": true
     },
     {
+      "entity": "LoginRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
       "entity": "NavigationTarget",
       "sandbox_or_synthetic_mentioned": true
     },
@@ -307,6 +331,10 @@
     },
     {
       "entity": "ProfilePrimaryAction",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestAllowedAction",
       "sandbox_or_synthetic_mentioned": true
     },
     {
@@ -323,6 +351,10 @@
     },
     {
       "entity": "QuestApplicationDetailSections",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestApplicationDraftRulesView",
       "sandbox_or_synthetic_mentioned": true
     },
     {
@@ -358,6 +390,10 @@
       "sandbox_or_synthetic_mentioned": true
     },
     {
+      "entity": "QuestDetailExecutionAction",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
       "entity": "QuestDetailExecutionSection",
       "sandbox_or_synthetic_mentioned": true
     },
@@ -390,11 +426,19 @@
       "sandbox_or_synthetic_mentioned": true
     },
     {
+      "entity": "QuestListPreset",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
       "entity": "QuestListResponse",
       "sandbox_or_synthetic_mentioned": true
     },
     {
       "entity": "QuestLocationVisibilityOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestNewsDestinationType",
       "sandbox_or_synthetic_mentioned": true
     },
     {
@@ -431,6 +475,14 @@
     },
     {
       "entity": "QuestStatusOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "QuestViewerRelation",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "RegisterRequest",
       "sandbox_or_synthetic_mentioned": true
     },
     {

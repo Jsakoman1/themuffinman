@@ -1,9 +1,10 @@
 package com.themuffinman.app.workmarket.mapper;
 
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.location.service.LocationSettingsService;
+import com.themuffinman.app.location.service.LocationQuestPresentationService;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestAudience;
+import com.themuffinman.app.workmarket.service.QuestPresentationAssembler;
 import com.themuffinman.app.workmarket.service.WorkmarketPresentationHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,16 +22,20 @@ import static org.mockito.Mockito.when;
 class QuestMgrTest {
 
     @Mock
-    private LocationSettingsService locationSettingsService;
+    private LocationQuestPresentationService locationQuestPresentationService;
 
     private QuestMgr questMgr;
 
     @BeforeEach
     void setUp() {
-        questMgr = new QuestMgr(new WorkmarketPresentationHelper(), locationSettingsService);
-        when(locationSettingsService.resolveQuestLocationLabel(any(Quest.class), any())).thenReturn(null);
-        when(locationSettingsService.resolveQuestLocationSourceSummary(any(Quest.class))).thenReturn("Uses creator profile location");
-        when(locationSettingsService.resolveQuestLocationVisibilitySummary(any(Quest.class), any())).thenReturn("Approximate area shown");
+        QuestPresentationAssembler questPresentationAssembler = new QuestPresentationAssembler(
+                new WorkmarketPresentationHelper(),
+                locationQuestPresentationService
+        );
+        questMgr = new QuestMgr(questPresentationAssembler);
+        when(locationQuestPresentationService.resolveQuestLocationLabel(any(Quest.class), any())).thenReturn(null);
+        when(locationQuestPresentationService.resolveQuestLocationSourceSummary(any(Quest.class))).thenReturn("Uses creator profile location");
+        when(locationQuestPresentationService.resolveQuestLocationVisibilitySummary(any(Quest.class), any())).thenReturn("Approximate area shown");
     }
 
     @Test

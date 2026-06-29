@@ -21,5 +21,5 @@ public class BulkCircleMembershipUpdateDTO {
     private List<Long> userIds;
 
     @NotNull
-    private BulkCircleMembershipAction action;
+    private BulkCircleMembershipActionDTO action;
 }

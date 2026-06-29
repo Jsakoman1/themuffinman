@@ -2,20 +2,15 @@ package com.themuffinman.app.workmarket.mapper;
 
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
-import com.themuffinman.app.common.dto.LabelValueDTO;
-import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
-import com.themuffinman.app.workmarket.dto.QuestApplicationDraftRulesDTO;
-import com.themuffinman.app.workmarket.dto.QuestPresentationDTO;
-import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
-import com.themuffinman.app.social.dto.CircleSummaryDTO;
-import com.themuffinman.app.workmarket.dto.QuestAllowedAction;
-import com.themuffinman.app.workmarket.dto.QuestViewerRelation;
+import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestStatus;
-import com.themuffinman.app.common.validation.RichTextInputValidator;
-import com.themuffinman.app.location.service.LocationSettingsService;
-import com.themuffinman.app.workmarket.service.WorkmarketPresentationHelper;
+import com.themuffinman.app.workmarket.service.QuestPresentationAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +19,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class QuestMgr {
-    private final WorkmarketPresentationHelper presentationHelper;
-    private final LocationSettingsService locationSettingsService;
+    private final QuestPresentationAssembler questPresentationAssembler;
 
     public QuestResponseDTO toDto(Quest quest) {
         if (quest == null) {
@@ -73,77 +67,26 @@ public class QuestMgr {
                 .locationStreet(quest.getLocationStreet())
                 .locationHouseNumber(quest.getLocationHouseNumber())
                 .visibleToCircles(quest.getVisibleToCircles().stream()
-                        .map(circle -> CircleSummaryDTO.builder()
+                        .map(circle -> com.themuffinman.app.social.dto.CircleSummaryDTO.builder()
                                 .id(circle.getId())
                                 .name(circle.getName())
                                 .build())
                         .toList())
                 .images(List.copyOf(quest.getImages()))
                 .status(quest.getStatus())
-                .viewerRelation(QuestViewerRelation.VIEWER)
+                .viewerRelation(QuestViewerRelationDTO.VIEWER)
                 .allowedActions(List.of())
                 .hasApplied(false)
                 .myApplicationId(null)
                 .canViewApplications(false)
-                .presentation(QuestPresentationDTO.builder()
-                        .canEdit(false)
-                        .canApply(false)
-                        .canViewApplications(false)
-                        .suggestedApplicationPrice(suggestedApplicationPrice(quest.getAwardAmount()))
-                        .applicationDraftRules(QuestApplicationDraftRulesDTO.builder()
-                                .messageRequired(true)
-                                .proposedPriceRequired(!isFreeQuest(quest.getAwardAmount()))
-                                .minimumProposedPrice(isFreeQuest(quest.getAwardAmount()) ? null : java.math.BigDecimal.valueOf(0.01))
-                                .suggestedApplicationPrice(suggestedApplicationPrice(quest.getAwardAmount()))
-                                .build())
-                        .offerSectionVisible(false)
-                        .applicationsSectionVisible(false)
-                        .myApplicationAsideVisible(false)
-                        .overviewStatusVisible(false)
-                        .statusLabel(presentationHelper.formatQuestStatus(quest.getStatus()))
-                        .statusBadgeClass(presentationHelper.badgeClassForQuestStatus(quest.getStatus()))
-                        .statusSurfaceClass(presentationHelper.surfaceClassForQuestStatus(quest.getStatus()))
-                        .timeTypeLabel(presentationHelper.formatTimeType(quest.isTermFixed()))
-                        .audienceLabel(presentationHelper.formatAudience(quest.getAudience()))
-                        .locationLabel(locationSettingsService.resolveQuestLocationLabel(quest, null))
-                        .locationSourceSummary(locationSettingsService.resolveQuestLocationSourceSummary(quest))
-                        .locationVisibilitySummary(locationSettingsService.resolveQuestLocationVisibilitySummary(quest, null))
-                        .assigneeTargetVisible(presentationHelper.showAssigneeTarget(quest.getAssigneeTarget()))
-                        .assigneeTargetLabel(presentationHelper.formatAssigneeTarget(quest.getAssigneeTarget()))
-                        .slotProgressLabel(null)
-                        .remainingSlotsLabel(null)
-                        .approvedApplicantsVisible(false)
-                        .autoOpenEditForm(false)
-                        .canManuallyAssign(false)
-                        .termChangeVisible(false)
-                        .termChangeActionable(false)
-                        .applicationSentVisible(false)
-                        .canOpenMyApplication(false)
-                        .deleteVisible(false)
-                        .reopenedBadgeVisible(false)
-                        .awaitingConfirmationBadgeVisible(false)
-                        .primaryExecutionAction(null)
-                        .executionHelperText(null)
-                        .build())
+                .presentation(questPresentationAssembler.buildDefaultPresentation(quest))
                 .build();
-    }
-
-    private boolean isFreeQuest(java.math.BigDecimal awardAmount) {
-        return awardAmount != null && awardAmount.compareTo(java.math.BigDecimal.ZERO) == 0;
-    }
-
-    private java.math.BigDecimal suggestedApplicationPrice(java.math.BigDecimal awardAmount) {
-        if (awardAmount == null || awardAmount.compareTo(java.math.BigDecimal.ZERO) <= 0) {
-            return null;
-        }
-
-        return awardAmount;
     }
 
     public QuestResponseDTO withViewerContext(
             QuestResponseDTO dto,
-            QuestViewerRelation viewerRelation,
-            List<QuestAllowedAction> allowedActions,
+            QuestViewerRelationDTO viewerRelation,
+            List<QuestAllowedActionDTO> allowedActions,
             boolean hasApplied,
             Long myApplicationId,
             boolean canViewApplications
@@ -183,5 +126,4 @@ public class QuestMgr {
 
         return quest;
     }
-
 }

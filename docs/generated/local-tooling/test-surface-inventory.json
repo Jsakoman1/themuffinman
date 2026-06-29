@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:25Z",
+  "generated_at": "2026-06-29T19:55:00Z",
   "services": [
     {
       "service": "AdminAgentPlaygroundService",
@@ -145,6 +145,18 @@
       "has_contract": false
     },
     {
+      "service": "LocationGeoService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
       "service": "LocationLookupService",
       "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
@@ -154,19 +166,32 @@
       "has_contract": false
     },
     {
+      "service": "LocationQuestPresentationService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
       "service": "LocationSettingsService",
       "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
       ],
       "has_scenario": false,
       "has_contract": true
+    },
+    {
+      "service": "LocationSettingsViewService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
     },
     {
       "service": "RideOfferService",
@@ -180,7 +205,8 @@
       "service": "CircleDiscoveryService",
       "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
       ],
       "has_scenario": false,
       "has_contract": false
@@ -192,6 +218,14 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "CircleReadService",
+      "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
       ],
       "has_scenario": false,
@@ -252,11 +286,36 @@
       "has_contract": false
     },
     {
+      "service": "QuestApplicationAdminQueryService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "QuestApplicationAdminService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "QuestApplicationReadService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
       "service": "QuestApplicationService",
       "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
@@ -306,6 +365,14 @@
       "has_contract": false
     },
     {
+      "service": "QuestReadService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
       "service": "QuestService",
       "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
@@ -313,9 +380,11 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
@@ -537,6 +606,18 @@
       "has_contract": false
     },
     {
+      "service": "LocationGeoService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
       "service": "LocationLookupService",
       "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
@@ -546,19 +627,32 @@
       "has_contract": false
     },
     {
+      "service": "LocationQuestPresentationService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
       "service": "LocationSettingsService",
       "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
       ],
       "has_scenario": false,
       "has_contract": true
+    },
+    {
+      "service": "LocationSettingsViewService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
     },
     {
       "service": "RideOfferService",
@@ -572,7 +666,8 @@
       "service": "CircleDiscoveryService",
       "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
       ],
       "has_scenario": false,
       "has_contract": false
@@ -584,6 +679,14 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "CircleReadService",
+      "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
       ],
       "has_scenario": false,
@@ -644,6 +747,30 @@
       "has_contract": false
     },
     {
+      "service": "QuestApplicationAdminQueryService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "QuestApplicationAdminService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "QuestApplicationReadService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
       "service": "QuestExecutionPrimitiveService",
       "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
@@ -678,6 +805,14 @@
       "service": "QuestQueryService",
       "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "QuestReadService",
+      "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
       ],
       "has_scenario": false,

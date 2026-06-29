@@ -13,7 +13,7 @@ import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.dto.CircleMemberDTO;
 import com.themuffinman.app.social.dto.CircleOverviewDTO;
 import com.themuffinman.app.social.dto.CircleRelationDTO;
-import com.themuffinman.app.social.dto.CircleRelationStatus;
+import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import com.themuffinman.app.social.dto.CircleRequestListResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.dto.CircleSearchResultDTO;
@@ -156,7 +156,7 @@ public class CircleViewAssembler {
     }
 
     public CircleSearchResultDTO toSearchResult(AppUser currentUser, AppUser candidate, Optional<CircleRequest> relation) {
-        CircleRelationStatus relationStatus = resolveRelationStatus(relation, currentUser.getId());
+        CircleRelationStatusDTO relationStatus = resolveRelationStatus(relation, currentUser.getId());
         boolean blockedByCurrentUser = isBlockedByCurrentUser(relation, currentUser.getId());
         SocialRelationActionHelper.SearchActions actions = socialRelationActionHelper.searchActions(relationStatus, blockedByCurrentUser);
 
@@ -190,7 +190,7 @@ public class CircleViewAssembler {
         return candidate;
     }
 
-    public CircleRelationDTO toRelationDto(CircleRelationStatus relationStatus, boolean blockedByCurrentUser) {
+    public CircleRelationDTO toRelationDto(CircleRelationStatusDTO relationStatus, boolean blockedByCurrentUser) {
         return CircleRelationDTO.builder()
                 .relationStatus(relationStatus)
                 .relationLabel(socialPresentationHelper.relationLabel(relationStatus))
@@ -277,21 +277,21 @@ public class CircleViewAssembler {
         return SearchQueryNormalizer.normalize(query).toLowerCase();
     }
 
-    public CircleRelationStatus resolveRelationStatus(Optional<CircleRequest> relation, Long currentUserId) {
+    public CircleRelationStatusDTO resolveRelationStatus(Optional<CircleRequest> relation, Long currentUserId) {
         return relation
                 .map(circleRequest -> {
                     if (circleRequest.getBlockedAt() != null) {
-                        return CircleRelationStatus.BLOCKED;
+                        return CircleRelationStatusDTO.BLOCKED;
                     }
                     if (circleRequest.getAcceptedAt() != null) {
-                        return CircleRelationStatus.CIRCLE;
+                        return CircleRelationStatusDTO.CIRCLE;
                     }
                     if (Objects.equals(circleRequest.getRequester().getId(), currentUserId)) {
-                        return CircleRelationStatus.OUTGOING_REQUEST;
+                        return CircleRelationStatusDTO.OUTGOING_REQUEST;
                     }
-                    return CircleRelationStatus.INCOMING_REQUEST;
+                    return CircleRelationStatusDTO.INCOMING_REQUEST;
                 })
-                .orElse(CircleRelationStatus.NONE);
+                .orElse(CircleRelationStatusDTO.NONE);
     }
 
     public boolean isBlockedByCurrentUser(Optional<CircleRequest> relation, Long currentUserId) {

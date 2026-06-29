@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:16Z",
+  "generated_at": "2026-06-29T19:54:50Z",
   "transitions": [
     {
       "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java",
@@ -12,7 +12,7 @@
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
       "action": "reopenQuest",
       "target": "QuestStatus.OPEN",
       "scenario_test": false,
@@ -22,28 +22,7 @@
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-      "action": "approveApplication",
-      "target": "QuestApplicationStatus.APPROVED",
-      "scenario_test": true,
-      "contract_test": false,
-      "unit_refs": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java"
-      ]
-    },
-    {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-      "action": "declineApplication",
-      "target": "QuestApplicationStatus.DECLINED",
-      "scenario_test": false,
-      "contract_test": false,
-      "unit_refs": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
-      ]
-    },
-    {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
       "action": "withdrawMyApplication",
       "target": "QuestApplicationStatus.WITHDRAWN",
       "scenario_test": false,
@@ -120,6 +99,7 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
@@ -138,7 +118,7 @@
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
       "action": "reopenQuest",
       "target": "QuestStatus.OPEN",
       "scenario_test": false,
@@ -148,28 +128,7 @@
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-      "action": "approveApplication",
-      "target": "QuestApplicationStatus.APPROVED",
-      "scenario_test": true,
-      "contract_test": false,
-      "unit_refs": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java"
-      ]
-    },
-    {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-      "action": "declineApplication",
-      "target": "QuestApplicationStatus.DECLINED",
-      "scenario_test": false,
-      "contract_test": false,
-      "unit_refs": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
-      ]
-    },
-    {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
       "action": "withdrawMyApplication",
       "target": "QuestApplicationStatus.WITHDRAWN",
       "scenario_test": false,
@@ -219,6 +178,7 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"

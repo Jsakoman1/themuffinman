@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:27Z",
+  "generated_at": "2026-06-29T19:55:02Z",
   "hits": [
     {
       "pattern": "response_status_exception",
@@ -339,6 +339,12 @@
     },
     {
       "pattern": "forbidden_message",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "line": 194,
+      "snippet": "throw ServiceErrors.forbidden(\"Admin access is required\");"
+    },
+    {
+      "pattern": "forbidden_message",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
       "line": 116,
       "snippet": "throw ServiceErrors.forbidden(\"Only the user who blocked this person can unblock them\");"
@@ -364,7 +370,7 @@
     {
       "pattern": "forbidden_message",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
-      "line": 385,
+      "line": 281,
       "snippet": "throw ServiceErrors.forbidden(\"Admin access is required\");"
     },
     {

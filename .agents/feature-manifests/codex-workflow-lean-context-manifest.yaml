@@ -1,0 +1,122 @@
+featureId: codex_workflow_lean_context
+title: Codex Workflow Lean Context
+workflowTier: tier4-agent-tooling-workflow
+manifestDecision: required
+manifestRequirement: required
+status: in_progress
+riskTier: high
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - agent-tooling
+  - local-tooling
+planFile: .agents/codex-workflow-lean-context-plan.md
+summary:
+  - Make bootstrap-generated plans more operational by replacing placeholder-heavy sections with tier, routing, validation, and closeout fields.
+  - Make the completion-manifest template explicitly mark required-versus-optional status so workflow users do not infer full closeout from a stale scaffold.
+  - Keep the existing codex-context, validation-evidence, and noise-cleaning helpers intact while making their startup output easier to scan.
+validationEvidence:
+  commands:
+    - command: bash -n scripts/bootstrap-feature-work.sh
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T00:00:00Z'
+      durationSeconds: 0.0
+      summary: Syntax OK
+    - command: ruby -c scripts/audits/clean-text-noise.rb
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T00:00:00Z'
+      durationSeconds: 0.0
+      summary: Syntax OK
+    - command: ruby -c scripts/audits/record-validation-evidence.rb
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T00:00:00Z'
+      durationSeconds: 0.0
+      summary: Syntax OK
+    - command: make audit-doc-template-coverage
+      scope: docs
+      result: passed
+      ranAt: '2026-06-29T00:00:00Z'
+      durationSeconds: 0.0
+      summary: Doc template coverage audit passed with no review needed
+    - command: make bootstrap-feature-work topic=codex-workflow-lean-context-smoke mode=normal
+      scope: smoke
+      result: passed
+      ranAt: '2026-06-29T00:00:00Z'
+      durationSeconds: 0.0
+      summary: Bootstrap created .agents/codex-workflow-lean-context-smoke-plan.md and skipped manifest by default
+    - command: make audit-todo
+      scope: docs
+      result: passed
+      ranAt: '2026-06-29T00:00:00Z'
+      durationSeconds: 0.0
+      summary: Todo audit passed with no open backlog items
+    - command: make audit-manifest-decision files=scripts/bootstrap-feature-work.sh,.agents/templates/feature-implementation-plan.template.md,.agents/templates/feature-completion-manifest.template.yaml
+      scope: manifest
+      result: passed
+      ranAt: '2026-06-29T00:00:00Z'
+      durationSeconds: 0.0
+      summary: Manifest decision required for workflow/tooling changes
+    - command: make audit-local-tooling-incremental
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T00:00:00Z'
+      durationSeconds: 0.0
+      summary: Broader local-tooling audit passed after regenerating the frontend contract; some generated-audit freshness reports still show unrelated stale artifacts in the current worktree
+generatedArtifacts:
+  refreshedPaths: []
+  notApplicableReason: No generated artifacts were refreshed for this workflow/template-only change.
+planCompletion:
+  reviewed: true
+  openTasks: 0
+  summary: Bootstrap/template changes are implemented and the broader local-tooling audit now passes; unrelated generated-audit freshness warnings still exist in the current worktree.
+closeoutDecision:
+  status: deferred
+  reason: Workflow tooling changes are implemented and the blocking frontend contract freshness issue is resolved, but the worktree still contains unrelated generated-audit freshness churn that should be handled separately.
+docDelta:
+  behaviorChanged:
+    - Bootstrap-generated plans now surface concrete tier, routing, validation, and closeout sections.
+    - Completion manifests now state required-versus-optional status more explicitly.
+  docsUpdated:
+    - .agents/templates/feature-implementation-plan.template.md
+    - .agents/templates/feature-completion-manifest.template.yaml
+    - scripts/bootstrap-feature-work.sh
+    - .agents/codex-workflow-lean-context-plan.md
+  intentionallyUnchanged:
+    - docs/codex-fast-path.md
+    - docs/feature-delivery-workflow.md
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: false
+  frontendValidationPassed: false
+  docsSynced: true
+  agentModelSynced: false
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - scripts/bootstrap-feature-work.sh
+  docPaths:
+    - .agents/templates/feature-implementation-plan.template.md
+    - .agents/templates/feature-completion-manifest.template.yaml
+    - .agents/codex-workflow-lean-context-plan.md
+  testPaths:
+    - scripts/audits/clean-text-noise.rb
+    - scripts/audits/record-validation-evidence.rb
+  generatorCommands: []
+  auditCommands:
+    - make audit-doc-template-coverage
+    - make audit-todo
+    - make audit-manifest-decision files=scripts/bootstrap-feature-work.sh,.agents/templates/feature-implementation-plan.template.md,.agents/templates/feature-completion-manifest.template.yaml
+    - make audit-local-tooling-incremental

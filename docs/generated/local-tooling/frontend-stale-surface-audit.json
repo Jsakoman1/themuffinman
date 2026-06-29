@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:10Z",
+  "generated_at": "2026-06-29T19:54:44Z",
   "file_count": 257,
   "likely_unused_count": 8,
   "route_detached_count": 1,
@@ -3305,20 +3305,20 @@
     {
       "path": "apps/themuffinman/frontend/src/modules/workmarket/shared/pricing.ts",
       "category": "other",
-      "importer_count": 22,
+      "importer_count": 18,
       "importers": [
         "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationEditFields.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationManagementCard.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationSummaryCard.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue"
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts"
       ],
       "route_surface": false,
       "route_support": false,

@@ -1,16 +1,15 @@
 package com.themuffinman.app.location.service;
 
 import com.themuffinman.app.common.errors.ServiceErrors;
-import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.location.dto.LocationLookupCandidateDTO;
-import com.themuffinman.app.location.dto.UserLocationSettingsDTO;
 import com.themuffinman.app.location.dto.UserLocationSettingsRequestDTO;
 import com.themuffinman.app.location.model.ExactLocationVisibilityScope;
 import com.themuffinman.app.location.model.QuestLocationVisibility;
 import com.themuffinman.app.location.model.QuestLocationSource;
 import com.themuffinman.app.location.model.UserLocationMode;
-import com.themuffinman.app.social.dto.CircleRelationStatus;
+import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import com.themuffinman.app.social.service.CircleMembershipService;
 import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
@@ -28,40 +27,11 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class LocationSettingsService {
-    private static final int DEFAULT_RADIUS_KM = 10;
-    private static final int MIN_RADIUS_KM = 1;
-    private static final int MAX_RADIUS_KM = 30;
     private final CircleMembershipService circleMembershipService;
     private final CircleService circleService;
     private final AppUserRepository appUserRepository;
     private final LocationLookupService locationLookupService;
     private final LocationAccessPolicyService locationAccessPolicyService;
-
-    public UserLocationSettingsDTO toDto(AppUser user) {
-        return UserLocationSettingsDTO.builder()
-                .mode(user.getLocationMode())
-                .defaultRadiusKm(normalizeRadius(user.getLocationRadiusKm()))
-                .hasCoordinates(hasCoordinates(user.getLocationLatitude(), user.getLocationLongitude()))
-                .sharingSummary(resolveUserLocationSharingSummary(user))
-                .visibilitySummary(resolveUserLocationVisibilitySummary(user))
-                .exactVisibilityScope(user.getExactLocationVisibilityScope())
-                .exactVisibleCircleIds(user.getExactLocationVisibleToCircles().stream().map(circle -> circle.getId()).toList())
-                .exactVisibleUserIds(user.getExactLocationVisibleToUsers().stream().map(AppUser::getId).toList())
-                .provider(user.getLocationProvider())
-                .providerPlaceId(user.getLocationProviderPlaceId())
-                .label(user.getLocationLabel())
-                .countryCode(user.getLocationCountryCode())
-                .country(user.getLocationCountry())
-                .locality(user.getLocationLocality())
-                .postalCode(user.getLocationPostalCode())
-                .street(user.getLocationStreet())
-                .houseNumber(user.getLocationHouseNumber())
-                .latitude(user.getLocationLatitude())
-                .longitude(user.getLocationLongitude())
-                .resolvedAt(user.getLocationResolvedAt())
-                .updatedAt(user.getLocationUpdatedAt())
-                .build();
-    }
 
     public void applyUserLocationSettings(AppUser user, UserLocationSettingsRequestDTO dto) {
         if (dto == null) {
@@ -152,123 +122,18 @@ public class LocationSettingsService {
         user.setLocationUpdatedAt(Instant.now());
     }
 
-    public Integer normalizeRadius(Integer radiusKm) {
+    private Integer normalizeRadius(Integer radiusKm) {
         if (radiusKm == null) {
-            return DEFAULT_RADIUS_KM;
+            return 10;
         }
-        if (radiusKm < MIN_RADIUS_KM || radiusKm > MAX_RADIUS_KM) {
+        if (radiusKm < 1 || radiusKm > 30) {
             throw ServiceErrors.badRequest("Search radius must be between 1 and 30 km");
         }
         return radiusKm;
     }
 
-    public boolean hasCoordinates(BigDecimal latitude, BigDecimal longitude) {
+    private boolean hasCoordinates(BigDecimal latitude, BigDecimal longitude) {
         return latitude != null && longitude != null;
-    }
-
-    public boolean isQuestSearchable(Quest quest) {
-        return quest.getLocationVisibility() != QuestLocationVisibility.OFF
-                && hasCoordinates(quest.getLocationLatitude(), quest.getLocationLongitude());
-    }
-
-    public String resolveQuestLocationLabel(Quest quest, AppUser viewer) {
-        QuestLocationVisibility visibility = resolveEffectiveQuestLocationVisibility(quest);
-        return switch (visibility) {
-            case OFF -> null;
-            case APPROXIMATE -> buildApproximateQuestLocationLabel(quest);
-            case EXACT -> locationAccessPolicyService.canViewExactLocation(quest.getCreator(), viewer)
-                    ? buildExactQuestLocationLabel(quest)
-                    : buildApproximateQuestLocationLabel(quest);
-            case INHERIT -> null;
-        };
-    }
-
-    public String resolveQuestLocationSourceSummary(Quest quest) {
-        return quest.getLocationSource() == QuestLocationSource.CUSTOM
-                ? "Custom quest location"
-                : "Uses creator profile location";
-    }
-
-    public String resolveQuestLocationVisibilitySummary(Quest quest, AppUser viewer) {
-        QuestLocationVisibility visibility = resolveEffectiveQuestLocationVisibility(quest);
-        return switch (visibility) {
-            case OFF -> "Location hidden";
-            case APPROXIMATE -> "Approximate area shown";
-            case EXACT -> locationAccessPolicyService.canViewExactLocation(quest.getCreator(), viewer)
-                    ? "Exact address shown"
-                    : "Approximate area shown";
-            case INHERIT -> "Location follows profile setting";
-        };
-    }
-
-    public String resolveUserLocationSharingSummary(AppUser user) {
-        if (user == null || user.getLocationMode() == null || user.getLocationMode() == UserLocationMode.OFF) {
-            return "Hidden";
-        }
-
-        if (user.getLocationMode() == UserLocationMode.APPROXIMATE) {
-            return "Approximate area only";
-        }
-
-        return "Exact location enabled";
-    }
-
-    public String resolveUserLocationVisibilitySummary(AppUser user) {
-        if (user == null || user.getLocationMode() == null || user.getLocationMode() == UserLocationMode.OFF) {
-            return "Hidden";
-        }
-
-        if (user.getLocationMode() == UserLocationMode.APPROXIMATE) {
-            return "Approximate area only";
-        }
-
-        ExactLocationVisibilityScope scope = user.getExactLocationVisibilityScope() == null
-                ? ExactLocationVisibilityScope.NOBODY
-                : user.getExactLocationVisibilityScope();
-
-        return switch (scope) {
-            case NOBODY -> "Private";
-            case EVERYONE -> "Visible to everyone";
-            case CIRCLES -> "Visible to circles";
-            case USERS -> "Visible to selected people";
-        };
-    }
-
-    public boolean isUserDiscoverableNearby(AppUser user) {
-        return user != null
-                && user.getLocationMode() != null
-                && user.getLocationMode() != UserLocationMode.OFF
-                && hasCoordinates(user.getLocationLatitude(), user.getLocationLongitude());
-    }
-
-    public String resolveUserApproximateLocationLabel(AppUser user) {
-        if (user == null) {
-            return null;
-        }
-
-        String locality = normalizeText(user.getLocationLocality());
-        String country = normalizeText(user.getLocationCountry());
-        if (locality != null && country != null) {
-            return locality + ", " + country;
-        }
-        if (locality != null) {
-            return locality;
-        }
-        if (country != null) {
-            return country;
-        }
-        return normalizeText(user.getLocationLabel());
-    }
-
-    public double distanceKm(BigDecimal fromLat, BigDecimal fromLng, BigDecimal toLat, BigDecimal toLng) {
-        double earthRadiusKm = 6371.0088d;
-        double latDistance = Math.toRadians(toLat.doubleValue() - fromLat.doubleValue());
-        double lngDistance = Math.toRadians(toLng.doubleValue() - fromLng.doubleValue());
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(fromLat.doubleValue())) * Math.cos(Math.toRadians(toLat.doubleValue()))
-                * Math.sin(lngDistance / 2) * Math.sin(lngDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return earthRadiusKm * c;
     }
 
     private void requireUsableLocation(AppUser user) {
@@ -299,6 +164,21 @@ public class LocationSettingsService {
         if (!hasCoordinates(quest.getLocationLatitude(), quest.getLocationLongitude())) {
             throw ServiceErrors.badRequest("Resolve the quest address before saving.");
         }
+    }
+
+    private String joinParts(String delimiter, String... parts) {
+        StringBuilder builder = new StringBuilder();
+        for (String part : parts) {
+            String normalized = normalizeText(part);
+            if (normalized == null) {
+                continue;
+            }
+            if (!builder.isEmpty()) {
+                builder.append(delimiter);
+            }
+            builder.append(normalized);
+        }
+        return builder.isEmpty() ? null : builder.toString();
     }
 
     private void autoResolveUserCoordinates(AppUser user) {
@@ -408,7 +288,7 @@ public class LocationSettingsService {
             if (candidate.getId().equals(owner.getId())) {
                 continue;
             }
-            if (circleService.getRelationWithUser(owner, candidate.getId()).getRelationStatus() != CircleRelationStatus.CIRCLE) {
+            if (circleService.getRelationWithUser(owner, candidate.getId()).getRelationStatus() != CircleRelationStatusDTO.CIRCLE) {
                 throw ServiceErrors.badRequest("Exact address can only be shared with people from your circles");
             }
         }
@@ -459,77 +339,6 @@ public class LocationSettingsService {
         quest.setLocationLatitude(null);
         quest.setLocationLongitude(null);
         quest.setLocationResolvedAt(null);
-    }
-
-    private QuestLocationVisibility resolveEffectiveQuestLocationVisibility(Quest quest) {
-        QuestLocationVisibility visibility = quest.getLocationVisibility() == null
-                ? QuestLocationVisibility.INHERIT
-                : quest.getLocationVisibility();
-
-        if (visibility != QuestLocationVisibility.INHERIT) {
-            return visibility;
-        }
-
-        UserLocationMode creatorMode = quest.getCreator() == null || quest.getCreator().getLocationMode() == null
-                ? UserLocationMode.OFF
-                : quest.getCreator().getLocationMode();
-
-        return switch (creatorMode) {
-            case OFF -> QuestLocationVisibility.OFF;
-            case APPROXIMATE -> QuestLocationVisibility.APPROXIMATE;
-            case EXACT -> QuestLocationVisibility.EXACT;
-        };
-    }
-
-    private String buildApproximateQuestLocationLabel(Quest quest) {
-        String locality = normalizeText(quest.getLocationLocality());
-        String country = normalizeText(quest.getLocationCountry());
-        if (locality != null && country != null) {
-            return locality + ", " + country;
-        }
-        if (locality != null) {
-            return locality;
-        }
-        if (country != null) {
-            return country;
-        }
-        return normalizeText(quest.getLocationLabel());
-    }
-
-    private String buildExactQuestLocationLabel(Quest quest) {
-        String street = normalizeText(quest.getLocationStreet());
-        String houseNumber = normalizeText(quest.getLocationHouseNumber());
-        String locality = normalizeText(quest.getLocationLocality());
-        String country = normalizeText(quest.getLocationCountry());
-
-        String primary = joinParts(" ", street, houseNumber);
-        String secondary = joinParts(", ", locality, country);
-
-        if (primary != null && secondary != null) {
-            return primary + ", " + secondary;
-        }
-        if (primary != null) {
-            return primary;
-        }
-        if (secondary != null) {
-            return secondary;
-        }
-        return normalizeText(quest.getLocationLabel());
-    }
-
-    private String joinParts(String delimiter, String... parts) {
-        StringBuilder builder = new StringBuilder();
-        for (String part : parts) {
-            String normalized = normalizeText(part);
-            if (normalized == null) {
-                continue;
-            }
-            if (!builder.isEmpty()) {
-                builder.append(delimiter);
-            }
-            builder.append(normalized);
-        }
-        return builder.isEmpty() ? null : builder.toString();
     }
 
     private BigDecimal normalizeCoordinate(BigDecimal value, String label) {

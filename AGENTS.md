@@ -80,6 +80,9 @@ Planned modules:
   a large TODO/backlog batch, front-load any required approval requests that can be identified safely, then continue
   through all safe implementation, documentation, generated-artifact, and validation phases without waiting for
   additional user signals.
+- When a master plan is active and the work is safe to continue, carry it through all child plans and the final closeout
+  pass before asking for new user input. Only stop early for a real blocker, conflicting user changes, destructive
+  approval needs, or unsafe ambiguity.
 - For those autonomous sessions, use a master plan plus narrower child plans whenever the work is broad, long-running,
   high-complexity, or spans unrelated implementation surfaces; stop only for required approval, destructive action,
   direct conflicts with user changes, or genuinely unsafe ambiguity.

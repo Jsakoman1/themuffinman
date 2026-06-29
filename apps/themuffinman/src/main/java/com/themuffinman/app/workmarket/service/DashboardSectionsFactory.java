@@ -1,10 +1,8 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.workmarket.dto.DashboardNavigationItemDTO;
 import com.themuffinman.app.workmarket.dto.DashboardNavigationSectionDTO;
-import com.themuffinman.app.workmarket.dto.DashboardNotificationDestinationType;
 import com.themuffinman.app.workmarket.dto.DashboardNotificationItemDTO;
 import com.themuffinman.app.workmarket.dto.DashboardNotificationsSectionDTO;
 import com.themuffinman.app.workmarket.dto.DashboardOpenWorkSectionDTO;
@@ -24,6 +22,20 @@ import java.util.List;
 
 @Service
 public class DashboardSectionsFactory {
+
+    private final DashboardSectionGrouper sectionGrouper;
+    private final DashboardPlannerAssembler dashboardPlannerAssembler;
+    private final DashboardNotificationAssembler dashboardNotificationAssembler;
+
+    public DashboardSectionsFactory(
+            DashboardSectionGrouper sectionGrouper,
+            DashboardPlannerAssembler dashboardPlannerAssembler,
+            DashboardNotificationAssembler dashboardNotificationAssembler
+    ) {
+        this.sectionGrouper = sectionGrouper;
+        this.dashboardPlannerAssembler = dashboardPlannerAssembler;
+        this.dashboardNotificationAssembler = dashboardNotificationAssembler;
+    }
 
     public DashboardSectionsDTO buildSections(
             List<QuestResponseDTO> myQuestDtos,
@@ -66,14 +78,14 @@ public class DashboardSectionsFactory {
                 .outgoingWorkApplications(outgoingWorkApplications)
                 .visibleMyQuests(visibleMyQuests)
                 .visibleMyApplications(visibleMyApplications)
-                .myQuestGroups(buildQuestGroups(myQuestDtos))
-                .myApplicationGroups(buildApplicationGroups(sortedApplications))
+                .myQuestGroups(sectionGrouper.buildQuestGroups(myQuestDtos))
+                .myApplicationGroups(sectionGrouper.buildApplicationGroups(sortedApplications))
                 .recentIncomingCircleRequests(incomingCircleRequests.stream().limit(4).toList())
                 .openWork(DashboardOpenWorkSectionDTO.builder()
                         .waitingQuests(waitingOpenWorkQuests)
                         .openQuests(openWorkQuests)
                         .build())
-                .planner(buildPlannerSection(incomingWorkQuests, outgoingWorkApplications))
+                .planner(dashboardPlannerAssembler.buildPlannerSection(incomingWorkQuests, outgoingWorkApplications))
                 .notifications(buildNotificationsSection(recentNews))
                 .build();
     }
@@ -214,31 +226,11 @@ public class DashboardSectionsFactory {
             List<QuestResponseDTO> incomingWorkQuests,
             List<QuestApplicationResponseDTO> outgoingWorkApplications
     ) {
-        List<DashboardPlannerItemDTO> scheduledItems = new java.util.ArrayList<>();
-        List<DashboardPlannerItemDTO> flexibleItems = new java.util.ArrayList<>();
-
-        for (QuestResponseDTO quest : incomingWorkQuests) {
-            addPlannerItem(scheduledItems, flexibleItems, buildQuestPlannerItem(quest, "managed"));
-        }
-
-        for (QuestApplicationResponseDTO application : outgoingWorkApplications) {
-            addPlannerItem(scheduledItems, flexibleItems, buildApplicationPlannerItem(application, "accepted"));
-        }
-
-        scheduledItems.sort(Comparator
-                .comparing((DashboardPlannerItemDTO item) -> item.getScheduledAt() == null ? Instant.MAX : item.getScheduledAt())
-                .thenComparing(DashboardPlannerItemDTO::getId));
-
-        return DashboardPlannerSectionDTO.builder()
-                .scheduledItems(scheduledItems)
-                .flexibleItems(flexibleItems)
-                .build();
+        return dashboardPlannerAssembler.buildPlannerSection(incomingWorkQuests, outgoingWorkApplications);
     }
 
     private DashboardNotificationsSectionDTO buildNotificationsSection(List<QuestNewsItemResponseDTO> recentNews) {
-        List<DashboardNotificationItemDTO> recentItems = recentNews.stream()
-                .map(this::toDashboardNotificationItem)
-                .toList();
+        List<DashboardNotificationItemDTO> recentItems = dashboardNotificationAssembler.toRecentItems(recentNews);
         List<DashboardNotificationItemDTO> unreadItems = recentItems.stream()
                 .filter(DashboardNotificationItemDTO::isUnread)
                 .toList();
@@ -248,132 +240,4 @@ public class DashboardSectionsFactory {
                 .recentItems(recentItems)
                 .build();
     }
-
-    private DashboardPlannerItemDTO buildPlannerItem(
-            String id,
-            Long questId,
-            String title,
-            NavigationTargetDTO navigation,
-            Instant scheduledAt,
-            Instant endsAt,
-            String kind
-    ) {
-        if (scheduledAt == null) {
-            return DashboardPlannerItemDTO.builder()
-                    .id(id)
-                    .questId(questId)
-                    .title(title)
-                    .navigation(navigation)
-                    .scheduledAt(null)
-                    .endsAt(null)
-                    .kind(kind)
-                    .kindLabel(resolvePlannerKindLabel(kind))
-                    .tone(resolvePlannerTone(kind))
-                    .hasRange(false)
-                    .build();
-        }
-
-        return DashboardPlannerItemDTO.builder()
-                .id(id)
-                .questId(questId)
-                .title(title)
-                .navigation(navigation)
-                .scheduledAt(scheduledAt)
-                .endsAt(endsAt)
-                .kind(kind)
-                .kindLabel(resolvePlannerKindLabel(kind))
-                .tone(resolvePlannerTone(kind))
-                .hasRange(endsAt != null)
-                .build();
-    }
-
-    private void addPlannerItem(
-            List<DashboardPlannerItemDTO> scheduledItems,
-            List<DashboardPlannerItemDTO> flexibleItems,
-            DashboardPlannerItemDTO item
-    ) {
-        if (item.getScheduledAt() == null) {
-            flexibleItems.add(item);
-            return;
-        }
-
-        scheduledItems.add(item);
-    }
-
-    private DashboardPlannerItemDTO buildQuestPlannerItem(QuestResponseDTO quest, String kind) {
-        return buildPlannerItem(
-                "quest-" + quest.getId(),
-                quest.getId(),
-                quest.getTitle(),
-                quest.getQuestNavigation(),
-                quest.getScheduledAt(),
-                quest.getEndsAt(),
-                kind
-        );
-    }
-
-    private DashboardPlannerItemDTO buildApplicationPlannerItem(QuestApplicationResponseDTO application, String kind) {
-        return buildPlannerItem(
-                "application-" + application.getId(),
-                application.getQuestId(),
-                application.getQuestTitle(),
-                application.getQuestNavigation(),
-                application.getQuestScheduledAt(),
-                application.getQuestEndsAt(),
-                kind
-        );
-    }
-
-    private String resolvePlannerKindLabel(String kind) {
-        return switch (kind) {
-            case "managed" -> "My job";
-            case "accepted" -> "My application";
-            default -> "Planned";
-        };
-    }
-
-    private String resolvePlannerTone(String kind) {
-        return switch (kind) {
-            case "accepted" -> "incoming";
-            case "managed" -> "outgoing";
-            default -> "outgoing";
-        };
-    }
-
-    private DashboardNotificationItemDTO toDashboardNotificationItem(QuestNewsItemResponseDTO item) {
-        DashboardNotificationDestinationType destinationType = DashboardNotificationDestinationType.QUEST_LIST;
-        Long destinationId = null;
-
-        if (item.getApplicationId() != null) {
-            destinationType = DashboardNotificationDestinationType.APPLICATION;
-            destinationId = item.getApplicationId();
-        } else if (item.getQuestId() != null) {
-            destinationType = DashboardNotificationDestinationType.QUEST;
-            destinationId = item.getQuestId();
-        }
-
-        return DashboardNotificationItemDTO.builder()
-                .id(item.getId())
-                .type(item.getType())
-                .typeLabel(item.getTypeLabel())
-                .badgeClass(item.getBadgeClass())
-                .iconGlyph(item.getIconGlyph())
-                .title(item.getTitle())
-                .message(item.getMessage())
-                .actorUsername(item.getActorUsername())
-                .questTitle(item.getQuestTitle())
-                .questId(item.getQuestId())
-                .applicationId(item.getApplicationId())
-                .circleRequestId(item.getCircleRequestId())
-                .createdAt(item.getCreatedAt())
-                .readAt(item.getReadAt())
-                .destinationType(destinationType)
-                .destinationId(destinationId)
-                .navigation(item.getNavigation())
-                .unread(item.getReadAt() == null)
-                .canAcceptCircleRequest(item.isCanAcceptCircleRequest())
-                .canDeclineCircleRequest(item.isCanDeclineCircleRequest())
-                .build();
-    }
-
 }

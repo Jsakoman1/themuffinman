@@ -1,8 +1,8 @@
 package com.themuffinman.app.identity.controller;
 
-import com.themuffinman.app.identity.dto.auth.AuthResponse;
-import com.themuffinman.app.identity.dto.auth.LoginRequest;
-import com.themuffinman.app.identity.dto.auth.RegisterRequest;
+import com.themuffinman.app.identity.dto.auth.AuthResponseDTO;
+import com.themuffinman.app.identity.dto.auth.LoginRequestDTO;
+import com.themuffinman.app.identity.dto.auth.RegisterRequestDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.service.AuthService;
 import jakarta.validation.Valid;
@@ -18,17 +18,17 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public AuthResponse register(@Valid @RequestBody RegisterRequest registerRequest) {
+    public AuthResponseDTO register(@Valid @RequestBody RegisterRequestDTO registerRequest) {
         return authService.register(registerRequest);
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@Valid @RequestBody LoginRequest loginRequest) {
+    public AuthResponseDTO login(@Valid @RequestBody LoginRequestDTO loginRequest) {
         return authService.login(loginRequest);
     }
 
     @GetMapping("/me")
-    public AuthResponse me(Authentication authentication) {
+    public AuthResponseDTO me(Authentication authentication) {
         AppUser appUser = (AppUser) authentication.getPrincipal();
         return authService.me(appUser);
     }

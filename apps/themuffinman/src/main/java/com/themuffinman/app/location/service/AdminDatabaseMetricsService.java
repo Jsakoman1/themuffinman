@@ -1,6 +1,6 @@
 package com.themuffinman.app.location.service;
 
-import com.themuffinman.app.location.dto.DatabaseTableStatusDTO;
+import com.themuffinman.app.location.dto.DatabaseTableStatusViewDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class AdminDatabaseMetricsService {
         return size == null ? 0L : size;
     }
 
-    public List<DatabaseTableStatusDTO> getTableStatuses() {
+    public List<DatabaseTableStatusViewDTO> getTableStatuses() {
         List<String> tableNames = jdbcTemplate.queryForList("""
                 select table_name
                 from information_schema.tables
@@ -35,9 +35,9 @@ public class AdminDatabaseMetricsService {
                 .toList();
     }
 
-    private DatabaseTableStatusDTO toTableStatus(String tableName) {
+    private DatabaseTableStatusViewDTO toTableStatus(String tableName) {
         long rowCount = countRows(tableName);
-        return DatabaseTableStatusDTO.builder()
+        return DatabaseTableStatusViewDTO.builder()
                 .tableName(tableName)
                 .rowCount(rowCount)
                 .build();

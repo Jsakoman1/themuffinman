@@ -1,6 +1,6 @@
 # Automation Readiness Gap Audit
 
-- Generated At: `2026-06-29T12:47:18Z`
+- Generated At: `2026-06-29T19:54:52Z`
 ## `features`
 
 - `{:feature: "AdminAgent", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: true}`

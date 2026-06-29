@@ -1,8 +1,8 @@
 # Domain Pack workmarket
 
-- Generated At: `2026-06-29T12:47:32Z`
+- Generated At: `2026-06-29T19:55:12Z`
 - Domain: `workmarket`
-- File Count: `238`
+- File Count: `248`
 ## `categories`
 
 - `backend_controller`
@@ -23,9 +23,9 @@
 - `{:path: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java", :category: "backend_service", :domain: "workmarket", :lines: 29}`
 - `{:path: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java", :category: "backend_service", :domain: "workmarket", :lines: 34}`
 - `{:path: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java", :category: "backend_service", :domain: "workmarket", :lines: 34}`
-- `{:path: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java", :category: "backend_service", :domain: "workmarket", :lines: 379}`
-- `{:path: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java", :category: "backend_service", :domain: "workmarket", :lines: 229}`
-- `{:path: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeclineApplicationUseCase.java", :category: "backend_service", :domain: "workmarket", :lines: 31}`
+- `{:path: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardNotificationAssembler.java", :category: "backend_service", :domain: "workmarket", :lines: 54}`
+- `{:path: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardPlannerAssembler.java", :category: "backend_service", :domain: "workmarket", :lines: 132}`
+- `{:path: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionGrouper.java", :category: "backend_service", :domain: "workmarket", :lines: 105}`
 
 ## `key_controllers`
 
@@ -55,9 +55,9 @@
 
 ## `dto_groups`
 
-- `{:group: "enum-like", :count: 10, :files: ["apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AppUserRoleOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationType.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationStatusFilterOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceFilterOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationType.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSortOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusFilterOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkmarketOptionsDTO.java"]}`
-- `{:group: "other", :count: 18, :files: ["apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminApplicationsQueryDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedAction.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardApplicationGroupDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationsSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardOpenWorkSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerItemDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerSectionDTO.java"]}`
-- `{:group: "read-models", :count: 14, :files: ["apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailContextSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailNavigationSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailSectionsDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionAction.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailManagementSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailNavigationSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewTargetDTO.java"]}`
+- `{:group: "enum-like", :count: 10, :files: ["apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AppUserRoleOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationTypeDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationStatusFilterOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceFilterOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationTypeDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSortOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusFilterOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusOptionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkmarketOptionsDTO.java"]}`
+- `{:group: "other", :count: 19, :files: ["apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminApplicationsQueryDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedActionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardApplicationGroupDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationsSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardOpenWorkSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerItemDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerSectionDTO.java"]}`
+- `{:group: "read-models", :count: 14, :files: ["apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailContextSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailNavigationSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailSectionsDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionActionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailManagementSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailNavigationSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewSectionDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewTargetDTO.java"]}`
 - `{:group: "request-response", :count: 14, :files: ["apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardResponseDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailResponseDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationListResponseDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationRequestDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailResponseDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListResponseDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java", "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestRequestDTO.java"]}`
 
 ## `frontend_surfaces`
@@ -99,16 +99,16 @@
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java`
 
 ## `scenario_catalog`
 
@@ -118,14 +118,8 @@
 
 ## `first_commands`
 
-- `./mvnw test`
 - `make audit-read-surface-inventory`
 - `make audit-repository-fetch`
-- `npm --prefix apps/themuffinman/frontend run type-check`
-- `npm --prefix apps/themuffinman/frontend run build`
-- `cd apps/themuffinman && ./mvnw test -Dtest=ServiceTransactionConfigurationTest,AdminUserDetailServiceTest,AppUserServiceTest,UserProfileViewServiceTest,RequestDtoValidationTest,QuestApplicationNewsEventHandlerTest`
-- `cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest`
-- `cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest`
 
 ## `residual_risk`
 

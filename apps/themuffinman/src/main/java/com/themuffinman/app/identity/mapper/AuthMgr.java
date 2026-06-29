@@ -1,7 +1,7 @@
 package com.themuffinman.app.identity.mapper;
 
 import com.themuffinman.app.common.validation.RichTextInputValidator;
-import com.themuffinman.app.identity.dto.auth.AuthResponse;
+import com.themuffinman.app.identity.dto.auth.AuthResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import org.springframework.stereotype.Component;
@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthMgr {
 
-    public AuthResponse toResponse(AppUser appUser, String token) {
+    public AuthResponseDTO toResponse(AppUser appUser, String token) {
         if (appUser == null) {
             return null;
         }
 
-        return new AuthResponse(
+        return new AuthResponseDTO(
                 appUser.getId(),
                 appUser.getEmail(),
                 appUser.getUsername(),

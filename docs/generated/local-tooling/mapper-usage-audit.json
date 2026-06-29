@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:09Z",
+  "generated_at": "2026-06-29T19:54:42Z",
   "mapper_count": 10,
   "mapper_usages": [
     {
@@ -279,8 +279,7 @@
       "risk_flags": [
         "navigation_logic",
         "relation_dereference",
-        "rich_text_sanitization",
-        "service_backed"
+        "rich_text_sanitization"
       ],
       "usage_count": 3,
       "callers": [

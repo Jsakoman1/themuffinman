@@ -1,23 +1,19 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.workmarket.dto.QuestAllowedAction;
+import com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
-import com.themuffinman.app.workmarket.dto.QuestApplicationDraftRulesDTO;
-import com.themuffinman.app.workmarket.dto.QuestDetailExecutionAction;
 import com.themuffinman.app.workmarket.dto.QuestDetailExecutionSectionDTO;
 import com.themuffinman.app.workmarket.dto.QuestDetailManagementSectionDTO;
 import com.themuffinman.app.workmarket.dto.QuestDetailReviewSectionDTO;
 import com.themuffinman.app.workmarket.dto.QuestDetailReviewTargetDTO;
 import com.themuffinman.app.workmarket.dto.QuestDetailTermChangeSectionDTO;
-import com.themuffinman.app.workmarket.dto.QuestPresentationDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailExecutionActionDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
-import com.themuffinman.app.workmarket.dto.QuestViewerRelation;
-import com.themuffinman.app.workmarket.mapper.QuestApplicationMgr;
+import com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO;
 import com.themuffinman.app.workmarket.mapper.QuestMgr;
 import com.themuffinman.app.workmarket.mapper.UserReviewMgr;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.location.service.LocationSettingsService;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
@@ -29,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,20 +35,19 @@ import java.util.Map;
 public class QuestViewAssembler {
 
     private final QuestMgr questMgr;
-    private final QuestApplicationMgr questApplicationMgr;
     private final QuestAccessPolicyService questAccessPolicyService;
     private final UserReviewRepository userReviewRepository;
     private final UserReviewMgr userReviewMgr;
     private final WorkmarketPresentationHelper presentationHelper;
-    private final LocationSettingsService locationSettingsService;
     private final QuestApplicationRepository questApplicationRepository;
+    private final QuestPresentationAssembler questPresentationAssembler;
 
     public QuestResponseDTO toResponse(Quest quest, AppUser currentUser, Map<Long, QuestApplication> applicationsByQuestId) {
         QuestResponseDTO dto = questMgr.toDto(quest);
         QuestApplication viewerApplication = currentUser == null ? null : applicationsByQuestId.get(quest.getId());
         var viewerRelation = questAccessPolicyService.resolveViewerRelation(quest, currentUser, viewerApplication);
         var allowedActions = questAccessPolicyService.resolveAllowedActions(quest, currentUser, viewerApplication);
-        boolean canViewApplications = allowedActions.contains(QuestAllowedAction.VIEW_APPLICATIONS);
+        boolean canViewApplications = allowedActions.contains(QuestAllowedActionDTO.VIEW_APPLICATIONS);
         int workerTarget = Math.max(dto.getAssigneeTarget() == null ? 1 : dto.getAssigneeTarget(), 1);
         int approvedApplicationCount = Math.toIntExact(questApplicationRepository.countByQuestIdAndStatus(quest.getId(), QuestApplicationStatus.APPROVED));
         int remainingAssigneeSlots = Math.max(workerTarget - approvedApplicationCount, 0);
@@ -68,7 +62,7 @@ public class QuestViewAssembler {
         );
         response.setApprovedApplicationCount(approvedApplicationCount);
         response.setRemainingAssigneeSlots(remainingAssigneeSlots);
-        response.setPresentation(buildQuestPresentation(quest, response, currentUser));
+        response.setPresentation(questPresentationAssembler.buildPresentation(quest, response, currentUser));
         return response;
     }
 
@@ -125,28 +119,28 @@ public class QuestViewAssembler {
     }
 
     public QuestDetailExecutionSectionDTO buildQuestDetailExecutionSection(QuestResponseDTO questResponse) {
-        boolean canStart = questResponse.getAllowedActions().contains(QuestAllowedAction.START);
-        boolean canComplete = questResponse.getAllowedActions().contains(QuestAllowedAction.COMPLETE);
-        String helperText = questResponse.getViewerRelation() == QuestViewerRelation.APPROVED_APPLICANT
+        boolean canStart = questResponse.getAllowedActions().contains(QuestAllowedActionDTO.START);
+        boolean canComplete = questResponse.getAllowedActions().contains(QuestAllowedActionDTO.COMPLETE);
+        String helperText = questResponse.getViewerRelation() == QuestViewerRelationDTO.APPROVED_APPLICANT
                 ? "You are the approved applicant for this quest."
                 : null;
 
         return QuestDetailExecutionSectionDTO.builder()
                 .visible(canStart || canComplete || helperText != null)
                 .primaryAction(canStart
-                        ? QuestDetailExecutionAction.START
-                        : (canComplete ? QuestDetailExecutionAction.COMPLETE : null))
+                        ? QuestDetailExecutionActionDTO.START
+                        : (canComplete ? QuestDetailExecutionActionDTO.COMPLETE : null))
                 .primaryActionLabel(canStart ? "Start work" : (canComplete ? "Mark complete" : null))
                 .helperText(helperText)
                 .build();
     }
 
-    public QuestDetailTermChangeSectionDTO buildQuestDetailTermChangeSection(Quest quest, List<QuestAllowedAction> allowedActions) {
+    public QuestDetailTermChangeSectionDTO buildQuestDetailTermChangeSection(Quest quest, List<QuestAllowedActionDTO> allowedActions) {
         return QuestDetailTermChangeSectionDTO.builder()
                 .visible(quest.getStatus() == QuestStatus.WAITING_CONFIRMATION)
                 .actionable(
-                        allowedActions.contains(QuestAllowedAction.CONFIRM_TERM_CHANGE)
-                                || allowedActions.contains(QuestAllowedAction.REJECT_TERM_CHANGE)
+                        allowedActions.contains(QuestAllowedActionDTO.CONFIRM_TERM_CHANGE)
+                                || allowedActions.contains(QuestAllowedActionDTO.REJECT_TERM_CHANGE)
                 )
                 .summaryLabel("Term change waiting")
                 .confirmLabel("Confirm term change")
@@ -161,7 +155,7 @@ public class QuestViewAssembler {
     }
 
     public QuestDetailManagementSectionDTO buildQuestDetailManagementSection(QuestResponseDTO questResponse) {
-        boolean canManageQuest = questResponse.getViewerRelation() == QuestViewerRelation.OWNER;
+        boolean canManageQuest = questResponse.getViewerRelation() == QuestViewerRelationDTO.OWNER;
         String visibleToCirclesLabel = null;
         if (canManageQuest && questResponse.getAudience() == QuestAudience.CIRCLES) {
             List<String> circleNames = questResponse.getVisibleToCircles() == null
@@ -174,8 +168,8 @@ public class QuestViewAssembler {
         }
 
         return QuestDetailManagementSectionDTO.builder()
-                .editVisible(questResponse.getAllowedActions().contains(QuestAllowedAction.EDIT))
-                .deleteVisible(questResponse.getAllowedActions().contains(QuestAllowedAction.DELETE))
+                .editVisible(questResponse.getAllowedActions().contains(QuestAllowedActionDTO.EDIT))
+                .deleteVisible(questResponse.getAllowedActions().contains(QuestAllowedActionDTO.DELETE))
                 .postingSettingsVisible(canManageQuest)
                 .audienceLabel(canManageQuest ? presentationHelper.formatAudience(questResponse.getAudience()) : null)
                 .visibleToCirclesLabel(visibleToCirclesLabel)
@@ -217,99 +211,6 @@ public class QuestViewAssembler {
         }
 
         return null;
-    }
-
-    private QuestPresentationDTO buildQuestPresentation(Quest quest, QuestResponseDTO questResponse, AppUser currentUser) {
-        boolean canStart = questResponse.getAllowedActions().contains(QuestAllowedAction.START);
-        boolean canComplete = questResponse.getAllowedActions().contains(QuestAllowedAction.COMPLETE);
-        boolean canRespondToTermChange = questResponse.getAllowedActions().contains(QuestAllowedAction.CONFIRM_TERM_CHANGE)
-                || questResponse.getAllowedActions().contains(QuestAllowedAction.REJECT_TERM_CHANGE);
-        boolean canManageQuest = questResponse.getViewerRelation() == QuestViewerRelation.OWNER;
-        boolean canViewApplications = questResponse.getAllowedActions().contains(QuestAllowedAction.VIEW_APPLICATIONS);
-        boolean showOfferSection = questResponse.getViewerRelation() != QuestViewerRelation.OWNER
-                && (questResponse.getAllowedActions().contains(QuestAllowedAction.APPLY)
-                || (questResponse.getStatus() == QuestStatus.OPEN && questResponse.isHasApplied())
-                || questResponse.getMyApplicationId() != null);
-        String visibleToCirclesLabel = null;
-        if (canManageQuest && questResponse.getAudience() == QuestAudience.CIRCLES) {
-            List<String> circleNames = questResponse.getVisibleToCircles() == null
-                    ? List.of()
-                    : questResponse.getVisibleToCircles().stream()
-                    .map(circle -> circle.getName())
-                    .filter(name -> name != null && !name.isBlank())
-                    .toList();
-            visibleToCirclesLabel = circleNames.isEmpty() ? "Selected circles" : String.join(", ", circleNames);
-        }
-
-        return QuestPresentationDTO.builder()
-                .statusLabel(presentationHelper.formatQuestStatus(questResponse.getStatus()))
-                .statusBadgeClass(presentationHelper.badgeClassForQuestStatus(questResponse.getStatus()))
-                .statusSurfaceClass(presentationHelper.surfaceClassForQuestStatus(questResponse.getStatus()))
-                .timeTypeLabel(presentationHelper.formatTimeType(questResponse.isTermFixed()))
-                .audienceLabel(presentationHelper.formatAudience(questResponse.getAudience()))
-                .locationLabel(locationSettingsService.resolveQuestLocationLabel(quest, currentUser))
-                .locationSourceSummary(locationSettingsService.resolveQuestLocationSourceSummary(quest))
-                .locationVisibilitySummary(locationSettingsService.resolveQuestLocationVisibilitySummary(quest, currentUser))
-                .assigneeTargetVisible(presentationHelper.showAssigneeTarget(questResponse.getAssigneeTarget()))
-                .assigneeTargetLabel(presentationHelper.formatAssigneeTarget(questResponse.getAssigneeTarget()))
-                .slotProgressLabel(questResponse.getApprovedApplicationCount() + " / " + Math.max(questResponse.getAssigneeTarget() == null ? 1 : questResponse.getAssigneeTarget(), 1) + " filled")
-                .remainingSlotsLabel(questResponse.getRemainingAssigneeSlots() > 0 ? questResponse.getRemainingAssigneeSlots() + " open spots" : "All spots filled")
-                .approvedApplicantsVisible(questResponse.isShowApprovedApplicants() && questResponse.getApprovedApplicationCount() > 0)
-                .canEdit(questResponse.getAllowedActions().contains(QuestAllowedAction.EDIT))
-                .canApply(questResponse.getAllowedActions().contains(QuestAllowedAction.APPLY))
-                .canViewApplications(questResponse.getAllowedActions().contains(QuestAllowedAction.VIEW_APPLICATIONS))
-                .canManuallyAssign(
-                        questResponse.getViewerRelation() == QuestViewerRelation.OWNER
-                                && questResponse.getStatus() == QuestStatus.OPEN
-                                && questResponse.getApprovedApplicationCount() > 0
-                )
-                .suggestedApplicationPrice(suggestedApplicationPrice(questResponse.getAwardAmount()))
-                .applicationDraftRules(QuestApplicationDraftRulesDTO.builder()
-                        .messageRequired(true)
-                        .proposedPriceRequired(!isFreeQuest(questResponse.getAwardAmount()))
-                        .minimumProposedPrice(isFreeQuest(questResponse.getAwardAmount()) ? null : BigDecimal.valueOf(0.01))
-                        .suggestedApplicationPrice(suggestedApplicationPrice(questResponse.getAwardAmount()))
-                        .build())
-                .offerSectionVisible(showOfferSection)
-                .applicationsSectionVisible(canManageQuest && canViewApplications)
-                .myApplicationAsideVisible(canManageQuest && !showOfferSection)
-                .overviewStatusVisible(canManageQuest)
-                .primaryExecutionActionLabel(canStart ? "Start work" : (canComplete ? "Mark complete" : null))
-                .termChangeSummaryLabel(questResponse.getStatus() == QuestStatus.WAITING_CONFIRMATION ? "Term change waiting" : null)
-                .termChangeConfirmLabel(canRespondToTermChange ? "Confirm term change" : null)
-                .termChangeRejectLabel(canRespondToTermChange ? "Reject term change" : null)
-                .postingSettingsVisible(canManageQuest)
-                .visibleToCirclesLabel(visibleToCirclesLabel)
-                .autoOpenEditForm(
-                        questResponse.getAllowedActions().contains(QuestAllowedAction.EDIT)
-                                && questResponse.getStatus() == QuestStatus.OPEN
-                )
-                .termChangeVisible(questResponse.getStatus() == QuestStatus.WAITING_CONFIRMATION)
-                .termChangeActionable(canRespondToTermChange)
-                .applicationSentVisible(questResponse.getStatus() == QuestStatus.OPEN && questResponse.isHasApplied())
-                .canOpenMyApplication(questResponse.getMyApplicationId() != null)
-                .deleteVisible(questResponse.getAllowedActions().contains(QuestAllowedAction.DELETE))
-                .reopenedBadgeVisible(questResponse.getReopenedAt() != null && questResponse.getStatus() == QuestStatus.OPEN)
-                .awaitingConfirmationBadgeVisible(questResponse.getStatus() == QuestStatus.WAITING_CONFIRMATION)
-                .primaryExecutionAction(canStart
-                        ? QuestDetailExecutionAction.START
-                        : (canComplete ? QuestDetailExecutionAction.COMPLETE : null))
-                .executionHelperText(questResponse.getViewerRelation() == QuestViewerRelation.APPROVED_APPLICANT
-                        ? "You are the approved applicant for this quest."
-                        : null)
-                .build();
-    }
-
-    private BigDecimal suggestedApplicationPrice(BigDecimal awardAmount) {
-        if (awardAmount == null || awardAmount.compareTo(BigDecimal.ZERO) <= 0) {
-            return null;
-        }
-
-        return awardAmount;
-    }
-
-    private boolean isFreeQuest(BigDecimal awardAmount) {
-        return awardAmount != null && awardAmount.compareTo(BigDecimal.ZERO) == 0;
     }
 
 }

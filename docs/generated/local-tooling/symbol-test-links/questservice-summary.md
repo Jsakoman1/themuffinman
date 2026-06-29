@@ -1,10 +1,10 @@
 # Symbol Test Links QuestService
 
-- Generated At: `2026-06-29T12:47:29Z`
+- Generated At: `2026-06-29T19:55:07Z`
 - Symbol: `QuestService`
 ## `symbol_files`
 
-- `{:path: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java", :category: "backend_service", :domain: "workmarket", :lines: 380}`
+- `{:path: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java", :category: "backend_service", :domain: "workmarket", :lines: 160}`
 
 ## `direct_tests`
 
@@ -19,9 +19,11 @@
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java`
@@ -36,10 +38,6 @@
 
 ## `recommended_commands`
 
-- `cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest,QuestServiceTest,QuestWorkflowScenarioTest,RequestDtoValidationTest,QuestApplicationNewsEventHandlerTest,QuestMgrTest,QuestNewsMgrTest,QuestAccessPolicyServiceTest`
-- `cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest`
-- `cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest`
-- `cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest`
 
 ## `residual_risk`
 

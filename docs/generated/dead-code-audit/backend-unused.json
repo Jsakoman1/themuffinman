@@ -1,10 +1,16 @@
 {
-  "generated_at": "2026-06-29T12:47:16Z",
-  "java_files_scanned": 305,
+  "generated_at": "2026-06-29T19:54:50Z",
+  "java_files_scanned": 319,
   "high_confidence": [
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java",
       "class_name": "ChatRetentionService",
+      "refs": 1,
+      "confidence": "high_confidence"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java",
+      "class_name": "LabelValueDTO",
       "refs": 1,
       "confidence": "high_confidence"
     },
@@ -28,12 +34,6 @@
     }
   ],
   "review_needed": [
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java",
-      "class_name": "LabelValueDTO",
-      "refs": 2,
-      "confidence": "review_needed"
-    },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/SpringDomainEventPublisher.java",
       "class_name": "SpringDomainEventPublisher",

@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-29T17:42:07Z",
+  "generated_at": "2026-06-29T19:54:43Z",
   "policy": "docs/generated/artifact-policy.yaml",
   "source_changes": [
     {
       "status": "M",
-      "path": ".agents/feature-manifests/codex-context-optimization-manifest.yaml"
+      "path": ".agents/backend-model-standardization-master-plan.md"
     },
     {
       "status": "M",
@@ -20,39 +20,147 @@
     },
     {
       "status": "M",
-      "path": "Makefile"
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponse.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequest.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequest.java"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue"
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts"
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts"
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts"
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/questDetailStateHelpers.ts"
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusDTO.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusDTO.java"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts"
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts"
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipAction.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipUpdateDTO.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationDTO.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatus.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSearchResultDTO.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialPresentationHelper.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedAction.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationType.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedAction.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesDTO.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionAction.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPreset.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationType.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java"
     },
     {
       "status": "M",
@@ -60,7 +168,51 @@
     },
     {
       "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelation.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestApplicationMgr.java"
+    },
+    {
+      "status": "M",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgr.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestQueryService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java"
     },
     {
       "status": "M",
@@ -68,119 +220,211 @@
     },
     {
       "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+    },
+    {
+      "status": "M",
       "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java"
     },
     {
       "status": "M",
-      "path": "docs/agent-operating-model.md"
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java"
     },
     {
       "status": "M",
-      "path": "docs/agent-operating-model/sections/documentation_coverage.yaml"
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
     },
     {
       "status": "M",
-      "path": "docs/agent-operating-model/sections/documentation_ownership.yaml"
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
     },
     {
       "status": "M",
-      "path": "docs/agent-operating-model/sections/documentation_sync.yaml"
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
     },
     {
       "status": "M",
-      "path": "docs/agent-operating-model/sections/policies.yaml"
-    },
-    {
-      "status": "M",
-      "path": "docs/agent-operating-model/sections/source_of_truth.yaml"
-    },
-    {
-      "status": "M",
-      "path": "docs/change-completion-checklist.md"
-    },
-    {
-      "status": "M",
-      "path": "docs/documentation-sync-policy.md"
-    },
-    {
-      "status": "M",
-      "path": "docs/feature-completion-manifest.schema.json"
-    },
-    {
-      "status": "M",
-      "path": "docs/feature-delivery-workflow.md"
-    },
-    {
-      "status": "M",
-      "path": "docs/tooling/codex-local-audits.yml"
-    },
-    {
-      "status": "M",
-      "path": "scripts/audits/audit-generated-artifact-freshness.rb"
-    },
-    {
-      "status": "M",
-      "path": "scripts/audits/audit-generated-commit-scope.rb"
-    },
-    {
-      "status": "M",
-      "path": "scripts/audits/audit-manifest-decision.rb"
-    },
-    {
-      "status": "M",
-      "path": "scripts/audits/local_tooling_batch_audits.rb"
-    },
-    {
-      "status": "M",
-      "path": "scripts/audits/local_tooling_extended_tools.rb"
-    },
-    {
-      "status": "M",
-      "path": "scripts/audits/record-validation-evidence.rb"
-    },
-    {
-      "status": "M",
-      "path": "scripts/audits/score-changeset-risk.rb"
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
     },
     {
       "status": "M",
       "path": "scripts/bootstrap-feature-work.sh"
     },
     {
-      "status": "M",
-      "path": "scripts/local_tooling_common.rb"
+      "status": "??",
+      "path": ".agents/backend-service-boundary-cleanup-plan.md"
     },
     {
       "status": "??",
-      "path": ".agents/codex-lean-context-master-plan.md"
+      "path": ".agents/backend-social-location-dto-standardization-plan.md"
     },
     {
       "status": "??",
-      "path": ".agents/codex-tiered-workflow-plan.md"
+      "path": ".agents/backend-workmarket-read-model-standardization-plan.md"
     },
     {
       "status": "??",
-      "path": ".agents/feature-manifests/codex-lean-context-manifest.yaml"
+      "path": ".agents/codex-workflow-lean-context-plan.md"
     },
     {
       "status": "??",
-      "path": ".agents/feature-manifests/codex-tiered-workflow-manifest.yaml"
+      "path": ".agents/codex-workflow-lean-context-smoke-plan.md"
     },
     {
       "status": "??",
-      "path": ".agents/validation-evidence/codex_tiered_workflow.yaml"
+      "path": ".agents/feature-manifests/codex-workflow-lean-context-manifest.yaml"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesDTO.java"
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java"
     },
     {
       "status": "??",
-      "path": "docs/codex-fast-path.md"
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java"
     },
     {
       "status": "??",
-      "path": "scripts/audits/clean-text-noise.rb"
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusViewDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusViewDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationGeoService.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipActionDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatusDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedActionDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationTypeDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedActionDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesViewDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionActionDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPresetDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationTypeDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelationDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardNotificationAssembler.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardPlannerAssembler.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionGrouper.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminQueryService.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPresentationAssembler.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java"
     }
   ],
   "generated_changes": [
@@ -192,73 +436,61 @@
     },
     {
       "status": "M",
-      "path": "docs/agent-operating-model.yaml",
-      "recommendation": "task_required",
-      "reason": "source-of-truth generated artifact tracked by policy"
-    },
-    {
-      "status": "M",
-      "path": "docs/generated/automation-read-model-inventory.json",
-      "recommendation": "task_required",
-      "reason": "source-of-truth generated artifact tracked by policy"
-    },
-    {
-      "status": "M",
-      "path": "docs/generated/backend-audit-inventory.json",
-      "recommendation": "task_required",
-      "reason": "source-of-truth generated artifact tracked by policy"
-    },
-    {
-      "status": "M",
-      "path": "docs/generated/local-tooling/.cache/audit-inputs.json",
-      "recommendation": "do_not_commit_by_default",
-      "reason": "disposable local context or cache output"
-    },
-    {
-      "status": "M",
-      "path": "docs/generated/local-tooling/audit-registry-artifacts-summary.md",
+      "path": "docs/generated/local-tooling/architecture-drift-summary.md",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/audit-registry-artifacts.json",
+      "path": "docs/generated/local-tooling/architecture-drift.json",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/audit-summary-index.json",
+      "path": "docs/generated/local-tooling/change-impact-preflight-summary.md",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/audit-summary-index.md",
+      "path": "docs/generated/local-tooling/change-impact-preflight.json",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/duplicate-logic-audit-summary.md",
+      "path": "docs/generated/local-tooling/changeset-risk-summary.md",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/duplicate-logic-audit.json",
+      "path": "docs/generated/local-tooling/changeset-risk.json",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/frontend-state-logic-duplication-audit-summary.md",
+      "path": "docs/generated/local-tooling/doc-template-coverage-summary.md",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/frontend-state-logic-duplication-audit.json",
+      "path": "docs/generated/local-tooling/doc-template-coverage.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/generated-artifact-freshness.json",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
@@ -276,87 +508,43 @@
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/permission-rule-duplication-audit-summary.md",
+      "path": "docs/generated/local-tooling/mapper-usage-audit-summary.md",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/permission-rule-duplication-audit.json",
+      "path": "docs/generated/local-tooling/mapper-usage-audit.json",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/source-of-truth-audit.json",
-      "recommendation": "task_required",
-      "reason": "source-of-truth generated artifact tracked by policy"
-    },
-    {
-      "status": "??",
-      "path": "docs/generated/local-tooling/.history/audit-registry-artifacts/2026-06-29T17-26-10Z.json",
+      "path": "docs/generated/local-tooling/naming-consistency-audit-summary.md",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
-      "status": "??",
-      "path": "docs/generated/local-tooling/.history/audit-summary-index/2026-06-29T17-26-10Z.json",
+      "status": "M",
+      "path": "docs/generated/local-tooling/naming-consistency-audit.json",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
-      "status": "??",
-      "path": "docs/generated/local-tooling/.history/closeout-autofill/codex_tiered_workflow/",
-      "recommendation": "stale_or_unrelated",
-      "reason": "generated path is not covered by the artifact policy"
-    },
-    {
-      "status": "??",
-      "path": "docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow-summary.md",
+      "status": "M",
+      "path": "docs/generated/local-tooling/read-surface-inventory-summary.md",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
-      "status": "??",
-      "path": "docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow.json",
-      "recommendation": "supporting_context",
-      "reason": "tracked review context; commit only when refreshed for the task"
-    },
-    {
-      "status": "??",
-      "path": "docs/generated/local-tooling/plan-completion/codex-lean-context-master-plan-summary.md",
-      "recommendation": "do_not_commit_by_default",
-      "reason": "disposable local context or cache output"
-    },
-    {
-      "status": "??",
-      "path": "docs/generated/local-tooling/plan-completion/codex-lean-context-master-plan.json",
-      "recommendation": "do_not_commit_by_default",
-      "reason": "disposable local context or cache output"
-    },
-    {
-      "status": "??",
-      "path": "docs/generated/local-tooling/plan-completion/codex-tiered-workflow-plan-summary.md",
-      "recommendation": "do_not_commit_by_default",
-      "reason": "disposable local context or cache output"
-    },
-    {
-      "status": "??",
-      "path": "docs/generated/local-tooling/plan-completion/codex-tiered-workflow-plan.json",
-      "recommendation": "do_not_commit_by_default",
-      "reason": "disposable local context or cache output"
-    },
-    {
-      "status": "??",
-      "path": "docs/generated/local-tooling/validation-evidence/codex_tiered_workflow.json",
+      "status": "M",
+      "path": "docs/generated/local-tooling/read-surface-inventory.json",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     }
   ],
   "summary": {
-    "task_required": 5,
-    "do_not_commit_by_default": 5,
-    "supporting_context": 17,
-    "stale_or_unrelated": 1
+    "task_required": 1,
+    "supporting_context": 18
   }
 }

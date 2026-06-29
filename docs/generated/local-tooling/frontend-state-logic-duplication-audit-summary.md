@@ -1,6 +1,6 @@
 # Frontend State Logic Duplication Audit
 
-- Generated at: `2026-06-29T17:45:57Z`
+- Generated at: `2026-06-29T19:54:44Z`
 - Active frontend files scanned: `34`
 
 ## `mutation_runner_overlap`

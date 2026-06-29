@@ -2,6 +2,7 @@ featureId: sample_feature
 title: Sample feature completion manifest
 workflowTier: tier3-high-risk-multi-layer
 manifestDecision: required
+manifestRequirement: required
 status: draft
 riskTier: medium
 changeMode: major-change
@@ -27,7 +28,7 @@ planCompletion:
   summary: Replace with the final plan state.
 closeoutDecision:
   status: deferred
-  reason: Replace with the closeout decision. Optional manifests may stay deferred until the resolver or actual scope requires full closeout.
+  reason: Replace with the closeout decision. Optional manifests may stay deferred until the resolver or actual scope requires full closeout, and required manifests should not claim full closeout is complete until it actually is.
 docDelta:
   behaviorChanged:
     - Replace with the behavior, workflow, permission, contract, or automation meaning that changed.

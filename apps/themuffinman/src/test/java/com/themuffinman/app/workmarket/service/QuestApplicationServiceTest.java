@@ -68,16 +68,38 @@ class QuestApplicationServiceTest {
                 questVisibilityService,
                 new QuestAccessPolicyService()
         );
+        ApproveApplicationUseCase approveApplicationUseCase = new ApproveApplicationUseCase(workflowSupport, questApplicationRepository, questRepository, domainEventPublisher);
+        DeclineApplicationUseCase declineApplicationUseCase = new DeclineApplicationUseCase(workflowSupport, questApplicationRepository, domainEventPublisher);
+        QuestApplicationReadService questApplicationReadService = new QuestApplicationReadService(
+                questApplicationRepository,
+                new QuestApplicationViewAssembler(questApplicationMgr, new QuestApplicationPresentationAssembler(presentationHelper)),
+                workflowSupport
+        );
+        QuestApplicationAdminQueryService questApplicationAdminQueryService = new QuestApplicationAdminQueryService(
+                questApplicationRepository,
+                new QuestApplicationViewAssembler(questApplicationMgr, new QuestApplicationPresentationAssembler(presentationHelper)),
+                workflowSupport
+        );
+        QuestApplicationAdminService questApplicationAdminService = new QuestApplicationAdminService(
+                questApplicationRepository,
+                questRepository,
+                new QuestApplicationViewAssembler(questApplicationMgr, new QuestApplicationPresentationAssembler(presentationHelper)),
+                workflowSupport,
+                approveApplicationUseCase,
+                declineApplicationUseCase
+        );
         questApplicationService = new QuestApplicationService(
                 questApplicationRepository,
                 questRepository,
-                new QuestApplicationViewAssembler(questApplicationMgr, presentationHelper),
                 workflowSupport,
+                questApplicationReadService,
+                questApplicationAdminQueryService,
+                questApplicationAdminService,
                 new ApplyForQuestUseCase(workflowSupport, questApplicationRepository, questApplicationMgr, domainEventPublisher),
                 new UpdateMyApplicationUseCase(workflowSupport, questApplicationRepository, domainEventPublisher),
                 new WithdrawMyApplicationUseCase(workflowSupport, questApplicationRepository, domainEventPublisher),
-                new ApproveApplicationUseCase(workflowSupport, questApplicationRepository, questRepository, domainEventPublisher),
-                new DeclineApplicationUseCase(workflowSupport, questApplicationRepository, domainEventPublisher)
+                approveApplicationUseCase,
+                declineApplicationUseCase
         );
     }
 

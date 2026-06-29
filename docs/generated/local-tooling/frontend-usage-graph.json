@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-29T12:47:34Z",
+  "generated_at": "2026-06-29T19:55:19Z",
   "node_count": 239,
-  "edge_count": 872,
+  "edge_count": 868,
   "nodes": [
     {
       "file": "apps/themuffinman/frontend/src/App.vue",
@@ -2865,10 +2865,6 @@
       "to": "../shared/QuestApplyForm.vue"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
-      "to": "../../shared/pricing.ts"
-    },
-    {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
       "to": "vue"
     },
@@ -3778,10 +3774,6 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-      "to": "../../shared/pricing.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
       "to": "../useQuestDashboardState.ts"
     },
     {
@@ -3947,10 +3939,6 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts",
       "to": "../../shared/applicationDraft.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/questDetailStateHelpers.ts",
-      "to": "../../shared/pricing.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/questDetailStateHelpers.ts",
@@ -4531,10 +4519,6 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
       "to": "../../../shared/richText.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
-      "to": "./pricing.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/shared/navigationTargets.ts",

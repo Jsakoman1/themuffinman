@@ -5,7 +5,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.location.dto.LocationLookupCandidateDTO;
-import com.themuffinman.app.location.dto.LocationDebugStatusDTO;
+import com.themuffinman.app.location.dto.LocationDebugStatusViewDTO;
 import com.themuffinman.app.location.dto.LocationLookupResponseDTO;
 import com.themuffinman.app.location.model.LocationLookupEvent;
 import com.themuffinman.app.location.model.LocationLookupEventType;
@@ -138,7 +138,7 @@ public class LocationLookupService {
     }
 
     @Transactional(readOnly = true)
-    public LocationDebugStatusDTO getDebugStatus() {
+    public LocationDebugStatusViewDTO getDebugStatus() {
         LocationLookupClient client = geoapifyLocationLookupClient.isConfigured()
                 ? geoapifyLocationLookupClient
                 : disabledLocationLookupClient;
@@ -150,7 +150,7 @@ public class LocationLookupService {
         long currentMonthLookupRequests = locationLookupEventRepository.countByCreatedAtGreaterThanEqualAndRequestType(monthStart, LocationLookupEventType.LOOKUP);
         long currentMonthReverseLookupRequests = locationLookupEventRepository.countByCreatedAtGreaterThanEqualAndRequestType(monthStart, LocationLookupEventType.REVERSE_LOOKUP);
 
-        return LocationDebugStatusDTO.builder()
+        return LocationDebugStatusViewDTO.builder()
                 .configured(client.isConfigured())
                 .provider(client.providerName())
                 .lookupCacheEntries(lookupCache.estimatedSize())

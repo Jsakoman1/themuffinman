@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:25Z",
+  "generated_at": "2026-06-29T19:55:00Z",
   "hits": [
     {
       "file": "apps/themuffinman/README.md",
@@ -2358,7 +2358,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
-      "line": 916,
+      "line": 923,
       "snippet": "placeholder: string"
     },
     {
@@ -2463,8 +2463,8 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
-      "line": 18,
-      "snippet": ":price-placeholder=\"String(quest.awardAmount ?? '')\""
+      "line": 17,
+      "snippet": ":price-placeholder=\"String(quest.presentation.suggestedApplicationPrice ?? '')\""
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestSummaryRow.vue",
@@ -2644,7 +2644,7 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
       "line": 294,
-      "snippet": ":price-placeholder=\"String(quest.awardAmount ?? '')\""
+      "snippet": ":price-placeholder=\"String(quest.presentation.suggestedApplicationPrice ?? '')\""
     },
     {
       "file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
@@ -2688,17 +2688,17 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-      "line": 85,
+      "line": 81,
       "snippet": ".placeholder(\"Add a short comment.\")"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-      "line": 98,
+      "line": 94,
       "snippet": ".placeholder(\"Add a short comment.\")"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-      "line": 117,
+      "line": 113,
       "snippet": ".placeholder(\"Write a short comment about this \" + target.getRoleLabel() + \".\")"
     },
     {
@@ -2788,52 +2788,52 @@
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-      "line": 183,
+      "line": 198,
       "snippet": "private void stubQuestViewerContext() {"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-      "line": 323,
+      "line": 338,
       "snippet": "stubQuestViewerContext();"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-      "line": 380,
+      "line": 395,
       "snippet": "stubQuestViewerContext();"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-      "line": 433,
+      "line": 448,
       "snippet": "stubQuestViewerContext();"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-      "line": 473,
+      "line": 488,
       "snippet": "stubQuestViewerContext();"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-      "line": 502,
+      "line": 517,
       "snippet": "stubQuestViewerContext();"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-      "line": 533,
+      "line": 548,
       "snippet": "stubQuestViewerContext();"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-      "line": 595,
+      "line": 610,
       "snippet": "stubQuestViewerContext();"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-      "line": 637,
+      "line": 652,
       "snippet": "stubQuestViewerContext();"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-      "line": 675,
+      "line": 690,
       "snippet": "stubQuestViewerContext();"
     }
   ]

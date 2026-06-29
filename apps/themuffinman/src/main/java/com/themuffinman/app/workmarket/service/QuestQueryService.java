@@ -2,7 +2,7 @@ package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
 import com.themuffinman.app.common.pagination.PageWindow;
-import com.themuffinman.app.location.service.LocationSettingsService;
+import com.themuffinman.app.location.service.LocationGeoService;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestAudience;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class QuestQueryService {
-    private final LocationSettingsService locationSettingsService;
+    private final LocationGeoService locationGeoService;
 
     public PageWindow<Quest> buildQuestPage(
             List<Quest> sourceQuests,
@@ -122,14 +122,14 @@ public class QuestQueryService {
         if (originLatitude == null || originLongitude == null) {
             return false;
         }
-        if (!locationSettingsService.isQuestSearchable(quest)) {
+        if (!locationGeoService.isQuestSearchable(quest)) {
             return false;
         }
         if (!isWithinBoundingBox(quest, radiusKm, originLatitude, originLongitude)) {
             return false;
         }
 
-        return locationSettingsService.distanceKm(
+        return locationGeoService.distanceKm(
                 originLatitude,
                 originLongitude,
                 quest.getLocationLatitude(),
@@ -241,11 +241,11 @@ public class QuestQueryService {
     }
 
     private int distanceScore(Quest quest, BigDecimal originLatitude, BigDecimal originLongitude) {
-        if (originLatitude == null || originLongitude == null || !locationSettingsService.isQuestSearchable(quest)) {
+        if (originLatitude == null || originLongitude == null || !locationGeoService.isQuestSearchable(quest)) {
             return 0;
         }
 
-        double distanceKm = locationSettingsService.distanceKm(
+        double distanceKm = locationGeoService.distanceKm(
                 originLatitude,
                 originLongitude,
                 quest.getLocationLatitude(),

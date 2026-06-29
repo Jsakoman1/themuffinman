@@ -1,6 +1,6 @@
 # Rich Text Safety Audit
 
-- Generated At: `2026-06-29T12:47:27Z`
+- Generated At: `2026-06-29T19:55:02Z`
 ## `backend_fields`
 
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java", :line: 158, :snippet: "warnings.add(\"Batch quest generation must keep titles and descriptions meaningfully unique.\");"}`
@@ -19,7 +19,7 @@
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java", :line: 282, :snippet: ".profileDescription(contact.getProfileDescription())"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AppUserRequestDTO.java", :line: 26, :snippet: "private String profileDescription;"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AppUserResponseDTO.java", :line: 27, :snippet: "private String profileDescription;"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponse.java", :line: 10, :snippet: "String profileDescription,"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java", :line: 10, :snippet: "String profileDescription,"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java", :line: 37, :snippet: ".profileDescription(RichTextInputValidator.sanitize(appUser.getProfileDescription()))"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java", :line: 21, :snippet: "RichTextInputValidator.sanitize(appUser.getProfileDescription()),"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/AppUser.java", :line: 32, :snippet: "private String profileDescription;"}`

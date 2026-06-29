@@ -2,7 +2,7 @@ package com.themuffinman.app.workmarket.mapper;
 
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
-import com.themuffinman.app.workmarket.dto.ApplicationAllowedAction;
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationPresentationDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
@@ -36,7 +36,7 @@ public class QuestApplicationMgr {
         return toDto(application, List.of());
     }
 
-    public QuestApplicationResponseDTO toDto(QuestApplication application, List<ApplicationAllowedAction> allowedActions) {
+    public QuestApplicationResponseDTO toDto(QuestApplication application, List<ApplicationAllowedActionDTO> allowedActions) {
         if (application == null) {
             return null;
         }

@@ -1,6 +1,6 @@
 # Endpoint Contract Pack app_users
 
-- Generated At: `2026-06-29T12:47:29Z`
+- Generated At: `2026-06-29T19:55:04Z`
 - Endpoint Family: `app_users`
 ## `endpoints`
 

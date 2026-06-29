@@ -1,16 +1,16 @@
 # Endpoint Contract Pack location
 
-- Generated At: `2026-06-29T12:47:29Z`
+- Generated At: `2026-06-29T19:55:04Z`
 - Endpoint Family: `location`
 ## `endpoints`
 
-- `{:method: "GET", :path: "/location/admin/status", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java", :dtos: ["LocationDebugStatusDTO"]}`
-- `{:method: "POST", :path: "/location/lookup", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java", :dtos: ["LocationLookupResponseDTO", "LocationLookupRequestDTO", "LocationLookupCandidateDTO", "LocationReverseLookupRequestDTO", "LocationDebugStatusDTO"]}`
-- `{:method: "POST", :path: "/location/reverse-lookup", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java", :dtos: ["LocationLookupResponseDTO", "LocationLookupRequestDTO", "LocationLookupCandidateDTO", "LocationReverseLookupRequestDTO", "LocationDebugStatusDTO"]}`
+- `{:method: "GET", :path: "/location/admin/status", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java", :dtos: ["LocationDebugStatusViewDTO"]}`
+- `{:method: "POST", :path: "/location/lookup", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java", :dtos: ["LocationLookupResponseDTO", "LocationLookupRequestDTO", "LocationLookupCandidateDTO", "LocationReverseLookupRequestDTO", "LocationDebugStatusViewDTO"]}`
+- `{:method: "POST", :path: "/location/reverse-lookup", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java", :dtos: ["LocationLookupResponseDTO", "LocationLookupRequestDTO", "LocationLookupCandidateDTO", "LocationReverseLookupRequestDTO", "LocationDebugStatusViewDTO"]}`
 
 ## `dto_files`
 
-- `apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusViewDTO.java`
 - `apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupCandidateDTO.java`
 - `apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupRequestDTO.java`
 - `apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupResponseDTO.java`

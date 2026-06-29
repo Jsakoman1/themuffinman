@@ -8,6 +8,15 @@ Make backend transport models and service layers look and behave the same across
 
 The first pass standardizes the patterns; it does not force a wholesale rename of every existing type in one batch.
 
+## Execution Model
+
+- Use this master plan to coordinate a sequence of narrower child plans.
+- Keep each child plan scoped to one model family or one service-boundary cleanup slice.
+- Finish one family completely before moving to the next family unless a dependency forces overlap.
+- If a child plan expands beyond one safe pass, split it further and record the remainder with a stable backlog ID.
+- While this master plan is active, continue through every listed child plan and the final closeout pass without
+  asking for user intervention unless a real blocker, unsafe ambiguity, or conflicting user change appears.
+
 ## What is currently non-standard
 
 - DTO naming is inconsistent across packages.
@@ -43,6 +52,15 @@ The first pass standardizes the patterns; it does not force a wholesale rename o
 5. Remaining outliers last.
 
 This order matches the current drift density and the amount of shared pattern reuse available.
+
+## Child Plans
+
+- [x] `BACKEND-WORKMARKET-PRESENTATION-ASSEMBLY` - completed as the initial pilot slice by extracting `QuestPresentationAssembler`.
+- [x] `BACKEND-WORKMARKET-READ-MODEL-STANDARDIZATION` - align quest, application, and dashboard read-model families around shared DTO shapes and assemblers.
+- [ ] `BACKEND-IDENTITY-AUTH-NAMING-STANDARDIZATION` - normalize auth and app-user transport naming.
+- [ ] `BACKEND-SOCIAL-LOCATION-DTO-STANDARDIZATION` - normalize social and location transport families and option/status payloads; work has started on the relation and debug/status subsets in `.agents/backend-social-location-dto-standardization-plan.md`.
+- [ ] `BACKEND-SERVICE-BOUNDARY-CLEANUP` - trim oversized services/controllers after the model families are stabilized.
+- [ ] `BACKEND-VALIDATION-AND-CONTRACT-SAFETY` - lock naming, assembler, and contract rules in tests and audit checks.
 
 ## Phase 1: Inventory and taxonomy
 
@@ -99,8 +117,13 @@ Candidate hotspots from the current audit:
 - `workmarket/service/QuestValidationService.java`
 - `workmarket/service/QuestStateTransitionService.java`
 - `social/service/CircleService.java`
+- `social/service/CircleReadService.java`
+- `social/service/CircleDiscoveryService.java`
 - `social/controller/CircleController.java`
 - `location/service/LocationSettingsService.java`
+- `location/service/LocationSettingsViewService.java`
+- `location/service/LocationGeoService.java`
+- `location/service/LocationQuestPresentationService.java`
 - `identity/service/AppUserService.java`
 - `agent/service/AdminAgentPlaygroundService.java`
 
@@ -155,4 +178,3 @@ Candidate hotspots from the current audit:
 - Implementation status: pending
 - Persistent backlog item: `BACKEND-MODEL-STANDARDIZATION-001`
 - Primary source files: backend DTOs, services, controllers, mappers, and generated audit summaries
-

@@ -1,6 +1,6 @@
 # Failure Knowledge Base
 
-- Generated At: `2026-06-29T12:47:35Z`
+- Generated At: `2026-06-29T19:55:22Z`
 ## `source_reports`
 
 - `docs/generated/local-tooling/diagnostics/frontend-type-check-latest.json`

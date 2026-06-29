@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T17:45:57Z",
+  "generated_at": "2026-06-29T19:55:17Z",
   "docs_scanned": [
     "AGENTS.md",
     "docs/agent-operating-model.md",
@@ -21,7 +21,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 116,
+          "line": 119,
           "text": "- Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it."
         },
         {
@@ -48,7 +48,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 117,
+          "line": 120,
           "text": "- Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change."
         },
         {
@@ -75,7 +75,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 127,
+          "line": 130,
           "text": "change, update all affected living docs in the same change unless the edit is purely cosmetic."
         },
         {
@@ -102,7 +102,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 161,
+          "line": 164,
           "text": "- No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together."
         },
         {
@@ -124,7 +124,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 135,
+          "line": 138,
           "text": "- A logic change is not complete when only code and tests are updated."
         },
         {
@@ -151,7 +151,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 151,
+          "line": 154,
           "text": "- For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file."
         },
         {
@@ -178,7 +178,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 154,
+          "line": 157,
           "text": "- Do not paraphrase, shorten, reorder, or partially restate protected canonical wording."
         },
         {
@@ -205,7 +205,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 121,
+          "line": 124,
           "text": "- For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan."
         },
         {
@@ -232,7 +232,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 122,
+          "line": 125,
           "text": "- Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass."
         },
         {
@@ -325,7 +325,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 132,
+          "line": 135,
           "text": "- Treat admin-generation or sandbox-generation coverage for entities and workflows as part of the same maintenance"
         },
         {
@@ -352,7 +352,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 134,
+          "line": 137,
           "text": "- synthetic admin-generation flows must be kept current with newly introduced feature logic, validations, and edge cases"
         },
         {
@@ -561,7 +561,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 137,
+          "line": 140,
           "text": "- Treat sandbox or synthetic-data behavior as high-risk logic that must stay explicitly separated from production"
         },
         {
@@ -673,7 +673,7 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 161,
+          "line": 164,
           "text": "- No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together."
         },
         {
@@ -822,12 +822,12 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 155,
+          "line": 158,
           "text": "- Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID"
         },
         {
           "path": "AGENTS.md",
-          "line": 159,
+          "line": 162,
           "text": "- When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or"
         },
         {

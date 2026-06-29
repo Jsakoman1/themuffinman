@@ -3,7 +3,7 @@ package com.themuffinman.app.workmarket.controller;
 import com.themuffinman.app.common.dto.ActionResultDTO;
 import com.themuffinman.app.common.dto.ActionResults;
 import com.themuffinman.app.workmarket.dto.QuestDetailResponseDTO;
-import com.themuffinman.app.workmarket.dto.QuestListPreset;
+import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
 import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
@@ -61,7 +61,7 @@ public class QuestController {
 
     @GetMapping("/presets/{preset}")
     public QuestListResponseDTO getQuestPreset(
-            @PathVariable QuestListPreset preset,
+            @PathVariable QuestListPresetDTO preset,
             @AuthenticationPrincipal AppUser currentUser,
             @ModelAttribute QuestSearchRequestDTO query
     ) {

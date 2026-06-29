@@ -1,7 +1,7 @@
 # Domain Ownership Inventory
 
-- Generated At: `2026-06-29T12:47:24Z`
-- File Count: `465`
+- Generated At: `2026-06-29T19:54:59Z`
+- File Count: `479`
 ## `groups`
 
 - `{:domain: "chat", :owner: "backend", :layer: "controller", :file_count: 1}`

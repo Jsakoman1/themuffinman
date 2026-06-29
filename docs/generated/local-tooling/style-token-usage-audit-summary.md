@@ -1,6 +1,6 @@
 # Style Token Usage Audit
 
-- Generated At: `2026-06-29T12:47:28Z`
+- Generated At: `2026-06-29T19:55:03Z`
 ## `files`
 
 - `{:file: "apps/themuffinman/frontend/src/components/app/AppChatTray.vue", :token_refs: 4, :inline_style_refs: 1}`

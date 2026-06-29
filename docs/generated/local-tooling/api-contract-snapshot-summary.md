@@ -1,6 +1,6 @@
 # API Contract Snapshot
 
-- Generated At: `2026-06-29T12:47:35Z`
+- Generated At: `2026-06-29T19:55:22Z`
 - Endpoint Count: `89`
 ## `endpoints`
 
@@ -20,9 +20,9 @@
 - `{:method: "GET", :path: "/app_users/{id}/admin-detail", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java", :dtos: ["AppUserResponseDTO", "WorkmarketOptionsDTO"]}`
 - `{:method: "GET", :path: "/app_users/{id}/profile-view", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java", :dtos: ["AppUserResponseDTO", "WorkmarketOptionsDTO"]}`
 - `{:method: "GET", :path: "/applications/{applicationId}/detail", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java", :dtos: ["QuestApplicationResponseDTO", "QuestApplicationsViewDTO"]}`
-- `{:method: "POST", :path: "/auth/login", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java", :dtos: ["AuthResponse", "RegisterRequest", "LoginRequest"]}`
-- `{:method: "GET", :path: "/auth/me", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java", :dtos: ["AuthResponse"]}`
-- `{:method: "POST", :path: "/auth/register", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java", :dtos: ["AuthResponse", "RegisterRequest", "LoginRequest"]}`
+- `{:method: "POST", :path: "/auth/login", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java", :dtos: ["AuthResponseDTO", "RegisterRequestDTO", "LoginRequestDTO"]}`
+- `{:method: "GET", :path: "/auth/me", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java", :dtos: ["AuthResponseDTO"]}`
+- `{:method: "POST", :path: "/auth/register", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java", :dtos: ["AuthResponseDTO", "RegisterRequestDTO", "LoginRequestDTO"]}`
 - `{:method: "GET", :path: "/business/profiles", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java", :dtos: ["BusinessProfileListResponseDTO", "BusinessProfileResponseDTO", "BusinessProfileRequestDTO"]}`
 - `{:method: "GET", :path: "/business/profiles/me", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java", :dtos: ["BusinessProfileListResponseDTO", "BusinessProfileResponseDTO", "BusinessProfileRequestDTO"]}`
 - `{:method: "PUT", :path: "/business/profiles/me", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java", :dtos: ["BusinessProfileResponseDTO", "BusinessProfileRequestDTO"]}`

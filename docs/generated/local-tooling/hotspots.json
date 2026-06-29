@@ -1,248 +1,980 @@
 {
-  "changed_file_count": 8,
+  "changed_file_count": 86,
   "categories": [
+    "backend_controller",
+    "backend_dto",
+    "backend_mapper",
+    "backend_service",
     "docs",
     "other",
     "script"
   ],
   "hotspots": [
     {
-      "path": "docs/codex-local-tooling-todo.md",
-      "category": "docs",
-      "domain": "shared",
-      "score": 18,
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "score": 28,
       "score_breakdown": {
-        "category": 5,
+        "category": 8,
         "fanout": 8,
-        "dependency_centrality": 1,
-        "workflow_sensitivity": 4,
-        "test_links": 0
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
       },
       "linked_tests": [
-
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
       ],
       "related_docs": [
-
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md"
       ],
       "recommended_commands": [
         "./mvnw test",
-        "make audit-documentation",
-        "make audit-doc-canonical-phrases"
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
       ],
       "reasons": [
-        "High repo fanout for `codex-local-tooling-todo.md` (171 references).",
-        "Workflow or permission-sensitive logic detected.",
-        "Documentation or agent-safety surface can force sync work."
+        "High repo fanout for `UserProfileViewService.java` (94 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java."
       ]
     },
     {
-      "path": "docs/tooling/codex-local-audits.yml",
-      "category": "docs",
-      "domain": "shared",
-      "score": 18,
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+      "category": "backend_service",
+      "domain": "social",
+      "score": 28,
       "score_breakdown": {
-        "category": 5,
+        "category": 8,
         "fanout": 8,
-        "dependency_centrality": 1,
-        "workflow_sensitivity": 4,
-        "test_links": 0
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
       },
       "linked_tests": [
-
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
       ],
       "related_docs": [
-
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
       ],
       "recommended_commands": [
         "./mvnw test",
-        "make audit-documentation",
-        "make audit-doc-canonical-phrases"
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
       ],
       "reasons": [
-        "High repo fanout for `codex-local-audits.yml` (57 references).",
-        "Workflow or permission-sensitive logic detected.",
-        "Documentation or agent-safety surface can force sync work."
+        "High repo fanout for `CircleDiscoveryService.java` (91 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java."
       ]
     },
     {
-      "path": "Makefile",
-      "category": "other",
-      "domain": "shared",
-      "score": 17,
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "category": "backend_service",
+      "domain": "social",
+      "score": 28,
       "score_breakdown": {
-        "category": 4,
+        "category": 8,
         "fanout": 8,
-        "dependency_centrality": 1,
-        "workflow_sensitivity": 4,
-        "test_links": 0
-      },
-      "linked_tests": [
-
-      ],
-      "related_docs": [
-
-      ],
-      "recommended_commands": [
-
-      ],
-      "reasons": [
-        "High repo fanout for `Makefile` (140 references).",
-        "Workflow or permission-sensitive logic detected.",
-        "Generated or tooling surface influences local automation.",
-        "Documentation or agent-safety surface can force sync work."
-      ]
-    },
-    {
-      "path": "scripts/audits/codex_local_context_gateway.rb",
-      "category": "script",
-      "domain": "shared",
-      "score": 17,
-      "score_breakdown": {
-        "category": 4,
-        "fanout": 8,
-        "dependency_centrality": 1,
-        "workflow_sensitivity": 4,
-        "test_links": 0
-      },
-      "linked_tests": [
-
-      ],
-      "related_docs": [
-
-      ],
-      "recommended_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "reasons": [
-        "High repo fanout for `codex_local_context_gateway.rb` (73 references).",
-        "Workflow or permission-sensitive logic detected.",
-        "Generated or tooling surface influences local automation."
-      ]
-    },
-    {
-      "path": "scripts/audits/local_tooling_extended_tools.rb",
-      "category": "script",
-      "domain": "shared",
-      "score": 17,
-      "score_breakdown": {
-        "category": 4,
-        "fanout": 8,
-        "dependency_centrality": 1,
-        "workflow_sensitivity": 4,
-        "test_links": 0
-      },
-      "linked_tests": [
-
-      ],
-      "related_docs": [
-
-      ],
-      "recommended_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "reasons": [
-        "High repo fanout for `local_tooling_extended_tools.rb` (216 references).",
-        "Workflow or permission-sensitive logic detected.",
-        "Generated or tooling surface influences local automation.",
-        "Documentation or agent-safety surface can force sync work."
-      ]
-    },
-    {
-      "path": "scripts/audits/codex-context.rb",
-      "category": "script",
-      "domain": "shared",
-      "score": 13,
-      "score_breakdown": {
-        "category": 4,
-        "fanout": 8,
-        "dependency_centrality": 1,
+        "dependency_centrality": 6,
         "workflow_sensitivity": 0,
-        "test_links": 0
+        "test_links": 6
       },
       "linked_tests": [
-
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
       ],
       "related_docs": [
-
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
       ],
       "recommended_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
       ],
       "reasons": [
-        "High repo fanout for `codex-context.rb` (124 references).",
-        "Generated or tooling surface influences local automation."
+        "High repo fanout for `CircleReadService.java` (109 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java."
       ]
     },
     {
-      "path": "scripts/local_tooling_common.rb",
-      "category": "script",
-      "domain": "shared",
-      "score": 13,
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+      "category": "backend_service",
+      "domain": "social",
+      "score": 28,
       "score_breakdown": {
-        "category": 4,
+        "category": 8,
         "fanout": 8,
-        "dependency_centrality": 1,
+        "dependency_centrality": 6,
         "workflow_sensitivity": 0,
-        "test_links": 0
+        "test_links": 6
       },
       "linked_tests": [
-
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
       ],
       "related_docs": [
-
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
       ],
       "recommended_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
       ],
       "reasons": [
-        "High repo fanout for `local_tooling_common.rb` (92 references).",
-        "Generated or tooling surface influences local automation."
+        "High repo fanout for `CircleService.java` (245 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java."
       ]
     },
     {
-      "path": ".gitignore",
-      "category": "other",
-      "domain": "shared",
-      "score": 4,
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
+      "category": "backend_service",
+      "domain": "social",
+      "score": 28,
       "score_breakdown": {
-        "category": 3,
-        "fanout": 0,
-        "dependency_centrality": 1,
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
         "workflow_sensitivity": 0,
-        "test_links": 0
+        "test_links": 6
       },
       "linked_tests": [
-
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
       ],
       "related_docs": [
-
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
       ],
       "recommended_commands": [
-
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
       ],
       "reasons": [
-
+        "High repo fanout for `CircleViewAssembler.java` (147 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `DashboardSectionsFactory.java` (79 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `DashboardService.java` (105 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `QuestApplicationAdminService.java` (40 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `QuestApplicationReadService.java` (42 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `QuestApplicationService.java` (131 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `QuestReadService.java` (44 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `QuestService.java` (145 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `QuestViewAssembler.java` (114 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `UserProfileViewServiceTest.java` (119 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+      "category": "backend_service",
+      "domain": "social",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `CircleDiscoveryServiceTest.java` (80 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+      "category": "backend_service",
+      "domain": "social",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `CircleServiceTest.java` (121 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `DashboardServiceTest.java` (209 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `QuestApplicationServiceTest.java` (245 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "score": 28,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `QuestServiceTest.java` (295 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "score": 27,
+      "score_breakdown": {
+        "category": 8,
+        "fanout": 8,
+        "dependency_centrality": 5,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "reasons": [
+        "High repo fanout for `AuthService.java` (89 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSearchResultDTO.java",
+      "category": "backend_dto",
+      "domain": "social",
+      "score": 27,
+      "score_breakdown": {
+        "category": 7,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "reasons": [
+        "High repo fanout for `CircleSearchResultDTO.java` (123 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "score": 27,
+      "score_breakdown": {
+        "category": 7,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "reasons": [
+        "High repo fanout for `DashboardNotificationItemDTO.java` (68 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "score": 27,
+      "score_breakdown": {
+        "category": 7,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "reasons": [
+        "High repo fanout for `QuestApplicationResponseDTO.java` (336 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "score": 27,
+      "score_breakdown": {
+        "category": 7,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "reasons": [
+        "High repo fanout for `QuestNewsItemResponseDTO.java` (76 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
+      ]
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestPresentationDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "score": 27,
+      "score_breakdown": {
+        "category": 7,
+        "fanout": 8,
+        "dependency_centrality": 6,
+        "workflow_sensitivity": 0,
+        "test_links": 6
+      },
+      "linked_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+      ],
+      "related_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "recommended_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "reasons": [
+        "High repo fanout for `QuestPresentationDTO.java` (55 references).",
+        "Multiple dependency edges detected.",
+        "Direct or nearby tests exist: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java."
       ]
     }
   ],
   "read_first": [
-    "docs/codex-local-tooling-todo.md",
-    "docs/tooling/codex-local-audits.yml",
-    "Makefile",
-    "scripts/audits/codex_local_context_gateway.rb",
-    "scripts/audits/local_tooling_extended_tools.rb",
-    "scripts/audits/codex-context.rb",
-    "scripts/local_tooling_common.rb",
-    ".gitignore"
+    "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java"
   ],
   "recommended_commands": [
     "make recommend-targeted-tests",
-    "make closeout-bundle manifest=.agents/feature-manifests/<feature-id>-manifest.yaml",
-    "make feature-closeout-audit manifest=.agents/feature-manifests/<feature-id>-manifest.yaml",
+    "make closeout-bundle manifest=.agents/feature-manifests/codex-workflow-lean-context-manifest.yaml",
+    "make feature-closeout-audit manifest=.agents/feature-manifests/codex-workflow-lean-context-manifest.yaml",
+    "cd apps/themuffinman && ./mvnw test -Dtest=CoreConceptsTest,GlobalExceptionHandlerTest,RichTextInputValidatorTest,AuthControllerTest,AppUserMgrTest,JwtAuthFilterTest,JwtServiceTest,AdminUserDetailServiceTest",
     "make audit-documentation",
     "make audit-doc-canonical-phrases",
     "make audit-generated-artifact-freshness",
@@ -252,8 +984,8 @@
   "residual_risk": [
     "Hotspot ranking is heuristic and does not replace feature-level domain judgment."
   ],
-  "generated_at": "2026-06-29T15:10:34Z",
-  "original_file_count": 8,
+  "generated_at": "2026-06-29T19:55:12Z",
+  "original_file_count": 86,
   "filtered_file_count": 0,
   "excluded_file_count": 0,
   "excluded_files_sample": [

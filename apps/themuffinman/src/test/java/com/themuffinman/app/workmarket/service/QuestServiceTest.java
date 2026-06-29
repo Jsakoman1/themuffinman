@@ -1,15 +1,17 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.workmarket.dto.ApplicationAllowedAction;
-import com.themuffinman.app.workmarket.dto.QuestAllowedAction;
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationDetailResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestDetailResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
-import com.themuffinman.app.workmarket.dto.QuestViewerRelation;
+import com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO;
 import com.themuffinman.app.location.service.LocationSettingsService;
+import com.themuffinman.app.location.service.LocationGeoService;
+import com.themuffinman.app.location.service.LocationQuestPresentationService;
 import com.themuffinman.app.workmarket.mapper.QuestApplicationMgr;
 import com.themuffinman.app.workmarket.mapper.QuestMgr;
 import com.themuffinman.app.workmarket.mapper.UserReviewMgr;
@@ -91,6 +93,12 @@ class QuestServiceTest {
     @Mock
     private LocationSettingsService locationSettingsService;
 
+    @Mock
+    private LocationGeoService locationGeoService;
+
+    @Mock
+    private LocationQuestPresentationService locationQuestPresentationService;
+
     private QuestAccessPolicyService questAccessPolicyService;
     private QuestQueryService questQueryService;
     private QuestUpdateService questUpdateService;
@@ -106,13 +114,14 @@ class QuestServiceTest {
     private RejectQuestTermChangeUseCase rejectQuestTermChangeUseCase;
     private WorkmarketPresentationHelper workmarketPresentationHelper;
     private QuestViewAssembler questViewAssembler;
+    private QuestReadService questReadService;
 
     private QuestService questService;
 
     @BeforeEach
     void setUp() {
         questAccessPolicyService = new QuestAccessPolicyService();
-        questQueryService = new QuestQueryService(locationSettingsService);
+        questQueryService = new QuestQueryService(locationGeoService);
         questValidationService = new QuestValidationService(questVisibilityService);
         questStateTransitionService = new QuestStateTransitionService(
                 questApplicationRepository,
@@ -150,17 +159,20 @@ class QuestServiceTest {
         confirmQuestTermChangeUseCase = new ConfirmQuestTermChangeUseCase(questExecutionPrimitiveService, questStateTransitionService);
         rejectQuestTermChangeUseCase = new RejectQuestTermChangeUseCase(questExecutionPrimitiveService, questStateTransitionService);
         workmarketPresentationHelper = new WorkmarketPresentationHelper();
+        QuestPresentationAssembler questPresentationAssembler = new QuestPresentationAssembler(
+                workmarketPresentationHelper,
+                locationQuestPresentationService
+        );
         questViewAssembler = new QuestViewAssembler(
                 questMgr,
-                questApplicationMgr,
                 questAccessPolicyService,
                 userReviewRepository,
                 userReviewMgr,
                 workmarketPresentationHelper,
-                locationSettingsService,
-                questApplicationRepository
+                questApplicationRepository,
+                questPresentationAssembler
         );
-        questService = new QuestService(
+        questReadService = new QuestReadService(
                 questRepository,
                 questApplicationRepository,
                 questApplicationService,
@@ -168,20 +180,23 @@ class QuestServiceTest {
                 questAccessPolicyService,
                 questQueryService,
                 questExecutionPrimitiveService,
+                questMgr,
+                questViewAssembler
+        );
+        questService = new QuestService(
+                questReadService,
                 createQuestUseCase,
                 updateQuestUseCase,
                 deleteQuestUseCase,
                 startQuestUseCase,
                 completeQuestUseCase,
                 confirmQuestTermChangeUseCase,
-                rejectQuestTermChangeUseCase,
-                questMgr,
-                questViewAssembler
+                rejectQuestTermChangeUseCase
         );
     }
 
     private void stubQuestViewerContext() {
-        when(questMgr.withViewerContext(any(QuestResponseDTO.class), any(QuestViewerRelation.class), anyList(), anyBoolean(), any(), anyBoolean()))
+        when(questMgr.withViewerContext(any(QuestResponseDTO.class), any(QuestViewerRelationDTO.class), anyList(), anyBoolean(), any(), anyBoolean()))
                 .thenAnswer(invocation -> {
                     QuestResponseDTO dto = invocation.getArgument(0);
                     dto.setViewerRelation(invocation.getArgument(1));
@@ -458,11 +473,11 @@ class QuestServiceTest {
 
         QuestResponseDTO result = questService.getQuestResponseById(31L, currentUser);
 
-        assertEquals(QuestViewerRelation.APPROVED_APPLICANT, result.getViewerRelation());
+        assertEquals(QuestViewerRelationDTO.APPROVED_APPLICANT, result.getViewerRelation());
         assertEquals(true, result.isHasApplied());
         assertEquals(41L, result.getMyApplicationId());
         assertEquals(false, result.isCanViewApplications());
-        assertEquals(List.of(QuestAllowedAction.CONFIRM_TERM_CHANGE, QuestAllowedAction.REJECT_TERM_CHANGE), result.getAllowedActions());
+        assertEquals(List.of(QuestAllowedActionDTO.CONFIRM_TERM_CHANGE, QuestAllowedActionDTO.REJECT_TERM_CHANGE), result.getAllowedActions());
         assertEquals("Term change waiting", result.getPresentation().getTermChangeSummaryLabel());
         assertEquals("Confirm term change", result.getPresentation().getTermChangeConfirmLabel());
         assertEquals("Reject term change", result.getPresentation().getTermChangeRejectLabel());
@@ -492,9 +507,9 @@ class QuestServiceTest {
 
         QuestResponseDTO result = questService.getQuestResponseById(32L, currentUser);
 
-        assertEquals(QuestViewerRelation.VIEWER, result.getViewerRelation());
+        assertEquals(QuestViewerRelationDTO.VIEWER, result.getViewerRelation());
         assertEquals(false, result.isHasApplied());
-        assertEquals(List.of(QuestAllowedAction.APPLY), result.getAllowedActions());
+        assertEquals(List.of(QuestAllowedActionDTO.APPLY), result.getAllowedActions());
     }
 
     @Test
@@ -520,8 +535,8 @@ class QuestServiceTest {
 
         QuestResponseDTO result = questService.getQuestResponseById(34L, currentUser);
 
-        assertEquals(QuestViewerRelation.OWNER, result.getViewerRelation());
-        assertEquals(List.of(QuestAllowedAction.EDIT, QuestAllowedAction.VIEW_APPLICATIONS, QuestAllowedAction.DELETE), result.getAllowedActions());
+        assertEquals(QuestViewerRelationDTO.OWNER, result.getViewerRelation());
+        assertEquals(List.of(QuestAllowedActionDTO.EDIT, QuestAllowedActionDTO.VIEW_APPLICATIONS, QuestAllowedActionDTO.DELETE), result.getAllowedActions());
         assertEquals(false, result.isHasApplied());
         assertEquals(null, result.getMyApplicationId());
         assertEquals(true, result.getPresentation().isPostingSettingsVisible());
@@ -578,7 +593,7 @@ class QuestServiceTest {
 
         QuestDetailResponseDTO result = questService.getQuestDetailResponseById(33L, currentUser);
 
-        assertEquals(QuestViewerRelation.OWNER, result.getSummary().getViewerRelation());
+        assertEquals(QuestViewerRelationDTO.OWNER, result.getSummary().getViewerRelation());
         assertEquals(true, result.getSummary().isCanViewApplications());
         assertEquals(52L, result.getMyApplication().getId());
         assertEquals(2, result.getSections().getApplicationsView().getVisibleApplications().size());
@@ -654,7 +669,7 @@ class QuestServiceTest {
                 .id(52L)
                 .questId(33L)
                 .status(QuestApplicationStatus.PENDING)
-                .allowedActions(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW))
+                .allowedActions(List.of(ApplicationAllowedActionDTO.EDIT, ApplicationAllowedActionDTO.WITHDRAW))
                 .build();
 
         when(questRepository.findForQuestDetail(33L)).thenReturn(Optional.of(quest));
@@ -666,7 +681,7 @@ class QuestServiceTest {
         QuestDetailResponseDTO result = questService.getQuestDetailResponseById(33L, applicant);
 
         assertNotNull(result.getMyApplication());
-        assertEquals(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW), result.getMyApplication().getAllowedActions());
+        assertEquals(List.of(ApplicationAllowedActionDTO.EDIT, ApplicationAllowedActionDTO.WITHDRAW), result.getMyApplication().getAllowedActions());
         verify(questApplicationService).toViewerResponse(myApplication, applicant);
     }
 
@@ -708,15 +723,15 @@ class QuestServiceTest {
                 .id(52L)
                 .questId(33L)
                 .questTitle("Assemble shelf")
-                .allowedActions(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW))
+                .allowedActions(List.of(ApplicationAllowedActionDTO.EDIT, ApplicationAllowedActionDTO.WITHDRAW))
                 .build());
 
         QuestApplicationDetailResponseDTO result = questService.getApplicationDetailResponseById(52L, applicant);
 
         assertEquals(52L, result.getSummary().getId());
-        assertEquals(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW), result.getApplication().getAllowedActions());
+        assertEquals(List.of(ApplicationAllowedActionDTO.EDIT, ApplicationAllowedActionDTO.WITHDRAW), result.getApplication().getAllowedActions());
         assertEquals(33L, result.getSections().getQuest().getId());
-        assertEquals(QuestViewerRelation.APPLICANT, result.getSections().getQuest().getViewerRelation());
+        assertEquals(QuestViewerRelationDTO.APPLICANT, result.getSections().getQuest().getViewerRelation());
         assertEquals(true, result.getSections().getNavigation().isCanOpenQuest());
         assertEquals(true, result.getSections().getNavigation().isCanOpenPostedBy());
         assertEquals(33L, result.getSections().getNavigation().getQuestId());

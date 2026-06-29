@@ -3,7 +3,7 @@ package com.themuffinman.app.social.service;
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
 import com.themuffinman.app.identity.dto.ProfilePrimaryActionDTO;
-import com.themuffinman.app.social.dto.CircleRelationStatus;
+import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class SocialRelationActionHelper {
 
-    public SearchActions searchActions(CircleRelationStatus relationStatus, boolean blockedByCurrentUser) {
-        if (relationStatus == CircleRelationStatus.NONE) {
+    public SearchActions searchActions(CircleRelationStatusDTO relationStatus, boolean blockedByCurrentUser) {
+        if (relationStatus == CircleRelationStatusDTO.NONE) {
             return SearchActions.builder()
                     .primaryAction(action("SEND_INVITE", "Send invite", true))
                     .secondaryAction(action("BLOCK", "Block", true))
                     .build();
         }
 
-        if (relationStatus == CircleRelationStatus.BLOCKED) {
+        if (relationStatus == CircleRelationStatusDTO.BLOCKED) {
             if (blockedByCurrentUser) {
                 return SearchActions.builder()
                         .primaryAction(action("UNBLOCK", "Unblock", true))
@@ -49,12 +49,12 @@ public class SocialRelationActionHelper {
                 .build();
     }
 
-    public ProfilePrimaryActionDTO profilePrimaryAction(boolean ownProfile, CircleRelationStatus relationStatus, boolean blockedByCurrentUser) {
+    public ProfilePrimaryActionDTO profilePrimaryAction(boolean ownProfile, CircleRelationStatusDTO relationStatus, boolean blockedByCurrentUser) {
         if (ownProfile) {
             return action("EDIT_PROFILE", "Edit profile", true);
         }
 
-        if (relationStatus == CircleRelationStatus.BLOCKED) {
+        if (relationStatus == CircleRelationStatusDTO.BLOCKED) {
             if (blockedByCurrentUser) {
                 return action("UNBLOCK", "Unblock", true);
             }
@@ -62,15 +62,15 @@ public class SocialRelationActionHelper {
             return action("NONE", "Blocked", false);
         }
 
-        if (relationStatus == CircleRelationStatus.CIRCLE) {
+        if (relationStatus == CircleRelationStatusDTO.CIRCLE) {
             return action("NONE", "Connected", false);
         }
 
-        if (relationStatus == CircleRelationStatus.OUTGOING_REQUEST) {
+        if (relationStatus == CircleRelationStatusDTO.OUTGOING_REQUEST) {
             return action("NONE", "Invite sent", false);
         }
 
-        if (relationStatus == CircleRelationStatus.INCOMING_REQUEST) {
+        if (relationStatus == CircleRelationStatusDTO.INCOMING_REQUEST) {
             return action("OPEN_CIRCLES", "Open circles", true, NavigationTargetType.CIRCLES, null);
         }
 

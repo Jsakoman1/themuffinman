@@ -13,7 +13,7 @@ import org.springframework.lang.Nullable;
 public class QuestDetailExecutionSectionDTO {
     private boolean visible;
     @Nullable
-    private QuestDetailExecutionAction primaryAction;
+    private QuestDetailExecutionActionDTO primaryAction;
     @Nullable
     private String primaryActionLabel;
     @Nullable

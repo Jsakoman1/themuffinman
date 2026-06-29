@@ -8,7 +8,7 @@ import com.themuffinman.app.location.model.ExactLocationVisibilityScope;
 import com.themuffinman.app.location.model.QuestLocationVisibility;
 import com.themuffinman.app.location.model.UserLocationMode;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.location.service.LocationSettingsService;
+import com.themuffinman.app.location.service.LocationGeoService;
 import com.themuffinman.app.workmarket.dto.AppUserRoleOptionDTO;
 import com.themuffinman.app.workmarket.dto.QuestSearchDefaultsDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationStatusFilterOptionDTO;
@@ -31,13 +31,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class WorkmarketOptionsService {
-    private final LocationSettingsService locationSettingsService;
+    private final LocationGeoService locationGeoService;
 
     public WorkmarketOptionsDTO getOptions(AppUser currentUser) {
         boolean hasViewerLocation = currentUser != null
                 && currentUser.getLocationMode() != null
                 && currentUser.getLocationMode() != UserLocationMode.OFF
-                && locationSettingsService.hasCoordinates(currentUser.getLocationLatitude(), currentUser.getLocationLongitude());
+                && locationGeoService.hasCoordinates(currentUser.getLocationLatitude(), currentUser.getLocationLongitude());
         return WorkmarketOptionsDTO.builder()
                 .appUserRoles(List.of(
                         AppUserRoleOptionDTO.builder().value(AppUserRole.USER).label("User").build(),

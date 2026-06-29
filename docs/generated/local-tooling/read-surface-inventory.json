@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-29T12:47:09Z",
-  "service_count": 64,
-  "read_surface_count": 107,
+  "generated_at": "2026-06-29T19:54:42Z",
+  "service_count": 77,
+  "read_surface_count": 146,
   "read_surfaces": [
     {
       "service": "BusinessProfileService",
@@ -263,7 +263,7 @@
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java",
       "domain": "location",
       "method": "getTableStatuses",
-      "return_type": "List<DatabaseTableStatusDTO>",
+      "return_type": "List<DatabaseTableStatusViewDTO>",
       "read_like": true,
       "transaction_relevant": true,
       "transaction_read_only": true,
@@ -276,10 +276,10 @@
 
       ],
       "dto_types": [
-        "List<DatabaseTableStatusDTO>"
+        "List<DatabaseTableStatusViewDTO>"
       ],
       "line_hints": [
-        "public List<DatabaseTableStatusDTO> getTableStatuses() {",
+        "public List<DatabaseTableStatusViewDTO> getTableStatuses() {",
         "List<String> tableNames = jdbcTemplate.queryForList(\"\"\""
       ]
     },
@@ -332,6 +332,31 @@
       "line_hints": [
         "public List<LocationLookupCandidateDTO> lookup(String query) {",
         "if (!isConfigured()) {"
+      ]
+    },
+    {
+      "service": "LocationGeoService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationGeoService.java",
+      "domain": "location",
+      "method": "resolveUserApproximateLocationLabel",
+      "return_type": "String",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public String resolveUserApproximateLocationLabel(AppUser user) {",
+        "if (user == null) {"
       ]
     },
     {
@@ -389,7 +414,7 @@
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
       "domain": "location",
       "method": "getDebugStatus",
-      "return_type": "LocationDebugStatusDTO",
+      "return_type": "LocationDebugStatusViewDTO",
       "read_like": true,
       "transaction_relevant": true,
       "transaction_read_only": true,
@@ -404,48 +429,23 @@
 
       ],
       "dto_types": [
-        "LocationDebugStatusDTO"
+        "LocationDebugStatusViewDTO"
       ],
       "line_hints": [
-        "public LocationDebugStatusDTO getDebugStatus() {",
+        "public LocationDebugStatusViewDTO getDebugStatus() {",
         "LocationLookupClient client = geoapifyLocationLookupClient.isConfigured()"
       ]
     },
     {
-      "service": "LocationSettingsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
-      "domain": "location",
-      "method": "toDto",
-      "return_type": "UserLocationSettingsDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "UserLocationSettingsDTO"
-      ],
-      "line_hints": [
-        "public UserLocationSettingsDTO toDto(AppUser user) {",
-        "return UserLocationSettingsDTO.builder()"
-      ]
-    },
-    {
-      "service": "LocationSettingsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
+      "service": "LocationQuestPresentationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java",
       "domain": "location",
       "method": "resolveQuestLocationLabel",
       "return_type": "String",
       "read_like": true,
       "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
+      "transaction_read_only": true,
+      "transaction_source": "class",
       "mixed_side_effect_flow": false,
       "repositories": [
 
@@ -462,15 +462,15 @@
       ]
     },
     {
-      "service": "LocationSettingsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
+      "service": "LocationQuestPresentationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java",
       "domain": "location",
       "method": "resolveQuestLocationSourceSummary",
       "return_type": "String",
       "read_like": true,
       "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
+      "transaction_read_only": true,
+      "transaction_source": "class",
       "mixed_side_effect_flow": false,
       "repositories": [
 
@@ -487,15 +487,15 @@
       ]
     },
     {
-      "service": "LocationSettingsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
+      "service": "LocationQuestPresentationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java",
       "domain": "location",
       "method": "resolveQuestLocationVisibilitySummary",
       "return_type": "String",
       "read_like": true,
       "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
+      "transaction_read_only": true,
+      "transaction_source": "class",
       "mixed_side_effect_flow": false,
       "repositories": [
 
@@ -512,15 +512,40 @@
       ]
     },
     {
-      "service": "LocationSettingsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
+      "service": "LocationSettingsViewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java",
+      "domain": "location",
+      "method": "toDto",
+      "return_type": "UserLocationSettingsDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "UserLocationSettingsDTO"
+      ],
+      "line_hints": [
+        "public UserLocationSettingsDTO toDto(AppUser user) {",
+        "return UserLocationSettingsDTO.builder()"
+      ]
+    },
+    {
+      "service": "LocationSettingsViewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java",
       "domain": "location",
       "method": "resolveUserLocationSharingSummary",
       "return_type": "String",
       "read_like": true,
       "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
+      "transaction_read_only": true,
+      "transaction_source": "class",
       "mixed_side_effect_flow": false,
       "repositories": [
 
@@ -537,15 +562,15 @@
       ]
     },
     {
-      "service": "LocationSettingsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
+      "service": "LocationSettingsViewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java",
       "domain": "location",
       "method": "resolveUserLocationVisibilitySummary",
       "return_type": "String",
       "read_like": true,
       "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
+      "transaction_read_only": true,
+      "transaction_source": "class",
       "mixed_side_effect_flow": false,
       "repositories": [
 
@@ -559,31 +584,6 @@
       "line_hints": [
         "public String resolveUserLocationVisibilitySummary(AppUser user) {",
         "if (user == null || user.getLocationMode() == null || user.getLocationMode() == UserLocationMode.OFF) {"
-      ]
-    },
-    {
-      "service": "LocationSettingsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
-      "domain": "location",
-      "method": "resolveUserApproximateLocationLabel",
-      "return_type": "String",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-
-      ],
-      "line_hints": [
-        "public String resolveUserApproximateLocationLabel(AppUser user) {",
-        "if (user == null) {"
       ]
     },
     {
@@ -658,7 +658,157 @@
       ],
       "line_hints": [
         "public CircleSearchResultListResponseDTO getNearbyUsers(AppUser currentUser, Integer radiusKm, int page, int size) {",
-        "if (!locationSettingsService.isUserDiscoverableNearby(currentUser)) {"
+        "if (!locationGeoService.isUserDiscoverableNearby(currentUser)) {"
+      ]
+    },
+    {
+      "service": "CircleDiscoveryService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+      "domain": "social",
+      "method": "getInviteCandidates",
+      "return_type": "List<CircleSearchResultDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<CircleSearchResultDTO>"
+      ],
+      "line_hints": [
+        "public List<CircleSearchResultDTO> getInviteCandidates(AppUser currentUser) {",
+        "return getInviteCandidatesPage(currentUser, 0, 12).getItems();"
+      ]
+    },
+    {
+      "service": "CircleDiscoveryService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+      "domain": "social",
+      "method": "getInviteCandidatesPage",
+      "return_type": "CircleSearchResultListResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "AppUserRepository"
+      ],
+      "helper_types": [
+        "CircleViewAssembler"
+      ],
+      "dto_types": [
+        "CircleSearchResultListResponseDTO"
+      ],
+      "line_hints": [
+        "public CircleSearchResultListResponseDTO getInviteCandidatesPage(AppUser currentUser, int page, int size) {",
+        "List<CircleSearchResultDTO> results = appUserRepository.findAll().stream()"
+      ]
+    },
+    {
+      "service": "CircleDiscoveryService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+      "domain": "social",
+      "method": "searchCircleUsers",
+      "return_type": "CircleSearchResultListResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "AppUserRepository"
+      ],
+      "helper_types": [
+        "CircleViewAssembler"
+      ],
+      "dto_types": [
+        "CircleSearchResultListResponseDTO"
+      ],
+      "line_hints": [
+        "public CircleSearchResultListResponseDTO searchCircleUsers(AppUser currentUser, String query, int page, int size) {",
+        "String normalizedQuery = circleViewAssembler.normalizeSearchQuery(query);"
+      ]
+    },
+    {
+      "service": "CircleDiscoveryService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+      "domain": "social",
+      "method": "searchCircleUsers",
+      "return_type": "List<CircleSearchResultDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<CircleSearchResultDTO>"
+      ],
+      "line_hints": [
+        "public List<CircleSearchResultDTO> searchCircleUsers(AppUser currentUser, String query) {",
+        "return searchCircleUsers(currentUser, query, 0, Integer.MAX_VALUE).getItems();"
+      ]
+    },
+    {
+      "service": "CircleDiscoveryService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+      "domain": "social",
+      "method": "getBlockedUsers",
+      "return_type": "CircleSearchResultListResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "CircleRequestRepository"
+      ],
+      "helper_types": [
+        "CircleViewAssembler"
+      ],
+      "dto_types": [
+        "CircleSearchResultListResponseDTO"
+      ],
+      "line_hints": [
+        "public CircleSearchResultListResponseDTO getBlockedUsers(AppUser currentUser, String query, int page, int size) {",
+        "String normalizedQuery = circleViewAssembler.normalizeSearchQuery(query);"
+      ]
+    },
+    {
+      "service": "CircleDiscoveryService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+      "domain": "social",
+      "method": "getRelationWithUser",
+      "return_type": "CircleRelationDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "AppUserRepository"
+      ],
+      "helper_types": [
+        "CircleViewAssembler"
+      ],
+      "dto_types": [
+        "CircleRelationDTO"
+      ],
+      "line_hints": [
+        "public CircleRelationDTO getRelationWithUser(AppUser currentUser, Long otherUserId) {",
+        "if (currentUser == null || otherUserId == null) {"
       ]
     },
     {
@@ -762,6 +912,381 @@
       ]
     },
     {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getMyCircles",
+      "return_type": "List<CircleRequestResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "CircleRequestRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<CircleRequestResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<CircleRequestResponseDTO> getMyCircles(AppUser currentUser) {",
+        "return circleRequestRepository.findAcceptedByUserId(currentUser.getId())"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getAdminOverview",
+      "return_type": "AdminCircleOverviewDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "CircleRequestRepository"
+      ],
+      "helper_types": [
+        "CircleViewAssembler"
+      ],
+      "dto_types": [
+        "AdminCircleOverviewDTO"
+      ],
+      "line_hints": [
+        "public AdminCircleOverviewDTO getAdminOverview(AppUser currentUser, String query) {",
+        "validateAdmin(currentUser);"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getOverview",
+      "return_type": "CircleOverviewDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+        "CircleViewAssembler"
+      ],
+      "dto_types": [
+        "CircleOverviewDTO"
+      ],
+      "line_hints": [
+        "public CircleOverviewDTO getOverview(AppUser currentUser) {",
+        "List<CircleContactDTO> connections = loadConnections(currentUser);"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getCircles",
+      "return_type": "List<CircleGroupResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "CircleGroupRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<CircleGroupResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<CircleGroupResponseDTO> getCircles(AppUser currentUser) {",
+        "return circleGroupRepository.findAllDetailedByOwnerId(currentUser.getId()).stream()"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getCirclesForUserAsAdmin",
+      "return_type": "List<CircleGroupResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "CircleGroupRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<CircleGroupResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<CircleGroupResponseDTO> getCirclesForUserAsAdmin(Long userId, AppUser currentUser) {",
+        "validateAdmin(currentUser);"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getAllCirclesForAdmin",
+      "return_type": "List<AdminCircleGroupResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "CircleGroupRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<AdminCircleGroupResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<AdminCircleGroupResponseDTO> getAllCirclesForAdmin() {",
+        "return circleGroupRepository.findAllDetailed().stream()"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getConnections",
+      "return_type": "List<CircleContactDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<CircleContactDTO>"
+      ],
+      "line_hints": [
+        "public List<CircleContactDTO> getConnections(AppUser currentUser) {",
+        "return loadConnections(currentUser);"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getConnections",
+      "return_type": "CircleContactListResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+        "CircleViewAssembler"
+      ],
+      "dto_types": [
+        "CircleContactListResponseDTO"
+      ],
+      "line_hints": [
+        "public CircleContactListResponseDTO getConnections(AppUser currentUser, String query, Long circleId, boolean unassigned, int page, int size) {",
+        "List<CircleContactDTO> connections = loadConnections(currentUser).stream()"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getConnectionsForUserAsAdmin",
+      "return_type": "List<CircleContactDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<CircleContactDTO>"
+      ],
+      "line_hints": [
+        "public List<CircleContactDTO> getConnectionsForUserAsAdmin(Long userId, AppUser currentUser) {",
+        "validateAdmin(currentUser);"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getIncomingRequests",
+      "return_type": "List<CircleRequestResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<CircleRequestResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<CircleRequestResponseDTO> getIncomingRequests(AppUser currentUser) {",
+        "return loadIncomingRequests(currentUser);"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getIncomingRequests",
+      "return_type": "CircleRequestListResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+        "CircleViewAssembler"
+      ],
+      "dto_types": [
+        "CircleRequestListResponseDTO"
+      ],
+      "line_hints": [
+        "public CircleRequestListResponseDTO getIncomingRequests(AppUser currentUser, String query, int page, int size) {",
+        "List<CircleRequestResponseDTO> requests = loadIncomingRequests(currentUser).stream()"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getOutgoingRequests",
+      "return_type": "List<CircleRequestResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<CircleRequestResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<CircleRequestResponseDTO> getOutgoingRequests(AppUser currentUser) {",
+        "return loadOutgoingRequests(currentUser);"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getOutgoingRequests",
+      "return_type": "CircleRequestListResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+        "CircleViewAssembler"
+      ],
+      "dto_types": [
+        "CircleRequestListResponseDTO"
+      ],
+      "line_hints": [
+        "public CircleRequestListResponseDTO getOutgoingRequests(AppUser currentUser, String query, int page, int size) {",
+        "List<CircleRequestResponseDTO> requests = loadOutgoingRequests(currentUser).stream()"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "getOwnedCirclesByIds",
+      "return_type": "List<CircleGroup>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public List<CircleGroup> getOwnedCirclesByIds(AppUser owner, List<Long> circleIds) {",
+        "return circleMembershipService.getOwnedCirclesByIds(owner, circleIds);"
+      ]
+    },
+    {
+      "service": "CircleReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "domain": "social",
+      "method": "findRelation",
+      "return_type": "Optional<CircleRequest>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public Optional<CircleRequest> findRelation(AppUser leftUser, AppUser rightUser) {",
+        "return circleRelationService.findRelation(leftUser, rightUser);"
+      ]
+    },
+    {
       "service": "CircleRelationService",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
       "domain": "social",
@@ -798,7 +1323,7 @@
       "transaction_source": "method",
       "mixed_side_effect_flow": false,
       "repositories": [
-        "CircleRequestRepository"
+
       ],
       "helper_types": [
 
@@ -808,7 +1333,7 @@
       ],
       "line_hints": [
         "public List<CircleRequestResponseDTO> getMyCircles(AppUser currentUser) {",
-        "return circleRequestRepository.findAcceptedByUserId(currentUser.getId())"
+        "return circleReadService.getMyCircles(currentUser);"
       ]
     },
     {
@@ -823,17 +1348,17 @@
       "transaction_source": "method",
       "mixed_side_effect_flow": false,
       "repositories": [
-        "CircleRequestRepository"
+
       ],
       "helper_types": [
-        "CircleViewAssembler"
+
       ],
       "dto_types": [
         "AdminCircleOverviewDTO"
       ],
       "line_hints": [
         "public AdminCircleOverviewDTO getAdminOverview(AppUser currentUser, String query) {",
-        "validateAdmin(currentUser);"
+        "return circleReadService.getAdminOverview(currentUser, query);"
       ]
     },
     {
@@ -851,14 +1376,14 @@
 
       ],
       "helper_types": [
-        "CircleViewAssembler"
+
       ],
       "dto_types": [
         "CircleOverviewDTO"
       ],
       "line_hints": [
         "public CircleOverviewDTO getOverview(AppUser currentUser) {",
-        "List<CircleContactDTO> connections = loadConnections(currentUser);"
+        "return circleReadService.getOverview(currentUser);"
       ]
     },
     {
@@ -873,7 +1398,7 @@
       "transaction_source": "method",
       "mixed_side_effect_flow": false,
       "repositories": [
-        "CircleGroupRepository"
+
       ],
       "helper_types": [
 
@@ -883,7 +1408,7 @@
       ],
       "line_hints": [
         "public List<CircleGroupResponseDTO> getCircles(AppUser currentUser) {",
-        "return circleGroupRepository.findAllDetailedByOwnerId(currentUser.getId()).stream()"
+        "return circleReadService.getCircles(currentUser);"
       ]
     },
     {
@@ -898,7 +1423,7 @@
       "transaction_source": "method",
       "mixed_side_effect_flow": false,
       "repositories": [
-        "CircleGroupRepository"
+
       ],
       "helper_types": [
 
@@ -908,7 +1433,7 @@
       ],
       "line_hints": [
         "public List<CircleGroupResponseDTO> getCirclesForUserAsAdmin(Long userId, AppUser currentUser) {",
-        "validateAdmin(currentUser);"
+        "return circleReadService.getCirclesForUserAsAdmin(userId, currentUser);"
       ]
     },
     {
@@ -923,7 +1448,7 @@
       "transaction_source": "method",
       "mixed_side_effect_flow": false,
       "repositories": [
-        "CircleGroupRepository"
+
       ],
       "helper_types": [
 
@@ -933,7 +1458,7 @@
       ],
       "line_hints": [
         "public List<AdminCircleGroupResponseDTO> getAllCirclesForAdmin() {",
-        "return circleGroupRepository.findAllDetailed().stream()"
+        "return circleReadService.getAllCirclesForAdmin();"
       ]
     },
     {
@@ -958,7 +1483,7 @@
       ],
       "line_hints": [
         "public List<CircleContactDTO> getConnections(AppUser currentUser) {",
-        "return loadConnections(currentUser);"
+        "return circleReadService.getConnections(currentUser);"
       ]
     },
     {
@@ -976,14 +1501,14 @@
 
       ],
       "helper_types": [
-        "CircleViewAssembler"
+
       ],
       "dto_types": [
         "CircleContactListResponseDTO"
       ],
       "line_hints": [
         "public CircleContactListResponseDTO getConnections(AppUser currentUser, String query, Long circleId, boolean unassigned, int page, int size) {",
-        "List<CircleContactDTO> connections = loadConnections(currentUser).stream()"
+        "return circleReadService.getConnections(currentUser, query, circleId, unassigned, page, size);"
       ]
     },
     {
@@ -1008,7 +1533,7 @@
       ],
       "line_hints": [
         "public List<CircleContactDTO> getConnectionsForUserAsAdmin(Long userId, AppUser currentUser) {",
-        "validateAdmin(currentUser);"
+        "return circleReadService.getConnectionsForUserAsAdmin(userId, currentUser);"
       ]
     },
     {
@@ -1033,7 +1558,7 @@
       ],
       "line_hints": [
         "public List<CircleRequestResponseDTO> getIncomingRequests(AppUser currentUser) {",
-        "return loadIncomingRequests(currentUser);"
+        "return circleReadService.getIncomingRequests(currentUser);"
       ]
     },
     {
@@ -1051,14 +1576,14 @@
 
       ],
       "helper_types": [
-        "CircleViewAssembler"
+
       ],
       "dto_types": [
         "CircleRequestListResponseDTO"
       ],
       "line_hints": [
         "public CircleRequestListResponseDTO getIncomingRequests(AppUser currentUser, String query, int page, int size) {",
-        "List<CircleRequestResponseDTO> requests = loadIncomingRequests(currentUser).stream()"
+        "return circleReadService.getIncomingRequests(currentUser, query, page, size);"
       ]
     },
     {
@@ -1083,7 +1608,7 @@
       ],
       "line_hints": [
         "public List<CircleRequestResponseDTO> getOutgoingRequests(AppUser currentUser) {",
-        "return loadOutgoingRequests(currentUser);"
+        "return circleReadService.getOutgoingRequests(currentUser);"
       ]
     },
     {
@@ -1101,14 +1626,14 @@
 
       ],
       "helper_types": [
-        "CircleViewAssembler"
+
       ],
       "dto_types": [
         "CircleRequestListResponseDTO"
       ],
       "line_hints": [
         "public CircleRequestListResponseDTO getOutgoingRequests(AppUser currentUser, String query, int page, int size) {",
-        "List<CircleRequestResponseDTO> requests = loadOutgoingRequests(currentUser).stream()"
+        "return circleReadService.getOutgoingRequests(currentUser, query, page, size);"
       ]
     },
     {
@@ -1133,7 +1658,7 @@
       ],
       "line_hints": [
         "public List<CircleSearchResultDTO> getInviteCandidates(AppUser currentUser) {",
-        "return getInviteCandidatesPage(currentUser, 0, 12).getItems();"
+        "return circleDiscoveryService.getInviteCandidates(currentUser);"
       ]
     },
     {
@@ -1148,17 +1673,17 @@
       "transaction_source": "method",
       "mixed_side_effect_flow": false,
       "repositories": [
-        "AppUserRepository"
+
       ],
       "helper_types": [
-        "CircleViewAssembler"
+
       ],
       "dto_types": [
         "CircleSearchResultListResponseDTO"
       ],
       "line_hints": [
         "public CircleSearchResultListResponseDTO searchCircleUsers(AppUser currentUser, String query, int page, int size) {",
-        "String normalizedQuery = circleViewAssembler.normalizeSearchQuery(query);"
+        "return circleDiscoveryService.searchCircleUsers(currentUser, query, page, size);"
       ]
     },
     {
@@ -1173,17 +1698,17 @@
       "transaction_source": "method",
       "mixed_side_effect_flow": false,
       "repositories": [
-        "AppUserRepository"
+
       ],
       "helper_types": [
-        "CircleViewAssembler"
+
       ],
       "dto_types": [
         "CircleSearchResultListResponseDTO"
       ],
       "line_hints": [
         "public CircleSearchResultListResponseDTO getInviteCandidatesPage(AppUser currentUser, int page, int size) {",
-        "List<CircleSearchResultDTO> results = appUserRepository.findAll().stream()"
+        "return circleDiscoveryService.getInviteCandidatesPage(currentUser, page, size);"
       ]
     },
     {
@@ -1198,17 +1723,17 @@
       "transaction_source": "method",
       "mixed_side_effect_flow": false,
       "repositories": [
-        "CircleRequestRepository"
+
       ],
       "helper_types": [
-        "CircleViewAssembler"
+
       ],
       "dto_types": [
         "CircleSearchResultListResponseDTO"
       ],
       "line_hints": [
         "public CircleSearchResultListResponseDTO getBlockedUsers(AppUser currentUser, String query, int page, int size) {",
-        "String normalizedQuery = circleViewAssembler.normalizeSearchQuery(query);"
+        "return circleDiscoveryService.getBlockedUsers(currentUser, query, page, size);"
       ]
     },
     {
@@ -1226,14 +1751,14 @@
 
       ],
       "helper_types": [
-        "CircleViewAssembler"
+
       ],
       "dto_types": [
         "CircleRelationDTO"
       ],
       "line_hints": [
         "public CircleRelationDTO getRelationWithUser(AppUser currentUser, Long otherUserId) {",
-        "if (currentUser == null || otherUserId == null) {"
+        "return circleDiscoveryService.getRelationWithUser(currentUser, otherUserId);"
       ]
     },
     {
@@ -1258,7 +1783,7 @@
       ],
       "line_hints": [
         "public List<CircleSearchResultDTO> searchCircleUsers(AppUser currentUser, String query) {",
-        "return searchCircleUsers(currentUser, query, 0, Integer.MAX_VALUE).getItems();"
+        "return circleDiscoveryService.searchCircleUsers(currentUser, query);"
       ]
     },
     {
@@ -1283,7 +1808,7 @@
       ],
       "line_hints": [
         "public List<CircleGroup> getOwnedCirclesByIds(AppUser owner, List<Long> circleIds) {",
-        "return circleMembershipService.getOwnedCirclesByIds(owner, circleIds);"
+        "return circleReadService.getOwnedCirclesByIds(owner, circleIds);"
       ]
     },
     {
@@ -1460,7 +1985,7 @@
       ],
       "line_hints": [
         "public CircleSearchResultDTO toSearchResult(AppUser currentUser, AppUser candidate, Optional<CircleRequest> relation) {",
-        "CircleRelationStatus relationStatus = resolveRelationStatus(relation, currentUser.getId());"
+        "CircleRelationStatusDTO relationStatus = resolveRelationStatus(relation, currentUser.getId());"
       ]
     },
     {
@@ -1484,7 +2009,7 @@
         "CircleRelationDTO"
       ],
       "line_hints": [
-        "public CircleRelationDTO toRelationDto(CircleRelationStatus relationStatus, boolean blockedByCurrentUser) {",
+        "public CircleRelationDTO toRelationDto(CircleRelationStatusDTO relationStatus, boolean blockedByCurrentUser) {",
         "return CircleRelationDTO.builder()"
       ]
     },
@@ -1568,7 +2093,7 @@
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
       "domain": "social",
       "method": "resolveRelationStatus",
-      "return_type": "CircleRelationStatus",
+      "return_type": "CircleRelationStatusDTO",
       "read_like": true,
       "transaction_relevant": false,
       "transaction_read_only": false,
@@ -1581,10 +2106,10 @@
 
       ],
       "dto_types": [
-
+        "CircleRelationStatusDTO"
       ],
       "line_hints": [
-        "public CircleRelationStatus resolveRelationStatus(Optional<CircleRequest> relation, Long currentUserId) {",
+        "public CircleRelationStatusDTO resolveRelationStatus(Optional<CircleRequest> relation, Long currentUserId) {",
         "return relation"
       ]
     },
@@ -1609,8 +2134,8 @@
 
       ],
       "line_hints": [
-        "public SearchActions searchActions(CircleRelationStatus relationStatus, boolean blockedByCurrentUser) {",
-        "if (relationStatus == CircleRelationStatus.NONE) {"
+        "public SearchActions searchActions(CircleRelationStatusDTO relationStatus, boolean blockedByCurrentUser) {",
+        "if (relationStatus == CircleRelationStatusDTO.NONE) {"
       ]
     },
     {
@@ -1661,6 +2186,81 @@
       "line_hints": [
         "public ThingListingListResponseDTO getMyListings(AppUser currentUser) {",
         "return ThingListingListResponseDTO.builder()"
+      ]
+    },
+    {
+      "service": "DashboardPlannerAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardPlannerAssembler.java",
+      "domain": "workmarket",
+      "method": "buildPlannerSection",
+      "return_type": "DashboardPlannerSectionDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "DashboardPlannerSectionDTO"
+      ],
+      "line_hints": [
+        "public DashboardPlannerSectionDTO buildPlannerSection(",
+        "List<QuestResponseDTO> incomingWorkQuests,"
+      ]
+    },
+    {
+      "service": "DashboardSectionGrouper",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionGrouper.java",
+      "domain": "workmarket",
+      "method": "buildQuestGroups",
+      "return_type": "List<DashboardQuestGroupDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<DashboardQuestGroupDTO>"
+      ],
+      "line_hints": [
+        "public List<DashboardQuestGroupDTO> buildQuestGroups(List<QuestResponseDTO> quests) {",
+        "return List.of("
+      ]
+    },
+    {
+      "service": "DashboardSectionGrouper",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionGrouper.java",
+      "domain": "workmarket",
+      "method": "buildApplicationGroups",
+      "return_type": "List<DashboardApplicationGroupDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<DashboardApplicationGroupDTO>"
+      ],
+      "line_hints": [
+        "public List<DashboardApplicationGroupDTO> buildApplicationGroups(List<QuestApplicationResponseDTO> applications) {",
+        "return List.of("
       ]
     },
     {
@@ -1719,7 +2319,7 @@
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
       "domain": "workmarket",
       "method": "resolveViewerRelation",
-      "return_type": "QuestViewerRelation",
+      "return_type": "QuestViewerRelationDTO",
       "read_like": true,
       "transaction_relevant": false,
       "transaction_read_only": false,
@@ -1732,10 +2332,10 @@
 
       ],
       "dto_types": [
-
+        "QuestViewerRelationDTO"
       ],
       "line_hints": [
-        "public QuestViewerRelation resolveViewerRelation(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {",
+        "public QuestViewerRelationDTO resolveViewerRelation(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {",
         "if (currentUser == null) {"
       ]
     },
@@ -1744,7 +2344,7 @@
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
       "domain": "workmarket",
       "method": "resolveAllowedActions",
-      "return_type": "List<QuestAllowedAction>",
+      "return_type": "List<QuestAllowedActionDTO>",
       "read_like": true,
       "transaction_relevant": false,
       "transaction_read_only": false,
@@ -1757,16 +2357,116 @@
 
       ],
       "dto_types": [
-
+        "List<QuestAllowedActionDTO>"
       ],
       "line_hints": [
-        "public List<QuestAllowedAction> resolveAllowedActions(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {",
-        "List<QuestAllowedAction> allowedActions = new ArrayList<>();"
+        "public List<QuestAllowedActionDTO> resolveAllowedActions(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {",
+        "List<QuestAllowedActionDTO> allowedActions = new ArrayList<>();"
       ]
     },
     {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "service": "QuestApplicationAdminQueryService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminQueryService.java",
+      "domain": "workmarket",
+      "method": "getAllApplicationsForAdmin",
+      "return_type": "List<QuestApplicationResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestApplicationRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<QuestApplicationResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<QuestApplicationResponseDTO> getAllApplicationsForAdmin(AppUser currentUser) {",
+        "workflowSupport.validateAdmin(currentUser);"
+      ]
+    },
+    {
+      "service": "QuestApplicationAdminQueryService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminQueryService.java",
+      "domain": "workmarket",
+      "method": "searchApplicationsForAdmin",
+      "return_type": "QuestApplicationListResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestApplicationRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationListResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationListResponseDTO searchApplicationsForAdmin(",
+        "AppUser currentUser,"
+      ]
+    },
+    {
+      "service": "QuestApplicationPresentationAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java",
+      "domain": "workmarket",
+      "method": "resolveApplicantActions",
+      "return_type": "List<ApplicationAllowedActionDTO>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<ApplicationAllowedActionDTO>"
+      ],
+      "line_hints": [
+        "public List<ApplicationAllowedActionDTO> resolveApplicantActions(QuestApplication application) {",
+        "if (application == null || application.getStatus() != QuestApplicationStatus.PENDING) {"
+      ]
+    },
+    {
+      "service": "QuestApplicationPresentationAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java",
+      "domain": "workmarket",
+      "method": "resolveManagementActions",
+      "return_type": "List<ApplicationAllowedActionDTO>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<ApplicationAllowedActionDTO>"
+      ],
+      "line_hints": [
+        "public List<ApplicationAllowedActionDTO> resolveManagementActions(QuestApplication application) {",
+        "if (application == null || application.getStatus() != QuestApplicationStatus.PENDING) {"
+      ]
+    },
+    {
+      "service": "QuestApplicationReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
       "domain": "workmarket",
       "method": "getApplicationsForQuest",
       "return_type": "List<QuestApplicationResponseDTO>",
@@ -1790,8 +2490,8 @@
       ]
     },
     {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "service": "QuestApplicationReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
       "domain": "workmarket",
       "method": "getApplicationsViewForQuest",
       "return_type": "QuestApplicationsViewDTO",
@@ -1815,8 +2515,8 @@
       ]
     },
     {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "service": "QuestApplicationReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
       "domain": "workmarket",
       "method": "getPublicApprovedApplicationsViewForQuest",
       "return_type": "QuestApplicationsViewDTO",
@@ -1840,8 +2540,8 @@
       ]
     },
     {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "service": "QuestApplicationReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
       "domain": "workmarket",
       "method": "getApplicationsForApplicant",
       "return_type": "List<QuestApplicationResponseDTO>",
@@ -1865,8 +2565,8 @@
       ]
     },
     {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "service": "QuestApplicationReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
       "domain": "workmarket",
       "method": "toApplicantResponse",
       "return_type": "QuestApplicationResponseDTO",
@@ -1890,8 +2590,8 @@
       ]
     },
     {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "service": "QuestApplicationReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
       "domain": "workmarket",
       "method": "toViewerResponse",
       "return_type": "QuestApplicationResponseDTO",
@@ -1918,6 +2618,156 @@
       "service": "QuestApplicationService",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
       "domain": "workmarket",
+      "method": "getApplicationsForQuest",
+      "return_type": "List<QuestApplicationResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<QuestApplicationResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<QuestApplicationResponseDTO> getApplicationsForQuest(Long questId, AppUser currentUser) {",
+        "return questApplicationReadService.getApplicationsForQuest(questId, currentUser);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "domain": "workmarket",
+      "method": "getApplicationsViewForQuest",
+      "return_type": "QuestApplicationsViewDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationsViewDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationsViewDTO getApplicationsViewForQuest(Long questId, AppUser currentUser, boolean showAll) {",
+        "return questApplicationReadService.getApplicationsViewForQuest(questId, currentUser, showAll);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "domain": "workmarket",
+      "method": "getPublicApprovedApplicationsViewForQuest",
+      "return_type": "QuestApplicationsViewDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationsViewDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationsViewDTO getPublicApprovedApplicationsViewForQuest(Long questId) {",
+        "return questApplicationReadService.getPublicApprovedApplicationsViewForQuest(questId);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "domain": "workmarket",
+      "method": "getApplicationsForApplicant",
+      "return_type": "List<QuestApplicationResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<QuestApplicationResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<QuestApplicationResponseDTO> getApplicationsForApplicant(AppUser currentUser) {",
+        "return questApplicationReadService.getApplicationsForApplicant(currentUser);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "domain": "workmarket",
+      "method": "toApplicantResponse",
+      "return_type": "QuestApplicationResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationResponseDTO toApplicantResponse(QuestApplication application) {",
+        "return questApplicationReadService.toApplicantResponse(application);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "domain": "workmarket",
+      "method": "toViewerResponse",
+      "return_type": "QuestApplicationResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationResponseDTO toViewerResponse(QuestApplication application, AppUser currentUser) {",
+        "return questApplicationReadService.toViewerResponse(application, currentUser);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "domain": "workmarket",
       "method": "getAllApplicationsForAdmin",
       "return_type": "List<QuestApplicationResponseDTO>",
       "read_like": true,
@@ -1926,7 +2776,7 @@
       "transaction_source": "class",
       "mixed_side_effect_flow": false,
       "repositories": [
-        "QuestApplicationRepository"
+
       ],
       "helper_types": [
 
@@ -1936,7 +2786,7 @@
       ],
       "line_hints": [
         "public List<QuestApplicationResponseDTO> getAllApplicationsForAdmin(AppUser currentUser) {",
-        "workflowSupport.validateAdmin(currentUser);"
+        "return questApplicationAdminQueryService.getAllApplicationsForAdmin(currentUser);"
       ]
     },
     {
@@ -1951,7 +2801,7 @@
       "transaction_source": "class",
       "mixed_side_effect_flow": false,
       "repositories": [
-        "QuestApplicationRepository"
+
       ],
       "helper_types": [
 
@@ -1979,14 +2829,15 @@
 
       ],
       "helper_types": [
-        "QuestApplicationMgr"
+        "QuestApplicationMgr",
+        "QuestApplicationPresentationAssembler"
       ],
       "dto_types": [
         "QuestApplicationResponseDTO"
       ],
       "line_hints": [
         "public QuestApplicationResponseDTO toApplicantResponse(QuestApplication application) {",
-        "return withAllowedActions(questApplicationMgr.toDto(application), resolveApplicantActions(application));"
+        "return questApplicationPresentationAssembler.withAllowedActions("
       ]
     },
     {
@@ -2004,14 +2855,15 @@
 
       ],
       "helper_types": [
-        "QuestApplicationMgr"
+        "QuestApplicationMgr",
+        "QuestApplicationPresentationAssembler"
       ],
       "dto_types": [
         "QuestApplicationResponseDTO"
       ],
       "line_hints": [
         "public QuestApplicationResponseDTO toManagementResponse(QuestApplication application) {",
-        "return withAllowedActions(questApplicationMgr.toDto(application), resolveManagementActions(application));"
+        "return questApplicationPresentationAssembler.withAllowedActions("
       ]
     },
     {
@@ -2029,14 +2881,15 @@
 
       ],
       "helper_types": [
-        "QuestApplicationMgr"
+        "QuestApplicationMgr",
+        "QuestApplicationPresentationAssembler"
       ],
       "dto_types": [
         "QuestApplicationResponseDTO"
       ],
       "line_hints": [
         "public QuestApplicationResponseDTO toPublicResponse(QuestApplication application) {",
-        "return withAllowedActions(questApplicationMgr.toDto(application), List.of());"
+        "return questApplicationPresentationAssembler.withAllowedActions(questApplicationMgr.toDto(application), java.util.List.of());"
       ]
     },
     {
@@ -2190,6 +3043,56 @@
       ]
     },
     {
+      "service": "QuestPresentationAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPresentationAssembler.java",
+      "domain": "workmarket",
+      "method": "buildDefaultPresentation",
+      "return_type": "QuestPresentationDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestPresentationDTO"
+      ],
+      "line_hints": [
+        "public QuestPresentationDTO buildDefaultPresentation(Quest quest) {",
+        "return baseBuilder(quest, null)"
+      ]
+    },
+    {
+      "service": "QuestPresentationAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPresentationAssembler.java",
+      "domain": "workmarket",
+      "method": "buildPresentation",
+      "return_type": "QuestPresentationDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestPresentationDTO"
+      ],
+      "line_hints": [
+        "public QuestPresentationDTO buildPresentation(Quest quest, QuestResponseDTO questResponse, AppUser currentUser) {",
+        "boolean canStart = questResponse.getAllowedActions().contains(QuestAllowedActionDTO.START);"
+      ]
+    },
+    {
       "service": "QuestQueryService",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestQueryService.java",
       "domain": "workmarket",
@@ -2215,8 +3118,8 @@
       ]
     },
     {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getAllQuests",
       "return_type": "List<Quest>",
@@ -2240,8 +3143,8 @@
       ]
     },
     {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getAllQuestResponses",
       "return_type": "List<QuestResponseDTO>",
@@ -2265,8 +3168,8 @@
       ]
     },
     {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "searchQuests",
       "return_type": "QuestListResponseDTO",
@@ -2290,8 +3193,8 @@
       ]
     },
     {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getQuestListPreset",
       "return_type": "QuestListResponseDTO",
@@ -2311,12 +3214,12 @@
       ],
       "line_hints": [
         "public QuestListResponseDTO getQuestListPreset(",
-        "QuestListPreset preset,"
+        "QuestListPresetDTO preset,"
       ]
     },
     {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getQuestById",
       "return_type": "Quest",
@@ -2340,8 +3243,8 @@
       ]
     },
     {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getQuestResponseById",
       "return_type": "QuestResponseDTO",
@@ -2365,8 +3268,8 @@
       ]
     },
     {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getQuestDetailResponseById",
       "return_type": "QuestDetailResponseDTO",
@@ -2393,8 +3296,8 @@
       ]
     },
     {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getApplicationDetailResponseById",
       "return_type": "QuestApplicationDetailResponseDTO",
@@ -2421,8 +3324,8 @@
       ]
     },
     {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "toResponse",
       "return_type": "QuestResponseDTO",
@@ -2446,8 +3349,8 @@
       ]
     },
     {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "toResponses",
       "return_type": "List<QuestResponseDTO>",
@@ -2471,6 +3374,81 @@
       ]
     },
     {
+      "service": "QuestService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "domain": "workmarket",
+      "method": "getQuestById",
+      "return_type": "Quest",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public Quest getQuestById(Long id, AppUser currentUser) {",
+        "return questReadService.getQuestById(id, currentUser);"
+      ]
+    },
+    {
+      "service": "QuestService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "domain": "workmarket",
+      "method": "getQuestResponseById",
+      "return_type": "QuestResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestResponseDTO getQuestResponseById(Long id, AppUser currentUser) {",
+        "return questReadService.getQuestResponseById(id, currentUser);"
+      ]
+    },
+    {
+      "service": "QuestService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "domain": "workmarket",
+      "method": "toResponse",
+      "return_type": "QuestResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestResponseDTO toResponse(Quest quest, AppUser currentUser) {",
+        "return questReadService.toResponse(quest, currentUser);"
+      ]
+    },
+    {
       "service": "QuestViewAssembler",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
       "domain": "workmarket",
@@ -2485,7 +3463,8 @@
         "QuestApplicationRepository"
       ],
       "helper_types": [
-        "QuestMgr"
+        "QuestMgr",
+        "QuestPresentationAssembler"
       ],
       "dto_types": [
         "QuestResponseDTO"
@@ -2542,7 +3521,7 @@
       ],
       "line_hints": [
         "public QuestDetailExecutionSectionDTO buildQuestDetailExecutionSection(QuestResponseDTO questResponse) {",
-        "boolean canStart = questResponse.getAllowedActions().contains(QuestAllowedAction.START);"
+        "boolean canStart = questResponse.getAllowedActions().contains(QuestAllowedActionDTO.START);"
       ]
     },
     {
@@ -2566,7 +3545,7 @@
         "QuestDetailTermChangeSectionDTO"
       ],
       "line_hints": [
-        "public QuestDetailTermChangeSectionDTO buildQuestDetailTermChangeSection(Quest quest, List<QuestAllowedAction> allowedActions) {",
+        "public QuestDetailTermChangeSectionDTO buildQuestDetailTermChangeSection(Quest quest, List<QuestAllowedActionDTO> allowedActions) {",
         "return QuestDetailTermChangeSectionDTO.builder()"
       ]
     },
@@ -2592,7 +3571,7 @@
       ],
       "line_hints": [
         "public QuestDetailManagementSectionDTO buildQuestDetailManagementSection(QuestResponseDTO questResponse) {",
-        "boolean canManageQuest = questResponse.getViewerRelation() == QuestViewerRelation.OWNER;"
+        "boolean canManageQuest = questResponse.getViewerRelation() == QuestViewerRelationDTO.OWNER;"
       ]
     },
     {
@@ -2707,6 +3686,6 @@
       ]
     }
   ],
-  "transaction_relevant_read_surface_count": 59,
-  "missing_read_only_transaction_count": 0
+  "transaction_relevant_read_surface_count": 87,
+  "missing_read_only_transaction_count": 2
 }

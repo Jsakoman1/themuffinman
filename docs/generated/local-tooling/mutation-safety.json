@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-29T12:47:26Z",
-  "mutation_surface_count": 106,
+  "generated_at": "2026-06-29T19:55:01Z",
+  "mutation_surface_count": 107,
   "endpoint_count": 46,
-  "service_method_count": 60,
+  "service_method_count": 61,
   "review_needed_count": 0,
   "high_priority_count": 0,
   "medium_priority_count": 0,
@@ -1074,7 +1074,7 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
       ],
       "scenario_signals": [
         "domain:location",
@@ -1106,6 +1106,8 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
       ],
       "scenario_signals": [
@@ -3250,14 +3252,99 @@
       "priority": "none"
     },
     {
-      "id": "service:QuestApplicationService:applyAdminStatusUpdate",
+      "id": "service:QuestApplicationAdminService:applyAdminStatusUpdate",
       "type": "service",
-      "name": "QuestApplicationService#applyAdminStatusUpdate",
+      "name": "QuestApplicationAdminService#applyAdminStatusUpdate",
       "method": "applyAdminStatusUpdate",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
       "domain": "workmarket",
       "risk_factors": [
         "permission_or_authority",
+        "state_transition",
+        "admin_surface"
+      ],
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceLayeringConventionTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/RepositoryFetchProfileContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java"
+      ],
+      "scenario_signals": [
+        "domain:workmarket",
+        "permission",
+        "ownership",
+        "status",
+        "transition",
+        "workflow",
+        "notification",
+        "admin",
+        "mutation"
+      ],
+      "missing_signals": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "id": "service:QuestApplicationAdminService:deleteApplicationForAdmin",
+      "type": "service",
+      "name": "QuestApplicationAdminService#deleteApplicationForAdmin",
+      "method": "deleteApplicationForAdmin",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
+      "domain": "workmarket",
+      "risk_factors": [
+        "permission_or_authority",
+        "state_transition",
+        "admin_surface"
+      ],
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceLayeringConventionTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/RepositoryFetchProfileContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java"
+      ],
+      "scenario_signals": [
+        "domain:workmarket",
+        "permission",
+        "ownership",
+        "status",
+        "transition",
+        "workflow",
+        "notification",
+        "admin",
+        "mutation"
+      ],
+      "missing_signals": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "id": "service:QuestApplicationAdminService:updateApplicationForAdmin",
+      "type": "service",
+      "name": "QuestApplicationAdminService#updateApplicationForAdmin",
+      "method": "updateApplicationForAdmin",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
+      "domain": "workmarket",
+      "risk_factors": [
+        "permission_or_authority",
+        "ownership_sensitive",
         "state_transition",
         "admin_surface"
       ],
@@ -3300,50 +3387,6 @@
       "domain": "workmarket",
       "risk_factors": [
         "permission_or_authority",
-        "state_transition",
-        "admin_surface"
-      ],
-      "backend_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceLayeringConventionTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/RepositoryFetchProfileContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java"
-      ],
-      "scenario_signals": [
-        "domain:workmarket",
-        "permission",
-        "ownership",
-        "status",
-        "transition",
-        "workflow",
-        "notification",
-        "admin",
-        "mutation"
-      ],
-      "missing_signals": [
-
-      ],
-      "priority": "none"
-    },
-    {
-      "id": "service:QuestApplicationService:updateApplicationForAdmin",
-      "type": "service",
-      "name": "QuestApplicationService#updateApplicationForAdmin",
-      "method": "updateApplicationForAdmin",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-      "domain": "workmarket",
-      "risk_factors": [
-        "permission_or_authority",
-        "ownership_sensitive",
-        "state_transition",
         "admin_surface"
       ],
       "backend_tests": [

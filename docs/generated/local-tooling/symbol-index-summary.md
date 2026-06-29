@@ -1,7 +1,7 @@
 # Symbol Index
 
-- Generated At: `2026-06-29T12:47:28Z`
-- Symbol Count: `894`
+- Generated At: `2026-06-29T19:55:04Z`
+- Symbol Count: `909`
 ## `symbols`
 
 - `{:symbol: "AdminAgentController", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java", :category: "backend_controller", :domain: "agent", :methods: ["runPlaygroundPrompt", "runSimulation"], :refs: 1}`
@@ -25,8 +25,8 @@
 - `{:symbol: "SandboxGenerationPlan", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java", :category: "other", :domain: "agent", :methods: ["empty", "isEmpty"], :refs: 8}`
 - `{:symbol: "SandboxGenerationPlanner", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java", :category: "other", :domain: "agent", :methods: ["planFor", "mentionsQuestGeneration", "mentionsQuest"], :refs: 4}`
 - `{:symbol: "BusinessHubView", :kind: "frontend", :file: "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue", :category: "frontend_view", :domain: "business", :refs: 4}`
-- `{:symbol: "BusinessProfile", :kind: "frontend", :file: "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts", :category: "frontend_api", :domain: "business", :refs: 31}`
 - `{:symbol: "BusinessProfile", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java", :category: "backend_model", :domain: "business", :methods: [], :refs: 31}`
+- `{:symbol: "BusinessProfile", :kind: "frontend", :file: "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts", :category: "frontend_api", :domain: "business", :refs: 31}`
 - `{:symbol: "BusinessProfileController", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java", :category: "backend_controller", :domain: "business", :methods: ["getDirectory", "getMyProfile", "saveMyProfile", "getProfileBySlug"], :refs: 2}`
 - `{:symbol: "BusinessProfileListResponse", :kind: "frontend", :file: "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts", :category: "frontend_api", :domain: "business", :refs: 3}`
 
