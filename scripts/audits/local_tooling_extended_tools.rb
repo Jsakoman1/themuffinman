@@ -19,6 +19,9 @@ module LocalToolingExtendedTools
     ["audit-change-impact-preflight", "scripts/audits/audit-change-impact-preflight.rb", "docs/generated/local-tooling/change-impact-preflight-summary.md"],
     ["changeset-risk", "scripts/audits/score-changeset-risk.rb", "docs/generated/local-tooling/changeset-risk-summary.md"],
     ["audit-router", "scripts/audits/audit-router.rb", "docs/generated/local-tooling/audit-router-summary.md"],
+    ["codex-context", "scripts/audits/codex-context.rb", "docs/generated/local-tooling/codex-context/latest.human.md"],
+    ["codex-context-explain", "scripts/audits/codex-context.rb", "docs/generated/local-tooling/codex-context/latest.explain.md"],
+    ["codex-context-clean", "scripts/audits/codex-context.rb", "docs/generated/local-tooling/codex-context/"],
     ["context-pack", "scripts/audits/generate-context-pack.rb", "docs/generated/local-tooling/context-packs"],
     ["recommend-feature-slices", "scripts/audits/recommend-feature-slices.rb", "docs/generated/local-tooling/feature-slices/<topic>-summary.md"],
     ["recommend-targeted-tests", "scripts/audits/recommend-targeted-tests.rb", "docs/generated/local-tooling/targeted-tests-summary.md"],
@@ -35,6 +38,7 @@ module LocalToolingExtendedTools
     ["rank-changeset-hotspots", "scripts/audits/rank-changeset-hotspots.rb", "docs/generated/local-tooling/hotspots-summary.md"],
     ["domain-pack", "scripts/audits/generate-domain-pack.rb", "docs/generated/local-tooling/domain-packs/<domain-id>-summary.md"],
     ["audit-doc-sync-preflight", "scripts/audits/audit-doc-sync-preflight.rb", "docs/generated/local-tooling/doc-sync-preflight-summary.md"],
+    ["audit-doc-sync-required-surfaces", "scripts/audits/audit-doc-sync-required-surfaces.rb", "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md"],
     ["audit-doc-template-coverage", "scripts/audits/audit-doc-template-coverage.rb", "docs/generated/local-tooling/doc-template-coverage-summary.md"],
     ["audit-doc-sync-duplicates", "scripts/audits/audit-doc-sync-duplicates.rb", "docs/generated/local-tooling/doc-sync-duplicates-summary.md"],
     ["audit-manifest-decision", "scripts/audits/audit-manifest-decision.rb", "docs/generated/local-tooling/manifest-decision-summary.md"],
@@ -71,6 +75,7 @@ module LocalToolingExtendedTools
     ["smoke-local-dashboard", "scripts/audits/smoke-local-dashboard.rb", "docs/generated/local-tooling/smoke/local-dashboard-latest.json"],
     ["closeout-bundle", "scripts/audits/generate-closeout-bundle.rb", "docs/generated/local-tooling/closeout-bundle-summary.md"],
     ["closeout-report", "scripts/audits/generate-closeout-report.rb", "docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md"],
+    ["autofill-feature-closeout", "scripts/audits/autofill-feature-closeout.rb", "docs/generated/local-tooling/closeout-autofill/<feature-id>-summary.md"],
     ["enforce-feature-closeout", "scripts/audits/enforce-feature-closeout.rb", "docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md"],
     ["post-merge-retrospective", "scripts/audits/generate-post-merge-retrospective.rb", "docs/generated/local-tooling/post-merge-retrospectives/latest-summary.md"],
     ["audit-plan-completion", "scripts/audits/audit-plan-completion.rb", "docs/generated/local-tooling/plan-completion/<plan-id>-summary.md"],
@@ -88,6 +93,54 @@ module LocalToolingExtendedTools
     "rides" => %w[docs/business-logic.md docs/domain-technical.md docs/agent-operating-model.md],
     "agent" => %w[docs/agent-operating-model.md docs/agent-operating-model.yaml docs/domain-technical.md]
   }.freeze
+
+  def changeset_snapshot(files = nil, include_generated: false, include_agents: false)
+    selected_files = Array(files).compact.map(&:to_s).reject(&:empty?).uniq
+    key = [selected_files.sort, include_generated, include_agents]
+    @changeset_snapshot_cache ||= {}
+    return deep_copy(@changeset_snapshot_cache[key]) if @changeset_snapshot_cache.key?(key)
+
+    status_entries = LocalToolingCommon.git_status_entries
+    all_paths = status_entries.map { |entry| entry[:path] }.select { |path| File.exist?(abs(path)) }.uniq
+    filtered = LocalToolingCommon.filter_file_list(
+      selected_files.empty? ? all_paths : selected_files,
+      include_generated: include_generated,
+      include_agents: include_agents
+    )
+    included = filtered[:included]
+    status_map = status_entries.each_with_object({}) do |entry, rows|
+      rows[entry[:path]] = entry[:status]
+    end
+    snapshot = {
+      generated_at: now,
+      all_changed_files: all_paths,
+      included_files: included,
+      excluded_files: filtered[:excluded],
+      original_file_count: filtered[:original_file_count],
+      filtered_file_count: filtered[:filtered_file_count],
+      excluded_file_count: filtered[:excluded_file_count],
+      status_entries: status_entries.select { |entry| included.include?(entry[:path]) || all_paths.include?(entry[:path]) },
+      status_by_path: status_map,
+      changed_line_map: included.each_with_object({}) do |path, rows|
+        rows[path] = LocalToolingCommon.changed_line_numbers(path, status_map)
+      end,
+      diff_stats: included.each_with_object({}) do |path, rows|
+        rows[path] = LocalToolingCommon.diff_stat_for(path, status_map)
+      end,
+      source_hashes: included.each_with_object({}) do |path, rows|
+        digest = LocalToolingCommon.sha256_for(path)
+        rows[path] = digest if digest
+      end,
+      categories: included.each_with_object({}) do |path, rows|
+        rows[path] = category_for(path)
+      end,
+      domains: included.each_with_object({}) do |path, rows|
+        rows[path] = domain_for(path)
+      end
+    }
+    @changeset_snapshot_cache[key] = snapshot
+    deep_copy(snapshot)
+  end
 
   def run(mode, argv = ARGV)
     public_send("run_#{mode.tr('-', '_')}", argv)
@@ -326,6 +379,7 @@ module LocalToolingExtendedTools
         "docs/generated/local-tooling/diff-summary.md",
         "docs/generated/local-tooling/audit-router-summary.md",
         "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+        "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
         "docs/generated/local-tooling/manifest-decision-summary.md",
         "docs/generated/local-tooling/manifest-path-resolution-summary.md",
         "docs/generated/local-tooling/validation-preset-summary.md"
@@ -354,17 +408,43 @@ module LocalToolingExtendedTools
 
   def run_doc_sync_preflight(argv)
     files = argv.empty? ? changed_files : argv
-    rows = files.map do |path|
-      category = category_for(path)
-      domain = domain_for(path)
-      docs = DOCS_BY_DOMAIN.fetch(domain, []).dup
-      docs << "docs/codex-local-tooling-todo.md" if path.start_with?("scripts/")
-      docs << "docs/agent-operating-model.yaml" if category.start_with?("backend_") || category == "docs"
-      docs.uniq!
-      {file: path, category: category, domain: domain, likely_docs: docs}
-    end
+    rows = doc_sync_rows_for(files)
     report = {generated_at: now, files: rows, unique_docs: rows.flat_map { |row| row[:likely_docs] }.uniq.sort}
     write_report("doc-sync-preflight", "Doc Sync Preflight", report)
+  end
+
+  def run_doc_sync_required_surfaces(argv)
+    options = parse_key_values(argv)
+    files = option_files(options, argv)
+    snapshot =
+      if files.empty?
+        changeset_snapshot(nil, include_generated: truthy?(options["include_generated"]), include_agents: truthy?(options["include_agents"]))
+      else
+        changeset_snapshot(files, include_generated: truthy?(options["include_generated"]), include_agents: truthy?(options["include_agents"]))
+      end
+    files = snapshot[:included_files]
+    manifest = manifest_decision_for(files)
+    manifest_resolution = resolve_manifest_path_for(files)
+    preset = validation_preset_for(files, manifest, manifest_resolution)
+    rows = doc_sync_rows_for(files)
+    report = {
+      generated_at: now,
+      original_file_count: snapshot[:original_file_count],
+      filtered_file_count: snapshot[:filtered_file_count],
+      excluded_file_count: snapshot[:excluded_file_count],
+      excluded_files_sample: snapshot[:excluded_files].first(25),
+      changed_file_count: files.size,
+      files: rows,
+      required_docs: rows.flat_map { |row| row[:likely_docs] }.uniq.sort,
+      required_generated_artifacts: rows.flat_map { |row| Array(row[:generated_artifacts]) }.uniq.sort,
+      required_validation_commands: rows.flat_map { |row| Array(row[:validation_commands]) }.uniq.sort,
+      recommended_audits: router_audits_for(files),
+      manifest_decision: manifest,
+      manifest_resolution: manifest_resolution,
+      validation_preset: preset,
+      residual_risk: rows.flat_map { |row| Array(row[:residual_risk]) }.uniq.sort
+    }
+    write_report("doc-sync-required-surfaces", "Doc Sync Required Surfaces", report)
   end
 
   def run_validation_preset(argv)
@@ -618,16 +698,16 @@ module LocalToolingExtendedTools
 
   def run_diff_summary(_argv)
     options = parse_key_values(_argv)
-    entries = git_status_entries
-    filter = filter_files(entries.map { |entry| entry[:path] }, options)
-    included = filter[:included].to_set
+    snapshot = changeset_snapshot(nil, include_generated: truthy?(options["include_generated"]), include_agents: truthy?(options["include_agents"]))
+    entries = snapshot[:status_entries]
+    included = snapshot[:included_files].to_set
     entries = entries.select { |entry| included.include?(entry[:path]) }
     report = {
       generated_at: now,
-      original_file_count: filter[:original_file_count],
-      filtered_file_count: filter[:filtered_file_count],
-      excluded_file_count: filter[:excluded_file_count],
-      excluded_files_sample: filter[:excluded].first(25),
+      original_file_count: snapshot[:original_file_count],
+      filtered_file_count: snapshot[:filtered_file_count],
+      excluded_file_count: snapshot[:excluded_file_count],
+      excluded_files_sample: snapshot[:excluded_files].first(25),
       changed_file_count: entries.size,
       groups: entries.group_by { |entry| [domain_for(entry[:path]), category_for(entry[:path])] }.map { |(domain, category), rows| {domain: domain, category: category, count: rows.size, files: rows} },
       recommended_audits: router_audits_for(entries.map { |entry| entry[:path] })
@@ -861,6 +941,98 @@ module LocalToolingExtendedTools
       final_checks: ["make audit-summary-index", options["manifest"] ? "make feature-closeout-audit manifest=#{options['manifest']}" : nil].compact
     }
     write_report("closeout-bundle", "Closeout Bundle", report)
+  end
+
+  def run_autofill_feature_closeout(argv)
+    options = parse_key_values(argv)
+    manifest_path = (options["manifest"] || argv.reject { |arg| arg.include?("=") || arg.start_with?("--") }.first).to_s.strip
+    raise "usage: autofill-feature-closeout manifest=<manifest-file> [files=<csv>] [generated=<csv>] [docs=<csv>] [ready=true]" if manifest_path.empty?
+    raise "manifest not found: #{manifest_path}" unless File.file?(abs(manifest_path))
+
+    manifest = YAML.load_file(abs(manifest_path)) || {}
+    files = option_files(options, argv)
+    snapshot =
+      if files.empty?
+        changeset_snapshot(nil, include_generated: true, include_agents: true)
+      else
+        changeset_snapshot(files, include_generated: true, include_agents: true)
+      end
+    changed_files_for_closeout = snapshot[:all_changed_files]
+    doc_rows = doc_sync_rows_for(changed_files_for_closeout)
+    generated_paths = csv_list(options["generated"]) + changed_files_for_closeout.select { |path| LocalToolingCommon.generated_path?(path) }
+    doc_paths = csv_list(options["docs"]) + changed_files_for_closeout.select do |path|
+      path.start_with?("docs/") || path.start_with?(".agents/") || path == "AGENTS.md"
+    end
+    plan_file = manifest["planFile"].to_s
+    plan_open_tasks = plan_file.empty? || !File.exist?(abs(plan_file)) ? 0 : File.readlines(abs(plan_file)).count { |line| line.start_with?("- [ ]") }
+    command_results = Array(manifest.dig("validationEvidence", "commands"))
+    passed_commands = command_results.select { |entry| entry.is_a?(Hash) && entry["result"] == "passed" }.map { |entry| entry["command"].to_s }
+
+    manifest["docDelta"] ||= {}
+    manifest["docDelta"]["docsUpdated"] = (Array(manifest.dig("docDelta", "docsUpdated")) + doc_paths).uniq.sort
+    manifest["docDelta"]["intentionallyUnchanged"] ||= []
+    manifest["generatedArtifacts"] ||= {}
+    manifest["generatedArtifacts"]["refreshedPaths"] = (Array(manifest.dig("generatedArtifacts", "refreshedPaths")) + generated_paths).uniq.sort
+    manifest["generatedArtifacts"]["notApplicableReason"] =
+      if manifest["generatedArtifacts"]["refreshedPaths"].empty?
+        "No generated artifacts were refreshed by this change."
+      else
+        "Generated artifacts are listed in refreshedPaths."
+      end
+
+    manifest["artifacts"] ||= {}
+    manifest["artifacts"]["docPaths"] = (Array(manifest.dig("artifacts", "docPaths")) + doc_paths).uniq.sort
+    manifest["artifacts"]["codePaths"] ||= []
+    manifest["artifacts"]["testPaths"] ||= []
+    manifest["artifacts"]["generatorCommands"] ||= []
+    manifest["artifacts"]["auditCommands"] ||= []
+
+    manifest["planCompletion"] ||= {}
+    manifest["planCompletion"]["reviewed"] = plan_open_tasks.zero?
+    manifest["planCompletion"]["openTasks"] = plan_open_tasks
+    manifest["planCompletion"]["summary"] = plan_open_tasks.zero? ? "Plan has no open checkbox tasks." : "Plan still has #{plan_open_tasks} open checkbox task(s)."
+
+    manifest["checklist"] ||= {}
+    manifest["checklist"]["tempPlanCreated"] = true
+    manifest["checklist"]["codeImplemented"] = changed_files_for_closeout.any? { |path| path.start_with?("scripts/") || path.include?("/src/") || path.end_with?(".java") || path.end_with?(".rb") || path.end_with?(".mjs") }
+    manifest["checklist"]["docsSynced"] = manifest["artifacts"]["docPaths"].any?
+    manifest["checklist"]["agentModelSynced"] = (Array(manifest["artifacts"]["docPaths"]) & %w[docs/agent-operating-model.md docs/agent-operating-model.yaml]).any?
+    manifest["checklist"]["backendTestsPassed"] = passed_commands.any? { |command| command.match?(%r{mvnw .*test|./mvnw test|make audit-agent-safety}) }
+    manifest["checklist"]["frontendValidationPassed"] = passed_commands.any? { |command| command.include?("npm --prefix apps/themuffinman/frontend run type-check") } &&
+      passed_commands.any? { |command| command.include?("npm --prefix apps/themuffinman/frontend run build") }
+    manifest["checklist"]["destructivePolicyChecked"] = manifest.dig("checklist", "destructivePolicyChecked") != false
+    manifest["checklist"]["multilingualCoverageChecked"] = manifest.dig("checklist", "multilingualCoverageChecked") != false
+
+    manifest["backlog"] ||= {}
+    manifest["backlog"]["reviewed"] = manifest.dig("backlog", "reviewed") == true
+    manifest["backlog"]["createdIds"] ||= []
+    manifest["backlog"]["resolvedIds"] ||= []
+
+    if truthy?(options["ready"])
+      manifest["closeoutDecision"] ||= {}
+      manifest["closeoutDecision"]["status"] = "ready"
+      manifest["closeoutDecision"]["reason"] = "Autofill prepared the manifest and the caller marked it ready for final audit."
+    else
+      manifest["closeoutDecision"] ||= {}
+      manifest["closeoutDecision"]["status"] ||= "deferred"
+      manifest["closeoutDecision"]["reason"] ||= "Autofill updated evidence and artifact paths; review before final closeout."
+    end
+
+    File.write(abs(manifest_path), YAML.dump(manifest).sub(/\A---\n/, ""))
+    feature_id = manifest["featureId"].to_s.empty? ? File.basename(manifest_path, ".yaml").sub(/-manifest\z/, "") : manifest["featureId"].to_s
+    report = {
+      generated_at: now,
+      manifest: manifest_path,
+      feature_id: feature_id,
+      changed_file_count: changed_files_for_closeout.size,
+      changed_files: changed_files_for_closeout.first(80),
+      required_docs: doc_rows.flat_map { |row| row[:likely_docs] }.uniq.sort,
+      required_generated_artifacts: doc_rows.flat_map { |row| Array(row[:generated_artifacts]) }.uniq.sort,
+      plan_open_tasks: plan_open_tasks,
+      closeout_status: manifest.dig("closeoutDecision", "status"),
+      validation_command_count: command_results.size
+    }
+    write_report("closeout-autofill/#{slug(feature_id)}", "Closeout Autofill #{feature_id}", report)
   end
 
   def run_post_merge_retrospective(argv)
@@ -1371,7 +1543,7 @@ module LocalToolingExtendedTools
     audits += ["make audit-read-surface-inventory", "make audit-repository-fetch", "make audit-mapper-usage"] if categories.any? { |category| category.start_with?("backend_") }
     audits += ["make audit-api-contract-drift", "make audit-endpoint-callsite-linker", "make endpoint-contract-packs"] if categories.include?("backend_controller") || categories.include?("frontend_api")
     audits += ["make audit-frontend-route-surfaces", "make audit-async-mutation-flow", "make audit-frontend-usage-graph"] if categories.any? { |category| category.start_with?("frontend_") }
-    audits += ["make audit-doc-sync-preflight", "make audit-documentation", "make audit-doc-canonical-phrases"] if categories.include?("docs")
+    audits += ["make audit-doc-sync-preflight", "make audit-doc-sync-required-surfaces", "make audit-documentation", "make audit-doc-canonical-phrases"] if categories.include?("docs") || files.any? { |path| path.start_with?("scripts/") || path.start_with?(".agents/") }
     audits += ["make audit-migration-entity-drift"] if categories.include?("backend_model")
     audits += ["make audit-test-gap-recommendations", "make audit-summary-index"]
     audits.uniq
@@ -1484,20 +1656,15 @@ module LocalToolingExtendedTools
   end
 
   def git_status_entries
-    LocalToolingCommon.run_command("git", "status", "--short").lines.each_with_object([]) do |line, entries|
-      next if line.strip.empty?
-      entries << {status: line[0, 2].strip, path: line[3..].to_s.strip.split(" -> ").last}
-    end
-  rescue StandardError
-    []
+    LocalToolingCommon.git_status_entries
   end
 
   def changed_files
-    git_status_entries.map { |entry| entry[:path] }.select { |path| File.file?(abs(path)) }.uniq
+    changeset_snapshot[:included_files]
   end
 
   def changed_files_all
-    git_status_entries.map { |entry| entry[:path] }.select { |path| File.exist?(abs(path)) }.uniq
+    changeset_snapshot[:all_changed_files]
   end
 
   def infer_topic_files(topic)
@@ -1546,6 +1713,10 @@ module LocalToolingExtendedTools
     LocalToolingCommon.repo_glob(*patterns).map { |path| LocalToolingCommon.relative_path(path) }
   end
 
+  def truthy?(value)
+    LocalToolingCommon.truthy?(value)
+  end
+
   def read(path)
     normalize_text(File.binread(abs(path)))
   rescue Errno::ENOENT, Errno::EISDIR
@@ -1574,6 +1745,10 @@ module LocalToolingExtendedTools
     value.to_s.downcase.gsub(/[^a-z0-9_-]+/, "-").gsub(/-+/, "-").sub(/^-/, "").sub(/-$/, "")
   end
 
+  def deep_copy(value)
+    JSON.parse(JSON.generate(value), symbolize_names: true)
+  end
+
   def camel_to_snake(value)
     value.gsub(/([a-z0-9])([A-Z])/, "\\1_\\2").downcase
   end
@@ -1589,6 +1764,10 @@ module LocalToolingExtendedTools
     raw = options["files"]
     files = raw ? raw.split(",") : argv.reject { |arg| arg.include?("=") || arg.start_with?("--") }
     files.map(&:strip).reject(&:empty?).select { |path| File.file?(abs(path)) }.uniq
+  end
+
+  def csv_list(value)
+    value.to_s.split(",").map(&:strip).reject(&:empty?)
   end
 
   def symbol_definition_files(symbol)
@@ -2123,10 +2302,36 @@ module LocalToolingExtendedTools
       domain = domain_for(path)
       docs = DOCS_BY_DOMAIN.fetch(domain, []).dup
       docs << "docs/codex-local-tooling-todo.md" if path.start_with?("scripts/")
+      docs << "docs/feature-delivery-workflow.md" if path.start_with?("scripts/") || path.start_with?(".agents/") || path.include?("codex")
       docs << "docs/agent-operating-model.yaml" if category.start_with?("backend_") || category == "docs"
       docs.uniq!
-      {file: path, category: category, domain: domain, likely_docs: docs}
+      {
+        file: path,
+        category: category,
+        domain: domain,
+        likely_docs: docs,
+        generated_artifacts: required_generated_artifacts_for(path, category),
+        validation_commands: validation_rules.fetch(category, []),
+        residual_risk: doc_sync_residual_risk(path, category, docs)
+      }
     end
+  end
+
+  def required_generated_artifacts_for(path, category)
+    artifacts = []
+    artifacts << "docs/generated/local-tooling/codex-context/latest.machine.json" if path.start_with?("scripts/") || path.include?("codex-context")
+    artifacts << "docs/generated/local-tooling/codex-context/latest.human.md" if path.start_with?("scripts/") || path.include?("codex-context")
+    artifacts << "docs/tooling/codex-local-audits.yml" if path.start_with?("scripts/") || path == "Makefile"
+    artifacts << "docs/generated/local-tooling/manifest-path-resolution.json" if category == "docs" || path.start_with?(".agents/")
+    artifacts.uniq
+  end
+
+  def doc_sync_residual_risk(path, category, docs)
+    risks = []
+    risks << "No likely docs were resolved for this path." if docs.empty?
+    risks << "Script or Makefile changes can invalidate generated audit registry outputs." if path.start_with?("scripts/") || path == "Makefile"
+    risks << "Agent-facing logic changes may also require manifest and closeout updates." if path.start_with?(".agents/") || category == "docs"
+    risks.uniq
   end
 
   def changeset_playbook_steps(files, manifest, preset, docs)
@@ -2223,6 +2428,7 @@ module LocalToolingExtendedTools
 
   def validation_preset_supporting_reports(preset)
     reports = ["docs/generated/local-tooling/targeted-tests-summary.md", "docs/generated/local-tooling/audit-router-summary.md"]
+    reports << "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md"
     reports << "docs/generated/local-tooling/closeout-bundle-summary.md" if %w[full-closeout manifest-required].include?(preset)
     reports << "docs/generated/local-tooling/fast-check-report-summary.md" if preset == "fast"
     reports

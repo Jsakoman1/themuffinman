@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require "digest"
 require "fileutils"
 require "json"
 require "open3"
@@ -11,6 +12,7 @@ module LocalToolingCommon
   OUTPUT_ROOT = File.join(REPO_ROOT, "docs/generated/local-tooling")
   GENERATED_PATH_PREFIXES = [
     "docs/generated/",
+    "docs/generated/local-tooling/codex-context/",
     "apps/themuffinman/frontend/dist/",
     "apps/themuffinman/frontend/src/contracts/generated/"
   ].freeze
@@ -61,19 +63,76 @@ module LocalToolingCommon
     stdout
   end
 
-  def git_changed_files
-    stdout = run_command("git", "status", "--short")
-    stdout.lines.each_with_object([]) do |line, paths|
+  def git_status_entries
+    run_command("git", "status", "--short").lines.each_with_object([]) do |line, entries|
       next if line.strip.empty?
 
       candidate = line[3..]&.strip
       next if candidate.nil? || candidate.empty?
 
       candidate = candidate.split(" -> ").last
-      paths << candidate
+      entries << {status: line[0, 2].strip, path: candidate}
     end
   rescue StandardError
     []
+  end
+
+  def git_changed_files
+    git_status_entries.map { |entry| entry[:path] }
+  end
+
+  def git_status_map
+    git_status_entries.each_with_object({}) do |entry, rows|
+      rows[entry[:path]] = entry[:status]
+    end
+  end
+
+  def changed_line_numbers(path, status_map = git_status_map)
+    status = status_map[path]
+    if status == "??" || status == "A"
+      line_count = read(path).lines.size
+      return (1..line_count).to_a
+    end
+
+    diff = run_command("git", "diff", "--unified=0", "--", path)
+    diff.lines.each_with_object([]) do |line, rows|
+      next unless line.start_with?("@@")
+
+      segment = line[/\+(\d+)(?:,(\d+))?/, 0]
+      next if segment.nil?
+
+      start_line = Regexp.last_match(1).to_i
+      count = Regexp.last_match(2).to_i
+      count = 1 if count.zero?
+      rows.concat((start_line...(start_line + count)).to_a)
+    end.uniq.sort
+  rescue StandardError
+    []
+  end
+
+  def diff_stat_for(path, status_map = git_status_map)
+    status = status_map[path]
+    if status == "??"
+      added = read(path).lines.size
+      return {path: path, added: added, removed: 0}
+    end
+
+    output = run_command("git", "diff", "--numstat", "--", path).strip
+    return {path: path, added: 0, removed: 0} if output.empty?
+
+    added, removed, diff_path = output.split("\t", 3)
+    {path: diff_path || path, added: added.to_i, removed: removed.to_i}
+  rescue StandardError
+    nil
+  end
+
+  def sha256_for(path)
+    absolute = path.start_with?("/") ? path : File.join(REPO_ROOT, path)
+    return nil unless File.file?(absolute)
+
+    Digest::SHA256.hexdigest(File.binread(absolute))
+  rescue StandardError
+    nil
   end
 
   def truthy?(value)

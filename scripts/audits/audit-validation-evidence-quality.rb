@@ -59,7 +59,7 @@ violations = []
 
 each_yaml_file.each do |path|
   relative_path = path.relative_path_from(ROOT).to_s
-  evidence = YAML.safe_load_file(path, permitted_classes: [Time, Date], aliases: false) || {}
+  evidence = YAML.safe_load(File.read(path), permitted_classes: [Time, Date], aliases: false) || {}
 
   Array(evidence["summary"]).each_with_index do |summary, index|
     violations << "#{relative_path}: summary[#{index}] is too vague" if vague?(summary)

@@ -920,6 +920,40 @@ Use it for tooling that should produce compact outputs Codex can consume instead
   - Gather service methods, state transitions, permission gates, scenario tests, docs sections, and frontend actions for one workflow.
   - Primary value is high local-context density for workflow changes without reopening many mixed-layer files.
 
+- [x] `CODEX-LOCAL-CONTEXT-GATEWAY-MVP`
+  Entrypoints:
+  - `ruby scripts/audits/codex-context.rb collect [mode=<mode>] [budget=<tokens>] [topic=<topic>] [files=<csv>]`
+  - `ruby scripts/audits/codex-context.rb explain`
+  - `ruby scripts/audits/codex-context.rb clean`
+  - `make codex-context`
+  - `make codex-context-explain`
+  - `make codex-context-clean`
+  Outputs:
+  - `docs/generated/local-tooling/codex-context/latest.machine.json`
+  - `docs/generated/local-tooling/codex-context/latest.human.md`
+  - `docs/generated/local-tooling/codex-context/latest.explain.md`
+  - `docs/generated/local-tooling/codex-context/packs/*.json`
+  Notes:
+  - Acts as a thin orchestration layer over the existing local audit stack instead of replacing those tools.
+  - Centralizes ContextPack normalization, relevance scoring, budget downgrade, provenance, and compact human output.
+  - Uses `docs/generated/local-tooling/codex-context/` as the repo-native writable equivalent of the requested `.codex/context/` target.
+
+- [ ] `CODEX-LOCAL-CONTEXT-GATEWAY-JAVA-AST-DIFF`
+  Notes:
+  - The gateway already uses parser-backed extraction for TypeScript/JavaScript/Vue through local frontend dependencies.
+  - Replace the remaining heuristic Java changed-symbol isolation with a parser-backed Java implementation.
+  - Keep the pack contract stable while improving symbol precision and caller/callee extraction.
+
+- [ ] `CODEX-LOCAL-CONTEXT-GATEWAY-POSTGRES-SCHEMA-PROVIDER`
+  Notes:
+  - Add a local-only schema snapshot provider with touched-table focus, FK-neighbor expansion, and sensitive-column filtering.
+  - Do not expose data rows or connect to production environments.
+
+- [ ] `CODEX-LOCAL-CONTEXT-GATEWAY-VUE-RUNTIME-BRIDGE`
+  Notes:
+  - Add a dev-only runtime snapshot bridge for active route, matched components, and sanitized store shapes.
+  - Keep auth, cookies, localStorage, and personal data out of the payload by default.
+
 ## Operating Notes
 
 - Prefer scripts that generate compact machine-readable output plus one short human summary.

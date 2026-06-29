@@ -94,6 +94,7 @@ Planned modules:
     - `docs/agent-operating-model.md` for human review of agent-safe workflows
     - `docs/agent-operating-model.yaml` for machine-readable workflow rules, dependencies, defaults, enums, and endpoint
       mappings
+    - `docs/feature-delivery-workflow.md` for the canonical end-to-end feature delivery workflow from Codex prompt intake through planning, implementation, documentation sync, validation evidence, closeout audits, and final response
     - `docs/agent-operating-model.schema.json` for validating the YAML structure
     - `docs/implementation-backlog.md` for persistent open implementation and product-delivery work that should survive
       across Codex sessions
@@ -117,6 +118,7 @@ Planned modules:
 - Reusable templates for temporary plans and feature completion manifests live under `.agents/templates/`.
 - When business rules, domain models, permissions, validations, workflows, endpoint contracts, or automation assumptions
   change, update all affected living docs in the same change unless the edit is purely cosmetic.
+- When the implementation workflow, planning workflow, context gateway workflow, evidence capture path, manifest workflow, or closeout commands change, update `docs/feature-delivery-workflow.md` in the same change.
 - When a new feature or logical expansion changes what entities, workflows, validations, or states exist, also review
   and extend affected admin or sandbox generation flows in the agent-operating docs instead of leaving generation
   capabilities stale.

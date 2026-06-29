@@ -1,6 +1,6 @@
 # Audit Delta diff-summary
 
-- Generated At: `2026-06-29T12:47:34Z`
+- Generated At: `2026-06-29T15:10:38Z`
 - Audit: `diff-summary`
 - Current Output: `docs/generated/local-tooling/diff-summary.json`
 - Current Exists: `true`

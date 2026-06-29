@@ -1,0 +1,199 @@
+{
+  "changed_file_count": 6,
+  "categories": [
+    "other",
+    "script"
+  ],
+  "hotspots": [
+    {
+      "path": "Makefile",
+      "category": "other",
+      "domain": "shared",
+      "score": 17,
+      "score_breakdown": {
+        "category": 4,
+        "fanout": 8,
+        "dependency_centrality": 1,
+        "workflow_sensitivity": 4,
+        "test_links": 0
+      },
+      "linked_tests": [
+
+      ],
+      "related_docs": [
+
+      ],
+      "recommended_commands": [
+
+      ],
+      "reasons": [
+        "High repo fanout for `Makefile` (80 references).",
+        "Workflow or permission-sensitive logic detected.",
+        "Generated or tooling surface influences local automation.",
+        "Documentation or agent-safety surface can force sync work."
+      ]
+    },
+    {
+      "path": "scripts/audits/codex_local_context_gateway.rb",
+      "category": "script",
+      "domain": "shared",
+      "score": 17,
+      "score_breakdown": {
+        "category": 4,
+        "fanout": 8,
+        "dependency_centrality": 1,
+        "workflow_sensitivity": 4,
+        "test_links": 0
+      },
+      "linked_tests": [
+
+      ],
+      "related_docs": [
+
+      ],
+      "recommended_commands": [
+        "ruby -c <script>",
+        "make audit-summary-index"
+      ],
+      "reasons": [
+        "High repo fanout for `codex_local_context_gateway.rb` (10 references).",
+        "Workflow or permission-sensitive logic detected.",
+        "Generated or tooling surface influences local automation."
+      ]
+    },
+    {
+      "path": "scripts/audits/local_tooling_extended_tools.rb",
+      "category": "script",
+      "domain": "shared",
+      "score": 17,
+      "score_breakdown": {
+        "category": 4,
+        "fanout": 8,
+        "dependency_centrality": 1,
+        "workflow_sensitivity": 4,
+        "test_links": 0
+      },
+      "linked_tests": [
+
+      ],
+      "related_docs": [
+
+      ],
+      "recommended_commands": [
+        "ruby -c <script>",
+        "make audit-summary-index"
+      ],
+      "reasons": [
+        "High repo fanout for `local_tooling_extended_tools.rb` (154 references).",
+        "Workflow or permission-sensitive logic detected.",
+        "Generated or tooling surface influences local automation.",
+        "Documentation or agent-safety surface can force sync work."
+      ]
+    },
+    {
+      "path": "scripts/audits/codex-context.rb",
+      "category": "script",
+      "domain": "shared",
+      "score": 13,
+      "score_breakdown": {
+        "category": 4,
+        "fanout": 8,
+        "dependency_centrality": 1,
+        "workflow_sensitivity": 0,
+        "test_links": 0
+      },
+      "linked_tests": [
+
+      ],
+      "related_docs": [
+
+      ],
+      "recommended_commands": [
+        "ruby -c <script>",
+        "make audit-summary-index"
+      ],
+      "reasons": [
+        "High repo fanout for `codex-context.rb` (10 references).",
+        "Generated or tooling surface influences local automation."
+      ]
+    },
+    {
+      "path": "scripts/local_tooling_common.rb",
+      "category": "script",
+      "domain": "shared",
+      "score": 13,
+      "score_breakdown": {
+        "category": 4,
+        "fanout": 8,
+        "dependency_centrality": 1,
+        "workflow_sensitivity": 0,
+        "test_links": 0
+      },
+      "linked_tests": [
+
+      ],
+      "related_docs": [
+
+      ],
+      "recommended_commands": [
+        "ruby -c <script>",
+        "make audit-summary-index"
+      ],
+      "reasons": [
+        "High repo fanout for `local_tooling_common.rb` (31 references).",
+        "Generated or tooling surface influences local automation."
+      ]
+    },
+    {
+      "path": ".gitignore",
+      "category": "other",
+      "domain": "shared",
+      "score": 4,
+      "score_breakdown": {
+        "category": 3,
+        "fanout": 0,
+        "dependency_centrality": 1,
+        "workflow_sensitivity": 0,
+        "test_links": 0
+      },
+      "linked_tests": [
+
+      ],
+      "related_docs": [
+
+      ],
+      "recommended_commands": [
+
+      ],
+      "reasons": [
+
+      ]
+    }
+  ],
+  "read_first": [
+    "Makefile",
+    "scripts/audits/codex_local_context_gateway.rb",
+    "scripts/audits/local_tooling_extended_tools.rb",
+    "scripts/audits/codex-context.rb",
+    "scripts/local_tooling_common.rb",
+    ".gitignore"
+  ],
+  "recommended_commands": [
+    "make recommend-targeted-tests",
+    "make closeout-bundle manifest=.agents/feature-manifests/<feature-id>-manifest.yaml",
+    "make feature-closeout-audit manifest=.agents/feature-manifests/<feature-id>-manifest.yaml",
+    "make audit-generated-artifact-freshness",
+    "make audit-generated-commit-scope",
+    "make audit-agent-safety"
+  ],
+  "residual_risk": [
+    "Hotspot ranking is heuristic and does not replace feature-level domain judgment."
+  ],
+  "generated_at": "2026-06-29T15:07:06Z",
+  "original_file_count": 6,
+  "filtered_file_count": 0,
+  "excluded_file_count": 0,
+  "excluded_files_sample": [
+
+  ]
+}

@@ -162,16 +162,16 @@
     "payload_checksum": "4c66a093024581d3b26ba74075994aad154ac61c4bcf3d0818782ebb1ab918d7"
   },
   "audit-summary-index": {
-    "updated_at": "2026-06-29T12:47:35Z",
+    "updated_at": "2026-06-29T15:49:24Z",
     "output": "docs/generated/local-tooling/audit-summary-index.json",
     "cache_status": "refreshed",
-    "payload_checksum": "49af7b22ac5d056be36f4e7a338ad59a8b0060b59cddcff3c552a423904d2cc7"
+    "payload_checksum": "6935eb8fc73738f55eda379bb00e7c08839940eac968c2206ca2b89c98e022a2"
   },
   "audit-registry-artifacts": {
-    "updated_at": "2026-06-29T12:47:03Z",
+    "updated_at": "2026-06-29T15:49:24Z",
     "output": "docs/generated/local-tooling/audit-registry-artifacts.json",
     "cache_status": "refreshed",
-    "payload_checksum": "9d6a65ca5e6c4e456bbeccc718fb715e5a560cdb8b30774bc290ce4fc4bc9375"
+    "payload_checksum": "a4a0f25422f2863c85194cbbdd39fe72e2cfedec06ea2f7a8e33109ce81734b8"
   },
   "post-merge-retrospective": {
     "updated_at": "2026-06-29T10:07:43Z",
@@ -222,10 +222,10 @@
     "payload_checksum": "82460dd73c451e575c78dee4e4d1785a5988a16e53752e123a5dc300c9cdad9f"
   },
   "targeted-tests": {
-    "updated_at": "2026-06-29T12:47:32Z",
+    "updated_at": "2026-06-29T15:10:33Z",
     "output": "docs/generated/local-tooling/targeted-tests.json",
     "cache_status": "refreshed",
-    "payload_checksum": "7bfcd04083ffb3510360721e2db5240c652786b78fe30530566565265a30c2cf"
+    "payload_checksum": "ac557e803d36050979a12b59aa9e696e19fc14ce34bf28bf86686bc39660b5f8"
   },
   "test-history-summary": {
     "updated_at": "2026-06-29T12:47:35Z",
@@ -252,10 +252,10 @@
     "payload_checksum": "3a15107c801ac8db3e0a4162f495e540da773b8e19bbe61788d830210666453e"
   },
   "audit-deltas/diff-summary": {
-    "updated_at": "2026-06-29T12:47:34Z",
+    "updated_at": "2026-06-29T15:10:38Z",
     "output": "docs/generated/local-tooling/audit-deltas/diff-summary.json",
     "cache_status": "refreshed",
-    "payload_checksum": "a78a6e9f98c94384807b9b64f6852398af1274f92bd2c362b75d33283889b28b"
+    "payload_checksum": "32274d6c09ae6fce8cc6a9a47d1a5f4dd65cabe3f48af90df4ca87cf480c5fdf"
   },
   "audit-deltas/audit-router": {
     "updated_at": "2026-06-29T12:08:39Z",
@@ -294,15 +294,57 @@
     "payload_checksum": "841b20588b8b6e96844da4f3a8b8a64f4c1e22cad827c426b374c0aa2e2071f5"
   },
   "hotspots": {
-    "updated_at": "2026-06-29T12:47:31Z",
+    "updated_at": "2026-06-29T15:10:34Z",
     "output": "docs/generated/local-tooling/hotspots.json",
     "cache_status": "refreshed",
-    "payload_checksum": "79a70be5af44c4489cad8e5d12d5f7a3d3450d0e6a587145eabbc4638b5e55ab"
+    "payload_checksum": "503fbd439d95276df7a0f44ad8dde82f2f5857e700efb383ceacc1d26aded8ec"
   },
   "domain-packs/workmarket": {
     "updated_at": "2026-06-29T12:47:32Z",
     "output": "docs/generated/local-tooling/domain-packs/workmarket.json",
     "cache_status": "refreshed",
     "payload_checksum": "e5ac8140b5ff76636c580acad0db5999a135fe89994261f6706b80ad5070691d"
+  },
+  "session-handoffs/current-change": {
+    "updated_at": "2026-06-29T15:05:35Z",
+    "output": "docs/generated/local-tooling/session-handoffs/current-change.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "cb8697f9940186177b990d6e97f682c25c8272e2b9a0acc5568c9e74b6227c38"
+  },
+  "plan-code-maps/codex-local-context-gateway-master-plan": {
+    "updated_at": "2026-06-29T15:10:38Z",
+    "output": "docs/generated/local-tooling/plan-code-maps/codex-local-context-gateway-master-plan.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "bfe078d7645e9e66f8f2b4ffa7e746d9eb00b9b2342bc483327799fcc678af57"
+  },
+  "session-handoffs/gitignore": {
+    "updated_at": "2026-06-29T15:10:34Z",
+    "output": "docs/generated/local-tooling/session-handoffs/gitignore.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "274aceb4f56f2f9e2d7ac832f52c5fefb7edc8df01852afa543ea4c91ad8f16c"
+  },
+  "symbol-test-links/requirefromrepo": {
+    "updated_at": "2026-06-29T15:21:07Z",
+    "output": "docs/generated/local-tooling/symbol-test-links/requirefromrepo.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "6aa4b4537be85843384e04fdd125bbcd091a4cc97c0aae4e4435ac7a76c2cc00"
+  },
+  "doc-sync-required-surfaces": {
+    "updated_at": "2026-06-29T15:49:29Z",
+    "output": "docs/generated/local-tooling/doc-sync-required-surfaces.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "ef4cc0875773fd170768a8c908d685b96b20614c24dd0c250a3b6ca128c5f512"
+  },
+  "domain-packs/agent": {
+    "updated_at": "2026-06-29T15:47:48Z",
+    "output": "docs/generated/local-tooling/domain-packs/agent.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "3b55b9b90427c3293d0cd7009c325d32c198585f09d37a2253dfd7df5a869bd0"
+  },
+  "closeout-autofill/codex_context_optimization": {
+    "updated_at": "2026-06-29T15:56:58Z",
+    "output": "docs/generated/local-tooling/closeout-autofill/codex_context_optimization.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "1787ac13714fab25ddd89511922f928c23cadbbf87930f9408c89e6b76da80bf"
   }
 }

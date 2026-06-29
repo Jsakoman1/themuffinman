@@ -9,6 +9,15 @@ audits:
 - target: audit-router
   script: scripts/audits/audit-router.rb
   primaryOutput: docs/generated/local-tooling/audit-router-summary.md
+- target: codex-context
+  script: scripts/audits/codex-context.rb
+  primaryOutput: docs/generated/local-tooling/codex-context/latest.human.md
+- target: codex-context-explain
+  script: scripts/audits/codex-context.rb
+  primaryOutput: docs/generated/local-tooling/codex-context/latest.explain.md
+- target: codex-context-clean
+  script: scripts/audits/codex-context.rb
+  primaryOutput: docs/generated/local-tooling/codex-context/
 - target: context-pack
   script: scripts/audits/generate-context-pack.rb
   primaryOutput: docs/generated/local-tooling/context-packs
@@ -57,6 +66,9 @@ audits:
 - target: audit-doc-sync-preflight
   script: scripts/audits/audit-doc-sync-preflight.rb
   primaryOutput: docs/generated/local-tooling/doc-sync-preflight-summary.md
+- target: audit-doc-sync-required-surfaces
+  script: scripts/audits/audit-doc-sync-required-surfaces.rb
+  primaryOutput: docs/generated/local-tooling/doc-sync-required-surfaces-summary.md
 - target: audit-doc-template-coverage
   script: scripts/audits/audit-doc-template-coverage.rb
   primaryOutput: docs/generated/local-tooling/doc-template-coverage-summary.md
@@ -165,6 +177,9 @@ audits:
 - target: closeout-report
   script: scripts/audits/generate-closeout-report.rb
   primaryOutput: docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md
+- target: autofill-feature-closeout
+  script: scripts/audits/autofill-feature-closeout.rb
+  primaryOutput: docs/generated/local-tooling/closeout-autofill/<feature-id>-summary.md
 - target: enforce-feature-closeout
   script: scripts/audits/enforce-feature-closeout.rb
   primaryOutput: docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md

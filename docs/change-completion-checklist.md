@@ -56,6 +56,7 @@ For broad, long-running, high-complexity, multi-layer, high-risk, or master-plan
 
 8. Propagation rules
 - Update `docs/documentation-sync-policy.md` only if the documentation or validation process itself changes.
+- Update `docs/feature-delivery-workflow.md` if the end-to-end feature delivery process, context gateway usage, validation evidence path, manifest autofill path, or closeout flow changed.
 - Update `docs/feature-completion-manifest.schema.json` if the machine-readable feature manifest structure changes.
 - Update `AGENTS.md` only if repository-wide working rules or mandatory maintenance surfaces change.
 - Use `documentation_ownership` in `docs/agent-operating-model.yaml` as the machine-readable starting point for required living docs, generated artifacts, and validation checks by domain and change category.

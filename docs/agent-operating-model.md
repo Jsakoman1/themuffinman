@@ -21,6 +21,7 @@ The machine-readable source of truth is:
 
 - Treat backend code as the final execution authority.
 - Treat `agent-operating-model.yaml` as the machine-operational contract for high-impact workflows.
+- Treat `docs/feature-delivery-workflow.md` as the canonical human-readable source for the end-to-end feature delivery process around plans, context, validation evidence, and closeout.
 - Treat the section files under `docs/agent-operating-model/sections/` as the editable source for that machine contract and regenerate the combined YAML after changes.
 - Treat `docs/implementation-backlog.md` and `docs/agent-improvement-backlog.md` as the persistent open-work registries for deferred implementation and deferred control-system work.
 - For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file.

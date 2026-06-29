@@ -36,6 +36,7 @@ This file defines how logical code changes must propagate into living documentat
 - Keep `docs/regression-scenario-catalog.yaml` aligned with critical domain workflows, permission rules, validation rules, and automation-safe behaviors so targeted regression commands stay discoverable.
 - Keep `docs/docs-as-contract-slices.yaml` aligned with living-document sections whose claims are backed by runtime tests or audit checks.
 - Use the matching `.agents/templates/docs/` documentation template for new workflows, endpoints, DTO contracts, modules, permission rules, and schema migrations.
+- Update `docs/feature-delivery-workflow.md` when the implementation workflow, planning workflow, context gateway workflow, evidence capture path, manifest workflow, or closeout command flow changes.
 - For logic-drift changes, record a doc delta summary that names behavior changed, docs updated, and related surfaces intentionally left unchanged.
 - Purely cosmetic edits are excluded.
 

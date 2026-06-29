@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:35Z",
+  "generated_at": "2026-06-29T15:49:24Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -17,6 +17,24 @@
       "target": "audit-router",
       "script": "scripts/audits/audit-router.rb",
       "output": "docs/generated/local-tooling/audit-router-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "codex-context",
+      "script": "scripts/audits/codex-context.rb",
+      "output": "docs/generated/local-tooling/codex-context/latest.human.md",
+      "output_exists": true
+    },
+    {
+      "target": "codex-context-explain",
+      "script": "scripts/audits/codex-context.rb",
+      "output": "docs/generated/local-tooling/codex-context/latest.explain.md",
+      "output_exists": true
+    },
+    {
+      "target": "codex-context-clean",
+      "script": "scripts/audits/codex-context.rb",
+      "output": "docs/generated/local-tooling/codex-context/",
       "output_exists": true
     },
     {
@@ -113,6 +131,12 @@
       "target": "audit-doc-sync-preflight",
       "script": "scripts/audits/audit-doc-sync-preflight.rb",
       "output": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-doc-sync-required-surfaces",
+      "script": "scripts/audits/audit-doc-sync-required-surfaces.rb",
+      "output": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
       "output_exists": true
     },
     {
@@ -332,6 +356,12 @@
       "output_exists": false
     },
     {
+      "target": "autofill-feature-closeout",
+      "script": "scripts/audits/autofill-feature-closeout.rb",
+      "output": "docs/generated/local-tooling/closeout-autofill/<feature-id>-summary.md",
+      "output_exists": false
+    },
+    {
       "target": "enforce-feature-closeout",
       "script": "scripts/audits/enforce-feature-closeout.rb",
       "output": "docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md",
@@ -409,7 +439,7 @@
     },
     {
       "path": "docs/generated/local-tooling/audit-deltas/diff-summary-summary.md",
-      "mtime": "2026-06-29T12:47:34Z",
+      "mtime": "2026-06-29T15:10:38Z",
       "bytes": 1853
     },
     {
@@ -419,7 +449,7 @@
     },
     {
       "path": "docs/generated/local-tooling/audit-registry-artifacts-summary.md",
-      "mtime": "2026-06-29T12:47:03Z",
+      "mtime": "2026-06-29T15:47:37Z",
       "bytes": 142
     },
     {
@@ -518,6 +548,11 @@
       "bytes": 4238
     },
     {
+      "path": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+      "mtime": "2026-06-29T15:47:43Z",
+      "bytes": 14040
+    },
+    {
       "path": "docs/generated/local-tooling/doc-template-coverage-summary.md",
       "mtime": "2026-06-29T12:47:32Z",
       "bytes": 915
@@ -536,6 +571,11 @@
       "path": "docs/generated/local-tooling/domain-ownership-inventory-summary.md",
       "mtime": "2026-06-29T12:47:24Z",
       "bytes": 1660
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-packs/agent-summary.md",
+      "mtime": "2026-06-29T15:47:48Z",
+      "bytes": 5338
     },
     {
       "path": "docs/generated/local-tooling/domain-packs/workmarket-summary.md",
@@ -699,8 +739,8 @@
     },
     {
       "path": "docs/generated/local-tooling/hotspots-summary.md",
-      "mtime": "2026-06-29T12:47:31Z",
-      "bytes": 52175
+      "mtime": "2026-06-29T15:10:34Z",
+      "bytes": 5015
     },
     {
       "path": "docs/generated/local-tooling/make-target-index-summary.md",
@@ -751,6 +791,11 @@
       "path": "docs/generated/local-tooling/plan-code-maps/86-codex-local-manifest-path-resolver-summary.md",
       "mtime": "2026-06-29T12:47:30Z",
       "bytes": 12208
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-code-maps/codex-local-context-gateway-master-plan-summary.md",
+      "mtime": "2026-06-29T15:10:38Z",
+      "bytes": 11859
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/59-agent-plan-completion-enforcement-summary.md",
@@ -923,6 +968,11 @@
       "bytes": 251
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/codex-local-context-gateway-master-plan-summary.md",
+      "mtime": "2026-06-29T15:22:21Z",
+      "bytes": 220
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/local-context-batch-two-plan-summary.md",
       "mtime": "2026-06-29T12:47:09Z",
       "bytes": 198
@@ -978,6 +1028,16 @@
       "bytes": 1694
     },
     {
+      "path": "docs/generated/local-tooling/session-handoffs/current-change-summary.md",
+      "mtime": "2026-06-29T15:05:35Z",
+      "bytes": 1009
+    },
+    {
+      "path": "docs/generated/local-tooling/session-handoffs/gitignore-summary.md",
+      "mtime": "2026-06-29T15:10:34Z",
+      "bytes": 4257
+    },
+    {
       "path": "docs/generated/local-tooling/session-handoffs/todo-master-plan-summary.md",
       "mtime": "2026-06-29T10:46:13Z",
       "bytes": 5015
@@ -1004,8 +1064,8 @@
     },
     {
       "path": "docs/generated/local-tooling/targeted-tests-summary.md",
-      "mtime": "2026-06-29T12:47:32Z",
-      "bytes": 13755
+      "mtime": "2026-06-29T15:10:33Z",
+      "bytes": 1970
     },
     {
       "path": "docs/generated/local-tooling/test-fixture-duplication-summary.md",

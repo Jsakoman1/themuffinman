@@ -114,9 +114,11 @@
               "command": {"type": "string", "minLength": 1},
               "scope": {
                 "type": "string",
-                "enum": ["backend", "frontend", "docs", "generated-artifact", "local-tooling", "agent-safety", "manifest", "smoke"]
+                "enum": ["backend", "frontend", "docs", "generated-artifact", "local-tooling", "agent-safety", "manifest", "smoke", "other"]
               },
               "result": {"type": "string", "enum": ["passed", "failed", "skipped", "not_applicable"]},
+              "ranAt": {"type": "string", "minLength": 1},
+              "durationSeconds": {"type": "number", "minimum": 0},
               "summary": {"type": "string", "minLength": 1},
               "outputPath": {"type": "string", "minLength": 1},
               "skippedReason": {"type": "string", "minLength": 1}

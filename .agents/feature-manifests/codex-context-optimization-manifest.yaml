@@ -1,0 +1,357 @@
+featureId: codex_context_optimization
+title: Codex Context Optimization
+status: complete
+riskTier: medium
+changeMode: major-change
+changeImpact: contract-neutral-refactor
+changeProfiles:
+- agent-contract
+planFile: ".agents/codex-context-optimization-master-plan.md"
+summary:
+- Implement shared changeset snapshots, parser-backed Java AST extraction, evidence-driven
+  context scoring, required-surface doc sync reporting, validation evidence autofill,
+  and one canonical feature delivery workflow document.
+validationEvidence:
+  commands:
+  - command: ruby -c scripts/audits/codex_local_context_gateway.rb
+    scope: local-tooling
+    result: passed
+    ranAt: '2026-06-29T15:49:12Z'
+    durationSeconds: 0.061
+    summary: Syntax OK
+  - command: node --check scripts/audits/codex_ast_context.mjs
+    scope: local-tooling
+    result: passed
+    ranAt: '2026-06-29T15:49:18Z'
+    durationSeconds: 0.028
+    summary: Command passed.
+  - command: make generate-audit-registry-artifacts
+    scope: generated-artifact
+    result: passed
+    ranAt: '2026-06-29T15:49:23Z'
+    durationSeconds: 0.108
+    summary: Audit registry artifacts and summary index were regenerated successfully.
+  - command: make audit-doc-sync-required-surfaces
+    scope: local-tooling
+    result: passed
+    ranAt: '2026-06-29T15:49:28Z'
+    durationSeconds: 0.446
+    summary: Required documentation, generated artifacts, and validation commands
+      were resolved for the current changeset.
+  - command: make codex-context
+    scope: local-tooling
+    result: passed
+    ranAt: '2026-06-29T15:49:36Z'
+    durationSeconds: 1.466
+    summary: The context gateway generated fresh machine and human context packs successfully.
+  - command: make codex-context-explain
+    scope: local-tooling
+    result: passed
+    ranAt: '2026-06-29T15:49:53Z'
+    durationSeconds: 0.103
+    summary: The context gateway explain output was generated successfully.
+  - command: make generate-agent-artifacts
+    scope: generated-artifact
+    result: passed
+    ranAt: '2026-06-29T15:50:22Z'
+    durationSeconds: 0.375
+    summary: Agent inventory and source-of-truth generated artifacts were refreshed
+      successfully.
+  - command: make generate-agent-operating-model
+    scope: generated-artifact
+    result: passed
+    ranAt: '2026-06-29T15:54:17Z'
+    durationSeconds: 0.177
+    summary: ruby scripts/generate-agent-operating-model.rb Generated /Users/jsakoman/Desktop/themuffinman/docs/agent-operating-model.yaml
+  - command: make audit-agent-safety
+    scope: agent-safety
+    result: passed
+    ranAt: '2026-06-29T15:55:39Z'
+    durationSeconds: 9.803
+    summary: "- .agents/codex-context-optimization-master-plan.md:40 Resolved backlog
+      IDs are removed from the persistent backlog. - .agents/codex-context-optimization-master-plan.md:41
+      Closeout audits pass for the completed plan/manifest state. Backlog traceability:
+      Todo audit passed"
+  - command: make audit-validation-evidence-quality
+    scope: other
+    result: passed
+    ranAt: '2026-06-29T15:57:20Z'
+    durationSeconds: 0.084
+    summary: 'ruby scripts/audits/audit-validation-evidence-quality.rb Validation
+      evidence quality audit evidence files checked: 1 vague evidence issues: 0'
+  - command: make audit-todo
+    scope: docs
+    result: passed
+    ranAt: '2026-06-29T15:57:25Z'
+    durationSeconds: 0.4
+    summary: 'Inline TODO/FIXME references: 0 Open plan tasks: 0 Backlog traceability:
+      Todo audit passed'
+  - command: make audit-plan-completion plan=.agents/codex-context-optimization-master-plan.md
+      manifest=.agents/feature-manifests/codex-context-optimization-manifest.yaml
+    scope: manifest
+    result: passed
+    ranAt: '2026-06-29T15:57:32Z'
+    durationSeconds: 0.096
+    summary: 'status: passed completion evidence: true open tasks: 0 issues: 0'
+  - command: npm --prefix apps/themuffinman/frontend run type-check
+    scope: frontend
+    result: passed
+    ranAt: '2026-06-29T15:58:04Z'
+    durationSeconds: 3.295
+    summary: "> frontend@0.0.0 type-check > vue-tsc --noEmit"
+  - command: npm --prefix apps/themuffinman/frontend run build
+    scope: frontend
+    result: passed
+    ranAt: '2026-06-29T15:58:18Z'
+    durationSeconds: 1.05
+    summary: 'dist/assets/index-DnRYR5-c.js                             52.22 kB │
+      gzip:  15.83 kB dist/assets/vendor-D1X7qyTa.js                            53.49
+      kB │ gzip:  20.97 kB dist/assets/editor-B7hu53_A.js                           479.14
+      kB │ gzip: 154.33 kB ✓ built in 500ms'
+  - command: "/bin/zsh -lc cd apps/themuffinman/frontend && npm run type-check"
+    scope: frontend
+    result: passed
+    ranAt: '2026-06-29T15:58:40Z'
+    durationSeconds: 3.767
+    summary: "> frontend@0.0.0 type-check > vue-tsc --noEmit"
+  - command: "/bin/zsh -lc cd apps/themuffinman/frontend && npm run build"
+    scope: frontend
+    result: passed
+    ranAt: '2026-06-29T15:58:57Z'
+    durationSeconds: 1.197
+    summary: 'dist/assets/index-DnRYR5-c.js                             52.22 kB │
+      gzip:  15.83 kB dist/assets/vendor-D1X7qyTa.js                            53.49
+      kB │ gzip:  20.97 kB dist/assets/editor-B7hu53_A.js                           479.14
+      kB │ gzip: 154.33 kB ✓ built in 574ms'
+generatedArtifacts:
+  refreshedPaths:
+  - docs/generated/agent-endpoint-inventory.json
+  - docs/generated/automation-read-model-inventory.json
+  - docs/generated/backend-audit-inventory.json
+  - docs/generated/local-tooling/.cache/audit-inputs.json
+  - docs/generated/local-tooling/.history/audit-deltas/diff-summary/2026-06-29T15-07-09Z.json
+  - docs/generated/local-tooling/.history/audit-deltas/diff-summary/2026-06-29T15-10-38Z.json
+  - docs/generated/local-tooling/.history/audit-registry-artifacts/2026-06-29T15-07-36Z.json
+  - docs/generated/local-tooling/.history/audit-registry-artifacts/2026-06-29T15-47-37Z.json
+  - docs/generated/local-tooling/.history/audit-registry-artifacts/2026-06-29T15-49-24Z.json
+  - docs/generated/local-tooling/.history/audit-summary-index/2026-06-29T15-07-36Z.json
+  - docs/generated/local-tooling/.history/audit-summary-index/2026-06-29T15-47-37Z.json
+  - docs/generated/local-tooling/.history/audit-summary-index/2026-06-29T15-49-24Z.json
+  - docs/generated/local-tooling/.history/doc-sync-required-surfaces/
+  - docs/generated/local-tooling/.history/hotspots/2026-06-29T15-07-06Z.json
+  - docs/generated/local-tooling/.history/hotspots/2026-06-29T15-10-34Z.json
+  - docs/generated/local-tooling/.history/plan-code-maps/codex-local-context-gateway-master-plan/
+  - docs/generated/local-tooling/.history/session-handoffs/
+  - docs/generated/local-tooling/.history/targeted-tests/2026-06-29T15-07-05Z.json
+  - docs/generated/local-tooling/.history/targeted-tests/2026-06-29T15-10-33Z.json
+  - docs/generated/local-tooling/audit-deltas/diff-summary-summary.md
+  - docs/generated/local-tooling/audit-deltas/diff-summary.json
+  - docs/generated/local-tooling/audit-registry-artifacts-summary.md
+  - docs/generated/local-tooling/audit-registry-artifacts.json
+  - docs/generated/local-tooling/audit-summary-index.json
+  - docs/generated/local-tooling/audit-summary-index.md
+  - docs/generated/local-tooling/closeout-autofill/
+  - docs/generated/local-tooling/closeout-autofill/codex_context_optimization-summary.md
+  - docs/generated/local-tooling/closeout-autofill/codex_context_optimization.json
+  - docs/generated/local-tooling/codex-context/latest.explain.md
+  - docs/generated/local-tooling/codex-context/latest.human.md
+  - docs/generated/local-tooling/codex-context/latest.machine.json
+  - docs/generated/local-tooling/doc-sync-required-surfaces-summary.md
+  - docs/generated/local-tooling/doc-sync-required-surfaces.json
+  - docs/generated/local-tooling/domain-packs/agent-summary.md
+  - docs/generated/local-tooling/domain-packs/agent.json
+  - docs/generated/local-tooling/hotspots-summary.md
+  - docs/generated/local-tooling/hotspots.json
+  - docs/generated/local-tooling/plan-code-maps/codex-local-context-gateway-master-plan-summary.md
+  - docs/generated/local-tooling/plan-code-maps/codex-local-context-gateway-master-plan.json
+  - docs/generated/local-tooling/plan-completion/codex-local-context-gateway-master-plan-summary.md
+  - docs/generated/local-tooling/plan-completion/codex-local-context-gateway-master-plan.json
+  - docs/generated/local-tooling/targeted-tests-summary.md
+  - docs/generated/local-tooling/targeted-tests.json
+  - docs/generated/local-tooling/validation-evidence/codex_context_optimization.json
+  - docs/generated/source-of-truth-audit.json
+  - docs/tooling/codex-local-audits.yml
+  notApplicableReason: Generated artifacts are listed in refreshedPaths.
+planCompletion:
+  reviewed: true
+  openTasks: 0
+  summary: Plan has no open checkbox tasks.
+closeoutDecision:
+  status: ready
+  reason: Implementation, documentation sync, evidence capture, and closeout audits
+    are complete.
+docDelta:
+  behaviorChanged:
+  - Local context generation now reuses a shared changeset snapshot, parser-backed
+    Java AST spans, and evidence-driven relevance scoring.
+  - Local tooling now resolves required documentation and closeout surfaces deterministically
+    and can autofill validation evidence into both YAML evidence and manifests.
+  - The repository now has one canonical feature delivery workflow document for end-to-end
+    Codex execution and closeout.
+  docsUpdated:
+  - ".agents/codex-context-gateway-closeout-plan.md"
+  - ".agents/codex-context-gateway-core-plan.md"
+  - ".agents/codex-context-gateway-integration-plan.md"
+  - ".agents/codex-context-optimization-closeout-plan.md"
+  - ".agents/codex-context-optimization-core-plan.md"
+  - ".agents/codex-context-optimization-master-plan.md"
+  - ".agents/codex-local-context-gateway-analysis-context.md"
+  - ".agents/codex-local-context-gateway-master-plan.md"
+  - ".agents/feature-manifests/codex-context-optimization-manifest.yaml"
+  - ".agents/validation-evidence/codex_context_optimization.yaml"
+  - AGENTS.md
+  - docs/agent-improvement-backlog.md
+  - docs/agent-operating-model.md
+  - docs/agent-operating-model.yaml
+  - docs/change-completion-checklist.md
+  - docs/codex-local-tooling-todo.md
+  - docs/documentation-sync-policy.md
+  - docs/feature-completion-manifest.schema.json
+  - docs/feature-delivery-workflow.md
+  - docs/generated/backend-audit-inventory.json
+  - docs/generated/local-tooling/.cache/audit-inputs.json
+  - docs/generated/local-tooling/.history/audit-deltas/diff-summary/2026-06-29T15-07-09Z.json
+  - docs/generated/local-tooling/.history/audit-deltas/diff-summary/2026-06-29T15-10-38Z.json
+  - docs/generated/local-tooling/.history/audit-registry-artifacts/2026-06-29T15-07-36Z.json
+  - docs/generated/local-tooling/.history/audit-registry-artifacts/2026-06-29T15-47-37Z.json
+  - docs/generated/local-tooling/.history/audit-registry-artifacts/2026-06-29T15-49-24Z.json
+  - docs/generated/local-tooling/.history/audit-summary-index/2026-06-29T15-07-36Z.json
+  - docs/generated/local-tooling/.history/audit-summary-index/2026-06-29T15-47-37Z.json
+  - docs/generated/local-tooling/.history/audit-summary-index/2026-06-29T15-49-24Z.json
+  - docs/generated/local-tooling/.history/doc-sync-required-surfaces/
+  - docs/generated/local-tooling/.history/hotspots/2026-06-29T15-07-06Z.json
+  - docs/generated/local-tooling/.history/hotspots/2026-06-29T15-10-34Z.json
+  - docs/generated/local-tooling/.history/plan-code-maps/codex-local-context-gateway-master-plan/
+  - docs/generated/local-tooling/.history/session-handoffs/
+  - docs/generated/local-tooling/.history/targeted-tests/2026-06-29T15-07-05Z.json
+  - docs/generated/local-tooling/.history/targeted-tests/2026-06-29T15-10-33Z.json
+  - docs/generated/local-tooling/audit-deltas/diff-summary-summary.md
+  - docs/generated/local-tooling/audit-deltas/diff-summary.json
+  - docs/generated/local-tooling/audit-registry-artifacts-summary.md
+  - docs/generated/local-tooling/audit-registry-artifacts.json
+  - docs/generated/local-tooling/audit-summary-index.json
+  - docs/generated/local-tooling/audit-summary-index.md
+  - docs/generated/local-tooling/closeout-autofill/
+  - docs/generated/local-tooling/doc-sync-required-surfaces-summary.md
+  - docs/generated/local-tooling/doc-sync-required-surfaces.json
+  - docs/generated/local-tooling/domain-packs/agent-summary.md
+  - docs/generated/local-tooling/domain-packs/agent.json
+  - docs/generated/local-tooling/hotspots-summary.md
+  - docs/generated/local-tooling/hotspots.json
+  - docs/generated/local-tooling/plan-code-maps/codex-local-context-gateway-master-plan-summary.md
+  - docs/generated/local-tooling/plan-code-maps/codex-local-context-gateway-master-plan.json
+  - docs/generated/local-tooling/plan-completion/codex-local-context-gateway-master-plan-summary.md
+  - docs/generated/local-tooling/plan-completion/codex-local-context-gateway-master-plan.json
+  - docs/generated/local-tooling/targeted-tests-summary.md
+  - docs/generated/local-tooling/targeted-tests.json
+  - docs/generated/local-tooling/validation-evidence/codex_context_optimization.json
+  - docs/generated/source-of-truth-audit.json
+  - docs/tooling/codex-local-audits.yml
+  - docs/validation-evidence.schema.json
+  intentionallyUnchanged:
+  - docs/agent-operating-model.yaml
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds:
+  - AGENT-CONTEXT-CHANGESET-SNAPSHOT
+  - AGENT-JAVA-PARSER-AST-DIFF
+  - AGENT-CONTEXT-RELEVANCE-SCORER-V2
+  - AGENT-DOC-SYNC-REQUIRED-SURFACE-RESOLVER
+  - AGENT-VALIDATION-EVIDENCE-AUTOFILL
+  - AGENT-FEATURE-WORKFLOW-CANONICAL-DOC
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: true
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+  - scripts/local_tooling_common.rb
+  - scripts/audits/local_tooling_extended_tools.rb
+  - scripts/audits/codex_local_context_gateway.rb
+  - scripts/audits/codex_ast_context.mjs
+  - scripts/audits/CodexJavaAstContext.java
+  - scripts/audits/audit-doc-sync-required-surfaces.rb
+  - scripts/audits/autofill-feature-closeout.rb
+  - scripts/audits/record-validation-evidence.rb
+  - Makefile
+  docPaths:
+  - ".agents/codex-context-gateway-closeout-plan.md"
+  - ".agents/codex-context-gateway-core-plan.md"
+  - ".agents/codex-context-gateway-integration-plan.md"
+  - ".agents/codex-context-optimization-closeout-plan.md"
+  - ".agents/codex-context-optimization-core-plan.md"
+  - ".agents/codex-context-optimization-master-plan.md"
+  - ".agents/codex-local-context-gateway-analysis-context.md"
+  - ".agents/codex-local-context-gateway-master-plan.md"
+  - ".agents/feature-manifests/codex-context-optimization-manifest.yaml"
+  - ".agents/validation-evidence/codex_context_optimization.yaml"
+  - AGENTS.md
+  - docs/agent-improvement-backlog.md
+  - docs/agent-operating-model.md
+  - docs/agent-operating-model.yaml
+  - docs/change-completion-checklist.md
+  - docs/codex-local-tooling-todo.md
+  - docs/documentation-sync-policy.md
+  - docs/feature-completion-manifest.schema.json
+  - docs/feature-delivery-workflow.md
+  - docs/generated/backend-audit-inventory.json
+  - docs/generated/local-tooling/.cache/audit-inputs.json
+  - docs/generated/local-tooling/.history/audit-deltas/diff-summary/2026-06-29T15-07-09Z.json
+  - docs/generated/local-tooling/.history/audit-deltas/diff-summary/2026-06-29T15-10-38Z.json
+  - docs/generated/local-tooling/.history/audit-registry-artifacts/2026-06-29T15-07-36Z.json
+  - docs/generated/local-tooling/.history/audit-registry-artifacts/2026-06-29T15-47-37Z.json
+  - docs/generated/local-tooling/.history/audit-registry-artifacts/2026-06-29T15-49-24Z.json
+  - docs/generated/local-tooling/.history/audit-summary-index/2026-06-29T15-07-36Z.json
+  - docs/generated/local-tooling/.history/audit-summary-index/2026-06-29T15-47-37Z.json
+  - docs/generated/local-tooling/.history/audit-summary-index/2026-06-29T15-49-24Z.json
+  - docs/generated/local-tooling/.history/doc-sync-required-surfaces/
+  - docs/generated/local-tooling/.history/hotspots/2026-06-29T15-07-06Z.json
+  - docs/generated/local-tooling/.history/hotspots/2026-06-29T15-10-34Z.json
+  - docs/generated/local-tooling/.history/plan-code-maps/codex-local-context-gateway-master-plan/
+  - docs/generated/local-tooling/.history/session-handoffs/
+  - docs/generated/local-tooling/.history/targeted-tests/2026-06-29T15-07-05Z.json
+  - docs/generated/local-tooling/.history/targeted-tests/2026-06-29T15-10-33Z.json
+  - docs/generated/local-tooling/audit-deltas/diff-summary-summary.md
+  - docs/generated/local-tooling/audit-deltas/diff-summary.json
+  - docs/generated/local-tooling/audit-registry-artifacts-summary.md
+  - docs/generated/local-tooling/audit-registry-artifacts.json
+  - docs/generated/local-tooling/audit-summary-index.json
+  - docs/generated/local-tooling/audit-summary-index.md
+  - docs/generated/local-tooling/closeout-autofill/
+  - docs/generated/local-tooling/doc-sync-required-surfaces-summary.md
+  - docs/generated/local-tooling/doc-sync-required-surfaces.json
+  - docs/generated/local-tooling/domain-packs/agent-summary.md
+  - docs/generated/local-tooling/domain-packs/agent.json
+  - docs/generated/local-tooling/hotspots-summary.md
+  - docs/generated/local-tooling/hotspots.json
+  - docs/generated/local-tooling/plan-code-maps/codex-local-context-gateway-master-plan-summary.md
+  - docs/generated/local-tooling/plan-code-maps/codex-local-context-gateway-master-plan.json
+  - docs/generated/local-tooling/plan-completion/codex-local-context-gateway-master-plan-summary.md
+  - docs/generated/local-tooling/plan-completion/codex-local-context-gateway-master-plan.json
+  - docs/generated/local-tooling/targeted-tests-summary.md
+  - docs/generated/local-tooling/targeted-tests.json
+  - docs/generated/local-tooling/validation-evidence/codex_context_optimization.json
+  - docs/generated/source-of-truth-audit.json
+  - docs/tooling/codex-local-audits.yml
+  - docs/validation-evidence.schema.json
+  testPaths: []
+  generatorCommands:
+  - make generate-agent-operating-model
+  - make generate-audit-registry-artifacts
+  - make codex-context
+  - make codex-context-explain
+  - make generate-agent-artifacts
+  - make autofill-feature-closeout manifest=.agents/feature-manifests/codex-context-optimization-manifest.yaml
+  auditCommands:
+  - make audit-doc-sync-required-surfaces
+  - make audit-agent-safety
+  - make audit-validation-evidence-quality
+  - make audit-todo
+  - make audit-plan-completion plan=.agents/codex-context-optimization-master-plan.md
+    manifest=.agents/feature-manifests/codex-context-optimization-manifest.yaml
