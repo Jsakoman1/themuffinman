@@ -1,34 +1,40 @@
 # Feature Implementation Plan
 
-Purpose: track a multi-step feature change from initial scope through final validation.
+Purpose: track one feature or workflow change from scope selection through final validation.
 
-## Scope
+## Workflow Frame
 
-- [ ] Create this plan before substantial edits when the change spans multiple files, layers, or control surfaces.
-- [ ] Break the feature into small enforceable implementation steps.
-- [ ] Run relevant gates after each meaningful implementation milestone.
-- [ ] Close the plan only after code, docs, and validation are all green.
+- Feature tier: TBD
+- Scope: TBD
+- Out of scope: TBD
+- Manifest decision: TBD
+- Manifest path: TBD
 
-## Feature Tasks
+## Recommended Commands
 
-- [ ] Describe the first concrete implementation task.
-- [ ] Describe the next concrete implementation task.
-- [ ] Describe the next concrete implementation task.
+- Context commands: TBD
+- Routing commands: TBD
+- Validation commands: TBD
+- Closeout commands: TBD
 
-## Working Notes
+## Expected Surfaces
 
-- Keep this file inside `.agents/`.
-- Prefer naming it `.agents/<short-feature-topic>-plan.md`.
-- If the work grows broad, long-running, or high-complexity, prefer one master plan that coordinates multiple child plans in explicit sequence.
-- Treat it as working memory, not as a permanent source of truth.
+- Expected docs: TBD
+- Expected generated artifacts: TBD
+- Expected tests: TBD
 
-## Completion Check
+## Open Questions
 
-- [ ] Backend validation passes.
-- [ ] Frontend validation passes if frontend contracts changed.
-- [ ] Docs and machine-operating artifacts are updated.
-- [ ] Doc delta summary records behavior changed, docs updated, and intentionally unchanged related surfaces.
-- [ ] This plan is updated to reflect actual completion state before closing the task.
+- Resolver outputs still needed: TBD
+- Risks or approvals: TBD
+
+## Implementation Slices
+
+- [ ] Plan checkpoint is current before substantial edits.
+- [ ] First meaningful implementation slice is complete.
+- [ ] Docs and generated artifacts are synchronized when affected.
+- [ ] Validation evidence is recorded.
+- [ ] Closeout gates are complete for the selected tier.
 
 ## Completion Evidence
 

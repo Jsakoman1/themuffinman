@@ -91,6 +91,7 @@ Planned modules:
     - `docs/business-logic.md` for product behavior, rules, and FAQ-style explanations
     - `docs/domain-technical.md` for entities, relations, validations, permissions, workflows, and invariants
 - Maintain the agent-operation documentation set in `docs/`:
+    - `docs/codex-fast-path.md` for the compact execution entrypoint and tier decision guide for most Codex feature work
     - `docs/agent-operating-model.md` for human review of agent-safe workflows
     - `docs/agent-operating-model.yaml` for machine-readable workflow rules, dependencies, defaults, enums, and endpoint
       mappings
@@ -108,6 +109,12 @@ Planned modules:
       and operating-model rules
 - For multi-file, multi-layer, or high-risk logical changes, create a temporary implementation plan in `.agents/` before
   substantial edits.
+- Read `AGENTS.md` first for every task.
+- For feature implementation, use `docs/codex-fast-path.md` as the default compact workflow entrypoint.
+- `docs/codex-fast-path.md` is the compact execution entrypoint for most feature work.
+- Use `docs/feature-delivery-workflow.md` only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it.
+- Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it.
+- Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
 - Prefer the filename pattern `.agents/<short-feature-topic>-plan.md`.
 - If a requested change is too large for one safe pass, split it into sequential implementation phases instead of
   forcing one oversized batch.
@@ -118,7 +125,7 @@ Planned modules:
 - Reusable templates for temporary plans and feature completion manifests live under `.agents/templates/`.
 - When business rules, domain models, permissions, validations, workflows, endpoint contracts, or automation assumptions
   change, update all affected living docs in the same change unless the edit is purely cosmetic.
-- When the implementation workflow, planning workflow, context gateway workflow, evidence capture path, manifest workflow, or closeout commands change, update `docs/feature-delivery-workflow.md` in the same change.
+- When the implementation workflow, planning workflow, context gateway workflow, evidence capture path, manifest workflow, closeout commands, or tier decision rules change, update `docs/codex-fast-path.md`, `docs/feature-delivery-workflow.md`, `docs/documentation-sync-policy.md`, `docs/change-completion-checklist.md`, `docs/agent-operating-model.md`, `docs/agent-operating-model.yaml` when machine-operational rules changed, and `AGENTS.md` when startup behavior changed.
 - When a new feature or logical expansion changes what entities, workflows, validations, or states exist, also review
   and extend affected admin or sandbox generation flows in the agent-operating docs instead of leaving generation
   capabilities stale.

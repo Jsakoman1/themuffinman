@@ -1,0 +1,184 @@
+# Codex Fast Path
+
+`AGENTS.md` remains the authoritative repository instruction set.
+
+`docs/codex-fast-path.md` is the compact execution entrypoint for most feature work.
+
+Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it.
+
+Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
+
+## Purpose
+
+- Start feature work with the smallest useful context.
+- Pick the lightest safe workflow tier before loading deeper process docs.
+- Route Codex toward existing local audits instead of carrying the whole workflow in prompt context.
+
+## Default Startup
+
+1. Read `AGENTS.md`.
+2. Read this file.
+3. Run compact context first:
+   - `make codex-context topic=<topic> intent='<intent>'`
+   - `make recommend-targeted-tests`
+   - `make clean-text-noise max_lines=80` when you need to strip Maven, audit, or generated log noise before summarizing evidence.
+4. Load deeper workflow docs only if the chosen tier or a resolver requires them.
+
+## Tier Decision
+
+| Tier | Use When | Plan | Manifest | Validation | Closeout |
+| --- | --- | --- | --- | --- | --- |
+| `tier1-tiny-change` | one-file bugfix, rename, test-only tweak, docs wording, no business-rule or contract change | not required by default | not required by default | targeted only | `make audit-todo` |
+| `tier2-normal-feature` | normal backend/frontend change in one bounded area, small DTO/API change, small business-rule update | short plan required | resolver-driven | targeted, broaden only if risk requires | `make audit-todo`, `make audit-plan-completion` |
+| `tier3-high-risk-multi-layer` | DB migration, contract change, generated artifacts, backend+frontend+docs, 3+ meaningful surfaces, high-risk refactor | required | required | targeted plus full required checks | full closeout flow |
+| `tier4-agent-tooling-workflow` | `AGENTS.md`, workflow docs, audit scripts, manifest workflow, validation evidence flow, generated operating-model changes | required, master plan if broad | required | strict tooling and agent-safety validation | full closeout flow |
+
+## Tiny Change
+
+Use this tier when all of these are true:
+
+- no business-rule, permission, workflow, or state-transition change
+- no DB migration
+- no generated artifact change
+- no frontend/backend contract change
+- no agent/tooling/workflow behavior change
+
+Suggested commands:
+
+- `make codex-context topic=<topic> intent='<intent>'`
+- `make recommend-targeted-tests`
+
+Closeout:
+
+- `make audit-todo`
+- Final response must state what changed and what was validated.
+
+## Normal Feature
+
+Use this tier for bounded product work that stays inside one area and does not automatically trigger the full workflow.
+
+Suggested commands:
+
+- `make bootstrap-feature-work topic=<short-topic> mode=normal`
+- `make codex-context topic=<topic> intent='<intent>'`
+- `make audit-router files=<csv>`
+- `make audit-doc-sync-required-surfaces files=<csv>`
+- `make audit-manifest-decision files=<csv>`
+- `make recommend-validation-preset files=<csv>`
+
+Closeout:
+
+- `make audit-todo`
+- `make audit-plan-completion plan=<plan-file>`
+- If manifest becomes required:
+  `make autofill-feature-closeout manifest=<manifest-file> files=<csv>`
+  `make feature-closeout-audit manifest=<manifest-file>`
+
+## High-Risk Or Multi-Layer Feature
+
+Use this tier for:
+
+- high-risk business logic
+- invoice-critical behavior
+- DB migrations
+- frontend/backend contract changes
+- generated artifact changes
+- backend + frontend + docs changes
+- changes touching 3 or more meaningful surfaces
+- broad autonomous implementation
+
+Suggested commands:
+
+- `make bootstrap-feature-work topic=<short-topic> risk=high mode=feature`
+- `make codex-context topic=<topic> intent='<intent>'`
+- `make audit-router files=<csv>`
+- `make audit-doc-sync-required-surfaces files=<csv>`
+- `make audit-manifest-decision files=<csv>`
+- `make resolve-manifest-path files=<csv>`
+- `make recommend-validation-preset files=<csv>`
+
+Validation evidence:
+
+- `make record-validation manifest=<manifest-file> command='<command>'`
+- `ruby scripts/audits/record-validation-evidence.rb manifest=<manifest-file> mode=generated_artifact path=<csv> summary='<summary>'`
+- `ruby scripts/audits/record-validation-evidence.rb manifest=<manifest-file> mode=skipped_check check='<check>' reason='<reason>'`
+- `make clean-text-noise max_lines=80` to normalize raw command output before turning it into a summary.
+
+Closeout:
+
+- `make autofill-feature-closeout manifest=<manifest-file> files=<csv> generated=<csv> docs=<csv>`
+- `make audit-todo`
+- `make audit-plan-completion plan=<plan-file> manifest=<manifest-file>`
+- `make audit-validation-evidence-quality`
+- `make feature-closeout-audit manifest=<manifest-file>`
+- `make closeout-report manifest=<manifest-file>`
+
+## Agent Or Workflow Change
+
+This tier is intentionally strict.
+
+Use it for:
+
+- `AGENTS.md`
+- `docs/codex-fast-path.md`
+- `docs/feature-delivery-workflow.md`
+- `docs/documentation-sync-policy.md`
+- `docs/change-completion-checklist.md`
+- audit scripts
+- validation evidence workflow
+- manifest workflow
+- generated agent-operating-model artifacts
+
+Expected flow:
+
+- master plan if broad
+- manifest required
+- docs sync required
+- generated artifacts and validation test required when machine-operational rules change
+- full closeout required
+
+## Manifest Decision
+
+Manifest required by default for:
+
+- high-risk business logic
+- invoice-critical behavior
+- DB migrations
+- frontend/backend contract changes
+- generated artifact changes
+- agent/tooling/workflow changes
+- changes touching 3 or more meaningful implementation or documentation surfaces
+- broad autonomous changes
+- changes where `make audit-manifest-decision` says `required`
+
+Manifest optional by default for:
+
+- single backend service change
+- single frontend component change
+- small bugfix
+- small test-only change
+- small docs-only correction
+- small internal refactor without behavior, contract, DB, generated-artifact, or agent-safety impact
+
+If the decision is not obvious, treat it as resolver-driven and run:
+
+- `make audit-manifest-decision files=<csv>`
+- `make resolve-manifest-path files=<csv>`
+
+## Final Response
+
+Every final response must state:
+
+- what changed
+- what was validated
+- any remaining risks or not-run checks
+
+Do not claim completion while validation, required docs, or required closeout gates remain open.
+
+## Deeper References
+
+- `docs/feature-delivery-workflow.md`: complete human-readable process
+- `docs/documentation-sync-policy.md`: propagation and manifest rules
+- `docs/change-completion-checklist.md`: closeout checklist by tier
+- `docs/agent-operating-model.md`: human agent-safety contract
+- `docs/agent-operating-model.yaml`: machine-operational contract

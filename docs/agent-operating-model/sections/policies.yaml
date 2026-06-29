@@ -1,8 +1,9 @@
 ---
 policies:
   self_test_matrix:
-    default_rule: Pick the cheapest tier that covers the changed risk, impact, and
-      profile, then record exact commands or skipped-check reasons in validation evidence.
+    default_rule: Pick the cheapest validation tier that covers the workflow tier,
+      changed risk, impact, and profile, then record exact commands or skipped-check
+      reasons in validation evidence.
     tiers:
     - id: syntax_only
       purpose: Parse, schema, compile, or lint checks for cosmetic or documentation-only
@@ -48,11 +49,9 @@ policies:
     - risk: low
       minimum_tiers:
       - syntax_only
-      - targeted_unit
     - risk: medium
       minimum_tiers:
       - targeted_unit
-      - generated_artifact_validation
     - risk: high
       minimum_tiers:
       - domain_scenario

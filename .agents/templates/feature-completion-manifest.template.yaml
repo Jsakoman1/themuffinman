@@ -1,5 +1,7 @@
 featureId: sample_feature
 title: Sample feature completion manifest
+workflowTier: tier3-high-risk-multi-layer
+manifestDecision: required
 status: draft
 riskTier: medium
 changeMode: major-change
@@ -8,13 +10,13 @@ changeProfiles:
   - backend-logic
 planFile: .agents/sample-feature-plan.md
 summary:
-  - Replace this with a short completion summary.
+  - Replace with a short completion summary.
 validationEvidence:
   commands:
     - command: replace-with-command
       scope: local-tooling
       result: skipped
-      summary: Replace this with the command result or skip summary.
+      summary: Replace with the command result or skip summary.
       skippedReason: Replace this when result is skipped or not_applicable.
 generatedArtifacts:
   refreshedPaths: []
@@ -22,17 +24,17 @@ generatedArtifacts:
 planCompletion:
   reviewed: false
   openTasks: 1
-  summary: Replace this with the final plan state.
+  summary: Replace with the final plan state.
 closeoutDecision:
   status: deferred
-  reason: Replace this with the closeout decision.
+  reason: Replace with the closeout decision. Optional manifests may stay deferred until the resolver or actual scope requires full closeout.
 docDelta:
   behaviorChanged:
-    - Replace this with the behavior, workflow, permission, contract, or automation meaning that changed.
+    - Replace with the behavior, workflow, permission, contract, or automation meaning that changed.
   docsUpdated:
-    - Replace this with each living doc or generated artifact updated for the change.
+    - Replace with each living doc or generated artifact updated for the change.
   intentionallyUnchanged:
-    - Replace this with related docs, workflows, contracts, or generated artifacts reviewed but left unchanged.
+    - Replace with related docs, workflows, contracts, or generated artifacts reviewed but left unchanged.
 backlog:
   reviewed: false
   createdIds: []

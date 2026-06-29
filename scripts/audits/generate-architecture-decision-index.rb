@@ -99,10 +99,8 @@ lines << ""
 DECISIONS.each do |decision|
   lines << "## `#{decision[:id]}`"
   lines << ""
-  lines << "- Title: #{decision[:title]}"
-  lines << "- Decision: #{decision[:decision]}"
+  lines << "- #{decision[:title]}"
   lines << "- Applies to: `#{decision[:applies_to].join('`, `')}`"
-  lines << "- Sources: #{decision[:source_paths].map { |path| "`#{path}`" }.join(', ')}"
   lines << ""
 end
 LocalToolingCommon.write_text("docs/generated/local-tooling/architecture-decision-index-summary.md", lines.join("\n"))

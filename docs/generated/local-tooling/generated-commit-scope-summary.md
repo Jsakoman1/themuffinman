@@ -1,91 +1,35 @@
 # Generated Commit Scope
 
-- Generated at: `2026-06-29T12:47:10Z`
-- Source changes: `213`
-- Generated changes: `200`
+- Source changes: `45`
+- Generated changes: `28`
 
-- task_required: `8`
-- supporting_context: `172`
-- do_not_commit_by_default: `11`
-- stale_or_unrelated: `9`
+- task_required: `5`
+- do_not_commit_by_default: `5`
+- supporting_context: `17`
+- stale_or_unrelated: `1`
 
-- `task_required` apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts (source-of-truth generated artifact tracked by policy)
-- `task_required` docs/agent-operating-model.yaml (source-of-truth generated artifact tracked by policy)
-- `task_required` docs/generated/agent-endpoint-inventory.json (source-of-truth generated artifact tracked by policy)
-- `task_required` docs/generated/automation-read-model-inventory.json (source-of-truth generated artifact tracked by policy)
-- `task_required` docs/generated/backend-audit-inventory.json (source-of-truth generated artifact tracked by policy)
-- `supporting_context` docs/generated/dead-code-audit/backend-unused-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/dead-code-audit/backend-unused.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/dead-code-audit/dead-code-summary-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/dead-code-audit/dead-code-summary.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/dead-code-audit/frontend-unused-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/dead-code-audit/frontend-unused.json (tracked review context; commit only when refreshed for the task)
-- `do_not_commit_by_default` docs/generated/local-tooling/.cache/audit-inputs.json (disposable local context or cache output)
-- `supporting_context` docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/agent-model-feature-coverage-audit.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/api-contract-drift-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/api-contract-drift.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/api-contract-snapshot-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/api-contract-snapshot.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/async-mutation-flow-audit-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/async-mutation-flow-audit.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/audit-documentation-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/audit-documentation.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/audit-registry-artifacts-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/audit-registry-artifacts.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/audit-router-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/audit-router.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/audit-summary-index.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/audit-summary-index.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/automation-readiness-gap-audit-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/automation-readiness-gap-audit.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/backend-dependency-graph-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/backend-dependency-graph.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/change-impact-preflight-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/change-impact-preflight.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/config-sprawl-audit-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/config-sprawl-audit.json (tracked review context; commit only when refreshed for the task)
-- `do_not_commit_by_default` docs/generated/local-tooling/context-packs/local-tooling-24-summary.md (disposable local context or cache output)
-- `do_not_commit_by_default` docs/generated/local-tooling/context-packs/local-tooling-24.json (disposable local context or cache output)
-- `supporting_context` docs/generated/local-tooling/diff-summary.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/diff-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/doc-canonical-phrases-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/doc-canonical-phrases.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/doc-coverage-gap-audit-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/doc-coverage-gap-audit.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/doc-sync-preflight-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/doc-sync-preflight.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/docs-to-code-drift-audit-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/docs-to-code-drift-audit.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/domain-ownership-inventory-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/domain-ownership-inventory.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/dormant-code-audit-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/dormant-code-audit.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/duplicate-logic-audit-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/duplicate-logic-audit.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-callsite-linker-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-callsite-linker.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/admin-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/admin.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/agent-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/agent.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/app_users-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/app_users.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/applications-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/applications.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/auth-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/auth.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/chat-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/chat.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/circles-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/circles.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/dashboard-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/dashboard.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/index-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/index.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/location-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/location.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/news-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/news.json (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/quests-summary.md (tracked review context; commit only when refreshed for the task)
-- `supporting_context` docs/generated/local-tooling/endpoint-contract-packs/quests.json (tracked review context; commit only when refreshed for the task)
+- `task_required` apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+- `task_required` docs/agent-operating-model.yaml
+- `task_required` docs/generated/automation-read-model-inventory.json
+- `task_required` docs/generated/backend-audit-inventory.json
+- `do_not_commit_by_default` docs/generated/local-tooling/.cache/audit-inputs.json
+- `supporting_context` docs/generated/local-tooling/audit-registry-artifacts-summary.md
+- `supporting_context` docs/generated/local-tooling/audit-registry-artifacts.json
+- `supporting_context` docs/generated/local-tooling/audit-summary-index.json
+- `supporting_context` docs/generated/local-tooling/audit-summary-index.md
+- `supporting_context` docs/generated/local-tooling/duplicate-logic-audit-summary.md
+- `supporting_context` docs/generated/local-tooling/duplicate-logic-audit.json
+- `supporting_context` docs/generated/local-tooling/frontend-state-logic-duplication-audit-summary.md
+- `supporting_context` docs/generated/local-tooling/frontend-state-logic-duplication-audit.json
+- `supporting_context` docs/generated/local-tooling/manifest-decision-summary.md
+- `supporting_context` docs/generated/local-tooling/manifest-decision.json
+- `supporting_context` docs/generated/local-tooling/permission-rule-duplication-audit-summary.md
+- `supporting_context` docs/generated/local-tooling/permission-rule-duplication-audit.json
+- `task_required` docs/generated/source-of-truth-audit.json
+- `supporting_context` docs/generated/local-tooling/.history/audit-registry-artifacts/2026-06-29T17-26-10Z.json
+- `supporting_context` docs/generated/local-tooling/.history/audit-summary-index/2026-06-29T17-26-10Z.json
+- `stale_or_unrelated` docs/generated/local-tooling/.history/closeout-autofill/codex_tiered_workflow/
+- `supporting_context` docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow-summary.md
+- `supporting_context` docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow.json
+- `do_not_commit_by_default` docs/generated/local-tooling/plan-completion/codex-lean-context-master-plan-summary.md
+- `do_not_commit_by_default` docs/generated/local-tooling/plan-completion/codex-lean-context-master-plan.json

@@ -30,16 +30,12 @@ export const useQuestDetailView = () => {
   })
   const approvedApplications = computed(() => page.applicationsView.value?.approvedApplications ?? [])
   const remainingApplications = computed(() => page.applications.value)
-  const isOwnerView = computed(() => edit.canEdit.value)
-  const showApplicationsSection = computed(() => isOwnerView.value && !!page.applicationsView.value)
-  const showOfferSection = computed(() => !isOwnerView.value && (
-    page.canApply.value
-    || page.applicationSentVisible.value
-    || !!page.myApplication.value
-  ))
-  const showMyApplicationAside = computed(() => isOwnerView.value && !showOfferSection.value)
+  const isOwnerView = computed(() => page.quest.value?.presentation.overviewStatusVisible ?? edit.canEdit.value)
+  const showApplicationsSection = computed(() => page.quest.value?.presentation.applicationsSectionVisible ?? false)
+  const showOfferSection = computed(() => page.quest.value?.presentation.offerSectionVisible ?? false)
+  const showMyApplicationAside = computed(() => page.quest.value?.presentation.myApplicationAsideVisible ?? false)
   const showOverview = computed(() => true)
-  const showOverviewStatus = computed(() => isOwnerView.value)
+  const showOverviewStatus = computed(() => page.quest.value?.presentation.overviewStatusVisible ?? false)
 
   const closeQuestDetail = () => {
     void page.router.push(routeForNavigationTarget(page.detail.value?.sections?.navigation?.listNavigation) || "/work")

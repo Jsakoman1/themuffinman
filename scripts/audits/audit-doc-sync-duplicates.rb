@@ -113,10 +113,10 @@ lines << "- Protected duplicate groups: `#{report[:protected_duplicate_count]}`"
 lines << "- Fragment-only bullets: `#{report[:fragment_only_count]}`"
 lines << "- Conflict groups: `#{report[:conflict_group_count]}`"
 lines << ""
-fragment_only.first(20).each do |row|
-  lines << "- fragment `#{row[:path]}:#{row[:line]}` #{row[:text][0, 140]}"
+fragment_only.first(8).each do |row|
+  lines << "- fragment `#{row[:path]}:#{row[:line]}`"
 end
-conflicts.first(10).each do |row|
+conflicts.first(8).each do |row|
   lines << "- conflict `#{row[:id]}` variants=#{row[:variant_count]}"
 end
 LocalToolingCommon.write_text(OUT_MD, lines.join("\n") + "\n")

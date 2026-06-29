@@ -255,17 +255,8 @@ module PermissionRuleDuplicationAudit
     lines << ""
     lines << "## Overlap shortlist"
     lines << ""
-    report[:cross_layer_overlap_shortlist].each do |entry|
-      lines << "- `#{entry[:action_key]}` backend-sources=`#{entry[:backend_source_count]}` backend-presentation=`#{entry[:backend_presentation_count]}` frontend-local=`#{entry[:frontend_local_count]}` frontend-passthrough=`#{entry[:frontend_passthrough_count]}`"
-      lines << "  backend source files: #{format_inline(entry[:backend_source_files])}"
-      lines << "  frontend local files: #{format_inline(entry[:frontend_local_files])}"
-      lines << "  frontend passthrough files: #{format_inline(entry[:frontend_passthrough_files])}"
-    end
-    lines << ""
-    lines << "## Canonical backend anchors"
-    lines << ""
-    CANONICAL_BACKEND_FILES.each do |path|
-      lines << "- `#{path}`"
+    report[:cross_layer_overlap_shortlist].first(8).each do |entry|
+      lines << "- `#{entry[:action_key]}` backend=`#{entry[:backend_source_count] + entry[:backend_presentation_count]}` frontend=`#{entry[:frontend_local_count] + entry[:frontend_passthrough_count]}`"
     end
     lines.join("\n") + "\n"
   end

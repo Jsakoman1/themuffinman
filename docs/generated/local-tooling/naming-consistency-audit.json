@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:24Z",
+  "generated_at": "2026-06-29T17:54:45Z",
   "targets": [
     {
       "target": "applicant_vs_worker",
@@ -15,7 +15,7 @@
           "assignee": 80
         },
         "docs": {
-          "applicant": 279,
+          "applicant": 275,
           "worker": 137,
           "assignee": 66
         }
@@ -54,7 +54,7 @@
         "docs": {
           "circle connection": 12,
           "invite": 92,
-          "request": 2745
+          "request": 2668
         }
       }
     }

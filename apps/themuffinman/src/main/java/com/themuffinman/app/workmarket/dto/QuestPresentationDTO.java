@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
+import java.math.BigDecimal;
+
 @Getter
 @Builder
 @NoArgsConstructor
@@ -33,6 +35,14 @@ public class QuestPresentationDTO {
     private boolean canApply;
     private boolean canViewApplications;
     private boolean canManuallyAssign;
+    @Nullable
+    private BigDecimal suggestedApplicationPrice;
+    @Nullable
+    private QuestApplicationDraftRulesDTO applicationDraftRules;
+    private boolean offerSectionVisible;
+    private boolean applicationsSectionVisible;
+    private boolean myApplicationAsideVisible;
+    private boolean overviewStatusVisible;
     @Nullable
     private String primaryExecutionActionLabel;
     @Nullable

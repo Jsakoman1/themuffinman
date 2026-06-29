@@ -22,6 +22,7 @@ module LocalToolingExtendedTools
     ["codex-context", "scripts/audits/codex-context.rb", "docs/generated/local-tooling/codex-context/latest.human.md"],
     ["codex-context-explain", "scripts/audits/codex-context.rb", "docs/generated/local-tooling/codex-context/latest.explain.md"],
     ["codex-context-clean", "scripts/audits/codex-context.rb", "docs/generated/local-tooling/codex-context/"],
+    ["clean-text-noise", "scripts/audits/clean-text-noise.rb", "docs/generated/local-tooling/clean-text-noise-summary.md"],
     ["context-pack", "scripts/audits/generate-context-pack.rb", "docs/generated/local-tooling/context-packs"],
     ["recommend-feature-slices", "scripts/audits/recommend-feature-slices.rb", "docs/generated/local-tooling/feature-slices/<topic>-summary.md"],
     ["recommend-targeted-tests", "scripts/audits/recommend-targeted-tests.rb", "docs/generated/local-tooling/targeted-tests-summary.md"],
@@ -1018,7 +1019,7 @@ module LocalToolingExtendedTools
       manifest["closeoutDecision"]["reason"] ||= "Autofill updated evidence and artifact paths; review before final closeout."
     end
 
-    File.write(abs(manifest_path), YAML.dump(manifest).sub(/\A---\n/, ""))
+    LocalToolingCommon.write_text(manifest_path, YAML.dump(manifest).sub(/\A---\n/, ""))
     feature_id = manifest["featureId"].to_s.empty? ? File.basename(manifest_path, ".yaml").sub(/-manifest\z/, "") : manifest["featureId"].to_s
     report = {
       generated_at: now,
@@ -1149,7 +1150,8 @@ module LocalToolingExtendedTools
       next [] unless report && report["success"] == false
 
       failures = report["failure_lines"] || []
-      failures.first(3).map { |line| "#{File.basename(path, ".json")}: #{line.strip}" }
+      cleaned = LocalToolingCommon.clean_text_output(failures.join("\n"), max_lines: 3, aggressive: true)
+      cleaned.lines.first(3).map { |line| "#{File.basename(path, ".json")}: #{line.strip}" }
     end
   end
 
@@ -1286,21 +1288,17 @@ module LocalToolingExtendedTools
     lines << ""
     lines << "## Slowest Runs"
     lines << ""
-    report[:slowest_runs].first(10).each do |run|
-      lines << "- `#{run['diagnostic']}` #{run['duration_seconds']}s success=#{run['success']} command=`#{run['command']}`"
-    end
+    report[:slowest_runs].first(5).each { |run| lines << "- `#{run['diagnostic']}` #{run['duration_seconds']}s success=#{run['success']}" }
     lines << ""
     lines << "## Repeated Failures"
     lines << ""
     values = report[:repeated_failures]
     lines << "- None" if values.empty?
-    values.each { |row| lines << "- #{row[:count]}x `#{row[:value]}`" }
+    values.first(5).each { |row| lines << "- #{row[:count]}x `#{row[:value]}`" }
     lines << ""
     lines << "## Recent Runs"
     lines << ""
-    report[:runs].last(10).reverse.each do |run|
-      lines << "- `#{run['recorded_at']}` `#{run['diagnostic']}` success=#{run['success']} duration=#{run['duration_seconds']}s changed_files=#{run['changed_file_count']}"
-    end
+    report[:runs].last(5).reverse.each { |run| lines << "- `#{run['diagnostic']}` success=#{run['success']} duration=#{run['duration_seconds']}s" }
     lines.join("\n") + "\n"
   end
 
@@ -1321,15 +1319,14 @@ module LocalToolingExtendedTools
 
   def codebase_capsule_markdown(report)
     lines = ["# Codebase Capsule", ""]
-    lines << "- Generated at: `#{report[:generated_at]}`"
     lines << "- Purpose: #{report[:purpose]}"
     {
-      "Repo Layout" => report[:repo_layout],
-      "Active Conventions" => report[:active_conventions],
-      "Open Backlog IDs" => report[:open_backlog_ids].empty? ? ["None"] : report[:open_backlog_ids],
-      "Open Master Plan Items" => report[:open_master_plan_items].empty? ? ["None"] : report[:open_master_plan_items],
-      "Preferred First Commands" => report[:preferred_first_commands],
-      "Read Next" => report[:read_next]
+      "Repo Layout" => report[:repo_layout].first(5),
+      "Active Conventions" => report[:active_conventions].first(4),
+      "Open Backlog IDs" => report[:open_backlog_ids].empty? ? ["None"] : report[:open_backlog_ids].first(8),
+      "Open Master Plan Items" => report[:open_master_plan_items].empty? ? ["None"] : report[:open_master_plan_items].first(8),
+      "Preferred First Commands" => report[:preferred_first_commands].first(4),
+      "Read Next" => report[:read_next].first(4)
     }.each do |heading, values|
       lines << ""
       lines << "## #{heading}"
@@ -1459,12 +1456,18 @@ module LocalToolingExtendedTools
       when Array
         lines << "## `#{key}`"
         lines << ""
-        value.first(25).each { |entry| lines << "- `#{entry}`".gsub("=>", ": ") }
+        value.first(25).each do |entry|
+          cleaned_entry = LocalToolingCommon.clean_text_output(entry.to_s, max_lines: 1, aggressive: true)
+          next if cleaned_entry.empty?
+
+          lines << "- `#{cleaned_entry}`".gsub("=>", ": ")
+        end
         lines << ""
       when Hash
         lines << "- `#{key}`: `#{value.size}` entries"
       else
-        lines << "- #{LocalToolingCommon.titleize_slug(key.to_s)}: `#{value}`"
+        cleaned_value = LocalToolingCommon.clean_text_output(value.to_s, max_lines: 1, aggressive: true)
+        lines << "- #{LocalToolingCommon.titleize_slug(key.to_s)}: `#{cleaned_value}`"
       end
     end
     lines.join("\n") + "\n"
@@ -1556,13 +1559,18 @@ module LocalToolingExtendedTools
       LocalToolingCommon.generated_path?(path) || path.start_with?(".agents/") || path.start_with?("docs/") ||
         path.start_with?("scripts/") || path == "Makefile"
     end
-    logic_files = files.select do |path|
-      text = read(path)
-      path.match?(%r{/(service|controller|model|dto|repository|db/migration)/}) ||
-        text.match?(/\b(permission|workflow|transition|state|visibility|validation|contract|manifest|agent|automation|sandbox)\b/i)
-    end
     schema_files = files.select { |path| path.include?("/db/migration/") || path.end_with?(".schema.json") }
-    agent_contract_files = files.select { |path| path.start_with?("docs/agent-operating-model") || path.include?("AdminAgent") || path.include?("agent/") }
+    invoice_critical_files = files.select { |path| path.match?(/invoice/i) || read(path).match?(/\binvoice\b/i) }
+    agent_contract_files = files.select do |path|
+      path == "AGENTS.md" ||
+        path == "docs/codex-fast-path.md" ||
+        path == "docs/feature-delivery-workflow.md" ||
+        path == "docs/documentation-sync-policy.md" ||
+        path == "docs/change-completion-checklist.md" ||
+        path.start_with?("docs/agent-operating-model") ||
+        path.include?("AdminAgent") ||
+        path.include?("agent/")
+    end
     frontend_contract_files = files.select do |path|
       path.include?("/frontend/src/contracts/") ||
         path.include?("/frontend/scripts/generate") ||
@@ -1570,22 +1578,29 @@ module LocalToolingExtendedTools
     end
     generated_files = files.select { |path| LocalToolingCommon.generated_path?(path) }
     automation_safety_files = files.select do |path|
-      path.start_with?("scripts/") || path == "Makefile" || path.include?("feature-closeout") ||
+      path.start_with?("scripts/") || path == "Makefile" || path == "AGENTS.md" ||
+        path == "docs/codex-fast-path.md" || path == "docs/feature-delivery-workflow.md" ||
+        path == "docs/documentation-sync-policy.md" || path == "docs/change-completion-checklist.md" ||
+        path.start_with?("docs/agent-operating-model") ||
+        path.include?("bootstrap-feature-work") ||
+        path.include?("feature-closeout") ||
         path.include?("validation-evidence") || path.include?("todo-audit") || path.include?("documentation-sync")
     end
     workflow_files = files.select { |path| read(path).match?(/\b(workflow|transition|state machine|ScenarioTest|UseCaseContractTest)\b/i) }
+    meaningful_surfaces = files.map { |path| manifest_meaningful_surface(path) }.reject { |surface| %w[other tests].include?(surface) }.uniq.sort
     rules = []
-    rules << manifest_rule("multi_file_multi_layer_change", files, "Multiple files across multiple change categories need a manifest for closeout traceability.") if files.size > 1 && categories.keys.size > 1
-    rules << manifest_rule("high_risk_or_executor_critical_surface", (logic_files + automation_safety_files).uniq, "Backend logic, automation safety, or validation tooling changes need explicit evidence.")
+    rules << manifest_rule("multi_surface_change", files, "Changes touching three or more meaningful surfaces need manifest-backed closeout traceability.") if meaningful_surfaces.size >= 3
+    rules << manifest_rule("invoice_critical_change", invoice_critical_files, "Invoice-critical behavior needs explicit scope, validation, and residual-risk evidence.")
     rules << manifest_rule("agent_contract_change", agent_contract_files, "Agent-facing contracts and operating-model surfaces require manifest tracking.")
     rules << manifest_rule("workflow_expansion_change", workflow_files, "Workflow or scenario surfaces require scenario evidence and docs synchronization.")
     rules << manifest_rule("frontend_contract_change", frontend_contract_files, "Frontend contract or API surfaces require frontend validation evidence.")
     rules << manifest_rule("schema_or_generated_artifact_change", (schema_files + generated_files).uniq, "Schema and generated-artifact changes require explicit generated-artifact evidence.")
+    rules << manifest_rule("agent_tooling_change", automation_safety_files, "Agent, tooling, startup-routing, or closeout workflow changes need explicit evidence.")
     rules << manifest_rule("mixed_product_domains", files, "Multiple product domains in one changeset require explicit scope and residual-risk review.") if runtime_files.any? && domains.size > 1
     rules.compact!
     allow_skip = files.size <= 1 &&
       rules.empty? &&
-      files.all? { |path| %w[docs script other].include?(category_for(path)) || path.end_with?(".md") }
+      files.all? { |path| %w[docs script test other].include?(category_for(path)) || path.end_with?(".md") || path.end_with?(".java") }
     decision =
       if rules.any?
         "required"
@@ -1602,7 +1617,8 @@ module LocalToolingExtendedTools
       rules: rules,
       changed_file_count: files.size,
       categories: categories.keys.sort,
-      domains: domains
+      domains: domains,
+      meaningful_surfaces: meaningful_surfaces
     }
   end
 
@@ -1610,6 +1626,22 @@ module LocalToolingExtendedTools
     return nil if files.empty?
 
     {id: id, file_count: files.size, files: files.first(25), reason: reason}
+  end
+
+  def manifest_meaningful_surface(path)
+    return "db_migration" if path.include?("/db/migration/")
+    return "agent_tooling" if path == "AGENTS.md" || path.start_with?("scripts/") || path == "Makefile"
+    return "agent_tooling" if path == "docs/codex-fast-path.md" || path == "docs/feature-delivery-workflow.md" ||
+      path == "docs/documentation-sync-policy.md" || path == "docs/change-completion-checklist.md" ||
+      path.start_with?("docs/agent-operating-model")
+    return "generated_artifact" if LocalToolingCommon.generated_path?(path) || path.start_with?("docs/generated/") || path.end_with?(".schema.json")
+    return "frontend_contract" if path.include?("/frontend/src/contracts/") || path.include?("/frontend/scripts/generate")
+    return "frontend" if path.include?("/frontend/")
+    return "tests" if path.include?("/src/test/")
+    return "backend_runtime" if path.match?(%r{/(service|controller|model|dto|repository|mapper|config)/})
+    return "docs" if path.start_with?("docs/")
+
+    "other"
   end
 
   def endpoint_entries

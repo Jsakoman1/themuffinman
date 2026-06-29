@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T15:49:24Z",
+  "generated_at": "2026-06-29T17:51:25Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -36,6 +36,12 @@
       "script": "scripts/audits/codex-context.rb",
       "output": "docs/generated/local-tooling/codex-context/",
       "output_exists": true
+    },
+    {
+      "target": "clean-text-noise",
+      "script": "scripts/audits/clean-text-noise.rb",
+      "output": "docs/generated/local-tooling/clean-text-noise-summary.md",
+      "output_exists": false
     },
     {
       "target": "context-pack",
@@ -419,8 +425,8 @@
     },
     {
       "path": "docs/generated/local-tooling/architecture-decision-index-summary.md",
-      "mtime": "2026-06-29T12:47:18Z",
-      "bytes": 3492
+      "mtime": "2026-06-29T17:51:00Z",
+      "bytes": 1239
     },
     {
       "path": "docs/generated/local-tooling/architecture-drift-summary.md",
@@ -449,7 +455,7 @@
     },
     {
       "path": "docs/generated/local-tooling/audit-registry-artifacts-summary.md",
-      "mtime": "2026-06-29T15:47:37Z",
+      "mtime": "2026-06-29T17:26:10Z",
       "bytes": 142
     },
     {
@@ -469,8 +475,8 @@
     },
     {
       "path": "docs/generated/local-tooling/change-impact-preflight-summary.md",
-      "mtime": "2026-06-29T12:47:09Z",
-      "bytes": 231278
+      "mtime": "2026-06-29T17:51:00Z",
+      "bytes": 1132
     },
     {
       "path": "docs/generated/local-tooling/changeset-playbook-summary.md",
@@ -479,8 +485,18 @@
     },
     {
       "path": "docs/generated/local-tooling/changeset-risk-summary.md",
-      "mtime": "2026-06-29T12:47:09Z",
-      "bytes": 984
+      "mtime": "2026-06-29T17:42:07Z",
+      "bytes": 346
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-autofill/codex_context_optimization-summary.md",
+      "mtime": "2026-06-29T15:56:58Z",
+      "bytes": 1980
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow-summary.md",
+      "mtime": "2026-06-29T17:09:37Z",
+      "bytes": 2670
     },
     {
       "path": "docs/generated/local-tooling/closeout-bundle-summary.md",
@@ -496,6 +512,16 @@
       "path": "docs/generated/local-tooling/closeout-reports/backend_audit_tiering-summary.md",
       "mtime": "2026-06-29T10:36:26Z",
       "bytes": 806
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-reports/codex_context_optimization-summary.md",
+      "mtime": "2026-06-29T15:59:22Z",
+      "bytes": 1402
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-reports/codex_tiered_workflow-summary.md",
+      "mtime": "2026-06-29T17:09:44Z",
+      "bytes": 1496
     },
     {
       "path": "docs/generated/local-tooling/config-sprawl-audit-summary.md",
@@ -539,8 +565,8 @@
     },
     {
       "path": "docs/generated/local-tooling/doc-sync-duplicates-summary.md",
-      "mtime": "2026-06-29T12:47:32Z",
-      "bytes": 596
+      "mtime": "2026-06-29T17:45:57Z",
+      "bytes": 437
     },
     {
       "path": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
@@ -549,8 +575,8 @@
     },
     {
       "path": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
-      "mtime": "2026-06-29T15:47:43Z",
-      "bytes": 14040
+      "mtime": "2026-06-29T15:49:29Z",
+      "bytes": 14038
     },
     {
       "path": "docs/generated/local-tooling/doc-template-coverage-summary.md",
@@ -594,8 +620,8 @@
     },
     {
       "path": "docs/generated/local-tooling/duplicate-logic-audit-summary.md",
-      "mtime": "2026-06-29T12:47:11Z",
-      "bytes": 7406
+      "mtime": "2026-06-29T17:45:57Z",
+      "bytes": 1087
     },
     {
       "path": "docs/generated/local-tooling/endpoint-callsite-linker-summary.md",
@@ -719,8 +745,8 @@
     },
     {
       "path": "docs/generated/local-tooling/frontend-state-logic-duplication-audit-summary.md",
-      "mtime": "2026-06-29T12:47:10Z",
-      "bytes": 6212
+      "mtime": "2026-06-29T17:45:57Z",
+      "bytes": 823
     },
     {
       "path": "docs/generated/local-tooling/frontend-usage-graph-summary.md",
@@ -729,13 +755,13 @@
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-06-29T12:47:10Z",
-      "bytes": 1565
+      "mtime": "2026-06-29T17:42:29Z",
+      "bytes": 813
     },
     {
       "path": "docs/generated/local-tooling/generated-commit-scope-summary.md",
-      "mtime": "2026-06-29T12:47:10Z",
-      "bytes": 12117
+      "mtime": "2026-06-29T17:42:07Z",
+      "bytes": 2376
     },
     {
       "path": "docs/generated/local-tooling/hotspots-summary.md",
@@ -749,8 +775,8 @@
     },
     {
       "path": "docs/generated/local-tooling/manifest-decision-summary.md",
-      "mtime": "2026-06-29T12:47:33Z",
-      "bytes": 1052
+      "mtime": "2026-06-29T17:26:26Z",
+      "bytes": 622
     },
     {
       "path": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
@@ -784,8 +810,8 @@
     },
     {
       "path": "docs/generated/local-tooling/permission-rule-duplication-audit-summary.md",
-      "mtime": "2026-06-29T12:47:11Z",
-      "bytes": 2136
+      "mtime": "2026-06-29T17:45:57Z",
+      "bytes": 305
     },
     {
       "path": "docs/generated/local-tooling/plan-code-maps/86-codex-local-manifest-path-resolver-summary.md",
@@ -968,9 +994,24 @@
       "bytes": 251
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/codex-context-optimization-master-plan-summary.md",
+      "mtime": "2026-06-29T15:57:32Z",
+      "bytes": 280
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-lean-context-master-plan-summary.md",
+      "mtime": "2026-06-29T17:48:35Z",
+      "bytes": 256
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/codex-local-context-gateway-master-plan-summary.md",
       "mtime": "2026-06-29T15:22:21Z",
       "bytes": 220
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-tiered-workflow-plan-summary.md",
+      "mtime": "2026-06-29T16:38:17Z",
+      "bytes": 251
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/local-context-batch-two-plan-summary.md",
@@ -1079,8 +1120,8 @@
     },
     {
       "path": "docs/generated/local-tooling/test-history-summary.md",
-      "mtime": "2026-06-29T12:47:35Z",
-      "bytes": 340
+      "mtime": "2026-06-29T17:47:59Z",
+      "bytes": 270
     },
     {
       "path": "docs/generated/local-tooling/test-surface-inventory-summary.md",

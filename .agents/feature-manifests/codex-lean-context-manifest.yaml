@@ -1,0 +1,305 @@
+featureId: codex_lean_context
+title: Codex Lean Context and Noise Cleaner
+workflowTier: tier4-agent-tooling-workflow
+manifestDecision: required
+status: complete
+riskTier: high
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - agent-contract
+planFile: .agents/codex-lean-context-master-plan.md
+summary:
+  - Added a shared text-noise cleaner for audit and validation summaries.
+  - Registered the cleaner as a first-class local tooling helper and Make target.
+  - Exposed an aggressive clean mode for compact summary surfaces.
+  - Tightened validation summaries so they keep decision signals and drop repetitive build noise.
+validationEvidence:
+  commands:
+    - command: ruby -c scripts/local_tooling_common.rb
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T16:20:00Z'
+      durationSeconds: 0.061
+      summary: Syntax OK
+    - command: ruby -c scripts/audits/local_tooling_extended_tools.rb
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T16:20:01Z'
+      durationSeconds: 0.061
+      summary: Syntax OK
+    - command: ruby -c scripts/audits/clean-text-noise.rb
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T16:20:02Z'
+      durationSeconds: 0.061
+      summary: Syntax OK
+    - command: make generate-audit-registry-artifacts
+      scope: generated-artifact
+      result: passed
+      ranAt: '2026-06-29T16:20:03Z'
+      durationSeconds: 0.108
+      summary: Audit registry artifacts and summary index were regenerated successfully.
+    - command: make audit-manifest-decision files=scripts/local_tooling_common.rb,scripts/audits/clean-text-noise.rb,scripts/audits/local_tooling_extended_tools.rb,docs/codex-fast-path.md,docs/feature-delivery-workflow.md,Makefile,.agents/codex-lean-context-master-plan.md
+      scope: manifest
+      result: passed
+      ranAt: '2026-06-29T16:20:04Z'
+      durationSeconds: 0.091
+      summary: Manifest decision required for the tooling and workflow change set.
+    - command: make audit-plan-completion plan=.agents/codex-lean-context-master-plan.md
+      scope: manifest
+      result: passed
+      ranAt: '2026-06-29T16:20:05Z'
+      durationSeconds: 0.096
+      summary: Plan completion audit passed with no open tasks or issues.
+    - command: make audit-todo
+      scope: docs
+      result: passed
+      ranAt: '2026-06-29T16:20:06Z'
+      durationSeconds: 0.4
+      summary: Persistent backlog audit passed with zero open items.
+    - command: make audit-validation-evidence-quality
+      scope: other
+      result: passed
+      ranAt: '2026-06-29T16:20:07Z'
+      durationSeconds: 0.084
+      summary: Validation evidence quality audit found no vague evidence issues.
+    - command: cd apps/themuffinman/frontend && npm run type-check
+      scope: frontend
+      result: passed
+      ranAt: '2026-06-29T16:23:00Z'
+      durationSeconds: 3.767
+      summary: "> frontend@0.0.0 type-check > vue-tsc --noEmit"
+    - command: cd apps/themuffinman/frontend && npm run build
+      scope: frontend
+      result: passed
+      ranAt: '2026-06-29T16:23:10Z'
+      durationSeconds: 1.197
+      summary: "dist/assets/index-DIMRDH4d.js 52.22 kB │ gzip: 15.83 kB dist/assets/vendor-D1X7qyTa.js 53.49 kB │ gzip: 20.97 kB dist/assets/editor-B7hu53_A.js 479.14 kB │ gzip: 154.33 kB ✓ built in 733ms"
+    - command: make generate-agent-artifacts
+      scope: generated-artifact
+      result: passed
+      ranAt: '2026-06-29T16:22:20Z'
+      durationSeconds: 0.375
+      summary: Agent inventory and source-of-truth generated artifacts were refreshed successfully.
+    - command: cd apps/themuffinman/frontend && npm run generate:contracts
+      scope: generated-artifact
+      result: passed
+      ranAt: '2026-06-29T16:25:00Z'
+      durationSeconds: 0.146
+      summary: "Generated frontend contract: src/contracts/generated/themuffinmanContract.ts"
+    - command: make audit-generated-artifact-freshness
+      scope: generated-artifact
+      result: passed
+      ranAt: '2026-06-29T16:25:10Z'
+      durationSeconds: 0.22
+      summary: Generated artifact freshness audit passed with zero stale artifacts.
+    - command: make audit-duplicate-logic
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T16:28:00Z'
+      durationSeconds: 0.088
+      summary: Duplicate logic audit reported 7 review candidates and 5 top entries.
+    - command: make audit-permission-rule-duplication
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T16:28:10Z'
+      durationSeconds: 0.052
+      summary: Permission rule duplication audit reported 13 backend sources and 11 frontend local gates.
+    - command: make audit-frontend-state-logic-duplication
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T16:28:20Z'
+      durationSeconds: 0.069
+      summary: Frontend state logic duplication audit reported workflow, dialog, and feedback overlaps.
+    - command: make audit-doc-sync-duplicates
+      scope: docs
+      result: passed
+      ranAt: '2026-06-29T16:28:30Z'
+      durationSeconds: 0.064
+      summary: Doc sync duplicates audit reported 20 protected duplicate groups and 4 conflict groups.
+    - command: make test-history-summary
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T16:29:00Z'
+      durationSeconds: 0.02
+      summary: Test history summary regenerated with a compact read-first format.
+    - command: make codebase-capsule
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T16:29:10Z'
+      durationSeconds: 0.02
+      summary: Codebase capsule regenerated with a shorter read-first format.
+    - command: make audit-change-impact-preflight
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T16:31:00Z'
+      durationSeconds: 0.007
+      summary: Change impact preflight kept scope guardrails and top changed-file signals.
+    - command: make architecture-decision-index
+      scope: docs
+      result: passed
+      ranAt: '2026-06-29T16:31:10Z'
+      durationSeconds: 0.007
+      summary: Architecture decision index regenerated with compact decision entries.
+    - command: make changeset-risk
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T16:25:20Z'
+      durationSeconds: 0.012
+      summary: Changeset risk reported a high-tier batch with the top factors retained.
+    - command: make audit-generated-commit-scope
+      scope: local-tooling
+      result: passed
+      ranAt: '2026-06-29T16:25:30Z'
+      durationSeconds: 0.015
+      summary: Generated commit scope summarized source and generated change distribution.
+    - command: make audit-agent-safety
+      scope: agent-safety
+      result: passed
+      ranAt: '2026-06-29T16:23:20Z'
+      durationSeconds: 9.803
+      summary: Agent safety checks and backend target tests passed.
+    - command: "printf '[[INFO]] Scanning for projects...\\n[INFO] BUILD SUCCESS\\nnoise line\\n' | make clean-text-noise max_lines=5"
+      scope: smoke
+      result: passed
+      ranAt: '2026-06-29T16:20:08Z'
+      durationSeconds: 0.05
+      summary: noise line
+    - command: "printf '[[INFO]] Scanning for projects...\\n[INFO] BUILD SUCCESS\\n> frontend@0.0.0 build\\nGenerated frontend contract is fresh.\\n✓ built in 503ms\\n' | make clean-text-noise max_lines=5 aggressive=true"
+      scope: smoke
+      result: passed
+      ranAt: '2026-06-29T16:24:00Z'
+      durationSeconds: 0.05
+      summary: Generated frontend contract is fresh.
+generatedArtifacts:
+  refreshedPaths:
+    - docs/generated/local-tooling/audit-registry-artifacts.json
+    - docs/generated/local-tooling/audit-registry-artifacts-summary.md
+    - docs/generated/local-tooling/audit-summary-index.json
+    - docs/generated/local-tooling/audit-summary-index.md
+    - docs/generated/local-tooling/changeset-risk-summary.md
+    - docs/generated/local-tooling/generated-artifact-freshness-summary.md
+    - docs/generated/local-tooling/generated-commit-scope-summary.md
+    - docs/generated/local-tooling/duplicate-logic-audit.json
+    - docs/generated/local-tooling/duplicate-logic-audit-summary.md
+    - docs/generated/local-tooling/permission-rule-duplication-audit.json
+    - docs/generated/local-tooling/permission-rule-duplication-audit-summary.md
+    - docs/generated/local-tooling/frontend-state-logic-duplication-audit.json
+    - docs/generated/local-tooling/frontend-state-logic-duplication-audit-summary.md
+    - docs/generated/local-tooling/doc-sync-duplicates.json
+    - docs/generated/local-tooling/doc-sync-duplicates-summary.md
+    - docs/generated/local-tooling/test-history.json
+    - docs/generated/local-tooling/test-history-summary.md
+    - docs/generated/local-tooling/codebase-capsule.json
+    - docs/generated/local-tooling/codebase-capsule.md
+    - docs/generated/local-tooling/change-impact-preflight.json
+    - docs/generated/local-tooling/change-impact-preflight-summary.md
+    - docs/generated/local-tooling/architecture-decision-index.json
+    - docs/generated/local-tooling/architecture-decision-index-summary.md
+    - docs/generated/local-tooling/audit-summary-index.json
+    - docs/generated/local-tooling/audit-summary-index.md
+    - docs/generated/local-tooling/audit-registry-artifacts.json
+    - docs/generated/local-tooling/audit-registry-artifacts-summary.md
+    - docs/generated/backend-audit-inventory.json
+    - docs/generated/agent-endpoint-inventory.json
+    - docs/generated/automation-read-model-inventory.json
+    - docs/generated/source-of-truth-audit.json
+    - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+    - docs/tooling/codex-local-audits.yml
+    - docs/agent-operating-model.yaml
+  notApplicableReason: Generated artifacts are listed in refreshedPaths.
+planCompletion:
+  reviewed: true
+  openTasks: 0
+  summary: Plan has no open checkbox tasks.
+closeoutDecision:
+  status: ready
+  reason: Lean-context cleanup, registry exposure, validation evidence quality, and plan closeout all pass.
+docDelta:
+  behaviorChanged:
+    - Audit and validation summaries now drop repetitive Maven and Vite noise before recording evidence.
+    - The cleaner is available as a first-class local tooling command for future use.
+    - The cleaner now supports an aggressive mode for ultra-compact summary surfaces.
+  docsUpdated:
+    - .agents/codex-lean-context-master-plan.md
+    - docs/codex-fast-path.md
+    - docs/feature-delivery-workflow.md
+    - docs/generated/local-tooling/audit-registry-artifacts.json
+    - docs/generated/local-tooling/audit-registry-artifacts-summary.md
+    - docs/generated/local-tooling/audit-summary-index.json
+    - docs/generated/local-tooling/audit-summary-index.md
+    - docs/tooling/codex-local-audits.yml
+  intentionallyUnchanged:
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: true
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - scripts/local_tooling_common.rb
+    - scripts/audits/clean-text-noise.rb
+    - scripts/audits/local_tooling_extended_tools.rb
+    - Makefile
+  docPaths:
+    - .agents/codex-lean-context-master-plan.md
+    - docs/codex-fast-path.md
+    - docs/feature-delivery-workflow.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/generated/local-tooling/changeset-risk-summary.md
+    - docs/generated/local-tooling/generated-artifact-freshness-summary.md
+    - docs/generated/local-tooling/generated-commit-scope-summary.md
+    - docs/generated/local-tooling/duplicate-logic-audit.json
+    - docs/generated/local-tooling/duplicate-logic-audit-summary.md
+    - docs/generated/local-tooling/permission-rule-duplication-audit.json
+    - docs/generated/local-tooling/permission-rule-duplication-audit-summary.md
+    - docs/generated/local-tooling/frontend-state-logic-duplication-audit.json
+    - docs/generated/local-tooling/frontend-state-logic-duplication-audit-summary.md
+    - docs/generated/local-tooling/doc-sync-duplicates.json
+    - docs/generated/local-tooling/doc-sync-duplicates-summary.md
+    - docs/generated/local-tooling/test-history.json
+    - docs/generated/local-tooling/test-history-summary.md
+    - docs/generated/local-tooling/codebase-capsule.json
+    - docs/generated/local-tooling/codebase-capsule.md
+    - docs/generated/local-tooling/change-impact-preflight.json
+    - docs/generated/local-tooling/change-impact-preflight-summary.md
+    - docs/generated/local-tooling/architecture-decision-index.json
+    - docs/generated/local-tooling/architecture-decision-index-summary.md
+    - docs/generated/local-tooling/audit-summary-index.json
+    - docs/generated/local-tooling/audit-summary-index.md
+    - docs/generated/local-tooling/audit-registry-artifacts.json
+    - docs/generated/local-tooling/audit-registry-artifacts-summary.md
+    - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+    - docs/generated/backend-audit-inventory.json
+    - docs/generated/agent-endpoint-inventory.json
+    - docs/generated/automation-read-model-inventory.json
+    - docs/generated/source-of-truth-audit.json
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  generatorCommands:
+    - make generate-audit-registry-artifacts
+    - make generate-agent-artifacts
+    - make generate-agent-operating-model
+  auditCommands:
+    - make audit-manifest-decision
+    - make audit-plan-completion
+    - make audit-todo
+    - make audit-validation-evidence-quality
+    - make audit-agent-safety
+    - npm run type-check
+    - npm run build

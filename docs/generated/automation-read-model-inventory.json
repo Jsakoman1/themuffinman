@@ -1082,6 +1082,15 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDraftRulesDTO",
+    "fields": [
+      "messageRequired",
+      "proposedPriceRequired",
+      "minimumProposedPrice",
+      "suggestedApplicationPrice"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO",
     "fields": [
       "items",
@@ -1319,6 +1328,12 @@
       "canApply",
       "canViewApplications",
       "canManuallyAssign",
+      "suggestedApplicationPrice",
+      "applicationDraftRules",
+      "offerSectionVisible",
+      "applicationsSectionVisible",
+      "myApplicationAsideVisible",
+      "overviewStatusVisible",
       "primaryExecutionActionLabel",
       "termChangeSummaryLabel",
       "termChangeConfirmLabel",

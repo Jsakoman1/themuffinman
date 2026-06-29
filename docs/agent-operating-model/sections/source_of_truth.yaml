@@ -385,8 +385,16 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/ServiceErrors.java
   - id: business_logic_doc
     path: docs/business-logic.md
+  - id: codex_fast_path_doc
+    path: docs/codex-fast-path.md
   - id: domain_technical_doc
     path: docs/domain-technical.md
+  - id: feature_delivery_workflow_doc
+    path: docs/feature-delivery-workflow.md
+  - id: change_completion_checklist_doc
+    path: docs/change-completion-checklist.md
+  - id: agent_operating_model_doc
+    path: docs/agent-operating-model.md
   - id: documentation_sync_policy_doc
     path: docs/documentation-sync-policy.md
   - id: implementation_backlog_doc

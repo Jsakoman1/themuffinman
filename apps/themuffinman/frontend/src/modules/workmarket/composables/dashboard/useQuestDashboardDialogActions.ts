@@ -1,4 +1,3 @@
-import {isQuestFree} from "../../shared/pricing.ts"
 import type {QuestDashboardState} from "../useQuestDashboardState.ts"
 
 export const useQuestDashboardDialogActions = (
@@ -32,9 +31,9 @@ export const useQuestDashboardDialogActions = (
     }
 
     if (quest.presentation.canApply) {
-      const suggestedPrice = isQuestFree(quest.awardAmount) ? "" : String(quest.awardAmount ?? "")
-      if (!state.proposedPrices.value[quest.id]?.trim() && suggestedPrice) {
-        state.proposedPrices.value[quest.id] = suggestedPrice
+      const suggestedPrice = quest.presentation.suggestedApplicationPrice
+      if (!state.proposedPrices.value[quest.id]?.trim() && suggestedPrice !== null && suggestedPrice !== undefined) {
+        state.proposedPrices.value[quest.id] = String(suggestedPrice)
       }
     }
   }

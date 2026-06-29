@@ -7,6 +7,14 @@
   "properties": {
     "featureId": {"type": "string", "minLength": 1},
     "title": {"type": "string", "minLength": 1},
+    "workflowTier": {
+      "type": "string",
+      "enum": ["tier1-tiny-change", "tier2-normal-feature", "tier3-high-risk-multi-layer", "tier4-agent-tooling-workflow"]
+    },
+    "manifestDecision": {
+      "type": "string",
+      "enum": ["required", "optional", "resolver_review"]
+    },
     "status": {"type": "string", "enum": ["draft", "in_progress", "complete"]},
     "riskTier": {"type": "string", "enum": ["low", "medium", "high", "executor-critical"]},
     "changeMode": {"type": "string", "enum": ["small-change", "major-change"]},

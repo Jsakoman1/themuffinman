@@ -12,7 +12,7 @@ import QuestDetailContent from "../components/shared/QuestDetailContent.vue"
 import QuestDetailEditForm from "../components/shared/QuestDetailEditForm.vue"
 import ApplicationManagementCard from "../components/shared/ApplicationManagementCard.vue"
 import {routeForNavigationTarget} from "../shared/navigationTargets.ts"
-import {formatApplicationPrice, isQuestFree} from "../shared/pricing.ts"
+import {formatApplicationPrice} from "../shared/pricing.ts"
 const {
   router,
   quest,
@@ -291,13 +291,13 @@ const openApplicantProfile = (applicationId: number) => {
               v-else-if="canApply"
               :message="applicationMessage"
               :price="proposedPrice"
-              :price-placeholder="String(quest.awardAmount ?? '')"
-              :quickfill-label="isQuestFree(quest.awardAmount) ? undefined : 'Use suggested'"
-              :show-price="!isQuestFree(quest.awardAmount)"
+              :price-placeholder="String(quest.presentation.suggestedApplicationPrice ?? '')"
+              :quickfill-label="quest.presentation.suggestedApplicationPrice != null ? 'Use suggested' : undefined"
+              :show-price="quest.presentation.suggestedApplicationPrice != null"
               :can-submit="canSubmitApplication"
               @update:message="applicationMessage = $event"
               @update:price="proposedPrice = $event"
-              @quickfill="proposedPrice = String(quest.awardAmount ?? '')"
+              @quickfill="proposedPrice = String(quest.presentation.suggestedApplicationPrice ?? '')"
               @submit="applyForQuest"
             />
 

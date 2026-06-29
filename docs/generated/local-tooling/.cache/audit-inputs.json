@@ -162,16 +162,16 @@
     "payload_checksum": "4c66a093024581d3b26ba74075994aad154ac61c4bcf3d0818782ebb1ab918d7"
   },
   "audit-summary-index": {
-    "updated_at": "2026-06-29T15:49:24Z",
+    "updated_at": "2026-06-29T17:51:25Z",
     "output": "docs/generated/local-tooling/audit-summary-index.json",
     "cache_status": "refreshed",
-    "payload_checksum": "6935eb8fc73738f55eda379bb00e7c08839940eac968c2206ca2b89c98e022a2"
+    "payload_checksum": "da8714eee689fd365820849c50a39a07a32cd36ca6f8b508e1204694acb0101a"
   },
   "audit-registry-artifacts": {
-    "updated_at": "2026-06-29T15:49:24Z",
+    "updated_at": "2026-06-29T17:51:25Z",
     "output": "docs/generated/local-tooling/audit-registry-artifacts.json",
     "cache_status": "refreshed",
-    "payload_checksum": "a4a0f25422f2863c85194cbbdd39fe72e2cfedec06ea2f7a8e33109ce81734b8"
+    "payload_checksum": "c0dadfd529715f38aaa81262d470e30e8e82c67506b818dbde5f4d9977ffa55f"
   },
   "post-merge-retrospective": {
     "updated_at": "2026-06-29T10:07:43Z",
@@ -216,10 +216,10 @@
     "payload_checksum": "6478c68aa288251ca81904adb4a0d80fe194e469396c8d2659f16cec037b8feb"
   },
   "codebase-capsule": {
-    "updated_at": "2026-06-29T12:47:35Z",
+    "updated_at": "2026-06-29T17:47:59Z",
     "output": "docs/generated/local-tooling/codebase-capsule.json",
     "cache_status": "refreshed",
-    "payload_checksum": "82460dd73c451e575c78dee4e4d1785a5988a16e53752e123a5dc300c9cdad9f"
+    "payload_checksum": "ab6714dd06cc26caf0258fd6f6127b0a83fec239748d68771183fd746f25c163"
   },
   "targeted-tests": {
     "updated_at": "2026-06-29T15:10:33Z",
@@ -228,10 +228,10 @@
     "payload_checksum": "ac557e803d36050979a12b59aa9e696e19fc14ce34bf28bf86686bc39660b5f8"
   },
   "test-history-summary": {
-    "updated_at": "2026-06-29T12:47:35Z",
+    "updated_at": "2026-06-29T17:47:59Z",
     "output": "docs/generated/local-tooling/test-history.json",
     "cache_status": "refreshed",
-    "payload_checksum": "4059d260508f5a025db29d9e55cd7bfe5e0a5881a7cd73c06b09456226a4c3ef"
+    "payload_checksum": "d8a43781948bbcdaa34364cdd14f305b2fa37db51fb1f083a90716ddcf9136a2"
   },
   "diagnostics/frontend-type-check-latest": {
     "updated_at": "2026-06-29T11:07:58Z",
@@ -346,5 +346,11 @@
     "output": "docs/generated/local-tooling/closeout-autofill/codex_context_optimization.json",
     "cache_status": "refreshed",
     "payload_checksum": "1787ac13714fab25ddd89511922f928c23cadbbf87930f9408c89e6b76da80bf"
+  },
+  "closeout-autofill/codex_tiered_workflow": {
+    "updated_at": "2026-06-29T17:09:37Z",
+    "output": "docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "259d4a9c2f81accc482e5bef324fb44880da2cf93de6a8862eed5f2c826fc866"
   }
 }

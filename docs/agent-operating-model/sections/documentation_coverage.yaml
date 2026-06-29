@@ -61,7 +61,11 @@ documentation_coverage:
   - id: automation_docs
     source_refs:
     - business_logic_doc
+    - codex_fast_path_doc
     - domain_technical_doc
+    - feature_delivery_workflow_doc
+    - change_completion_checklist_doc
+    - agent_operating_model_doc
     - documentation_sync_policy_doc
     - agents_doc
   - id: automation_contract_dtos

@@ -826,12 +826,18 @@ module LocalToolingBatchAudits
       if value.is_a?(Array)
         lines << "## `#{key}`"
         lines << ""
-        value.first(20).each { |entry| lines << "- `#{entry}`".gsub("=>", ": ") }
+        value.first(20).each do |entry|
+          cleaned_entry = LocalToolingCommon.clean_text_output(entry.to_s, max_lines: 1, aggressive: true)
+          next if cleaned_entry.empty?
+
+          lines << "- `#{cleaned_entry}`".gsub("=>", ": ")
+        end
         lines << ""
       elsif value.is_a?(Hash)
         lines << "- `#{key}`: `#{value.size}` entries"
       else
-        lines << "- #{LocalToolingCommon.titleize_slug(key.to_s)}: `#{value}`"
+        cleaned_value = LocalToolingCommon.clean_text_output(value.to_s, max_lines: 1, aggressive: true)
+        lines << "- #{LocalToolingCommon.titleize_slug(key.to_s)}: `#{cleaned_value}`"
       end
     end
     lines.join("\n") + "\n"

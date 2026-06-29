@@ -180,7 +180,9 @@ documentation_ownership:
     - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
   - id: platform
     required_living_docs:
+    - docs/codex-fast-path.md
     - docs/domain-technical.md
+    - docs/feature-delivery-workflow.md
     - docs/documentation-sync-policy.md
     - docs/change-completion-checklist.md
     generated_artifacts:
@@ -227,6 +229,8 @@ documentation_ownership:
     - ./mvnw test
   - id: agent_contract
     required_living_docs:
+    - docs/codex-fast-path.md
+    - docs/feature-delivery-workflow.md
     - docs/agent-operating-model.md
     - docs/documentation-sync-policy.md
     - docs/change-completion-checklist.md
@@ -248,7 +252,9 @@ documentation_ownership:
     - ./mvnw test
   - id: local_tooling
     required_living_docs:
+    - docs/codex-fast-path.md
     - docs/domain-technical.md
+    - docs/feature-delivery-workflow.md
     - docs/tooling/codex-local-audits.md
     generated_artifacts:
     - docs/generated/local-tooling/audit-summary-index.json

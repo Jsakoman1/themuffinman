@@ -795,6 +795,13 @@ export interface QuestApplicationDetailSectionsDTO {
   context: QuestApplicationDetailContextSectionDTO
 }
 
+export interface QuestApplicationDraftRulesDTO {
+  messageRequired: boolean
+  proposedPriceRequired: boolean
+  minimumProposedPrice: number | null
+  suggestedApplicationPrice: number | null
+}
+
 export interface QuestApplicationListResponseDTO {
   items: QuestApplicationResponseDTO[]
   page: number
@@ -1008,6 +1015,12 @@ export interface QuestPresentationDTO {
   canApply: boolean
   canViewApplications: boolean
   canManuallyAssign: boolean
+  suggestedApplicationPrice: number | null
+  applicationDraftRules: QuestApplicationDraftRulesDTO | null
+  offerSectionVisible: boolean
+  applicationsSectionVisible: boolean
+  myApplicationAsideVisible: boolean
+  overviewStatusVisible: boolean
   primaryExecutionActionLabel: string | null
   termChangeSummaryLabel: string | null
   termChangeConfirmLabel: string | null

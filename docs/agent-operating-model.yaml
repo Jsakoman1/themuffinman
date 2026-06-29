@@ -395,8 +395,16 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/ServiceErrors.java
   - id: business_logic_doc
     path: docs/business-logic.md
+  - id: codex_fast_path_doc
+    path: docs/codex-fast-path.md
   - id: domain_technical_doc
     path: docs/domain-technical.md
+  - id: feature_delivery_workflow_doc
+    path: docs/feature-delivery-workflow.md
+  - id: change_completion_checklist_doc
+    path: docs/change-completion-checklist.md
+  - id: agent_operating_model_doc
+    path: docs/agent-operating-model.md
   - id: documentation_sync_policy_doc
     path: docs/documentation-sync-policy.md
   - id: implementation_backlog_doc
@@ -824,8 +832,9 @@ backend_audit_coverage:
     - "/common/"
 policies:
   self_test_matrix:
-    default_rule: Pick the cheapest tier that covers the changed risk, impact, and
-      profile, then record exact commands or skipped-check reasons in validation evidence.
+    default_rule: Pick the cheapest validation tier that covers the workflow tier,
+      changed risk, impact, and profile, then record exact commands or skipped-check
+      reasons in validation evidence.
     tiers:
     - id: syntax_only
       purpose: Parse, schema, compile, or lint checks for cosmetic or documentation-only
@@ -871,11 +880,9 @@ policies:
     - risk: low
       minimum_tiers:
       - syntax_only
-      - targeted_unit
     - risk: medium
       minimum_tiers:
       - targeted_unit
-      - generated_artifact_validation
     - risk: high
       minimum_tiers:
       - domain_scenario
@@ -2638,7 +2645,11 @@ documentation_coverage:
   - id: automation_docs
     source_refs:
     - business_logic_doc
+    - codex_fast_path_doc
     - domain_technical_doc
+    - feature_delivery_workflow_doc
+    - change_completion_checklist_doc
+    - agent_operating_model_doc
     - documentation_sync_policy_doc
     - agents_doc
   - id: automation_contract_dtos
@@ -3011,7 +3022,9 @@ documentation_ownership:
     - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
   - id: platform
     required_living_docs:
+    - docs/codex-fast-path.md
     - docs/domain-technical.md
+    - docs/feature-delivery-workflow.md
     - docs/documentation-sync-policy.md
     - docs/change-completion-checklist.md
     generated_artifacts:
@@ -3058,6 +3071,8 @@ documentation_ownership:
     - "./mvnw test"
   - id: agent_contract
     required_living_docs:
+    - docs/codex-fast-path.md
+    - docs/feature-delivery-workflow.md
     - docs/agent-operating-model.md
     - docs/documentation-sync-policy.md
     - docs/change-completion-checklist.md
@@ -3079,7 +3094,9 @@ documentation_ownership:
     - "./mvnw test"
   - id: local_tooling
     required_living_docs:
+    - docs/codex-fast-path.md
     - docs/domain-technical.md
+    - docs/feature-delivery-workflow.md
     - docs/tooling/codex-local-audits.md
     generated_artifacts:
     - docs/generated/local-tooling/audit-summary-index.json
@@ -4596,9 +4613,12 @@ documentation_sync:
   required_docs:
   - AGENTS.md
   - docs/business-logic.md
+  - docs/codex-fast-path.md
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   - docs/agent-operating-model.yaml
+  - docs/feature-delivery-workflow.md
+  - docs/change-completion-checklist.md
   - docs/implementation-backlog.md
   - docs/feature-completion-manifest.schema.json
   - docs/validation-evidence.schema.json
@@ -4614,6 +4634,30 @@ documentation_sync:
   - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
   rules:
+  - id: tiered_feature_workflow_entrypoint
+    description: Feature delivery starts from the compact fast path and escalates
+      into the full workflow only when the tier or resolver requires it.
+    source_refs:
+    - agents_doc
+    - codex_fast_path_doc
+    - feature_delivery_workflow_doc
+    - change_completion_checklist_doc
+    - agent_operating_model_doc
+    - documentation_sync_policy_doc
+    doc_paths:
+    - AGENTS.md
+    - docs/codex-fast-path.md
+    - docs/feature-delivery-workflow.md
+    - docs/change-completion-checklist.md
+    - docs/agent-operating-model.md
+    - docs/documentation-sync-policy.md
+    must_contain_all:
+    - docs/codex-fast-path.md is the compact execution entrypoint for most feature
+      work.
+    - Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related,
+      or when a resolver requires it.
+    - Manifest usage is tier-driven and conditional instead of being the default for
+      every non-trivial backend change.
   - id: documentation_updates_required_for_logic_changes
     description: Logical changes must propagate into the living docs and agent-safety
       artifacts in the same change.

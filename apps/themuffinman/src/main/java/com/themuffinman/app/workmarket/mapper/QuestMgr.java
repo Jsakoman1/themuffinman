@@ -4,6 +4,7 @@ import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
 import com.themuffinman.app.common.dto.LabelValueDTO;
 import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationDraftRulesDTO;
 import com.themuffinman.app.workmarket.dto.QuestPresentationDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.social.dto.CircleSummaryDTO;
@@ -87,7 +88,18 @@ public class QuestMgr {
                 .presentation(QuestPresentationDTO.builder()
                         .canEdit(false)
                         .canApply(false)
-                .canViewApplications(false)
+                        .canViewApplications(false)
+                        .suggestedApplicationPrice(suggestedApplicationPrice(quest.getAwardAmount()))
+                        .applicationDraftRules(QuestApplicationDraftRulesDTO.builder()
+                                .messageRequired(true)
+                                .proposedPriceRequired(!isFreeQuest(quest.getAwardAmount()))
+                                .minimumProposedPrice(isFreeQuest(quest.getAwardAmount()) ? null : java.math.BigDecimal.valueOf(0.01))
+                                .suggestedApplicationPrice(suggestedApplicationPrice(quest.getAwardAmount()))
+                                .build())
+                        .offerSectionVisible(false)
+                        .applicationsSectionVisible(false)
+                        .myApplicationAsideVisible(false)
+                        .overviewStatusVisible(false)
                         .statusLabel(presentationHelper.formatQuestStatus(quest.getStatus()))
                         .statusBadgeClass(presentationHelper.badgeClassForQuestStatus(quest.getStatus()))
                         .statusSurfaceClass(presentationHelper.surfaceClassForQuestStatus(quest.getStatus()))
@@ -114,6 +126,18 @@ public class QuestMgr {
                         .executionHelperText(null)
                         .build())
                 .build();
+    }
+
+    private boolean isFreeQuest(java.math.BigDecimal awardAmount) {
+        return awardAmount != null && awardAmount.compareTo(java.math.BigDecimal.ZERO) == 0;
+    }
+
+    private java.math.BigDecimal suggestedApplicationPrice(java.math.BigDecimal awardAmount) {
+        if (awardAmount == null || awardAmount.compareTo(java.math.BigDecimal.ZERO) <= 0) {
+            return null;
+        }
+
+        return awardAmount;
     }
 
     public QuestResponseDTO withViewerContext(

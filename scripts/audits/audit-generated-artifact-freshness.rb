@@ -103,14 +103,10 @@ module GeneratedArtifactFreshnessAudit
     lines << "- Stale artifacts: `#{report[:stale_count]}`"
     lines << ""
     report[:artifacts].each do |entry|
-      lines << "## `#{entry[:label]}`"
-      lines << ""
-      lines << "- Artifact: `#{entry[:artifact]}`"
-      lines << "- Status: `#{entry[:status]}`"
-      lines << "- Newest source: #{entry[:newest_source] ? "`#{entry[:newest_source]}`" : "_none_"}"
-      lines << "- Regenerate: `#{entry[:regenerate_command]}`"
-      lines << ""
+      source = entry[:newest_source] ? entry[:newest_source] : "none"
+      lines << "- `#{entry[:label]}`: `#{entry[:status]}` (source: `#{source}`)"
     end
+    lines << ""
     lines.join("\n")
   end
 

@@ -58,8 +58,8 @@ def infer_scope(command)
 end
 
 def summarize_output(stdout, stderr, status)
-  lines = "#{stdout}\n#{stderr}".lines.map(&:strip).reject(&:empty?)
-  tail = lines.last(4).join(" ")
+  cleaned = LocalToolingCommon.clean_text_output("#{stdout}\n#{stderr}", max_lines: 12, aggressive: true)
+  tail = cleaned.lines.last(2).join(" ").strip
   tail = status.success? ? "Command passed." : "Command failed." if tail.empty?
   tail[0, 500]
 end

@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-06-29T15:50:23Z",
+  "generatedAt": "2026-06-29T17:31:08Z",
   "summary": {
-    "totalFiles": 305,
-    "classifiedFiles": 305,
+    "totalFiles": 306,
+    "classifiedFiles": 306,
     "unclassifiedFileCount": 0,
     "unownedDomainFileCount": 0,
     "tierCounts": {
       "executor_critical": 67,
-      "automation_relevant": 166,
+      "automation_relevant": 167,
       "internal_support": 71,
       "out_of_scope": 1
     },
@@ -22,7 +22,7 @@
       "rides": 8,
       "social": 40,
       "things": 13,
-      "workmarket": 112
+      "workmarket": 113
     },
     "ownerCounts": {
       "platform_core": 32,
@@ -34,10 +34,10 @@
       "rides_domain": 8,
       "social_domain": 40,
       "things_domain": 13,
-      "workmarket_domain": 112
+      "workmarket_domain": 113
     },
     "executorCriticalWithoutSourceRefCount": 0,
-    "automationRelevantWithoutSourceRefCount": 29,
+    "automationRelevantWithoutSourceRefCount": 30,
     "strictSourceOfTruthMissingCount": 0,
     "strictDocumentationMissingCount": 0
   },
@@ -2903,6 +2903,19 @@
       "currentGate": "report_only"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesDTO.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_dto_surface",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationListResponseDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "workmarket_list_search_options_dto_surface",
@@ -4036,6 +4049,7 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialPresentationHelper.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserRatingSummaryDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEvent.java",

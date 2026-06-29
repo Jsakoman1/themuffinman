@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:18Z",
+  "generated_at": "2026-06-29T17:54:45Z",
   "mode": "report_first",
   "thresholds": {
     "service_lines": 420,
@@ -355,7 +355,7 @@
       "file": "docs/agent-operating-model.md",
       "section": "Current Scope",
       "level": 2,
-      "lines": 196,
+      "lines": 203,
       "flags": [
         "oversized_doc_section"
       ]
@@ -368,16 +368,7 @@
       "flags": [
         "oversized_doc_section"
       ]
-    },
-    {
-      "file": "docs/change-completion-checklist.md",
-      "section": "Checklist",
-      "level": 2,
-      "lines": 109,
-      "flags": [
-        "oversized_doc_section"
-      ]
     }
   ],
-  "total_findings": 26
+  "total_findings": 25
 }

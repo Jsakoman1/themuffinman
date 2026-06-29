@@ -66,7 +66,7 @@ export const createQuestDialogViewState = (dashboard: DashboardQuestDialogFacade
     return dashboard.proposedPrices[quest.value.id] ?? ""
   })
   const canSubmitApplication = computed(() =>
-    canSubmitQuestApplicationDraft(applicationMessage.value, applicationPrice.value, quest.value?.awardAmount)
+    canSubmitQuestApplicationDraft(applicationMessage.value, applicationPrice.value, quest.value?.presentation.applicationDraftRules)
   )
   const myApplication = computed(() => {
     return detail.value?.myApplication

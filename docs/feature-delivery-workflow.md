@@ -1,60 +1,177 @@
 # Feature Delivery Workflow
 
-This document is the canonical end-to-end workflow for implementing a feature in this repository with Codex and the local tooling stack.
+This document is the canonical human-readable workflow for implementing a feature in this repository with Codex and the local tooling stack.
 
-Keep it synchronized with `AGENTS.md`, `docs/documentation-sync-policy.md`, `docs/change-completion-checklist.md`, `docs/agent-operating-model.md`, and the local audit entrypoints whenever the delivery process changes.
+`docs/codex-fast-path.md` is the compact execution entrypoint for most feature work.
+
+Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it.
+
+Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
 
 ## Purpose
 
-- Explain the real execution flow from prompt intake through planning, discovery, implementation, documentation sync, validation evidence, closeout, and final response.
-- Reduce process drift between human instructions, local tooling, generated artifacts, and agent-safe closeout requirements.
-- Give one maintained reference for future workflow automation and improvement work.
+- keep one maintained end-to-end process for feature delivery
+- preserve strong closeout and documentation guarantees for high-risk work
+- let small and normal changes use a smaller startup path
+
+## Workflow Tiers
+
+### Tier 1: Tiny change
+
+Use for:
+
+- one-file bugfix
+- small rename
+- small validation fix
+- small test-only change
+- small documentation wording correction
+
+Guardrails:
+
+- no business-rule, permission, workflow, or state-transition change
+- no generated artifact change
+- no frontend/backend contract change
+- no DB migration
+- no agent/tooling/workflow behavior change
+
+Default flow:
+
+1. Read `AGENTS.md`.
+2. Read `docs/codex-fast-path.md`.
+3. Run compact context:
+   - `make codex-context topic=<topic> intent='<intent>'`
+   - `make recommend-targeted-tests`
+4. Run only targeted validation.
+5. Run `make audit-todo`.
+6. Final response states what changed and what was validated.
+
+Manifest:
+
+- not required by default
+- if `make audit-manifest-decision files=<csv>` says `required`, switch to the matching heavier tier
+
+### Tier 2: Normal feature
+
+Use for:
+
+- normal backend service or use-case change
+- normal frontend component or screen change
+- small DTO or API adjustment
+- small business-rule change with tests
+- small multi-file change inside one bounded area
+
+Default flow:
+
+1. Read `AGENTS.md`.
+2. Read `docs/codex-fast-path.md`.
+3. Create a short plan, usually through `make bootstrap-feature-work topic=<short-topic> mode=normal`.
+4. Run compact context and routing:
+   - `make codex-context topic=<topic> intent='<intent>'`
+   - `make audit-router files=<csv>`
+   - `make audit-doc-sync-required-surfaces files=<csv>`
+   - `make audit-manifest-decision files=<csv>`
+   - `make recommend-validation-preset files=<csv>`
+5. Update only the docs and generated artifacts that the resolver surface requires.
+6. Run targeted validation first and broaden only if risk or profile requires it.
+7. Run `make audit-todo` and `make audit-plan-completion plan=<plan-file>`.
+
+Manifest:
+
+- optional by default
+- required only when the resolver or the actual change scope triggers the heavier rules
+
+### Tier 3: High-risk or multi-layer feature
+
+Use for:
+
+- high-risk business logic
+- invoice-critical behavior
+- DB migrations
+- frontend/backend contract changes
+- generated artifact changes
+- backend + frontend + docs changes
+- changes touching 3 or more meaningful surfaces
+- high-risk refactors
+- broad autonomous implementation
+
+Full flow is mandatory:
+
+1. Read `AGENTS.md`, `docs/codex-fast-path.md`, and this document.
+2. Create a plan, and a master plan when the batch is broad.
+3. Create or resolve the manifest path.
+4. Run compact context and routing:
+   - `make codex-context topic=<topic> intent='<intent>'`
+   - `make audit-router files=<csv>`
+   - `make audit-doc-sync-required-surfaces files=<csv>`
+   - `make audit-manifest-decision files=<csv>`
+   - `make resolve-manifest-path files=<csv>`
+   - `make recommend-validation-preset files=<csv>`
+5. Implement in slices:
+   - plan checkpoint
+   - first backend slice when backend is in scope
+   - first frontend slice when frontend is in scope
+   - docs and generated-artifact sync
+   - validation and closeout preparation
+6. Record validation evidence as commands run.
+   - Use `make clean-text-noise max_lines=80` when raw build or audit output is too noisy for a concise evidence summary.
+7. Autofill the closeout state.
+8. Run the required closeout audits before the final response.
+
+Typical evidence helpers:
+
+- `make record-validation manifest=<manifest-file> command='<command>'`
+- `ruby scripts/audits/record-validation-evidence.rb manifest=<manifest-file> mode=generated_artifact path=<csv> summary='<summary>'`
+- `ruby scripts/audits/record-validation-evidence.rb manifest=<manifest-file> mode=skipped_check check='<check>' reason='<reason>'`
+
+Required closeout:
+
+- `make autofill-feature-closeout manifest=<manifest-file> files=<csv> generated=<csv> docs=<csv>`
+- `make audit-todo`
+- `make audit-plan-completion plan=<plan-file> manifest=<manifest-file>`
+- `make audit-validation-evidence-quality`
+- `make feature-closeout-audit manifest=<manifest-file>`
+- `make closeout-report manifest=<manifest-file>`
+
+### Tier 4: Agent, tooling, or workflow change
+
+Use for:
+
+- `AGENTS.md`
+- `docs/codex-fast-path.md`
+- `docs/feature-delivery-workflow.md`
+- `docs/documentation-sync-policy.md`
+- `docs/change-completion-checklist.md`
+- audit scripts
+- validation evidence workflow changes
+- manifest workflow changes
+- generated agent-operating-model artifacts
+- changes that affect future Codex behavior
+
+This tier is intentionally strict:
+
+- master plan required when broad
+- manifest required
+- docs sync required
+- generated artifacts required when machine-operational rules change
+- validation test required
+- full closeout required
 
 ## End-To-End Flow
 
 1. Prompt intake
 
-Codex receives the user request inside the workspace context, reads `AGENTS.md`, and identifies the required operating constraints:
+- read `AGENTS.md`
+- route into the smallest safe workflow tier
+- treat the prompt as an intent signal, not as sufficient implementation context
 
-- whether the task is implementation, analysis, or review
-- whether a plan or master plan is required
-- whether backend, frontend, docs, generated artifacts, or agent-safety surfaces are in scope
-- whether any command requires escalation
-
-The prompt itself is not treated as sufficient context. It is only the intent signal that drives the next discovery steps.
-
-2. Plan and manifest bootstrapping
-
-For multi-file, multi-layer, high-risk, or broad autonomous work, Codex creates a temporary plan under `.agents/`. For broader batches, it creates a master plan plus narrower child plans in explicit sequence. When the change meets manifest-required conditions, Codex also keeps a matching machine-readable manifest under `.agents/feature-manifests/`.
-
-Typical bootstrap helpers:
-
-- `make bootstrap-feature-work topic=<short-topic> [risk=<tier>] [mode=<mode>] [impact=<impact>] [profiles=<csv>]`
-- manual creation of a master plan when the batch spans multiple tooling or documentation surfaces
-
-The plan is the editable execution source of truth for the current change. The manifest is the structured closeout control surface.
-
-3. Context-first discovery
-
-Before broad repository exploration, Codex should prefer compact local context:
+2. Compact context first
 
 - `make diff-summary`
 - `make audit-summary-index`
 - `make context-pack topic=<topic>`
 - `make codex-context budget=<tokens> mode=<mode> topic=<topic> intent='<intent>'`
 
-The context gateway is the smallest fresh summary path when the task has a concrete implementation target. It composes compact packs for:
-
-- changed files and diff stats
-- changed symbols and AST slices
-- targeted tests
-- DTO, endpoint, frontend, and workflow relationships
-- hotspot ranking
-- validation and session handoff context
-
-4. Focused routing and required-surface resolution
-
-After the initial context pass, Codex resolves the smallest relevant audit and propagation surface:
+3. Focused routing and required-surface resolution
 
 - `make audit-router files=<csv>`
 - `make audit-doc-sync-preflight files=<csv>`
@@ -63,135 +180,66 @@ After the initial context pass, Codex resolves the smallest relevant audit and p
 - `make resolve-manifest-path files=<csv>`
 - `make recommend-validation-preset files=<csv>`
 
-This stage answers:
+These resolvers answer:
 
-- which living docs are likely required
+- which living docs are required
 - which generated artifacts are expected to move
+- whether a manifest is required
 - which validation commands are the deterministic baseline
-- whether a manifest is required and which manifest path matches the work
+- which closeout gates are required
 
-5. Implementation slices
+4. Implementation slices
 
-Codex implements the change in the smallest meaningful slices instead of editing every surface at once.
+- keep controllers thin
+- keep frontend logic minimal
+- keep backend rules in services and use cases
+- use forward-only migrations
+- validate the first meaningful slice before widening scope
 
-Expected slice order:
-
-- plan checkpoint
-- first backend slice when backend is in scope
-- first frontend slice when frontend is in scope
-- docs and generated-artifact sync
-- validation and closeout preparation
-
-Implementation itself should stay repo-native:
-
-- backend business rules in services and use cases
-- thin controllers
-- minimal frontend logic
-- forward-only Flyway migrations
-- plan-driven and documentation-aware closeout
-
-6. Documentation synchronization
+5. Documentation synchronization
 
 No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together.
 
-The minimum review set depends on the changed surfaces, but usually includes:
+Use resolver outputs instead of guessing propagation scope from memory.
 
-- `docs/business-logic.md`
-- `docs/domain-technical.md`
-- `docs/agent-operating-model.md`
-- `docs/agent-operating-model.yaml` when machine-operational rules changed
-- `docs/documentation-sync-policy.md`
-- `docs/change-completion-checklist.md`
-- this file when the delivery process itself changed
+6. Validation and evidence
 
-Codex should use the required-surface resolver outputs instead of manually guessing propagation scope.
+- validation should be targeted first and broaden only when the tier, risk, or profile requires it
+- record exact commands, scope, and skipped-check reasons when manifests or validation evidence are in scope
 
-7. Validation execution and evidence capture
+7. Final closeout
 
-Validation should be targeted first and broaden only when risk or profile requires it.
+- tiny changes: `make audit-todo`
+- normal features: `make audit-todo` and `make audit-plan-completion`
+- manifest-backed work: run the full closeout bundle
 
-Typical helpers:
+8. Final response
 
-- `make recommend-targeted-tests`
-- `make recommend-validation-preset files=<csv>`
-- `make codex-context-explain`
-- `make audit-agent-safety`
-- `make audit-todo`
+The final response must state:
 
-When commands are run, evidence should be recorded directly into the manifest and validation evidence files instead of being copied manually later.
-
-Evidence helpers:
-
-- `make record-validation manifest=<manifest-file> command='<command>'`
-- `ruby scripts/audits/record-validation-evidence.rb manifest=<manifest-file> mode=generated_artifact path=<csv> summary='<summary>'`
-- `ruby scripts/audits/record-validation-evidence.rb manifest=<manifest-file> mode=skipped_check check='<check>' reason='<reason>'`
-
-Validation evidence now writes:
-
-- manifest `validationEvidence.commands`
-- `.agents/validation-evidence/<feature-id>.yaml`
-- `docs/generated/local-tooling/validation-evidence/<feature-id>.json`
-
-8. Manifest autofill and closeout preparation
-
-When implementation and validation are underway, Codex should reduce manual closeout bookkeeping by autofilling what can be derived deterministically:
-
-- `make autofill-feature-closeout manifest=<manifest-file> [files=<csv>] [generated=<csv>] [docs=<csv>]`
-
-Autofill updates:
-
-- refreshed generated artifact paths
-- doc paths
-- plan completion open-task count
-- checklist booleans inferred from changed files and passed validation commands
-- closeout summary report under `docs/generated/local-tooling/closeout-autofill/`
-
-Autofill is a preparation step, not a replacement for review.
-
-9. Final closeout audits
-
-Before the task is considered complete, Codex should run the closeout gates that match the change:
-
-- `make audit-todo`
-- `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]`
-- `make audit-validation-evidence-quality`
-- `make feature-closeout-audit manifest=<manifest-file>` for manifest-backed changes
-- `make closeout-report manifest=<manifest-file>` when a structured final review summary is useful
-
-These checks verify:
-
-- no open plan tasks remain unless explicitly deferred
-- backlog state is synchronized
-- validation evidence is concrete
-- manifest state matches reality
-- required docs and generated artifacts were not skipped silently
-
-10. Final response
-
-Only after implementation, docs, generated artifacts, and validation are synchronized should Codex send the final user response.
-
-The final response should state:
-
-- what now works
-- what changed at a high level
+- what changed
 - what was validated
 - any remaining risks or not-run checks
 
-It should not claim completion if validation, documentation propagation, or closeout state is still open.
-
 ## Supporting Local Tools
 
-Primary context and routing tools:
+Compact context:
 
 - `make codex-context`
 - `make codex-context-explain`
 - `make diff-summary`
 - `make audit-summary-index`
 - `make context-pack topic=<topic>`
+
+Routing:
+
 - `make audit-router files=<csv>`
 - `make audit-doc-sync-required-surfaces files=<csv>`
+- `make audit-manifest-decision files=<csv>`
+- `make resolve-manifest-path files=<csv>`
+- `make recommend-validation-preset files=<csv>`
 
-Closeout and evidence tools:
+Closeout and evidence:
 
 - `make record-validation manifest=<manifest-file> command='<command>'`
 - `make autofill-feature-closeout manifest=<manifest-file>`
@@ -202,4 +250,12 @@ Closeout and evidence tools:
 
 ## Maintenance Rule
 
-If the implementation workflow, planning workflow, context gateway workflow, evidence capture path, manifest workflow, or closeout commands change, update this document in the same change.
+If the implementation workflow, planning workflow, context gateway workflow, evidence capture path, manifest workflow, closeout commands, or tier decision rules change, update:
+
+- `docs/codex-fast-path.md`
+- `docs/feature-delivery-workflow.md`
+- `docs/documentation-sync-policy.md`
+- `docs/change-completion-checklist.md`
+- `docs/agent-operating-model.md`
+- `docs/agent-operating-model.yaml` when machine-operational rules changed
+- `AGENTS.md` when startup behavior changed

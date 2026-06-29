@@ -1,6 +1,6 @@
 # Audit Summary Index
 
-- Generated At: `2026-06-29T15:49:24Z`
+- Generated At: `2026-06-29T17:51:25Z`
 ## `registry`
 
 - `{:target: "audit-change-impact-preflight", :script: "scripts/audits/audit-change-impact-preflight.rb", :output: "docs/generated/local-tooling/change-impact-preflight-summary.md", :output_exists: true}`
@@ -9,6 +9,7 @@
 - `{:target: "codex-context", :script: "scripts/audits/codex-context.rb", :output: "docs/generated/local-tooling/codex-context/latest.human.md", :output_exists: true}`
 - `{:target: "codex-context-explain", :script: "scripts/audits/codex-context.rb", :output: "docs/generated/local-tooling/codex-context/latest.explain.md", :output_exists: true}`
 - `{:target: "codex-context-clean", :script: "scripts/audits/codex-context.rb", :output: "docs/generated/local-tooling/codex-context/", :output_exists: true}`
+- `{:target: "clean-text-noise", :script: "scripts/audits/clean-text-noise.rb", :output: "docs/generated/local-tooling/clean-text-noise-summary.md", :output_exists: false}`
 - `{:target: "context-pack", :script: "scripts/audits/generate-context-pack.rb", :output: "docs/generated/local-tooling/context-packs", :output_exists: true}`
 - `{:target: "recommend-feature-slices", :script: "scripts/audits/recommend-feature-slices.rb", :output: "docs/generated/local-tooling/feature-slices/<topic>-summary.md", :output_exists: false}`
 - `{:target: "recommend-targeted-tests", :script: "scripts/audits/recommend-targeted-tests.rb", :output: "docs/generated/local-tooling/targeted-tests-summary.md", :output_exists: true}`
@@ -27,7 +28,6 @@
 - `{:target: "audit-doc-sync-preflight", :script: "scripts/audits/audit-doc-sync-preflight.rb", :output: "docs/generated/local-tooling/doc-sync-preflight-summary.md", :output_exists: true}`
 - `{:target: "audit-doc-sync-required-surfaces", :script: "scripts/audits/audit-doc-sync-required-surfaces.rb", :output: "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md", :output_exists: true}`
 - `{:target: "audit-doc-template-coverage", :script: "scripts/audits/audit-doc-template-coverage.rb", :output: "docs/generated/local-tooling/doc-template-coverage-summary.md", :output_exists: true}`
-- `{:target: "audit-doc-sync-duplicates", :script: "scripts/audits/audit-doc-sync-duplicates.rb", :output: "docs/generated/local-tooling/doc-sync-duplicates-summary.md", :output_exists: true}`
 
 ## `summaries`
 
@@ -37,23 +37,23 @@
 - `{:path: "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md", :mtime: "2026-06-29T12:47:18Z", :bytes: 1134}`
 - `{:path: "docs/generated/local-tooling/api-contract-drift-summary.md", :mtime: "2026-06-29T12:47:10Z", :bytes: 5241}`
 - `{:path: "docs/generated/local-tooling/api-contract-snapshot-summary.md", :mtime: "2026-06-29T12:47:35Z", :bytes: 6231}`
-- `{:path: "docs/generated/local-tooling/architecture-decision-index-summary.md", :mtime: "2026-06-29T12:47:18Z", :bytes: 3492}`
+- `{:path: "docs/generated/local-tooling/architecture-decision-index-summary.md", :mtime: "2026-06-29T17:51:00Z", :bytes: 1239}`
 - `{:path: "docs/generated/local-tooling/architecture-drift-summary.md", :mtime: "2026-06-29T12:47:18Z", :bytes: 6018}`
 - `{:path: "docs/generated/local-tooling/async-mutation-flow-audit-summary.md", :mtime: "2026-06-29T12:47:27Z", :bytes: 4713}`
 - `{:path: "docs/generated/local-tooling/audit-deltas/audit-router-summary.md", :mtime: "2026-06-29T12:08:39Z", :bytes: 1373}`
 - `{:path: "docs/generated/local-tooling/audit-deltas/diff-summary-summary.md", :mtime: "2026-06-29T15:10:38Z", :bytes: 1853}`
 - `{:path: "docs/generated/local-tooling/audit-documentation-summary.md", :mtime: "2026-06-29T12:47:28Z", :bytes: 143}`
-- `{:path: "docs/generated/local-tooling/audit-registry-artifacts-summary.md", :mtime: "2026-06-29T15:47:37Z", :bytes: 142}`
+- `{:path: "docs/generated/local-tooling/audit-registry-artifacts-summary.md", :mtime: "2026-06-29T17:26:10Z", :bytes: 142}`
 - `{:path: "docs/generated/local-tooling/audit-router-summary.md", :mtime: "2026-06-29T12:04:50Z", :bytes: 5717}`
 - `{:path: "docs/generated/local-tooling/automation-readiness-gap-audit-summary.md", :mtime: "2026-06-29T12:47:18Z", :bytes: 3501}`
 - `{:path: "docs/generated/local-tooling/backend-dependency-graph-summary.md", :mtime: "2026-06-29T12:47:34Z", :bytes: 9830}`
-- `{:path: "docs/generated/local-tooling/change-impact-preflight-summary.md", :mtime: "2026-06-29T12:47:09Z", :bytes: 231278}`
+- `{:path: "docs/generated/local-tooling/change-impact-preflight-summary.md", :mtime: "2026-06-29T17:51:00Z", :bytes: 1132}`
 - `{:path: "docs/generated/local-tooling/changeset-playbook-summary.md", :mtime: "2026-06-29T12:47:29Z", :bytes: 8696}`
-- `{:path: "docs/generated/local-tooling/changeset-risk-summary.md", :mtime: "2026-06-29T12:47:09Z", :bytes: 984}`
+- `{:path: "docs/generated/local-tooling/changeset-risk-summary.md", :mtime: "2026-06-29T17:42:07Z", :bytes: 346}`
+- `{:path: "docs/generated/local-tooling/closeout-autofill/codex_context_optimization-summary.md", :mtime: "2026-06-29T15:56:58Z", :bytes: 1980}`
+- `{:path: "docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow-summary.md", :mtime: "2026-06-29T17:09:37Z", :bytes: 2670}`
 - `{:path: "docs/generated/local-tooling/closeout-bundle-summary.md", :mtime: "2026-06-28T21:09:18Z", :bytes: 2817}`
 - `{:path: "docs/generated/local-tooling/closeout-enforcement/agent_control_phase_two-summary.md", :mtime: "2026-06-29T11:34:33Z", :bytes: 175}`
 - `{:path: "docs/generated/local-tooling/closeout-reports/backend_audit_tiering-summary.md", :mtime: "2026-06-29T10:36:26Z", :bytes: 806}`
-- `{:path: "docs/generated/local-tooling/config-sprawl-audit-summary.md", :mtime: "2026-06-29T12:47:24Z", :bytes: 658}`
-- `{:path: "docs/generated/local-tooling/context-packs/todo-master-plan-summary.md", :mtime: "2026-06-29T10:46:23Z", :bytes: 10406}`
-- `{:path: "docs/generated/local-tooling/contract-test-gaps-summary.md", :mtime: "2026-06-29T12:47:34Z", :bytes: 130}`
+- `{:path: "docs/generated/local-tooling/closeout-reports/codex_context_optimization-summary.md", :mtime: "2026-06-29T15:59:22Z", :bytes: 1402}`
 

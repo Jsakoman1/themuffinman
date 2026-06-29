@@ -56,7 +56,6 @@ end
 
 def markdown(report)
   lines = ["# Generated Commit Scope", ""]
-  lines << "- Generated at: `#{report[:generated_at]}`"
   lines << "- Source changes: `#{report[:source_changes].size}`"
   lines << "- Generated changes: `#{report[:generated_changes].size}`"
   lines << ""
@@ -64,8 +63,8 @@ def markdown(report)
     lines << "- #{status}: `#{count}`"
   end
   lines << ""
-  report[:generated_changes].first(80).each do |entry|
-    lines << "- `#{entry[:recommendation]}` #{entry[:path]} (#{entry[:reason]})"
+  report[:generated_changes].first(25).each do |entry|
+    lines << "- `#{entry[:recommendation]}` #{entry[:path]}"
   end
   lines << ""
   lines.join("\n")

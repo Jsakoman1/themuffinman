@@ -229,22 +229,10 @@ module ChangeImpactPreflight
     lines << ""
     lines << "## Scope Guardrails"
     lines << ""
-    report[:scope_guardrails].each do |guardrail|
-      lines << "- `#{guardrail[:id]}`: `#{guardrail[:status]}` - #{guardrail[:message]}"
-      lines << "  Evidence: #{format_inline_list(guardrail[:evidence])}"
-    end
+    report[:scope_guardrails].first(5).each { |guardrail| lines << "- `#{guardrail[:id]}`: `#{guardrail[:status]}`" }
     lines << ""
-    report[:changed_files].each do |entry|
-      lines << "## `#{entry[:path]}`"
-      lines << ""
-      lines << "- Category: `#{entry[:category]}`"
-      lines << "- Domain: `#{entry[:domain]}`"
-      lines << "- Likely docs: #{format_inline_list(entry[:likely_docs])}"
-      lines << "- Likely tests: #{format_inline_list(entry[:likely_tests])}"
-      lines << "- Generated artifacts: #{format_inline_list(entry[:generated_artifacts])}"
-      lines << "- Sibling read surfaces: #{format_inline_list(entry[:sibling_read_surfaces])}"
-      lines << "- Suggested commands: #{format_inline_list(entry[:suggested_commands])}"
-      lines << ""
+    report[:changed_files].first(8).each do |entry|
+      lines << "- `#{entry[:path]}` `#{entry[:category]}` `#{entry[:domain]}`"
     end
     lines.join("\n")
   end

@@ -3,6 +3,7 @@ package com.themuffinman.app.workmarket.service;
 import com.themuffinman.app.workmarket.dto.QuestAllowedAction;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationDraftRulesDTO;
 import com.themuffinman.app.workmarket.dto.QuestDetailExecutionAction;
 import com.themuffinman.app.workmarket.dto.QuestDetailExecutionSectionDTO;
 import com.themuffinman.app.workmarket.dto.QuestDetailManagementSectionDTO;
@@ -28,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -223,6 +225,11 @@ public class QuestViewAssembler {
         boolean canRespondToTermChange = questResponse.getAllowedActions().contains(QuestAllowedAction.CONFIRM_TERM_CHANGE)
                 || questResponse.getAllowedActions().contains(QuestAllowedAction.REJECT_TERM_CHANGE);
         boolean canManageQuest = questResponse.getViewerRelation() == QuestViewerRelation.OWNER;
+        boolean canViewApplications = questResponse.getAllowedActions().contains(QuestAllowedAction.VIEW_APPLICATIONS);
+        boolean showOfferSection = questResponse.getViewerRelation() != QuestViewerRelation.OWNER
+                && (questResponse.getAllowedActions().contains(QuestAllowedAction.APPLY)
+                || (questResponse.getStatus() == QuestStatus.OPEN && questResponse.isHasApplied())
+                || questResponse.getMyApplicationId() != null);
         String visibleToCirclesLabel = null;
         if (canManageQuest && questResponse.getAudience() == QuestAudience.CIRCLES) {
             List<String> circleNames = questResponse.getVisibleToCircles() == null
@@ -256,6 +263,17 @@ public class QuestViewAssembler {
                                 && questResponse.getStatus() == QuestStatus.OPEN
                                 && questResponse.getApprovedApplicationCount() > 0
                 )
+                .suggestedApplicationPrice(suggestedApplicationPrice(questResponse.getAwardAmount()))
+                .applicationDraftRules(QuestApplicationDraftRulesDTO.builder()
+                        .messageRequired(true)
+                        .proposedPriceRequired(!isFreeQuest(questResponse.getAwardAmount()))
+                        .minimumProposedPrice(isFreeQuest(questResponse.getAwardAmount()) ? null : BigDecimal.valueOf(0.01))
+                        .suggestedApplicationPrice(suggestedApplicationPrice(questResponse.getAwardAmount()))
+                        .build())
+                .offerSectionVisible(showOfferSection)
+                .applicationsSectionVisible(canManageQuest && canViewApplications)
+                .myApplicationAsideVisible(canManageQuest && !showOfferSection)
+                .overviewStatusVisible(canManageQuest)
                 .primaryExecutionActionLabel(canStart ? "Start work" : (canComplete ? "Mark complete" : null))
                 .termChangeSummaryLabel(questResponse.getStatus() == QuestStatus.WAITING_CONFIRMATION ? "Term change waiting" : null)
                 .termChangeConfirmLabel(canRespondToTermChange ? "Confirm term change" : null)
@@ -280,6 +298,18 @@ public class QuestViewAssembler {
                         ? "You are the approved applicant for this quest."
                         : null)
                 .build();
+    }
+
+    private BigDecimal suggestedApplicationPrice(BigDecimal awardAmount) {
+        if (awardAmount == null || awardAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            return null;
+        }
+
+        return awardAmount;
+    }
+
+    private boolean isFreeQuest(BigDecimal awardAmount) {
+        return awardAmount != null && awardAmount.compareTo(BigDecimal.ZERO) == 0;
     }
 
 }

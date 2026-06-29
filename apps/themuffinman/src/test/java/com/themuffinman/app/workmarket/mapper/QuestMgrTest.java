@@ -11,6 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -56,5 +58,31 @@ class QuestMgrTest {
         assertEquals("quest:1", dto.getResolutionKey());
         assertEquals("Fix fence by creator", dto.getResolutionLabel());
         assertEquals(true, dto.isExactResolutionEligible());
+        assertEquals(null, dto.getPresentation().getSuggestedApplicationPrice());
+        assertEquals(false, dto.getPresentation().isOfferSectionVisible());
+        assertEquals(false, dto.getPresentation().isApplicationsSectionVisible());
+        assertEquals(false, dto.getPresentation().isMyApplicationAsideVisible());
+        assertEquals(false, dto.getPresentation().isOverviewStatusVisible());
+    }
+
+    @Test
+    void toDtoExposesSuggestedApplicationPriceForPaidQuests() {
+        AppUser creator = new AppUser();
+        creator.setId(2L);
+        creator.setUsername("creator");
+
+        Quest quest = new Quest();
+        quest.setId(2L);
+        quest.setCreator(creator);
+        quest.setTitle("Fix fence");
+        quest.setAudience(QuestAudience.EVERYONE);
+        quest.setAssigneeTarget(1);
+        quest.setAwardAmount(BigDecimal.valueOf(50));
+
+        var dto = questMgr.toDto(quest);
+
+        assertEquals(BigDecimal.valueOf(50), dto.getPresentation().getSuggestedApplicationPrice());
+        assertEquals(true, dto.getPresentation().getApplicationDraftRules().isProposedPriceRequired());
+        assertEquals(BigDecimal.valueOf(0.01), dto.getPresentation().getApplicationDraftRules().getMinimumProposedPrice());
     }
 }

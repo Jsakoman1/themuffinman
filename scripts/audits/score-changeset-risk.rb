@@ -80,8 +80,8 @@ lines << "- Changed files: `#{report[:changed_file_count]}`"
 lines << "- Score: `#{score}`"
 lines << "- Risk tier: `#{tier}`"
 lines << ""
-factors.each do |entry|
-  lines << "- `#{entry[:id]}` +#{entry[:weight]}: #{entry[:reason]} (`#{entry[:file_count]}`)"
+factors.sort_by { |entry| -entry[:weight] }.first(6).each do |entry|
+  lines << "- `#{entry[:id]}` +#{entry[:weight]} (`#{entry[:file_count]}`)"
 end
 lines << ""
 LocalToolingCommon.write_text("docs/generated/local-tooling/changeset-risk-summary.md", lines.join("\n"))

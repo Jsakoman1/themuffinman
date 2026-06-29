@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:11Z",
+  "generated_at": "2026-06-29T17:45:57Z",
   "active_route_backed_file_count": 34,
   "backend_permission_source_count": 13,
   "backend_presentation_flag_count": 4,
@@ -130,7 +130,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-      "line": 53,
+      "line": 55,
       "snippet": "var allowedActions = questAccessPolicyService.resolveAllowedActions(quest, currentUser, viewerApplication);",
       "action_keys": [
         "EDIT",
@@ -687,7 +687,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-      "line": 24,
+      "line": 23,
       "snippet": "if (quest.presentation.canEdit) {",
       "action_keys": [
         "EDIT"
@@ -697,7 +697,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-      "line": 30,
+      "line": 29,
       "snippet": "if (quest.presentation.canViewApplications) {",
       "action_keys": [
         "VIEW_APPLICATIONS"
@@ -707,7 +707,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-      "line": 34,
+      "line": 33,
       "snippet": "if (quest.presentation.canApply) {",
       "action_keys": [
         "APPLY"
@@ -717,7 +717,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-      "line": 52,
+      "line": 51,
       "snippet": "if (application.presentation.canEdit) {",
       "action_keys": [
         "EDIT"
@@ -748,7 +748,7 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/questDetailStateHelpers.ts",
       "line": 23,
-      "snippet": "if (detail.summary.presentation.canApply && !state.proposedPrice.value.trim() && !isQuestFree(detail.summary.awardAmount)) {",
+      "snippet": "if (detail.summary.presentation.canApply && !state.proposedPrice.value.trim() && suggestedPrice !== null && suggestedPrice !== undefined) {",
       "action_keys": [
         "APPLY"
       ],
@@ -869,8 +869,8 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
-      "line": 34,
-      "snippet": "const showApplicationsSection = computed(() => isOwnerView.value && !!page.applicationsView.value)",
+      "line": 36,
+      "snippet": "const showMyApplicationAside = computed(() => page.quest.value?.presentation.myApplicationAsideVisible ?? false)",
       "action_keys": [
         "UNKNOWN"
       ],

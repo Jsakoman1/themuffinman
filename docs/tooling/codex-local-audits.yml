@@ -18,6 +18,9 @@ audits:
 - target: codex-context-clean
   script: scripts/audits/codex-context.rb
   primaryOutput: docs/generated/local-tooling/codex-context/
+- target: clean-text-noise
+  script: scripts/audits/clean-text-noise.rb
+  primaryOutput: docs/generated/local-tooling/clean-text-noise-summary.md
 - target: context-pack
   script: scripts/audits/generate-context-pack.rb
   primaryOutput: docs/generated/local-tooling/context-packs

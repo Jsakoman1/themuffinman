@@ -20,8 +20,12 @@ The machine-readable source of truth is:
 ## Operating Rules
 
 - Treat backend code as the final execution authority.
+- Treat `docs/codex-fast-path.md` as the compact execution entrypoint for most feature work.
+- `docs/codex-fast-path.md` is the compact execution entrypoint for most feature work.
 - Treat `agent-operating-model.yaml` as the machine-operational contract for high-impact workflows.
 - Treat `docs/feature-delivery-workflow.md` as the canonical human-readable source for the end-to-end feature delivery process around plans, context, validation evidence, and closeout.
+- Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it.
+- Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
 - Treat the section files under `docs/agent-operating-model/sections/` as the editable source for that machine contract and regenerate the combined YAML after changes.
 - Treat `docs/implementation-backlog.md` and `docs/agent-improvement-backlog.md` as the persistent open-work registries for deferred implementation and deferred control-system work.
 - For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file.
@@ -203,6 +207,13 @@ Doc staleness scoring:
 Self-test matrix:
 - `policies.self_test_matrix` defines validation tiers for syntax-only, targeted unit, domain scenario, contract/type-check, generated-artifact validation, and full validation.
 - Risk tiers and change profiles map to minimum validation tiers so low-risk changes can stay focused while high-risk and executor-critical work still requires broad validation.
+
+Tiered workflow routing:
+- Tier 1 tiny changes use compact context, no manifest by default, targeted validation, and `make audit-todo`.
+- Tier 2 normal features require a short plan, use resolver-driven manifest decisions, and close through `make audit-plan-completion`.
+- Tier 3 high-risk or multi-layer features require plan, manifest, validation evidence, and full closeout.
+- Tier 4 agent, tooling, or workflow changes keep the strictest path because they affect future Codex behavior.
+- Final responses must state what changed, what was validated, and any remaining risks or not-run checks.
 
 Context-first session workflow:
 - start with `docs/generated/local-tooling/diff-summary.md` to understand the changed-file shape before broad repository exploration

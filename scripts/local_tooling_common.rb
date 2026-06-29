@@ -5,6 +5,7 @@ require "digest"
 require "fileutils"
 require "json"
 require "open3"
+require "tempfile"
 require "time"
 
 module LocalToolingCommon
@@ -33,13 +34,72 @@ module LocalToolingCommon
   def write_json(relative_path, payload)
     absolute_path = File.join(REPO_ROOT, relative_path)
     FileUtils.mkdir_p(File.dirname(absolute_path))
-    File.write(absolute_path, JSON.pretty_generate(payload) + "\n")
+    atomic_write(absolute_path, JSON.pretty_generate(payload) + "\n")
   end
 
   def write_text(relative_path, content)
     absolute_path = File.join(REPO_ROOT, relative_path)
     FileUtils.mkdir_p(File.dirname(absolute_path))
-    File.write(absolute_path, content)
+    atomic_write(absolute_path, content)
+  end
+
+  def atomic_write(absolute_path, content)
+    dir = File.dirname(absolute_path)
+    basename = File.basename(absolute_path)
+    Tempfile.create([basename, ".tmp"], dir) do |tmp|
+      tmp.write(content)
+      tmp.flush
+      tmp.fsync
+      tmp.close
+      FileUtils.mv(tmp.path, absolute_path)
+    end
+  end
+
+  def clean_text_output(text, max_lines: 80, aggressive: false)
+    lines = Array(text.to_s.split(/\r?\n/)).map do |line|
+      line.gsub(/\e\[[\d;]*[A-Za-z]/, "").strip
+    end.reject(&:empty?)
+
+    noise_patterns = [
+      /\A(?:\[(?:INFO|DEBUG|WARNING|WARN)\]|\[\[(?:INFO|DEBUG|WARNING|WARN)\]\])\s*/i,
+      /\AScanning for projects\.{3}\z/i,
+      /\ADownloading from/i,
+      /\ADownloaded from/i,
+      /\ACopying \d+ (?:resources?|files?)\z/i,
+      /\ACompiling \d+ source files\z/i,
+      /\ARecompiling the module\z/i,
+      /\AUsing auto detected provider\z/i,
+      /\ATests run:/i,
+      /\ABuilding (?:TheMuffinMan|.+? \d.*)\z/i,
+      /\ANothing to compile\z/i,
+      /\ATransforming\.{3}\z/i,
+      /\Arendering chunks\.{3}\z/i,
+      /\Acomputing gzip size\.{3}\z/i,
+      /\A(?:\d+\/\d+)\s+\[[^\]]+\]\s+\d+%$/,
+      /\ABUILD SUCCESS\z/i,
+      /\ABUILD FAILURE\z/i,
+      /\AFinished at:\z/i,
+      /\ATotal time:\z/i,
+      /\A--- .+ ---\z/i
+    ]
+
+    cleaned = lines.map do |line|
+      line.sub(/\A(?:\[(?:INFO|DEBUG|WARNING|WARN)\]|\[\[(?:INFO|DEBUG|WARNING|WARN)\]\])\s*/i, "")
+    end.reject { |line| noise_patterns.any? { |pattern| line.match?(pattern) } }
+    cleaned = cleaned.reject { |line| line.match?(/\A\[[A-Z]+\]\s*$/) }
+    if aggressive
+      cleaned = cleaned.reject do |line|
+        line.match?(%r{\Adist/(?:assets|chunks|css|js)/}) ||
+          line.match?(%r{\A(?:\d+\.\d+|\d+,\d+)\s*kB\s*\│\s*gzip:}) ||
+          line.match?(%r{\A✓ built in \d+(?:ms|s)\z}) ||
+          line.match?(%r{\A(?:cd\s+[^&]+&&\s+)?(?:npm|yarn|pnpm|ruby|./mvnw)\s+.+\z}) ||
+          line.match?(%r{\A>\s+.+\z}) ||
+          line.match?(%r{\A(?:Running|Tests run:|Results:|Failures:|Errors:|Skipped:|Time elapsed:)\b})
+      end
+      cleaned = cleaned.map { |line| line.gsub(/\s{2,}/, " ").strip }
+    end
+    cleaned = cleaned.first(max_lines) if max_lines && max_lines > 0
+    cleaned.join("\n")
   end
 
   def relative_path(path)

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:35Z",
+  "generated_at": "2026-06-29T17:47:59Z",
   "purpose": "Very small read-first context for a new Codex session before broad repository discovery.",
   "repo_layout": [
     "apps/themuffinman: current Spring Boot app and Vue frontend",

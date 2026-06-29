@@ -38,7 +38,7 @@ export const createQuestDetailViewState = (state: {
     canSubmitQuestApplicationDraft(
       state.applicationMessage.value,
       state.proposedPrice.value,
-      state.quest.value?.awardAmount
+      state.quest.value?.presentation.applicationDraftRules
     )
   )
 

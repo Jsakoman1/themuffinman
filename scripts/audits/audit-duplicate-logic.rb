@@ -231,21 +231,8 @@ module DuplicateLogicAudit
     lines << "## Review shortlist"
     lines << ""
 
-    report[:review_shortlist].each do |entry|
-      lines << "- `#{entry[:file]}` score=`#{entry[:score]}` active=`#{entry[:active_route_backed]}` status-maps=`#{entry[:status_mapping_count]}` permission-gates=`#{entry[:permission_gate_count]}` transition-helpers=`#{entry[:transition_eligibility_count]}`"
-      Array(entry[:example_findings]).each do |finding|
-        lines << "  line #{finding[:line]}: `#{finding[:snippet]}`"
-      end
-      Array(entry[:canonical_backend_files]).each do |path|
-        lines << "  backend: `#{path}`"
-      end
-    end
-
-    lines << ""
-    lines << "## Canonical backend anchors"
-    lines << ""
-    CANONICAL_BACKEND_FILES.each do |module_key, paths|
-      lines << "- `#{module_key}` -> #{paths.map { |path| "`#{path}`" }.join(", ")}"
+    report[:review_shortlist].first(8).each do |entry|
+      lines << "- `#{entry[:file]}` score=`#{entry[:score]}` hits=`#{entry[:status_mapping_count] + entry[:permission_gate_count] + entry[:transition_eligibility_count]}`"
     end
 
     lines.join("\n") + "\n"

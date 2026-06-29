@@ -8,6 +8,8 @@ Keep only currently open items here. When an item is implemented, remove it from
 
 ## Open Items
 
+- `BACKEND-MODEL-STANDARDIZATION-001`: Standardize backend transport models, read-model families, and service boundaries so similar domains can share naming, assemblers, DTO shapes, and validation patterns without ad-hoc per-feature drift. Planned in `.agents/backend-model-standardization-master-plan.md`.
+
 ## Intake Rules
 
 - Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it.

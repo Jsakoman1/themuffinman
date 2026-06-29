@@ -351,6 +351,8 @@ artifacts:
   auditCommands:
   - make audit-doc-sync-required-surfaces
   - make audit-agent-safety
+  - npm run type-check
+  - npm run build
   - make audit-validation-evidence-quality
   - make audit-todo
   - make audit-plan-completion plan=.agents/codex-context-optimization-master-plan.md

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T12:47:32Z",
+  "generated_at": "2026-06-29T17:45:57Z",
   "docs_scanned": [
     "AGENTS.md",
     "docs/agent-operating-model.md",
@@ -9,11 +9,65 @@
     "docs/domain-technical.md",
     "docs/business-logic.md"
   ],
-  "canonical_phrase_count": 18,
-  "protected_duplicate_count": 18,
+  "canonical_phrase_count": 21,
+  "protected_duplicate_count": 20,
   "fragment_only_count": 2,
   "conflict_group_count": 4,
   "protected_duplicates": [
+    {
+      "rule_id": "tiered_feature_workflow_entrypoint",
+      "phrase": "Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it.",
+      "occurrence_count": 4,
+      "occurrences": [
+        {
+          "path": "AGENTS.md",
+          "line": 116,
+          "text": "- Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it."
+        },
+        {
+          "path": "docs/agent-operating-model.md",
+          "line": 27,
+          "text": "- Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it."
+        },
+        {
+          "path": "docs/documentation-sync-policy.md",
+          "line": 7,
+          "text": "Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it."
+        },
+        {
+          "path": "docs/change-completion-checklist.md",
+          "line": 7,
+          "text": "Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it."
+        }
+      ]
+    },
+    {
+      "rule_id": "tiered_feature_workflow_entrypoint",
+      "phrase": "Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.",
+      "occurrence_count": 4,
+      "occurrences": [
+        {
+          "path": "AGENTS.md",
+          "line": 117,
+          "text": "- Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change."
+        },
+        {
+          "path": "docs/agent-operating-model.md",
+          "line": 28,
+          "text": "- Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change."
+        },
+        {
+          "path": "docs/documentation-sync-policy.md",
+          "line": 9,
+          "text": "Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change."
+        },
+        {
+          "path": "docs/change-completion-checklist.md",
+          "line": 9,
+          "text": "Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change."
+        }
+      ]
+    },
     {
       "rule_id": "documentation_updates_required_for_logic_changes",
       "phrase": "update all affected living docs in the same change",
@@ -21,22 +75,22 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 119,
+          "line": 127,
           "text": "change, update all affected living docs in the same change unless the edit is purely cosmetic."
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 298,
+          "line": 310,
           "text": "update all affected living docs in the same change"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4630,
+          "line": 4674,
           "text": "- update all affected living docs in the same change"
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 75,
+          "line": 20,
           "text": "- When business rules, domain models, permissions, validations, workflows, endpoint contracts, or automation assumptions change, update all affected living docs in the same change."
         }
       ]
@@ -48,17 +102,17 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 152,
+          "line": 161,
           "text": "- No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together."
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 300,
+          "line": 312,
           "text": "No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 76,
+          "line": 21,
           "text": "- No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together."
         }
       ]
@@ -70,22 +124,22 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 126,
+          "line": 135,
           "text": "- A logic change is not complete when only code and tests are updated."
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 34,
+          "line": 39,
           "text": "- A logic change is not complete when only code and tests are updated."
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4633,
+          "line": 4677,
           "text": "- A logic change is not complete when only code and tests are updated."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 13,
+          "line": 19,
           "text": "- A logic change is not complete when only code and tests are updated."
         }
       ]
@@ -93,21 +147,26 @@
     {
       "rule_id": "documentation_updates_required_for_logic_changes",
       "phrase": "For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file.",
-      "occurrence_count": 3,
+      "occurrence_count": 4,
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 142,
+          "line": 151,
           "text": "- For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file."
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 26,
+          "line": 31,
           "text": "- For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 62,
+          "line": 22,
+          "text": "- For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file."
+        },
+        {
+          "path": "docs/change-completion-checklist.md",
+          "line": 159,
           "text": "- For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file."
         }
       ]
@@ -115,21 +174,26 @@
     {
       "rule_id": "documentation_updates_required_for_logic_changes",
       "phrase": "Do not paraphrase, shorten, reorder, or partially restate protected canonical wording.",
-      "occurrence_count": 3,
+      "occurrence_count": 4,
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 145,
+          "line": 154,
           "text": "- Do not paraphrase, shorten, reorder, or partially restate protected canonical wording."
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 49,
+          "line": 54,
           "text": "- Do not paraphrase, shorten, reorder, or partially restate protected canonical wording."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 63,
+          "line": 23,
+          "text": "- Do not paraphrase, shorten, reorder, or partially restate protected canonical wording."
+        },
+        {
+          "path": "docs/change-completion-checklist.md",
+          "line": 160,
           "text": "- Do not paraphrase, shorten, reorder, or partially restate protected canonical wording."
         }
       ]
@@ -141,22 +205,22 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 113,
+          "line": 121,
           "text": "- For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan."
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 28,
+          "line": 33,
           "text": "- For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 22,
+          "line": 116,
           "text": "- For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan."
         },
         {
           "path": "docs/change-completion-checklist.md",
-          "line": 11,
+          "line": 13,
           "text": "For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan."
         }
       ]
@@ -168,22 +232,22 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 114,
+          "line": 122,
           "text": "- Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass."
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 29,
+          "line": 34,
           "text": "- Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 23,
+          "line": 117,
           "text": "- Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass."
         },
         {
           "path": "docs/change-completion-checklist.md",
-          "line": 12,
+          "line": 15,
           "text": "Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass."
         }
       ]
@@ -191,16 +255,21 @@
     {
       "rule_id": "persistent_backlog_tracks_deferred_work",
       "phrase": "Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it.",
-      "occurrence_count": 2,
+      "occurrence_count": 3,
       "occurrences": [
         {
           "path": "docs/agent-operating-model.md",
-          "line": 46,
+          "line": 51,
           "text": "- Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 30,
+          "line": 121,
+          "text": "- Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it."
+        },
+        {
+          "path": "docs/change-completion-checklist.md",
+          "line": 157,
           "text": "- Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it."
         }
       ]
@@ -208,16 +277,21 @@
     {
       "rule_id": "persistent_backlog_tracks_deferred_work",
       "phrase": "When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or `FIXME(<ID>):` references in the same change.",
-      "occurrence_count": 2,
+      "occurrence_count": 3,
       "occurrences": [
         {
           "path": "docs/agent-operating-model.md",
-          "line": 294,
+          "line": 306,
           "text": "- When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or `FIXME(<ID>):` references in the same change."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 31,
+          "line": 122,
+          "text": "- When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or `FIXME(<ID>):` references in the same change."
+        },
+        {
+          "path": "docs/change-completion-checklist.md",
+          "line": 158,
           "text": "- When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or `FIXME(<ID>):` references in the same change."
         }
       ]
@@ -229,17 +303,17 @@
       "occurrences": [
         {
           "path": "docs/agent-operating-model.md",
-          "line": 364,
+          "line": 376,
           "text": "- review and extend affected admin or sandbox generation flows"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4690,
+          "line": 4734,
           "text": "- review and extend affected admin or sandbox generation flows"
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 15,
+          "line": 24,
           "text": "- If a change introduces or expands entity capabilities, generation inputs, workflow branches, or edge cases that matter for admin or sandbox data generation, review and extend affected admin or sandbox generation flows in the same change."
         }
       ]
@@ -251,22 +325,22 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 123,
+          "line": 132,
           "text": "- Treat admin-generation or sandbox-generation coverage for entities and workflows as part of the same maintenance"
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 284,
+          "line": 296,
           "text": "- admin-generation or sandbox-generation coverage for entities and workflows"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4691,
+          "line": 4735,
           "text": "- admin-generation or sandbox-generation coverage for entities and workflows"
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 16,
+          "line": 25,
           "text": "- Treat admin-generation or sandbox-generation coverage for entities and workflows as part of the same maintenance surface as backend logic and agent-safety rules."
         }
       ]
@@ -278,17 +352,17 @@
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 125,
+          "line": 134,
           "text": "- synthetic admin-generation flows must be kept current with newly introduced feature logic, validations, and edge cases"
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 365,
+          "line": 377,
           "text": "- synthetic admin-generation flows must be kept current with newly introduced feature logic, validations, and edge cases"
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 171,
+          "line": 26,
           "text": "- synthetic admin-generation flows must be kept current with newly introduced feature logic, validations, and edge cases"
         }
       ]
@@ -300,17 +374,17 @@
       "occurrences": [
         {
           "path": "docs/agent-operating-model.md",
-          "line": 265,
+          "line": 277,
           "text": "- Pending circle requests do not create chat eligibility."
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4709,
+          "line": 4753,
           "text": "- Pending circle requests do not create chat eligibility."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 194,
+          "line": 181,
           "text": "- Pending circle requests do not create chat eligibility."
         },
         {
@@ -332,17 +406,17 @@
       "occurrences": [
         {
           "path": "docs/agent-operating-model.md",
-          "line": 266,
+          "line": 278,
           "text": "- Chat workspace only includes current accepted circle contacts."
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4710,
+          "line": 4754,
           "text": "- Chat workspace only includes current accepted circle contacts."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 195,
+          "line": 182,
           "text": "- Chat workspace only includes current accepted circle contacts."
         },
         {
@@ -364,12 +438,12 @@
       "occurrences": [
         {
           "path": "docs/agent-operating-model.md",
-          "line": 267,
+          "line": 279,
           "text": "- Existing conversation history does not preserve chat access after the accepted relation is lost."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 196,
+          "line": 183,
           "text": "- Existing conversation history does not preserve chat access after the accepted relation is lost."
         },
         {
@@ -391,12 +465,12 @@
       "occurrences": [
         {
           "path": "docs/agent-operating-model.md",
-          "line": 357,
+          "line": 369,
           "text": "- Sandbox flow must stay separate from real-life product flow."
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4725,
+          "line": 4769,
           "text": "- Sandbox flow must stay separate from real-life product flow."
         },
         {
@@ -418,12 +492,12 @@
       "occurrences": [
         {
           "path": "docs/agent-operating-model.md",
-          "line": 358,
+          "line": 370,
           "text": "- sandbox behavior must stay separate from production mutation semantics"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4726,
+          "line": 4770,
           "text": "- sandbox behavior must stay separate from production mutation semantics"
         },
         {
@@ -445,12 +519,12 @@
       "occurrences": [
         {
           "path": "docs/agent-operating-model.md",
-          "line": 356,
+          "line": 368,
           "text": "- Internal sandbox flow is a separate capability from production-like voice flow."
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4727,
+          "line": 4771,
           "text": "- Internal sandbox flow is a separate capability from production-like voice flow."
         },
         {
@@ -469,13 +543,13 @@
   "fragment_only_policy_bullets": [
     {
       "path": "docs/agent-operating-model.yaml",
-      "line": 4634,
+      "line": 4678,
       "text": "- For protected documentation-sync phrases, copy the exact canonical sentence",
       "recommendation": "Review whether this fragment should point at the canonical documentation_sync rule instead of restating partial policy wording."
     },
     {
       "path": "docs/agent-operating-model.yaml",
-      "line": 4636,
+      "line": 4680,
       "text": "- Do not paraphrase, shorten, reorder, or partially restate protected canonical",
       "recommendation": "Review whether this fragment should point at the canonical documentation_sync rule instead of restating partial policy wording."
     }
@@ -483,26 +557,26 @@
   "conflict_groups": [
     {
       "id": "sandbox_production_separation",
-      "variant_count": 13,
+      "variant_count": 12,
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 128,
+          "line": 137,
           "text": "- Treat sandbox or synthetic-data behavior as high-risk logic that must stay explicitly separated from production"
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 356,
+          "line": 368,
           "text": "- Internal sandbox flow is a separate capability from production-like voice flow."
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 357,
+          "line": 369,
           "text": "- Sandbox flow must stay separate from real-life product flow."
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 358,
+          "line": 370,
           "text": "- sandbox behavior must stay separate from production mutation semantics"
         },
         {
@@ -512,43 +586,38 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 1386,
+          "line": 1393,
           "text": "resolution: Reject the sandbox flow instead of falling back to production mutation"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 2292,
+          "line": 2299,
           "text": "- mark generated flow as sandbox-only and keep it separated from production semantics"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4713,
+          "line": 4757,
           "text": "- id: sandbox_flow_stays_separate_from_production_flow"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4714,
+          "line": 4758,
           "text": "description: Sandbox and synthetic flows must stay explicitly separated from production-like"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4725,
+          "line": 4769,
           "text": "- Sandbox flow must stay separate from real-life product flow."
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4726,
+          "line": 4770,
           "text": "- sandbox behavior must stay separate from production mutation semantics"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4727,
+          "line": 4771,
           "text": "- Internal sandbox flow is a separate capability from production-like voice flow."
-        },
-        {
-          "path": "docs/documentation-sync-policy.md",
-          "line": 170,
-          "text": "- sandbox behavior must stay explicitly separated from production-like user flows"
         },
         {
           "path": "docs/domain-technical.md",
@@ -600,57 +669,47 @@
     },
     {
       "id": "docs_required_for_logic_changes",
-      "variant_count": 10,
+      "variant_count": 8,
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 152,
+          "line": 161,
           "text": "- No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together."
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 195,
+          "line": 200,
           "text": "- `policies.closeout_doc_delta` requires logic-drift closeout to state what behavior changed, which living docs or agent artifacts were updated, and what related surfaces were intentionally left unchanged."
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 300,
+          "line": 312,
           "text": "No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together."
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4618,
+          "line": 4662,
           "text": "description: Logical changes must propagate into the living docs and agent-safety"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4631,
+          "line": 4675,
           "text": "- No logic-only change is complete until the affected docs, agent artifacts, and"
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 39,
-          "text": "- For logic-drift changes, record a doc delta summary that names behavior changed, docs updated, and related surfaces intentionally left unchanged."
+          "line": 13,
+          "text": "- prevent silent drift between logic and docs"
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 48,
-          "text": "- `logic-drift` means behavior, validation, workflow, or automation meaning changed and docs must move with it."
-        },
-        {
-          "path": "docs/documentation-sync-policy.md",
-          "line": 52,
-          "text": "- `backend-logic` changes must include backend validation plus `docs/domain-technical.md`."
-        },
-        {
-          "path": "docs/documentation-sync-policy.md",
-          "line": 76,
+          "line": 21,
           "text": "- No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together."
         },
         {
-          "path": "docs/change-completion-checklist.md",
-          "line": 66,
-          "text": "- For logic-drift changes, record a doc delta summary: behavior changed, docs updated, and related surfaces intentionally left unchanged."
+          "path": "docs/documentation-sync-policy.md",
+          "line": 157,
+          "text": "For logical product changes, continue reviewing the normal living docs as needed:"
         },
         {
           "path": "docs/domain-technical.md",
@@ -666,48 +725,68 @@
       "occurrences": [
         {
           "path": "docs/agent-operating-model.md",
-          "line": 349,
+          "line": 361,
           "text": "- Feature manifests should classify changes by mode, impact, and change profiles so required docs, tests, generators, and close-out commands are enforced mechanically."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 19,
-          "text": "- A feature manifest is required for multi-file, multi-layer, high-risk, executor-critical, workflow-expansion, agent-contract, frontend-contract, backend-logic, generated-artifact, or master-plan-driven changes."
+          "line": 55,
+          "text": "- manifest optional, based on resolver decision"
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 20,
-          "text": "- A feature manifest is optional only for cosmetic and single-file contract-neutral refactors that do not alter behavior, contracts, generated artifacts, validation scope, or documentation meaning."
+          "line": 70,
+          "text": "- manifest required"
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 21,
-          "text": "- If a non-trivial change does not use a manifest, the temporary plan or final closeout must record a one-line skipped-with-reason decision explaining why the required category does not apply."
+          "line": 81,
+          "text": "- manifest required"
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 26,
-          "text": "- Completed feature manifests must pass `make feature-closeout-audit manifest=<manifest-file>`, including structured validation evidence for every required profile check, completed plan evidence, and a ready closeout decision."
+          "line": 89,
+          "text": "Manifest required for:"
         },
         {
-          "path": "docs/change-completion-checklist.md",
-          "line": 100,
-          "text": "- Manifest required: use a machine-readable manifest under `.agents/feature-manifests/` for multi-file, multi-layer, high-risk, executor-critical, workflow-expansion, agent-contract, frontend-contract, backend-logic, generated-artifact, or master-plan-driven changes."
+          "path": "docs/documentation-sync-policy.md",
+          "line": 99,
+          "text": "- changes where `make audit-manifest-decision` says `required`"
         },
         {
-          "path": "docs/change-completion-checklist.md",
+          "path": "docs/documentation-sync-policy.md",
           "line": 101,
-          "text": "- Manifest optional: cosmetic and single-file contract-neutral refactors may skip the manifest workflow when they do not alter behavior, contracts, generated artifacts, validation scope, or documentation meaning."
+          "text": "Manifest optional for:"
+        },
+        {
+          "path": "docs/documentation-sync-policy.md",
+          "line": 129,
+          "text": "- Completed manifest-backed changes must keep structured validation evidence for every required profile check, completed plan evidence, and a ready closeout decision."
         },
         {
           "path": "docs/change-completion-checklist.md",
-          "line": 102,
-          "text": "- Manifest skipped with reason: if a non-trivial change does not use a manifest, record a one-line reason in the temporary plan or final closeout that names why the required category does not apply."
+          "line": 50,
+          "text": "- manifest optional, based on resolver decision"
         },
         {
           "path": "docs/change-completion-checklist.md",
-          "line": 111,
-          "text": "- Use `make feature-closeout-audit manifest=<manifest-file>` as a hard-fail close-out check before final validation on plan-driven changes. Completed manifests must include structured validation evidence for required checks, a completed plan state, and a ready closeout decision."
+          "line": 71,
+          "text": "- manifest required"
+        },
+        {
+          "path": "docs/change-completion-checklist.md",
+          "line": 93,
+          "text": "- manifest required"
+        },
+        {
+          "path": "docs/change-completion-checklist.md",
+          "line": 109,
+          "text": "- Manifest is required for high-risk business logic, invoice-critical behavior, DB migrations, frontend/backend contract changes, generated artifact changes, agent/tooling/workflow changes, 3+ meaningful surfaces, broad autonomous changes, and resolver-required changes."
+        },
+        {
+          "path": "docs/change-completion-checklist.md",
+          "line": 110,
+          "text": "- Manifest is optional for single backend service changes, single frontend component changes, small bugfixes, small test-only changes, small docs-only corrections, and small internal refactors without behavior, contract, DB, generated-artifact, or agent-safety impact."
         },
         {
           "path": "docs/domain-technical.md",
@@ -739,52 +818,57 @@
     },
     {
       "id": "backlog_resolution",
-      "variant_count": 7,
+      "variant_count": 6,
       "occurrences": [
         {
           "path": "AGENTS.md",
-          "line": 146,
+          "line": 155,
           "text": "- Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID"
         },
         {
           "path": "AGENTS.md",
-          "line": 150,
+          "line": 159,
           "text": "- When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or"
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 46,
+          "line": 51,
           "text": "- Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it."
         },
         {
           "path": "docs/agent-operating-model.md",
-          "line": 294,
+          "line": 306,
           "text": "- When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or `FIXME(<ID>):` references in the same change."
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4673,
+          "line": 4717,
           "text": "- Record new deferred implementation or control-system work in the appropriate"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4676,
+          "line": 4720,
           "text": "- When a backlog item is implemented, remove it from the open backlog and clear"
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 30,
+          "line": 121,
           "text": "- Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it."
         },
         {
           "path": "docs/documentation-sync-policy.md",
-          "line": 31,
+          "line": 122,
           "text": "- When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or `FIXME(<ID>):` references in the same change."
         },
         {
           "path": "docs/change-completion-checklist.md",
-          "line": 76,
-          "text": "- When implementing a backlog item, remove it from the open backlog and clear matching inline references in the same change."
+          "line": 157,
+          "text": "- Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it."
+        },
+        {
+          "path": "docs/change-completion-checklist.md",
+          "line": 158,
+          "text": "- When a backlog item is implemented, remove it from the open backlog and clear matching inline `TODO(<ID>):` or `FIXME(<ID>):` references in the same change."
         }
       ],
       "recommendation": "Review variants for wording drift; preserve exact protected canonical phrases when consolidation is needed."

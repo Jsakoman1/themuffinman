@@ -147,8 +147,8 @@ module FrontendStateLogicDuplicationAudit
   def append_group(lines, title, entries)
     lines << "## `#{title}`"
     lines << ""
-    entries.each do |entry|
-      lines << "- `#{entry[:signal] || entry['signal']}` -> #{format_inline(entry[:files] || entry['files'])}"
+    entries.first(8).each do |entry|
+      lines << "- `#{entry[:signal] || entry['signal']}` files=`#{(entry[:files] || entry['files']).size}`"
     end
     lines << ""
   end

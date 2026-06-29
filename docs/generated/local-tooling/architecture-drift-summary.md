@@ -1,6 +1,6 @@
 # Architecture Drift Audit
 
-- Generated At: `2026-06-29T12:47:18Z`
+- Generated At: `2026-06-29T17:54:45Z`
 - Mode: `report_first`
 - `thresholds`: `6` entries
 ## `backend_entries`
@@ -31,8 +31,7 @@
 
 ## `doc_entries`
 
-- `{:file: "docs/agent-operating-model.md", :section: "Current Scope", :level: 2, :lines: 196, :flags: ["oversized_doc_section"]}`
+- `{:file: "docs/agent-operating-model.md", :section: "Current Scope", :level: 2, :lines: 203, :flags: ["oversized_doc_section"]}`
 - `{:file: "docs/domain-technical.md", :section: "Control-System Technical Notes", :level: 2, :lines: 139, :flags: ["oversized_doc_section"]}`
-- `{:file: "docs/change-completion-checklist.md", :section: "Checklist", :level: 2, :lines: 109, :flags: ["oversized_doc_section"]}`
 
-- Total Findings: `26`
+- Total Findings: `25`
