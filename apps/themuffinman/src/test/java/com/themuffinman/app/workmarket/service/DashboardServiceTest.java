@@ -131,7 +131,7 @@ class DashboardServiceTest {
         declinedApplication.setStatus(QuestApplicationStatus.DECLINED);
 
         when(questService.getAllQuests(currentUser)).thenReturn(List.of(openQuest, assignedQuest, waitingQuest, inProgressQuest));
-        when(questApplicationRepository.findByApplicantId(currentUser.getId())).thenReturn(List.of(
+        when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of(
                 pendingApplication,
                 approvedOpenApplication,
                 approvedAssignedApplication,
@@ -190,7 +190,7 @@ class DashboardServiceTest {
         availableQuest.setTitle("Paint shed");
 
         when(questService.getAllQuests(currentUser)).thenReturn(List.of(ownedQuest, availableQuest));
-        when(questApplicationRepository.findByApplicantId(currentUser.getId())).thenReturn(List.of());
+        when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of());
         when(questNewsService.getMyNews(currentUser)).thenReturn(List.of());
         when(circleService.getIncomingRequests(currentUser)).thenReturn(List.of());
         when(circleService.getCircles(currentUser)).thenReturn(List.of());
@@ -207,6 +207,8 @@ class DashboardServiceTest {
         assertEquals(1, result.getMyQuests().size());
         assertEquals(1, result.getAvailableQuests().size());
         assertEquals(1, result.getSections().getRecentMyQuests().size());
+        assertEquals("Calendar", result.getSections().getNavigation().getTabs().getFirst().getTitle());
+        assertEquals("SideJob", result.getSections().getNavigation().getTabs().get(1).getTitle());
         assertEquals(1, result.getSections().getVisibleMyQuests().size());
         assertEquals(1, result.getSections().getMyQuestGroups().size());
         assertEquals("OPEN", result.getSections().getMyQuestGroups().getFirst().getKey());
@@ -258,7 +260,7 @@ class DashboardServiceTest {
                 .build();
 
         when(questService.getAllQuests(currentUser)).thenReturn(List.of(quest));
-        when(questApplicationRepository.findByApplicantId(currentUser.getId())).thenReturn(List.of(application));
+        when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of(application));
         when(questNewsService.getMyNews(currentUser)).thenReturn(List.of());
         when(circleService.getIncomingRequests(currentUser)).thenReturn(List.of());
         when(circleService.getCircles(currentUser)).thenReturn(List.of());
@@ -296,7 +298,7 @@ class DashboardServiceTest {
                 .build();
 
         when(questService.getAllQuests(currentUser)).thenReturn(List.of());
-        when(questApplicationRepository.findByApplicantId(currentUser.getId())).thenReturn(List.of());
+        when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of());
         when(questNewsService.getMyNews(currentUser)).thenReturn(List.of(newsItem));
         when(circleService.getIncomingRequests(currentUser)).thenReturn(List.of());
         when(circleService.getCircles(currentUser)).thenReturn(List.of());

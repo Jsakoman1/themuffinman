@@ -77,6 +77,7 @@ module ChangeImpactPreflight
 
   def build_report(changed_files)
     impacts = changed_files.map { |path| impact_for(path) }
+    scope_guardrails = scope_guardrails(impacts)
     {
       generated_at: Time.now.utc.iso8601,
       changed_file_count: changed_files.size,
@@ -84,7 +85,9 @@ module ChangeImpactPreflight
       unique_docs: impacts.flat_map { |entry| entry[:likely_docs] }.uniq.sort,
       unique_tests: impacts.flat_map { |entry| entry[:likely_tests] }.uniq.sort,
       unique_generated_artifacts: impacts.flat_map { |entry| entry[:generated_artifacts] }.uniq.sort,
-      suggested_commands: impacts.flat_map { |entry| entry[:suggested_commands] }.uniq.sort
+      suggested_commands: impacts.flat_map { |entry| entry[:suggested_commands] }.uniq.sort,
+      scope_guardrails: scope_guardrails,
+      scope_warning_count: scope_guardrails.count { |guardrail| guardrail[:status] == "warn" }
     }
   end
 
@@ -138,6 +141,81 @@ module ChangeImpactPreflight
     end.sort.first(8)
   end
 
+  def scope_guardrails(impacts)
+    categories = impacts.map { |entry| entry[:category] }.uniq.sort
+    domains = impacts.map { |entry| entry[:domain] }.reject { |domain| %w[unknown common config docs testing].include?(domain) }.uniq.sort
+    generated_paths = impacts.select { |entry| generated_report_path?(entry[:path]) }.map { |entry| entry[:path] }.sort
+    runtime_paths = impacts.reject { |entry| non_runtime_path?(entry[:path], entry[:category]) }.map { |entry| entry[:path] }.sort
+    tooling_paths = impacts.select { |entry| tooling_or_infrastructure_path?(entry[:path], entry[:category]) }.map { |entry| entry[:path] }.sort
+    expected_generated = impacts.reject { |entry| generated_report_path?(entry[:path]) }
+      .flat_map { |entry| entry[:generated_artifacts] }
+      .uniq
+      .sort
+    unexpected_generated = generated_paths.reject { |path| expected_generated.include?(path) }
+
+    [
+      guardrail(
+        "mixed_product_domains",
+        domains.size > 1,
+        "Changes touch multiple product domains in one scope.",
+        domains
+      ),
+      guardrail(
+        "runtime_plus_tooling_or_infrastructure",
+        !runtime_paths.empty? && !tooling_paths.empty?,
+        "Runtime code and tooling/infrastructure files changed together.",
+        (runtime_paths.first(8) + tooling_paths.first(8)).uniq
+      ),
+      guardrail(
+        "large_generated_report_churn",
+        generated_paths.size > 10,
+        "More than ten generated report files changed; review whether they are task-required.",
+        generated_paths.first(20)
+      ),
+      guardrail(
+        "unexpected_generated_reports",
+        !unexpected_generated.empty?,
+        "Generated report changes include files not predicted by changed source files.",
+        unexpected_generated.first(20)
+      ),
+      guardrail(
+        "source_and_generated_only_review",
+        !runtime_paths.empty? && generated_paths.any?,
+        "Source changes and generated artifacts changed together; keep only generated outputs required by the source delta.",
+        generated_paths.first(20)
+      )
+    ]
+  end
+
+  def guardrail(id, warned, message, evidence)
+    {
+      id: id,
+      status: warned ? "warn" : "ok",
+      message: message,
+      evidence: evidence
+    }
+  end
+
+  def generated_report_path?(relative_path)
+    relative_path.start_with?("docs/generated/")
+  end
+
+  def non_runtime_path?(relative_path, category)
+    generated_report_path?(relative_path) ||
+      category == "docs" ||
+      tooling_or_infrastructure_path?(relative_path, category) ||
+      relative_path.start_with?(".agents/")
+  end
+
+  def tooling_or_infrastructure_path?(relative_path, category)
+    category == "script" ||
+      category == "frontend_script" ||
+      relative_path == "Makefile" ||
+      relative_path.start_with?("docs/tooling/") ||
+      relative_path.start_with?(".github/") ||
+      relative_path.end_with?("package.json")
+  end
+
   def markdown_summary(report)
     lines = []
     lines << "# Change Impact Preflight"
@@ -147,6 +225,14 @@ module ChangeImpactPreflight
     lines << "- Unique docs to review: `#{report[:unique_docs].size}`"
     lines << "- Unique tests to consider: `#{report[:unique_tests].size}`"
     lines << "- Generated artifacts to check: `#{report[:unique_generated_artifacts].size}`"
+    lines << "- Scope guardrail warnings: `#{report[:scope_warning_count]}`"
+    lines << ""
+    lines << "## Scope Guardrails"
+    lines << ""
+    report[:scope_guardrails].each do |guardrail|
+      lines << "- `#{guardrail[:id]}`: `#{guardrail[:status]}` - #{guardrail[:message]}"
+      lines << "  Evidence: #{format_inline_list(guardrail[:evidence])}"
+    end
     lines << ""
     report[:changed_files].each do |entry|
       lines << "## `#{entry[:path]}`"
@@ -170,6 +256,10 @@ module ChangeImpactPreflight
     lines << "  docs to review: #{report[:unique_docs].size}"
     lines << "  tests to consider: #{report[:unique_tests].size}"
     lines << "  generated artifacts: #{report[:unique_generated_artifacts].size}"
+    lines << "  scope guardrail warnings: #{report[:scope_warning_count]}"
+    report[:scope_guardrails].select { |guardrail| guardrail[:status] == "warn" }.first(5).each do |guardrail|
+      lines << "  ! #{guardrail[:id]}: #{guardrail[:message]}"
+    end
     report[:changed_files].first(10).each do |entry|
       lines << "  - #{entry[:path]} -> docs=#{entry[:likely_docs].size}, tests=#{entry[:likely_tests].size}, siblings=#{entry[:sibling_read_surfaces].size}"
     end

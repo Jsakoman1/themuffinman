@@ -1,7 +1,7 @@
 # Frontend State Logic Duplication Audit
 
-- Generated at: `2026-06-28T20:30:14Z`
-- Active frontend files scanned: `31`
+- Generated at: `2026-06-29T12:47:10Z`
+- Active frontend files scanned: `34`
 
 ## `mutation_runner_overlap`
 
@@ -30,6 +30,6 @@
 
 ## `feedback_error_overlap`
 
+- `getApiErrorMessage` -> `apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts`, `apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue`, `apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue`, `apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue`, `apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts`, `apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue`, `apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue`, `apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts`, `apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue`, `apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue`, `apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue`, `apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue`
 - `error_assignment` -> `apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue`, `apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue`, `apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts`, `apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts`, `apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue`, `apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts`, `apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue`, `apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue`, `apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue`
-- `getApiErrorMessage` -> `apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts`, `apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts`, `apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue`, `apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts`, `apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue`, `apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue`, `apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue`, `apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue`
 - `showFeedback` -> `apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts`, `apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts`, `apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue`, `apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts`

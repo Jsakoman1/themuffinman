@@ -30,3 +30,12 @@ Purpose: extend backend audit coverage to the full codebase without collapsing s
 - [x] Frontend validation passes if any generated frontend contract surface changed.
 - [x] Docs and machine-operating artifacts are updated.
 - [x] This plan is updated to reflect actual completion state before closing the task.
+
+## Completion Evidence
+
+- Status: complete
+- Changed files: Historical completed plan; see `.agents/feature-manifests/backend-audit-tiering-manifest.yaml` for the structured artifact list.
+- Validation evidence: Historical completed plan; see `.agents/feature-manifests/backend-audit-tiering-manifest.yaml` for validation commands recorded during manifest migration.
+- Doc delta summary: Historical completed plan; see `.agents/feature-manifests/backend-audit-tiering-manifest.yaml` for docs and generated-artifact coverage.
+- Backlog update: Historical completed plan; see `.agents/feature-manifests/backend-audit-tiering-manifest.yaml` for backlog review state.
+- Residual risk: none recorded in the historical manifest.

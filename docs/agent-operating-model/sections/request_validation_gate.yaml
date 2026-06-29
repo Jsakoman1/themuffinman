@@ -77,7 +77,7 @@ request_validation_gate:
     required_annotations:
     - Digits
   service_validator_source_refs:
-  - quest_application_service
+  - quest_application_workflow_support
   service_validation_markers:
   - Application message is required
   - Free quest applications cannot have a proposed price

@@ -406,6 +406,7 @@ function buildDtoOutput(dtos) {
 }
 
 async function main() {
+  const checkOnly = process.argv.includes("--check")
   const javaFiles = await collectEnumFiles(backendRoot)
   const parsedEnums = (await Promise.all(javaFiles.map(parseEnumFile)))
     .filter((entry) => entry !== null)
@@ -417,13 +418,36 @@ async function main() {
     .sort((left, right) => left.interfaceName.localeCompare(right.interfaceName))
   const operatingModel = parseYaml(await readFile(operatingModelPath, "utf8"))
 
-  await mkdir(path.dirname(outputPath), {recursive: true})
   const outputLines = [
     ...buildOutput(parsedEnums),
     ...buildDtoOutput(parsedDtos),
     ...buildAgentWorkflowOutput(operatingModel)
   ]
-  await writeFile(outputPath, `${outputLines.join("\n").trimEnd()}\n`, "utf8")
+  const expectedOutput = `${outputLines.join("\n").trimEnd()}\n`
+
+  if (checkOnly) {
+    let currentOutput = ""
+    try {
+      currentOutput = await readFile(outputPath, "utf8")
+    } catch {
+      console.error(`Generated frontend contract is missing: ${outputPath}`)
+      process.exitCode = 1
+      return
+    }
+
+    if (currentOutput !== expectedOutput) {
+      console.error("Generated frontend contract is stale. Run `npm run generate:contracts` from apps/themuffinman/frontend.")
+      process.exitCode = 1
+      return
+    }
+
+    console.log("Generated frontend contract is fresh.")
+    return
+  }
+
+  await mkdir(path.dirname(outputPath), {recursive: true})
+  await writeFile(outputPath, expectedOutput, "utf8")
+  console.log(`Generated frontend contract: ${path.relative(path.resolve(__dirname, ".."), outputPath)}`)
 }
 
 await main()

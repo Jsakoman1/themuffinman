@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "json"
+require "shellwords"
 require "set"
 require "time"
 require_relative "../local_tooling_common"
@@ -93,6 +94,108 @@ module LocalToolingBatchAudits
     )
   end
 
+  def build_architecture_drift
+    thresholds = {
+      service_lines: 420,
+      controller_lines: 220,
+      vue_view_lines: 360,
+      doc_section_lines: 90,
+      public_methods: 12,
+      responsibility_markers: 3
+    }
+
+    backend_files = rel_glob(
+      "apps/themuffinman/src/main/java/com/themuffinman/app/**/*Service.java",
+      "apps/themuffinman/src/main/java/com/themuffinman/app/**/*Controller.java"
+    )
+    frontend_views = rel_glob(
+      "apps/themuffinman/frontend/src/modules/**/*View.vue",
+      "apps/themuffinman/frontend/src/modules/**/*Page.vue",
+      "apps/themuffinman/frontend/src/views/**/*View.vue"
+    )
+    doc_files = %w[
+      docs/business-logic.md
+      docs/domain-technical.md
+      docs/agent-operating-model.md
+      docs/documentation-sync-policy.md
+      docs/change-completion-checklist.md
+    ].select { |path| File.exist?(File.join(REPO_ROOT, path)) }
+
+    backend_entries = backend_files.map do |path|
+      content = read(path)
+      lines = content.lines.size
+      public_methods = content.scan(/^\s+public\s+[A-Za-z0-9_<>, ?]+\s+[a-zA-Z0-9_]+\s*\(/).size
+      markers = responsibility_markers(content)
+      kind = path.end_with?("Controller.java") ? "controller" : "service"
+      threshold = kind == "controller" ? thresholds[:controller_lines] : thresholds[:service_lines]
+      flags = []
+      flags << "oversized_#{kind}" if lines > threshold
+      flags << "many_public_methods" if public_methods > thresholds[:public_methods]
+      flags << "mixed_responsibilities" if markers.size >= thresholds[:responsibility_markers]
+      next if flags.empty?
+
+      {
+        file: path,
+        kind: kind,
+        lines: lines,
+        public_methods: public_methods,
+        responsibility_markers: markers,
+        flags: flags
+      }
+    end.compact
+
+    frontend_entries = frontend_views.map do |path|
+      content = read(path)
+      lines = content.lines.size
+      product_logic_hits = content.scan(/\b(status|permission|allowedAction|can[A-Z]|isOwner|isAdmin|transition|workflow|mutation|approve|decline|delete)\b/).size
+      flags = []
+      flags << "oversized_vue_view" if lines > thresholds[:vue_view_lines]
+      flags << "product_logic_in_view" if product_logic_hits >= 18
+      next if flags.empty?
+
+      {file: path, kind: "vue_view", lines: lines, product_logic_hits: product_logic_hits, flags: flags}
+    end.compact
+
+    doc_entries = doc_files.flat_map do |path|
+      parse_doc_sections(path).map do |section|
+        line_count = section[:content].lines.size
+        next unless line_count > thresholds[:doc_section_lines]
+
+        {
+          file: path,
+          section: section[:title],
+          level: section[:level],
+          lines: line_count,
+          flags: ["oversized_doc_section"]
+        }
+      end.compact
+    end
+
+    all_entries = backend_entries + frontend_entries + doc_entries
+    report(
+      title: "Architecture Drift Audit",
+      output_dir: "docs/generated/local-tooling",
+      base_name: "architecture-drift",
+      payload: {
+        generated_at: now,
+        mode: "report_first",
+        thresholds: thresholds,
+        backend_entries: backend_entries.sort_by { |entry| [-entry[:lines], entry[:file]] },
+        frontend_entries: frontend_entries.sort_by { |entry| [-entry[:lines], entry[:file]] },
+        doc_entries: doc_entries.sort_by { |entry| [-entry[:lines], entry[:file], entry[:section]] },
+        total_findings: all_entries.size
+      },
+      terminal: [
+        "Architecture drift audit",
+        "  mode: report_first",
+        "  backend findings: #{backend_entries.size}",
+        "  frontend findings: #{frontend_entries.size}",
+        "  doc section findings: #{doc_entries.size}",
+        "  total findings: #{all_entries.size}"
+      ].join("\n")
+    )
+  end
+
   def build_aggregate_dead_code
     frontend = read_json("docs/generated/dead-code-audit/frontend-unused.json")
     backend = read_json("docs/generated/dead-code-audit/backend-unused.json")
@@ -170,6 +273,91 @@ module LocalToolingBatchAudits
         "  endpoints: #{endpoint_inventory.size}",
         "  undocumented endpoints: #{undocumented_endpoints.size}",
         "  code status symbols: #{status_symbols.size}"
+      ].join("\n")
+    )
+  end
+
+  def build_doc_staleness_scoring
+    doc_paths = [
+      "docs/business-logic.md",
+      "docs/domain-technical.md",
+      "docs/agent-operating-model.md",
+      "docs/documentation-sync-policy.md",
+      "docs/change-completion-checklist.md"
+    ]
+    changed_files = current_changed_files.select do |path|
+      path.start_with?("apps/", "services/", "scripts/") ||
+        path.start_with?("docs/generated/agent-", "docs/generated/automation-", "docs/generated/source-of-truth")
+    end
+    newest_endpoint_signal = newest_existing_mtime(["docs/generated/agent-endpoint-inventory.json"])
+    dto_files = rel_glob("apps/themuffinman/src/main/java/com/themuffinman/app/**/*DTO.java")
+    newest_dto_signal = newest_existing_mtime(dto_files)
+    workflow_files = rel_glob("apps/themuffinman/src/main/java/com/themuffinman/app/**/*.{java}")
+      .select { |path| read(path).match?(/setStatus|Status|Workflow|transition/i) }
+    newest_workflow_signal = newest_existing_mtime(workflow_files)
+    changed_tokens = changed_files.flat_map { |path| stale_signal_tokens(path) }.uniq
+
+    sections = doc_paths.flat_map do |doc_path|
+      parse_doc_sections(doc_path).map do |section|
+        section_tokens = stale_signal_tokens("#{doc_path} #{section[:title]} #{section[:content]}")
+        score = 0
+        reasons = []
+        doc_mtime = File.mtime(File.join(REPO_ROOT, doc_path))
+        if newest_endpoint_signal && doc_mtime < newest_endpoint_signal && (section_tokens & %w[endpoint api controller contract]).any?
+          score += 30
+          reasons << "endpoint inventory is newer than this documentation section"
+        end
+        if newest_dto_signal && doc_mtime < newest_dto_signal && (section_tokens & %w[dto contract field mapper]).any?
+          score += 25
+          reasons << "DTO source files are newer than this documentation section"
+        end
+        if newest_workflow_signal && doc_mtime < newest_workflow_signal && (section_tokens & %w[workflow state transition status permission validation]).any?
+          score += 25
+          reasons << "workflow or state-transition source files are newer than this documentation section"
+        end
+        matching_changed_tokens = section_tokens & changed_tokens
+        if matching_changed_tokens.any?
+          score += [20, matching_changed_tokens.size * 5].min
+          reasons << "current changed files share tokens: #{matching_changed_tokens.sort.first(6).join(', ')}"
+        end
+        score += 10 if section[:content].length < 400 && reasons.any?
+
+        {
+          doc_path: doc_path,
+          section: section[:title],
+          score: score,
+          reasons: reasons,
+          doc_mtime: doc_mtime.utc.iso8601
+        }
+      end
+    end
+
+    candidates = sections.select { |section| section[:score].positive? }
+      .sort_by { |section| [-section[:score], section[:doc_path], section[:section]] }
+
+    report(
+      title: "Doc Staleness Scoring Audit",
+      output_dir: "docs/generated/local-tooling",
+      base_name: "doc-staleness-scoring",
+      payload: {
+        generated_at: now,
+        mode: "report_first",
+        changed_files_considered: changed_files.size,
+        sections_scored: sections.size,
+        candidate_count: candidates.size,
+        top_candidates: candidates.first(20),
+        signal_mtimes: {
+          endpoint_inventory: newest_endpoint_signal&.utc&.iso8601,
+          dto_sources: newest_dto_signal&.utc&.iso8601,
+          workflow_sources: newest_workflow_signal&.utc&.iso8601
+        }
+      },
+      terminal: [
+        "Doc staleness scoring audit",
+        "  mode: report_first",
+        "  sections scored: #{sections.size}",
+        "  candidates: #{candidates.size}",
+        "  changed files considered: #{changed_files.size}"
       ].join("\n")
     )
   end
@@ -580,6 +768,17 @@ module LocalToolingBatchAudits
     doc_lines << "2. `make audit-endpoint-callsite-linker` or `make audit-frontend-route-surfaces`"
     doc_lines << "3. choose a focused audit from the target index"
     doc_lines << ""
+    doc_lines << "`audit-change-impact-preflight` includes report-only `scope_guardrails` that warn when one changeset mixes multiple product domains, runtime code with tooling or infrastructure, broad generated-report churn, or generated reports that were not predicted by the changed source files."
+    doc_lines << ""
+    doc_lines << "## Context-First Session Start"
+    doc_lines << ""
+    doc_lines << "Before broad repository searches, read the compact local context in this order:"
+    doc_lines << ""
+    doc_lines << "1. `docs/generated/local-tooling/diff-summary.md` for the current changed-file shape."
+    doc_lines << "2. `docs/generated/local-tooling/audit-summary-index.md` to choose the smallest relevant generated report."
+    doc_lines << "3. `make context-pack topic=<topic>` when the task has a clear feature, domain, or changed-file focus."
+    doc_lines << "4. `docs/generated/local-tooling/repo-map-summary.md` or `symbol-index-summary.md` only when the first three sources do not identify the needed files."
+    doc_lines << ""
     doc_lines << "## Available Targets"
     doc_lines << ""
     Array(make_targets["targets"] || make_targets["audit_targets"]).each do |target|
@@ -709,6 +908,56 @@ module LocalToolingBatchAudits
         "#{verb.sub('Mapping', '').upcase} #{[controller_root, mapped].compact.join}"
       end
     end.uniq.sort
+  end
+
+  def current_changed_files
+    output = `git -C #{Shellwords.escape(REPO_ROOT)} status --short 2>/dev/null`
+    output.lines.map { |line| line[3..]&.strip }.compact.reject(&:empty?)
+  end
+
+  def newest_existing_mtime(paths)
+    times = paths.map { |path| File.join(REPO_ROOT, path) }
+      .select { |path| File.exist?(path) }
+      .map { |path| File.mtime(path) }
+    times.max
+  end
+
+  def parse_doc_sections(path)
+    content = read(path)
+    sections = []
+    current = {title: "Document", content: +"", level: 1}
+    content.each_line do |line|
+      if (match = line.match(/^(##+)\s+(.+?)\s*$/))
+        sections << current unless current[:content].strip.empty?
+        current = {title: match[2].strip, content: +"", level: match[1].length}
+      else
+        current[:content] << line
+      end
+    end
+    sections << current unless current[:content].strip.empty?
+    sections
+  end
+
+  def stale_signal_tokens(text)
+    stopwords = %w[
+      agents agent docs documentation generated local tooling summary changed updated
+      validation evidence feature plan template section status source target report
+      business domain technical model policy checklist change changes current file
+      files themuffinman app apps java script scripts frontend backend
+    ]
+    text.downcase.scan(/[a-z][a-z0-9]+/).map do |token|
+      token.sub(/(controller|service|repository|mapper|dto|view|page|component|composable|test|contract)\z/, "")
+    end.select { |token| token.length >= 4 && !stopwords.include?(token) }.uniq
+  end
+
+  def responsibility_markers(content)
+    markers = []
+    markers << "query" if content.match?(/\b(find|get|list|search|read)\w*\s*\(/)
+    markers << "mutation" if content.match?(/\b(create|update|delete|save|approve|decline|withdraw|start|complete)\w*\s*\(/)
+    markers << "policy" if content.match?(/\b(can|allow|authorize|permission|forbidden|owner|admin)\b/i)
+    markers << "mapping" if content.match?(/\b(toDto|fromDto|Mapper|Mgr|ResponseDTO|RequestDTO)\b/)
+    markers << "notification" if content.match?(/\b(notify|publish|event|news)\b/i)
+    markers.uniq
   end
 
   def docs_contain?(text)

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-28T20:30:14Z",
-  "active_file_count": 31,
+  "generated_at": "2026-06-29T12:47:10Z",
+  "active_file_count": 34,
   "mutation_runner_overlap": [
     {
       "signal": "createFeedbackMutationRunner",
@@ -129,6 +129,23 @@
   ],
   "feedback_error_overlap": [
     {
+      "signal": "getApiErrorMessage",
+      "files": [
+        "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
+        "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue"
+      ]
+    },
+    {
       "signal": "error_assignment",
       "files": [
         "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
@@ -138,19 +155,6 @@
         "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
         "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue"
-      ]
-    },
-    {
-      "signal": "getApiErrorMessage",
-      "files": [
-        "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
-        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
-        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue"
       ]

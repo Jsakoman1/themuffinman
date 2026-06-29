@@ -1,9 +1,9 @@
 # Endpoint Callsite Linker
 
-- Generated at: `2026-06-28T20:30:13Z`
-- Backend endpoints: `76`
-- Frontend client methods: `84`
-- Linked endpoints: `76`
+- Generated at: `2026-06-29T12:47:10Z`
+- Backend endpoints: `87`
+- Frontend client methods: `95`
+- Linked endpoints: `87`
 - Unlinked endpoints: `0`
 
 ## `POST /admin/agent/playground`
@@ -103,6 +103,29 @@
 - Frontend client: `authApi.register` in `apps/themuffinman/frontend/src/modules/identity/api/authApi.ts`
 - Caller: `apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue` -> surfaces=`apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue`
 
+## `GET /business/profiles`
+
+- Backend: `BusinessProfileController.getDirectory`
+- Frontend client: `businessApi.getDirectory` in `apps/themuffinman/frontend/src/modules/business/api/businessApi.ts`
+- Caller: `apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue` -> surfaces=`apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue`
+
+## `GET /business/profiles/:param`
+
+- Backend: `BusinessProfileController.getProfileBySlug`
+- Frontend client: `businessApi.getProfile` in `apps/themuffinman/frontend/src/modules/business/api/businessApi.ts`
+
+## `GET /business/profiles/me`
+
+- Backend: `BusinessProfileController.getMyProfile`
+- Frontend client: `businessApi.getMyProfile` in `apps/themuffinman/frontend/src/modules/business/api/businessApi.ts`
+- Caller: `apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue` -> surfaces=`apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue`
+
+## `PUT /business/profiles/me`
+
+- Backend: `BusinessProfileController.saveMyProfile`
+- Frontend client: `businessApi.saveMyProfile` in `apps/themuffinman/frontend/src/modules/business/api/businessApi.ts`
+- Caller: `apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue` -> surfaces=`apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue`
+
 ## `GET /chat/conversations/:param/messages`
 
 - Backend: `ChatController.getConversationMessages`
@@ -137,6 +160,7 @@
 - Backend: `ChatController.getWorkspace`
 - Frontend client: `chatApi.getWorkspace` in `apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts`
 - Caller: `apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts` -> surfaces=none
+- Caller: `apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue` -> surfaces=`apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue`
 
 ## `DELETE /circles/admin/groups/:param`
 
@@ -168,23 +192,3 @@
 - Backend: `CircleController.getInviteCandidates`
 - Frontend client: `circlesApi.getInviteCandidates` in `apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts`
 - Frontend client: `circlesApi.getInviteCandidatesPage` in `apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts`
-
-## `GET /circles/connections`
-
-- Backend: `CircleController.getConnections`
-- Frontend client: `circlesApi.getCircleConnectionsPage` in `apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts`
-
-## `PUT /circles/connections/:param/circles`
-
-- Backend: `CircleController.updateConnectionCircles`
-- Frontend client: `circlesApi.updateConnectionCircles` in `apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts`
-
-## `PUT /circles/connections/circles/bulk`
-
-- Backend: `CircleController.updateConnectionCirclesBulk`
-- Frontend client: `circlesApi.updateConnectionCirclesBulk` in `apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts`
-
-## `POST /circles/groups`
-
-- Backend: `CircleController.createCircle`
-- Frontend client: `circlesApi.createCircle` in `apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts`

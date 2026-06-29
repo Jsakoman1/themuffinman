@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-28T21:02:37Z",
+  "generated_at": "2026-06-29T12:47:29Z",
   "endpoint_family": "quests",
   "endpoints": [
     {
@@ -203,6 +203,7 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestListResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationRequestDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java",
@@ -346,6 +347,12 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
       "matched_paths": [
         "me"
       ]
@@ -507,6 +514,19 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "matched_paths": [
+        "me",
+        "detail"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
       "matched_paths": [
         "me"
@@ -518,6 +538,15 @@
         "me",
         "search",
         "start",
+        "view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "matched_paths": [
+        "me",
+        "search",
+        "detail",
         "view"
       ]
     },
@@ -538,6 +567,19 @@
       "matched_paths": [
         "me",
         "applications"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "matched_paths": [
+        "me",
+        "detail"
       ]
     },
     {
@@ -655,6 +697,20 @@
         "search",
         "detail",
         "view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "matched_paths": [
+        "quests",
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "matched_paths": [
+        "me",
+        "detail"
       ]
     },
     {
@@ -1373,7 +1429,11 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
       "matched_paths": [
-        "detail"
+        "me",
+        "detail",
+        "applications",
+        "view",
+        "approve"
       ]
     },
     {

@@ -13,13 +13,13 @@ import java.util.Optional;
 public interface QuestRepository extends JpaRepository<Quest, Long> {
 
     @Query("select distinct q from Quest q join fetch q.creator left join fetch q.images left join fetch q.visibleToCircles")
-    List<Quest> findAllWithCreator();
+    List<Quest> findForQuestList();
 
     @Query("select distinct q from Quest q join fetch q.creator left join fetch q.images left join fetch q.visibleToCircles where q.id in :ids")
-    List<Quest> findAllWithCreatorByIds(@Param("ids") List<Long> ids);
+    List<Quest> findForQuestListByIds(@Param("ids") List<Long> ids);
 
     @Query("select distinct q from Quest q join fetch q.creator left join fetch q.images left join fetch q.visibleToCircles where q.id = :id")
-    Optional<Quest> findByIdWithCreator(Long id);
+    Optional<Quest> findForQuestDetail(Long id);
 
     @Query(value = """
             select q.id
@@ -47,5 +47,21 @@ public interface QuestRepository extends JpaRepository<Quest, Long> {
     long countByLocationProviderPlaceIdIsNotNull();
 
     @Query("select distinct q from Quest q join fetch q.creator left join fetch q.images left join fetch q.visibleToCircles where q.creator.id = :creatorId and q.status = :status order by q.id desc")
-    List<Quest> findByCreatorIdAndStatusOrderByIdDesc(Long creatorId, QuestStatus status);
+    List<Quest> findForOwnerStatusList(Long creatorId, QuestStatus status);
+
+    default List<Quest> findAllWithCreator() {
+        return findForQuestList();
+    }
+
+    default List<Quest> findAllWithCreatorByIds(List<Long> ids) {
+        return findForQuestListByIds(ids);
+    }
+
+    default Optional<Quest> findByIdWithCreator(Long id) {
+        return findForQuestDetail(id);
+    }
+
+    default List<Quest> findByCreatorIdAndStatusOrderByIdDesc(Long creatorId, QuestStatus status) {
+        return findForOwnerStatusList(creatorId, status);
+    }
 }

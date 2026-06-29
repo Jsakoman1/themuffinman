@@ -33,3 +33,12 @@ Purpose: implement the next automation-enforcement package with a temporary work
 - Added executable multilingual golden prompt matrix coverage through `AdminAgentGoldenPromptMatrixTest` and `src/test/resources/agent/admin-agent-golden-prompt-matrix.yaml`.
 - Added `make audit-agent-safety` at repo and app level.
 - Verified with `make audit-agent-safety` and full `./mvnw test`.
+
+## Completion Evidence
+
+- Status: complete
+- Changed files: Historical completed plan; see `.agents/feature-manifests/agent-safety-upgrade-manifest.yaml` for the structured artifact list.
+- Validation evidence: Historical completed plan; see `.agents/feature-manifests/agent-safety-upgrade-manifest.yaml` for validation commands recorded during manifest migration.
+- Doc delta summary: Historical completed plan; see `.agents/feature-manifests/agent-safety-upgrade-manifest.yaml` for docs and generated-artifact coverage.
+- Backlog update: Historical completed plan; see `.agents/feature-manifests/agent-safety-upgrade-manifest.yaml` for backlog review state.
+- Residual risk: none recorded in the historical manifest.

@@ -122,6 +122,43 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessProfileListResponseDTO",
+    "fields": [
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessProfileRequestDTO",
+    "fields": [
+      "businessName",
+      "slug",
+      "headline",
+      "description",
+      "contactEmail",
+      "contactPhone",
+      "websiteUrl",
+      "active"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessProfileResponseDTO",
+    "fields": [
+      "id",
+      "ownerId",
+      "ownerUsername",
+      "businessName",
+      "slug",
+      "headline",
+      "description",
+      "contactEmail",
+      "contactPhone",
+      "websiteUrl",
+      "active",
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.chat.dto.ChatCircleOptionDTO",
     "fields": [
       "id",
@@ -495,6 +532,40 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.rides.dto.RideOfferListResponseDTO",
+    "fields": [
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.rides.dto.RideOfferRequestDTO",
+    "fields": [
+      "origin",
+      "destination",
+      "departureAt",
+      "seats",
+      "note",
+      "active",
+      "visibleCircleIds"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.rides.dto.RideOfferResponseDTO",
+    "fields": [
+      "id",
+      "driverId",
+      "driverUsername",
+      "origin",
+      "destination",
+      "departureAt",
+      "seats",
+      "note",
+      "active",
+      "visibleCircleNames",
+      "createdAt"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.social.dto.AdminCircleGroupResponseDTO",
     "fields": [
       "id",
@@ -744,6 +815,63 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.things.dto.ThingBorrowRequestDTO",
+    "fields": [
+      "message"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.things.dto.ThingBorrowRequestResponseDTO",
+    "fields": [
+      "id",
+      "listingId",
+      "borrowerId",
+      "borrowerUsername",
+      "message",
+      "status",
+      "createdAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.things.dto.ThingListingListResponseDTO",
+    "fields": [
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.things.dto.ThingListingRequestDTO",
+    "fields": [
+      "title",
+      "description",
+      "conditionNote",
+      "available"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.things.dto.ThingListingResponseDTO",
+    "fields": [
+      "id",
+      "ownerId",
+      "ownerUsername",
+      "title",
+      "description",
+      "conditionNote",
+      "available",
+      "myPendingRequestId",
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.things.model.ThingBorrowRequest",
+    "fields": [
+      "id",
+      "listing",
+      "borrower",
+      "message"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.workmarket.dto.AdminApplicationsQueryDTO",
     "fields": [
       "q",
@@ -775,6 +903,20 @@
       "tone",
       "count",
       "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardNavigationItemDTO",
+    "fields": [
+      "id",
+      "title",
+      "description"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardNavigationSectionDTO",
+    "fields": [
+      "tabs"
     ]
   },
   {
@@ -867,6 +1009,7 @@
   {
     "javaClass": "com.themuffinman.app.workmarket.dto.DashboardSectionsDTO",
     "fields": [
+      "navigation",
       "recentMyQuests",
       "recentMyApplications",
       "activeWorkApplications",

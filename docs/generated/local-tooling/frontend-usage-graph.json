@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-28T21:02:37Z",
-  "node_count": 230,
-  "edge_count": 835,
+  "generated_at": "2026-06-29T12:47:34Z",
+  "node_count": 239,
+  "edge_count": 872,
   "nodes": [
     {
       "file": "apps/themuffinman/frontend/src/App.vue",
@@ -135,6 +135,11 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
       "category": "other",
       "domain": "shared"
     },
@@ -349,6 +354,16 @@
       "domain": "shared"
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+      "category": "frontend_api",
+      "domain": "business"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "category": "frontend_view",
+      "domain": "business"
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
       "category": "frontend_api",
       "domain": "chat"
@@ -356,6 +371,11 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
       "category": "frontend_composable",
+      "domain": "chat"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "category": "frontend_view",
       "domain": "chat"
     },
     {
@@ -382,6 +402,16 @@
       "file": "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
       "category": "other",
       "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+      "category": "frontend_api",
+      "domain": "rides"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "category": "frontend_view",
+      "domain": "rides"
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
@@ -484,12 +514,27 @@
       "domain": "social"
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "category": "frontend_api",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "category": "frontend_view",
+      "domain": "things"
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
       "category": "frontend_api",
       "domain": "workmarket"
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+      "category": "frontend_api",
+      "domain": "workmarket"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
       "category": "frontend_api",
       "domain": "workmarket"
     },
@@ -1468,12 +1513,20 @@
       "to": "./UiFieldGroup.vue"
     },
     {
+      "from": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
+      "to": "../app/AppPageHeader.vue"
+    },
+    {
       "from": "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue",
       "to": "./UiDialog.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue",
       "to": "./UiFormActions.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue",
+      "to": "./UiAppShellPage.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/components/ui/UiDialog.vue",
@@ -1548,6 +1601,38 @@
       "to": "./router"
     },
     {
+      "from": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+      "to": "../../../api/httpClient.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "to": "../../../components/ui/UiAppShellPage.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "to": "../../../components/ui/UiRequestError.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "to": "../../../components/ui/UiSurfaceSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "to": "../../../components/ui/UiWorkspace.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "to": "../api/businessApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "to": "../../../api/apiErrors.ts"
+    },
+    {
       "from": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
       "to": "../../../api/httpClient.ts"
     },
@@ -1584,6 +1669,42 @@
       "to": "../../../shared/imageCompression.ts"
     },
     {
+      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "to": "../../../components/profile/ProfileAvatar.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "to": "../../../components/ui/UiAppShellPage.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "to": "../../../components/ui/UiRequestError.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "to": "../../../components/ui/UiSurfaceSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "to": "../../../components/ui/UiWorkspace.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "to": "../../../api/apiErrors.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "to": "../api/chatApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "to": "../../../contracts/index.ts"
+    },
+    {
       "from": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
       "to": "../../../api/httpClient.ts"
     },
@@ -1658,6 +1779,38 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
       "to": "../auth.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+      "to": "../../../api/httpClient.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "to": "../../../components/ui/UiAppShellPage.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "to": "../../../components/ui/UiRequestError.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "to": "../../../components/ui/UiSurfaceSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "to": "../../../components/ui/UiWorkspace.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "to": "../../../api/apiErrors.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "to": "../api/ridesApi.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
@@ -2025,7 +2178,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../../components/ui/UiDashboardPage.vue"
+      "to": "../../../components/ui/UiAppShellPage.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
@@ -2097,7 +2250,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../../../components/ui/UiDashboardPage.vue"
+      "to": "../../../components/ui/UiAppShellPage.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
@@ -2144,6 +2297,38 @@
       "to": "../components/profile/UserSettingsDialog.vue"
     },
     {
+      "from": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "to": "../../../api/httpClient.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "to": "../../../components/ui/UiAppShellPage.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "to": "../../../components/ui/UiRequestError.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "to": "../../../components/ui/UiSurfaceSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "to": "../../../components/ui/UiWorkspace.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "to": "../../../api/apiErrors.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "to": "../api/thingsApi.ts"
+    },
+    {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
       "to": "./contracts.ts"
     },
@@ -2153,6 +2338,14 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+      "to": "./contracts.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
+      "to": "./contracts.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
       "to": "./contracts.ts"
     },
     {
@@ -4061,7 +4254,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "to": "../../../components/ui/UiDashboardPage.vue"
+      "to": "../../../components/ui/UiAppShellPage.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
@@ -4078,6 +4271,10 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
       "to": "../api/adminAgentSafetyViewModel.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+      "to": "../api/agentWorkflowGuards.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
@@ -4109,7 +4306,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../../../components/ui/UiDashboardPage.vue"
+      "to": "../../../components/ui/UiAppShellPage.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
@@ -4169,7 +4366,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "to": "../../../components/ui/UiDashboardPage.vue"
+      "to": "../../../components/ui/UiAppShellPage.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
@@ -4213,7 +4410,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "to": "../../../components/ui/UiDashboardPage.vue"
+      "to": "../../../components/ui/UiAppShellPage.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
@@ -4277,7 +4474,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../../../components/ui/UiDashboardPage.vue"
+      "to": "../../../components/ui/UiAppShellPage.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
@@ -4305,7 +4502,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
-      "to": "../../../components/ui/UiDashboardPage.vue"
+      "to": "../../../components/ui/UiAppShellPage.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
@@ -4446,10 +4643,6 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
       "to": "../shared/navigationTargets.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../../../shared/questSchedule.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",

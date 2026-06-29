@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {defineAsyncComponent, onMounted} from "vue"
-import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
+import UiAppShellPage from "../../../components/ui/UiAppShellPage.vue"
 import UiDialog from "../../../components/ui/UiDialog.vue"
 import UiRequestError from "../../../components/ui/UiRequestError.vue"
 import UiSurfaceSection from "../../../components/ui/UiSurfaceSection.vue"
@@ -26,7 +26,7 @@ onMounted(dashboard.init)
 </script>
 
 <template>
-  <UiDashboardPage>
+  <UiAppShellPage>
         <UiToast :message="dashboard.feedback" :tone="dashboard.feedbackType" />
 
         <UiRequestError :message="dashboard.questsError" :details="dashboard.questsErrorDetails" summary="Quest request debug details" :copied="dashboard.copiedDebug" @copy="dashboard.copyDebugInfo(dashboard.questsErrorDetails)" />
@@ -116,5 +116,5 @@ onMounted(dashboard.init)
         <DashboardOpenWorkDialog v-if="dashboard.isOpenWorkDialogOpen" :dashboard="dashboard" />
         <DashboardQuestDialog v-if="dashboard.questDialogId !== null" :dashboard="dashboard" />
         <DashboardApplicationDialog v-if="dashboard.applicationDialogId !== null" :dashboard="dashboard" />
-  </UiDashboardPage>
+  </UiAppShellPage>
 </template>

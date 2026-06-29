@@ -1,0 +1,32 @@
+{
+  "changeId": "validation_recorder_selftest",
+  "status": "in_progress",
+  "recordedAt": "2026-06-29T11:39:05Z",
+  "summary": [
+    "Recorded validation evidence for /private/tmp/validation-recorder-selftest.yaml."
+  ],
+  "commands": [
+    {
+      "command": "ruby -e exit",
+      "scope": "other",
+      "result": "passed",
+      "ranAt": "2026-06-29T11:38:59Z",
+      "durationSeconds": 0.057,
+      "summary": "Command passed."
+    },
+    {
+      "command": "ruby -e exit",
+      "scope": "other",
+      "result": "passed",
+      "ranAt": "2026-06-29T11:39:05Z",
+      "durationSeconds": 0.057,
+      "summary": "Command passed."
+    }
+  ],
+  "generatedArtifacts": [
+
+  ],
+  "skippedChecks": [
+
+  ]
+}

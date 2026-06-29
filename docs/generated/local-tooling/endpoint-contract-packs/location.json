@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-28T21:02:37Z",
+  "generated_at": "2026-06-29T12:47:29Z",
   "endpoint_family": "location",
   "endpoints": [
     {
@@ -87,6 +87,18 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
       "matched_paths": [
         "status"
@@ -101,6 +113,12 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
       "matched_paths": [
         "status"
       ]

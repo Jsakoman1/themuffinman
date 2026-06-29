@@ -12,15 +12,35 @@ backend_audit_coverage:
       - chat_contract_dto_surface
       - identity_contract_dto_surface
       - location_contract_dto_surface
+      - social_request_relation_dto_surface
+      - social_overview_member_dto_surface
+      - social_search_contact_dto_surface
+      - social_admin_circle_dto_surface
+      - workmarket_dashboard_dto_surface
+      - workmarket_quest_detail_dto_surface
+      - workmarket_application_detail_dto_surface
+      - workmarket_list_search_options_dto_surface
+      - workmarket_news_read_model_dto_surface
+      - common_action_navigation_dto_surface
     strict_documentation_rule_ids:
       - automation_contract_dto_surface
       - chat_contract_dto_surface
       - identity_contract_dto_surface
       - location_contract_dto_surface
+      - social_request_relation_dto_surface
+      - social_overview_member_dto_surface
+      - social_search_contact_dto_surface
+      - social_admin_circle_dto_surface
+      - workmarket_dashboard_dto_surface
+      - workmarket_quest_detail_dto_surface
+      - workmarket_application_detail_dto_surface
+      - workmarket_list_search_options_dto_surface
+      - workmarket_news_read_model_dto_surface
+      - common_action_navigation_dto_surface
   future_tightening:
     - phase: next
       target_tier: automation_relevant
-      goal: Require source-of-truth registration and documentation coverage once classification coverage stays stable, domain-owned, and low-noise.
+      goal: Promote only small rule-scoped DTO, read-model, or service slices into strict source-of-truth registration and documentation coverage; keep the broad service catch-all report-only until each service slice is stable, domain-owned, and low-noise.
     - phase: later
       target_tier: internal_support
       goal: Keep explicit inventory and ownership visibility across the rest of the backend without forcing workflow-coupled fail-hard rules for every support class.
@@ -33,6 +53,10 @@ backend_audit_coverage:
       owner_id: chat_domain
       path_prefixes:
         - apps/themuffinman/src/main/java/com/themuffinman/app/chat/
+    - id: business
+      owner_id: business_domain
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/business/
     - id: common
       owner_id: platform_core
       path_prefixes:
@@ -45,10 +69,18 @@ backend_audit_coverage:
       owner_id: location_domain
       path_prefixes:
         - apps/themuffinman/src/main/java/com/themuffinman/app/location/
+    - id: rides
+      owner_id: rides_domain
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/rides/
     - id: social
       owner_id: social_domain
       path_prefixes:
         - apps/themuffinman/src/main/java/com/themuffinman/app/social/
+    - id: things
+      owner_id: things_domain
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/things/
     - id: workmarket
       owner_id: workmarket_domain
       path_prefixes:
@@ -99,10 +131,13 @@ backend_audit_coverage:
       tier: executor_critical
       path_prefixes:
         - apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/
         - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/
         - apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/
         - apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/
         - apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/
         - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/
     - id: executor_mapper_surface
       tier: executor_critical
@@ -116,6 +151,10 @@ backend_audit_coverage:
       tier: executor_critical
       path_contains_any:
         - /agent/service/
+    - id: executor_agent_sandbox_surface
+      tier: executor_critical
+      path_prefixes:
+        - apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/
     - id: executor_tracked_service_surface
       tier: executor_critical
       file_names:
@@ -135,6 +174,7 @@ backend_audit_coverage:
         - QuestQueryService.java
         - QuestExecutionPrimitiveService.java
         - LocationSettingsService.java
+        - LocationAccessPolicyService.java
         - LocationLookupService.java
         - CircleRelationService.java
         - CircleService.java
@@ -157,10 +197,123 @@ backend_audit_coverage:
       tier: automation_relevant
       path_prefixes:
         - apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/
+    - id: social_request_relation_dto_surface
+      tier: automation_relevant
+      file_names:
+        - BulkCircleMembershipAction.java
+        - BulkCircleMembershipUpdateDTO.java
+        - CircleBlockCreateDTO.java
+        - CircleRelationDTO.java
+        - CircleRelationStatus.java
+        - CircleRequestCreateDTO.java
+        - CircleRequestListResponseDTO.java
+        - CircleRequestResponseDTO.java
+        - ConnectionCircleUpdateDTO.java
+    - id: social_overview_member_dto_surface
+      tier: automation_relevant
+      file_names:
+        - CircleGroupResponseDTO.java
+        - CircleMemberDTO.java
+        - CircleOverviewDTO.java
+        - CircleSummaryDTO.java
+    - id: social_search_contact_dto_surface
+      tier: automation_relevant
+      file_names:
+        - CircleCandidateDTO.java
+        - CircleConnectionsQueryDTO.java
+        - CircleContactDTO.java
+        - CircleContactListResponseDTO.java
+        - CircleSearchResultDTO.java
+        - CircleSearchResultListResponseDTO.java
+        - PageQueryDTO.java
+        - TextPageQueryDTO.java
+    - id: social_admin_circle_dto_surface
+      tier: automation_relevant
+      file_names:
+        - AdminCircleGroupResponseDTO.java
+        - AdminCircleOverviewDTO.java
+        - AdminCircleRelationRowDTO.java
+    - id: workmarket_dashboard_dto_surface
+      tier: automation_relevant
+      file_names:
+        - DashboardApplicationGroupDTO.java
+        - DashboardNavigationItemDTO.java
+        - DashboardNavigationSectionDTO.java
+        - DashboardNotificationDestinationType.java
+        - DashboardNotificationItemDTO.java
+        - DashboardNotificationsSectionDTO.java
+        - DashboardOpenWorkSectionDTO.java
+        - DashboardPlannerItemDTO.java
+        - DashboardPlannerSectionDTO.java
+        - DashboardQuestGroupDTO.java
+        - DashboardResponseDTO.java
+        - DashboardSectionsDTO.java
+        - DashboardSummaryDTO.java
+    - id: workmarket_quest_detail_dto_surface
+      tier: automation_relevant
+      file_names:
+        - QuestAllowedAction.java
+        - QuestDetailExecutionAction.java
+        - QuestDetailExecutionSectionDTO.java
+        - QuestDetailManagementSectionDTO.java
+        - QuestDetailNavigationSectionDTO.java
+        - QuestDetailResponseDTO.java
+        - QuestDetailReviewSectionDTO.java
+        - QuestDetailReviewTargetDTO.java
+        - QuestDetailSectionsDTO.java
+        - QuestDetailTermChangeSectionDTO.java
+        - QuestPresentationDTO.java
+        - QuestViewerRelation.java
+    - id: workmarket_application_detail_dto_surface
+      tier: automation_relevant
+      file_names:
+        - ApplicationAllowedAction.java
+        - QuestApplicationDetailContextSectionDTO.java
+        - QuestApplicationDetailNavigationSectionDTO.java
+        - QuestApplicationDetailResponseDTO.java
+        - QuestApplicationDetailSectionsDTO.java
+        - QuestApplicationPresentationDTO.java
+    - id: workmarket_list_search_options_dto_surface
+      tier: automation_relevant
+      file_names:
+        - AdminApplicationsQueryDTO.java
+        - AppUserRoleOptionDTO.java
+        - QuestApplicationListResponseDTO.java
+        - QuestApplicationResponseDTO.java
+        - QuestApplicationsViewDTO.java
+        - QuestApplicationStatusFilterOptionDTO.java
+        - QuestAudienceFilterOptionDTO.java
+        - QuestAudienceOptionDTO.java
+        - QuestListPreset.java
+        - QuestListResponseDTO.java
+        - QuestResponseDTO.java
+        - QuestSearchDefaultsDTO.java
+        - QuestSearchRequestDTO.java
+        - QuestSortOptionDTO.java
+        - QuestStatusFilterOptionDTO.java
+        - QuestStatusOptionDTO.java
+        - WorkmarketOptionsDTO.java
+    - id: workmarket_news_read_model_dto_surface
+      tier: automation_relevant
+      file_names:
+        - QuestNewsDestinationType.java
+        - QuestNewsItemResponseDTO.java
+    - id: common_action_navigation_dto_surface
+      tier: automation_relevant
+      file_names:
+        - ActionResultDTO.java
+        - ActionResults.java
+        - LabelValueDTO.java
+        - NavigationTargetDTO.java
+        - NavigationTargetType.java
     - id: automation_relevant_dto_surface
       tier: automation_relevant
       path_contains_any:
         - /dto/
+    - id: automation_relevant_domain_event_surface
+      tier: automation_relevant
+      path_contains_any:
+        - /event/
     - id: automation_relevant_remaining_service_surface
       tier: automation_relevant
       path_contains_any:

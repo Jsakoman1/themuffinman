@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-28T20:30:14Z",
+  "generated_at": "2026-06-29T12:47:10Z",
   "route_count": 23,
   "surface_route_count": 19,
   "redirect_route_count": 4,
-  "placeholder_route_count": 4,
+  "placeholder_route_count": 0,
   "routes": [
     {
       "route_path": "/",
@@ -1991,89 +1991,243 @@
     {
       "route_path": "/business",
       "redirect": null,
-      "surface_file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
-      "component_symbol": "ModulePlaceholderView",
+      "surface_file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "component_symbol": "BusinessHubView",
       "requires_auth": true,
       "requires_admin": false,
-      "placeholder_module": true,
-      "module_key": "business",
+      "placeholder_module": false,
+      "module_key": null,
       "primary_composables": [
 
       ],
       "api_clients": [
-
+        "businessApi.getDirectory",
+        "businessApi.getMyProfile",
+        "businessApi.saveMyProfile"
       ],
       "backend_endpoints": [
-
+        "GET /business/profiles",
+        "GET /business/profiles/me",
+        "PUT /business/profiles/me"
       ],
       "endpoint_links": [
-
+        {
+          "endpoint_id": "GET /business/profiles",
+          "backend_controller": "BusinessProfileController",
+          "backend_method": "getDirectory",
+          "client_object": "businessApi",
+          "client_method": "getDirectory",
+          "client_file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "GET /business/profiles/me",
+          "backend_controller": "BusinessProfileController",
+          "backend_method": "getMyProfile",
+          "client_object": "businessApi",
+          "client_method": "getMyProfile",
+          "client_file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "PUT /business/profiles/me",
+          "backend_controller": "BusinessProfileController",
+          "backend_method": "saveMyProfile",
+          "client_object": "businessApi",
+          "client_method": "saveMyProfile",
+          "client_file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue"
+          ]
+        }
       ]
     },
     {
       "route_path": "/things",
       "redirect": null,
-      "surface_file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
-      "component_symbol": "ModulePlaceholderView",
+      "surface_file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "component_symbol": "ThingSharingView",
       "requires_auth": true,
       "requires_admin": false,
-      "placeholder_module": true,
-      "module_key": "things",
+      "placeholder_module": false,
+      "module_key": null,
       "primary_composables": [
 
       ],
       "api_clients": [
-
+        "thingsApi.createListing",
+        "thingsApi.getAvailableListings",
+        "thingsApi.getMyListings",
+        "thingsApi.requestBorrow"
       ],
       "backend_endpoints": [
-
+        "GET /things/listings",
+        "GET /things/listings/me",
+        "POST /things/listings",
+        "POST /things/listings/:param/borrow-requests"
       ],
       "endpoint_links": [
-
+        {
+          "endpoint_id": "POST /things/listings",
+          "backend_controller": "ThingSharingController",
+          "backend_method": "createListing",
+          "client_object": "thingsApi",
+          "client_method": "createListing",
+          "client_file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "GET /things/listings",
+          "backend_controller": "ThingSharingController",
+          "backend_method": "getAvailableListings",
+          "client_object": "thingsApi",
+          "client_method": "getAvailableListings",
+          "client_file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "GET /things/listings/me",
+          "backend_controller": "ThingSharingController",
+          "backend_method": "getMyListings",
+          "client_object": "thingsApi",
+          "client_method": "getMyListings",
+          "client_file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "POST /things/listings/:param/borrow-requests",
+          "backend_controller": "ThingSharingController",
+          "backend_method": "requestBorrow",
+          "client_object": "thingsApi",
+          "client_method": "requestBorrow",
+          "client_file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue"
+          ]
+        }
       ]
     },
     {
       "route_path": "/rides",
       "redirect": null,
-      "surface_file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
-      "component_symbol": "ModulePlaceholderView",
+      "surface_file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "component_symbol": "RideSharingView",
       "requires_auth": true,
       "requires_admin": false,
-      "placeholder_module": true,
-      "module_key": "rides",
+      "placeholder_module": false,
+      "module_key": null,
       "primary_composables": [
 
       ],
       "api_clients": [
-
+        "ridesApi.createOffer",
+        "ridesApi.getMyOffers",
+        "ridesApi.getVisibleOffers"
       ],
       "backend_endpoints": [
-
+        "GET /rides/offers",
+        "GET /rides/offers/me",
+        "POST /rides/offers"
       ],
       "endpoint_links": [
-
+        {
+          "endpoint_id": "POST /rides/offers",
+          "backend_controller": "RideOfferController",
+          "backend_method": "createOffer",
+          "client_object": "ridesApi",
+          "client_method": "createOffer",
+          "client_file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "GET /rides/offers/me",
+          "backend_controller": "RideOfferController",
+          "backend_method": "getMyOffers",
+          "client_object": "ridesApi",
+          "client_method": "getMyOffers",
+          "client_file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "GET /rides/offers",
+          "backend_controller": "RideOfferController",
+          "backend_method": "getVisibleOffers",
+          "client_object": "ridesApi",
+          "client_method": "getVisibleOffers",
+          "client_file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue"
+          ]
+        }
       ]
     },
     {
       "route_path": "/chat",
       "redirect": null,
-      "surface_file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
-      "component_symbol": "ModulePlaceholderView",
+      "surface_file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "component_symbol": "ChatWorkspaceView",
       "requires_auth": true,
       "requires_admin": false,
-      "placeholder_module": true,
-      "module_key": "chat",
+      "placeholder_module": false,
+      "module_key": null,
       "primary_composables": [
 
       ],
       "api_clients": [
-
+        "chatApi.getWorkspace"
       ],
       "backend_endpoints": [
-
+        "GET /chat/workspace"
       ],
       "endpoint_links": [
+        {
+          "endpoint_id": "GET /chat/workspace",
+          "backend_controller": "ChatController",
+          "backend_method": "getWorkspace",
+          "client_object": "chatApi",
+          "client_method": "getWorkspace",
+          "client_file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "GET /chat/workspace",
+          "backend_controller": "ChatController",
+          "backend_method": "getWorkspace",
+          "client_object": "chatApi",
+          "client_method": "getWorkspace",
+          "client_file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+          "ui_surfaces": [
 
+          ]
+        }
       ]
     }
   ]

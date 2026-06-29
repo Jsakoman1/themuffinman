@@ -1,0 +1,247 @@
+version: 1
+stateMachines:
+  - id: quest_lifecycle
+    domain: workmarket
+    owner: QuestStateTransitionService
+    stateSource:
+      type: enum
+      javaClass: com.themuffinman.app.workmarket.model.QuestStatus
+    states:
+      - OPEN
+      - ASSIGNED
+      - WAITING_CONFIRMATION
+      - IN_PROGRESS
+      - COMPLETED
+      - CANCELLED
+    initialState: OPEN
+    terminalStates:
+      - COMPLETED
+      - CANCELLED
+    transitions:
+      - id: create_quest
+        from: []
+        to: OPEN
+        intentId: create_quest
+        authority: authenticated_user
+      - id: owner_assign_after_approval
+        from: [OPEN]
+        to: ASSIGNED
+        intentId: update_quest
+        authority: quest_owner
+        guards:
+          - at_least_one_approved_application
+      - id: owner_reopen_assigned
+        from: [ASSIGNED]
+        to: OPEN
+        intentId: update_quest
+        authority: quest_owner
+      - id: start_quest
+        from: [ASSIGNED]
+        to: IN_PROGRESS
+        intentId: start_quest
+        authority: quest_execution_actor
+      - id: complete_quest
+        from: [IN_PROGRESS]
+        to: COMPLETED
+        intentId: complete_quest
+        authority: quest_execution_actor
+      - id: queue_term_change
+        from: [ASSIGNED, IN_PROGRESS]
+        to: WAITING_CONFIRMATION
+        intentId: request_owner_term_change
+        authority: quest_owner
+      - id: update_waiting_term_change
+        from: [WAITING_CONFIRMATION]
+        to: WAITING_CONFIRMATION
+        intentId: request_owner_term_change
+        authority: quest_owner
+      - id: confirm_term_change
+        from: [WAITING_CONFIRMATION]
+        to: previous_status
+        intentId: confirm_quest_term_change
+        authority: approved_worker_or_admin
+      - id: reject_term_change
+        from: [WAITING_CONFIRMATION]
+        to: previous_status
+        intentId: reject_quest_term_change
+        authority: approved_worker_or_admin
+      - id: admin_status_override
+        from: [OPEN, ASSIGNED, WAITING_CONFIRMATION, IN_PROGRESS, COMPLETED, CANCELLED]
+        to: any_declared_state
+        intentId: update_quest
+        authority: admin
+  - id: quest_application_lifecycle
+    domain: workmarket
+    owner: QuestApplicationWorkflowSupport
+    stateSource:
+      type: enum
+      javaClass: com.themuffinman.app.workmarket.model.QuestApplicationStatus
+    states:
+      - PENDING
+      - APPROVED
+      - DECLINED
+      - WITHDRAWN
+    initialState: PENDING
+    terminalStates:
+      - APPROVED
+      - DECLINED
+      - WITHDRAWN
+    transitions:
+      - id: apply_to_quest
+        from: []
+        to: PENDING
+        intentId: apply_to_quest
+        authority: visible_non_owner_user
+      - id: update_pending_application
+        from: [PENDING]
+        to: PENDING
+        intentId: update_my_application
+        authority: applicant
+      - id: withdraw_pending_application
+        from: [PENDING]
+        to: WITHDRAWN
+        intentId: withdraw_my_application
+        authority: applicant
+      - id: approve_pending_application
+        from: [PENDING]
+        to: APPROVED
+        intentId: approve_application
+        authority: quest_owner_or_admin
+      - id: decline_pending_application
+        from: [PENDING]
+        to: DECLINED
+        intentId: decline_application
+        authority: quest_owner_or_admin
+      - id: admin_update_application
+        from: [PENDING, APPROVED, DECLINED, WITHDRAWN]
+        to: any_declared_state
+        intentId: update_admin_application
+        authority: admin
+  - id: circle_relation_lifecycle
+    domain: social
+    owner: CircleRelationService
+    stateSource:
+      type: derived
+      javaClass: com.themuffinman.app.social.dto.CircleRelationStatus
+    states:
+      - NONE
+      - CIRCLE
+      - INCOMING_REQUEST
+      - OUTGOING_REQUEST
+      - BLOCKED
+    initialState: NONE
+    terminalStates: []
+    transitions:
+      - id: send_circle_request
+        from: [NONE]
+        to: OUTGOING_REQUEST
+        intentId: create_circle_connection
+        authority: authenticated_user
+      - id: accept_circle_request
+        from: [INCOMING_REQUEST]
+        to: CIRCLE
+        intentId: accept_circle_connection
+        authority: request_recipient
+      - id: cancel_or_decline_circle_request
+        from: [INCOMING_REQUEST, OUTGOING_REQUEST]
+        to: NONE
+        intentId: cancel_circle_request
+        authority: requester_or_recipient_or_admin
+      - id: block_user
+        from: [NONE, CIRCLE, INCOMING_REQUEST, OUTGOING_REQUEST]
+        to: BLOCKED
+        intentId: block_user
+        authority: authenticated_user
+      - id: unblock_user
+        from: [BLOCKED]
+        to: NONE
+        intentId: unblock_user
+        authority: blocking_user
+  - id: chat_conversation_access_lifecycle
+    domain: chat
+    owner: ChatService
+    stateSource:
+      type: derived
+      javaClass: com.themuffinman.app.chat.model.ChatConversation
+    states:
+      - ACCESSIBLE
+      - INACCESSIBLE
+    initialState: ACCESSIBLE
+    terminalStates: []
+    transitions:
+      - id: open_conversation
+        from: []
+        to: ACCESSIBLE
+        intentId: open_chat_conversation
+        authority: accepted_circle_participant
+      - id: relation_lost
+        from: [ACCESSIBLE]
+        to: INACCESSIBLE
+        intentId: none
+        authority: derived_from_social_relation
+  - id: thing_borrow_request_lifecycle
+    domain: things
+    owner: ThingSharingService
+    stateSource:
+      type: enum
+      javaClass: com.themuffinman.app.things.model.ThingBorrowRequestStatus
+    states:
+      - PENDING
+      - CANCELLED
+    initialState: PENDING
+    terminalStates:
+      - CANCELLED
+    transitions:
+      - id: request_borrow_thing
+        from: []
+        to: PENDING
+        intentId: request_borrow_thing
+        authority: authenticated_borrower
+      - id: cancel_borrow_request
+        from: [PENDING]
+        to: CANCELLED
+        intentId: future_booking_flow
+        authority: requester_or_owner
+  - id: booking_lifecycle
+    domain: bookings
+    owner: future_module
+    stateSource:
+      type: planned
+      javaClass: none
+    states:
+      - REQUESTED
+      - ACCEPTED
+      - DECLINED
+      - CANCELLED
+      - COMPLETED
+    initialState: REQUESTED
+    terminalStates:
+      - DECLINED
+      - CANCELLED
+      - COMPLETED
+    transitions:
+      - id: request_booking
+        from: []
+        to: REQUESTED
+        intentId: future_booking_flow
+        authority: requester
+      - id: accept_booking
+        from: [REQUESTED]
+        to: ACCEPTED
+        intentId: future_booking_flow
+        authority: owner
+      - id: decline_booking
+        from: [REQUESTED]
+        to: DECLINED
+        intentId: future_booking_flow
+        authority: owner
+      - id: cancel_booking
+        from: [REQUESTED, ACCEPTED]
+        to: CANCELLED
+        intentId: future_booking_flow
+        authority: requester_or_owner
+      - id: complete_booking
+        from: [ACCEPTED]
+        to: COMPLETED
+        intentId: future_booking_flow
+        authority: owner

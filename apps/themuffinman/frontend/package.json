@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run validate:contracts && vite build",
     "preview": "vite preview",
     "generate:contracts": "node ./scripts/generate-workmarket-contracts.mjs",
+    "validate:contracts": "node ./scripts/generate-workmarket-contracts.mjs --check",
     "type-check": "vue-tsc --noEmit",
     "validate:admin-agent-ui": "node ./scripts/validate-admin-agent-ui-scenarios.mjs"
   },

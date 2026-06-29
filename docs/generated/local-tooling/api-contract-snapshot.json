@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-28T21:02:38Z",
-  "endpoint_count": 78,
+  "generated_at": "2026-06-29T12:47:35Z",
+  "endpoint_count": 89,
   "endpoints": [
     {
       "method": "POST",
@@ -181,6 +181,45 @@
         "AuthResponse",
         "RegisterRequest",
         "LoginRequest"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/profiles",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "dtos": [
+        "BusinessProfileListResponseDTO",
+        "BusinessProfileResponseDTO",
+        "BusinessProfileRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/profiles/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "dtos": [
+        "BusinessProfileListResponseDTO",
+        "BusinessProfileResponseDTO",
+        "BusinessProfileRequestDTO"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/business/profiles/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "dtos": [
+        "BusinessProfileResponseDTO",
+        "BusinessProfileRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/profiles/{slug}",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "dtos": [
+        "BusinessProfileListResponseDTO",
+        "BusinessProfileResponseDTO",
+        "BusinessProfileRequestDTO"
       ]
     },
     {
@@ -773,6 +812,79 @@
       "dtos": [
         "UserReviewResponseDTO",
         "UserReviewRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/rides/offers",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "dtos": [
+        "RideOfferListResponseDTO",
+        "RideOfferResponseDTO",
+        "RideOfferRequestDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/rides/offers",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "dtos": [
+        "RideOfferResponseDTO",
+        "RideOfferRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/rides/offers/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "dtos": [
+        "RideOfferListResponseDTO",
+        "RideOfferResponseDTO",
+        "RideOfferRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/things/listings",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "dtos": [
+        "ThingListingListResponseDTO",
+        "ThingListingResponseDTO",
+        "ThingListingRequestDTO",
+        "ThingBorrowRequestResponseDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/things/listings",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "dtos": [
+        "ThingListingResponseDTO",
+        "ThingListingRequestDTO",
+        "ThingBorrowRequestResponseDTO",
+        "ThingBorrowRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/things/listings/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "dtos": [
+        "ThingListingListResponseDTO",
+        "ThingListingResponseDTO",
+        "ThingListingRequestDTO",
+        "ThingBorrowRequestResponseDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/things/listings/{listingId}/borrow-requests",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "dtos": [
+        "ThingListingResponseDTO",
+        "ThingListingRequestDTO",
+        "ThingBorrowRequestResponseDTO",
+        "ThingBorrowRequestDTO"
       ]
     }
   ]

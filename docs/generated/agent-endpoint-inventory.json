@@ -12,6 +12,30 @@
     "path": "/admin/agent/simulate"
   },
   {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
+    "handlerMethod": "getDirectory",
+    "httpMethod": "GET",
+    "path": "/business/profiles"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
+    "handlerMethod": "getMyProfile",
+    "httpMethod": "GET",
+    "path": "/business/profiles/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
+    "handlerMethod": "saveMyProfile",
+    "httpMethod": "PUT",
+    "path": "/business/profiles/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
+    "handlerMethod": "getProfileBySlug",
+    "httpMethod": "GET",
+    "path": "/business/profiles/{slug}"
+  },
+  {
     "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
     "handlerMethod": "getWorkspace",
     "httpMethod": "GET",
@@ -142,6 +166,24 @@
     "handlerMethod": "getDebugStatus",
     "httpMethod": "GET",
     "path": "/location/admin/status"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.rides.controller.RideOfferController",
+    "handlerMethod": "getVisibleOffers",
+    "httpMethod": "GET",
+    "path": "/rides/offers"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.rides.controller.RideOfferController",
+    "handlerMethod": "getMyOffers",
+    "httpMethod": "GET",
+    "path": "/rides/offers/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.rides.controller.RideOfferController",
+    "handlerMethod": "createOffer",
+    "httpMethod": "POST",
+    "path": "/rides/offers"
   },
   {
     "controllerClass": "com.themuffinman.app.social.controller.CircleController",
@@ -280,6 +322,30 @@
     "handlerMethod": "unblockCircleUser",
     "httpMethod": "DELETE",
     "path": "/circles/blocks/{userId}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.things.controller.ThingSharingController",
+    "handlerMethod": "getAvailableListings",
+    "httpMethod": "GET",
+    "path": "/things/listings"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.things.controller.ThingSharingController",
+    "handlerMethod": "getMyListings",
+    "httpMethod": "GET",
+    "path": "/things/listings/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.things.controller.ThingSharingController",
+    "handlerMethod": "createListing",
+    "httpMethod": "POST",
+    "path": "/things/listings"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.things.controller.ThingSharingController",
+    "handlerMethod": "requestBorrow",
+    "httpMethod": "POST",
+    "path": "/things/listings/{listingId}/borrow-requests"
   },
   {
     "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",

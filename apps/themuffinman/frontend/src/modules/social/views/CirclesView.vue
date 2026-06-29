@@ -5,7 +5,7 @@ import CirclesConnectionsPanel from "../components/circles/CirclesConnectionsPan
 import CirclesDirectoryPanel from "../components/circles/CirclesDirectoryPanel.vue"
 import CirclesInboxPanel from "../components/circles/CirclesInboxPanel.vue"
 import UserProfileDialog from "../components/profile/UserProfileDialog.vue"
-import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
+import UiAppShellPage from "../../../components/ui/UiAppShellPage.vue"
 import UiPagination from "../../../components/ui/UiPagination.vue"
 import UiSurfaceSection from "../../../components/ui/UiSurfaceSection.vue"
 import UiStatusBanner from "../../../components/ui/UiStatusBanner.vue"
@@ -79,7 +79,7 @@ const {
 </script>
 
 <template>
-  <UiDashboardPage>
+  <UiAppShellPage>
         <section class="surface-stack">
           <UiStatusBanner :message="message" :tone="messageTone" />
 
@@ -285,5 +285,5 @@ const {
             @close="dashboard.closeUserProfileDialog()"
           />
         </section>
-  </UiDashboardPage>
+  </UiAppShellPage>
 </template>

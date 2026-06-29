@@ -1,7 +1,6 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.social.model.CircleGroup;
 import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.workmarket.model.Quest;
@@ -16,13 +15,14 @@ import java.util.List;
 public class QuestVisibilityService {
 
     private final CircleService circleService;
+    private final QuestAccessPolicyService questAccessPolicyService;
 
     public boolean canViewQuest(AppUser currentUser, Quest quest) {
         if (currentUser == null || quest == null) {
             return false;
         }
 
-        if (isAdmin(currentUser) || quest.getCreator().getId().equals(currentUser.getId())) {
+        if (questAccessPolicyService.canManageQuest(quest, currentUser)) {
             return true;
         }
 
@@ -43,7 +43,4 @@ public class QuestVisibilityService {
         return circleService.getOwnedCirclesByIds(owner, circleIds);
     }
 
-    private boolean isAdmin(AppUser user) {
-        return user != null && user.getRole() == AppUserRole.ADMIN;
-    }
 }

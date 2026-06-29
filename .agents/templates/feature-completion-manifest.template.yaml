@@ -9,6 +9,30 @@ changeProfiles:
 planFile: .agents/sample-feature-plan.md
 summary:
   - Replace this with a short completion summary.
+validationEvidence:
+  commands:
+    - command: replace-with-command
+      scope: local-tooling
+      result: skipped
+      summary: Replace this with the command result or skip summary.
+      skippedReason: Replace this when result is skipped or not_applicable.
+generatedArtifacts:
+  refreshedPaths: []
+  notApplicableReason: Replace this if no generated artifacts were refreshed.
+planCompletion:
+  reviewed: false
+  openTasks: 1
+  summary: Replace this with the final plan state.
+closeoutDecision:
+  status: deferred
+  reason: Replace this with the closeout decision.
+docDelta:
+  behaviorChanged:
+    - Replace this with the behavior, workflow, permission, contract, or automation meaning that changed.
+  docsUpdated:
+    - Replace this with each living doc or generated artifact updated for the change.
+  intentionallyUnchanged:
+    - Replace this with related docs, workflows, contracts, or generated artifacts reviewed but left unchanged.
 backlog:
   reviewed: false
   createdIds: []

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-28T20:30:23Z",
+  "generated_at": "2026-06-29T12:47:28Z",
   "files": [
     {
       "file": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
@@ -247,8 +247,18 @@
       "inline_style_refs": 0
     },
     {
+      "file": "apps/themuffinman/frontend/src/styles/business.css",
+      "token_refs": 7,
+      "inline_style_refs": 0
+    },
+    {
       "file": "apps/themuffinman/frontend/src/styles/calendar.css",
       "token_refs": 22,
+      "inline_style_refs": 0
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/styles/chat-module.css",
+      "token_refs": 3,
       "inline_style_refs": 0
     },
     {
@@ -299,6 +309,16 @@
     {
       "file": "apps/themuffinman/frontend/src/styles/profile.css",
       "token_refs": 4,
+      "inline_style_refs": 0
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/styles/rides.css",
+      "token_refs": 1,
+      "inline_style_refs": 0
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/styles/things.css",
+      "token_refs": 1,
       "inline_style_refs": 0
     },
     {

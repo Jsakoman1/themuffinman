@@ -35,6 +35,7 @@ public class LocationSettingsService {
     private final CircleService circleService;
     private final AppUserRepository appUserRepository;
     private final LocationLookupService locationLookupService;
+    private final LocationAccessPolicyService locationAccessPolicyService;
 
     public UserLocationSettingsDTO toDto(AppUser user) {
         return UserLocationSettingsDTO.builder()
@@ -175,7 +176,7 @@ public class LocationSettingsService {
         return switch (visibility) {
             case OFF -> null;
             case APPROXIMATE -> buildApproximateQuestLocationLabel(quest);
-            case EXACT -> canViewerSeeExactLocation(quest.getCreator(), viewer)
+            case EXACT -> locationAccessPolicyService.canViewExactLocation(quest.getCreator(), viewer)
                     ? buildExactQuestLocationLabel(quest)
                     : buildApproximateQuestLocationLabel(quest);
             case INHERIT -> null;
@@ -193,7 +194,7 @@ public class LocationSettingsService {
         return switch (visibility) {
             case OFF -> "Location hidden";
             case APPROXIMATE -> "Approximate area shown";
-            case EXACT -> canViewerSeeExactLocation(quest.getCreator(), viewer)
+            case EXACT -> locationAccessPolicyService.canViewExactLocation(quest.getCreator(), viewer)
                     ? "Exact address shown"
                     : "Approximate area shown";
             case INHERIT -> "Location follows profile setting";
@@ -458,30 +459,6 @@ public class LocationSettingsService {
         quest.setLocationLatitude(null);
         quest.setLocationLongitude(null);
         quest.setLocationResolvedAt(null);
-    }
-
-    private boolean canViewerSeeExactLocation(AppUser owner, AppUser viewer) {
-        if (owner == null) {
-            return false;
-        }
-        if (viewer != null && owner.getId().equals(viewer.getId())) {
-            return true;
-        }
-
-        ExactLocationVisibilityScope scope = owner.getExactLocationVisibilityScope() == null
-                ? ExactLocationVisibilityScope.NOBODY
-                : owner.getExactLocationVisibilityScope();
-
-        return switch (scope) {
-            case NOBODY -> false;
-            case EVERYONE -> true;
-            case CIRCLES -> viewer != null && owner.getExactLocationVisibleToCircles().stream()
-                    .map(circle -> circle.getId())
-                    .anyMatch(circleId -> circleMembershipService.isCircleMember(circleId, viewer.getId()));
-            case USERS -> viewer != null && owner.getExactLocationVisibleToUsers().stream()
-                    .map(AppUser::getId)
-                    .anyMatch(userId -> userId.equals(viewer.getId()));
-        };
     }
 
     private QuestLocationVisibility resolveEffectiveQuestLocationVisibility(Quest quest) {

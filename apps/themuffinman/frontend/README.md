@@ -9,9 +9,13 @@ The first implemented module inside this app is the work marketplace.
 Run from `apps/themuffinman/frontend`:
 - `npm install`
 - `npm run dev`
+- `npm run generate:contracts`
+- `npm run validate:contracts`
 - `npm run build`
 - `npm run preview`
 - `npm run type-check`
+
+`npm run build` runs the contract freshness check before Vite so stale generated DTO contracts fail the normal frontend build.
 
 ## Main Responsibilities
 

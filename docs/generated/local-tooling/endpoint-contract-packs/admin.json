@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-28T21:02:37Z",
+  "generated_at": "2026-06-29T12:47:29Z",
   "endpoint_family": "admin",
   "endpoints": [
     {
@@ -206,6 +206,12 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
+      "matched_paths": [
+        "applications"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
       "matched_paths": [
         "applications"
       ]

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-28T20:30:19Z",
+  "generated_at": "2026-06-29T12:47:18Z",
   "features": [
     {
       "feature": "AdminAgent",
@@ -13,6 +13,11 @@
     },
     {
       "feature": "Auth",
+      "in_agent_model": true,
+      "in_simulation": true
+    },
+    {
+      "feature": "BusinessProfile",
       "in_agent_model": true,
       "in_simulation": true
     },
@@ -48,6 +53,16 @@
     },
     {
       "feature": "QuestNews",
+      "in_agent_model": true,
+      "in_simulation": true
+    },
+    {
+      "feature": "RideOffer",
+      "in_agent_model": true,
+      "in_simulation": true
+    },
+    {
+      "feature": "ThingSharing",
       "in_agent_model": true,
       "in_simulation": true
     },

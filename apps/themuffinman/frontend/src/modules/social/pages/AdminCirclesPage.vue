@@ -4,7 +4,7 @@ import AdminShellHeader from "../../workmarket/components/admin/AdminShellHeader
 import UiAdminPageSection from "../../../components/ui/UiAdminPageSection.vue"
 import UiAdminTableShell from "../../../components/ui/UiAdminTableShell.vue"
 import UiAdminTableSection from "../../../components/ui/UiAdminTableSection.vue"
-import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
+import UiAppShellPage from "../../../components/ui/UiAppShellPage.vue"
 import UiFieldGroup from "../../../components/ui/UiFieldGroup.vue"
 import UiFilterBar from "../../../components/ui/UiFilterBar.vue"
 import UiToast from "../../../components/ui/UiToast.vue"
@@ -93,7 +93,7 @@ useDebouncedWatch(searchQuery, () => {
 </script>
 
 <template>
-  <UiDashboardPage admin>
+  <UiAppShellPage admin>
         <AdminShellHeader
           title="Circles"
           subtitle=""
@@ -181,5 +181,5 @@ useDebouncedWatch(searchQuery, () => {
             </UiAdminTableSection>
           </div>
         </UiAdminPageSection>
-  </UiDashboardPage>
+  </UiAppShellPage>
 </template>

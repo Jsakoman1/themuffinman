@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-28T20:30:13Z",
+  "generated_at": "2026-06-29T12:47:10Z",
   "artifact_count": 5,
   "stale_count": 0,
   "artifacts": [
@@ -8,10 +8,10 @@
       "artifact": "docs/generated/agent-endpoint-inventory.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-06-28T13:49:58Z",
-      "newest_source": "scripts/generate-agent-endpoint-inventory.rb",
-      "newest_source_mtime": "2026-06-28T13:36:24Z",
-      "source_count": 15,
+      "artifact_mtime": "2026-06-29T06:13:17Z",
+      "newest_source": "docs/agent-operating-model/sections/intents.yaml",
+      "newest_source_mtime": "2026-06-29T06:07:35Z",
+      "source_count": 18,
       "regenerate_command": "ruby scripts/generate-agent-endpoint-inventory.rb"
     },
     {
@@ -19,10 +19,10 @@
       "artifact": "docs/generated/automation-read-model-inventory.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-06-28T13:49:58Z",
-      "newest_source": "scripts/generate-automation-read-model-inventory.rb",
-      "newest_source_mtime": "2026-06-28T13:36:24Z",
-      "source_count": 113,
+      "artifact_mtime": "2026-06-29T07:28:22Z",
+      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java",
+      "newest_source_mtime": "2026-06-29T06:53:47Z",
+      "source_count": 126,
       "regenerate_command": "ruby scripts/generate-automation-read-model-inventory.rb"
     },
     {
@@ -30,10 +30,10 @@
       "artifact": "docs/generated/source-of-truth-audit.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-06-28T19:43:51Z",
-      "newest_source": "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
-      "newest_source_mtime": "2026-06-28T19:38:44Z",
-      "source_count": 294,
+      "artifact_mtime": "2026-06-29T10:39:57Z",
+      "newest_source": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+      "newest_source_mtime": "2026-06-29T10:39:15Z",
+      "source_count": 357,
       "regenerate_command": "ruby scripts/generate-source-of-truth-audit.rb"
     },
     {
@@ -41,10 +41,10 @@
       "artifact": "docs/generated/backend-audit-inventory.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-06-28T19:43:51Z",
-      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-      "newest_source_mtime": "2026-06-28T19:38:44Z",
-      "source_count": 257,
+      "artifact_mtime": "2026-06-29T08:32:31Z",
+      "newest_source": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+      "newest_source_mtime": "2026-06-29T08:32:25Z",
+      "source_count": 307,
       "regenerate_command": "ruby scripts/generate-backend-audit-inventory.rb"
     },
     {
@@ -52,10 +52,10 @@
       "artifact": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-06-28T19:43:51Z",
-      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-      "newest_source_mtime": "2026-06-28T19:38:44Z",
-      "source_count": 367,
+      "artifact_mtime": "2026-06-29T07:28:37Z",
+      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
+      "newest_source_mtime": "2026-06-29T07:27:24Z",
+      "source_count": 430,
       "regenerate_command": "node apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs"
     }
   ]

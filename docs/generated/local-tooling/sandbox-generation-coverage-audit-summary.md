@@ -1,6 +1,6 @@
 # Sandbox Generation Coverage Audit
 
-- Generated At: `2026-06-28T20:30:21Z`
+- Generated At: `2026-06-29T12:47:24Z`
 ## `entities`
 
 - `{:entity: "ActionResult", :sandbox_or_synthetic_mentioned: true}`

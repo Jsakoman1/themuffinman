@@ -386,6 +386,61 @@ api:
     path: "/chat/conversations/{conversationId}/read"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: markConversationRead
+  - id: get_business_profiles
+    method: GET
+    path: "/business/profiles"
+    controller_class: com.themuffinman.app.business.controller.BusinessProfileController
+    handler_method: getDirectory
+  - id: get_my_business_profile
+    method: GET
+    path: "/business/profiles/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessProfileController
+    handler_method: getMyProfile
+  - id: save_my_business_profile
+    method: PUT
+    path: "/business/profiles/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessProfileController
+    handler_method: saveMyProfile
+  - id: get_business_profile_by_slug
+    method: GET
+    path: "/business/profiles/{slug}"
+    controller_class: com.themuffinman.app.business.controller.BusinessProfileController
+    handler_method: getProfileBySlug
+  - id: get_thing_listings
+    method: GET
+    path: "/things/listings"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: getAvailableListings
+  - id: get_my_thing_listings
+    method: GET
+    path: "/things/listings/me"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: getMyListings
+  - id: create_thing_listing
+    method: POST
+    path: "/things/listings"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: createListing
+  - id: request_borrow_thing
+    method: POST
+    path: "/things/listings/{listingId}/borrow-requests"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: requestBorrow
+  - id: get_ride_offers
+    method: GET
+    path: "/rides/offers"
+    controller_class: com.themuffinman.app.rides.controller.RideOfferController
+    handler_method: getVisibleOffers
+  - id: get_my_ride_offers
+    method: GET
+    path: "/rides/offers/me"
+    controller_class: com.themuffinman.app.rides.controller.RideOfferController
+    handler_method: getMyOffers
+  - id: create_ride_offer
+    method: POST
+    path: "/rides/offers"
+    controller_class: com.themuffinman.app.rides.controller.RideOfferController
+    handler_method: createOffer
   - id: chat_presence_heartbeat
     method: POST
     path: "/chat/presence/heartbeat"

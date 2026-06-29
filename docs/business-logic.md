@@ -2,11 +2,16 @@
 
 This document explains the product in user-facing terms. It is meant to stay aligned with the code and serve as a future FAQ source for humans and chatbots.
 
+For stable cross-module terminology, start with `docs/cross-domain-glossary.md`.
+
 ## Scope
 
 Current covered modules:
 - identity and profiles
 - work marketplace
+- business hub
+- thing sharing
+- voluntary car sharing
 - circles and relationships
 - chat between circle contacts
 - location-aware quest flows
@@ -133,6 +138,7 @@ Current covered modules:
 - Exact user location can only be shared with existing circle contacts when the selected-people mode is used.
 - Circle-based exact sharing depends on circles owned by the location owner.
 - Quest exact-location visibility is derived from the creator's location-sharing rules when the quest asks for exact display.
+- Exact-location access is a backend policy decision that always allows the owner, then applies the configured scope.
 
 ### Provider metrics and audit
 
@@ -146,12 +152,15 @@ Current covered modules:
 
 - These are the cross-module rules that keep API behavior, input cleanup, auth wiring, and operational jobs consistent.
 - They are not one business module on their own, but they shape how every module behaves.
+- Shared backend concepts now define reusable actor identity, ownership, circle-visibility selection, and scheduling-window rules so modules do not copy these basics as the product grows.
+- Lightweight backend domain events separate mutation workflows from cross-cutting side effects such as workmarket news notifications, while keeping delivery synchronous for current local behavior.
 
 ### API and validation contract
 
 - Backend services raise consistent HTTP-style business errors such as bad request, forbidden, conflict, not found, and unauthorized.
 - Validation errors are returned in a structured API error format with optional field-level details.
 - Malformed JSON and invalid request parameter types are normalized into readable bad-request responses.
+- Complex read surfaces use backend-named fetch profiles so dashboard, quest detail, application detail, and thing-sharing views receive complete DTO data without client-side reconstruction.
 
 ### Input cleanup and rich text rules
 
@@ -190,6 +199,7 @@ Current covered modules:
 - Sandbox flow may create synthetic users, synthetic applications, and synthetic lifecycle progress for testing.
 - Sandbox flow must never be silently mixed into normal user-facing commands.
 - Synthetic entities should stay clearly marked so they can be recognized as non-real data later.
+- Sandbox-generation planning is kept in a separate backend package from production admin planning, and it still only contributes safe planning warnings and workflows rather than executing mutations.
 
 ### Example sandbox use
 
@@ -202,6 +212,7 @@ Current covered modules:
 - Admins can use a lightweight agent playground to try prompts against a backend planning surface.
 - The current playground is for safe prompt and workflow testing only.
 - It does not execute mutations and it does not rely on the ChatGPT consumer app.
+- Production admin prompt planning and sandbox-generation planning are structurally separate so synthetic test-data rules stay auditable.
 - The playground now runs a translation layer before workflow classification so prompts do not have to be written only in English.
 - Local fallback translation is intentionally limited and mainly covers known planning phrases, while broader language support depends on a backend-managed provider.
 - The planner now also returns structured resolution, clarification, and execution-readiness contracts instead of only free-form warnings.
@@ -220,6 +231,7 @@ Current covered modules:
 - Chat is the direct messaging layer between connected users.
 - It is built on top of accepted social relationships, not on free platform-wide messaging.
 - It provides conversation summaries, message history, presence, websocket updates, and retention cleanup.
+- The `/chat` module route is now a standalone workspace for conversation, contact, unread, and online-contact overview.
 
 ### Main surfaces
 
@@ -264,6 +276,7 @@ Current covered modules:
 - Chat workspace only includes current accepted circle contacts.
 - Contact and conversation read models now expose deterministic resolution hints for future agent-safe chat targeting.
 - The workspace is already shaped for UI consumption and is not just a raw join of tables.
+- The same workspace DTO backs the standalone `/chat` module route as well as the shared app-shell chat experience.
 
 ### Presence and realtime
 
@@ -401,6 +414,7 @@ Current covered modules:
 - An admin can do the same and can also reassign creator ownership when editing.
 - An applicant can create, edit, withdraw, and view their own application while it is still pending.
 - An approved worker can confirm or reject certain quest term changes.
+- Quest and application permissions are backend policy decisions, not frontend-only checks.
 
 ### Quest visibility
 
@@ -426,6 +440,7 @@ Current covered modules:
 ### Dashboard
 
 - The dashboard groups the user's own quests, available quests, applications, recent news, circles, and admin-only user lists.
+- Dashboard navigation labels and tab descriptions are included in backend-prepared sections so clients render the screen contract instead of duplicating dashboard copy rules.
 - Summary counters are used to show open quests, assigned quests, waiting confirmation quests, active work, and unread news.
 - For admins, the dashboard also exposes broader user management context.
 
@@ -514,6 +529,7 @@ Current covered modules:
 - If unexpected applicants appear outside the intended selected worker set, the safe automation path is to leave them for manual review or decline them explicitly, never to approve them by mistake.
 - If the owner later changes the time after assignment or while work is active, that change can pause into worker confirmation flow instead of applying immediately.
 - After the quest is completed, the workflow can hand off into employer-worker review creation, but only for real approved participants of that quest.
+- Workflow state-machine contracts for quests, applications, circle relations, chat access, thing borrowing, and future bookings are cataloged in `docs/workflow-state-machines.yaml`.
 
 ### Dashboard and notifications
 
@@ -553,6 +569,72 @@ Current covered modules:
 - Workmarket depends on shared platform rules for validation errors, rich-text sanitization, normalized search handling, and paginated list contracts.
 - Workmarket also feeds other modules: user profiles reuse open-quest and review summaries, and chat or future assistants can rely on quest DTOs as the canonical task representation.
 
+## Business Hub
+
+### What the module does
+
+- Business Hub lets an authenticated user publish one business profile tied to their account.
+- Active business profiles appear in a directory and can be opened as a simple mini-site style profile.
+- Appointment booking, calendars, and service catalogs are not implemented in this first slice yet.
+
+### Main surfaces
+
+- Business directory
+- Public business mini-site profile
+- Current user's business profile editor
+
+### Business profile rules
+
+- Each account can own at most one business profile.
+- Business name is required.
+- Slug is unique across business profiles and may be auto-generated from the business name when left blank.
+- Inactive profiles stay editable by their owner but do not appear in the public directory or public slug lookup.
+- Business descriptions are sanitized before being returned.
+
+## Thing Sharing
+
+### What the module does
+
+- Thing Sharing lets authenticated users list items they are willing to lend.
+- Other users can browse available things and send one pending borrow request per thing.
+- Owner-side approval, scheduling, handoff, and return tracking are not implemented in this first slice yet.
+
+### Main surfaces
+
+- Available things directory
+- Current user's lending listings
+- Borrow request action for available listings
+
+### Thing sharing rules
+
+- Listing title is required.
+- Listing descriptions are sanitized before being returned.
+- Owners cannot request to borrow their own things.
+- Borrow requests require the listing to be currently available.
+- A borrower can have only one pending request for the same thing.
+
+## Voluntary Car Sharing
+
+### What the module does
+
+- Voluntary Car Sharing lets an authenticated user publish a ride offer with origin, destination, departure time, and seat count.
+- Ride offers can be public to authenticated users or scoped to circles owned by the driver.
+- Passenger reservation, approval, cancellation, and trip completion are not implemented in this first slice yet.
+
+### Main surfaces
+
+- Visible ride offer list
+- Current user's ride offers
+- Ride offer creation form
+
+### Ride sharing rules
+
+- Origin, destination, departure time, and seat count are required.
+- Departure time must be in the future.
+- Seat count must stay between 1 and 8.
+- Circle-scoped visibility can only reference circles owned by the driver.
+- Ride notes are sanitized before being returned.
+
 ## Frontend and API contract shape
 
 ### What the frontend treats as source of truth
@@ -560,6 +642,7 @@ Current covered modules:
 - The frontend does not hand-maintain most DTO shapes; it imports generated contracts from the shared contract layer.
 - Module API files are thin wrappers over backend endpoints, not a second business-logic layer.
 - Shared axios and API-error helpers define how auth headers and backend error messages surface to the UI.
+- The generated frontend contract is checked during the normal frontend build, so backend DTO or agent-model changes must refresh the contract before the build passes.
 
 ### Route and page model
 
@@ -569,6 +652,7 @@ Current covered modules:
 - `/users/:id` and `/settings` are the main profile and profile-settings routes.
 - `/admin/work`, `/admin/quests`, `/admin/users`, `/admin/applications`, and `/admin/circles` are the admin workspaces.
 - Logged-in admins are redirected away from the normal `/work` route to the admin workspace.
+- Authenticated module pages use the shared app shell page surface so work, social, business, things, rides, chat, and admin pages share one layout contract instead of per-module page wrappers.
 
 ### API client model
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue"
 import {getApiErrorMessage} from "../../../api/apiErrors.ts"
-import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
+import UiAppShellPage from "../../../components/ui/UiAppShellPage.vue"
 import UiInfoGrid from "../../../components/ui/UiInfoGrid.vue"
 import UiStatCard from "../../../components/ui/UiStatCard.vue"
 import UiSurfaceSection from "../../../components/ui/UiSurfaceSection.vue"
@@ -79,7 +79,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <UiDashboardPage admin>
+  <UiAppShellPage admin>
     <AdminShellHeader title="Overview" subtitle="" />
 
     <div v-if="isLoading" class="empty-state">
@@ -178,5 +178,5 @@ onMounted(() => {
         </UiSurfaceSection>
       </div>
     </div>
-  </UiDashboardPage>
+  </UiAppShellPage>
 </template>

@@ -6,6 +6,7 @@ import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.workmarket.dto.UserReviewRequestDTO;
+import com.themuffinman.app.workmarket.mapper.QuestApplicationMgr;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
@@ -43,6 +44,9 @@ class QuestWorkflowScenarioTest {
     private QuestApplicationRepository questApplicationRepository;
 
     @Autowired
+    private QuestApplicationMgr questApplicationMgr;
+
+    @Autowired
     private UserReviewRepository userReviewRepository;
 
     @Autowired
@@ -66,15 +70,15 @@ class QuestWorkflowScenarioTest {
                 worker
         );
 
-        QuestApplication application = questApplicationRepository.findByQuestIdAndApplicantId(quest.getId(), worker.getId()).orElseThrow();
+        QuestApplication application = questApplicationRepository.findForViewerApplication(quest.getId(), worker.getId()).orElseThrow();
         questApplicationService.approveApplication(quest.getId(), application.getId(), owner);
-        assertEquals(QuestStatus.ASSIGNED, questRepository.findByIdWithCreator(quest.getId()).orElseThrow().getStatus());
+        assertEquals(QuestStatus.ASSIGNED, questRepository.findForQuestDetail(quest.getId()).orElseThrow().getStatus());
 
         questService.startQuest(quest.getId(), owner);
-        assertEquals(QuestStatus.IN_PROGRESS, questRepository.findByIdWithCreator(quest.getId()).orElseThrow().getStatus());
+        assertEquals(QuestStatus.IN_PROGRESS, questRepository.findForQuestDetail(quest.getId()).orElseThrow().getStatus());
 
         questService.completeQuest(quest.getId(), worker);
-        Quest completedQuest = questRepository.findByIdWithCreator(quest.getId()).orElseThrow();
+        Quest completedQuest = questRepository.findForQuestDetail(quest.getId()).orElseThrow();
         assertEquals(QuestStatus.COMPLETED, completedQuest.getStatus());
 
         UserReviewRequestDTO reviewRequest = new UserReviewRequestDTO();
@@ -108,13 +112,13 @@ class QuestWorkflowScenarioTest {
                 owner
         );
 
-        Quest waitingQuest = questRepository.findByIdWithCreator(quest.getId()).orElseThrow();
+        Quest waitingQuest = questRepository.findForQuestDetail(quest.getId()).orElseThrow();
         assertEquals(QuestStatus.WAITING_CONFIRMATION, waitingQuest.getStatus());
         assertNotNull(waitingQuest.getPendingScheduledAt());
 
         questService.confirmQuestTermChange(quest.getId(), worker);
 
-        Quest confirmedQuest = questRepository.findByIdWithCreator(quest.getId()).orElseThrow();
+        Quest confirmedQuest = questRepository.findForQuestDetail(quest.getId()).orElseThrow();
         assertEquals(QuestStatus.ASSIGNED, confirmedQuest.getStatus());
         assertEquals(updatedStart, confirmedQuest.getScheduledAt());
         assertEquals(updatedEnd, confirmedQuest.getEndsAt());
@@ -143,7 +147,7 @@ class QuestWorkflowScenarioTest {
 
         questService.rejectQuestTermChange(quest.getId(), worker);
 
-        Quest rejectedQuest = questRepository.findByIdWithCreator(quest.getId()).orElseThrow();
+        Quest rejectedQuest = questRepository.findForQuestDetail(quest.getId()).orElseThrow();
         assertEquals(QuestStatus.ASSIGNED, rejectedQuest.getStatus());
         assertEquals(originalStart, rejectedQuest.getScheduledAt());
         assertNull(rejectedQuest.getPendingScheduledAt());
@@ -182,6 +186,33 @@ class QuestWorkflowScenarioTest {
         assertEquals("Free pickup", detail.getMyApplication().getQuestTitle());
     }
 
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    void questApplicationFetchProfilesMapOutsideOuterTransaction() {
+        AppUser owner = saveUser("owner-application-fetch");
+        AppUser worker = saveUser("worker-application-fetch");
+
+        Quest quest = questService.createQuest(questRequest("Fetch profile quest", Instant.parse("2026-07-08T10:00:00Z")), owner);
+        questApplicationService.applyForQuest(
+                quest.getId(),
+                QuestApplicationRequestDTO.builder().message("I can help").proposedPrice(BigDecimal.valueOf(50)).build(),
+                worker
+        );
+        QuestApplication pendingApplication = questApplicationRepository.findForViewerApplication(quest.getId(), worker.getId()).orElseThrow();
+        questApplicationService.approveApplication(quest.getId(), pendingApplication.getId(), owner);
+
+        var byQuestDto = questApplicationMgr.toDto(questApplicationRepository.findForQuestApplicationManagement(quest.getId()).getFirst());
+        var byStatusDto = questApplicationMgr.toDto(questApplicationRepository.findForQuestApplicationsByStatus(quest.getId(), QuestApplicationStatus.APPROVED).getFirst());
+        var adminDto = questApplicationMgr.toDto(questApplicationRepository.findForAdminApplicationList().stream()
+                .filter(application -> application.getId().equals(pendingApplication.getId()))
+                .findFirst()
+                .orElseThrow());
+
+        assertEquals(owner.getUsername(), byQuestDto.getQuestCreatorUsername());
+        assertEquals(worker.getUsername(), byStatusDto.getApplicantUsername());
+        assertEquals("Fetch profile quest", adminDto.getQuestTitle());
+    }
+
     private Quest createAssignedQuest(AppUser owner, AppUser worker, String title) {
         Quest quest = questService.createQuest(questRequest(title, Instant.parse("2026-07-04T10:00:00Z")), owner);
         questApplicationService.applyForQuest(
@@ -189,9 +220,9 @@ class QuestWorkflowScenarioTest {
                 QuestApplicationRequestDTO.builder().message("Ready to help").proposedPrice(BigDecimal.valueOf(50)).build(),
                 worker
         );
-        QuestApplication application = questApplicationRepository.findByQuestIdAndApplicantId(quest.getId(), worker.getId()).orElseThrow();
+        QuestApplication application = questApplicationRepository.findForViewerApplication(quest.getId(), worker.getId()).orElseThrow();
         questApplicationService.approveApplication(quest.getId(), application.getId(), owner);
-        return questRepository.findByIdWithCreator(quest.getId()).orElseThrow();
+        return questRepository.findForQuestDetail(quest.getId()).orElseThrow();
     }
 
     private QuestRequestDTO questRequest(String title, Instant scheduledAt) {

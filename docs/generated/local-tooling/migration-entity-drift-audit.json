@@ -1,7 +1,16 @@
 {
-  "generated_at": "2026-06-28T21:02:37Z",
-  "migration_count": 30,
+  "generated_at": "2026-06-29T12:47:33Z",
+  "migration_count": 33,
   "entities": [
+    {
+      "entity": "BusinessProfile",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java",
+      "table": "business_profile",
+      "table_in_migration": true,
+      "fields_without_obvious_migration_match": [
+
+      ]
+    },
     {
       "entity": "ChatConversation",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatConversation.java",
@@ -49,6 +58,15 @@
       ]
     },
     {
+      "entity": "RideOffer",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java",
+      "table": "ride_offer",
+      "table_in_migration": true,
+      "fields_without_obvious_migration_match": [
+        "visibleCircles"
+      ]
+    },
+    {
       "entity": "CircleGroup",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/model/CircleGroup.java",
       "table": "circle_group",
@@ -70,6 +88,24 @@
       "entity": "CircleRequest",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/model/CircleRequest.java",
       "table": "circle_request",
+      "table_in_migration": true,
+      "fields_without_obvious_migration_match": [
+
+      ]
+    },
+    {
+      "entity": "ThingBorrowRequest",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequest.java",
+      "table": "thing_borrow_request",
+      "table_in_migration": true,
+      "fields_without_obvious_migration_match": [
+
+      ]
+    },
+    {
+      "entity": "ThingListing",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingListing.java",
+      "table": "thing_listing",
       "table_in_migration": true,
       "fields_without_obvious_migration_match": [
 
@@ -122,6 +158,15 @@
       "fields_without_obvious_migration_match": [
         "exactLocationVisibleToCircles",
         "exactLocationVisibleToUsers"
+      ]
+    },
+    {
+      "entity": "RideOffer",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java",
+      "table": "ride_offer",
+      "table_in_migration": true,
+      "fields_without_obvious_migration_match": [
+        "visibleCircles"
       ]
     },
     {

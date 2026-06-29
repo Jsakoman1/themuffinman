@@ -1,0 +1,120 @@
+---
+docs_as_contract_slices:
+  - id: identity-account-admin-safety
+    domain: identity
+    docs:
+      - path: docs/business-logic.md
+        headings:
+          - "### User account management"
+          - "### Admin user detail"
+      - path: docs/domain-technical.md
+        headings:
+          - "## Identity Account Management Rules"
+          - "### Admin user detail"
+    protected_claim: Identity account and admin-detail behavior must keep duplicate email, self-delete, last-admin, profile sanitization, role-change, and non-admin access rules fail-closed.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=AppUserServiceTest,AdminUserDetailServiceTest,AuthControllerTest
+  - id: location-exact-visibility-policy
+    domain: location
+    docs:
+      - path: docs/business-logic.md
+        headings:
+          - "### Exact visibility and nearby discovery support"
+      - path: docs/domain-technical.md
+        headings:
+          - "### Exact visibility and nearby discovery support"
+          - "## Location Lookup Behavior"
+    protected_claim: Exact location visibility must be a backend policy decision that always allows owners, then applies circle, explicit-user, provider-disabled, and nearby-discovery rules.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=LocationAccessPolicyServiceTest,LocationLookupServiceTest
+  - id: social-chat-access-boundary
+    domain: chat
+    docs:
+      - path: docs/business-logic.md
+        headings:
+          - "### Conversation access and lifecycle"
+          - "### Cross-module role"
+      - path: docs/domain-technical.md
+        headings:
+          - "## Chat Conversation Access and Lifecycle"
+          - "## Social Relationship Lifecycle"
+    protected_claim: Chat eligibility must depend on current accepted social relation state, not pending requests, stale conversations, or blocked contacts.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=ChatServiceTest,CircleRelationServiceTest,CircleServiceTest
+  - id: workmarket-quest-workflow-contract
+    domain: workmarket
+    docs:
+      - path: docs/business-logic.md
+        headings:
+          - "### Quest lifecycle in plain language"
+          - "### Execution and term negotiation"
+      - path: docs/domain-technical.md
+        headings:
+          - "### Quest core"
+          - "### Execution and term negotiation"
+    protected_claim: Quest creation, mutation, execution, completion, and term negotiation must resolve targets, enforce authority and state, persist changes, and notify affected actors.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest
+  - id: workmarket-application-workflow-contract
+    domain: workmarket
+    docs:
+      - path: docs/business-logic.md
+        headings:
+          - "### Applications"
+      - path: docs/domain-technical.md
+        headings:
+          - "### Applications"
+    protected_claim: Application apply, edit, withdraw, approve, decline, and admin correction flows must enforce applicant, owner, status, pricing, and notification rules.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest
+  - id: sandbox-boundary-contract
+    domain: agent
+    docs:
+      - path: docs/business-logic.md
+        headings:
+          - "### Safety boundary"
+      - path: docs/agent-operating-model.md
+        headings:
+          - "## Sandbox Boundary"
+      - path: docs/domain-technical.md
+        headings:
+          - "## Internal sandbox notes"
+    protected_claim: Sandbox generation must stay structurally separate from production-like user actions and must not execute real mutations through normal user-facing flows.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=SandboxGenerationPlannerTest,AgentOperatingModelValidationTest
+  - id: shared-validation-rich-text-contract
+    domain: common
+    docs:
+      - path: docs/business-logic.md
+        headings:
+          - "### API and validation contract"
+          - "### Input cleanup and rich text rules"
+      - path: docs/domain-technical.md
+        headings:
+          - "## Common Contracts"
+    protected_claim: Shared validation, structured error, and rich-text sanitization behavior must remain centralized and consistent across modules.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/common/validation/RichTextInputValidatorTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=GlobalExceptionHandlerTest,RichTextInputValidatorTest

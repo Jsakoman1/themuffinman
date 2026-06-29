@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-28T20:30:21Z",
-  "file_count": 407,
+  "generated_at": "2026-06-29T12:47:24Z",
+  "file_count": 465,
   "groups": [
     {
       "domain": "chat",
@@ -48,6 +48,12 @@
       "domain": "chat",
       "owner": "frontend",
       "layer": "other",
+      "file_count": 1
+    },
+    {
+      "domain": "chat",
+      "owner": "frontend",
+      "layer": "view",
       "file_count": 1
     },
     {
@@ -132,37 +138,61 @@
       "domain": "location",
       "owner": "backend",
       "layer": "service",
-      "file_count": 6
+      "file_count": 7
     },
     {
       "domain": "shared",
       "owner": "backend",
       "layer": "controller",
-      "file_count": 2
+      "file_count": 5
     },
     {
       "domain": "shared",
       "owner": "backend",
       "layer": "dto",
-      "file_count": 18
+      "file_count": 29
+    },
+    {
+      "domain": "shared",
+      "owner": "backend",
+      "layer": "mapper",
+      "file_count": 3
+    },
+    {
+      "domain": "shared",
+      "owner": "backend",
+      "layer": "model",
+      "file_count": 5
     },
     {
       "domain": "shared",
       "owner": "backend",
       "layer": "other",
-      "file_count": 17
+      "file_count": 26
+    },
+    {
+      "domain": "shared",
+      "owner": "backend",
+      "layer": "repository",
+      "file_count": 4
     },
     {
       "domain": "shared",
       "owner": "backend",
       "layer": "service",
-      "file_count": 6
+      "file_count": 9
     },
     {
       "domain": "shared",
       "owner": "frontend",
       "layer": "other",
-      "file_count": 1
+      "file_count": 4
+    },
+    {
+      "domain": "shared",
+      "owner": "frontend",
+      "layer": "view",
+      "file_count": 3
     },
     {
       "domain": "social",
@@ -234,7 +264,7 @@
       "domain": "workmarket",
       "owner": "backend",
       "layer": "dto",
-      "file_count": 54
+      "file_count": 56
     },
     {
       "domain": "workmarket",
@@ -251,6 +281,12 @@
     {
       "domain": "workmarket",
       "owner": "backend",
+      "layer": "other",
+      "file_count": 2
+    },
+    {
+      "domain": "workmarket",
+      "owner": "backend",
       "layer": "repository",
       "file_count": 4
     },
@@ -258,7 +294,7 @@
       "domain": "workmarket",
       "owner": "backend",
       "layer": "service",
-      "file_count": 25
+      "file_count": 32
     },
     {
       "domain": "workmarket",
@@ -276,7 +312,7 @@
       "domain": "workmarket",
       "owner": "frontend",
       "layer": "other",
-      "file_count": 18
+      "file_count": 19
     },
     {
       "domain": "workmarket",

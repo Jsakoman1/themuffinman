@@ -17,6 +17,8 @@ documentation_coverage:
   - id: automation_services
     source_refs:
     - admin_agent_playground_service
+    - sandbox_generation_plan
+    - sandbox_generation_planner
     - local_admin_agent_prompt_translator
     - openai_admin_agent_client
     - auth_service
@@ -26,6 +28,7 @@ documentation_coverage:
     - dashboard_service
     - quest_service
     - quest_application_service
+    - quest_application_workflow_support
     - user_review_service
     - quest_news_service
     - quest_access_policy_service
@@ -42,7 +45,13 @@ documentation_coverage:
     - complete_quest_use_case
     - confirm_quest_term_change_use_case
     - reject_quest_term_change_use_case
+    - apply_for_quest_use_case
+    - update_my_application_use_case
+    - withdraw_my_application_use_case
+    - approve_application_use_case
+    - decline_application_use_case
     - location_settings_service
+    - location_access_policy_service
     - location_lookup_service
     - circle_relation_service
     - circle_service
@@ -79,6 +88,28 @@ documentation_coverage:
     - chat_socket_client_message_dto
     - chat_socket_event_dto
     - chat_workspace_dto
+  - id: business_contract_dtos
+    source_refs:
+    - business_profile_request_dto
+    - business_profile_response_dto
+    - business_profile_list_response_dto
+  - id: things_contract_dtos
+    source_refs:
+    - thing_listing_request_dto
+    - thing_borrow_request_dto
+    - thing_listing_response_dto
+    - thing_borrow_request_response_dto
+    - thing_listing_list_response_dto
+  - id: rides_contract_dtos
+    source_refs:
+    - ride_offer_request_dto
+    - ride_offer_response_dto
+    - ride_offer_list_response_dto
+  - id: module_mappers
+    source_refs:
+    - business_profile_mgr
+    - thing_sharing_mgr
+    - ride_offer_mgr
   - id: identity_contract_dtos
     source_refs:
     - admin_user_detail_dto
@@ -102,14 +133,116 @@ documentation_coverage:
     - quest_location_visibility_option_dto
     - user_location_settings_dto
     - user_location_settings_request_dto
+  - id: social_request_relation_contract_dtos
+    source_refs:
+    - bulk_circle_membership_action
+    - bulk_circle_membership_update_dto
+    - circle_block_create_dto
+    - circle_relation_dto
+    - circle_relation_status
+    - circle_request_create_dto
+    - circle_request_list_response_dto
+    - circle_request_response_dto
+    - connection_circle_update_dto
+  - id: social_overview_member_contract_dtos
+    source_refs:
+    - circle_group_response_dto
+    - circle_member_dto
+    - circle_overview_dto
+    - circle_summary_dto
+  - id: social_search_contact_contract_dtos
+    source_refs:
+    - circle_candidate_dto
+    - circle_connections_query_dto
+    - circle_contact_dto
+    - circle_contact_list_response_dto
+    - circle_search_result_dto
+    - circle_search_result_list_response_dto
+    - page_query_dto
+    - text_page_query_dto
+  - id: social_admin_circle_contract_dtos
+    source_refs:
+    - admin_circle_group_response_dto
+    - admin_circle_overview_dto
+    - admin_circle_relation_row_dto
+  - id: workmarket_dashboard_contract_dtos
+    source_refs:
+    - dashboard_application_group_dto
+    - dashboard_navigation_item_dto
+    - dashboard_navigation_section_dto
+    - dashboard_notification_destination_type
+    - dashboard_notification_item_dto
+    - dashboard_notifications_section_dto
+    - dashboard_open_work_section_dto
+    - dashboard_planner_item_dto
+    - dashboard_planner_section_dto
+    - dashboard_quest_group_dto
+    - dashboard_response_dto
+    - dashboard_sections_dto
+    - dashboard_summary_dto
+  - id: workmarket_quest_detail_contract_dtos
+    source_refs:
+    - quest_allowed_action
+    - quest_detail_execution_action
+    - quest_detail_execution_section_dto
+    - quest_detail_management_section_dto
+    - quest_detail_navigation_section_dto
+    - quest_detail_response_dto
+    - quest_detail_review_section_dto
+    - quest_detail_review_target_dto
+    - quest_detail_sections_dto
+    - quest_detail_term_change_section_dto
+    - quest_presentation_dto
+    - quest_viewer_relation
+  - id: workmarket_application_detail_contract_dtos
+    source_refs:
+    - application_allowed_action
+    - quest_application_detail_context_section_dto
+    - quest_application_detail_navigation_section_dto
+    - quest_application_detail_response_dto
+    - quest_application_detail_sections_dto
+    - quest_application_presentation_dto
+  - id: workmarket_list_search_options_contract_dtos
+    source_refs:
+    - admin_applications_query_dto
+    - app_user_role_option_dto
+    - quest_application_list_response_dto
+    - quest_application_response_dto
+    - quest_applications_view_dto
+    - quest_application_status_filter_option_dto
+    - quest_audience_filter_option_dto
+    - quest_audience_option_dto
+    - quest_list_preset
+    - quest_list_response_dto
+    - quest_response_dto
+    - quest_search_defaults_dto
+    - quest_search_request_dto
+    - quest_sort_option_dto
+    - quest_status_filter_option_dto
+    - quest_status_option_dto
+    - workmarket_options_dto
+  - id: workmarket_news_read_model_contract_dtos
+    source_refs:
+    - quest_news_destination_type
+    - quest_news_item_response_dto
+  - id: common_action_navigation_contract_dtos
+    source_refs:
+    - action_result_dto
+    - action_results
+    - label_value_dto
+    - navigation_target_dto
+    - navigation_target_type
   - id: automation_tests
     source_refs:
     - auth_service_test
     - request_dto_validation_test
     - quest_use_case_contract_test
+    - quest_application_use_case_contract_test
     - quest_workflow_scenario_test
     - agent_operating_scenario_test
     - agent_operating_model_validation_test
+    - repository_fetch_profile_contract_test
+    - workflow_state_machine_catalog_test
     - app_user_mgr_test
     - circle_service_test
     - chat_service_test
@@ -119,3 +252,4 @@ documentation_coverage:
     - admin_agent_playground_service_test
     - admin_agent_golden_prompt_matrix_test
     - admin_agent_capability_boundary_test
+    - sandbox_generation_planner_test

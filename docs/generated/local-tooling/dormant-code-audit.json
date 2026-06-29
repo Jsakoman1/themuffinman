@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-28T20:30:22Z",
+  "generated_at": "2026-06-29T12:47:25Z",
   "hits": [
     {
       "file": "apps/themuffinman/README.md",
@@ -2358,8 +2358,18 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
-      "line": 868,
+      "line": 916,
       "snippet": "placeholder: string"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "line": 158,
+      "snippet": "<input v-model=\"form.slug\" class=\"input\" maxlength=\"140\" placeholder=\"auto-generated if blank\" />"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "line": 86,
+      "snippet": "<input v-model=\"contactQuery\" class=\"input\" placeholder=\"Search contacts\" />"
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
@@ -2613,7 +2623,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "line": 79,
+      "line": 84,
       "snippet": "placeholder=\"Describe the agent task you want to test...\""
     },
     {
@@ -2633,33 +2643,8 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 343,
+      "line": 294,
       "snippet": ":price-placeholder=\"String(quest.awardAmount ?? '')\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/router.ts",
-      "line": 18,
-      "snippet": "const ModulePlaceholderView = () => import(\"./views/ModulePlaceholderView.vue\");"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/router.ts",
-      "line": 114,
-      "snippet": "component: ModulePlaceholderView,"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/router.ts",
-      "line": 124,
-      "snippet": "component: ModulePlaceholderView,"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/router.ts",
-      "line": 134,
-      "snippet": "component: ModulePlaceholderView,"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/router.ts",
-      "line": 144,
-      "snippet": "component: ModulePlaceholderView,"
     },
     {
       "file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
@@ -2668,7 +2653,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "line": 109,
+      "line": 114,
       "snippet": "warnings.add(\"Prompt translation is not yet reliable for this language without a configured external provider.\");"
     },
     {
@@ -2718,37 +2703,37 @@
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-      "line": 30,
+      "line": 31,
       "snippet": "StubAdminAgentTextProvider provider = new StubAdminAgentTextProvider();"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-      "line": 88,
+      "line": 94,
       "snippet": "private static class StubAdminAgentTextProvider extends OpenAiAdminAgentClient {"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-      "line": 92,
+      "line": 98,
       "snippet": "private StubAdminAgentTextProvider() {"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-      "line": 20,
+      "line": 21,
       "snippet": "private final StubAdminAgentTextProvider provider = new StubAdminAgentTextProvider();"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-      "line": 517,
+      "line": 522,
       "snippet": "private static class StubAdminAgentTextProvider extends OpenAiAdminAgentClient {"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-      "line": 519,
+      "line": 524,
       "snippet": "private String summary = \"stub\";"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-      "line": 523,
+      "line": 528,
       "snippet": "private StubAdminAgentTextProvider() {"
     },
     {
@@ -2758,23 +2743,48 @@
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-      "line": 836,
+      "line": 996,
       "snippet": "Path todoAuditScriptPath = repoRoot.resolve(\"scripts/todo-audit.rb\");"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-      "line": 844,
+      "line": 1004,
       "snippet": "assertTrue(Files.exists(todoAuditScriptPath), \"todo-audit.rb must exist\");"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-      "line": 1003,
+      "line": 1023,
+      "snippet": "\"feature completion manifest template must include skipped-check reason placeholder\");"
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+      "line": 1171,
+      "snippet": "assertTrue(hasPassedEvidence(validationEvidenceCommands, \"make audit-todo\"),"
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+      "line": 1172,
+      "snippet": "() -> \"Completed manifest must include passed make audit-todo evidence: \" + manifestPath);"
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+      "line": 1460,
       "snippet": "Path todoAuditScriptPath = repoRoot.resolve(\"scripts/todo-audit.rb\");"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-      "line": 1007,
+      "line": 1464,
       "snippet": "assertTrue(Files.exists(todoAuditScriptPath), \"scripts/todo-audit.rb must exist\");"
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/WorkflowStateMachineCatalogTest.java",
+      "line": 23,
+      "snippet": "private static final Set<String> PLACEHOLDER_INTENTS = Set.of(\"none\", \"future_booking_flow\");"
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/WorkflowStateMachineCatalogTest.java",
+      "line": 93,
+      "snippet": "if (!PLACEHOLDER_INTENTS.contains(intentId)) {"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
@@ -2823,7 +2833,7 @@
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-      "line": 676,
+      "line": 675,
       "snippet": "stubQuestViewerContext();"
     }
   ]

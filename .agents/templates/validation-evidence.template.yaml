@@ -1,0 +1,20 @@
+changeId: example-change
+status: draft
+recordedAt: unknown
+summary:
+  - Replace this entry with a short validation summary for the change.
+commands:
+  - command: ruby scripts/todo-audit.rb
+    scope: docs
+    result: not_applicable
+    ranAt: unknown
+    summary: Replace this example with an actual command result or remove it.
+    skippedReason: Template placeholder only.
+generatedArtifacts:
+  - path: docs/generated/source-of-truth-audit.json
+    action: not_applicable
+    result: not_applicable
+    ranAt: unknown
+    summary: Replace this example with an actual generated-artifact result or remove it.
+    skippedReason: Template placeholder only.
+skippedChecks: []

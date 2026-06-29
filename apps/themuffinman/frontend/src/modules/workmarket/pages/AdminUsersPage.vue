@@ -10,7 +10,7 @@ import UiFieldGroup from "../../../components/ui/UiFieldGroup.vue"
 import UiFilterBar from "../../../components/ui/UiFilterBar.vue"
 import UiConfirmDialog from "../../../components/ui/UiConfirmDialog.vue"
 import UiDialog from "../../../components/ui/UiDialog.vue"
-import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
+import UiAppShellPage from "../../../components/ui/UiAppShellPage.vue"
 import UiRequestError from "../../../components/ui/UiRequestError.vue"
 import UiToast from "../../../components/ui/UiToast.vue"
 import DetailDialogFrame from "../components/shared/DetailDialogFrame.vue"
@@ -25,7 +25,7 @@ useMountedAsync(usersPage.init)
 </script>
 
 <template>
-  <UiDashboardPage admin>
+  <UiAppShellPage admin>
         <AdminShellHeader
           title="Users"
           subtitle=""
@@ -136,5 +136,5 @@ useMountedAsync(usersPage.init)
           @close="usersPage.closeUserDetailDialog"
           @saved="usersPage.init"
         />
-  </UiDashboardPage>
+  </UiAppShellPage>
 </template>

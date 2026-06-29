@@ -1,0 +1,1048 @@
+{
+  "generated_at": "2026-06-29T12:26:40Z",
+  "original_file_count": 363,
+  "filtered_file_count": 191,
+  "excluded_file_count": 191,
+  "excluded_files_sample": [
+    {
+      "path": ".agents/agent-control-phase-two-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/agent-operating-refactor-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/agent-safety-enforcement-round2-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/agent-safety-upgrade-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/backend-audit-domain-tagging-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/backend-audit-identity-dto-tightening-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/backend-audit-location-dto-tightening-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/backend-audit-manifest-cleanup-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/backend-audit-tiering-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/backend-audit-tightening-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/executor-readiness-program-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/persistent-backlog-system-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/agent-endpoint-inventory.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/automation-read-model-inventory.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/backend-audit-inventory.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/backend-unused-summary.md",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/backend-unused.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/dead-code-summary-summary.md",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/dead-code-summary.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/frontend-unused-summary.md",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/frontend-unused.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.cache/audit-inputs.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/agent-model-feature-coverage-audit.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    }
+  ],
+  "changed_file_count": 172,
+  "categories": [
+    "backend_dto",
+    "backend_repository",
+    "backend_service",
+    "docs",
+    "frontend_api",
+    "frontend_composable",
+    "frontend_script",
+    "frontend_view",
+    "other",
+    "script"
+  ],
+  "domains": [
+    "agent",
+    "chat",
+    "common",
+    "identity",
+    "location",
+    "shared",
+    "social",
+    "workmarket"
+  ],
+  "files": [
+    ".agents/feature-manifests/agent-control-phase-two-manifest.yaml",
+    ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
+    ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml",
+    ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml",
+    ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+    ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+    ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+    ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+    ".agents/feature-manifests/backend-audit-tiering-manifest.yaml",
+    ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+    ".agents/feature-manifests/executor-readiness-program-manifest.yaml",
+    ".agents/feature-manifests/persistent-backlog-system-manifest.yaml",
+    ".agents/templates/feature-completion-manifest.template.yaml",
+    ".agents/templates/feature-implementation-plan.template.md",
+    ".gitignore",
+    "Makefile",
+    "apps/themuffinman/frontend/README.md",
+    "apps/themuffinman/frontend/package.json",
+    "apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs",
+    "apps/themuffinman/frontend/scripts/validate-admin-agent-ui-scenarios.mjs",
+    "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue",
+    "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+    "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+    "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+    "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
+    "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
+    "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts",
+    "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
+    "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+    "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+    "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
+    "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
+    "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
+    "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
+    "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
+    "apps/themuffinman/frontend/src/router.ts",
+    "apps/themuffinman/frontend/src/style.css",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestRepository.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestUpdateService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestVisibilityService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestWorkflowNotificationService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+    "docs/agent-improvement-backlog.md",
+    "docs/agent-operating-model.md",
+    "docs/agent-operating-model.schema.json",
+    "docs/agent-operating-model.yaml",
+    "docs/agent-operating-model/sections/api.yaml",
+    "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+    "docs/agent-operating-model/sections/documentation_coverage.yaml",
+    "docs/agent-operating-model/sections/documentation_sync.yaml",
+    "docs/agent-operating-model/sections/frontend_contract_generation.yaml",
+    "docs/agent-operating-model/sections/intent_safety_catalog.yaml",
+    "docs/agent-operating-model/sections/intents.yaml",
+    "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+    "docs/agent-operating-model/sections/policies.yaml",
+    "docs/agent-operating-model/sections/request_validation_gate.yaml",
+    "docs/agent-operating-model/sections/service_workflow_inventory.yaml",
+    "docs/agent-operating-model/sections/source_of_truth.yaml",
+    "docs/business-logic.md",
+    "docs/change-completion-checklist.md",
+    "docs/codex-local-tooling-todo.md",
+    "docs/documentation-sync-policy.md",
+    "docs/domain-technical.md",
+    "docs/feature-completion-manifest.schema.json",
+    "docs/implementation-backlog.md",
+    "docs/tooling/codex-local-audits.md",
+    "docs/tooling/codex-local-audits.yml",
+    "package.json",
+    "scripts/audits/audit-change-impact-preflight.rb",
+    "scripts/audits/local_tooling_batch_audits.rb",
+    "scripts/audits/local_tooling_extended_tools.rb",
+    "scripts/feature-closeout-audit.sh",
+    "scripts/generate-agent-operating-model.rb",
+    "scripts/generate-source-of-truth-audit.rb",
+    "scripts/local_tooling_common.rb",
+    "scripts/todo-audit.rb",
+    ".agents/templates/validation-evidence.template.yaml",
+    "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
+    "apps/themuffinman/frontend/src/modules/chat/README.md",
+    "apps/themuffinman/frontend/src/modules/identity/README.md",
+    "apps/themuffinman/frontend/src/modules/social/README.md",
+    "apps/themuffinman/frontend/src/modules/workmarket/README.md",
+    "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
+    "apps/themuffinman/frontend/src/styles/business.css",
+    "apps/themuffinman/frontend/src/styles/chat-module.css",
+    "apps/themuffinman/frontend/src/styles/rides.css",
+    "apps/themuffinman/frontend/src/styles/things.css",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/agent/README.md",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/chat/README.md",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/common/README.md",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/identity/README.md",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/README.md",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/social/README.md",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/README.md",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeclineApplicationUseCase.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UpdateMyApplicationUseCase.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WithdrawMyApplicationUseCase.java",
+    "apps/themuffinman/src/main/resources/db/migration/V31__create_business_profile_table.sql",
+    "apps/themuffinman/src/main/resources/db/migration/V32__create_thing_sharing_tables.sql",
+    "apps/themuffinman/src/main/resources/db/migration/V33__create_ride_offer_tables.sql",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceLayeringConventionTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/docs/RepositoryFetchProfileContractTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/docs/WorkflowStateMachineCatalogTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+    "docs/agent-operating-model/sections/documentation_ownership.yaml",
+    "docs/cross-domain-glossary.md",
+    "docs/docs-as-contract-slices.md",
+    "docs/docs-as-contract-slices.yaml",
+    "docs/example-scenario-library.md",
+    "docs/regression-scenario-catalog.md",
+    "docs/regression-scenario-catalog.yaml",
+    "docs/validation-evidence.schema.json",
+    "docs/workflow-state-machines.md",
+    "docs/workflow-state-machines.yaml",
+    "scripts/audits/audit-architecture-drift.rb",
+    "scripts/audits/audit-contract-test-gaps.rb",
+    "scripts/audits/audit-delta-report.rb",
+    "scripts/audits/audit-doc-staleness-scoring.rb",
+    "scripts/audits/audit-doc-sync-duplicates.rb",
+    "scripts/audits/audit-doc-template-coverage.rb",
+    "scripts/audits/audit-docs-as-tests.rb",
+    "scripts/audits/audit-generated-commit-scope.rb",
+    "scripts/audits/audit-manifest-decision.rb",
+    "scripts/audits/audit-mutation-safety.rb",
+    "scripts/audits/audit-plan-completion.rb",
+    "scripts/audits/audit-test-fixture-duplication.rb",
+    "scripts/audits/audit-validation-evidence-quality.rb",
+    "scripts/audits/enforce-feature-closeout.rb",
+    "scripts/audits/generate-architecture-decision-index.rb",
+    "scripts/audits/generate-changeset-playbook.rb",
+    "scripts/audits/generate-closeout-report.rb",
+    "scripts/audits/generate-codebase-capsule.rb",
+    "scripts/audits/generate-post-merge-retrospective.rb",
+    "scripts/audits/generate-test-history-summary.rb",
+    "scripts/audits/recommend-feature-slices.rb",
+    "scripts/audits/recommend-targeted-tests.rb",
+    "scripts/audits/recommend-validation-preset.rb",
+    "scripts/audits/record-validation-evidence.rb",
+    "scripts/audits/resolve-manifest-path.rb",
+    "scripts/audits/score-changeset-risk.rb",
+    "scripts/audits/update-failure-knowledge-base.rb"
+  ],
+  "manifest_decision": {
+    "decision": "required",
+    "manifest_required": true,
+    "skip_allowed": false,
+    "skip_reason": null,
+    "rules": [
+      {
+        "id": "multi_file_multi_layer_change",
+        "file_count": 172,
+        "files": [
+          ".agents/feature-manifests/agent-control-phase-two-manifest.yaml",
+          ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
+          ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml",
+          ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-tiering-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+          ".agents/feature-manifests/executor-readiness-program-manifest.yaml",
+          ".agents/feature-manifests/persistent-backlog-system-manifest.yaml",
+          ".agents/templates/feature-completion-manifest.template.yaml",
+          ".agents/templates/feature-implementation-plan.template.md",
+          ".gitignore",
+          "Makefile",
+          "apps/themuffinman/frontend/README.md",
+          "apps/themuffinman/frontend/package.json",
+          "apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs",
+          "apps/themuffinman/frontend/scripts/validate-admin-agent-ui-scenarios.mjs",
+          "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue",
+          "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+          "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+          "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+          "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts"
+        ],
+        "reason": "Multiple files across multiple change categories need a manifest for closeout traceability."
+      },
+      {
+        "id": "high_risk_or_executor_critical_surface",
+        "file_count": 155,
+        "files": [
+          ".agents/feature-manifests/agent-control-phase-two-manifest.yaml",
+          ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
+          ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml",
+          ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-tiering-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+          ".agents/feature-manifests/executor-readiness-program-manifest.yaml",
+          ".agents/feature-manifests/persistent-backlog-system-manifest.yaml",
+          ".agents/templates/feature-completion-manifest.template.yaml",
+          ".agents/templates/feature-implementation-plan.template.md",
+          ".gitignore",
+          "Makefile",
+          "apps/themuffinman/frontend/README.md",
+          "apps/themuffinman/frontend/package.json",
+          "apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs",
+          "apps/themuffinman/frontend/scripts/validate-admin-agent-ui-scenarios.mjs",
+          "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+          "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+          "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+          "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
+          "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts"
+        ],
+        "reason": "Backend logic, automation safety, or validation tooling changes need explicit evidence."
+      },
+      {
+        "id": "agent_contract_change",
+        "file_count": 22,
+        "files": [
+          "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+          "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
+          "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
+          "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+          "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "docs/agent-operating-model.md",
+          "docs/agent-operating-model.schema.json",
+          "docs/agent-operating-model.yaml",
+          "docs/agent-operating-model/sections/api.yaml",
+          "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "docs/agent-operating-model/sections/documentation_coverage.yaml",
+          "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "docs/agent-operating-model/sections/frontend_contract_generation.yaml",
+          "docs/agent-operating-model/sections/intent_safety_catalog.yaml",
+          "docs/agent-operating-model/sections/intents.yaml",
+          "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "docs/agent-operating-model/sections/policies.yaml",
+          "docs/agent-operating-model/sections/request_validation_gate.yaml",
+          "docs/agent-operating-model/sections/service_workflow_inventory.yaml",
+          "docs/agent-operating-model/sections/source_of_truth.yaml",
+          "apps/themuffinman/src/main/java/com/themuffinman/app/agent/README.md",
+          "docs/agent-operating-model/sections/documentation_ownership.yaml"
+        ],
+        "reason": "Agent-facing contracts and operating-model surfaces require manifest tracking."
+      },
+      {
+        "id": "workflow_expansion_change",
+        "file_count": 57,
+        "files": [
+          ".agents/feature-manifests/agent-control-phase-two-manifest.yaml",
+          ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
+          ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml",
+          ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-tiering-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+          ".agents/feature-manifests/executor-readiness-program-manifest.yaml",
+          ".agents/feature-manifests/persistent-backlog-system-manifest.yaml",
+          ".agents/templates/feature-completion-manifest.template.yaml",
+          "Makefile",
+          "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+          "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
+          "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+          "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "docs/agent-improvement-backlog.md",
+          "docs/agent-operating-model.md",
+          "docs/agent-operating-model.schema.json",
+          "docs/agent-operating-model.yaml",
+          "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "docs/agent-operating-model/sections/intents.yaml"
+        ],
+        "reason": "Workflow or scenario surfaces require scenario evidence and docs synchronization."
+      },
+      {
+        "id": "frontend_contract_change",
+        "file_count": 10,
+        "files": [
+          "apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs",
+          "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+          "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
+          "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts",
+          "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+          "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
+          "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
+          "apps/themuffinman/frontend/src/modules/chat/README.md",
+          "apps/themuffinman/frontend/src/modules/identity/README.md",
+          "apps/themuffinman/frontend/src/modules/workmarket/README.md"
+        ],
+        "reason": "Frontend contract or API surfaces require frontend validation evidence."
+      },
+      {
+        "id": "schema_or_generated_artifact_change",
+        "file_count": 6,
+        "files": [
+          "docs/agent-operating-model.schema.json",
+          "docs/feature-completion-manifest.schema.json",
+          "apps/themuffinman/src/main/resources/db/migration/V31__create_business_profile_table.sql",
+          "apps/themuffinman/src/main/resources/db/migration/V32__create_thing_sharing_tables.sql",
+          "apps/themuffinman/src/main/resources/db/migration/V33__create_ride_offer_tables.sql",
+          "docs/validation-evidence.schema.json"
+        ],
+        "reason": "Schema and generated-artifact changes require explicit generated-artifact evidence."
+      },
+      {
+        "id": "mixed_product_domains",
+        "file_count": 172,
+        "files": [
+          ".agents/feature-manifests/agent-control-phase-two-manifest.yaml",
+          ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
+          ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml",
+          ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-tiering-manifest.yaml",
+          ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+          ".agents/feature-manifests/executor-readiness-program-manifest.yaml",
+          ".agents/feature-manifests/persistent-backlog-system-manifest.yaml",
+          ".agents/templates/feature-completion-manifest.template.yaml",
+          ".agents/templates/feature-implementation-plan.template.md",
+          ".gitignore",
+          "Makefile",
+          "apps/themuffinman/frontend/README.md",
+          "apps/themuffinman/frontend/package.json",
+          "apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs",
+          "apps/themuffinman/frontend/scripts/validate-admin-agent-ui-scenarios.mjs",
+          "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue",
+          "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+          "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+          "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+          "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts"
+        ],
+        "reason": "Multiple product domains in one changeset require explicit scope and residual-risk review."
+      }
+    ],
+    "changed_file_count": 172,
+    "categories": [
+      "backend_dto",
+      "backend_repository",
+      "backend_service",
+      "docs",
+      "frontend_api",
+      "frontend_composable",
+      "frontend_script",
+      "frontend_view",
+      "other",
+      "script"
+    ],
+    "domains": [
+      "agent",
+      "chat",
+      "identity",
+      "location",
+      "social",
+      "workmarket"
+    ]
+  },
+  "manifest_resolution": {
+    "decision": "review",
+    "manifest_path": null,
+    "feature_id": null,
+    "title": null,
+    "confidence": "low",
+    "reasons": [
+      "More than one manifest candidate matched the current files. Review the candidate list before closeout."
+    ],
+    "candidates": [
+      {
+        "manifest_path": ".agents/feature-manifests/agent-control-phase-two-manifest.yaml",
+        "feature_id": "agent_control_phase_two",
+        "title": "Agent Control Phase Two",
+        "plan_file": ".agents/agent-control-phase-two-plan.md",
+        "score": 32,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (scripts/feature-closeout-audit.sh, scripts/generate-source-of-truth-audit.rb, scripts/generate-agent-operating-model.rb, Makefile, apps/themuffinman/frontend/package.json).",
+          "Changed paths include feature/plan tokens: agent, control, phase, two, manifest, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
+        "feature_id": "agent_operating_refactor",
+        "title": "Agent Operating Refactor",
+        "plan_file": ".agents/agent-operating-refactor-plan.md",
+        "score": 32,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java, scripts/generate-agent-operating-model.rb, docs/agent-operating-model.md, docs/agent-operating-model.yaml).",
+          "Changed paths include feature/plan tokens: agent, manifest, operating, refactor, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml",
+        "feature_id": "agent_safety_enforcement_round2",
+        "title": "Agent safety enforcement round 2",
+        "plan_file": ".agents/agent-safety-enforcement-round2-plan.md",
+        "score": 32,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (Makefile, docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model.schema.json, docs/domain-technical.md).",
+          "Changed paths include feature/plan tokens: agent, manifest, safety, enforcement, round, round2."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml",
+        "feature_id": "agent_safety_upgrade",
+        "title": "Agent safety upgrade",
+        "plan_file": ".agents/agent-safety-upgrade-plan.md",
+        "score": 32,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (Makefile, apps/themuffinman/frontend/package.json, docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model.schema.json).",
+          "Changed paths include feature/plan tokens: agent, manifest, safety, upgrade, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+        "feature_id": "backend_audit_domain_tagging",
+        "title": "Backend audit domain tagging",
+        "plan_file": ".agents/backend-audit-domain-tagging-plan.md",
+        "score": 32,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/backend_audit_coverage.yaml, docs/agent-operating-model/sections/source_of_truth.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml).",
+          "Changed paths include feature/plan tokens: manifest, backend, audit, domain, tagging, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+        "feature_id": "backend_audit_identity_dto_tightening",
+        "title": "Backend audit identity dto tightening",
+        "plan_file": ".agents/backend-audit-identity-dto-tightening-plan.md",
+        "score": 32,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/backend_audit_coverage.yaml, docs/agent-operating-model/sections/source_of_truth.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml).",
+          "Changed paths include feature/plan tokens: manifest, backend, audit, identity, dto, tightening."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+        "feature_id": "backend_audit_location_dto_tightening",
+        "title": "Backend audit location dto tightening",
+        "plan_file": ".agents/backend-audit-location-dto-tightening-plan.md",
+        "score": 32,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/backend_audit_coverage.yaml, docs/agent-operating-model/sections/source_of_truth.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml).",
+          "Changed paths include feature/plan tokens: manifest, backend, audit, dto, tightening, location."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+        "feature_id": "backend_audit_manifest_cleanup",
+        "title": "Backend audit manifest cleanup",
+        "plan_file": ".agents/backend-audit-manifest-cleanup-plan.md",
+        "score": 32,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, .agents/backend-audit-manifest-cleanup-plan.md, .agents/feature-manifests/backend-audit-tiering-manifest.yaml, .agents/feature-manifests/backend-audit-tightening-manifest.yaml).",
+          "Changed paths include feature/plan tokens: manifest, backend, audit, cleanup, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/backend-audit-tiering-manifest.yaml",
+        "feature_id": "backend_audit_tiering",
+        "title": "Backend audit tiering",
+        "plan_file": ".agents/backend-audit-tiering-plan.md",
+        "score": 32,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (scripts/generate-agent-operating-model.rb, scripts/generate-source-of-truth-audit.rb, Makefile, docs/agent-operating-model.md, docs/agent-operating-model.yaml).",
+          "Changed paths include feature/plan tokens: manifest, backend, audit, tiering, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+        "feature_id": "backend_audit_tightening",
+        "title": "Backend audit tightening",
+        "plan_file": ".agents/backend-audit-tightening-plan.md",
+        "score": 32,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/backend_audit_coverage.yaml, docs/agent-operating-model/sections/source_of_truth.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml).",
+          "Changed paths include feature/plan tokens: manifest, backend, audit, tightening, plan."
+        ]
+      }
+    ]
+  },
+  "validation_preset": {
+    "preset": "manifest-required",
+    "reasons": [
+      "Manifest decision is `required`.",
+      "Changed files span 10 categories.",
+      "Changed files span 8 domains.",
+      "Preset `manifest-required` keeps validation selection deterministic for 172 files."
+    ],
+    "commands": [
+      "make recommend-targeted-tests",
+      "make closeout-bundle manifest=.agents/feature-manifests/<feature-id>-manifest.yaml",
+      "make feature-closeout-audit manifest=.agents/feature-manifests/<feature-id>-manifest.yaml",
+      "cd apps/themuffinman && ./mvnw test -Dtest=SandboxGenerationPlannerTest,AdminAgentCapabilityBoundaryTest,AdminAgentGoldenPromptMatrixTest,AdminAgentPlaygroundServiceTest,AgentOperatingScenarioTest,BusinessProfileServiceTest,ChatServiceTest,CoreConceptsTest",
+      "npm --prefix apps/themuffinman/frontend run type-check",
+      "npm --prefix apps/themuffinman/frontend run build",
+      "make audit-documentation",
+      "make audit-doc-canonical-phrases",
+      "make audit-generated-artifact-freshness",
+      "make audit-generated-commit-scope",
+      "make audit-agent-safety"
+    ],
+    "supporting_reports": [
+      "docs/generated/local-tooling/targeted-tests-summary.md",
+      "docs/generated/local-tooling/audit-router-summary.md",
+      "docs/generated/local-tooling/closeout-bundle-summary.md"
+    ],
+    "manifest_decision": "required",
+    "manifest_resolution": {
+      "decision": "review",
+      "manifest_path": null,
+      "feature_id": null,
+      "title": null,
+      "confidence": "low",
+      "reasons": [
+        "More than one manifest candidate matched the current files. Review the candidate list before closeout."
+      ],
+      "candidates": [
+        {
+          "manifest_path": ".agents/feature-manifests/agent-control-phase-two-manifest.yaml",
+          "feature_id": "agent_control_phase_two",
+          "title": "Agent Control Phase Two",
+          "plan_file": ".agents/agent-control-phase-two-plan.md",
+          "score": 32,
+          "reasons": [
+            "Manifest file itself is in the current changeset.",
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (scripts/feature-closeout-audit.sh, scripts/generate-source-of-truth-audit.rb, scripts/generate-agent-operating-model.rb, Makefile, apps/themuffinman/frontend/package.json).",
+            "Changed paths include feature/plan tokens: agent, control, phase, two, manifest, plan."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
+          "feature_id": "agent_operating_refactor",
+          "title": "Agent Operating Refactor",
+          "plan_file": ".agents/agent-operating-refactor-plan.md",
+          "score": 32,
+          "reasons": [
+            "Manifest file itself is in the current changeset.",
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java, scripts/generate-agent-operating-model.rb, docs/agent-operating-model.md, docs/agent-operating-model.yaml).",
+            "Changed paths include feature/plan tokens: agent, manifest, operating, refactor, plan."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml",
+          "feature_id": "agent_safety_enforcement_round2",
+          "title": "Agent safety enforcement round 2",
+          "plan_file": ".agents/agent-safety-enforcement-round2-plan.md",
+          "score": 32,
+          "reasons": [
+            "Manifest file itself is in the current changeset.",
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (Makefile, docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model.schema.json, docs/domain-technical.md).",
+            "Changed paths include feature/plan tokens: agent, manifest, safety, enforcement, round, round2."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml",
+          "feature_id": "agent_safety_upgrade",
+          "title": "Agent safety upgrade",
+          "plan_file": ".agents/agent-safety-upgrade-plan.md",
+          "score": 32,
+          "reasons": [
+            "Manifest file itself is in the current changeset.",
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (Makefile, apps/themuffinman/frontend/package.json, docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model.schema.json).",
+            "Changed paths include feature/plan tokens: agent, manifest, safety, upgrade, plan."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+          "feature_id": "backend_audit_domain_tagging",
+          "title": "Backend audit domain tagging",
+          "plan_file": ".agents/backend-audit-domain-tagging-plan.md",
+          "score": 32,
+          "reasons": [
+            "Manifest file itself is in the current changeset.",
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/backend_audit_coverage.yaml, docs/agent-operating-model/sections/source_of_truth.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml).",
+            "Changed paths include feature/plan tokens: manifest, backend, audit, domain, tagging, plan."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+          "feature_id": "backend_audit_identity_dto_tightening",
+          "title": "Backend audit identity dto tightening",
+          "plan_file": ".agents/backend-audit-identity-dto-tightening-plan.md",
+          "score": 32,
+          "reasons": [
+            "Manifest file itself is in the current changeset.",
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/backend_audit_coverage.yaml, docs/agent-operating-model/sections/source_of_truth.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml).",
+            "Changed paths include feature/plan tokens: manifest, backend, audit, identity, dto, tightening."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+          "feature_id": "backend_audit_location_dto_tightening",
+          "title": "Backend audit location dto tightening",
+          "plan_file": ".agents/backend-audit-location-dto-tightening-plan.md",
+          "score": 32,
+          "reasons": [
+            "Manifest file itself is in the current changeset.",
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/backend_audit_coverage.yaml, docs/agent-operating-model/sections/source_of_truth.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml).",
+            "Changed paths include feature/plan tokens: manifest, backend, audit, dto, tightening, location."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+          "feature_id": "backend_audit_manifest_cleanup",
+          "title": "Backend audit manifest cleanup",
+          "plan_file": ".agents/backend-audit-manifest-cleanup-plan.md",
+          "score": 32,
+          "reasons": [
+            "Manifest file itself is in the current changeset.",
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, .agents/backend-audit-manifest-cleanup-plan.md, .agents/feature-manifests/backend-audit-tiering-manifest.yaml, .agents/feature-manifests/backend-audit-tightening-manifest.yaml).",
+            "Changed paths include feature/plan tokens: manifest, backend, audit, cleanup, plan."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/backend-audit-tiering-manifest.yaml",
+          "feature_id": "backend_audit_tiering",
+          "title": "Backend audit tiering",
+          "plan_file": ".agents/backend-audit-tiering-plan.md",
+          "score": 32,
+          "reasons": [
+            "Manifest file itself is in the current changeset.",
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (scripts/generate-agent-operating-model.rb, scripts/generate-source-of-truth-audit.rb, Makefile, docs/agent-operating-model.md, docs/agent-operating-model.yaml).",
+            "Changed paths include feature/plan tokens: manifest, backend, audit, tiering, plan."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+          "feature_id": "backend_audit_tightening",
+          "title": "Backend audit tightening",
+          "plan_file": ".agents/backend-audit-tightening-plan.md",
+          "score": 32,
+          "reasons": [
+            "Manifest file itself is in the current changeset.",
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/backend_audit_coverage.yaml, docs/agent-operating-model/sections/source_of_truth.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml).",
+            "Changed paths include feature/plan tokens: manifest, backend, audit, tightening, plan."
+          ]
+        }
+      ]
+    },
+    "categories": [
+      "backend_dto",
+      "backend_repository",
+      "backend_service",
+      "docs",
+      "frontend_api",
+      "frontend_composable",
+      "frontend_script",
+      "frontend_view",
+      "other",
+      "script"
+    ],
+    "domains": [
+      "agent",
+      "chat",
+      "common",
+      "identity",
+      "location",
+      "shared",
+      "social",
+      "workmarket"
+    ],
+    "changed_file_count": 172
+  },
+  "doc_targets": [
+    "docs/agent-operating-model.md",
+    "docs/agent-operating-model.yaml",
+    "docs/business-logic.md",
+    "docs/codex-local-tooling-todo.md",
+    "docs/domain-technical.md",
+    "docs/location-services.md"
+  ],
+  "source_reports": [
+    "docs/generated/local-tooling/diff-summary.md",
+    "docs/generated/local-tooling/audit-router-summary.md",
+    "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+    "docs/generated/local-tooling/manifest-decision-summary.md",
+    "docs/generated/local-tooling/manifest-path-resolution-summary.md",
+    "docs/generated/local-tooling/validation-preset-summary.md"
+  ],
+  "ordered_actions": [
+    {
+      "step": 1,
+      "kind": "read",
+      "title": "Review changeset shape",
+      "commands": [
+        "make diff-summary"
+      ],
+      "outputs": [
+        "docs/generated/local-tooling/diff-summary.md"
+      ],
+      "purpose": "See domain/category grouping before opening files."
+    },
+    {
+      "step": 2,
+      "kind": "decide",
+      "title": "Confirm manifest path",
+      "commands": [
+        "make audit-manifest-decision",
+        "make resolve-manifest-path"
+      ],
+      "outputs": [
+        "docs/generated/local-tooling/manifest-decision-summary.md",
+        "docs/generated/local-tooling/manifest-path-resolution-summary.md"
+      ],
+      "purpose": "Manifest is required before final closeout.",
+      "decision": "required",
+      "resolved_manifest": null
+    },
+    {
+      "step": 3,
+      "kind": "audit",
+      "title": "Run focused audits",
+      "commands": [
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch",
+        "make audit-mapper-usage",
+        "make audit-api-contract-drift",
+        "make audit-endpoint-callsite-linker",
+        "make endpoint-contract-packs",
+        "make audit-frontend-route-surfaces",
+        "make audit-async-mutation-flow",
+        "make audit-frontend-usage-graph",
+        "make audit-doc-sync-preflight",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "outputs": [
+        "docs/generated/local-tooling/audit-router-summary.md",
+        "docs/generated/local-tooling/doc-sync-preflight-summary.md"
+      ],
+      "purpose": "Pick the smallest report set that matches the current files."
+    },
+    {
+      "step": 4,
+      "kind": "update",
+      "title": "Update living docs and agent artifacts",
+      "files": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md",
+        "docs/business-logic.md",
+        "docs/location-services.md",
+        "docs/codex-local-tooling-todo.md"
+      ],
+      "purpose": "Keep business, technical, and agent-safety docs synchronized with the changeset."
+    },
+    {
+      "step": 5,
+      "kind": "validate",
+      "title": "Run preset validation",
+      "commands": [
+        "make recommend-targeted-tests",
+        "make closeout-bundle manifest=.agents/feature-manifests/<feature-id>-manifest.yaml",
+        "make feature-closeout-audit manifest=.agents/feature-manifests/<feature-id>-manifest.yaml",
+        "cd apps/themuffinman && ./mvnw test -Dtest=SandboxGenerationPlannerTest,AdminAgentCapabilityBoundaryTest,AdminAgentGoldenPromptMatrixTest,AdminAgentPlaygroundServiceTest,AgentOperatingScenarioTest,BusinessProfileServiceTest,ChatServiceTest,CoreConceptsTest",
+        "npm --prefix apps/themuffinman/frontend run type-check",
+        "npm --prefix apps/themuffinman/frontend run build",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases",
+        "make audit-generated-artifact-freshness",
+        "make audit-generated-commit-scope",
+        "make audit-agent-safety"
+      ],
+      "outputs": [
+        "docs/generated/local-tooling/targeted-tests-summary.md",
+        "docs/generated/local-tooling/audit-router-summary.md",
+        "docs/generated/local-tooling/closeout-bundle-summary.md"
+      ],
+      "purpose": "Use one preset instead of manually assembling commands."
+    },
+    {
+      "step": 6,
+      "kind": "closeout",
+      "title": "Use resolved manifest path for final closeout",
+      "commands": [
+        "make closeout-bundle manifest=.agents/feature-manifests/<feature-id>-manifest.yaml"
+      ],
+      "purpose": "Resolver could not pick one manifest deterministically; replace the placeholder after review."
+    }
+  ]
+}

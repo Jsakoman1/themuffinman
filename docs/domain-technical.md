@@ -7,9 +7,62 @@ This document is the technical source of truth for core product behavior. It sho
 - `identity`: users, authentication, roles, and profile data
 - `social`: circles, memberships, requests, blocking, and relation lookup
 - `workmarket`: quests, applications, quest news, dashboards, reviews
+- `business`: business profiles, directory, and mini-site profile read models
+- `things`: lending listings and borrower request workflow
+- `rides`: voluntary ride offers with optional circle-scoped visibility
 - `chat`: direct conversations, messages, presence, realtime updates
 - `location`: user location settings, quest location visibility, lookup events
+- `common.event`: lightweight domain event publishing through Spring application events
+- `common.concepts`: shared actor identity, module ownership, circle visibility selection, and scheduling-window primitives
 - `internal sandbox`: synthetic test-data orchestration kept separate from production-like user actions
+
+Domain capsules:
+- Backend domain roots under `apps/themuffinman/src/main/java/com/themuffinman/app/*/README.md` summarize responsibility, main entrypoints, tests, living docs, and forbidden shortcuts for that domain.
+- Frontend module roots under `apps/themuffinman/frontend/src/modules/*/README.md` provide the same first-read capsule for route and UI work.
+- `docs/cross-domain-glossary.md` defines shared terms such as users, actors, circles, visibility, consent, messaging, quests, applications, reviews, bookings, and synthetic data before deeper domain-specific rules.
+
+Test fixture standard:
+- `apps/themuffinman/src/test/java/com/themuffinman/app/testing/TestFixtures.java` is the shared backend fixture builder for common users, admin users, profile-location users, circles, quests, quest applications, and chat conversations.
+- New backend tests should use `TestFixtures` for common entities unless the test is explicitly verifying unusual field defaults.
+
+Validation evidence standard:
+- `.agents/validation-evidence/*.yaml` records must name exact validation commands, validation scope, generated-artifact actions, and skipped-check reasons.
+- `make audit-validation-evidence-quality` rejects vague closeout evidence such as "tests not run", "build passed", "ok", or placeholder summaries.
+
+Regression scenario standard:
+- `docs/regression-scenario-catalog.yaml` maps critical regression scenarios to test files and focused commands by domain.
+- `docs/regression-scenario-catalog.md` is the human-readable summary of the same scenario set.
+
+Docs-as-contract standard:
+- `docs/docs-as-contract-slices.yaml` maps selected living-document sections to the runtime tests or audit checks that prove the documented behavior.
+- `docs/docs-as-contract-slices.md` is the human-readable summary of the same contract-slice set.
+
+Architecture drift standard:
+- `make audit-architecture-drift` generates report-first findings for oversized backend services/controllers, Vue views with product logic, and oversized living-doc sections.
+
+Service layering standard:
+- Controller-facing facade services keep endpoint orchestration and read-model entrypoints stable for controllers.
+- `*UseCase` classes own one mutation workflow each and expose exactly one public `execute` method.
+- `*PolicyService` classes own named permission, ownership, and authority decisions.
+- `*QueryService`, `*ViewAssembler`, and `*SectionsFactory` classes own read filtering, DTO assembly, and backend-prepared UI sections.
+- `*PrimitiveService` classes own low-level reusable mutation primitives such as target resolution, state gating, persistence, and notification fan-out.
+- Domain event handlers own cross-cutting side effects that can be emitted from mutation workflows without injecting downstream services directly into every use case.
+- `ServiceLayeringConventionTest` enforces the narrow public entrypoint rule for workmarket use-case services.
+- Repository read methods that feed DTO surfaces should expose named fetch profiles such as `findForQuestList`, `findForQuestDetail`, `findForApplicantDashboard`, and `findAvailableForCatalog`; `RepositoryFetchProfileContractTest` protects the current workmarket and thing-sharing profile set.
+
+Shared concept standard:
+- `common/concepts/ActorIdentity.java` is the shared representation of authenticated actor id and role checks.
+- `common/concepts/ModuleOwnership.java` owns reusable owner/admin management checks for resources that belong to one user.
+- `common/concepts/CircleVisibilitySelection.java` owns selected-circle id normalization and distinct-id accounting before module services resolve concrete `CircleGroup` rows.
+- `common/concepts/SchedulingWindow.java` owns reusable start/end time shape checks such as past start, missing start for an end time, and invalid ranges.
+- `CoreConceptsTest` is the regression layer for these primitives before they are reused by more modules.
+
+Domain event standard:
+- `common/event/DomainEvent.java` is the marker interface for lightweight backend events.
+- `common/event/DomainEventPublisher.java` is the domain-facing publisher contract.
+- `common/event/SpringDomainEventPublisher.java` bridges domain events to Spring application events.
+- Domain-specific event records and handlers stay in the owning domain package; workmarket application news currently uses `workmarket/event/QuestApplicationNewsEvent.java` and `QuestApplicationNewsEventHandler.java`.
+- Event delivery is synchronous today, preserving existing transaction-local behavior while separating mutation orchestration from side-effect wiring.
 
 ## Identity Source Map
 
@@ -61,6 +114,77 @@ Primary files:
 Technical notes:
 - `AuthController` is transport-only and delegates register, login, and current-user response assembly to `AuthService`.
 - `AuthMgr` is the backend-owned mapper for `AuthResponse`, so auth response shaping stays consistent with the rest of the identity module.
+
+## Business Hub Source Map
+
+Primary files:
+- `business/controller/BusinessProfileController.java`
+- `business/model/BusinessProfile.java`
+- `business/repository/BusinessProfileRepository.java`
+- `business/service/BusinessProfileService.java`
+- `business/mapper/BusinessProfileMgr.java`
+- `business/dto/BusinessProfileRequestDTO.java`
+- `business/dto/BusinessProfileResponseDTO.java`
+- `business/dto/BusinessProfileListResponseDTO.java`
+- `frontend/src/modules/business/api/businessApi.ts`
+- `frontend/src/modules/business/views/BusinessHubView.vue`
+
+Primary migrations:
+- `V31__create_business_profile_table.sql`
+
+Technical notes:
+- Business Hub currently implements the first business-profile slice: one profile per owner account, active profile directory, public slug lookup, and current-user profile editing.
+- `BusinessProfileService` owns profile validation, slug normalization, active-directory visibility, and rich-text description sanitization.
+- Slugs are unique across all business profiles; inactive profiles remain available to the owner through `/business/profiles/me` but are hidden from the active directory and public slug endpoint.
+
+## Thing Sharing Source Map
+
+Primary files:
+- `things/controller/ThingSharingController.java`
+- `things/model/ThingListing.java`
+- `things/model/ThingBorrowRequest.java`
+- `things/model/ThingBorrowRequestStatus.java`
+- `things/repository/ThingListingRepository.java`
+- `things/repository/ThingBorrowRequestRepository.java`
+- `things/service/ThingSharingService.java`
+- `things/mapper/ThingSharingMgr.java`
+- `things/dto/ThingListingRequestDTO.java`
+- `things/dto/ThingBorrowRequestDTO.java`
+- `things/dto/ThingListingResponseDTO.java`
+- `things/dto/ThingBorrowRequestResponseDTO.java`
+- `things/dto/ThingListingListResponseDTO.java`
+- `frontend/src/modules/things/api/thingsApi.ts`
+- `frontend/src/modules/things/views/ThingSharingView.vue`
+
+Primary migrations:
+- `V32__create_thing_sharing_tables.sql`
+
+Technical notes:
+- Thing Sharing currently implements the first lending workflow slice: owner-created listings, available-listing directory, owner listing list, and pending borrow requests.
+- `ThingSharingService` rejects owner self-requests, unavailable listings, and duplicate pending requests for the same borrower and listing.
+- Borrow request lifecycle is intentionally limited to `PENDING` and `CANCELLED` until owner approval, handoff, and return workflows are added.
+
+## Ride Sharing Source Map
+
+Primary files:
+- `rides/controller/RideOfferController.java`
+- `rides/model/RideOffer.java`
+- `rides/repository/RideOfferRepository.java`
+- `rides/service/RideOfferService.java`
+- `rides/mapper/RideOfferMgr.java`
+- `rides/dto/RideOfferRequestDTO.java`
+- `rides/dto/RideOfferResponseDTO.java`
+- `rides/dto/RideOfferListResponseDTO.java`
+- `frontend/src/modules/rides/api/ridesApi.ts`
+- `frontend/src/modules/rides/views/RideSharingView.vue`
+
+Primary migrations:
+- `V33__create_ride_offer_tables.sql`
+
+Technical notes:
+- Ride Sharing currently implements voluntary ride offers with driver-owned records and optional circle-scoped visibility.
+- Empty `visibleCircleIds` means an active ride is visible to authenticated users; selected circles limit visibility to the driver and members of those circles.
+- `RideOfferService` rejects past departures and selected visibility circles not owned by the driver.
 
 ## Control-System Technical Notes
 
@@ -115,24 +239,85 @@ Primary files:
 
 Technical notes:
 - Feature manifests are now classified by `changeMode`, `changeImpact`, and `changeProfiles` so required docs, tests, generator commands, and close-out audits can be enforced in validation.
+- Feature manifest decisions are explicit: multi-file, multi-layer, high-risk, executor-critical, workflow-expansion, agent-contract, frontend-contract, backend-logic, generated-artifact, and master-plan-driven changes require a manifest; cosmetic and single-file contract-neutral refactors may skip it only when they do not alter behavior, contracts, generated artifacts, validation scope, or documentation meaning.
+- Manifest decision auditing is available through `make audit-manifest-decision [files=<csv>]`, which reports whether the current changeset requires a feature manifest and lists the matching high-risk, multi-layer, workflow, contract, schema, generated-artifact, automation-safety, or skip-allowed reasons.
 - Feature manifest artifact lists are now also validator-checked for path existence, duplicate entries, and clean separation between runtime code and test-only files.
+- Validation evidence records live under `.agents/validation-evidence/`, use `docs/validation-evidence.schema.json`, and capture command results, `ranAt`, generated artifact actions, skipped checks, and reasons.
+- Feature completion manifests embed structured closeout evidence under `validationEvidence`, `generatedArtifacts`, `planCompletion`, and `closeoutDecision`; `make feature-closeout-audit manifest=<manifest-file>` hard-fails completed manifests that lack required command evidence, skipped-check reasons, profile-specific validation, completed plan evidence, or clean artifact bucket ownership.
+- Feature closeout enforcement is also available through `make enforce-feature-closeout manifest=<manifest-file>`, which writes machine-readable closeout-enforcement reports while hard-failing missing complete status, checklist evidence, required profile validation, generated artifact paths, duplicate artifact buckets, backlog links, or plan completion evidence.
+- Validation command evidence can be recorded with `make record-validation manifest=<manifest-file> command='<command>'`, which runs the command, appends compact result metadata to the feature manifest, and writes companion validation-evidence JSON without storing raw logs.
+- Plan completion evidence is independently auditable with `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]`, which fails missing completion evidence, non-final completion status, unresolved task checkboxes, incomplete master-plan child rows, and completed manifests that reference incomplete plan evidence.
+- Closeout report generation lives at `make closeout-report manifest=<manifest-file>` and writes `docs/generated/local-tooling/closeout-reports/<feature-id>.json` plus a short Markdown summary from manifest artifacts, validation evidence, docs delta, generated-artifact evidence, backlog delta, residual risks, and the current changed-file list.
+- Codex-facing changed-file reports now share a generated-noise filter for `diff-summary`, `context-pack`, `audit-router`, and `fast-check`; default output excludes generated reports and transient `.agents` plan/evidence files while `include_generated=true` and `include_agents=true` restore full debug visibility.
+- Context pack and session handoff reports support `budget=small|medium|large`; the default `small` budget caps file lists at 20 entries and records omitted sections plus read-next guidance, while `medium` and `large` opt into 50 and 100 entries.
+- Generated commit scope reporting lives at `make audit-generated-commit-scope` and classifies changed generated files using `docs/generated/artifact-policy.yaml` into `task_required`, `supporting_context`, `stale_or_unrelated`, or `do_not_commit_by_default`.
+- Feature slice recommendations are generated with `make recommend-feature-slices topic=<topic> [files=<csv>]`, producing backend, frontend, docs/artifact, and final-validation slices from topic-inferred or explicit files plus existing validation routing.
+- Architecture decision indexing is available through `make architecture-decision-index`, producing a compact source-linked list of stable repository decisions Codex should read before editing backend, frontend, docs, generated artifacts, migrations, sandbox, git, config, or closeout workflows.
+- Changeset risk scoring is available through `make changeset-risk [files=<csv>]`, using transparent weighted factors for controller contracts, DTO/model/schema changes, workflow or permission services, frontend contracts, agent/docs contracts, generated churn, mixed domains, and tooling changes.
+- Failure knowledge-base generation is available through `make failure-knowledge-base [source=<diagnostic-report>]`, producing a compact troubleshooting index from diagnostic failure lines without storing raw validation logs.
+- Codebase capsule generation is available through `make codebase-capsule`, producing a short read-first Markdown and JSON summary with repository layout, active conventions, open backlog/master-plan context, and preferred first commands.
+- Targeted test recommendations are available through `make recommend-targeted-tests [files=<csv>]`, producing a report-only command set with direct backend tests, frontend type/build checks, docs validation, generated-artifact checks, scenario catalog matches, and residual risk notes.
+- Test history tracking is available through the diagnostic validation wrappers and `make test-history-summary`, storing compact command metadata, duration, pass/fail state, failing test names, and top error patterns without raw validation logs.
+- Backend test fixture duplication is reportable with `make audit-test-fixture-duplication`, which scans repeated user, circle, quest, application, location, and chat setup patterns and recommends `TestFixtures` extraction candidates.
+- Documentation template coverage is reportable with `make audit-doc-template-coverage [files=<csv>]`, which maps workflow, endpoint, DTO, schema migration, permission, and module changes to `.agents/templates/docs/` section coverage signals in living docs.
+- Documentation-sync duplication review is reportable with `make audit-doc-sync-duplicates`, which finds duplicated protected phrases, fragment-only policy bullets, and conflicting doc-sync wording without rewriting canonical text.
+- Changeset playbooks are available through `make changeset-playbook [files=<csv>]`, which combines diff shape, manifest decision, focused audit routing, likely documentation targets, and validation preset guidance into one ordered implementation workflow.
+- Manifest path resolution is available through `make resolve-manifest-path [files=<csv>]`, which scores existing feature manifests against changed files, related plans, and artifact overlap and returns either one resolved manifest path or a review-required candidate list.
+- Symbol-to-test linking is available through `make link-symbol-to-tests symbol=<symbol-name>`, which maps a Java or frontend symbol to matching definition files, direct test references, nearby domain tests, regression-scenario coverage, and a compact recommended command set.
+- DTO usage packs are available through `make dto-usage-pack dto=<dto-name>`, which map one backend DTO to controller methods, backend references, frontend usage, generated contract mentions, docs references, tests, and a compact recommended command set.
+- Workflow slice packs are available through `make workflow-slice-pack workflow=<workflow-id>`, which pull one documented workflow slice from the state-machine catalog, owning services, related tests, frontend actions, docs references, and scenario-backed validation commands.
+- Plan/code maps are available through `make plan-code-map plan=<plan-file>`, which map one implementation plan to likely code files, living docs, generated artifacts, validations, manifests, and related audit targets.
+- Changeset hotspot ranking is available through `make rank-changeset-hotspots [files=<csv>]`, which scores the current files by category weight, fanout, dependency edges, workflow sensitivity, and nearby tests so Codex can read the most central files first.
+- Compact domain packs are available through `make domain-pack domain=<domain-id>`, which generate small stable packs for a named domain with key backend files, DTO groups, frontend surfaces, workflows, docs, tests, and a first command set.
+- Validation preset recommendations are available through `make recommend-validation-preset [files=<csv>]`, which classifies the current changeset into deterministic presets such as `fast`, `standard-backend`, `standard-frontend`, `full-closeout`, or `manifest-required` and emits the associated command set.
+- Audit delta review is available through `make audit-delta-report audit=<audit-id>`, which compares the latest JSON report to the previous archived snapshot and highlights count deltas plus newly introduced or fixed risk signals.
+- Contract test gap auditing is available through `make audit-contract-test-gaps`, mapping endpoints and DTOs to backend test signals, generated frontend contracts, frontend usage, documented references, and priority-ranked missing coverage signals.
+- Mutation safety coverage is reportable with `make audit-mutation-safety`, which scans mutating endpoints and service methods for missing static test signals around permissions, ownership, invalid transitions, scenario coverage, and side effects.
+- Documentation-as-test coverage is reportable with `make audit-docs-as-tests`, which maps protected and behavioral living-doc statements to nearby test, audit, scenario, workflow, or operating-model evidence signals.
+- `scripts/todo-audit.rb` now reports backlog traceability for each open persistent backlog ID across plans, feature manifests, docs, code surfaces, and inline `TODO(<ID>):` or `FIXME(<ID>):` references, and fails when an open ID has no trace outside its backlog file.
+- Persistent backlog files must exist and must not keep resolved items as closed checkboxes, but they may legitimately contain zero open items after a backlog batch is fully implemented.
+- Broad, long-running, high-complexity, multi-layer, high-risk, or master-plan-driven changes use operating-model implementation checkpoints for plan, first backend slice, first frontend slice, docs/artifacts sync, validation, and commit boundary.
+- `documentation_ownership` in the agent operating model maps backend audit domains and change categories to required living docs, generated artifacts, and validation checks so documentation scope is machine-readable instead of inferred ad hoc.
+- `documentation_ownership.documentation_templates` registers short `.agents/templates/docs/` templates for new workflows, endpoints, DTO contracts, modules, permission rules, and schema migrations.
+- `policies.closeout_doc_delta` requires logic-drift closeout summaries to name behavior changed, docs updated, and related surfaces intentionally left unchanged.
+- `make audit-doc-staleness-scoring` produces a report-first section-level documentation staleness score from current code changes, endpoint inventory freshness, DTO source freshness, and workflow/state-transition source freshness.
+- `make post-merge-retrospective` writes a disposable retrospective artifact under `docs/generated/local-tooling/post-merge-retrospectives/` after large changes, summarizing failure points, missing tools, documentation gaps, and reusable patterns from existing local audit reports.
+- `docs/example-scenario-library.md` keeps compact canonical implementation examples for endpoint, workflow-transition, DTO-contract, schema-migration, and documentation-update changes.
+- `policies.self_test_matrix` maps risk tiers and change profiles to validation tiers: syntax-only, targeted unit, domain scenario, contract/type-check, generated-artifact validation, and full validation.
 - Mutating intents are modeled explicitly in the operating contract with `preconditions`, `state_changes`, `side_effects`, `notifications`, and `blocking_conditions`.
-- Use-case workflow tests standardize the mutation pattern around target resolution, authority, state validation, persistence, notification, and fail-closed exits.
+- Named workflow state-machine contracts are cataloged in `docs/workflow-state-machines.yaml` and explained in `docs/workflow-state-machines.md`; enum-backed catalog states must match the Java enum source exactly.
+- Workflow state-machine catalog validation also cross-checks documented transition intent ids against the agent operating model, so real transition intents must resolve to known mutating intents while explicit placeholders remain limited to derived or planned flows.
+- Use-case workflow tests standardize the mutation pattern around target resolution, authority, state validation, persistence, notification, and fail-closed exits; applicant-side application use cases now have the same contract harness coverage as quest execution use cases.
 - Scenario tests are the runtime proof layer above unit tests and should cover canonical multi-step workflows plus negative fail-closed behavior.
-- `docs/generated/source-of-truth-audit.json` is the drift report for tracked controllers, services, mappers, and tests that are missing source registration or workflow/documentation coverage.
+- `docs/generated/source-of-truth-audit.json` is the drift report for executor-critical files, stricter automation-relevant slices, and tracked tests that are missing source registration or workflow/documentation coverage; it also includes ownership-aware candidate entries plus domain and owner summaries for routing review.
 - `docs/generated/backend-audit-inventory.json` is the full-backend classification report, includes explicit domain and owner assignment for every backend file, and stays the staging layer for future stricter audit coverage beyond the current executor-critical surface.
 - The first stricter `automation_relevant` slice is the admin-agent DTO contract surface, which now requires source registration and documentation coverage before broader DTO tightening.
 - The second stricter `automation_relevant` slice is the chat DTO contract surface, which keeps workspace, conversation, message, and socket DTO contracts inside the same registration and documentation gate.
 - The third stricter `automation_relevant` slice is the identity DTO contract surface, which keeps auth, profile, and admin-user DTO contracts inside the same registration and documentation gate.
 - The fourth stricter `automation_relevant` slice is the location DTO contract surface, which keeps lookup, visibility, debug, and user-location DTO contracts inside the same registration and documentation gate.
-- Frontend planner support should prefer generated workflow-aware helpers from the operating model over hand-maintained intent or safety identifiers.
+- The fifth stricter `automation_relevant` slice is the social request/relation DTO contract surface, which keeps circle request, block, relation-state, and connection-circle assignment DTO contracts inside the same registration and documentation gate.
+- The sixth stricter `automation_relevant` slice is the social overview/member DTO contract surface, which keeps circle overview, group summary, and member DTO contracts inside the same registration and documentation gate.
+- The seventh stricter `automation_relevant` slice is the social search/contact DTO contract surface, which keeps circle search, contact-list, candidate, and query DTO contracts inside the same registration and documentation gate.
+- The eighth stricter `automation_relevant` slice is the social admin circle DTO contract surface, which keeps admin circle overview, group, and relation-row DTO contracts inside the same registration and documentation gate.
+- The ninth stricter `automation_relevant` slice is the workmarket dashboard DTO contract surface, which keeps dashboard response, summary, navigation, grouping, planner, open-work, and notification DTO contracts inside the same registration and documentation gate.
+- The tenth stricter `automation_relevant` slice is the workmarket quest-detail DTO contract surface, which keeps quest detail response, section, action, presentation, and viewer-relation DTO contracts inside the same registration and documentation gate.
+- The eleventh stricter `automation_relevant` slice is the workmarket application-detail DTO contract surface, which keeps application detail response, section, context, action, and presentation DTO contracts inside the same registration and documentation gate.
+- The twelfth stricter `automation_relevant` slice is the workmarket list/search/options DTO contract surface, which keeps quest list, application list, search query, admin application query, and workmarket option DTO contracts inside the same registration and documentation gate.
+- The thirteenth stricter `automation_relevant` slice is the workmarket news read-model DTO contract surface, which keeps news item and destination DTO contracts inside the same registration and documentation gate.
+- The fourteenth stricter `automation_relevant` slice is the common action/navigation DTO contract surface, which keeps shared action result, label-value, and navigation target primitives inside the same registration and documentation gate.
+- The broad `automation_relevant` service catch-all remains report-first; future service hardening should promote only small rule-scoped service slices after ownership, source registration, documentation coverage, and validation evidence are low-noise.
+- Frontend planner support prefers generated workflow-aware helpers from the operating model over hand-maintained intent or safety identifiers; the admin-agent UI now validates simulation intent ids, endpoint ids, and safety-flag ids against the generated frontend contract.
 - `docs/generated/local-tooling/change-impact-preflight.json` and `change-impact-preflight-summary.md` provide a compact dependency map for changed files so Codex can start from likely docs, tests, generated artifacts, and sibling read surfaces instead of broad repo discovery.
+- Change impact preflight now includes report-only scope guardrails for mixed product domains, runtime-plus-tooling changes, broad generated-report churn, and unexpected generated report files.
+- `docs/generated/artifact-policy.yaml` and `docs/generated/README.md` define which generated artifacts are source-of-truth snapshots, tracked review context, disposable local context, or do-not-commit-by-default outputs.
+- Context-first session starts should read diff summary, audit summary index, and a topic context pack before broad repository exploration; repo map and symbol index are secondary compact lookups when the first three sources are insufficient.
 - `docs/generated/local-tooling/read-surface-inventory.json` and `read-surface-inventory-summary.md` inventory read-oriented backend service methods, DTO assembly hints, repository usage, read-only transaction coverage, and a narrower `transaction_relevant` slice so helper-only services do not inflate the main transaction-gap count.
 - `docs/generated/local-tooling/mapper-usage-audit.json` and `mapper-usage-audit-summary.md` show where rich mappers are used and classify caller context as controller-facing, mutating, read-oriented, or supporting.
 - `docs/generated/local-tooling/generated-artifact-freshness.json` and `generated-artifact-freshness-summary.md` report whether generated contracts and inventories appear stale relative to their tracked source inputs.
 - `docs/generated/local-tooling/api-contract-drift.json` and `api-contract-drift-summary.md` compare backend DTO fields, generated frontend contract fields, and observed frontend field references.
 - `docs/generated/local-tooling/api-contract-drift-cleanup-shortlist.md` is the review-first shortlist for manual DTO cleanup, separating likely UI-dead fields from admin, automation, and diagnostics payloads that should not be removed blindly.
 - `docs/generated/local-tooling/repository-fetch-audit.json` and `repository-fetch-audit-summary.md` connect repository query methods, explicit fetch coverage, downstream service callers, helper usage, and likely lazy relation dereferences so Codex can audit fetch risk without manual controller-to-repository tracing.
+- Workmarket and thing-sharing repositories now use named fetch profiles for their primary DTO read surfaces, with compatibility delegates retained only for older call sites and tests.
 - `docs/generated/local-tooling/endpoint-callsite-linker.json` and `endpoint-callsite-linker-summary.md` connect backend endpoints to frontend API client methods and importing pages, views, or composables so feature-entry navigation can start from one compact report.
 - `docs/generated/local-tooling/frontend-route-surface-inventory.json` and `frontend-route-surface-inventory-summary.md` invert that same navigation from the frontend side, listing each route surface, its primary composables, API clients, and linked backend endpoints.
 - `docs/generated/local-tooling/frontend-stale-surface-audit.json` and `frontend-stale-surface-audit-summary.md` classify frontend files into active, likely-unused, route-detached, callsite-detached, or review-needed buckets using import reachability plus route and endpoint context.
@@ -306,6 +491,7 @@ Primary files:
 Technical notes:
 - `ChatConversationSummaryDTO` and `ChatContactDTO` now carry deterministic resolution metadata for exact conversation or accepted-contact targeting.
 - Chat read models are still filtered by current accepted relation state before any resolution metadata is returned.
+- The frontend includes both the global chat tray and a standalone `/chat` workspace surface backed by `ChatWorkspaceDTO`.
 - Agent-safe chat-read planning now relies on current workspace conversations instead of stale client memory.
 
 ### Presence and realtime
@@ -348,12 +534,16 @@ Planned capabilities:
 Primary files:
 - `agent/controller/AdminAgentController.java`
 - `agent/service/AdminAgentPlaygroundService.java`
+- `agent/sandbox/SandboxGenerationPlanner.java`
+- `agent/sandbox/SandboxGenerationPlan.java`
 - `agent/dto/AdminAgentPlaygroundRequestDTO.java`
 - `agent/dto/AdminAgentPlaygroundResponseDTO.java`
 - `config/AgentProperties.java`
 
 Technical notes:
 - The current admin agent playground is an admin-only planning surface.
+- Production admin planning lives under `agent/service`, while sandbox and synthetic-data planning helpers live under `agent/sandbox`.
+- `SandboxGenerationPlanner` contributes sandbox-only workflows, synthetic marker requirements, and warnings back into the admin playground response without executing mutations.
 - Prompt classification now runs through a translation layer before intent heuristics.
 - Local translation is a deterministic fallback, while provider-backed translation is the path for arbitrary languages such as Mandarin.
 - The response now also includes structured resolution requirements, clarification contract data, and execution-readiness metadata.
@@ -505,6 +695,8 @@ Primary files:
 - `workmarket/model/QuestAudience.java`
 - `workmarket/mapper/QuestMgr.java`
 - `workmarket/dto/QuestRequestDTO.java`
+- `workmarket/dto/QuestResponseDTO.java`
+- `workmarket/dto/QuestListResponseDTO.java`
 - `workmarket/dto/QuestSearchRequestDTO.java`
 - `workmarket/dto/QuestListPreset.java`
 
@@ -518,13 +710,27 @@ Technical notes:
 
 Primary files:
 - `workmarket/service/QuestApplicationService.java`
+- `workmarket/service/QuestApplicationViewAssembler.java`
+- `workmarket/service/QuestApplicationWorkflowSupport.java`
+- `workmarket/service/ApplyForQuestUseCase.java`
+- `workmarket/service/UpdateMyApplicationUseCase.java`
+- `workmarket/service/WithdrawMyApplicationUseCase.java`
+- `workmarket/service/ApproveApplicationUseCase.java`
+- `workmarket/service/DeclineApplicationUseCase.java`
 - `workmarket/model/QuestApplication.java`
 - `workmarket/model/QuestApplicationStatus.java`
 - `workmarket/mapper/QuestApplicationMgr.java`
 - `workmarket/dto/QuestApplicationRequestDTO.java`
 - `workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java`
+- `workmarket/dto/QuestApplicationResponseDTO.java`
+- `workmarket/dto/QuestApplicationListResponseDTO.java`
 - `workmarket/dto/QuestApplicationsViewDTO.java`
+- `workmarket/dto/ApplicationAllowedAction.java`
+- `workmarket/dto/QuestApplicationDetailContextSectionDTO.java`
+- `workmarket/dto/QuestApplicationDetailNavigationSectionDTO.java`
 - `workmarket/dto/QuestApplicationDetailResponseDTO.java`
+- `workmarket/dto/QuestApplicationDetailSectionsDTO.java`
+- `workmarket/dto/QuestApplicationPresentationDTO.java`
 - `workmarket/dto/AdminApplicationsQueryDTO.java`
 
 Technical notes:
@@ -533,6 +739,11 @@ Technical notes:
 - Free quests require `proposedPrice == null`.
 - `QuestApplicationsViewDTO` now carries deterministic owner-side pending selection metadata through `pendingApplicationCount` and `oldestPendingApplicationId`.
 - `QuestResponseDTO` and `QuestApplicationResponseDTO` now carry deterministic resolution metadata for exact target selection.
+- `QuestApplicationService` stays as the controller-facing facade and read-model entrypoint, while applicant and owner application mutations delegate to narrow use-case services.
+- `QuestApplicationViewAssembler` is the single application DTO assembly path for applicant, management, public, and viewer-specific responses; dashboard and detail read surfaces should route viewer-specific application DTOs through `QuestApplicationService.toViewerResponse`.
+- `QuestApplicationWorkflowSupport` centralizes application workflow guards for quest visibility, open-state checks, duplicate applications, pending application resolution, and price/message validation.
+- `QuestAccessPolicyService` owns named workmarket permission decisions such as quest management, application management, application detail access, application eligibility, quest execution, and term-change decisions.
+- `QuestApplicationResponseDTO` read surfaces must map through fetch-safe application repository queries that include the quest, quest creator, and applicant, then apply role-specific assembly through `QuestApplicationService` applicant, management, or public response helpers.
 - Applicant-side pending-application update and withdrawal flows are modeled as exact application resolution followed by the same backend validation rules used by the existing service methods.
 - `QuestService.getQuestDetailResponseById` and `QuestService.getApplicationDetailResponseById` now preserve applicant self-service action flags on self-owned pending applications so the frontend can render withdraw actions consistently on detail surfaces.
 - `QuestNewsItemResponseDTO` now also carries deterministic resolution metadata so item-specific notification actions can target one exact backend row.
@@ -554,7 +765,15 @@ Primary files:
 - `workmarket/dto/QuestAllowedAction.java`
 - `workmarket/dto/QuestDetailExecutionAction.java`
 - `workmarket/dto/QuestDetailExecutionSectionDTO.java`
+- `workmarket/dto/QuestDetailManagementSectionDTO.java`
+- `workmarket/dto/QuestDetailNavigationSectionDTO.java`
+- `workmarket/dto/QuestDetailResponseDTO.java`
+- `workmarket/dto/QuestDetailReviewSectionDTO.java`
+- `workmarket/dto/QuestDetailReviewTargetDTO.java`
+- `workmarket/dto/QuestDetailSectionsDTO.java`
 - `workmarket/dto/QuestDetailTermChangeSectionDTO.java`
+- `workmarket/dto/QuestPresentationDTO.java`
+- `workmarket/dto/QuestViewerRelation.java`
 
 Technical notes:
 - `QuestStateTransitionService.validateQuestExecutionAuthority` allows owner, admin, or approved applicant to run execution actions.
@@ -589,7 +808,21 @@ Primary files:
 - `workmarket/dto/DashboardResponseDTO.java`
 - `workmarket/dto/DashboardSummaryDTO.java`
 - `workmarket/dto/DashboardSectionsDTO.java`
+- `workmarket/dto/DashboardNavigationSectionDTO.java`
+- `workmarket/dto/DashboardNavigationItemDTO.java`
+- `workmarket/dto/DashboardApplicationGroupDTO.java`
+- `workmarket/dto/DashboardQuestGroupDTO.java`
+- `workmarket/dto/DashboardOpenWorkSectionDTO.java`
+- `workmarket/dto/DashboardPlannerSectionDTO.java`
+- `workmarket/dto/DashboardPlannerItemDTO.java`
+- `workmarket/dto/DashboardNotificationsSectionDTO.java`
+- `workmarket/dto/DashboardNotificationItemDTO.java`
+- `workmarket/dto/DashboardNotificationDestinationType.java`
 - `workmarket/dto/QuestNewsItemResponseDTO.java`
+
+Technical notes:
+- `DashboardSectionsFactory` owns dashboard navigation section labels and descriptions, plus grouped quest/application, planner, open-work, and notification sections.
+- Frontend dashboard selectors should prefer `DashboardSectionsDTO.navigation.tabs` for dashboard section titles and descriptions, with local tab ids kept only for routing fallback before the dashboard response loads.
 
 ### Reviews and ratings
 
@@ -614,6 +847,13 @@ Primary files:
 - `workmarket/dto/QuestPresentationDTO.java`
 - `workmarket/dto/QuestApplicationPresentationDTO.java`
 - `workmarket/dto/QuestSearchDefaultsDTO.java`
+- `workmarket/dto/AppUserRoleOptionDTO.java`
+- `workmarket/dto/QuestApplicationStatusFilterOptionDTO.java`
+- `workmarket/dto/QuestAudienceFilterOptionDTO.java`
+- `workmarket/dto/QuestAudienceOptionDTO.java`
+- `workmarket/dto/QuestSortOptionDTO.java`
+- `workmarket/dto/QuestStatusFilterOptionDTO.java`
+- `workmarket/dto/QuestStatusOptionDTO.java`
 
 ## Frontend Source Map
 
@@ -621,6 +861,8 @@ Primary files:
 - `frontend/src/router.ts`
 - `frontend/src/api/httpClient.ts`
 - `frontend/src/api/apiErrors.ts`
+- `frontend/src/components/ui/UiAppShellPage.vue`
+- `frontend/src/components/ui/UiDashboardPage.vue`
 - `frontend/src/modules/identity/api/authApi.ts`
 - `frontend/src/modules/workmarket/api/workmarketApi.ts`
 - `frontend/src/modules/workmarket/api/contracts.ts`
@@ -642,10 +884,18 @@ Primary route entrypoints:
 - `frontend/src/modules/workmarket/pages/AdminOverviewPage.vue`
 - `frontend/src/modules/workmarket/pages/AdminUsersPage.vue`
 - `frontend/src/modules/social/views/CirclesView.vue`
+- `frontend/src/modules/business/views/BusinessHubView.vue`
+- `frontend/src/modules/things/views/ThingSharingView.vue`
+- `frontend/src/modules/rides/views/RideSharingView.vue`
+- `frontend/src/modules/chat/views/ChatWorkspaceView.vue`
 - `frontend/src/modules/social/views/UserProfileView.vue`
 - `frontend/src/modules/social/views/UserSettingsView.vue`
 - `frontend/src/modules/identity/views/LoginView.vue`
 - `frontend/src/modules/identity/views/RegisterView.vue`
+
+Frontend state notes:
+- `UiAppShellPage.vue` is the shared authenticated page shell for normal module routes and admin routes; `UiDashboardPage.vue` remains only as a compatibility wrapper for older dashboard imports.
+- `QuestDetailView.vue` should stay a thin rendering surface. Quest-detail section visibility, owner/application surface state, and edit dirty-state checks live in `useQuestDetailView` and `useQuestDetailEdit` so future workflow changes are made in composables or backend-prepared sections instead of the template file.
 
 ## Key Entity Map
 
@@ -1169,6 +1419,7 @@ Quest-read rules:
 - quest is searchable by location only when visibility is not `OFF` and coordinates exist
 - effective quest location visibility resolves inherited profile mode into `OFF`, `APPROXIMATE`, or `EXACT`
 - exact quest visibility can degrade to approximate for viewers who lack exact-location access
+- `LocationAccessPolicyService` owns the named exact-location permission decision used by quest location labels and visibility summaries
 - exact-location access always allows the owner
 - `CIRCLES` exact access checks membership in one of the owner's allowed circles
 - `USERS` exact access checks explicit allow-list membership
@@ -1188,12 +1439,14 @@ Social coupling:
 - selected visible circles are resolved from owner-owned circles only
 - fallback circle visibility uses `circleService.isCircleBetween(currentUser, quest.getCreator())`
 - workmarket notifications also carry circle-request events and actions, so the news feed is not quest-only
+- workmarket ownership, admin, application, and execution permissions must route through `QuestAccessPolicyService` instead of duplicating role or owner checks
 
 Location coupling:
 - quest writes delegate location handling to `LocationSettingsService`
 - nearby search scope depends on current user saved location and normalized radius
 - quest DTO presentation includes location label, source summary, and visibility summary generated from location rules
 - exact quest address visibility can degrade per viewer based on the creator profile-sharing rules
+- exact quest address access must route through `LocationAccessPolicyService` instead of duplicating scope-specific checks
 
 Common-platform coupling:
 - workmarket services use `ServiceErrors` for business-failure shaping
@@ -1221,6 +1474,7 @@ Contract-shape model:
 - `frontend/src/contracts/index.ts` re-exports generated contract types for app use
 - `frontend/src/modules/workmarket/api/contracts.ts` aliases generated DTOs into module-facing names and adds a few frontend-side request refinements
 - `workmarketApi` aggregates endpoint clients so non-workmarket screens can still consume user, circle, and location contracts through one import surface
+- `npm run generate:contracts` writes the generated frontend contract, while `npm run validate:contracts` and the normal frontend build fail when the checked-in generated contract is stale.
 
 Endpoint client mapping:
 - `questsApi` maps `/quests`, `/quests/search`, `/quests/presets/:preset`, `/quests/:id`, `/quests/:id/detail`, and lifecycle mutation routes

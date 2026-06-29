@@ -1,0 +1,38 @@
+.things-list,
+.things-form {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.things-list__item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 0.85rem;
+}
+
+.things-list__item h3 {
+  margin: 0;
+}
+
+.things-list__description {
+  line-height: 1.55;
+  margin-top: 0.5rem;
+}
+
+.things-list--compact .things-list__item {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.things-form__textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+@media (max-width: 720px) {
+  .things-list__item {
+    grid-template-columns: 1fr;
+  }
+}

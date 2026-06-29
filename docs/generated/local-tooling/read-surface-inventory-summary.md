@@ -1,8 +1,8 @@
 # Read Surface Inventory
 
-- Generated at: `2026-06-28T20:30:13Z`
-- Read surfaces: `95`
-- Transaction-relevant read surfaces: `52`
+- Generated at: `2026-06-29T12:47:09Z`
+- Read surfaces: `107`
+- Transaction-relevant read surfaces: `59`
 - Missing explicit or inherited read-only coverage: `0`
 
 ## `AdminDatabaseMetricsService`
@@ -18,6 +18,12 @@
 
 - `getAllAppUsers` -> `List<AppUser>` | tx=`method` | relevant=`true` | repos=AppUserRepository | dto=none
 - `getAppUser` -> `AppUser` | tx=`method` | relevant=`false` | repos=none | dto=none
+
+## `BusinessProfileService`
+
+- `getDirectory` -> `BusinessProfileListResponseDTO` | tx=`class` | relevant=`true` | repos=BusinessProfileRepository | dto=BusinessProfileListResponseDTO
+- `getProfileBySlug` -> `BusinessProfileResponseDTO` | tx=`class` | relevant=`true` | repos=BusinessProfileRepository | dto=BusinessProfileResponseDTO
+- `getMyProfile` -> `BusinessProfileResponseDTO` | tx=`class` | relevant=`true` | repos=BusinessProfileRepository | dto=BusinessProfileResponseDTO
 
 ## `ChatService`
 
@@ -118,8 +124,16 @@
 - `getPublicApprovedApplicationsViewForQuest` -> `QuestApplicationsViewDTO` | tx=`class` | relevant=`true` | repos=QuestApplicationRepository | dto=QuestApplicationsViewDTO
 - `getApplicationsForApplicant` -> `List<QuestApplicationResponseDTO>` | tx=`class` | relevant=`true` | repos=QuestApplicationRepository | dto=List<QuestApplicationResponseDTO>
 - `toApplicantResponse` -> `QuestApplicationResponseDTO` | tx=`class` | relevant=`false` | repos=none | dto=QuestApplicationResponseDTO
+- `toViewerResponse` -> `QuestApplicationResponseDTO` | tx=`class` | relevant=`false` | repos=none | dto=QuestApplicationResponseDTO
 - `getAllApplicationsForAdmin` -> `List<QuestApplicationResponseDTO>` | tx=`class` | relevant=`true` | repos=QuestApplicationRepository | dto=List<QuestApplicationResponseDTO>
 - `searchApplicationsForAdmin` -> `QuestApplicationListResponseDTO` | tx=`class` | relevant=`true` | repos=QuestApplicationRepository | dto=QuestApplicationListResponseDTO
+
+## `QuestApplicationViewAssembler`
+
+- `toApplicantResponse` -> `QuestApplicationResponseDTO` | tx=`none` | relevant=`false` | repos=none | dto=QuestApplicationResponseDTO
+- `toManagementResponse` -> `QuestApplicationResponseDTO` | tx=`none` | relevant=`false` | repos=none | dto=QuestApplicationResponseDTO
+- `toPublicResponse` -> `QuestApplicationResponseDTO` | tx=`none` | relevant=`false` | repos=none | dto=QuestApplicationResponseDTO
+- `toViewerResponse` -> `QuestApplicationResponseDTO` | tx=`none` | relevant=`false` | repos=none | dto=QuestApplicationResponseDTO
 
 ## `QuestExecutionPrimitiveService`
 
@@ -161,9 +175,19 @@
 
 - `getVisibleCircles` -> `List<CircleGroup>` | tx=`none` | relevant=`false` | repos=none | dto=none
 
+## `RideOfferService`
+
+- `getVisibleOffers` -> `RideOfferListResponseDTO` | tx=`class` | relevant=`true` | repos=RideOfferRepository | dto=RideOfferListResponseDTO
+- `getMyOffers` -> `RideOfferListResponseDTO` | tx=`class` | relevant=`true` | repos=RideOfferRepository | dto=RideOfferListResponseDTO
+
 ## `SocialRelationActionHelper`
 
 - `searchActions` -> `SearchActions` | tx=`none` | relevant=`false` | repos=none | dto=none
+
+## `ThingSharingService`
+
+- `getAvailableListings` -> `ThingListingListResponseDTO` | tx=`class` | relevant=`true` | repos=ThingListingRepository | dto=ThingListingListResponseDTO
+- `getMyListings` -> `ThingListingListResponseDTO` | tx=`class` | relevant=`true` | repos=ThingListingRepository | dto=ThingListingListResponseDTO
 
 ## `UserProfileViewService`
 

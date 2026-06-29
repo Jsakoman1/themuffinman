@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-28T21:02:37Z",
-  "symbol_count": 804,
+  "generated_at": "2026-06-29T12:47:28Z",
+  "symbol_count": 894,
   "symbols": [
     {
       "symbol": "AdminAgentController",
@@ -51,7 +51,6 @@
         "translatePrompt",
         "validateAdmin",
         "validateRequest",
-        "mentionsQuestGeneration",
         "mentionsUserCreation",
         "mentionsAdminUserUpdate",
         "mentionsAdminUserDeletion",
@@ -82,7 +81,8 @@
         "mentionsConnectionAcceptance",
         "buildSummary",
         "selectPrimaryIntent",
-        "buildResolutionConfidence"
+        "buildResolutionConfidence",
+        "buildCapabilityAssessments"
       ],
       "refs": 4
     },
@@ -250,6 +250,170 @@
       "refs": 3
     },
     {
+      "symbol": "SandboxGenerationPlan",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java",
+      "category": "other",
+      "domain": "agent",
+      "methods": [
+        "empty",
+        "isEmpty"
+      ],
+      "refs": 8
+    },
+    {
+      "symbol": "SandboxGenerationPlanner",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java",
+      "category": "other",
+      "domain": "agent",
+      "methods": [
+        "planFor",
+        "mentionsQuestGeneration",
+        "mentionsQuest"
+      ],
+      "refs": 4
+    },
+    {
+      "symbol": "BusinessHubView",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "category": "frontend_view",
+      "domain": "business",
+      "refs": 4
+    },
+    {
+      "symbol": "BusinessProfile",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+      "category": "frontend_api",
+      "domain": "business",
+      "refs": 31
+    },
+    {
+      "symbol": "BusinessProfile",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java",
+      "category": "backend_model",
+      "domain": "business",
+      "methods": [
+
+      ],
+      "refs": 31
+    },
+    {
+      "symbol": "BusinessProfileController",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "category": "backend_controller",
+      "domain": "business",
+      "methods": [
+        "getDirectory",
+        "getMyProfile",
+        "saveMyProfile",
+        "getProfileBySlug"
+      ],
+      "refs": 2
+    },
+    {
+      "symbol": "BusinessProfileListResponse",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+      "category": "frontend_api",
+      "domain": "business",
+      "refs": 3
+    },
+    {
+      "symbol": "BusinessProfileListResponseDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileListResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "business",
+      "methods": [
+
+      ],
+      "refs": 7
+    },
+    {
+      "symbol": "BusinessProfileMgr",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessProfileMgr.java",
+      "category": "backend_mapper",
+      "domain": "business",
+      "methods": [
+        "toDto"
+      ],
+      "refs": 3
+    },
+    {
+      "symbol": "BusinessProfileRepository",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessProfileRepository.java",
+      "category": "backend_repository",
+      "domain": "business",
+      "methods": [
+
+      ],
+      "refs": 4
+    },
+    {
+      "symbol": "BusinessProfileRequest",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+      "category": "frontend_api",
+      "domain": "business",
+      "refs": 4
+    },
+    {
+      "symbol": "BusinessProfileRequestDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "business",
+      "methods": [
+
+      ],
+      "refs": 6
+    },
+    {
+      "symbol": "BusinessProfileResponseDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "business",
+      "methods": [
+
+      ],
+      "refs": 15
+    },
+    {
+      "symbol": "BusinessProfileService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java",
+      "category": "backend_service",
+      "domain": "business",
+      "methods": [
+        "getDirectory",
+        "getProfileBySlug",
+        "getMyProfile",
+        "saveMyProfile",
+        "validateSlugAvailable",
+        "normalizeRequired",
+        "normalizeOptional",
+        "normalizeSlug",
+        "slugify"
+      ],
+      "refs": 4
+    },
+    {
+      "symbol": "businessApi",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+      "category": "frontend_api",
+      "domain": "business",
+      "refs": 7
+    },
+    {
       "symbol": "ChatCircleOptionDTO",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatCircleOptionDTO.java",
@@ -408,7 +572,7 @@
         "markInactive",
         "isOnline"
       ],
-      "refs": 3
+      "refs": 4
     },
     {
       "symbol": "ChatRealtimeService",
@@ -474,7 +638,7 @@
         "refreshConversationPreviews",
         "refreshConversationPreview"
       ],
-      "refs": 4
+      "refs": 5
     },
     {
       "symbol": "ChatSocketClientMessageDTO",
@@ -536,12 +700,20 @@
       "refs": 8
     },
     {
+      "symbol": "ChatWorkspaceView",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "category": "frontend_view",
+      "domain": "chat",
+      "refs": 4
+    },
+    {
       "symbol": "chatApi",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
       "category": "frontend_api",
       "domain": "chat",
-      "refs": 12
+      "refs": 16
     },
     {
       "symbol": "useAppChat",
@@ -549,7 +721,373 @@
       "file": "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
       "category": "frontend_composable",
       "domain": "chat",
+      "refs": 5
+    },
+    {
+      "symbol": "ActionResultDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java",
+      "category": "backend_dto",
+      "domain": "common",
+      "methods": [
+
+      ],
+      "refs": 46
+    },
+    {
+      "symbol": "ActionResults",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResults.java",
+      "category": "backend_dto",
+      "domain": "common",
+      "methods": [
+        "of"
+      ],
+      "refs": 37
+    },
+    {
+      "symbol": "ActorIdentity",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/ActorIdentity.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "anonymous",
+        "from",
+        "authenticated",
+        "admin",
+        "sameUser"
+      ],
+      "refs": 16
+    },
+    {
+      "symbol": "AdminBootstrapConfig",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/AdminBootstrapConfig.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "seedUser",
+        "requireConfiguredUser",
+        "isBlank"
+      ],
+      "refs": 1
+    },
+    {
+      "symbol": "AgentProperties",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/AgentProperties.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+
+      ],
+      "refs": 7
+    },
+    {
+      "symbol": "BootstrapProperties",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/BootstrapProperties.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+
+      ],
+      "refs": 5
+    },
+    {
+      "symbol": "CircleVisibilitySelection",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/CircleVisibilitySelection.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "from",
+        "unrestricted",
+        "distinctCount",
+        "asDistinctSet"
+      ],
+      "refs": 9
+    },
+    {
+      "symbol": "ContractOptional",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/contract/ContractOptional.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+
+      ],
+      "refs": 43
+    },
+    {
+      "symbol": "DomainEvent",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/DomainEvent.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+
+      ],
+      "refs": 5
+    },
+    {
+      "symbol": "DomainEventPublisher",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/DomainEventPublisher.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+
+      ],
+      "refs": 13
+    },
+    {
+      "symbol": "GlobalExceptionHandler",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/controller/GlobalExceptionHandler.java",
+      "category": "backend_controller",
+      "domain": "common",
+      "methods": [
+        "handleResponseStatusException",
+        "handleConstraintViolationException",
+        "handleMethodArgumentNotValid",
+        "handleMissingServletRequestParameter",
+        "handleHttpMessageNotReadable",
+        "handleTypeMismatch",
+        "handleExceptionInternal",
+        "buildResponse",
+        "resolveFieldName",
+        "resolveConstraintCode",
+        "resolveFieldErrorCode",
+        "resolveMessage"
+      ],
+      "refs": 1
+    },
+    {
+      "symbol": "LabelValueDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java",
+      "category": "backend_dto",
+      "domain": "common",
+      "methods": [
+
+      ],
+      "refs": 3
+    },
+    {
+      "symbol": "LocationProviderProperties",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/LocationProviderProperties.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+
+      ],
+      "refs": 3
+    },
+    {
+      "symbol": "ModuleOwnership",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/ModuleOwnership.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "isOwner",
+        "canManage"
+      ],
+      "refs": 6
+    },
+    {
+      "symbol": "NavigationTargetDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetDTO.java",
+      "category": "backend_dto",
+      "domain": "common",
+      "methods": [
+
+      ],
+      "refs": 60
+    },
+    {
+      "symbol": "NavigationTargetType",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetType.java",
+      "category": "backend_dto",
+      "domain": "common",
+      "methods": [
+
+      ],
+      "refs": 27
+    },
+    {
+      "symbol": "PageResponseFactory",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/pagination/PageResponseFactory.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "fromItems",
+        "fromWindow"
+      ],
+      "refs": 10
+    },
+    {
+      "symbol": "PageWindow",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/pagination/PageWindow.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "of"
+      ],
+      "refs": 12
+    },
+    {
+      "symbol": "ProfileValueNormalizer",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/normalization/ProfileValueNormalizer.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "normalizeText",
+        "normalizeAvatarDataUrl"
+      ],
       "refs": 4
+    },
+    {
+      "symbol": "RetentionProperties",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/RetentionProperties.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+
+      ],
+      "refs": 9
+    },
+    {
+      "symbol": "RichTextInputValidator",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/validation/RichTextInputValidator.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "hasContent",
+        "extractPlainText",
+        "sanitize",
+        "looksLikeHtml",
+        "stripTags",
+        "safeUrl",
+        "safeImageUrl",
+        "preserveLeadingHtmlTextWhitespace",
+        "preserveHtmlWhitespace",
+        "appendSpaces",
+        "handleText",
+        "handleStartTag",
+        "handleSimpleTag",
+        "handleEndTag",
+        "handleError"
+      ],
+      "refs": 49
+    },
+    {
+      "symbol": "SchedulingWindow",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/SchedulingWindow.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "hasStart",
+        "hasEnd",
+        "startsBefore",
+        "hasEndWithoutStart",
+        "hasInvalidRange"
+      ],
+      "refs": 6
+    },
+    {
+      "symbol": "SearchQueryNormalizer",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/normalization/SearchQueryNormalizer.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "normalize"
+      ],
+      "refs": 10
+    },
+    {
+      "symbol": "SecurityConfig",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityConfig.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "filterChain",
+        "corsConfigurationSource",
+        "passwordEncoder"
+      ],
+      "refs": 1
+    },
+    {
+      "symbol": "SecurityProperties",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityProperties.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+
+      ],
+      "refs": 5
+    },
+    {
+      "symbol": "ServiceErrors",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/ServiceErrors.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "notFound",
+        "badRequest",
+        "conflict",
+        "forbidden",
+        "unauthorized"
+      ],
+      "refs": 200
+    },
+    {
+      "symbol": "SpringDomainEventPublisher",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/SpringDomainEventPublisher.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "publish"
+      ],
+      "refs": 2
+    },
+    {
+      "symbol": "UserInputNormalizer",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/normalization/UserInputNormalizer.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "normalizeEmail"
+      ],
+      "refs": 10
+    },
+    {
+      "symbol": "WebSocketConfig",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/WebSocketConfig.java",
+      "category": "other",
+      "domain": "common",
+      "methods": [
+        "registerWebSocketHandlers"
+      ],
+      "refs": 1
     },
     {
       "symbol": "AdminUserDetailDTO",
@@ -572,7 +1110,7 @@
         "getDetail",
         "validateAdmin"
       ],
-      "refs": 3
+      "refs": 4
     },
     {
       "symbol": "ApiAuthenticationEntryPoint",
@@ -594,7 +1132,7 @@
       "methods": [
 
       ],
-      "refs": 481
+      "refs": 539
     },
     {
       "symbol": "AppUserController",
@@ -626,7 +1164,7 @@
       "methods": [
         "requireById"
       ],
-      "refs": 14
+      "refs": 15
     },
     {
       "symbol": "AppUserMgr",
@@ -638,7 +1176,7 @@
         "toDto",
         "withProfileStats"
       ],
-      "refs": 9
+      "refs": 10
     },
     {
       "symbol": "AppUserRepository",
@@ -649,7 +1187,7 @@
       "methods": [
 
       ],
-      "refs": 27
+      "refs": 28
     },
     {
       "symbol": "AppUserRequestDTO",
@@ -682,7 +1220,7 @@
       "methods": [
 
       ],
-      "refs": 62
+      "refs": 55
     },
     {
       "symbol": "AppUserService",
@@ -710,7 +1248,7 @@
         "matchesUserQuery",
         "normalizedHaystack"
       ],
-      "refs": 7
+      "refs": 8
     },
     {
       "symbol": "AuthController",
@@ -803,7 +1341,7 @@
       "file": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
       "category": "frontend_view",
       "domain": "identity",
-      "refs": 3
+      "refs": 4
     },
     {
       "symbol": "ProfilePrimaryActionDTO",
@@ -833,7 +1371,7 @@
       "file": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
       "category": "frontend_view",
       "domain": "identity",
-      "refs": 3
+      "refs": 4
     },
     {
       "symbol": "RepositoryUserDetailsService",
@@ -866,7 +1404,7 @@
       "methods": [
         "getProfileView"
       ],
-      "refs": 3
+      "refs": 5
     },
     {
       "symbol": "authApi",
@@ -874,7 +1412,7 @@
       "file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
       "category": "frontend_api",
       "domain": "identity",
-      "refs": 11
+      "refs": 12
     },
     {
       "symbol": "authHeader",
@@ -890,7 +1428,7 @@
       "file": "apps/themuffinman/frontend/src/modules/identity/auth.ts",
       "category": "other",
       "domain": "identity",
-      "refs": 24
+      "refs": 17
     },
     {
       "symbol": "isLoggedIn",
@@ -964,7 +1502,7 @@
       "methods": [
 
       ],
-      "refs": 30
+      "refs": 31
     },
     {
       "symbol": "ExactLocationVisibilityScopeOptionDTO",
@@ -991,6 +1529,17 @@
         "firstNonBlank"
       ],
       "refs": 2
+    },
+    {
+      "symbol": "LocationAccessPolicyService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java",
+      "category": "backend_service",
+      "domain": "location",
+      "methods": [
+        "canViewExactLocation"
+      ],
+      "refs": 4
     },
     {
       "symbol": "LocationDebugStatusDTO",
@@ -1170,7 +1719,6 @@
         "copyUserLocationToQuest",
         "clearUserCoordinates",
         "clearQuestLocation",
-        "canViewerSeeExactLocation",
         "resolveEffectiveQuestLocationVisibility",
         "buildApproximateQuestLocationLabel",
         "buildExactQuestLocationLabel",
@@ -1179,7 +1727,7 @@
         "normalizeCountryCode",
         "normalizeText"
       ],
-      "refs": 20
+      "refs": 22
     },
     {
       "symbol": "QuestLocationSource",
@@ -1248,12 +1796,146 @@
       "refs": 8
     },
     {
+      "symbol": "RideOffer",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+      "category": "frontend_api",
+      "domain": "rides",
+      "refs": 19
+    },
+    {
+      "symbol": "RideOffer",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java",
+      "category": "backend_model",
+      "domain": "rides",
+      "methods": [
+
+      ],
+      "refs": 19
+    },
+    {
+      "symbol": "RideOfferController",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "category": "backend_controller",
+      "domain": "rides",
+      "methods": [
+        "getVisibleOffers",
+        "getMyOffers",
+        "createOffer"
+      ],
+      "refs": 2
+    },
+    {
+      "symbol": "RideOfferListResponse",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+      "category": "frontend_api",
+      "domain": "rides",
+      "refs": 5
+    },
+    {
+      "symbol": "RideOfferListResponseDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferListResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "rides",
+      "methods": [
+
+      ],
+      "refs": 10
+    },
+    {
+      "symbol": "RideOfferMgr",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java",
+      "category": "backend_mapper",
+      "domain": "rides",
+      "methods": [
+        "toDto"
+      ],
+      "refs": 3
+    },
+    {
+      "symbol": "RideOfferRepository",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/repository/RideOfferRepository.java",
+      "category": "backend_repository",
+      "domain": "rides",
+      "methods": [
+
+      ],
+      "refs": 4
+    },
+    {
+      "symbol": "RideOfferRequest",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+      "category": "frontend_api",
+      "domain": "rides",
+      "refs": 4
+    },
+    {
+      "symbol": "RideOfferRequestDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "rides",
+      "methods": [
+
+      ],
+      "refs": 6
+    },
+    {
+      "symbol": "RideOfferResponseDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "rides",
+      "methods": [
+
+      ],
+      "refs": 11
+    },
+    {
+      "symbol": "RideOfferService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java",
+      "category": "backend_service",
+      "domain": "rides",
+      "methods": [
+        "getVisibleOffers",
+        "getMyOffers",
+        "createOffer",
+        "resolveVisibleCircles",
+        "normalizeRequired"
+      ],
+      "refs": 4
+    },
+    {
+      "symbol": "RideSharingView",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "category": "frontend_view",
+      "domain": "rides",
+      "refs": 4
+    },
+    {
+      "symbol": "ridesApi",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+      "category": "frontend_api",
+      "domain": "rides",
+      "refs": 7
+    },
+    {
       "symbol": "ADMIN_AGENT_SAFETY_FLAG_IDS",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 5
+      "refs": 7
     },
     {
       "symbol": "AGENT_ENDPOINT_IDS",
@@ -1261,7 +1943,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 5
+      "refs": 7
     },
     {
       "symbol": "AGENT_INTENT_IDS",
@@ -1269,7 +1951,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 5
+      "refs": 7
     },
     {
       "symbol": "AGENT_REQUIRED_UNRESOLVED_INPUTS",
@@ -1305,33 +1987,11 @@
     },
     {
       "symbol": "ActionResultDTO",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java",
-      "category": "backend_dto",
-      "domain": "shared",
-      "methods": [
-
-      ],
-      "refs": 46
-    },
-    {
-      "symbol": "ActionResultDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
       "refs": 46
-    },
-    {
-      "symbol": "ActionResults",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResults.java",
-      "category": "backend_dto",
-      "domain": "shared",
-      "methods": [
-        "of"
-      ],
-      "refs": 37
     },
     {
       "symbol": "AdminAgentPlaygroundRequest",
@@ -1371,7 +2031,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 6
+      "refs": 8
     },
     {
       "symbol": "AdminAgentSimulationRequest",
@@ -1395,7 +2055,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 22
+      "refs": 24
     },
     {
       "symbol": "AdminAgentSimulationResponseDTO",
@@ -1420,19 +2080,6 @@
       "category": "frontend_contract",
       "domain": "shared",
       "refs": 6
-    },
-    {
-      "symbol": "AdminBootstrapConfig",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/AdminBootstrapConfig.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-        "seedUser",
-        "requireConfiguredUser",
-        "isBlank"
-      ],
-      "refs": 1
     },
     {
       "symbol": "AdminCircleGroup",
@@ -1512,7 +2159,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 4
+      "refs": 6
     },
     {
       "symbol": "AgentEndpointPlanDTO",
@@ -1536,7 +2183,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 4
+      "refs": 6
     },
     {
       "symbol": "AgentIntentLineageDTO",
@@ -1544,17 +2191,6 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 7
-    },
-    {
-      "symbol": "AgentProperties",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/AgentProperties.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-
-      ],
       "refs": 7
     },
     {
@@ -1583,6 +2219,14 @@
     },
     {
       "symbol": "ApiErrorResponseDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 10
+    },
+    {
+      "symbol": "ApiErrorResponseDTO",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiErrorResponseDTO.java",
       "category": "backend_dto",
@@ -1593,12 +2237,12 @@
       "refs": 10
     },
     {
-      "symbol": "ApiErrorResponseDTO",
+      "symbol": "ApiFieldErrorDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 10
+      "refs": 12
     },
     {
       "symbol": "ApiFieldErrorDTO",
@@ -1609,14 +2253,6 @@
       "methods": [
 
       ],
-      "refs": 12
-    },
-    {
-      "symbol": "ApiFieldErrorDTO",
-      "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
-      "category": "frontend_contract",
-      "domain": "shared",
       "refs": 12
     },
     {
@@ -1641,7 +2277,7 @@
       "file": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
       "category": "other",
       "domain": "shared",
-      "refs": 3
+      "refs": 4
     },
     {
       "symbol": "AppModuleNav",
@@ -1665,7 +2301,7 @@
       "file": "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
       "category": "other",
       "domain": "shared",
-      "refs": 11
+      "refs": 15
     },
     {
       "symbol": "AppTopbar",
@@ -1681,7 +2317,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 481
+      "refs": 539
     },
     {
       "symbol": "AppUserRequest",
@@ -1713,7 +2349,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 62
+      "refs": 55
     },
     {
       "symbol": "AppUserRoleOption",
@@ -1764,17 +2400,6 @@
       "refs": 2
     },
     {
-      "symbol": "BootstrapProperties",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/BootstrapProperties.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-
-      ],
-      "refs": 5
-    },
-    {
       "symbol": "BulkCircleMembershipAction",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
@@ -1789,6 +2414,30 @@
       "category": "frontend_contract",
       "domain": "shared",
       "refs": 6
+    },
+    {
+      "symbol": "BusinessProfileListResponseDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 7
+    },
+    {
+      "symbol": "BusinessProfileRequestDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 6
+    },
+    {
+      "symbol": "BusinessProfileResponseDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 15
     },
     {
       "symbol": "CIRCLE_RELATION_STATUS_VALUES",
@@ -1916,7 +2565,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 6
+      "refs": 8
     },
     {
       "symbol": "ChatWorkspaceDTO",
@@ -2020,7 +2669,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 75
+      "refs": 84
     },
     {
       "symbol": "CircleGroupRequest",
@@ -2199,17 +2848,6 @@
       "refs": 5
     },
     {
-      "symbol": "ContractOptional",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/contract/ContractOptional.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-
-      ],
-      "refs": 43
-    },
-    {
       "symbol": "DASHBOARD_NOTIFICATION_DESTINATION_TYPE_VALUES",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
@@ -2219,6 +2857,22 @@
     },
     {
       "symbol": "DashboardApplicationGroupDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 7
+    },
+    {
+      "symbol": "DashboardNavigationItemDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 7
+    },
+    {
+      "symbol": "DashboardNavigationSectionDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
@@ -2351,7 +3005,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 30
+      "refs": 31
     },
     {
       "symbol": "ExactLocationVisibilityScopeOptionDTO",
@@ -2360,28 +3014,6 @@
       "category": "frontend_contract",
       "domain": "shared",
       "refs": 15
-    },
-    {
-      "symbol": "GlobalExceptionHandler",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/controller/GlobalExceptionHandler.java",
-      "category": "backend_controller",
-      "domain": "shared",
-      "methods": [
-        "handleResponseStatusException",
-        "handleConstraintViolationException",
-        "handleMethodArgumentNotValid",
-        "handleMissingServletRequestParameter",
-        "handleHttpMessageNotReadable",
-        "handleTypeMismatch",
-        "handleExceptionInternal",
-        "buildResponse",
-        "resolveFieldName",
-        "resolveConstraintCode",
-        "resolveFieldErrorCode",
-        "resolveMessage"
-      ],
-      "refs": 1
     },
     {
       "symbol": "IMAGE_COMPRESS_ERROR_MESSAGE",
@@ -2437,17 +3069,6 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 3
-    },
-    {
-      "symbol": "LabelValueDTO",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java",
-      "category": "backend_dto",
-      "domain": "shared",
-      "methods": [
-
-      ],
       "refs": 3
     },
     {
@@ -2531,17 +3152,6 @@
       "refs": 13
     },
     {
-      "symbol": "LocationProviderProperties",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/LocationProviderProperties.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-
-      ],
-      "refs": 3
-    },
-    {
       "symbol": "LocationReverseLookupRequest",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
@@ -2571,7 +3181,7 @@
       "file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
       "category": "frontend_view",
       "domain": "shared",
-      "refs": 6
+      "refs": 0
     },
     {
       "symbol": "NAVIGATION_TARGET_TYPE_VALUES",
@@ -2598,33 +3208,11 @@
       "refs": 60
     },
     {
-      "symbol": "NavigationTargetDTO",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetDTO.java",
-      "category": "backend_dto",
-      "domain": "shared",
-      "methods": [
-
-      ],
-      "refs": 60
-    },
-    {
       "symbol": "NavigationTargetType",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 27
-    },
-    {
-      "symbol": "NavigationTargetType",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetType.java",
-      "category": "backend_dto",
-      "domain": "shared",
-      "methods": [
-
-      ],
       "refs": 27
     },
     {
@@ -2652,29 +3240,6 @@
       "refs": 7
     },
     {
-      "symbol": "PageResponseFactory",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/pagination/PageResponseFactory.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-        "fromItems",
-        "fromWindow"
-      ],
-      "refs": 10
-    },
-    {
-      "symbol": "PageWindow",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/pagination/PageWindow.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-        "of"
-      ],
-      "refs": 12
-    },
-    {
       "symbol": "ProductModule",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
@@ -2696,7 +3261,7 @@
       "file": "apps/themuffinman/frontend/src/components/profile/ProfileAvatar.vue",
       "category": "other",
       "domain": "shared",
-      "refs": 25
+      "refs": 29
     },
     {
       "symbol": "ProfileBio",
@@ -2752,18 +3317,6 @@
       "file": "apps/themuffinman/frontend/src/components/profile/ProfileSummaryCard.vue",
       "category": "other",
       "domain": "shared",
-      "refs": 4
-    },
-    {
-      "symbol": "ProfileValueNormalizer",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/normalization/ProfileValueNormalizer.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-        "normalizeText",
-        "normalizeAvatarDataUrl"
-      ],
       "refs": 4
     },
     {
@@ -2876,7 +3429,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 376
+      "refs": 392
     },
     {
       "symbol": "QuestAllowedAction",
@@ -2892,7 +3445,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 150
+      "refs": 183
     },
     {
       "symbol": "QuestApplicationAllowedAction",
@@ -2988,7 +3541,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 13
+      "refs": 18
     },
     {
       "symbol": "QuestApplicationResponseDTO",
@@ -2996,7 +3549,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 95
+      "refs": 96
     },
     {
       "symbol": "QuestApplicationStatus",
@@ -3004,7 +3557,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 103
+      "refs": 110
     },
     {
       "symbol": "QuestApplicationStatusFilterOptionDTO",
@@ -3308,7 +3861,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 156
+      "refs": 159
     },
     {
       "symbol": "QuestStatusFilterOption",
@@ -3367,17 +3920,6 @@
       "refs": 11
     },
     {
-      "symbol": "RetentionProperties",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/RetentionProperties.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-
-      ],
-      "refs": 9
-    },
-    {
       "symbol": "ReviewRole",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
@@ -3402,79 +3944,28 @@
       "refs": 3
     },
     {
-      "symbol": "RichTextInputValidator",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/validation/RichTextInputValidator.java",
-      "category": "other",
+      "symbol": "RideOfferListResponseDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
       "domain": "shared",
-      "methods": [
-        "hasContent",
-        "extractPlainText",
-        "sanitize",
-        "looksLikeHtml",
-        "stripTags",
-        "safeUrl",
-        "safeImageUrl",
-        "preserveLeadingHtmlTextWhitespace",
-        "preserveHtmlWhitespace",
-        "appendSpaces",
-        "handleText",
-        "handleStartTag",
-        "handleSimpleTag",
-        "handleEndTag",
-        "handleError"
-      ],
-      "refs": 33
-    },
-    {
-      "symbol": "SearchQueryNormalizer",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/normalization/SearchQueryNormalizer.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-        "normalize"
-      ],
       "refs": 10
     },
     {
-      "symbol": "SecurityConfig",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityConfig.java",
-      "category": "other",
+      "symbol": "RideOfferRequestDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
       "domain": "shared",
-      "methods": [
-        "filterChain",
-        "corsConfigurationSource",
-        "passwordEncoder"
-      ],
-      "refs": 1
+      "refs": 6
     },
     {
-      "symbol": "SecurityProperties",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityProperties.java",
-      "category": "other",
+      "symbol": "RideOfferResponseDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
       "domain": "shared",
-      "methods": [
-
-      ],
-      "refs": 5
-    },
-    {
-      "symbol": "ServiceErrors",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/ServiceErrors.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-        "notFound",
-        "badRequest",
-        "conflict",
-        "forbidden",
-        "unauthorized"
-      ],
-      "refs": 180
+      "refs": 11
     },
     {
       "symbol": "SessionUser",
@@ -3483,6 +3974,22 @@
       "category": "other",
       "domain": "shared",
       "refs": 7
+    },
+    {
+      "symbol": "THING_BORROW_REQUEST_STATUS_VALUES",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 2
+    },
+    {
+      "symbol": "TYPE_VALUES",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 2
     },
     {
       "symbol": "TextPageQuery",
@@ -3510,6 +4017,62 @@
         "main"
       ],
       "refs": 2
+    },
+    {
+      "symbol": "ThingBorrowRequestDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 6
+    },
+    {
+      "symbol": "ThingBorrowRequestResponseDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 9
+    },
+    {
+      "symbol": "ThingBorrowRequestStatus",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 15
+    },
+    {
+      "symbol": "ThingListingListResponseDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 10
+    },
+    {
+      "symbol": "ThingListingRequestDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 7
+    },
+    {
+      "symbol": "ThingListingResponseDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 11
+    },
+    {
+      "symbol": "Type",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 11
     },
     {
       "symbol": "USER_LOCATION_MODE_VALUES",
@@ -3552,6 +4115,14 @@
       "refs": 0
     },
     {
+      "symbol": "UiAppShellPage",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
+      "category": "other",
+      "domain": "shared",
+      "refs": 52
+    },
+    {
       "symbol": "UiAuthCard",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/components/ui/UiAuthCard.vue",
@@ -3581,7 +4152,7 @@
       "file": "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue",
       "category": "other",
       "domain": "shared",
-      "refs": 32
+      "refs": 0
     },
     {
       "symbol": "UiDialog",
@@ -3685,7 +4256,7 @@
       "file": "apps/themuffinman/frontend/src/components/ui/UiRequestError.vue",
       "category": "other",
       "domain": "shared",
-      "refs": 18
+      "refs": 30
     },
     {
       "symbol": "UiSearchableMultiSelect",
@@ -3741,7 +4312,7 @@
       "file": "apps/themuffinman/frontend/src/components/ui/UiSurfaceSection.vue",
       "category": "other",
       "domain": "shared",
-      "refs": 114
+      "refs": 146
     },
     {
       "symbol": "UiToast",
@@ -3757,18 +4328,7 @@
       "file": "apps/themuffinman/frontend/src/components/ui/UiWorkspace.vue",
       "category": "other",
       "domain": "shared",
-      "refs": 12
-    },
-    {
-      "symbol": "UserInputNormalizer",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/normalization/UserInputNormalizer.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-        "normalizeEmail"
-      ],
-      "refs": 10
+      "refs": 28
     },
     {
       "symbol": "UserLocationMode",
@@ -3867,17 +4427,6 @@
       "refs": 16
     },
     {
-      "symbol": "WebSocketConfig",
-      "kind": "java",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/WebSocketConfig.java",
-      "category": "other",
-      "domain": "shared",
-      "methods": [
-        "registerWebSocketHandlers"
-      ],
-      "refs": 1
-    },
-    {
       "symbol": "WorkmarketOptions",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
@@ -3899,7 +4448,7 @@
       "file": "apps/themuffinman/frontend/src/api/httpClient.ts",
       "category": "other",
       "domain": "shared",
-      "refs": 216
+      "refs": 258
     },
     {
       "symbol": "buildRequestDebugInfo",
@@ -3971,7 +4520,7 @@
       "file": "apps/themuffinman/frontend/src/services/sessionService.ts",
       "category": "other",
       "domain": "shared",
-      "refs": 710
+      "refs": 781
     },
     {
       "symbol": "endOfMonth",
@@ -4003,7 +4552,7 @@
       "file": "apps/themuffinman/frontend/src/shared/questSchedule.ts",
       "category": "other",
       "domain": "shared",
-      "refs": 17
+      "refs": 16
     },
     {
       "symbol": "formatQuestScheduleForDisplay",
@@ -4051,7 +4600,7 @@
       "file": "apps/themuffinman/frontend/src/api/apiErrors.ts",
       "category": "other",
       "domain": "shared",
-      "refs": 55
+      "refs": 67
     },
     {
       "symbol": "getPaginationState",
@@ -4299,7 +4848,7 @@
       "file": "apps/themuffinman/frontend/src/api/httpClient.ts",
       "category": "other",
       "domain": "shared",
-      "refs": 93
+      "refs": 107
     },
     {
       "symbol": "AdminCircleGroupResponseDTO",
@@ -4480,7 +5029,7 @@
       "methods": [
 
       ],
-      "refs": 75
+      "refs": 84
     },
     {
       "symbol": "CircleGroupRepository",
@@ -4491,7 +5040,7 @@
       "methods": [
 
       ],
-      "refs": 6
+      "refs": 8
     },
     {
       "symbol": "CircleGroupRequestDTO",
@@ -4562,7 +5111,7 @@
         "getMembershipsByUserIdForOwner",
         "syncConnectionCircles"
       ],
-      "refs": 7
+      "refs": 9
     },
     {
       "symbol": "CircleOverviewDTO",
@@ -4752,7 +5301,7 @@
         "normalizeCircleName",
         "validateAdmin"
       ],
-      "refs": 13
+      "refs": 14
     },
     {
       "symbol": "CircleSummaryDTO",
@@ -5017,6 +5566,208 @@
       "refs": 7
     },
     {
+      "symbol": "ThingBorrowRequest",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "category": "frontend_api",
+      "domain": "things",
+      "refs": 17
+    },
+    {
+      "symbol": "ThingBorrowRequest",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequest.java",
+      "category": "backend_model",
+      "domain": "things",
+      "methods": [
+
+      ],
+      "refs": 17
+    },
+    {
+      "symbol": "ThingBorrowRequestDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "things",
+      "methods": [
+
+      ],
+      "refs": 6
+    },
+    {
+      "symbol": "ThingBorrowRequestRepository",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingBorrowRequestRepository.java",
+      "category": "backend_repository",
+      "domain": "things",
+      "methods": [
+
+      ],
+      "refs": 4
+    },
+    {
+      "symbol": "ThingBorrowRequestResponseDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "things",
+      "methods": [
+
+      ],
+      "refs": 9
+    },
+    {
+      "symbol": "ThingBorrowRequestStatus",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequestStatus.java",
+      "category": "backend_model",
+      "domain": "things",
+      "methods": [
+
+      ],
+      "refs": 15
+    },
+    {
+      "symbol": "ThingListing",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "category": "frontend_api",
+      "domain": "things",
+      "refs": 31
+    },
+    {
+      "symbol": "ThingListing",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingListing.java",
+      "category": "backend_model",
+      "domain": "things",
+      "methods": [
+
+      ],
+      "refs": 31
+    },
+    {
+      "symbol": "ThingListingListResponse",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "category": "frontend_api",
+      "domain": "things",
+      "refs": 5
+    },
+    {
+      "symbol": "ThingListingListResponseDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingListResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "things",
+      "methods": [
+
+      ],
+      "refs": 10
+    },
+    {
+      "symbol": "ThingListingRepository",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingListingRepository.java",
+      "category": "backend_repository",
+      "domain": "things",
+      "methods": [
+
+      ],
+      "refs": 4
+    },
+    {
+      "symbol": "ThingListingRequest",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "category": "frontend_api",
+      "domain": "things",
+      "refs": 4
+    },
+    {
+      "symbol": "ThingListingRequestDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "things",
+      "methods": [
+
+      ],
+      "refs": 7
+    },
+    {
+      "symbol": "ThingListingResponseDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "things",
+      "methods": [
+
+      ],
+      "refs": 11
+    },
+    {
+      "symbol": "ThingSharingController",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "category": "backend_controller",
+      "domain": "things",
+      "methods": [
+        "getAvailableListings",
+        "getMyListings",
+        "createListing",
+        "requestBorrow"
+      ],
+      "refs": 2
+    },
+    {
+      "symbol": "ThingSharingMgr",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java",
+      "category": "backend_mapper",
+      "domain": "things",
+      "methods": [
+        "toListingDto",
+        "toBorrowRequestDto"
+      ],
+      "refs": 3
+    },
+    {
+      "symbol": "ThingSharingService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java",
+      "category": "backend_service",
+      "domain": "things",
+      "methods": [
+        "getAvailableListings",
+        "getMyListings",
+        "saveMyListing",
+        "requestBorrow",
+        "applyListingInput",
+        "pendingRequestIds",
+        "normalizeRequired",
+        "normalizeOptional"
+      ],
+      "refs": 4
+    },
+    {
+      "symbol": "ThingSharingView",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "category": "frontend_view",
+      "domain": "things",
+      "refs": 4
+    },
+    {
+      "symbol": "thingsApi",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "category": "frontend_api",
+      "domain": "things",
+      "refs": 8
+    },
+    {
       "symbol": "ALL_FILTER_VALUE",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/filterValues.ts",
@@ -5094,7 +5845,7 @@
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
       "category": "frontend_api",
       "domain": "workmarket",
-      "refs": 22
+      "refs": 24
     },
     {
       "symbol": "AdminApplicationsPage",
@@ -5191,6 +5942,14 @@
       "refs": 3
     },
     {
+      "symbol": "AgentWorkflowReferenceIssue",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
+      "category": "frontend_api",
+      "domain": "workmarket",
+      "refs": 5
+    },
+    {
       "symbol": "AppUserRoleOptionDTO",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AppUserRoleOptionDTO.java",
@@ -5275,6 +6034,29 @@
       "category": "other",
       "domain": "workmarket",
       "refs": 6
+    },
+    {
+      "symbol": "ApplyForQuestUseCase",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "execute"
+      ],
+      "refs": 2
+    },
+    {
+      "symbol": "ApproveApplicationUseCase",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "execute",
+        "declineOtherPendingApplications"
+      ],
+      "refs": 2
     },
     {
       "symbol": "CircleConnectionsQuery",
@@ -5442,6 +6224,28 @@
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
       "category": "other",
       "domain": "workmarket",
+      "refs": 7
+    },
+    {
+      "symbol": "DashboardNavigationItemDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "methods": [
+
+      ],
+      "refs": 7
+    },
+    {
+      "symbol": "DashboardNavigationSectionDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "methods": [
+
+      ],
       "refs": 7
     },
     {
@@ -5656,6 +6460,7 @@
       "methods": [
         "buildSections",
         "emptySections",
+        "buildNavigationSection",
         "resolveQuestGroupLabel",
         "resolveApplicationGroupLabel",
         "buildPlannerSection",
@@ -5689,7 +6494,7 @@
         "countApplicationsByStatus",
         "countActiveWorkApplications"
       ],
-      "refs": 3
+      "refs": 4
     },
     {
       "symbol": "DashboardSummaryDTO",
@@ -5724,7 +6529,7 @@
       "file": "apps/themuffinman/frontend/src/modules/workmarket/domain/workmarketDomain.ts",
       "category": "other",
       "domain": "workmarket",
-      "refs": 12
+      "refs": 11
     },
     {
       "symbol": "DashboardWorkPlanner",
@@ -5749,6 +6554,17 @@
       "category": "other",
       "domain": "workmarket",
       "refs": 3
+    },
+    {
+      "symbol": "DeclineApplicationUseCase",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeclineApplicationUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "execute"
+      ],
+      "refs": 2
     },
     {
       "symbol": "DeleteQuestUseCase",
@@ -5842,7 +6658,7 @@
       "methods": [
 
       ],
-      "refs": 376
+      "refs": 392
     },
     {
       "symbol": "QuestAccessPolicyService",
@@ -5854,9 +6670,15 @@
         "resolveViewerRelation",
         "resolveAllowedActions",
         "isQuestOwner",
+        "canManageQuest",
+        "canManageQuestApplications",
+        "canViewQuestApplication",
+        "canApplyToQuest",
+        "canExecuteQuest",
+        "canDecideQuestTermChange",
         "isAdmin"
       ],
-      "refs": 6
+      "refs": 12
     },
     {
       "symbol": "QuestAllowedAction",
@@ -5878,7 +6700,7 @@
       "methods": [
 
       ],
-      "refs": 150
+      "refs": 183
     },
     {
       "symbol": "QuestApplicationController",
@@ -5970,6 +6792,28 @@
       "refs": 7
     },
     {
+      "symbol": "QuestApplicationNewsEvent",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEvent.java",
+      "category": "other",
+      "domain": "workmarket",
+      "methods": [
+
+      ],
+      "refs": 19
+    },
+    {
+      "symbol": "QuestApplicationNewsEventHandler",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandler.java",
+      "category": "other",
+      "domain": "workmarket",
+      "methods": [
+        "handle"
+      ],
+      "refs": 1
+    },
+    {
       "symbol": "QuestApplicationPresentationDTO",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationPresentationDTO.java",
@@ -5989,7 +6833,7 @@
       "methods": [
 
       ],
-      "refs": 22
+      "refs": 34
     },
     {
       "symbol": "QuestApplicationRequest",
@@ -6008,7 +6852,7 @@
       "methods": [
 
       ],
-      "refs": 13
+      "refs": 18
     },
     {
       "symbol": "QuestApplicationResponseDTO",
@@ -6019,7 +6863,7 @@
       "methods": [
 
       ],
-      "refs": 95
+      "refs": 96
     },
     {
       "symbol": "QuestApplicationService",
@@ -6034,6 +6878,9 @@
         "getPublicApprovedApplicationsViewForQuest",
         "getApplicationsForApplicant",
         "toApplicantResponse",
+        "toViewerResponse",
+        "toManagementResponse",
+        "toPublicResponse",
         "getAllApplicationsForAdmin",
         "searchApplicationsForAdmin",
         "updateApplicationForAdmin",
@@ -6042,30 +6889,12 @@
         "withdrawMyApplication",
         "approveApplication",
         "declineApplication",
-        "requireQuest",
-        "requireOpenQuest",
-        "requireVisibleOpenQuest",
-        "requirePendingApplication",
-        "requirePendingMyApplication",
-        "saveAndMapApplication",
-        "withAllowedActions",
-        "resolveApplicantActions",
-        "resolveManagementActions",
         "resolveVisibleApplications",
         "resolveRevealLabel",
         "resolveSelectedApplicationId",
         "matchesAdminQuery",
         "applyAdminStatusUpdate",
-        "containsNormalized",
-        "declineOtherPendingApplications",
-        "validateQuestIsOpen",
-        "validateNotQuestCreator",
-        "validateNoDuplicateApplication",
-        "validateApplicationInput",
-        "isFreeQuest",
-        "validateQuestOwnerOrAdmin",
-        "isAdmin",
-        "validateAdmin"
+        "containsNormalized"
       ],
       "refs": 5
     },
@@ -6079,7 +6908,7 @@
         "isPending",
         "isActive"
       ],
-      "refs": 103
+      "refs": 110
     },
     {
       "symbol": "QuestApplicationStatusFilterOptionDTO",
@@ -6091,6 +6920,45 @@
 
       ],
       "refs": 10
+    },
+    {
+      "symbol": "QuestApplicationViewAssembler",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "toApplicantResponse",
+        "toManagementResponse",
+        "toPublicResponse",
+        "toViewerResponse",
+        "withAllowedActions",
+        "resolveApplicantActions",
+        "resolveManagementActions"
+      ],
+      "refs": 3
+    },
+    {
+      "symbol": "QuestApplicationWorkflowSupport",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "requireQuest",
+        "requireOpenQuest",
+        "requireVisibleOpenQuest",
+        "requirePendingApplication",
+        "requirePendingMyApplication",
+        "validateNotQuestCreator",
+        "validateNoDuplicateApplication",
+        "validateApplicationInput",
+        "isFreeQuest",
+        "validateQuestOwnerOrAdmin",
+        "validateAdmin",
+        "validateQuestIsOpen"
+      ],
+      "refs": 8
     },
     {
       "symbol": "QuestApplicationsViewDTO",
@@ -6524,7 +7392,7 @@
         "deleteExpiredNews",
         "notifyUnreadCountChanged"
       ],
-      "refs": 10
+      "refs": 11
     },
     {
       "symbol": "QuestNewsType",
@@ -6581,7 +7449,7 @@
       "methods": [
 
       ],
-      "refs": 13
+      "refs": 17
     },
     {
       "symbol": "QuestRequest",
@@ -6669,11 +7537,10 @@
         "rejectQuestTermChange",
         "requireQuest",
         "buildQuestListResponse",
-        "toViewerApplicationResponse",
         "loadQuestSearchScope",
         "getCurrentUserApplicationsByQuestId"
       ],
-      "refs": 6
+      "refs": 7
     },
     {
       "symbol": "QuestSortMode",
@@ -6715,10 +7582,9 @@
         "queueQuestTermChange",
         "clearPendingQuestTermChange",
         "restoreQuestStatusAfterTermDecision",
-        "reopenQuestApplications",
-        "isAdmin"
+        "reopenQuestApplications"
       ],
-      "refs": 8
+      "refs": 9
     },
     {
       "symbol": "QuestStatus",
@@ -6732,7 +7598,7 @@
         "isClosed",
         "isVisibleOwnerWork"
       ],
-      "refs": 156
+      "refs": 159
     },
     {
       "symbol": "QuestStatusFilter",
@@ -6819,7 +7685,7 @@
         "resolveReviewTarget",
         "buildQuestPresentation"
       ],
-      "refs": 2
+      "refs": 3
     },
     {
       "symbol": "QuestViewerRelation",
@@ -6840,8 +7706,7 @@
       "domain": "workmarket",
       "methods": [
         "canViewQuest",
-        "getVisibleCircles",
-        "isAdmin"
+        "getVisibleCircles"
       ],
       "refs": 5
     },
@@ -6907,6 +7772,17 @@
       "category": "frontend_api",
       "domain": "workmarket",
       "refs": 7
+    },
+    {
+      "symbol": "UpdateMyApplicationUseCase",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UpdateMyApplicationUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "execute"
+      ],
+      "refs": 2
     },
     {
       "symbol": "UpdateQuestUseCase",
@@ -7014,6 +7890,17 @@
         "resolveReviewTarget"
       ],
       "refs": 5
+    },
+    {
+      "symbol": "WithdrawMyApplicationUseCase",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WithdrawMyApplicationUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "execute"
+      ],
+      "refs": 2
     },
     {
       "symbol": "WorkmarketOptionsDTO",
@@ -7161,6 +8048,14 @@
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/applyDashboardResponse.ts",
       "category": "frontend_composable",
+      "domain": "workmarket",
+      "refs": 3
+    },
+    {
+      "symbol": "collectAgentWorkflowReferenceIssues",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
+      "category": "frontend_api",
       "domain": "workmarket",
       "refs": 3
     },
@@ -7362,7 +8257,7 @@
       "file": "apps/themuffinman/frontend/src/modules/workmarket/domain/workmarketDomain.ts",
       "category": "other",
       "domain": "workmarket",
-      "refs": 11
+      "refs": 8
     },
     {
       "symbol": "formatApplicationPrice",
@@ -7379,6 +8274,30 @@
       "category": "other",
       "domain": "workmarket",
       "refs": 15
+    },
+    {
+      "symbol": "isAdminAgentSafetyFlagId",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
+      "category": "frontend_api",
+      "domain": "workmarket",
+      "refs": 1
+    },
+    {
+      "symbol": "isAgentEndpointId",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
+      "category": "frontend_api",
+      "domain": "workmarket",
+      "refs": 2
+    },
+    {
+      "symbol": "isAgentIntentId",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
+      "category": "frontend_api",
+      "domain": "workmarket",
+      "refs": 2
     },
     {
       "symbol": "isQuestFree",
@@ -7746,7 +8665,7 @@
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
       "category": "frontend_api",
       "domain": "workmarket",
-      "refs": 201
+      "refs": 202
     }
   ]
 }

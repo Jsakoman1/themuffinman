@@ -1,5 +1,6 @@
 package com.themuffinman.app.workmarket.service;
 
+import com.themuffinman.app.common.concepts.ActorIdentity;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
@@ -81,7 +82,7 @@ public class DashboardService {
 
         List<Quest> visibleQuests = questService.getAllQuests(currentUser);
         List<Quest> sortedQuests = sortQuests(visibleQuests);
-        List<QuestApplication> applications = questApplicationRepository.findByApplicantId(currentUser.getId());
+        List<QuestApplication> applications = questApplicationRepository.findForApplicantDashboard(currentUser.getId());
         List<QuestApplicationResponseDTO> sortedApplications = sortApplications(applications);
         List<QuestNewsItemResponseDTO> recentNews = questNewsService.getMyNews(currentUser).stream()
                 .limit(6)
@@ -121,7 +122,7 @@ public class DashboardService {
         }
 
         List<Quest> quests = questService.getAllQuests(currentUser);
-        List<QuestApplication> applications = questApplicationRepository.findByApplicantId(currentUser.getId());
+        List<QuestApplication> applications = questApplicationRepository.findForApplicantDashboard(currentUser.getId());
         return buildSummary(currentUser, quests, applications);
     }
 
@@ -142,7 +143,7 @@ public class DashboardService {
         long activeWorkCount = activeMyQuestsCount + activeWorkApplicationsCount;
 
         return DashboardSummaryDTO.builder()
-                .adminModeEnabled(currentUser.getRole() == AppUserRole.ADMIN)
+                .adminModeEnabled(ActorIdentity.from(currentUser).admin())
                 .questCount(questCount)
                 .visibleMyQuestsCount(visibleMyQuestsCount)
                 .pendingWorkApplicationsCount(pendingWorkApplicationsCount)
@@ -177,7 +178,7 @@ public class DashboardService {
     }
 
     private List<AppUserResponseDTO> getDashboardAppUsers(AppUser currentUser) {
-        if (currentUser.getRole() != AppUserRole.ADMIN) {
+        if (!ActorIdentity.from(currentUser).admin()) {
             return List.of();
         }
 

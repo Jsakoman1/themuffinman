@@ -36,3 +36,12 @@ Purpose: extend the control chain with additional enforcement layers that reduce
 - Added a dedicated capability boundary test suite and kept the multilingual golden prompt matrix as executable coverage.
 - Added a narrow frontend contract gate for the admin-agent planner response shape and included frontend type-check in `make audit-agent-safety`.
 - Verified with `make audit-agent-safety`, full backend `./mvnw test`, and frontend `npm run build`.
+
+## Completion Evidence
+
+- Status: complete
+- Changed files: Historical completed plan; see `.agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml` for the structured artifact list.
+- Validation evidence: Historical completed plan; see `.agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml` for validation commands recorded during manifest migration.
+- Doc delta summary: Historical completed plan; see `.agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml` for docs and generated-artifact coverage.
+- Backlog update: Historical completed plan; see `.agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml` for backlog review state.
+- Residual risk: none recorded in the historical manifest.

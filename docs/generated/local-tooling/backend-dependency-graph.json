@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-28T21:02:37Z",
-  "node_count": 255,
-  "edge_count": 780,
+  "generated_at": "2026-06-29T12:47:34Z",
+  "node_count": 305,
+  "edge_count": 878,
   "nodes": [
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/TheMuffinManApplication.java",
@@ -82,6 +82,18 @@
       "domain": "agent"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java",
+      "class_name": "SandboxGenerationPlan",
+      "category": "other",
+      "domain": "agent"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java",
+      "class_name": "SandboxGenerationPlanner",
+      "category": "other",
+      "domain": "agent"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
       "class_name": "AdminAgentPlaygroundService",
       "category": "backend_service",
@@ -116,6 +128,54 @@
       "class_name": "OpenAiAdminAgentClient",
       "category": "backend_service",
       "domain": "agent"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "class_name": "BusinessProfileController",
+      "category": "backend_controller",
+      "domain": "business"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileListResponseDTO.java",
+      "class_name": "BusinessProfileListResponseDTO",
+      "category": "backend_dto",
+      "domain": "business"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java",
+      "class_name": "BusinessProfileRequestDTO",
+      "category": "backend_dto",
+      "domain": "business"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java",
+      "class_name": "BusinessProfileResponseDTO",
+      "category": "backend_dto",
+      "domain": "business"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessProfileMgr.java",
+      "class_name": "BusinessProfileMgr",
+      "category": "backend_mapper",
+      "domain": "business"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java",
+      "class_name": "BusinessProfile",
+      "category": "backend_model",
+      "domain": "business"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessProfileRepository.java",
+      "class_name": "BusinessProfileRepository",
+      "category": "backend_repository",
+      "domain": "business"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java",
+      "class_name": "BusinessProfileService",
+      "category": "backend_service",
+      "domain": "business"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
@@ -250,136 +310,178 @@
       "domain": "chat"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/ActorIdentity.java",
+      "class_name": "ActorIdentity",
+      "category": "other",
+      "domain": "common"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/CircleVisibilitySelection.java",
+      "class_name": "CircleVisibilitySelection",
+      "category": "other",
+      "domain": "common"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/ModuleOwnership.java",
+      "class_name": "ModuleOwnership",
+      "category": "other",
+      "domain": "common"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/SchedulingWindow.java",
+      "class_name": "SchedulingWindow",
+      "category": "other",
+      "domain": "common"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/contract/ContractOptional.java",
       "class_name": "ContractOptional",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/controller/GlobalExceptionHandler.java",
       "class_name": "GlobalExceptionHandler",
       "category": "backend_controller",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java",
       "class_name": "ActionResultDTO",
       "category": "backend_dto",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResults.java",
       "class_name": "ActionResults",
       "category": "backend_dto",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java",
       "class_name": "LabelValueDTO",
       "category": "backend_dto",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetDTO.java",
       "class_name": "NavigationTargetDTO",
       "category": "backend_dto",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetType.java",
       "class_name": "NavigationTargetType",
       "category": "backend_dto",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/ServiceErrors.java",
       "class_name": "ServiceErrors",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/DomainEvent.java",
+      "class_name": "DomainEvent",
+      "category": "other",
+      "domain": "common"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/DomainEventPublisher.java",
+      "class_name": "DomainEventPublisher",
+      "category": "other",
+      "domain": "common"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/SpringDomainEventPublisher.java",
+      "class_name": "SpringDomainEventPublisher",
+      "category": "other",
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/normalization/ProfileValueNormalizer.java",
       "class_name": "ProfileValueNormalizer",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/normalization/SearchQueryNormalizer.java",
       "class_name": "SearchQueryNormalizer",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/normalization/UserInputNormalizer.java",
       "class_name": "UserInputNormalizer",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/pagination/PageResponseFactory.java",
       "class_name": "PageResponseFactory",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/pagination/PageWindow.java",
       "class_name": "PageWindow",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/validation/RichTextInputValidator.java",
       "class_name": "RichTextInputValidator",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/AdminBootstrapConfig.java",
       "class_name": "AdminBootstrapConfig",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/AgentProperties.java",
       "class_name": "AgentProperties",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/BootstrapProperties.java",
       "class_name": "BootstrapProperties",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/LocationProviderProperties.java",
       "class_name": "LocationProviderProperties",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/RetentionProperties.java",
       "class_name": "RetentionProperties",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityConfig.java",
       "class_name": "SecurityConfig",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityProperties.java",
       "class_name": "SecurityProperties",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/WebSocketConfig.java",
       "class_name": "WebSocketConfig",
       "category": "other",
-      "domain": "shared"
+      "domain": "common"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiErrorResponseDTO.java",
@@ -670,6 +772,12 @@
       "domain": "location"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java",
+      "class_name": "LocationAccessPolicyService",
+      "category": "backend_service",
+      "domain": "location"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupClient.java",
       "class_name": "LocationLookupClient",
       "category": "backend_service",
@@ -686,6 +794,54 @@
       "class_name": "LocationSettingsService",
       "category": "backend_service",
       "domain": "location"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "class_name": "RideOfferController",
+      "category": "backend_controller",
+      "domain": "rides"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferListResponseDTO.java",
+      "class_name": "RideOfferListResponseDTO",
+      "category": "backend_dto",
+      "domain": "rides"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferRequestDTO.java",
+      "class_name": "RideOfferRequestDTO",
+      "category": "backend_dto",
+      "domain": "rides"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java",
+      "class_name": "RideOfferResponseDTO",
+      "category": "backend_dto",
+      "domain": "rides"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java",
+      "class_name": "RideOfferMgr",
+      "category": "backend_mapper",
+      "domain": "rides"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java",
+      "class_name": "RideOffer",
+      "category": "backend_model",
+      "domain": "rides"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/repository/RideOfferRepository.java",
+      "class_name": "RideOfferRepository",
+      "category": "backend_repository",
+      "domain": "rides"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java",
+      "class_name": "RideOfferService",
+      "category": "backend_service",
+      "domain": "rides"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
@@ -928,6 +1084,84 @@
       "domain": "social"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "class_name": "ThingSharingController",
+      "category": "backend_controller",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestDTO.java",
+      "class_name": "ThingBorrowRequestDTO",
+      "category": "backend_dto",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java",
+      "class_name": "ThingBorrowRequestResponseDTO",
+      "category": "backend_dto",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingListResponseDTO.java",
+      "class_name": "ThingListingListResponseDTO",
+      "category": "backend_dto",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingRequestDTO.java",
+      "class_name": "ThingListingRequestDTO",
+      "category": "backend_dto",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingResponseDTO.java",
+      "class_name": "ThingListingResponseDTO",
+      "category": "backend_dto",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java",
+      "class_name": "ThingSharingMgr",
+      "category": "backend_mapper",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequest.java",
+      "class_name": "ThingBorrowRequest",
+      "category": "backend_model",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequestStatus.java",
+      "class_name": "ThingBorrowRequestStatus",
+      "category": "backend_model",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingListing.java",
+      "class_name": "ThingListing",
+      "category": "backend_model",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingBorrowRequestRepository.java",
+      "class_name": "ThingBorrowRequestRepository",
+      "category": "backend_repository",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingListingRepository.java",
+      "class_name": "ThingListingRepository",
+      "category": "backend_repository",
+      "domain": "things"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java",
+      "class_name": "ThingSharingService",
+      "category": "backend_service",
+      "domain": "things"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
       "class_name": "DashboardController",
       "category": "backend_controller",
@@ -984,6 +1218,18 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardApplicationGroupDTO.java",
       "class_name": "DashboardApplicationGroupDTO",
+      "category": "backend_dto",
+      "domain": "workmarket"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java",
+      "class_name": "DashboardNavigationItemDTO",
+      "category": "backend_dto",
+      "domain": "workmarket"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java",
+      "class_name": "DashboardNavigationSectionDTO",
       "category": "backend_dto",
       "domain": "workmarket"
     },
@@ -1282,6 +1528,18 @@
       "domain": "workmarket"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEvent.java",
+      "class_name": "QuestApplicationNewsEvent",
+      "category": "other",
+      "domain": "workmarket"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandler.java",
+      "class_name": "QuestApplicationNewsEventHandler",
+      "category": "other",
+      "domain": "workmarket"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestApplicationMgr.java",
       "class_name": "QuestApplicationMgr",
       "category": "backend_mapper",
@@ -1384,6 +1642,18 @@
       "domain": "workmarket"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java",
+      "class_name": "ApplyForQuestUseCase",
+      "category": "backend_service",
+      "domain": "workmarket"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java",
+      "class_name": "ApproveApplicationUseCase",
+      "category": "backend_service",
+      "domain": "workmarket"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java",
       "class_name": "CompleteQuestUseCase",
       "category": "backend_service",
@@ -1414,6 +1684,12 @@
       "domain": "workmarket"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeclineApplicationUseCase.java",
+      "class_name": "DeclineApplicationUseCase",
+      "category": "backend_service",
+      "domain": "workmarket"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeleteQuestUseCase.java",
       "class_name": "DeleteQuestUseCase",
       "category": "backend_service",
@@ -1428,6 +1704,18 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
       "class_name": "QuestApplicationService",
+      "category": "backend_service",
+      "domain": "workmarket"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+      "class_name": "QuestApplicationViewAssembler",
+      "category": "backend_service",
+      "domain": "workmarket"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java",
+      "class_name": "QuestApplicationWorkflowSupport",
       "category": "backend_service",
       "domain": "workmarket"
     },
@@ -1510,6 +1798,12 @@
       "domain": "workmarket"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UpdateMyApplicationUseCase.java",
+      "class_name": "UpdateMyApplicationUseCase",
+      "category": "backend_service",
+      "domain": "workmarket"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UpdateQuestUseCase.java",
       "class_name": "UpdateQuestUseCase",
       "category": "backend_service",
@@ -1518,6 +1812,12 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
       "class_name": "UserReviewService",
+      "category": "backend_service",
+      "domain": "workmarket"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WithdrawMyApplicationUseCase.java",
+      "class_name": "WithdrawMyApplicationUseCase",
       "category": "backend_service",
       "domain": "workmarket"
     },
@@ -1744,6 +2044,86 @@
       "from": "OpenAiAdminAgentClient",
       "to": "MediaType",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java"
+    },
+    {
+      "from": "BusinessProfileController",
+      "to": "BusinessProfileService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java"
+    },
+    {
+      "from": "BusinessProfileController",
+      "to": "BusinessProfileListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java"
+    },
+    {
+      "from": "BusinessProfileController",
+      "to": "BusinessProfileRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java"
+    },
+    {
+      "from": "BusinessProfileController",
+      "to": "BusinessProfileResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java"
+    },
+    {
+      "from": "BusinessProfileListResponseDTO",
+      "to": "BusinessProfileListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileListResponseDTO.java"
+    },
+    {
+      "from": "BusinessProfileListResponseDTO",
+      "to": "BusinessProfileResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileListResponseDTO.java"
+    },
+    {
+      "from": "BusinessProfileRequestDTO",
+      "to": "BusinessProfileRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java"
+    },
+    {
+      "from": "BusinessProfileResponseDTO",
+      "to": "BusinessProfileResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java"
+    },
+    {
+      "from": "BusinessProfileMgr",
+      "to": "BusinessProfileResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessProfileMgr.java"
+    },
+    {
+      "from": "BusinessProfile",
+      "to": "FetchType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java"
+    },
+    {
+      "from": "BusinessProfile",
+      "to": "GenerationType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java"
+    },
+    {
+      "from": "BusinessProfileService",
+      "to": "BusinessProfileRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java"
+    },
+    {
+      "from": "BusinessProfileService",
+      "to": "BusinessProfileMgr",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java"
+    },
+    {
+      "from": "BusinessProfileService",
+      "to": "BusinessProfileListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java"
+    },
+    {
+      "from": "BusinessProfileService",
+      "to": "BusinessProfileRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java"
+    },
+    {
+      "from": "BusinessProfileService",
+      "to": "BusinessProfileResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java"
     },
     {
       "from": "ChatController",
@@ -2019,6 +2399,11 @@
       "from": "ChatWebSocketHandler",
       "to": "CloseStatus",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/websocket/ChatWebSocketHandler.java"
+    },
+    {
+      "from": "ActorIdentity",
+      "to": "AppUserRole",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/ActorIdentity.java"
     },
     {
       "from": "ContractOptional",
@@ -2696,6 +3081,11 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/GeoapifyLocationLookupClient.java"
     },
     {
+      "from": "LocationAccessPolicyService",
+      "to": "CircleMembershipService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java"
+    },
+    {
       "from": "LocationLookupClient",
       "to": "LocationLookupCandidateDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupClient.java"
@@ -2772,6 +3162,11 @@
     },
     {
       "from": "LocationSettingsService",
+      "to": "LocationAccessPolicyService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java"
+    },
+    {
+      "from": "LocationSettingsService",
       "to": "LocationLookupCandidateDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java"
     },
@@ -2794,6 +3189,91 @@
       "from": "LocationSettingsService",
       "to": "QuestRequestDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java"
+    },
+    {
+      "from": "RideOfferController",
+      "to": "RideOfferService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java"
+    },
+    {
+      "from": "RideOfferController",
+      "to": "RideOfferListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java"
+    },
+    {
+      "from": "RideOfferController",
+      "to": "RideOfferRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java"
+    },
+    {
+      "from": "RideOfferController",
+      "to": "RideOfferResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java"
+    },
+    {
+      "from": "RideOfferListResponseDTO",
+      "to": "RideOfferListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferListResponseDTO.java"
+    },
+    {
+      "from": "RideOfferListResponseDTO",
+      "to": "RideOfferResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferListResponseDTO.java"
+    },
+    {
+      "from": "RideOfferRequestDTO",
+      "to": "RideOfferRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferRequestDTO.java"
+    },
+    {
+      "from": "RideOfferResponseDTO",
+      "to": "RideOfferResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java"
+    },
+    {
+      "from": "RideOfferMgr",
+      "to": "RideOfferResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java"
+    },
+    {
+      "from": "RideOffer",
+      "to": "GenerationType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java"
+    },
+    {
+      "from": "RideOffer",
+      "to": "FetchType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java"
+    },
+    {
+      "from": "RideOfferService",
+      "to": "RideOfferRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java"
+    },
+    {
+      "from": "RideOfferService",
+      "to": "CircleGroupRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java"
+    },
+    {
+      "from": "RideOfferService",
+      "to": "RideOfferMgr",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java"
+    },
+    {
+      "from": "RideOfferService",
+      "to": "RideOfferListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java"
+    },
+    {
+      "from": "RideOfferService",
+      "to": "RideOfferRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java"
+    },
+    {
+      "from": "RideOfferService",
+      "to": "RideOfferResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java"
     },
     {
       "from": "CircleController",
@@ -3426,6 +3906,166 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java"
     },
     {
+      "from": "ThingSharingController",
+      "to": "ThingSharingService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java"
+    },
+    {
+      "from": "ThingSharingController",
+      "to": "ThingBorrowRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java"
+    },
+    {
+      "from": "ThingSharingController",
+      "to": "ThingBorrowRequestResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java"
+    },
+    {
+      "from": "ThingSharingController",
+      "to": "ThingListingListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java"
+    },
+    {
+      "from": "ThingSharingController",
+      "to": "ThingListingRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java"
+    },
+    {
+      "from": "ThingSharingController",
+      "to": "ThingListingResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java"
+    },
+    {
+      "from": "ThingBorrowRequestDTO",
+      "to": "ThingBorrowRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestDTO.java"
+    },
+    {
+      "from": "ThingBorrowRequestResponseDTO",
+      "to": "ThingBorrowRequestStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java"
+    },
+    {
+      "from": "ThingBorrowRequestResponseDTO",
+      "to": "ThingBorrowRequestResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java"
+    },
+    {
+      "from": "ThingListingListResponseDTO",
+      "to": "ThingListingListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingListResponseDTO.java"
+    },
+    {
+      "from": "ThingListingListResponseDTO",
+      "to": "ThingListingResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingListResponseDTO.java"
+    },
+    {
+      "from": "ThingListingRequestDTO",
+      "to": "ThingListingRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingRequestDTO.java"
+    },
+    {
+      "from": "ThingListingResponseDTO",
+      "to": "ThingListingResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingResponseDTO.java"
+    },
+    {
+      "from": "ThingSharingMgr",
+      "to": "ThingBorrowRequestResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java"
+    },
+    {
+      "from": "ThingSharingMgr",
+      "to": "ThingListingResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java"
+    },
+    {
+      "from": "ThingBorrowRequest",
+      "to": "GenerationType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequest.java"
+    },
+    {
+      "from": "ThingBorrowRequest",
+      "to": "FetchType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequest.java"
+    },
+    {
+      "from": "ThingBorrowRequest",
+      "to": "EnumType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequest.java"
+    },
+    {
+      "from": "ThingBorrowRequest",
+      "to": "ThingBorrowRequestStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequest.java"
+    },
+    {
+      "from": "ThingBorrowRequestStatus",
+      "to": "ThingBorrowRequestStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequestStatus.java"
+    },
+    {
+      "from": "ThingListing",
+      "to": "GenerationType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingListing.java"
+    },
+    {
+      "from": "ThingListing",
+      "to": "FetchType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingListing.java"
+    },
+    {
+      "from": "ThingBorrowRequestRepository",
+      "to": "ThingBorrowRequestStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingBorrowRequestRepository.java"
+    },
+    {
+      "from": "ThingSharingService",
+      "to": "ThingListingRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
+    },
+    {
+      "from": "ThingSharingService",
+      "to": "ThingBorrowRequestRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
+    },
+    {
+      "from": "ThingSharingService",
+      "to": "ThingSharingMgr",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
+    },
+    {
+      "from": "ThingSharingService",
+      "to": "ThingBorrowRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
+    },
+    {
+      "from": "ThingSharingService",
+      "to": "ThingBorrowRequestResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
+    },
+    {
+      "from": "ThingSharingService",
+      "to": "ThingListingListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
+    },
+    {
+      "from": "ThingSharingService",
+      "to": "ThingListingRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
+    },
+    {
+      "from": "ThingSharingService",
+      "to": "ThingListingResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
+    },
+    {
+      "from": "ThingSharingService",
+      "to": "ThingBorrowRequestStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
+    },
+    {
       "from": "DashboardController",
       "to": "DashboardService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java"
@@ -3601,6 +4241,21 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardApplicationGroupDTO.java"
     },
     {
+      "from": "DashboardNavigationItemDTO",
+      "to": "DashboardNavigationItemDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java"
+    },
+    {
+      "from": "DashboardNavigationSectionDTO",
+      "to": "DashboardNavigationSectionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java"
+    },
+    {
+      "from": "DashboardNavigationSectionDTO",
+      "to": "DashboardNavigationItemDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java"
+    },
+    {
       "from": "DashboardNotificationDestinationType",
       "to": "DashboardNotificationDestinationType",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationType.java"
@@ -3733,6 +4388,11 @@
     {
       "from": "DashboardSectionsDTO",
       "to": "DashboardSectionsDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java"
+    },
+    {
+      "from": "DashboardSectionsDTO",
+      "to": "DashboardNavigationSectionDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java"
     },
     {
@@ -4206,6 +4866,11 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkmarketOptionsDTO.java"
     },
     {
+      "from": "QuestApplicationNewsEventHandler",
+      "to": "QuestNewsService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandler.java"
+    },
+    {
       "from": "QuestApplicationMgr",
       "to": "NavigationTargetDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestApplicationMgr.java"
@@ -4431,6 +5096,41 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/UserReviewRepository.java"
     },
     {
+      "from": "ApplyForQuestUseCase",
+      "to": "QuestApplicationRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java"
+    },
+    {
+      "from": "ApplyForQuestUseCase",
+      "to": "QuestApplicationMgr",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java"
+    },
+    {
+      "from": "ApplyForQuestUseCase",
+      "to": "QuestApplicationRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java"
+    },
+    {
+      "from": "ApproveApplicationUseCase",
+      "to": "QuestApplicationRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java"
+    },
+    {
+      "from": "ApproveApplicationUseCase",
+      "to": "QuestRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java"
+    },
+    {
+      "from": "ApproveApplicationUseCase",
+      "to": "QuestApplicationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java"
+    },
+    {
+      "from": "ApproveApplicationUseCase",
+      "to": "QuestStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java"
+    },
+    {
       "from": "CompleteQuestUseCase",
       "to": "QuestExecutionPrimitiveService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java"
@@ -4498,6 +5198,16 @@
     {
       "from": "DashboardSectionsFactory",
       "to": "CircleRequestResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java"
+    },
+    {
+      "from": "DashboardSectionsFactory",
+      "to": "DashboardNavigationItemDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java"
+    },
+    {
+      "from": "DashboardSectionsFactory",
+      "to": "DashboardNavigationSectionDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java"
     },
     {
@@ -4681,14 +5391,19 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java"
     },
     {
+      "from": "DeclineApplicationUseCase",
+      "to": "QuestApplicationRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeclineApplicationUseCase.java"
+    },
+    {
+      "from": "DeclineApplicationUseCase",
+      "to": "QuestApplicationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeclineApplicationUseCase.java"
+    },
+    {
       "from": "DeleteQuestUseCase",
       "to": "QuestExecutionPrimitiveService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeleteQuestUseCase.java"
-    },
-    {
-      "from": "QuestAccessPolicyService",
-      "to": "AppUserRole",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java"
     },
     {
       "from": "QuestAccessPolicyService",
@@ -4712,27 +5427,37 @@
     },
     {
       "from": "QuestApplicationService",
-      "to": "QuestApplicationMgr",
+      "to": "QuestApplicationViewAssembler",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
     },
     {
       "from": "QuestApplicationService",
-      "to": "QuestNewsService",
+      "to": "ApplyForQuestUseCase",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
     },
     {
       "from": "QuestApplicationService",
-      "to": "QuestVisibilityService",
+      "to": "UpdateMyApplicationUseCase",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
+    },
+    {
+      "from": "QuestApplicationService",
+      "to": "WithdrawMyApplicationUseCase",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
+    },
+    {
+      "from": "QuestApplicationService",
+      "to": "ApproveApplicationUseCase",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
+    },
+    {
+      "from": "QuestApplicationService",
+      "to": "DeclineApplicationUseCase",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
     },
     {
       "from": "QuestApplicationService",
       "to": "AdminQuestApplicationUpdateRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
-    },
-    {
-      "from": "QuestApplicationService",
-      "to": "QuestApplicationPresentationDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
     },
     {
@@ -4757,11 +5482,6 @@
     },
     {
       "from": "QuestApplicationService",
-      "to": "AppUserRole",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
-    },
-    {
-      "from": "QuestApplicationService",
       "to": "QuestApplicationStatus",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
     },
@@ -4769,6 +5489,61 @@
       "from": "QuestApplicationService",
       "to": "QuestStatus",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
+    },
+    {
+      "from": "QuestApplicationViewAssembler",
+      "to": "QuestApplicationMgr",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java"
+    },
+    {
+      "from": "QuestApplicationViewAssembler",
+      "to": "QuestApplicationPresentationDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java"
+    },
+    {
+      "from": "QuestApplicationViewAssembler",
+      "to": "QuestApplicationResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java"
+    },
+    {
+      "from": "QuestApplicationViewAssembler",
+      "to": "QuestApplicationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java"
+    },
+    {
+      "from": "QuestApplicationWorkflowSupport",
+      "to": "QuestApplicationRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java"
+    },
+    {
+      "from": "QuestApplicationWorkflowSupport",
+      "to": "QuestRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java"
+    },
+    {
+      "from": "QuestApplicationWorkflowSupport",
+      "to": "QuestVisibilityService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java"
+    },
+    {
+      "from": "QuestApplicationWorkflowSupport",
+      "to": "QuestAccessPolicyService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java"
+    },
+    {
+      "from": "QuestApplicationWorkflowSupport",
+      "to": "QuestApplicationRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java"
+    },
+    {
+      "from": "QuestApplicationWorkflowSupport",
+      "to": "QuestApplicationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java"
+    },
+    {
+      "from": "QuestApplicationWorkflowSupport",
+      "to": "QuestStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java"
     },
     {
       "from": "QuestExecutionPrimitiveService",
@@ -4863,11 +5638,6 @@
     {
       "from": "QuestService",
       "to": "QuestApplicationRepository",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java"
-    },
-    {
-      "from": "QuestService",
-      "to": "QuestApplicationMgr",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java"
     },
     {
@@ -5057,12 +5827,12 @@
     },
     {
       "from": "QuestStateTransitionService",
-      "to": "QuestRequestDTO",
+      "to": "QuestAccessPolicyService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java"
     },
     {
       "from": "QuestStateTransitionService",
-      "to": "AppUserRole",
+      "to": "QuestRequestDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java"
     },
     {
@@ -5222,7 +5992,7 @@
     },
     {
       "from": "QuestVisibilityService",
-      "to": "AppUserRole",
+      "to": "QuestAccessPolicyService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestVisibilityService.java"
     },
     {
@@ -5274,6 +6044,16 @@
       "from": "StartQuestUseCase",
       "to": "QuestStatus",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/StartQuestUseCase.java"
+    },
+    {
+      "from": "UpdateMyApplicationUseCase",
+      "to": "QuestApplicationRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UpdateMyApplicationUseCase.java"
+    },
+    {
+      "from": "UpdateMyApplicationUseCase",
+      "to": "QuestApplicationRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UpdateMyApplicationUseCase.java"
     },
     {
       "from": "UpdateQuestUseCase",
@@ -5339,6 +6119,16 @@
       "from": "UserReviewService",
       "to": "ReviewRole",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java"
+    },
+    {
+      "from": "WithdrawMyApplicationUseCase",
+      "to": "QuestApplicationRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WithdrawMyApplicationUseCase.java"
+    },
+    {
+      "from": "WithdrawMyApplicationUseCase",
+      "to": "QuestApplicationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WithdrawMyApplicationUseCase.java"
     },
     {
       "from": "WorkmarketOptionsService",

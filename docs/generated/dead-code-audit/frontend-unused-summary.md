@@ -1,10 +1,11 @@
 # Frontend Dead Code Audit
 
-- Generated At: `2026-06-28T20:30:16Z`
-- Files Scanned: `224`
+- Generated At: `2026-06-29T12:47:13Z`
+- Files Scanned: `233`
 ## `likely_unused_files`
 
 - `{:file: "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue", :basename: "UiAmountField", :refs: 0, :route_refs: 0, :status: "likely_unused"}`
+- `{:file: "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue", :basename: "UiDashboardPage", :refs: 0, :route_refs: 0, :status: "likely_unused"}`
 - `{:file: "apps/themuffinman/frontend/src/components/ui/UiLaunchCard.vue", :basename: "UiLaunchCard", :refs: 0, :route_refs: 0, :status: "likely_unused"}`
 - `{:file: "apps/themuffinman/frontend/src/components/ui/UiMetricPills.vue", :basename: "UiMetricPills", :refs: 0, :route_refs: 0, :status: "likely_unused"}`
 - `{:file: "apps/themuffinman/frontend/src/components/ui/UiReadonlyField.vue", :basename: "UiReadonlyField", :refs: 0, :route_refs: 0, :status: "likely_unused"}`
@@ -25,6 +26,5 @@
 
 ## `unused_dependencies`
 
-- `@tiptap/pm`
 - `yaml`
 

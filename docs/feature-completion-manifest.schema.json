@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Feature Completion Manifest",
   "type": "object",
-  "required": ["featureId", "title", "status", "riskTier", "changeMode", "changeImpact", "changeProfiles", "planFile", "backlog", "checklist", "artifacts"],
+  "required": ["featureId", "title", "status", "riskTier", "changeMode", "changeImpact", "changeProfiles", "planFile", "backlog", "checklist", "artifacts", "validationEvidence", "generatedArtifacts", "planCompletion", "closeoutDecision"],
   "additionalProperties": false,
   "properties": {
     "featureId": {"type": "string", "minLength": 1},
@@ -24,6 +24,25 @@
     "summary": {
       "type": "array",
       "items": {"type": "string", "minLength": 1}
+    },
+    "docDelta": {
+      "type": "object",
+      "required": ["behaviorChanged", "docsUpdated", "intentionallyUnchanged"],
+      "additionalProperties": false,
+      "properties": {
+        "behaviorChanged": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "docsUpdated": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "intentionallyUnchanged": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
     },
     "backlog": {
       "type": "object",
@@ -77,6 +96,70 @@
         "testPaths": {"type": "array", "items": {"type": "string", "minLength": 1}},
         "generatorCommands": {"type": "array", "items": {"type": "string", "minLength": 1}},
         "auditCommands": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "validationEvidence": {
+      "type": "object",
+      "required": ["commands"],
+      "additionalProperties": false,
+      "properties": {
+        "commands": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["command", "scope", "result", "summary"],
+            "additionalProperties": false,
+            "properties": {
+              "command": {"type": "string", "minLength": 1},
+              "scope": {
+                "type": "string",
+                "enum": ["backend", "frontend", "docs", "generated-artifact", "local-tooling", "agent-safety", "manifest", "smoke"]
+              },
+              "result": {"type": "string", "enum": ["passed", "failed", "skipped", "not_applicable"]},
+              "summary": {"type": "string", "minLength": 1},
+              "outputPath": {"type": "string", "minLength": 1},
+              "skippedReason": {"type": "string", "minLength": 1}
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {"result": {"enum": ["skipped", "not_applicable"]}},
+                  "required": ["result"]
+                },
+                "then": {"required": ["skippedReason"]}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "generatedArtifacts": {
+      "type": "object",
+      "required": ["refreshedPaths", "notApplicableReason"],
+      "additionalProperties": false,
+      "properties": {
+        "refreshedPaths": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "notApplicableReason": {"type": "string", "minLength": 1}
+      }
+    },
+    "planCompletion": {
+      "type": "object",
+      "required": ["reviewed", "openTasks", "summary"],
+      "additionalProperties": false,
+      "properties": {
+        "reviewed": {"type": "boolean"},
+        "openTasks": {"type": "integer", "minimum": 0},
+        "summary": {"type": "string", "minLength": 1}
+      }
+    },
+    "closeoutDecision": {
+      "type": "object",
+      "required": ["status", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {"type": "string", "enum": ["ready", "blocked", "deferred"]},
+        "reason": {"type": "string", "minLength": 1}
       }
     }
   }

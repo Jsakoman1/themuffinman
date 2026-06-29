@@ -12,6 +12,50 @@ planFile: .agents/agent-operating-refactor-plan.md
 summary:
   - Refactor backend control and workflow entrypoints for stronger automation safety.
   - Expand contract validation and generate more of the operating-model surface from code.
+validationEvidence:
+  commands:
+    - command: make audit-agent-safety
+      scope: agent-safety
+      result: passed
+      summary: Historical completed manifest recorded this command before structured evidence enforcement.
+    - command: make audit-todo
+      scope: manifest
+      result: passed
+      summary: Historical completed manifest recorded backlog audit coverage before structured evidence enforcement.
+    - command: make generate-agent-operating-model
+      scope: generated-artifact
+      result: passed
+      summary: Historical completed manifest recorded generated agent model refresh before structured evidence enforcement.
+    - command: ./mvnw test
+      scope: backend
+      result: passed
+      summary: Historical completed manifest recorded backend test coverage before structured evidence enforcement.
+    - command: npm run validate:contracts
+      scope: frontend
+      result: passed
+      summary: Historical completed manifest recorded frontend contract validation before structured evidence enforcement.
+    - command: npm run type-check
+      scope: frontend
+      result: passed
+      summary: Historical completed manifest recorded frontend type-check validation before structured evidence enforcement.
+    - command: npm run build
+      scope: frontend
+      result: passed
+      summary: Historical completed manifest recorded frontend build validation before structured evidence enforcement.
+    - command: ./mvnw -Dtest=AgentOperatingScenarioTest,QuestWorkflowScenarioTest test
+      scope: backend
+      result: passed
+      summary: Historical completed manifest recorded scenario-style workflow validation before structured evidence enforcement.
+generatedArtifacts:
+  refreshedPaths: []
+  notApplicableReason: Historical manifest did not record individual refreshed artifact paths before structured evidence enforcement.
+planCompletion:
+  reviewed: true
+  openTasks: 0
+  summary: Historical completed manifest references a completed plan.
+closeoutDecision:
+  status: ready
+  reason: Historical manifest was complete before hard-fail closeout enforcement.
 backlog:
   reviewed: true
   createdIds: []

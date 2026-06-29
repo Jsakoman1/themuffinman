@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-28T20:30:23Z",
+  "generated_at": "2026-06-29T12:47:27Z",
   "files": [
     {
       "file": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
@@ -38,12 +38,39 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadBusinessHub"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
       "uses_feedback_runner": false,
       "uses_run_with_feedback": false,
       "has_after_success": false,
       "refresh_calls": [
 
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadWorkspace"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadRides"
       ]
     },
     {
@@ -133,6 +160,15 @@
       "has_after_success": true,
       "refresh_calls": [
         "loadOverview"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "uses_feedback_runner": false,
+      "uses_run_with_feedback": false,
+      "has_after_success": false,
+      "refresh_calls": [
+        "loadThings"
       ]
     },
     {

@@ -1,10 +1,10 @@
 # Frontend Route Surface Inventory
 
-- Generated at: `2026-06-28T20:30:14Z`
+- Generated at: `2026-06-29T12:47:10Z`
 - Routes: `23`
 - Routes with concrete surfaces: `19`
 - Redirect routes: `4`
-- Placeholder module routes: `4`
+- Placeholder module routes: `0`
 
 ## `/`
 
@@ -160,32 +160,32 @@
 
 ## `/business`
 
-- Surface: `apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue`
+- Surface: `apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue`
 - Redirect: _none_
 - Primary composables: none
-- API clients: none
-- Backend endpoints: none
+- API clients: `businessApi.getDirectory`, `businessApi.getMyProfile`, `businessApi.saveMyProfile`
+- Backend endpoints: `GET /business/profiles`, `GET /business/profiles/me`, `PUT /business/profiles/me`
 
 ## `/things`
 
-- Surface: `apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue`
+- Surface: `apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue`
 - Redirect: _none_
 - Primary composables: none
-- API clients: none
-- Backend endpoints: none
+- API clients: `thingsApi.createListing`, `thingsApi.getAvailableListings`, `thingsApi.getMyListings`, `thingsApi.requestBorrow`
+- Backend endpoints: `GET /things/listings`, `GET /things/listings/me`, `POST /things/listings`, `POST /things/listings/:param/borrow-requests`
 
 ## `/rides`
 
-- Surface: `apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue`
+- Surface: `apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue`
 - Redirect: _none_
 - Primary composables: none
-- API clients: none
-- Backend endpoints: none
+- API clients: `ridesApi.createOffer`, `ridesApi.getMyOffers`, `ridesApi.getVisibleOffers`
+- Backend endpoints: `GET /rides/offers`, `GET /rides/offers/me`, `POST /rides/offers`
 
 ## `/chat`
 
-- Surface: `apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue`
+- Surface: `apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue`
 - Redirect: _none_
 - Primary composables: none
-- API clients: none
-- Backend endpoints: none
+- API clients: `chatApi.getWorkspace`
+- Backend endpoints: `GET /chat/workspace`

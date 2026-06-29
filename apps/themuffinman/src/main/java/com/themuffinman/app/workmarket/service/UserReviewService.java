@@ -95,7 +95,7 @@ public class UserReviewService {
     }
 
     private Quest requireQuest(Long questId) {
-        return questRepository.findByIdWithCreator(questId)
+        return questRepository.findForQuestDetail(questId)
                 .orElseThrow(() -> ServiceErrors.notFound("Quest not found with id " + questId));
     }
 
@@ -141,7 +141,7 @@ public class UserReviewService {
 
     private ReviewTarget resolveReviewTarget(Quest quest, Long reviewedUserId, AppUser currentUser) {
         if (quest.getCreator().getId().equals(reviewedUserId)) {
-            questApplicationRepository.findByQuestIdAndApplicantIdAndStatus(
+            questApplicationRepository.findForViewerApplicationWithStatus(
                     quest.getId(),
                     currentUser.getId(),
                     QuestApplicationStatus.APPROVED
@@ -154,7 +154,7 @@ public class UserReviewService {
             throw ServiceErrors.forbidden("You are not allowed to review this user for the selected quest");
         }
 
-        QuestApplication approvedApplication = questApplicationRepository.findByQuestIdAndApplicantIdAndStatus(
+        QuestApplication approvedApplication = questApplicationRepository.findForViewerApplicationWithStatus(
                 quest.getId(),
                 reviewedUserId,
                 QuestApplicationStatus.APPROVED

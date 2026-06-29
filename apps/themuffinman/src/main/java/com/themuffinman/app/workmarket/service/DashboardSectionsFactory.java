@@ -2,6 +2,8 @@ package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
+import com.themuffinman.app.workmarket.dto.DashboardNavigationItemDTO;
+import com.themuffinman.app.workmarket.dto.DashboardNavigationSectionDTO;
 import com.themuffinman.app.workmarket.dto.DashboardNotificationDestinationType;
 import com.themuffinman.app.workmarket.dto.DashboardNotificationItemDTO;
 import com.themuffinman.app.workmarket.dto.DashboardNotificationsSectionDTO;
@@ -56,6 +58,7 @@ public class DashboardSectionsFactory {
                 .toList();
 
         return DashboardSectionsDTO.builder()
+                .navigation(buildNavigationSection())
                 .recentMyQuests(myQuestDtos.stream().limit(3).toList())
                 .recentMyApplications(sortedApplications.stream().limit(3).toList())
                 .activeWorkApplications(activeWorkApplications)
@@ -77,6 +80,7 @@ public class DashboardSectionsFactory {
 
     public DashboardSectionsDTO emptySections() {
         return DashboardSectionsDTO.builder()
+                .navigation(buildNavigationSection())
                 .recentMyQuests(List.of())
                 .recentMyApplications(List.of())
                 .activeWorkApplications(List.of())
@@ -90,6 +94,23 @@ public class DashboardSectionsFactory {
                 .openWork(DashboardOpenWorkSectionDTO.builder().waitingQuests(List.of()).openQuests(List.of()).build())
                 .planner(DashboardPlannerSectionDTO.builder().scheduledItems(List.of()).flexibleItems(List.of()).build())
                 .notifications(DashboardNotificationsSectionDTO.builder().unreadItems(List.of()).recentItems(List.of()).build())
+                .build();
+    }
+
+    private DashboardNavigationSectionDTO buildNavigationSection() {
+        return DashboardNavigationSectionDTO.builder()
+                .tabs(List.of(
+                        DashboardNavigationItemDTO.builder()
+                                .id("calendar")
+                                .title("Calendar")
+                                .description("See scheduled work and open days")
+                                .build(),
+                        DashboardNavigationItemDTO.builder()
+                                .id("side-job")
+                                .title("SideJob")
+                                .description("Offer jobs, track applications, and open the right flow when needed")
+                                .build()
+                ))
                 .build();
     }
 

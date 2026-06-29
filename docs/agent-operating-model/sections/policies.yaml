@@ -1,5 +1,199 @@
 ---
 policies:
+  self_test_matrix:
+    default_rule: Pick the cheapest tier that covers the changed risk, impact, and
+      profile, then record exact commands or skipped-check reasons in validation evidence.
+    tiers:
+    - id: syntax_only
+      purpose: Parse, schema, compile, or lint checks for cosmetic or documentation-only
+        changes.
+      example_commands:
+      - ruby -c scripts/path.rb
+      - npm run type-check
+    - id: targeted_unit
+      purpose: Focused unit or service tests for a changed backend rule, DTO mapper,
+        parser, or local tooling function.
+      example_commands:
+      - ./mvnw test -Dtest=SpecificServiceTest
+      - ruby scripts/todo-audit.rb
+    - id: domain_scenario
+      purpose: Scenario or use-case contract tests for multi-step workflows, permissions,
+        state transitions, or cross-service behavior.
+      example_commands:
+      - ./mvnw test -Dtest=*ScenarioTest
+      - ./mvnw test -Dtest=*UseCaseContractTest
+    - id: contract_type_check
+      purpose: Frontend, API, DTO, or generated contract checks when request/response
+        shapes or UI-consumed fields change.
+      example_commands:
+      - npm run validate:contracts
+      - npm run type-check
+      - npm run build
+    - id: generated_artifact_validation
+      purpose: Generator and freshness checks when source-of-truth, endpoint, read-model,
+        local-tooling, or operating-model artifacts change.
+      example_commands:
+      - ruby scripts/generate-agent-operating-model.rb
+      - ruby scripts/audits/audit-generated-artifact-freshness.rb
+      - make audit-local-tooling-incremental
+    - id: full_validation
+      purpose: Full backend, frontend, docs, agent-safety, and local-tooling checks
+        for high-risk, executor-critical, broad, or master-plan-driven changes.
+      example_commands:
+      - ./mvnw test
+      - npm run type-check
+      - npm run build
+      - make audit-agent-safety
+    risk_tiers:
+    - risk: low
+      minimum_tiers:
+      - syntax_only
+      - targeted_unit
+    - risk: medium
+      minimum_tiers:
+      - targeted_unit
+      - generated_artifact_validation
+    - risk: high
+      minimum_tiers:
+      - domain_scenario
+      - contract_type_check
+      - generated_artifact_validation
+      - full_validation
+    - risk: executor-critical
+      minimum_tiers:
+      - domain_scenario
+      - contract_type_check
+      - generated_artifact_validation
+      - full_validation
+    profile_overrides:
+    - profile: backend-logic
+      add_tiers:
+      - targeted_unit
+      - domain_scenario
+    - profile: frontend-contract
+      add_tiers:
+      - contract_type_check
+    - profile: agent-contract
+      add_tiers:
+      - generated_artifact_validation
+      - full_validation
+    - profile: workflow-expansion
+      add_tiers:
+      - domain_scenario
+      - full_validation
+  validation_evidence_quality:
+    default_rule: Validation evidence must be concrete enough for a later session
+      to know what ran, what scope it covered, and why any expected check did not
+      run.
+    command_rules:
+    - id: exact_command_required
+      applies_to:
+      - passed
+      - failed
+      - skipped
+      - not_applicable
+      requirement: Every command evidence entry must name the exact command string.
+    - id: scope_required
+      applies_to:
+      - passed
+      - failed
+      - skipped
+      - not_applicable
+      requirement: Every command evidence entry must name the validation scope.
+    - id: skipped_reason_required
+      applies_to:
+      - skipped
+      - not_applicable
+      requirement: Skipped or not-applicable command evidence must include a concrete
+        skipped reason.
+    - id: vague_summary_rejected
+      applies_to:
+      - passed
+      - failed
+      - skipped
+      - not_applicable
+      requirement: Vague summaries such as tests not run, build passed, ok, done,
+        tbd, unknown, or placeholder text are rejected.
+    audit_command: make audit-validation-evidence-quality
+  closeout_doc_delta:
+    applies_to: Every logic-drift change and every change that updates business behavior,
+      domain rules, permissions, workflows, endpoint contracts, DTO contracts, schema
+      meaning, generated artifacts, or automation assumptions.
+    required_fields:
+    - behavior_changed
+    - docs_updated
+    - intentionally_unchanged
+    record_in:
+    - temporary plan Completion Evidence
+    - feature manifest docDelta when a manifest is used
+    - final closeout summary
+    completion_rule: Closeout must state what behavior changed, which living docs
+      or agent artifacts were updated, and what related surfaces were intentionally
+      left unchanged.
+  plan_completion_audit:
+    applies_to: Temporary plans, master plans, and completed manifest-backed changes
+      when plan completion evidence is part of the closeout boundary.
+    required_evidence:
+    - plan exists
+    - plan has a Completion Evidence section
+    - completion status is final
+    - open task checkboxes are complete or explicitly deferred to a stable backlog ID
+    - master-plan child rows are complete or explicitly deferred
+    - completed manifests do not reference incomplete plan evidence
+    audit_command: make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]
+    completion_rule: A plan-backed change is not ready for closeout while its referenced
+      plan has incomplete task checkboxes, missing completion evidence, or an incomplete
+      child plan without an explicit deferred backlog ID.
+  implementation_checkpoints:
+    broad_change_trigger: Use these checkpoints for broad, long-running, high-complexity,
+      multi-layer, high-risk, or master-plan-driven changes.
+    default_rule: Complete each checkpoint in order and record the result in the temporary
+      plan before continuing to the next slice.
+    checkpoints:
+    - id: plan
+      required_evidence:
+      - temporary plan or master child plan exists
+      - scope, risk, affected surfaces, and expected validation are listed
+      - approval needs are front-loaded before autonomous work begins
+      completion_rule: Do not start substantial edits until the slice has a concrete
+        plan and validation target.
+    - id: first_backend_slice
+      required_evidence:
+      - first backend behavior, contract, or generated-artifact edit is complete when
+        backend is in scope
+      - targeted backend test, compile check, or documented not-applicable reason is
+        recorded
+      completion_rule: Prove the backend direction with the smallest meaningful slice
+        before broadening backend edits.
+    - id: first_frontend_slice
+      required_evidence:
+      - first frontend contract, state, route, or component edit is complete when frontend
+        is in scope
+      - type-check, build, contract validation, or documented not-applicable reason is
+        recorded
+      completion_rule: Prove the frontend direction with the smallest meaningful slice
+        before broadening UI edits.
+    - id: docs_artifacts_sync
+      required_evidence:
+      - living docs affected by the slice are updated
+      - generated artifacts affected by the slice are regenerated or explicitly marked
+        not applicable
+      completion_rule: Do not treat code-only progress as complete when behavior,
+        contracts, workflows, or automation assumptions changed.
+    - id: validation
+      required_evidence:
+      - targeted checks for the changed slice are recorded
+      - required full checks for the change profile are run or skipped with a concrete
+        reason
+      completion_rule: Validation evidence must name exact commands and scope before
+        the slice is marked complete.
+    - id: commit_boundary
+      required_evidence:
+      - backlog item is removed only after implementation and validation are complete
+      - temporary plan and master plan status match the actual state
+      - commit or push is skipped unless the user explicitly requested it
+      completion_rule: Close the slice only after scope, backlog, docs, generated
+        artifacts, and validation evidence agree.
   uniqueness:
     default_rule: When generating multiple entities of the same type, vary meaningful
       business fields instead of adding cosmetic suffixes only.

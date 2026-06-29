@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.themuffinman.app.agent.dto.AdminAgentPlaygroundRequestDTO;
 import com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO;
+import com.themuffinman.app.agent.sandbox.SandboxGenerationPlanner;
 import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
@@ -42,7 +43,12 @@ class AdminAgentGoldenPromptMatrixTest {
                     .build();
         }
 
-        AdminAgentPlaygroundService service = new AdminAgentPlaygroundService(agentProperties, provider, localTranslator);
+        AdminAgentPlaygroundService service = new AdminAgentPlaygroundService(
+                agentProperties,
+                provider,
+                localTranslator,
+                new SandboxGenerationPlanner()
+        );
         AppUser admin = new AppUser();
         admin.setRole(AppUserRole.ADMIN);
 

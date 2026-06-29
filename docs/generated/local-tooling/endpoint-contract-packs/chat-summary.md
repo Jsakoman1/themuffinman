@@ -1,6 +1,6 @@
 # Endpoint Contract Pack chat
 
-- Generated At: `2026-06-28T21:02:37Z`
+- Generated At: `2026-06-29T12:47:29Z`
 - Endpoint Family: `chat`
 ## `endpoints`
 
@@ -38,6 +38,7 @@
 - `{:file: "apps/themuffinman/frontend/src/env.d.ts", :matched_paths: ["read"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts", :matched_paths: ["/chat/conversations/open", "open", "messages", "read", "/chat/presence/heartbeat", "heartbeat", "/chat/workspace", "workspace"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts", :matched_paths: ["open", "messages", "read", "heartbeat", "workspace"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue", :matched_paths: ["read", "workspace"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue", :matched_paths: ["read"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue", :matched_paths: ["open"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue", :matched_paths: ["open"]}`
@@ -46,7 +47,6 @@
 - `{:file: "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue", :matched_paths: ["open"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue", :matched_paths: ["open"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/social/views/UserProfileView.vue", :matched_paths: ["open"]}`
-- `{:file: "apps/themuffinman/frontend/src/modules/social/views/UserSettingsView.vue", :matched_paths: ["open"]}`
 
 ## `docs`
 

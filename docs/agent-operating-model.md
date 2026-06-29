@@ -45,6 +45,7 @@ The machine-readable source of truth is:
 - Mutating intents must stay classified by machine-readable risk groups so validation can enforce read-only, destructive, multi-actor, and admin-only boundaries consistently.
 - Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it.
 - Deferred implementation or control-system follow-ups must use stable backlog IDs, and matching inline `TODO(<ID>):` or `FIXME(<ID>):` notes must not outlive the open backlog item they reference.
+- `scripts/todo-audit.rb` must keep persistent backlog IDs traceable to plans, feature manifests, docs, code surfaces, or inline `TODO(<ID>):` and `FIXME(<ID>):` references.
 - Do not paraphrase, shorten, reorder, or partially restate protected canonical wording.
 
 Unified clarification contract:
@@ -167,6 +168,13 @@ Initial machine policies:
 - `frontend_safety_regressions`
 - `frontend_feature_expectations`
 - `documentation_coverage_manifest`
+- `documentation_ownership_matrix`
+- `documentation_templates_by_change_type`
+- `closeout_doc_delta_summary`
+- `doc_staleness_scoring_report`
+- `self_test_matrix_by_risk`
+- `validation_evidence_records`
+- `cross_domain_concept_glossary`
 - `frontend_contract_gate`
 - `dead_path_tracker`
 - `feature_completion_manifest_validation`
@@ -178,6 +186,39 @@ Additional control surfaces:
 - workflow-aware frontend helper generation
 - canonical workflow scenarios
 
+Documentation templates:
+- `documentation_ownership.documentation_templates` in `docs/agent-operating-model.yaml` registers short templates for new workflows, endpoints, DTO contracts, modules, permission rules, and schema migrations.
+- Template files live under `.agents/templates/docs/` and keep living-doc updates concise while preserving required behavior, permission, validation, documentation-delta, and validation-evidence sections.
+- `docs/example-scenario-library.md` provides compact canonical implementation examples for adding endpoints, changing workflow transitions, adding DTO contracts, adding migrations, and updating docs.
+
+Closeout doc delta:
+- `policies.closeout_doc_delta` requires logic-drift closeout to state what behavior changed, which living docs or agent artifacts were updated, and what related surfaces were intentionally left unchanged.
+- Temporary plans and feature manifests provide fields for that summary before final closeout.
+
+Doc staleness scoring:
+- `make audit-doc-staleness-scoring` generates `docs/generated/local-tooling/doc-staleness-scoring.json` and a summary report.
+- The audit is report-first: it scores documentation sections against current code changes, endpoint inventory, DTO source freshness, and workflow/state-transition source freshness without failing closeout.
+
+Self-test matrix:
+- `policies.self_test_matrix` defines validation tiers for syntax-only, targeted unit, domain scenario, contract/type-check, generated-artifact validation, and full validation.
+- Risk tiers and change profiles map to minimum validation tiers so low-risk changes can stay focused while high-risk and executor-critical work still requires broad validation.
+
+Context-first session workflow:
+- start with `docs/generated/local-tooling/diff-summary.md` to understand the changed-file shape before broad repository exploration
+- read `docs/generated/local-tooling/audit-summary-index.md` to choose the smallest relevant generated report
+- generate or read a topic context pack with `make context-pack topic=<topic>` when the task has a clear feature, domain, or changed-file focus
+- use `docs/generated/local-tooling/repo-map-summary.md` and `docs/generated/local-tooling/symbol-index-summary.md` only after the compact diff, audit index, and context pack do not identify the needed files
+- fall back to broad `rg` exploration only after the compact context path is insufficient
+
+Broad implementation checkpoints:
+- use these checkpoints for broad, long-running, high-complexity, multi-layer, high-risk, or master-plan-driven changes
+- plan checkpoint: create the temporary plan or master child plan, list scope, risk, affected surfaces, expected validation, and any up-front approval needs before substantial edits
+- first backend slice checkpoint: when backend is in scope, complete the smallest meaningful backend behavior, contract, or generated-artifact edit and record a targeted backend check or not-applicable reason before broadening backend edits
+- first frontend slice checkpoint: when frontend is in scope, complete the smallest meaningful frontend contract, state, route, or component edit and record type-check, build, contract validation, or a not-applicable reason before broadening frontend edits
+- docs/artifacts sync checkpoint: update affected living docs and regenerate affected generated artifacts before treating behavior, contract, workflow, or automation-assumption changes as complete
+- validation checkpoint: record exact targeted checks plus any required full checks or concrete skipped-check reasons before marking the slice complete
+- commit boundary checkpoint: remove the persistent backlog item only after implementation and validation are complete, align temporary and master plan status with reality, and skip commit or push unless the user explicitly requested it
+
 Current mutation execution pattern:
 - controllers stay transport-only and delegate to backend services
 - auth flows resolve through `AuthService` plus `AuthMgr`
@@ -186,16 +227,31 @@ Current mutation execution pattern:
 - every mutating intent should now also declare explicit preconditions, state changes, side effects, notifications, and blocking conditions in the machine contract
 
 Current control-test pattern:
-- use-case contract tests verify target resolution, authority gate, state gate, persistence, notification, and fail-closed behavior
+- use-case contract tests verify target resolution, authority gate, state gate, persistence, notification, and fail-closed behavior across quest and applicant-side application workflows
 - canonical scenario tests verify multi-step runtime flows such as quest lifecycle, term-change confirmation, destructive failure paths, and ambiguity failure
+- workflow state-machine catalog tests cross-check documented transition intent ids against the agent operating model, requiring real transition intents to resolve to known mutating intents while allowing only explicit placeholders for derived or planned flows
 - generated source-of-truth audit fails if tracked controllers, mappers, services, or tests exist in code without matching agent-documentation coverage
+- documentation ownership maps product domains and change categories to required living docs, generated artifacts, and validation checks so agents do not infer propagation scope from memory
+- `docs/cross-domain-glossary.md` keeps reused product terms stable across users, circles, visibility, consent, messaging, quests, applications, reviews, bookings, and synthetic data
 - generated backend audit inventory classifies the full backend into `executor_critical`, `automation_relevant`, `internal_support`, and `out_of_scope`
 - generated backend audit inventory also assigns every backend file to an explicit domain and owner so drift review can stay product-oriented instead of file-list oriented
+- generated source-of-truth audit also emits ownership-aware candidate entries plus domain and owner summaries for tracked controllers, services, mappers, and tests
 - current fail-hard enforcement stays intentionally limited to `executor_critical`, while broader backend coverage stays inventory-first and report-first
 - the first stricter `automation_relevant` subset is the admin-agent planner DTO contract surface, which now requires source registration plus documentation coverage even though the wider tier is still report-first
 - the second stricter `automation_relevant` subset is the chat DTO contract surface, so chat workspace, conversation, message, and socket contract files cannot drift away from source registration or documentation coverage
 - the third stricter `automation_relevant` subset is the identity DTO contract surface, so auth, profile, and admin-user contract DTOs now sit behind the same registration and documentation gate
 - the fourth stricter `automation_relevant` subset is the location DTO contract surface, so lookup, visibility, debug, and user-location contract DTOs now sit behind the same registration and documentation gate
+- the fifth stricter `automation_relevant` subset is the social request/relation DTO contract surface, so circle request, block, relation-state, and connection-circle assignment DTO files now sit behind the same registration and documentation gate
+- the sixth stricter `automation_relevant` subset is the social overview/member DTO contract surface, so circle overview, group summary, and member DTO files now sit behind the same registration and documentation gate
+- the seventh stricter `automation_relevant` subset is the social search/contact DTO contract surface, so circle search, contact-list, candidate, and query DTO files now sit behind the same registration and documentation gate
+- the eighth stricter `automation_relevant` subset is the social admin circle DTO contract surface, so admin circle overview, group, and relation-row DTO files now sit behind the same registration and documentation gate
+- the ninth stricter `automation_relevant` subset is the workmarket dashboard DTO contract surface, so dashboard response, summary, navigation, grouping, planner, open-work, and notification DTO files now sit behind the same registration and documentation gate
+- the tenth stricter `automation_relevant` subset is the workmarket quest-detail DTO contract surface, so quest detail response, section, action, presentation, and viewer-relation DTO files now sit behind the same registration and documentation gate
+- the eleventh stricter `automation_relevant` subset is the workmarket application-detail DTO contract surface, so application detail response, section, context, action, and presentation DTO files now sit behind the same registration and documentation gate
+- the twelfth stricter `automation_relevant` subset is the workmarket list/search/options DTO contract surface, so quest list, application list, search query, admin application query, and workmarket option DTO files now sit behind the same registration and documentation gate
+- the thirteenth stricter `automation_relevant` subset is the workmarket news read-model DTO contract surface, so news item and destination DTO files now sit behind the same registration and documentation gate
+- the fourteenth stricter `automation_relevant` subset is the common action/navigation DTO contract surface, so action result, label-value, and navigation target primitives now sit behind the same registration and documentation gate
+- the broad `automation_relevant` service catch-all remains report-first; future service hardening should happen only through small rule-scoped slices that are stable, domain-owned, and low-noise
 
 Initial dependency domains:
 - identity
@@ -288,11 +344,12 @@ Pre-executor readiness rule:
 - Full backend inventory should still classify the rest of the backend even when those files are not yet part of strict fail-hard registration.
 - The multilingual golden prompt matrix must stay executable so Croatian, English, German, Mandarin, and mixed-slang prompts keep the same planning contracts over time.
 - Frontend contract gates must fail fast if the admin-agent planner response shape drifts away from the frontend TypeScript contract surface.
-- Frontend workflow-aware helpers should be generated from the operating model so intent ids, endpoint ids, unresolved-input ids, and safety-flag ids do not drift into hand-maintained UI enums.
+- Frontend workflow-aware helpers validate generated intent ids, endpoint ids, and safety-flag ids before the admin-agent UI treats simulation output as contract-shaped.
 - Feature completion manifests may be kept under `.agents/feature-manifests/` and validated against `docs/feature-completion-manifest.schema.json` when a change uses the plan-driven workflow.
 - Feature manifests should classify changes by mode, impact, and change profiles so required docs, tests, generators, and close-out commands are enforced mechanically.
-- Backend audit tightening should happen in phases: first classify everything, then harden `automation_relevant`, and only later decide whether additional support tiers deserve stronger gates.
-- The current first tightening step is planner/admin-agent DTO coverage because it has high automation value and low ambiguity compared with the wider DTO surface.
+- Validation evidence records may be kept under `.agents/validation-evidence/` and validated against `docs/validation-evidence.schema.json` when a change needs a compact command, generated-artifact, and skipped-check evidence trail.
+- Backend audit tightening should happen in phases: first classify everything, then harden `automation_relevant` through small rule-scoped DTO, read-model, or service slices, and only later decide whether additional support tiers deserve stronger gates.
+- Broad service coverage remains report-first until specific service slices have stable ownership, source registration, documentation coverage, and low-noise validation evidence.
 
 ## Sandbox Boundary
 

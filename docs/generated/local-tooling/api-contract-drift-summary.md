@@ -1,9 +1,9 @@
 # API Contract Drift Audit
 
-- Generated at: `2026-06-28T20:30:13Z`
-- Backend DTOs scanned: `111`
+- Generated at: `2026-06-29T12:47:10Z`
+- Backend DTOs scanned: `124`
 - DTOs missing generated contracts: `0`
-- Zero-usage backend fields: `78`
+- Zero-usage backend fields: `79`
 
 ## `AdminAgentPlaygroundResponseDTO`
 
@@ -23,7 +23,6 @@
 
 - Generated contract present: `true`
 - `members` -> `unused_in_frontend` | usage=`0`
-- `ownerId` -> `unused_in_frontend` | usage=`0`
 
 ## `AgentClarificationContractDTO`
 
@@ -40,7 +39,6 @@
 
 - Generated contract present: `true`
 - `expectedReadModels` -> `unused_in_frontend` | usage=`0`
-- `intentId` -> `unused_in_frontend` | usage=`0`
 - `sourcePromptExamples` -> `unused_in_frontend` | usage=`0`
 
 ## `AgentResolutionConfidenceDTO`
@@ -55,15 +53,15 @@
 - `endpointHint` -> `unused_in_frontend` | usage=`0`
 - `scope` -> `unused_in_frontend` | usage=`0`
 
-## `ApiFieldErrorDTO`
-
-- Generated contract present: `true`
-- `field` -> `unused_in_frontend` | usage=`0`
-
 ## `AppUserResponseDTO`
 
 - Generated contract present: `true`
 - `profileNavigation` -> `unused_in_frontend` | usage=`0`
+
+## `BusinessProfileResponseDTO`
+
+- Generated contract present: `true`
+- `updatedAt` -> `unused_in_frontend` | usage=`0`
 
 ## `ChatContactDTO`
 

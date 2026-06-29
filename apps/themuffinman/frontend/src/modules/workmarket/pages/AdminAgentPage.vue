@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, ref} from "vue"
 import {getApiErrorMessage} from "../../../api/apiErrors.ts"
-import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
+import UiAppShellPage from "../../../components/ui/UiAppShellPage.vue"
 import UiFieldGroup from "../../../components/ui/UiFieldGroup.vue"
 import UiSurfaceSection from "../../../components/ui/UiSurfaceSection.vue"
 import AdminShellHeader from "../components/admin/AdminShellHeader.vue"
@@ -9,6 +9,7 @@ import {
   buildPlaygroundSafetyViewModel,
   buildSimulationSafetyViewModel
 } from "../api/adminAgentSafetyViewModel.ts"
+import {collectAgentWorkflowReferenceIssues} from "../api/agentWorkflowGuards.ts"
 import {
   workmarketApi,
   type AdminAgentPlaygroundResponse,
@@ -29,6 +30,10 @@ const plannerSafety = computed(() => plannerResponse.value
 const simulationSafety = computed(() => simulationResponse.value
   ? buildSimulationSafetyViewModel(simulationResponse.value)
   : null)
+
+const simulationWorkflowReferenceIssues = computed(() => simulationResponse.value
+  ? collectAgentWorkflowReferenceIssues(simulationResponse.value)
+  : [])
 
 const runPlanner = async () => {
   isSubmittingPlanner.value = true
@@ -62,7 +67,7 @@ const runSimulation = async () => {
 </script>
 
 <template>
-  <UiDashboardPage admin>
+  <UiAppShellPage admin>
     <AdminShellHeader
       title="Agent Playground"
       subtitle="Inspect backend planner and dry-run safety output before any future executor exists."
@@ -202,6 +207,15 @@ const runSimulation = async () => {
             <span><code>{{ simulationResponse.selectedIntentId ?? "none" }}</code></span>
           </div>
 
+          <div v-if="simulationWorkflowReferenceIssues.length" class="surface-stack">
+            <strong>Contract warnings</strong>
+            <ul class="stack">
+              <li v-for="issue in simulationWorkflowReferenceIssues" :key="`${issue.field}-${issue.value}`">
+                <code>{{ issue.field }}</code> references unknown {{ issue.expectedCatalog }} <code>{{ issue.value }}</code>
+              </li>
+            </ul>
+          </div>
+
           <div class="surface-inline-spread">
             <strong>Resolution confidence</strong>
             <span>{{ simulationResponse.resolutionConfidence.tier }} / {{ simulationResponse.resolutionConfidence.score }}</span>
@@ -263,5 +277,5 @@ const runSimulation = async () => {
         </div>
       </UiSurfaceSection>
     </div>
-  </UiDashboardPage>
+  </UiAppShellPage>
 </template>

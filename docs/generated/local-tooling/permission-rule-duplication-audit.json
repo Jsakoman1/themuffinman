@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-28T20:30:14Z",
-  "active_route_backed_file_count": 31,
+  "generated_at": "2026-06-29T12:47:11Z",
+  "active_route_backed_file_count": 34,
   "backend_permission_source_count": 13,
   "backend_presentation_flag_count": 4,
   "frontend_passthrough_gate_count": 61,
-  "frontend_local_gate_count": 12,
+  "frontend_local_gate_count": 11,
   "backend_permission_sources": [
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
@@ -42,7 +42,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-      "line": 43,
+      "line": 44,
       "snippet": "public List<QuestAllowedAction> resolveAllowedActions(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {",
       "action_keys": [
         "EDIT",
@@ -58,7 +58,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-      "line": 51,
+      "line": 49,
       "snippet": "allowedActions.add(QuestAllowedAction.EDIT);",
       "action_keys": [
         "EDIT"
@@ -67,7 +67,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-      "line": 52,
+      "line": 50,
       "snippet": "allowedActions.add(QuestAllowedAction.VIEW_APPLICATIONS);",
       "action_keys": [
         "VIEW_APPLICATIONS"
@@ -76,7 +76,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-      "line": 53,
+      "line": 51,
       "snippet": "allowedActions.add(QuestAllowedAction.DELETE);",
       "action_keys": [
         "DELETE"
@@ -85,7 +85,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-      "line": 57,
+      "line": 55,
       "snippet": "allowedActions.add(QuestAllowedAction.APPLY);",
       "action_keys": [
         "APPLY"
@@ -94,7 +94,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-      "line": 61,
+      "line": 59,
       "snippet": "allowedActions.add(QuestAllowedAction.START);",
       "action_keys": [
         "START"
@@ -103,7 +103,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-      "line": 65,
+      "line": 63,
       "snippet": "allowedActions.add(QuestAllowedAction.COMPLETE);",
       "action_keys": [
         "COMPLETE"
@@ -112,7 +112,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-      "line": 69,
+      "line": 67,
       "snippet": "allowedActions.add(QuestAllowedAction.CONFIRM_TERM_CHANGE);",
       "action_keys": [
         "CONFIRM_TERM_CHANGE"
@@ -121,7 +121,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-      "line": 70,
+      "line": 68,
       "snippet": "allowedActions.add(QuestAllowedAction.REJECT_TERM_CHANGE);",
       "action_keys": [
         "REJECT_TERM_CHANGE"
@@ -165,8 +165,8 @@
       "kind": "backend_presentation"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-      "line": 356,
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+      "line": 65,
       "snippet": ".canEdit(allowedActions.contains(ApplicationAllowedAction.EDIT))",
       "action_keys": [
         "EDIT"
@@ -174,8 +174,8 @@
       "kind": "backend_presentation"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-      "line": 357,
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+      "line": 66,
       "snippet": ".canWithdraw(allowedActions.contains(ApplicationAllowedAction.WITHDRAW))",
       "action_keys": [
         "WITHDRAW"
@@ -787,7 +787,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 376,
+      "line": 327,
       "snippet": "v-if=\"myApplication.presentation.canWithdraw\"",
       "action_keys": [
         "WITHDRAW"
@@ -868,9 +868,9 @@
       "active_route_backed": false
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 112,
-      "snippet": "const showApplicationsSection = computed(() => isOwnerView.value && !!applicationsView.value)",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
+      "line": 34,
+      "snippet": "const showApplicationsSection = computed(() => isOwnerView.value && !!page.applicationsView.value)",
       "action_keys": [
         "UNKNOWN"
       ],
@@ -879,17 +879,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 113,
-      "snippet": "const showOfferSection = computed(() => !isOwnerView.value && (canApply.value || applicationSentVisible.value || !!myApplication.value))",
-      "action_keys": [
-        "APPLY"
-      ],
-      "kind": "frontend_local",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 361,
+      "line": 312,
       "snippet": "<div v-if=\"myApplication.proposedPrice !== null && myApplication.proposedPrice !== undefined\" class=\"surface-price\">",
       "action_keys": [
         "UNKNOWN"
@@ -899,7 +889,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 366,
+      "line": 317,
       "snippet": "v-if=\"richTextHasContent(myApplication.message)\"",
       "action_keys": [
         "UNKNOWN"
@@ -909,7 +899,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 376,
+      "line": 327,
       "snippet": "v-if=\"myApplication.presentation.canWithdraw\"",
       "action_keys": [
         "WITHDRAW"
@@ -924,14 +914,13 @@
       "backend_source_count": 3,
       "backend_presentation_count": 0,
       "frontend_passthrough_count": 4,
-      "frontend_local_count": 3,
+      "frontend_local_count": 2,
       "backend_source_files": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java"
       ],
       "frontend_local_files": [
-        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue"
       ],
       "frontend_passthrough_files": [
         "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",

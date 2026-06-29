@@ -16,6 +16,7 @@ SECTION_ORDER = %w[
   mutating_intent_contracts
   intent_safety_catalog
   documentation_coverage
+  documentation_ownership
   frontend_contract_generation
   frontend_contracts
   frontend_safety_regressions

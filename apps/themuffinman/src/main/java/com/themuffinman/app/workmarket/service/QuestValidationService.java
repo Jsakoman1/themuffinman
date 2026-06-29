@@ -1,5 +1,7 @@
 package com.themuffinman.app.workmarket.service;
 
+import com.themuffinman.app.common.concepts.CircleVisibilitySelection;
+import com.themuffinman.app.common.concepts.SchedulingWindow;
 import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.location.model.QuestLocationSource;
@@ -84,12 +86,13 @@ public class QuestValidationService {
             return;
         }
 
-        if (selectedCircleIds == null) {
+        CircleVisibilitySelection selection = CircleVisibilitySelection.from(selectedCircleIds);
+        if (selection.unrestricted() && selectedCircleIds == null) {
             return;
         }
 
-        List<CircleGroup> selectedCircles = questVisibilityService.getVisibleCircles(owner, selectedCircleIds);
-        if (selectedCircleIds.size() != selectedCircles.size()) {
+        List<CircleGroup> selectedCircles = questVisibilityService.getVisibleCircles(owner, List.copyOf(selection.asDistinctSet()));
+        if (selection.distinctCount() != selectedCircles.size()) {
             throw ServiceErrors.badRequest("One or more selected circles are invalid");
         }
 
@@ -190,11 +193,12 @@ public class QuestValidationService {
     }
 
     private void validateTermRange(Instant scheduledAt, Instant endsAt) {
-        if (scheduledAt != null && scheduledAt.isBefore(Instant.now())) {
+        SchedulingWindow window = new SchedulingWindow(scheduledAt, endsAt);
+        if (window.startsBefore(Instant.now())) {
             throw ServiceErrors.badRequest("Start time cannot be in the past");
         }
 
-        if (scheduledAt != null && endsAt != null && !endsAt.isAfter(scheduledAt)) {
+        if (window.hasInvalidRange()) {
             throw ServiceErrors.badRequest("End time must be after the start time");
         }
     }

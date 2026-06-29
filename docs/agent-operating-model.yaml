@@ -29,6 +29,10 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java
   - id: openai_admin_agent_client
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java
+  - id: sandbox_generation_plan
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java
+  - id: sandbox_generation_planner
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java
   - id: auth_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java
   - id: auth_service
@@ -63,18 +67,116 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java
   - id: dashboard_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java
+  - id: dashboard_application_group_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardApplicationGroupDTO.java
+  - id: dashboard_navigation_item_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java
+  - id: dashboard_navigation_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java
+  - id: dashboard_notification_destination_type
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationType.java
+  - id: dashboard_notification_item_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java
+  - id: dashboard_notifications_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationsSectionDTO.java
+  - id: dashboard_open_work_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardOpenWorkSectionDTO.java
+  - id: dashboard_planner_item_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerItemDTO.java
+  - id: dashboard_planner_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerSectionDTO.java
+  - id: dashboard_quest_group_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardQuestGroupDTO.java
+  - id: dashboard_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardResponseDTO.java
+  - id: dashboard_sections_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java
+  - id: dashboard_summary_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java
   - id: quest_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java
   - id: quest_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java
+  - id: admin_applications_query_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminApplicationsQueryDTO.java
+  - id: app_user_role_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AppUserRoleOptionDTO.java
+  - id: quest_application_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationListResponseDTO.java
+  - id: quest_application_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java
+  - id: quest_applications_view_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationsViewDTO.java
+  - id: quest_application_status_filter_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationStatusFilterOptionDTO.java
+  - id: quest_audience_filter_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceFilterOptionDTO.java
+  - id: quest_audience_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceOptionDTO.java
+  - id: quest_list_preset
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPreset.java
+  - id: quest_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListResponseDTO.java
+  - id: quest_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java
+  - id: quest_search_defaults_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSearchDefaultsDTO.java
+  - id: quest_search_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSearchRequestDTO.java
+  - id: quest_sort_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSortOptionDTO.java
+  - id: quest_status_filter_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusFilterOptionDTO.java
+  - id: quest_status_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusOptionDTO.java
+  - id: workmarket_options_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkmarketOptionsDTO.java
   - id: quest_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestRequestDTO.java
+  - id: quest_allowed_action
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedAction.java
+  - id: quest_detail_execution_action
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionAction.java
+  - id: quest_detail_execution_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java
+  - id: quest_detail_management_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailManagementSectionDTO.java
+  - id: quest_detail_navigation_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailNavigationSectionDTO.java
+  - id: quest_detail_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailResponseDTO.java
+  - id: quest_detail_review_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewSectionDTO.java
+  - id: quest_detail_review_target_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewTargetDTO.java
+  - id: quest_detail_sections_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailSectionsDTO.java
+  - id: quest_detail_term_change_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailTermChangeSectionDTO.java
+  - id: quest_presentation_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestPresentationDTO.java
+  - id: quest_viewer_relation
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelation.java
   - id: quest_application_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java
   - id: quest_application_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java
+  - id: quest_application_workflow_support
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java
   - id: quest_application_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationRequestDTO.java
+  - id: application_allowed_action
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedAction.java
+  - id: quest_application_detail_context_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailContextSectionDTO.java
+  - id: quest_application_detail_navigation_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailNavigationSectionDTO.java
+  - id: quest_application_detail_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailResponseDTO.java
+  - id: quest_application_detail_sections_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailSectionsDTO.java
+  - id: quest_application_presentation_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationPresentationDTO.java
   - id: user_review_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/UserReviewController.java
   - id: quest_news_controller
@@ -85,6 +187,10 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewRequestDTO.java
   - id: quest_news_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsService.java
+  - id: quest_news_destination_type
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationType.java
+  - id: quest_news_item_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java
   - id: quest_access_policy_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java
   - id: quest_update_service
@@ -113,6 +219,16 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java
   - id: reject_quest_term_change_use_case
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/RejectQuestTermChangeUseCase.java
+  - id: apply_for_quest_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java
+  - id: update_my_application_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UpdateMyApplicationUseCase.java
+  - id: withdraw_my_application_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WithdrawMyApplicationUseCase.java
+  - id: approve_application_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java
+  - id: decline_application_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeclineApplicationUseCase.java
   - id: quest_mgr
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java
   - id: quest_news_mgr
@@ -121,6 +237,8 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestApplicationMgr.java
   - id: location_settings_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java
+  - id: location_access_policy_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java
   - id: location_lookup_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java
   - id: location_lookup_service
@@ -157,6 +275,46 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java
   - id: circle_view_assembler
     path: apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java
+  - id: business_profile_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java
+  - id: business_profile_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java
+  - id: business_profile_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessProfileMgr.java
+  - id: business_profile_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java
+  - id: business_profile_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java
+  - id: business_profile_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileListResponseDTO.java
+  - id: thing_sharing_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java
+  - id: thing_sharing_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java
+  - id: thing_sharing_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java
+  - id: thing_listing_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingRequestDTO.java
+  - id: thing_borrow_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestDTO.java
+  - id: thing_listing_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingResponseDTO.java
+  - id: thing_borrow_request_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java
+  - id: thing_listing_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingListResponseDTO.java
+  - id: ride_offer_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java
+  - id: ride_offer_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java
+  - id: ride_offer_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java
+  - id: ride_offer_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferRequestDTO.java
+  - id: ride_offer_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java
+  - id: ride_offer_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferListResponseDTO.java
   - id: chat_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java
   - id: chat_service
@@ -179,16 +337,58 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketEventDTO.java
   - id: chat_workspace_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatWorkspaceDTO.java
-  - id: circle_group_request_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleGroupRequestDTO.java
-  - id: circle_request_create_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestCreateDTO.java
-  - id: circle_request_mgr
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/mapper/CircleRequestMgr.java
-  - id: connection_circle_update_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/ConnectionCircleUpdateDTO.java
+  - id: admin_circle_group_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/AdminCircleGroupResponseDTO.java
+  - id: admin_circle_overview_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/AdminCircleOverviewDTO.java
+  - id: admin_circle_relation_row_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/AdminCircleRelationRowDTO.java
+  - id: bulk_circle_membership_action
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipAction.java
   - id: bulk_circle_membership_update_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipUpdateDTO.java
+  - id: circle_block_create_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleBlockCreateDTO.java
+  - id: circle_candidate_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleCandidateDTO.java
+  - id: circle_connections_query_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleConnectionsQueryDTO.java
+  - id: circle_contact_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleContactDTO.java
+  - id: circle_contact_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleContactListResponseDTO.java
+  - id: circle_group_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleGroupRequestDTO.java
+  - id: circle_group_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleGroupResponseDTO.java
+  - id: circle_member_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleMemberDTO.java
+  - id: circle_overview_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleOverviewDTO.java
+  - id: circle_relation_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationDTO.java
+  - id: circle_relation_status
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatus.java
+  - id: circle_request_create_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestCreateDTO.java
+  - id: circle_request_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestListResponseDTO.java
+  - id: circle_request_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestResponseDTO.java
+  - id: circle_request_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/mapper/CircleRequestMgr.java
+  - id: circle_search_result_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSearchResultDTO.java
+  - id: circle_search_result_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSearchResultListResponseDTO.java
+  - id: circle_summary_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSummaryDTO.java
+  - id: connection_circle_update_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/ConnectionCircleUpdateDTO.java
+  - id: page_query_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/PageQueryDTO.java
+  - id: text_page_query_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/TextPageQueryDTO.java
   - id: rich_text_validator
     path: apps/themuffinman/src/main/java/com/themuffinman/app/common/validation/RichTextInputValidator.java
   - id: service_errors
@@ -215,12 +415,16 @@ source_of_truth:
     path: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java
   - id: quest_application_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - id: quest_application_use_case_contract_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java
   - id: admin_agent_playground_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java
   - id: admin_agent_golden_prompt_matrix_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
   - id: admin_agent_capability_boundary_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
+  - id: sandbox_generation_planner_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java
   - id: auth_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
   - id: request_dto_validation_test
@@ -233,6 +437,10 @@ source_of_truth:
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java
   - id: agent_operating_model_validation_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  - id: repository_fetch_profile_contract_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/RepositoryFetchProfileContractTest.java
+  - id: workflow_state_machine_catalog_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/WorkflowStateMachineCatalogTest.java
   - id: admin_agent_simulation_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java
   - id: admin_agent_simulation_response_dto
@@ -253,6 +461,16 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionRequirementDTO.java
   - id: user_review_mgr
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/UserReviewMgr.java
+  - id: action_result_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java
+  - id: action_results
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResults.java
+  - id: label_value_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java
+  - id: navigation_target_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetDTO.java
+  - id: navigation_target_type
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetType.java
   - id: agents_doc
     path: AGENTS.md
 backend_audit_coverage:
@@ -268,16 +486,38 @@ backend_audit_coverage:
     - chat_contract_dto_surface
     - identity_contract_dto_surface
     - location_contract_dto_surface
+    - social_request_relation_dto_surface
+    - social_overview_member_dto_surface
+    - social_search_contact_dto_surface
+    - social_admin_circle_dto_surface
+    - workmarket_dashboard_dto_surface
+    - workmarket_quest_detail_dto_surface
+    - workmarket_application_detail_dto_surface
+    - workmarket_list_search_options_dto_surface
+    - workmarket_news_read_model_dto_surface
+    - common_action_navigation_dto_surface
     strict_documentation_rule_ids:
     - automation_contract_dto_surface
     - chat_contract_dto_surface
     - identity_contract_dto_surface
     - location_contract_dto_surface
+    - social_request_relation_dto_surface
+    - social_overview_member_dto_surface
+    - social_search_contact_dto_surface
+    - social_admin_circle_dto_surface
+    - workmarket_dashboard_dto_surface
+    - workmarket_quest_detail_dto_surface
+    - workmarket_application_detail_dto_surface
+    - workmarket_list_search_options_dto_surface
+    - workmarket_news_read_model_dto_surface
+    - common_action_navigation_dto_surface
   future_tightening:
   - phase: next
     target_tier: automation_relevant
-    goal: Require source-of-truth registration and documentation coverage once classification
-      coverage stays stable, domain-owned, and low-noise.
+    goal: Promote only small rule-scoped DTO, read-model, or service slices into strict
+      source-of-truth registration and documentation coverage; keep the broad service
+      catch-all report-only until each service slice is stable, domain-owned, and
+      low-noise.
   - phase: later
     target_tier: internal_support
     goal: Keep explicit inventory and ownership visibility across the rest of the
@@ -291,6 +531,10 @@ backend_audit_coverage:
     owner_id: chat_domain
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/chat/
+  - id: business
+    owner_id: business_domain
+    path_prefixes:
+    - apps/themuffinman/src/main/java/com/themuffinman/app/business/
   - id: common
     owner_id: platform_core
     path_prefixes:
@@ -303,10 +547,18 @@ backend_audit_coverage:
     owner_id: location_domain
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/location/
+  - id: rides
+    owner_id: rides_domain
+    path_prefixes:
+    - apps/themuffinman/src/main/java/com/themuffinman/app/rides/
   - id: social
     owner_id: social_domain
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/social/
+  - id: things
+    owner_id: things_domain
+    path_prefixes:
+    - apps/themuffinman/src/main/java/com/themuffinman/app/things/
   - id: workmarket
     owner_id: workmarket_domain
     path_prefixes:
@@ -362,10 +614,13 @@ backend_audit_coverage:
     tier: executor_critical
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/
     - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/
     - apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/
     - apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/
     - apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/
     - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/
   - id: executor_mapper_surface
     tier: executor_critical
@@ -379,6 +634,10 @@ backend_audit_coverage:
     tier: executor_critical
     path_contains_any:
     - "/agent/service/"
+  - id: executor_agent_sandbox_surface
+    tier: executor_critical
+    path_prefixes:
+    - apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/
   - id: executor_tracked_service_surface
     tier: executor_critical
     file_names:
@@ -398,6 +657,7 @@ backend_audit_coverage:
     - QuestQueryService.java
     - QuestExecutionPrimitiveService.java
     - LocationSettingsService.java
+    - LocationAccessPolicyService.java
     - LocationLookupService.java
     - CircleRelationService.java
     - CircleService.java
@@ -420,10 +680,123 @@ backend_audit_coverage:
     tier: automation_relevant
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/
+  - id: social_request_relation_dto_surface
+    tier: automation_relevant
+    file_names:
+    - BulkCircleMembershipAction.java
+    - BulkCircleMembershipUpdateDTO.java
+    - CircleBlockCreateDTO.java
+    - CircleRelationDTO.java
+    - CircleRelationStatus.java
+    - CircleRequestCreateDTO.java
+    - CircleRequestListResponseDTO.java
+    - CircleRequestResponseDTO.java
+    - ConnectionCircleUpdateDTO.java
+  - id: social_overview_member_dto_surface
+    tier: automation_relevant
+    file_names:
+    - CircleGroupResponseDTO.java
+    - CircleMemberDTO.java
+    - CircleOverviewDTO.java
+    - CircleSummaryDTO.java
+  - id: social_search_contact_dto_surface
+    tier: automation_relevant
+    file_names:
+    - CircleCandidateDTO.java
+    - CircleConnectionsQueryDTO.java
+    - CircleContactDTO.java
+    - CircleContactListResponseDTO.java
+    - CircleSearchResultDTO.java
+    - CircleSearchResultListResponseDTO.java
+    - PageQueryDTO.java
+    - TextPageQueryDTO.java
+  - id: social_admin_circle_dto_surface
+    tier: automation_relevant
+    file_names:
+    - AdminCircleGroupResponseDTO.java
+    - AdminCircleOverviewDTO.java
+    - AdminCircleRelationRowDTO.java
+  - id: workmarket_dashboard_dto_surface
+    tier: automation_relevant
+    file_names:
+    - DashboardApplicationGroupDTO.java
+    - DashboardNavigationItemDTO.java
+    - DashboardNavigationSectionDTO.java
+    - DashboardNotificationDestinationType.java
+    - DashboardNotificationItemDTO.java
+    - DashboardNotificationsSectionDTO.java
+    - DashboardOpenWorkSectionDTO.java
+    - DashboardPlannerItemDTO.java
+    - DashboardPlannerSectionDTO.java
+    - DashboardQuestGroupDTO.java
+    - DashboardResponseDTO.java
+    - DashboardSectionsDTO.java
+    - DashboardSummaryDTO.java
+  - id: workmarket_quest_detail_dto_surface
+    tier: automation_relevant
+    file_names:
+    - QuestAllowedAction.java
+    - QuestDetailExecutionAction.java
+    - QuestDetailExecutionSectionDTO.java
+    - QuestDetailManagementSectionDTO.java
+    - QuestDetailNavigationSectionDTO.java
+    - QuestDetailResponseDTO.java
+    - QuestDetailReviewSectionDTO.java
+    - QuestDetailReviewTargetDTO.java
+    - QuestDetailSectionsDTO.java
+    - QuestDetailTermChangeSectionDTO.java
+    - QuestPresentationDTO.java
+    - QuestViewerRelation.java
+  - id: workmarket_application_detail_dto_surface
+    tier: automation_relevant
+    file_names:
+    - ApplicationAllowedAction.java
+    - QuestApplicationDetailContextSectionDTO.java
+    - QuestApplicationDetailNavigationSectionDTO.java
+    - QuestApplicationDetailResponseDTO.java
+    - QuestApplicationDetailSectionsDTO.java
+    - QuestApplicationPresentationDTO.java
+  - id: workmarket_list_search_options_dto_surface
+    tier: automation_relevant
+    file_names:
+    - AdminApplicationsQueryDTO.java
+    - AppUserRoleOptionDTO.java
+    - QuestApplicationListResponseDTO.java
+    - QuestApplicationResponseDTO.java
+    - QuestApplicationsViewDTO.java
+    - QuestApplicationStatusFilterOptionDTO.java
+    - QuestAudienceFilterOptionDTO.java
+    - QuestAudienceOptionDTO.java
+    - QuestListPreset.java
+    - QuestListResponseDTO.java
+    - QuestResponseDTO.java
+    - QuestSearchDefaultsDTO.java
+    - QuestSearchRequestDTO.java
+    - QuestSortOptionDTO.java
+    - QuestStatusFilterOptionDTO.java
+    - QuestStatusOptionDTO.java
+    - WorkmarketOptionsDTO.java
+  - id: workmarket_news_read_model_dto_surface
+    tier: automation_relevant
+    file_names:
+    - QuestNewsDestinationType.java
+    - QuestNewsItemResponseDTO.java
+  - id: common_action_navigation_dto_surface
+    tier: automation_relevant
+    file_names:
+    - ActionResultDTO.java
+    - ActionResults.java
+    - LabelValueDTO.java
+    - NavigationTargetDTO.java
+    - NavigationTargetType.java
   - id: automation_relevant_dto_surface
     tier: automation_relevant
     path_contains_any:
     - "/dto/"
+  - id: automation_relevant_domain_event_surface
+    tier: automation_relevant
+    path_contains_any:
+    - "/event/"
   - id: automation_relevant_remaining_service_surface
     tier: automation_relevant
     path_contains_any:
@@ -450,6 +823,201 @@ backend_audit_coverage:
     path_contains_any:
     - "/common/"
 policies:
+  self_test_matrix:
+    default_rule: Pick the cheapest tier that covers the changed risk, impact, and
+      profile, then record exact commands or skipped-check reasons in validation evidence.
+    tiers:
+    - id: syntax_only
+      purpose: Parse, schema, compile, or lint checks for cosmetic or documentation-only
+        changes.
+      example_commands:
+      - ruby -c scripts/path.rb
+      - npm run type-check
+    - id: targeted_unit
+      purpose: Focused unit or service tests for a changed backend rule, DTO mapper,
+        parser, or local tooling function.
+      example_commands:
+      - "./mvnw test -Dtest=SpecificServiceTest"
+      - ruby scripts/todo-audit.rb
+    - id: domain_scenario
+      purpose: Scenario or use-case contract tests for multi-step workflows, permissions,
+        state transitions, or cross-service behavior.
+      example_commands:
+      - "./mvnw test -Dtest=*ScenarioTest"
+      - "./mvnw test -Dtest=*UseCaseContractTest"
+    - id: contract_type_check
+      purpose: Frontend, API, DTO, or generated contract checks when request/response
+        shapes or UI-consumed fields change.
+      example_commands:
+      - npm run validate:contracts
+      - npm run type-check
+      - npm run build
+    - id: generated_artifact_validation
+      purpose: Generator and freshness checks when source-of-truth, endpoint, read-model,
+        local-tooling, or operating-model artifacts change.
+      example_commands:
+      - ruby scripts/generate-agent-operating-model.rb
+      - ruby scripts/audits/audit-generated-artifact-freshness.rb
+      - make audit-local-tooling-incremental
+    - id: full_validation
+      purpose: Full backend, frontend, docs, agent-safety, and local-tooling checks
+        for high-risk, executor-critical, broad, or master-plan-driven changes.
+      example_commands:
+      - "./mvnw test"
+      - npm run type-check
+      - npm run build
+      - make audit-agent-safety
+    risk_tiers:
+    - risk: low
+      minimum_tiers:
+      - syntax_only
+      - targeted_unit
+    - risk: medium
+      minimum_tiers:
+      - targeted_unit
+      - generated_artifact_validation
+    - risk: high
+      minimum_tiers:
+      - domain_scenario
+      - contract_type_check
+      - generated_artifact_validation
+      - full_validation
+    - risk: executor-critical
+      minimum_tiers:
+      - domain_scenario
+      - contract_type_check
+      - generated_artifact_validation
+      - full_validation
+    profile_overrides:
+    - profile: backend-logic
+      add_tiers:
+      - targeted_unit
+      - domain_scenario
+    - profile: frontend-contract
+      add_tiers:
+      - contract_type_check
+    - profile: agent-contract
+      add_tiers:
+      - generated_artifact_validation
+      - full_validation
+    - profile: workflow-expansion
+      add_tiers:
+      - domain_scenario
+      - full_validation
+  validation_evidence_quality:
+    default_rule: Validation evidence must be concrete enough for a later session
+      to know what ran, what scope it covered, and why any expected check did not
+      run.
+    command_rules:
+    - id: exact_command_required
+      applies_to:
+      - passed
+      - failed
+      - skipped
+      - not_applicable
+      requirement: Every command evidence entry must name the exact command string.
+    - id: scope_required
+      applies_to:
+      - passed
+      - failed
+      - skipped
+      - not_applicable
+      requirement: Every command evidence entry must name the validation scope.
+    - id: skipped_reason_required
+      applies_to:
+      - skipped
+      - not_applicable
+      requirement: Skipped or not-applicable command evidence must include a concrete
+        skipped reason.
+    - id: vague_summary_rejected
+      applies_to:
+      - passed
+      - failed
+      - skipped
+      - not_applicable
+      requirement: Vague summaries such as tests not run, build passed, ok, done,
+        tbd, unknown, or placeholder text are rejected.
+    audit_command: make audit-validation-evidence-quality
+  closeout_doc_delta:
+    applies_to: Every logic-drift change and every change that updates business behavior,
+      domain rules, permissions, workflows, endpoint contracts, DTO contracts, schema
+      meaning, generated artifacts, or automation assumptions.
+    required_fields:
+    - behavior_changed
+    - docs_updated
+    - intentionally_unchanged
+    record_in:
+    - temporary plan Completion Evidence
+    - feature manifest docDelta when a manifest is used
+    - final closeout summary
+    completion_rule: Closeout must state what behavior changed, which living docs
+      or agent artifacts were updated, and what related surfaces were intentionally
+      left unchanged.
+  plan_completion_audit:
+    applies_to: Temporary plans, master plans, and completed manifest-backed changes
+      when plan completion evidence is part of the closeout boundary.
+    required_evidence:
+    - plan exists
+    - plan has a Completion Evidence section
+    - completion status is final
+    - open task checkboxes are complete or explicitly deferred to a stable backlog
+      ID
+    - master-plan child rows are complete or explicitly deferred
+    - completed manifests do not reference incomplete plan evidence
+    audit_command: make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]
+    completion_rule: A plan-backed change is not ready for closeout while its referenced
+      plan has incomplete task checkboxes, missing completion evidence, or an incomplete
+      child plan without an explicit deferred backlog ID.
+  implementation_checkpoints:
+    broad_change_trigger: Use these checkpoints for broad, long-running, high-complexity,
+      multi-layer, high-risk, or master-plan-driven changes.
+    default_rule: Complete each checkpoint in order and record the result in the temporary
+      plan before continuing to the next slice.
+    checkpoints:
+    - id: plan
+      required_evidence:
+      - temporary plan or master child plan exists
+      - scope, risk, affected surfaces, and expected validation are listed
+      - approval needs are front-loaded before autonomous work begins
+      completion_rule: Do not start substantial edits until the slice has a concrete
+        plan and validation target.
+    - id: first_backend_slice
+      required_evidence:
+      - first backend behavior, contract, or generated-artifact edit is complete when
+        backend is in scope
+      - targeted backend test, compile check, or documented not-applicable reason
+        is recorded
+      completion_rule: Prove the backend direction with the smallest meaningful slice
+        before broadening backend edits.
+    - id: first_frontend_slice
+      required_evidence:
+      - first frontend contract, state, route, or component edit is complete when
+        frontend is in scope
+      - type-check, build, contract validation, or documented not-applicable reason
+        is recorded
+      completion_rule: Prove the frontend direction with the smallest meaningful slice
+        before broadening UI edits.
+    - id: docs_artifacts_sync
+      required_evidence:
+      - living docs affected by the slice are updated
+      - generated artifacts affected by the slice are regenerated or explicitly marked
+        not applicable
+      completion_rule: Do not treat code-only progress as complete when behavior,
+        contracts, workflows, or automation assumptions changed.
+    - id: validation
+      required_evidence:
+      - targeted checks for the changed slice are recorded
+      - required full checks for the change profile are run or skipped with a concrete
+        reason
+      completion_rule: Validation evidence must name exact commands and scope before
+        the slice is marked complete.
+    - id: commit_boundary
+      required_evidence:
+      - backlog item is removed only after implementation and validation are complete
+      - temporary plan and master plan status match the actual state
+      - commit or push is skipped unless the user explicitly requested it
+      completion_rule: Close the slice only after scope, backlog, docs, generated
+        artifacts, and validation evidence agree.
   uniqueness:
     default_rule: When generating multiple entities of the same type, vary meaningful
       business fields instead of adding cosmetic suffixes only.
@@ -1732,6 +2300,71 @@ mutating_intent_contracts:
   - admin_agent_playground_service
   - app_user_service
   - create_quest_use_case
+- intent_id: save_my_business_profile
+  preconditions:
+  - authenticated owner
+  - validated business profile payload
+  - unique slug for owner scope
+  state_changes:
+  - persist current user's business profile
+  side_effects:
+  - sanitize rich-text business description and update active directory visibility
+  notifications:
+  - none
+  blocking_conditions:
+  - missing authenticated owner
+  - invalid profile payload
+  - slug conflict
+  source_refs:
+  - business_profile_service
+- intent_id: create_thing_listing
+  preconditions:
+  - authenticated owner
+  - validated thing listing payload
+  state_changes:
+  - persist owned thing-sharing listing
+  side_effects:
+  - make listing available to listing read surfaces when marked available
+  notifications:
+  - none
+  blocking_conditions:
+  - missing authenticated owner
+  - invalid listing payload
+  source_refs:
+  - thing_sharing_service
+- intent_id: request_borrow_thing
+  preconditions:
+  - authenticated requester
+  - exact listing identity
+  - available listing
+  state_changes:
+  - persist thing borrow request
+  side_effects:
+  - link request to listing owner and requester
+  notifications:
+  - none
+  blocking_conditions:
+  - missing authenticated requester
+  - listing unavailable or missing
+  source_refs:
+  - thing_sharing_service
+- intent_id: create_ride_offer
+  preconditions:
+  - authenticated driver
+  - validated ride offer payload
+  - driver-owned visible circles when provided
+  state_changes:
+  - persist voluntary ride offer
+  side_effects:
+  - make active offer visible through ride offer read surfaces
+  notifications:
+  - none
+  blocking_conditions:
+  - missing authenticated driver
+  - invalid departure time
+  - invalid visible circles
+  source_refs:
+  - ride_offer_service
 intent_safety_catalog:
   risk_groups:
     read_only:
@@ -1773,6 +2406,13 @@ intent_safety_catalog:
     - resolve_chat_conversation
     - open_chat_conversation_messages
     - open_location_debug_status
+    - browse_business_profiles
+    - open_my_business_profile
+    - open_business_profile_by_slug
+    - browse_thing_listings
+    - open_my_thing_listings
+    - browse_ride_offers
+    - open_my_ride_offers
     safe_write:
     - authenticate_user
     - set_profile_location
@@ -1799,6 +2439,10 @@ intent_safety_catalog:
     - complete_quest
     - request_owner_term_change
     - create_review
+    - save_my_business_profile
+    - create_thing_listing
+    - request_borrow_thing
+    - create_ride_offer
     destructive_write:
     - delete_user_as_admin
     - delete_circle
@@ -1950,6 +2594,8 @@ documentation_coverage:
   - id: automation_services
     source_refs:
     - admin_agent_playground_service
+    - sandbox_generation_plan
+    - sandbox_generation_planner
     - local_admin_agent_prompt_translator
     - openai_admin_agent_client
     - auth_service
@@ -1959,6 +2605,7 @@ documentation_coverage:
     - dashboard_service
     - quest_service
     - quest_application_service
+    - quest_application_workflow_support
     - user_review_service
     - quest_news_service
     - quest_access_policy_service
@@ -1975,7 +2622,13 @@ documentation_coverage:
     - complete_quest_use_case
     - confirm_quest_term_change_use_case
     - reject_quest_term_change_use_case
+    - apply_for_quest_use_case
+    - update_my_application_use_case
+    - withdraw_my_application_use_case
+    - approve_application_use_case
+    - decline_application_use_case
     - location_settings_service
+    - location_access_policy_service
     - location_lookup_service
     - circle_relation_service
     - circle_service
@@ -2012,6 +2665,28 @@ documentation_coverage:
     - chat_socket_client_message_dto
     - chat_socket_event_dto
     - chat_workspace_dto
+  - id: business_contract_dtos
+    source_refs:
+    - business_profile_request_dto
+    - business_profile_response_dto
+    - business_profile_list_response_dto
+  - id: things_contract_dtos
+    source_refs:
+    - thing_listing_request_dto
+    - thing_borrow_request_dto
+    - thing_listing_response_dto
+    - thing_borrow_request_response_dto
+    - thing_listing_list_response_dto
+  - id: rides_contract_dtos
+    source_refs:
+    - ride_offer_request_dto
+    - ride_offer_response_dto
+    - ride_offer_list_response_dto
+  - id: module_mappers
+    source_refs:
+    - business_profile_mgr
+    - thing_sharing_mgr
+    - ride_offer_mgr
   - id: identity_contract_dtos
     source_refs:
     - admin_user_detail_dto
@@ -2035,14 +2710,116 @@ documentation_coverage:
     - quest_location_visibility_option_dto
     - user_location_settings_dto
     - user_location_settings_request_dto
+  - id: social_request_relation_contract_dtos
+    source_refs:
+    - bulk_circle_membership_action
+    - bulk_circle_membership_update_dto
+    - circle_block_create_dto
+    - circle_relation_dto
+    - circle_relation_status
+    - circle_request_create_dto
+    - circle_request_list_response_dto
+    - circle_request_response_dto
+    - connection_circle_update_dto
+  - id: social_overview_member_contract_dtos
+    source_refs:
+    - circle_group_response_dto
+    - circle_member_dto
+    - circle_overview_dto
+    - circle_summary_dto
+  - id: social_search_contact_contract_dtos
+    source_refs:
+    - circle_candidate_dto
+    - circle_connections_query_dto
+    - circle_contact_dto
+    - circle_contact_list_response_dto
+    - circle_search_result_dto
+    - circle_search_result_list_response_dto
+    - page_query_dto
+    - text_page_query_dto
+  - id: social_admin_circle_contract_dtos
+    source_refs:
+    - admin_circle_group_response_dto
+    - admin_circle_overview_dto
+    - admin_circle_relation_row_dto
+  - id: workmarket_dashboard_contract_dtos
+    source_refs:
+    - dashboard_application_group_dto
+    - dashboard_navigation_item_dto
+    - dashboard_navigation_section_dto
+    - dashboard_notification_destination_type
+    - dashboard_notification_item_dto
+    - dashboard_notifications_section_dto
+    - dashboard_open_work_section_dto
+    - dashboard_planner_item_dto
+    - dashboard_planner_section_dto
+    - dashboard_quest_group_dto
+    - dashboard_response_dto
+    - dashboard_sections_dto
+    - dashboard_summary_dto
+  - id: workmarket_quest_detail_contract_dtos
+    source_refs:
+    - quest_allowed_action
+    - quest_detail_execution_action
+    - quest_detail_execution_section_dto
+    - quest_detail_management_section_dto
+    - quest_detail_navigation_section_dto
+    - quest_detail_response_dto
+    - quest_detail_review_section_dto
+    - quest_detail_review_target_dto
+    - quest_detail_sections_dto
+    - quest_detail_term_change_section_dto
+    - quest_presentation_dto
+    - quest_viewer_relation
+  - id: workmarket_application_detail_contract_dtos
+    source_refs:
+    - application_allowed_action
+    - quest_application_detail_context_section_dto
+    - quest_application_detail_navigation_section_dto
+    - quest_application_detail_response_dto
+    - quest_application_detail_sections_dto
+    - quest_application_presentation_dto
+  - id: workmarket_list_search_options_contract_dtos
+    source_refs:
+    - admin_applications_query_dto
+    - app_user_role_option_dto
+    - quest_application_list_response_dto
+    - quest_application_response_dto
+    - quest_applications_view_dto
+    - quest_application_status_filter_option_dto
+    - quest_audience_filter_option_dto
+    - quest_audience_option_dto
+    - quest_list_preset
+    - quest_list_response_dto
+    - quest_response_dto
+    - quest_search_defaults_dto
+    - quest_search_request_dto
+    - quest_sort_option_dto
+    - quest_status_filter_option_dto
+    - quest_status_option_dto
+    - workmarket_options_dto
+  - id: workmarket_news_read_model_contract_dtos
+    source_refs:
+    - quest_news_destination_type
+    - quest_news_item_response_dto
+  - id: common_action_navigation_contract_dtos
+    source_refs:
+    - action_result_dto
+    - action_results
+    - label_value_dto
+    - navigation_target_dto
+    - navigation_target_type
   - id: automation_tests
     source_refs:
     - auth_service_test
     - request_dto_validation_test
     - quest_use_case_contract_test
+    - quest_application_use_case_contract_test
     - quest_workflow_scenario_test
     - agent_operating_scenario_test
     - agent_operating_model_validation_test
+    - repository_fetch_profile_contract_test
+    - workflow_state_machine_catalog_test
     - app_user_mgr_test
     - circle_service_test
     - chat_service_test
@@ -2052,8 +2829,272 @@ documentation_coverage:
     - admin_agent_playground_service_test
     - admin_agent_golden_prompt_matrix_test
     - admin_agent_capability_boundary_test
+    - sandbox_generation_planner_test
+documentation_ownership:
+  documentation_templates:
+  - id: new_workflow
+    label: New workflow
+    template_path: ".agents/templates/docs/new-workflow.template.md"
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    required_sections:
+    - Behavior Summary
+    - State Model
+    - Permissions And Visibility
+    - Validation And Edge Cases
+    - Documentation Delta
+    - Validation Evidence
+  - id: new_endpoint
+    label: New endpoint
+    template_path: ".agents/templates/docs/new-endpoint.template.md"
+    required_living_docs:
+    - docs/domain-technical.md
+    - docs/business-logic.md
+    - docs/agent-operating-model.md
+    required_sections:
+    - Endpoint Contract
+    - Behavior Summary
+    - Permissions And Visibility
+    - Validation And Errors
+    - Documentation Delta
+    - Validation Evidence
+  - id: new_dto_contract
+    label: New DTO contract
+    template_path: ".agents/templates/docs/new-dto-contract.template.md"
+    required_living_docs:
+    - docs/domain-technical.md
+    - docs/business-logic.md
+    - docs/agent-operating-model.md
+    required_sections:
+    - DTO Contract
+    - Field Semantics
+    - Permissions And Visibility
+    - Compatibility Notes
+    - Documentation Delta
+    - Validation Evidence
+  - id: new_module
+    label: New module
+    template_path: ".agents/templates/docs/new-module.template.md"
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    required_sections:
+    - Module Purpose
+    - Core Entities
+    - Workflows
+    - Permissions And Visibility
+    - Documentation Delta
+    - Validation Evidence
+  - id: new_permission_rule
+    label: New permission rule
+    template_path: ".agents/templates/docs/new-permission-rule.template.md"
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    required_sections:
+    - Rule Summary
+    - Enforcement Point
+    - Visibility And Consent
+    - Failure Behavior
+    - Documentation Delta
+    - Validation Evidence
+  - id: schema_migration
+    label: Schema migration
+    template_path: ".agents/templates/docs/schema-migration.template.md"
+    required_living_docs:
+    - docs/domain-technical.md
+    - docs/business-logic.md
+    required_sections:
+    - Migration Summary
+    - Domain Impact
+    - Runtime Compatibility
+    - Documentation Delta
+    - Validation Evidence
+  domains:
+  - id: agent
+    required_living_docs:
+    - docs/agent-operating-model.md
+    - docs/domain-technical.md
+    - docs/documentation-sync-policy.md
+    generated_artifacts:
+    - docs/agent-operating-model.yaml
+    - docs/generated/source-of-truth-audit.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  - id: chat
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/generated/backend-audit-inventory.json
+    - docs/generated/source-of-truth-audit.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - id: business
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    generated_artifacts:
+    - docs/generated/agent-endpoint-inventory.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java
+  - id: common
+    required_living_docs:
+    - docs/domain-technical.md
+    generated_artifacts:
+    - docs/generated/backend-audit-inventory.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/common/concepts/CoreConceptsTest.java
+  - id: identity
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/generated/agent-endpoint-inventory.json
+    - docs/generated/source-of-truth-audit.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
+  - id: location
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/generated/automation-read-model-inventory.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java
+  - id: rides
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    generated_artifacts:
+    - docs/generated/agent-endpoint-inventory.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+  - id: social
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/generated/agent-endpoint-inventory.json
+    - docs/generated/source-of-truth-audit.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java
+  - id: things
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    generated_artifacts:
+    - docs/generated/agent-endpoint-inventory.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java
+  - id: workmarket
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/generated/agent-endpoint-inventory.json
+    - docs/generated/automation-read-model-inventory.json
+    - docs/generated/source-of-truth-audit.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+  - id: platform
+    required_living_docs:
+    - docs/domain-technical.md
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    generated_artifacts:
+    - docs/generated/backend-audit-inventory.json
+    - docs/generated/local-tooling/audit-summary-index.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java
+  change_categories:
+  - id: backend_logic
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    generated_artifacts:
+    - docs/generated/backend-audit-inventory.json
+    validation_commands:
+    - "./mvnw test"
+  - id: frontend_contract
+    required_living_docs:
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+    validation_commands:
+    - npm run validate:contracts
+    - npm run type-check
+    - npm run build
+  - id: workflow_change
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/agent-operating-model.yaml
+    - docs/generated/automation-read-model-inventory.json
+    validation_commands:
+    - make audit-agent-safety
+    - "./mvnw test"
+  - id: schema_migration
+    required_living_docs:
+    - docs/domain-technical.md
+    generated_artifacts:
+    - docs/generated/backend-audit-inventory.json
+    validation_commands:
+    - "./mvnw test"
+  - id: agent_contract
+    required_living_docs:
+    - docs/agent-operating-model.md
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    generated_artifacts:
+    - docs/agent-operating-model.yaml
+    - docs/generated/source-of-truth-audit.json
+    validation_commands:
+    - ruby scripts/generate-agent-operating-model.rb
+    - make audit-agent-safety
+  - id: sandbox_generation
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/agent-operating-model.yaml
+    validation_commands:
+    - make audit-agent-safety
+    - "./mvnw test"
+  - id: local_tooling
+    required_living_docs:
+    - docs/domain-technical.md
+    - docs/tooling/codex-local-audits.md
+    generated_artifacts:
+    - docs/generated/local-tooling/audit-summary-index.json
+    validation_commands:
+    - make audit-local-tooling-incremental
+  - id: backlog_hygiene
+    required_living_docs:
+    - docs/implementation-backlog.md
+    - docs/agent-improvement-backlog.md
+    generated_artifacts: []
+    validation_commands:
+    - ruby scripts/todo-audit.rb
 frontend_contract_generation:
   script: apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs
+  check_command: npm --prefix apps/themuffinman/frontend run validate:contracts
   generated_contract_file: apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
   required_aliases:
   - AdminAgentPlaygroundRequest
@@ -2873,12 +3914,62 @@ service_workflow_inventory:
   automation_relevant: true
   source_refs:
   - quest_application_service
+  - apply_for_quest_use_case
+  - update_my_application_use_case
+  - withdraw_my_application_use_case
+  - approve_application_use_case
+  - decline_application_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java
+- id: business_profile_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessProfileService
+  service_methods:
+  - saveMyProfile
+  covered_intents:
+  - save_my_business_profile
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java
+- id: thing_sharing_write_flows
+  service_class: com.themuffinman.app.things.service.ThingSharingService
+  service_methods:
+  - saveMyListing
+  - requestBorrow
+  covered_intents:
+  - create_thing_listing
+  - request_borrow_thing
+  automation_relevant: true
+  source_refs:
+  - thing_sharing_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java
+- id: ride_offer_write_flows
+  service_class: com.themuffinman.app.rides.service.RideOfferService
+  service_methods:
+  - createOffer
+  covered_intents:
+  - create_ride_offer
+  automation_relevant: true
+  source_refs:
+  - ride_offer_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
 - id: chat_write_flows
   service_class: com.themuffinman.app.chat.service.ChatService
   service_methods:
@@ -3454,7 +4545,7 @@ request_validation_gate:
     required_annotations:
     - Digits
   service_validator_source_refs:
-  - quest_application_service
+  - quest_application_workflow_support
   service_validation_markers:
   - Application message is required
   - Free quest applications cannot have a proposed price
@@ -3510,6 +4601,12 @@ documentation_sync:
   - docs/agent-operating-model.yaml
   - docs/implementation-backlog.md
   - docs/feature-completion-manifest.schema.json
+  - docs/validation-evidence.schema.json
+  - docs/example-scenario-library.md
+  - docs/regression-scenario-catalog.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/docs-as-contract-slices.md
+  - docs/docs-as-contract-slices.yaml
   - docs/documentation-sync-policy.md
   required_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
@@ -4060,6 +5157,61 @@ api:
     path: "/chat/conversations/{conversationId}/read"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: markConversationRead
+  - id: get_business_profiles
+    method: GET
+    path: "/business/profiles"
+    controller_class: com.themuffinman.app.business.controller.BusinessProfileController
+    handler_method: getDirectory
+  - id: get_my_business_profile
+    method: GET
+    path: "/business/profiles/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessProfileController
+    handler_method: getMyProfile
+  - id: save_my_business_profile
+    method: PUT
+    path: "/business/profiles/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessProfileController
+    handler_method: saveMyProfile
+  - id: get_business_profile_by_slug
+    method: GET
+    path: "/business/profiles/{slug}"
+    controller_class: com.themuffinman.app.business.controller.BusinessProfileController
+    handler_method: getProfileBySlug
+  - id: get_thing_listings
+    method: GET
+    path: "/things/listings"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: getAvailableListings
+  - id: get_my_thing_listings
+    method: GET
+    path: "/things/listings/me"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: getMyListings
+  - id: create_thing_listing
+    method: POST
+    path: "/things/listings"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: createListing
+  - id: request_borrow_thing
+    method: POST
+    path: "/things/listings/{listingId}/borrow-requests"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: requestBorrow
+  - id: get_ride_offers
+    method: GET
+    path: "/rides/offers"
+    controller_class: com.themuffinman.app.rides.controller.RideOfferController
+    handler_method: getVisibleOffers
+  - id: get_my_ride_offers
+    method: GET
+    path: "/rides/offers/me"
+    controller_class: com.themuffinman.app.rides.controller.RideOfferController
+    handler_method: getMyOffers
+  - id: create_ride_offer
+    method: POST
+    path: "/rides/offers"
+    controller_class: com.themuffinman.app.rides.controller.RideOfferController
+    handler_method: createOffer
   - id: chat_presence_heartbeat
     method: POST
     path: "/chat/presence/heartbeat"
@@ -7150,4 +8302,190 @@ intents:
     source_refs:
     - user_review_service
     - quest_service
+    - service_errors
+- id: browse_business_profiles
+  description: Browse active business mini-site profiles.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load active business profiles through the business directory endpoint.
+    endpoint_id: get_business_profiles
+    source_refs:
+    - business_profile_controller
+    - business_profile_service
+- id: open_my_business_profile
+  description: Open the authenticated user's business profile draft or published profile.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the current user's business profile through the self profile endpoint.
+    endpoint_id: get_my_business_profile
+    source_refs:
+    - business_profile_controller
+    - business_profile_service
+- id: save_my_business_profile
+  description: Create or update the authenticated user's business profile.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - business_name
+  - slug
+  optional_inputs:
+  - description
+  - appointment_summary
+  - active
+  defaults: []
+  workflow:
+  - step: 1
+    action: Normalize and validate business profile input, slug uniqueness, and rich-text
+      description safety.
+    source_refs:
+    - business_profile_request_dto
+    - business_profile_service
+    - rich_text_validator
+    - service_errors
+  - step: 2
+    action: Save the profile through the authenticated self profile endpoint.
+    endpoint_id: save_my_business_profile
+    source_refs:
+    - business_profile_controller
+    - business_profile_service
+- id: open_business_profile_by_slug
+  description: Open one active business profile by its public slug.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - slug
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Resolve an active business profile by slug.
+    endpoint_id: get_business_profile_by_slug
+    source_refs:
+    - business_profile_controller
+    - business_profile_service
+- id: browse_thing_listings
+  description: Browse currently available thing-sharing listings.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load available thing-sharing listings.
+    endpoint_id: get_thing_listings
+    source_refs:
+    - thing_sharing_controller
+    - thing_sharing_service
+- id: open_my_thing_listings
+  description: Open thing-sharing listings owned by the authenticated user.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load current-user thing-sharing listings.
+    endpoint_id: get_my_thing_listings
+    source_refs:
+    - thing_sharing_controller
+    - thing_sharing_service
+- id: create_thing_listing
+  description: Create a thing-sharing listing owned by the authenticated user.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - title
+  optional_inputs:
+  - description
+  - category
+  defaults: []
+  workflow:
+  - step: 1
+    action: Validate listing input and create the owned listing.
+    endpoint_id: create_thing_listing
+    source_refs:
+    - thing_sharing_controller
+    - thing_sharing_service
+    - thing_listing_request_dto
+    - service_errors
+- id: request_borrow_thing
+  description: Request to borrow an available thing-sharing listing.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - listing_id
+  optional_inputs:
+  - message
+  defaults: []
+  workflow:
+  - step: 1
+    action: Resolve the listing and create a borrow request for the authenticated
+      requester.
+    endpoint_id: request_borrow_thing
+    source_refs:
+    - thing_sharing_controller
+    - thing_sharing_service
+    - thing_borrow_request_dto
+    - service_errors
+- id: browse_ride_offers
+  description: Browse active voluntary ride offers.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load active ride offers visible to the authenticated user.
+    endpoint_id: get_ride_offers
+    source_refs:
+    - ride_offer_controller
+    - ride_offer_service
+- id: open_my_ride_offers
+  description: Open voluntary ride offers owned by the authenticated user.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load current-user ride offers.
+    endpoint_id: get_my_ride_offers
+    source_refs:
+    - ride_offer_controller
+    - ride_offer_service
+- id: create_ride_offer
+  description: Create a voluntary ride offer owned by the authenticated user.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - origin
+  - destination
+  - departure_at
+  optional_inputs:
+  - seat_count
+  - visible_circle_ids
+  defaults: []
+  workflow:
+  - step: 1
+    action: Validate ride timing, capacity, and driver-owned circle visibility before
+      creating the offer.
+    endpoint_id: create_ride_offer
+    source_refs:
+    - ride_offer_controller
+    - ride_offer_service
+    - ride_offer_request_dto
     - service_errors

@@ -3085,3 +3085,186 @@ intents:
     - user_review_service
     - quest_service
     - service_errors
+- id: browse_business_profiles
+  description: Browse active business mini-site profiles.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load active business profiles through the business directory endpoint.
+    endpoint_id: get_business_profiles
+    source_refs:
+    - business_profile_controller
+    - business_profile_service
+- id: open_my_business_profile
+  description: Open the authenticated user's business profile draft or published profile.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the current user's business profile through the self profile endpoint.
+    endpoint_id: get_my_business_profile
+    source_refs:
+    - business_profile_controller
+    - business_profile_service
+- id: save_my_business_profile
+  description: Create or update the authenticated user's business profile.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - business_name
+  - slug
+  optional_inputs:
+  - description
+  - appointment_summary
+  - active
+  defaults: []
+  workflow:
+  - step: 1
+    action: Normalize and validate business profile input, slug uniqueness, and rich-text description safety.
+    source_refs:
+    - business_profile_request_dto
+    - business_profile_service
+    - rich_text_validator
+    - service_errors
+  - step: 2
+    action: Save the profile through the authenticated self profile endpoint.
+    endpoint_id: save_my_business_profile
+    source_refs:
+    - business_profile_controller
+    - business_profile_service
+- id: open_business_profile_by_slug
+  description: Open one active business profile by its public slug.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - slug
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Resolve an active business profile by slug.
+    endpoint_id: get_business_profile_by_slug
+    source_refs:
+    - business_profile_controller
+    - business_profile_service
+- id: browse_thing_listings
+  description: Browse currently available thing-sharing listings.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load available thing-sharing listings.
+    endpoint_id: get_thing_listings
+    source_refs:
+    - thing_sharing_controller
+    - thing_sharing_service
+- id: open_my_thing_listings
+  description: Open thing-sharing listings owned by the authenticated user.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load current-user thing-sharing listings.
+    endpoint_id: get_my_thing_listings
+    source_refs:
+    - thing_sharing_controller
+    - thing_sharing_service
+- id: create_thing_listing
+  description: Create a thing-sharing listing owned by the authenticated user.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - title
+  optional_inputs:
+  - description
+  - category
+  defaults: []
+  workflow:
+  - step: 1
+    action: Validate listing input and create the owned listing.
+    endpoint_id: create_thing_listing
+    source_refs:
+    - thing_sharing_controller
+    - thing_sharing_service
+    - thing_listing_request_dto
+    - service_errors
+- id: request_borrow_thing
+  description: Request to borrow an available thing-sharing listing.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - listing_id
+  optional_inputs:
+  - message
+  defaults: []
+  workflow:
+  - step: 1
+    action: Resolve the listing and create a borrow request for the authenticated requester.
+    endpoint_id: request_borrow_thing
+    source_refs:
+    - thing_sharing_controller
+    - thing_sharing_service
+    - thing_borrow_request_dto
+    - service_errors
+- id: browse_ride_offers
+  description: Browse active voluntary ride offers.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load active ride offers visible to the authenticated user.
+    endpoint_id: get_ride_offers
+    source_refs:
+    - ride_offer_controller
+    - ride_offer_service
+- id: open_my_ride_offers
+  description: Open voluntary ride offers owned by the authenticated user.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load current-user ride offers.
+    endpoint_id: get_my_ride_offers
+    source_refs:
+    - ride_offer_controller
+    - ride_offer_service
+- id: create_ride_offer
+  description: Create a voluntary ride offer owned by the authenticated user.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - origin
+  - destination
+  - departure_at
+  optional_inputs:
+  - seat_count
+  - visible_circle_ids
+  defaults: []
+  workflow:
+  - step: 1
+    action: Validate ride timing, capacity, and driver-owned circle visibility before creating the offer.
+    endpoint_id: create_ride_offer
+    source_refs:
+    - ride_offer_controller
+    - ride_offer_service
+    - ride_offer_request_dto
+    - service_errors

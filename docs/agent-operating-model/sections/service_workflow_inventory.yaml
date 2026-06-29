@@ -244,12 +244,62 @@ service_workflow_inventory:
   automation_relevant: true
   source_refs:
   - quest_application_service
+  - apply_for_quest_use_case
+  - update_my_application_use_case
+  - withdraw_my_application_use_case
+  - approve_application_use_case
+  - decline_application_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java
+- id: business_profile_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessProfileService
+  service_methods:
+  - saveMyProfile
+  covered_intents:
+  - save_my_business_profile
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java
+- id: thing_sharing_write_flows
+  service_class: com.themuffinman.app.things.service.ThingSharingService
+  service_methods:
+  - saveMyListing
+  - requestBorrow
+  covered_intents:
+  - create_thing_listing
+  - request_borrow_thing
+  automation_relevant: true
+  source_refs:
+  - thing_sharing_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java
+- id: ride_offer_write_flows
+  service_class: com.themuffinman.app.rides.service.RideOfferService
+  service_methods:
+  - createOffer
+  covered_intents:
+  - create_ride_offer
+  automation_relevant: true
+  source_refs:
+  - ride_offer_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
 - id: chat_write_flows
   service_class: com.themuffinman.app.chat.service.ChatService
   service_methods:

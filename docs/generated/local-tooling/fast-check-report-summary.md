@@ -1,6 +1,37 @@
 # Fast Check Report
 
-- Generated At: `2026-06-28T21:04:13Z`
+- Generated At: `2026-06-29T10:41:47Z`
+- Original File Count: `326`
+- Filtered File Count: `156`
+- Excluded File Count: `156`
+## `excluded_files_sample`
+
+- `{:path: ".agents/agent-control-phase-two-plan.md", :excluded: true, :reasons: ["agent_transient"]}`
+- `{:path: ".agents/agent-operating-refactor-plan.md", :excluded: true, :reasons: ["agent_transient"]}`
+- `{:path: ".agents/agent-safety-enforcement-round2-plan.md", :excluded: true, :reasons: ["agent_transient"]}`
+- `{:path: ".agents/agent-safety-upgrade-plan.md", :excluded: true, :reasons: ["agent_transient"]}`
+- `{:path: ".agents/backend-audit-domain-tagging-plan.md", :excluded: true, :reasons: ["agent_transient"]}`
+- `{:path: ".agents/backend-audit-identity-dto-tightening-plan.md", :excluded: true, :reasons: ["agent_transient"]}`
+- `{:path: ".agents/backend-audit-location-dto-tightening-plan.md", :excluded: true, :reasons: ["agent_transient"]}`
+- `{:path: ".agents/backend-audit-manifest-cleanup-plan.md", :excluded: true, :reasons: ["agent_transient"]}`
+- `{:path: ".agents/backend-audit-tiering-plan.md", :excluded: true, :reasons: ["agent_transient"]}`
+- `{:path: ".agents/backend-audit-tightening-plan.md", :excluded: true, :reasons: ["agent_transient"]}`
+- `{:path: ".agents/executor-readiness-program-plan.md", :excluded: true, :reasons: ["agent_transient"]}`
+- `{:path: ".agents/persistent-backlog-system-plan.md", :excluded: true, :reasons: ["agent_transient"]}`
+- `{:path: "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts", :excluded: true, :reasons: ["generated"]}`
+- `{:path: "docs/generated/agent-endpoint-inventory.json", :excluded: true, :reasons: ["generated"]}`
+- `{:path: "docs/generated/automation-read-model-inventory.json", :excluded: true, :reasons: ["generated"]}`
+- `{:path: "docs/generated/backend-audit-inventory.json", :excluded: true, :reasons: ["generated"]}`
+- `{:path: "docs/generated/dead-code-audit/backend-unused-summary.md", :excluded: true, :reasons: ["generated"]}`
+- `{:path: "docs/generated/dead-code-audit/backend-unused.json", :excluded: true, :reasons: ["generated"]}`
+- `{:path: "docs/generated/dead-code-audit/dead-code-summary-summary.md", :excluded: true, :reasons: ["generated"]}`
+- `{:path: "docs/generated/dead-code-audit/dead-code-summary.json", :excluded: true, :reasons: ["generated"]}`
+- `{:path: "docs/generated/dead-code-audit/frontend-unused-summary.md", :excluded: true, :reasons: ["generated"]}`
+- `{:path: "docs/generated/dead-code-audit/frontend-unused.json", :excluded: true, :reasons: ["generated"]}`
+- `{:path: "docs/generated/local-tooling/.cache/audit-inputs.json", :excluded: true, :reasons: ["generated"]}`
+- `{:path: "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md", :excluded: true, :reasons: ["generated"]}`
+- `{:path: "docs/generated/local-tooling/agent-model-feature-coverage-audit.json", :excluded: true, :reasons: ["generated"]}`
+
 ## `files`
 
 - `.agents/feature-manifests/agent-control-phase-two-manifest.yaml`
@@ -14,43 +45,43 @@
 - `.agents/feature-manifests/backend-audit-tiering-manifest.yaml`
 - `.agents/feature-manifests/backend-audit-tightening-manifest.yaml`
 - `.agents/feature-manifests/executor-readiness-program-manifest.yaml`
+- `.agents/feature-manifests/persistent-backlog-system-manifest.yaml`
 - `.agents/templates/feature-completion-manifest.template.yaml`
 - `.agents/templates/feature-implementation-plan.template.md`
-- `AGENTS.md`
+- `.gitignore`
 - `Makefile`
-- `apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts`
-- `apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailMutationActions.ts`
-- `apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailUiActions.ts`
-- `apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java`
+- `apps/themuffinman/frontend/README.md`
+- `apps/themuffinman/frontend/package.json`
+- `apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs`
+- `apps/themuffinman/frontend/scripts/validate-admin-agent-ui-scenarios.mjs`
+- `apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue`
+- `apps/themuffinman/frontend/src/modules/moduleRegistry.ts`
+- `apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue`
+- `apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue`
+- `apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts`
 
 ## `audits_to_run`
 
 - `make audit-read-surface-inventory`
 - `make audit-repository-fetch`
 - `make audit-mapper-usage`
+- `make audit-api-contract-drift`
+- `make audit-endpoint-callsite-linker`
+- `make endpoint-contract-packs`
 - `make audit-frontend-route-surfaces`
 - `make audit-async-mutation-flow`
 - `make audit-frontend-usage-graph`
 - `make audit-doc-sync-preflight`
-- `make audit-documentation`
-- `make audit-doc-canonical-phrases`
-- `make audit-test-gap-recommendations`
 
 ## `commands_to_run`
 
 - `npm run type-check`
 - `npm run build`
-- `make audit-async-mutation-flow`
 - `make audit-frontend-route-surfaces`
+- `make audit-async-mutation-flow`
 - `./mvnw test`
 - `make audit-read-surface-inventory`
 - `make audit-repository-fetch`
-- `make audit-documentation`
+- `make generate-agent-artifacts`
 
 - Note: `Advisory fast-check plan only; run full validation for behavior changes.`

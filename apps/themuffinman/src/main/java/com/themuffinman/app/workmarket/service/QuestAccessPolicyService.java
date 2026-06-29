@@ -1,7 +1,8 @@
 package com.themuffinman.app.workmarket.service;
 
+import com.themuffinman.app.common.concepts.ActorIdentity;
+import com.themuffinman.app.common.concepts.ModuleOwnership;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.workmarket.dto.QuestAllowedAction;
 import com.themuffinman.app.workmarket.dto.QuestViewerRelation;
 import com.themuffinman.app.workmarket.model.Quest;
@@ -42,30 +43,27 @@ public class QuestAccessPolicyService {
 
     public List<QuestAllowedAction> resolveAllowedActions(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {
         List<QuestAllowedAction> allowedActions = new ArrayList<>();
-        boolean owner = isQuestOwner(quest, currentUser);
-        boolean admin = isAdmin(currentUser);
         boolean approvedApplicant = viewerApplication != null && viewerApplication.getStatus() == QuestApplicationStatus.APPROVED;
-        boolean hasApplied = viewerApplication != null;
 
-        if (owner || admin) {
+        if (canManageQuest(quest, currentUser)) {
             allowedActions.add(QuestAllowedAction.EDIT);
             allowedActions.add(QuestAllowedAction.VIEW_APPLICATIONS);
             allowedActions.add(QuestAllowedAction.DELETE);
         }
 
-        if (quest.getStatus() == QuestStatus.OPEN && !owner && !admin && !hasApplied) {
+        if (canApplyToQuest(quest, currentUser, viewerApplication)) {
             allowedActions.add(QuestAllowedAction.APPLY);
         }
 
-        if ((owner || admin || approvedApplicant) && quest.getStatus() == QuestStatus.ASSIGNED) {
+        if (canExecuteQuest(quest, currentUser, approvedApplicant) && quest.getStatus() == QuestStatus.ASSIGNED) {
             allowedActions.add(QuestAllowedAction.START);
         }
 
-        if ((owner || admin || approvedApplicant) && quest.getStatus() == QuestStatus.IN_PROGRESS) {
+        if (canExecuteQuest(quest, currentUser, approvedApplicant) && quest.getStatus() == QuestStatus.IN_PROGRESS) {
             allowedActions.add(QuestAllowedAction.COMPLETE);
         }
 
-        if ((admin || approvedApplicant) && quest.getStatus() == QuestStatus.WAITING_CONFIRMATION) {
+        if (canDecideQuestTermChange(quest, currentUser, approvedApplicant) && quest.getStatus() == QuestStatus.WAITING_CONFIRMATION) {
             allowedActions.add(QuestAllowedAction.CONFIRM_TERM_CHANGE);
             allowedActions.add(QuestAllowedAction.REJECT_TERM_CHANGE);
         }
@@ -75,12 +73,50 @@ public class QuestAccessPolicyService {
 
     public boolean isQuestOwner(Quest quest, AppUser currentUser) {
         return quest != null
-                && currentUser != null
                 && quest.getCreator() != null
-                && quest.getCreator().getId().equals(currentUser.getId());
+                && ModuleOwnership.isOwner(quest.getCreator().getId(), currentUser);
+    }
+
+    public boolean canManageQuest(Quest quest, AppUser currentUser) {
+        return isAdmin(currentUser) || isQuestOwner(quest, currentUser);
+    }
+
+    public boolean canManageQuestApplications(Quest quest, AppUser currentUser) {
+        return canManageQuest(quest, currentUser);
+    }
+
+    public boolean canViewQuestApplication(QuestApplication application, Quest quest, AppUser currentUser) {
+        ActorIdentity actor = ActorIdentity.from(currentUser);
+        if (!actor.authenticated()) {
+            return false;
+        }
+
+        if (canManageQuestApplications(quest, currentUser)) {
+            return true;
+        }
+
+        return application != null
+                && application.getApplicant() != null
+                && actor.sameUser(application.getApplicant().getId());
+    }
+
+    public boolean canApplyToQuest(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {
+        return quest != null
+                && quest.getStatus() == QuestStatus.OPEN
+                && !isQuestOwner(quest, currentUser)
+                && !isAdmin(currentUser)
+                && viewerApplication == null;
+    }
+
+    public boolean canExecuteQuest(Quest quest, AppUser currentUser, boolean hasApprovedApplication) {
+        return canManageQuest(quest, currentUser) || hasApprovedApplication;
+    }
+
+    public boolean canDecideQuestTermChange(Quest quest, AppUser currentUser, boolean hasApprovedApplication) {
+        return isAdmin(currentUser) || hasApprovedApplication;
     }
 
     public boolean isAdmin(AppUser user) {
-        return user != null && user.getRole() == AppUserRole.ADMIN;
+        return ActorIdentity.from(user).admin();
     }
 }

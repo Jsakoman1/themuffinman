@@ -1,9 +1,0 @@
-{
-  "generated_at": "2026-06-28T21:06:08Z",
-  "smoke": "local-authenticated",
-  "status": "not_run",
-  "args": [
-
-  ],
-  "note": "Opt-in smoke target placeholder. Configure local auth token/cookie before turning this into live HTTP checks."
-}

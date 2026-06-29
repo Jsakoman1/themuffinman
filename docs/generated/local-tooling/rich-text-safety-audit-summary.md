@@ -1,12 +1,18 @@
 # Rich Text Safety Audit
 
-- Generated At: `2026-06-28T20:30:23Z`
+- Generated At: `2026-06-29T12:47:27Z`
 ## `backend_fields`
 
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java", :line: 150, :snippet: "warnings.add(\"Batch quest generation must keep titles and descriptions meaningfully unique.\");"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java", :line: 154, :snippet: "unresolvedInputs.add(\"unique quest descriptions\");"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java", :line: 698, :snippet: "|| normalizedPrompt.contains(\"change my bio\")"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java", :line: 703, :snippet: "|| normalizedPrompt.contains(\"promijeni moj bio\")"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java", :line: 158, :snippet: "warnings.add(\"Batch quest generation must keep titles and descriptions meaningfully unique.\");"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java", :line: 163, :snippet: "unresolvedInputs.add(\"unique quest descriptions\");"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java", :line: 695, :snippet: "|| normalizedPrompt.contains(\"change my bio\")"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java", :line: 700, :snippet: "|| normalizedPrompt.contains(\"promijeni moj bio\")"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java", :line: 31, :snippet: "@Size(max = 4000, message = \"Business description must be 4000 characters or less\")"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java", :line: 32, :snippet: "private String description;"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java", :line: 17, :snippet: "private String description;"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessProfileMgr.java", :line: 23, :snippet: ".description(RichTextInputValidator.sanitize(profile.getDescription()))"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java", :line: 44, :snippet: "private String description;"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java", :line: 70, :snippet: "profile.setDescription(RichTextInputValidator.sanitize(dto.getDescription()));"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatContactDTO.java", :line: 19, :snippet: "private String profileDescription;"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSummaryDTO.java", :line: 21, :snippet: "private String otherUserProfileDescription;"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java", :line: 259, :snippet: ".otherUserProfileDescription(otherUser.getProfileDescription())"}`
@@ -17,12 +23,6 @@
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java", :line: 37, :snippet: ".profileDescription(RichTextInputValidator.sanitize(appUser.getProfileDescription()))"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java", :line: 21, :snippet: "RichTextInputValidator.sanitize(appUser.getProfileDescription()),"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/AppUser.java", :line: 32, :snippet: "private String profileDescription;"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java", :line: 162, :snippet: "if (overwriteExisting || dto.getProfileDescription() != null) {"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java", :line: 163, :snippet: "appUser.setProfileDescription(RichTextInputValidator.sanitize(dto.getProfileDescription()));"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java", :line: 210, :snippet: "appUser.getProfileDescription()"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/ExactLocationVisibilityScopeOptionDTO.java", :line: 16, :snippet: "private String description;"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationModeOptionDTO.java", :line: 16, :snippet: "private String description;"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/QuestLocationVisibilityOptionDTO.java", :line: 16, :snippet: "private String description;"}`
 
 ## `frontend_renderers`
 

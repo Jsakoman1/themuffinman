@@ -8,6 +8,12 @@ documentation_sync:
   - docs/agent-operating-model.yaml
   - docs/implementation-backlog.md
   - docs/feature-completion-manifest.schema.json
+  - docs/validation-evidence.schema.json
+  - docs/example-scenario-library.md
+  - docs/regression-scenario-catalog.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/docs-as-contract-slices.md
+  - docs/docs-as-contract-slices.yaml
   - docs/documentation-sync-policy.md
   required_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java

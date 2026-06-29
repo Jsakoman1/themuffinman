@@ -5,7 +5,9 @@ require "fileutils"
 require "digest"
 require "json"
 require "open3"
+require "set"
 require "time"
+require "yaml"
 require_relative "../local_tooling_common"
 
 module LocalToolingExtendedTools
@@ -15,17 +17,40 @@ module LocalToolingExtendedTools
   OUT = "docs/generated/local-tooling"
   AUDIT_REGISTRY = [
     ["audit-change-impact-preflight", "scripts/audits/audit-change-impact-preflight.rb", "docs/generated/local-tooling/change-impact-preflight-summary.md"],
+    ["changeset-risk", "scripts/audits/score-changeset-risk.rb", "docs/generated/local-tooling/changeset-risk-summary.md"],
     ["audit-router", "scripts/audits/audit-router.rb", "docs/generated/local-tooling/audit-router-summary.md"],
     ["context-pack", "scripts/audits/generate-context-pack.rb", "docs/generated/local-tooling/context-packs"],
+    ["recommend-feature-slices", "scripts/audits/recommend-feature-slices.rb", "docs/generated/local-tooling/feature-slices/<topic>-summary.md"],
+    ["recommend-targeted-tests", "scripts/audits/recommend-targeted-tests.rb", "docs/generated/local-tooling/targeted-tests-summary.md"],
     ["repo-map", "scripts/audits/generate-repo-map.rb", "docs/generated/local-tooling/repo-map-summary.md"],
     ["symbol-index", "scripts/audits/generate-symbol-index.rb", "docs/generated/local-tooling/symbol-index-summary.md"],
     ["endpoint-contract-packs", "scripts/audits/generate-endpoint-contract-packs.rb", "docs/generated/local-tooling/endpoint-contract-packs"],
     ["validation-matrix", "scripts/audits/generate-validation-matrix.rb", "docs/generated/local-tooling/validation-matrix-summary.md"],
+    ["changeset-playbook", "scripts/audits/generate-changeset-playbook.rb", "docs/generated/local-tooling/changeset-playbook-summary.md"],
+    ["resolve-manifest-path", "scripts/audits/resolve-manifest-path.rb", "docs/generated/local-tooling/manifest-path-resolution-summary.md"],
+    ["link-symbol-to-tests", "scripts/audits/link-symbol-to-tests.rb", "docs/generated/local-tooling/symbol-test-links/<symbol-name>-summary.md"],
+    ["dto-usage-pack", "scripts/audits/generate-dto-usage-pack.rb", "docs/generated/local-tooling/dto-usage-packs/<dto-name>-summary.md"],
+    ["workflow-slice-pack", "scripts/audits/generate-workflow-slice-pack.rb", "docs/generated/local-tooling/workflow-slices/<workflow-id>-summary.md"],
+    ["plan-code-map", "scripts/audits/generate-plan-code-map.rb", "docs/generated/local-tooling/plan-code-maps/<plan-id>-summary.md"],
+    ["rank-changeset-hotspots", "scripts/audits/rank-changeset-hotspots.rb", "docs/generated/local-tooling/hotspots-summary.md"],
+    ["domain-pack", "scripts/audits/generate-domain-pack.rb", "docs/generated/local-tooling/domain-packs/<domain-id>-summary.md"],
     ["audit-doc-sync-preflight", "scripts/audits/audit-doc-sync-preflight.rb", "docs/generated/local-tooling/doc-sync-preflight-summary.md"],
+    ["audit-doc-template-coverage", "scripts/audits/audit-doc-template-coverage.rb", "docs/generated/local-tooling/doc-template-coverage-summary.md"],
+    ["audit-doc-sync-duplicates", "scripts/audits/audit-doc-sync-duplicates.rb", "docs/generated/local-tooling/doc-sync-duplicates-summary.md"],
+    ["audit-manifest-decision", "scripts/audits/audit-manifest-decision.rb", "docs/generated/local-tooling/manifest-decision-summary.md"],
+    ["recommend-validation-preset", "scripts/audits/recommend-validation-preset.rb", "docs/generated/local-tooling/validation-preset-summary.md"],
+    ["audit-doc-staleness-scoring", "scripts/audits/audit-doc-staleness-scoring.rb", "docs/generated/local-tooling/doc-staleness-scoring-summary.md"],
+    ["audit-architecture-drift", "scripts/audits/audit-architecture-drift.rb", "docs/generated/local-tooling/architecture-drift-summary.md"],
+    ["architecture-decision-index", "scripts/audits/generate-architecture-decision-index.rb", "docs/generated/local-tooling/architecture-decision-index-summary.md"],
+    ["audit-generated-commit-scope", "scripts/audits/audit-generated-commit-scope.rb", "docs/generated/local-tooling/generated-commit-scope-summary.md"],
     ["audit-migration-entity-drift", "scripts/audits/audit-migration-entity-drift.rb", "docs/generated/local-tooling/migration-entity-drift-audit-summary.md"],
     ["audit-test-gap-recommendations", "scripts/audits/audit-test-gap-recommendations.rb", "docs/generated/local-tooling/test-gap-recommendations-summary.md"],
+    ["audit-contract-test-gaps", "scripts/audits/audit-contract-test-gaps.rb", "docs/generated/local-tooling/contract-test-gaps-summary.md"],
+    ["audit-mutation-safety", "scripts/audits/audit-mutation-safety.rb", "docs/generated/local-tooling/mutation-safety-summary.md"],
+    ["audit-docs-as-tests", "scripts/audits/audit-docs-as-tests.rb", "docs/generated/local-tooling/docs-as-tests-summary.md"],
     ["audit-frontend-usage-graph", "scripts/audits/audit-frontend-usage-graph.rb", "docs/generated/local-tooling/frontend-usage-graph-summary.md"],
     ["audit-backend-dependency-graph", "scripts/audits/audit-backend-dependency-graph.rb", "docs/generated/local-tooling/backend-dependency-graph-summary.md"],
+    ["audit-test-fixture-duplication", "scripts/audits/audit-test-fixture-duplication.rb", "docs/generated/local-tooling/test-fixture-duplication-summary.md"],
     ["diff-summary", "scripts/audits/generate-diff-summary.rb", "docs/generated/local-tooling/diff-summary.md"],
     ["session-handoff", "scripts/audits/generate-session-handoff.rb", "docs/generated/local-tooling/session-handoffs"],
     ["plan-scaffold-discovery", "scripts/audits/generate-plan-scaffold-discovery.rb", ".agents/<topic>-plan.md"],
@@ -35,12 +60,21 @@ module LocalToolingExtendedTools
     ["diagnose-backend-test", "scripts/audits/diagnose-backend-test.rb", "docs/generated/local-tooling/diagnostics/backend-test-latest-summary.md"],
     ["diagnose-frontend-type-check", "scripts/audits/diagnose-frontend-type-check.rb", "docs/generated/local-tooling/diagnostics/frontend-type-check-latest-summary.md"],
     ["diagnose-frontend-build", "scripts/audits/diagnose-frontend-build.rb", "docs/generated/local-tooling/diagnostics/frontend-build-latest-summary.md"],
+    ["test-history-summary", "scripts/audits/generate-test-history-summary.rb", "docs/generated/local-tooling/test-history-summary.md"],
+    ["failure-knowledge-base", "scripts/audits/update-failure-knowledge-base.rb", "docs/generated/local-tooling/failure-knowledge-base-summary.md"],
+    ["codebase-capsule", "scripts/audits/generate-codebase-capsule.rb", "docs/generated/local-tooling/codebase-capsule.md"],
+    ["record-validation", "scripts/audits/record-validation-evidence.rb", "docs/generated/local-tooling/validation-evidence/<feature-id>.json"],
     ["api-contract-snapshot", "scripts/audits/generate-api-contract-snapshot.rb", "docs/generated/local-tooling/api-contract-snapshot-summary.md"],
     ["audit-doc-canonical-phrases", "scripts/audits/audit-doc-canonical-phrases.rb", "docs/generated/local-tooling/doc-canonical-phrases-summary.md"],
     ["audit-sandbox-data-coverage-pack", "scripts/audits/audit-sandbox-data-coverage-pack.rb", "docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md"],
     ["smoke-local-authenticated", "scripts/audits/smoke-local-authenticated.rb", "docs/generated/local-tooling/smoke/local-authenticated-latest.json"],
     ["smoke-local-dashboard", "scripts/audits/smoke-local-dashboard.rb", "docs/generated/local-tooling/smoke/local-dashboard-latest.json"],
-    ["closeout-bundle", "scripts/audits/generate-closeout-bundle.rb", "docs/generated/local-tooling/closeout-bundle-summary.md"]
+    ["closeout-bundle", "scripts/audits/generate-closeout-bundle.rb", "docs/generated/local-tooling/closeout-bundle-summary.md"],
+    ["closeout-report", "scripts/audits/generate-closeout-report.rb", "docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md"],
+    ["enforce-feature-closeout", "scripts/audits/enforce-feature-closeout.rb", "docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md"],
+    ["post-merge-retrospective", "scripts/audits/generate-post-merge-retrospective.rb", "docs/generated/local-tooling/post-merge-retrospectives/latest-summary.md"],
+    ["audit-plan-completion", "scripts/audits/audit-plan-completion.rb", "docs/generated/local-tooling/plan-completion/<plan-id>-summary.md"],
+    ["audit-delta-report", "scripts/audits/audit-delta-report.rb", "docs/generated/local-tooling/audit-deltas/<audit-id>-summary.md"]
   ].freeze
 
   DOCS_BY_DOMAIN = {
@@ -49,6 +83,9 @@ module LocalToolingExtendedTools
     "identity" => %w[docs/business-logic.md docs/domain-technical.md docs/agent-operating-model.md],
     "location" => %w[docs/business-logic.md docs/domain-technical.md docs/location-services.md docs/agent-operating-model.md docs/agent-operating-model.yaml],
     "chat" => %w[docs/business-logic.md docs/domain-technical.md docs/agent-operating-model.md docs/agent-operating-model.yaml],
+    "business" => %w[docs/business-logic.md docs/domain-technical.md docs/agent-operating-model.md],
+    "things" => %w[docs/business-logic.md docs/domain-technical.md docs/agent-operating-model.md],
+    "rides" => %w[docs/business-logic.md docs/domain-technical.md docs/agent-operating-model.md],
     "agent" => %w[docs/agent-operating-model.md docs/agent-operating-model.yaml docs/domain-technical.md]
   }.freeze
 
@@ -63,12 +100,26 @@ module LocalToolingExtendedTools
     files = option_files(options, argv)
     files = infer_topic_files(topic) if files.empty?
     files = changed_files if files.empty?
-    files = files.first(80)
+    filter = filter_files(files, options)
+    files = filter[:included]
+    budget = context_budget(options["budget"])
+    omitted_sections = []
+    if files.size > budget[:file_limit]
+      omitted_sections << "files truncated from #{files.size} to #{budget[:file_limit]} by #{budget[:id]} budget"
+      files = files.first(budget[:file_limit])
+    end
     domains = files.map { |path| domain_for(path) }.uniq.sort
     audits = relevant_audit_summaries(files, domains)
     report = {
       generated_at: now,
       topic: topic,
+      budget: budget[:id],
+      omitted_sections: omitted_sections,
+      read_next: budget_read_next(topic, files, omitted_sections),
+      original_file_count: filter[:original_file_count],
+      filtered_file_count: filter[:filtered_file_count],
+      excluded_file_count: filter[:excluded_file_count],
+      excluded_files_sample: filter[:excluded].first(25),
       file_count: files.size,
       domains: domains,
       files: files.map { |path| file_entry(path) },
@@ -81,14 +132,20 @@ module LocalToolingExtendedTools
   end
 
   def run_audit_router(argv)
-    files = argv.empty? || argv.include?("--changed") ? changed_files : argv.reject { |arg| arg.start_with?("--") }
-    files = files.uniq
+    options = parse_key_values(argv)
+    files = argv.empty? || argv.include?("--changed") ? changed_files : option_files(options, argv)
+    filter = filter_files(files, options)
+    files = filter[:included].uniq
     matrix = validation_rules
     categories = files.map { |path| category_for(path) }.uniq.sort
     audits = router_audits_for(files)
     commands = categories.flat_map { |category| matrix.fetch(category, []) }.uniq
     report = {
       generated_at: now,
+      original_file_count: filter[:original_file_count],
+      filtered_file_count: filter[:filtered_file_count],
+      excluded_file_count: filter[:excluded_file_count],
+      excluded_files_sample: filter[:excluded].first(25),
       files: files,
       categories: categories,
       recommended_audits: audits,
@@ -116,6 +173,87 @@ module LocalToolingExtendedTools
       }
     }
     write_report("repo-map", "Repo Map", report)
+  end
+
+  def run_recommend_feature_slices(argv)
+    options = parse_key_values(argv)
+    topic = slug(options["topic"] || argv.first || "feature")
+    files = option_files(options, argv)
+    files = infer_topic_files(topic) if files.empty?
+    files = changed_files if files.empty?
+    filter = filter_files(files, options)
+    files = filter[:included]
+    domains = files.map { |path| domain_for(path) }.uniq.sort
+    categories = files.map { |path| category_for(path) }.uniq.sort
+    backend = files.select { |path| category_for(path).start_with?("backend_") }
+    frontend = files.select { |path| category_for(path).start_with?("frontend_") }
+    docs = files.select { |path| category_for(path) == "docs" }
+    generated = files.select { |path| LocalToolingCommon.generated_path?(path) }
+    slices = []
+    slices << feature_slice("backend", backend, domains, categories) if backend.any?
+    slices << feature_slice("frontend", frontend, domains, categories) if frontend.any?
+    slices << {
+      id: "docs-and-artifacts",
+      purpose: "Update living docs and generated artifacts that move with the implementation.",
+      files: (docs + generated + domains.flat_map { |domain| DOCS_BY_DOMAIN.fetch(domain, []) }).uniq.first(30),
+      validation: ["make audit-documentation", "make audit-generated-artifact-freshness"]
+    }
+    slices << {
+      id: "final-validation",
+      purpose: "Run focused and broad validation after implementation slices are complete.",
+      files: [],
+      validation: files.flat_map { |path| validation_rules.fetch(category_for(path), []) }.uniq.first(12)
+    }
+    report = {
+      generated_at: now,
+      topic: topic,
+      domains: domains,
+      categories: categories,
+      original_file_count: filter[:original_file_count],
+      filtered_file_count: filter[:filtered_file_count],
+      files_considered: files.first(80),
+      slices: slices,
+      read_next: [
+        "Run `make context-pack topic=#{topic}` before editing if more file context is needed.",
+        "Run `make audit-router files=<csv>` after the first implementation slice.",
+        "Keep slices sequential; avoid mixing backend, frontend, generated artifacts, and final validation in one edit pass unless the change is tiny."
+      ]
+    }
+    write_report("feature-slices/#{topic}", "Feature Slices #{topic}", report)
+  end
+
+  def run_recommend_targeted_tests(argv)
+    options = parse_key_values(argv)
+    files = option_files(options, argv)
+    files = changed_files if files.empty?
+    filter = filter_files(files, options)
+    files = filter[:included]
+    domains = files.map { |path| domain_for(path) }.uniq.sort
+    categories = files.map { |path| category_for(path) }.uniq.sort
+    direct_tests = related_tests(files).first(12)
+    commands = targeted_backend_commands(files, direct_tests)
+    commands += targeted_frontend_commands(files, categories)
+    commands += targeted_docs_commands(files, categories)
+    commands += targeted_generated_commands(files)
+    commands += targeted_scenario_commands(domains)
+    commands = dedupe_command_rows(commands).first(14)
+    report = {
+      generated_at: now,
+      original_file_count: filter[:original_file_count],
+      filtered_file_count: filter[:filtered_file_count],
+      excluded_file_count: filter[:excluded_file_count],
+      files_considered: files.first(80),
+      domains: domains,
+      categories: categories,
+      direct_tests: direct_tests,
+      recommended_commands: commands,
+      residual_risk: targeted_residual_risk(files, domains, categories, commands),
+      notes: [
+        "This is a targeted recommendation report, not a replacement for full validation.",
+        "Use full `cd apps/themuffinman && ./mvnw test` for high-risk backend behavior, schema, or broad cross-domain changes."
+      ]
+    }
+    write_report("targeted-tests", "Targeted Tests", report)
   end
 
   def run_symbol_index(_argv)
@@ -160,6 +298,60 @@ module LocalToolingExtendedTools
     write_report("validation-matrix", "Validation Matrix", report)
   end
 
+  def run_changeset_playbook(argv)
+    options = parse_key_values(argv)
+    files = option_files(options, argv)
+    files = changed_files if files.empty?
+    filter = filter_files(files, options)
+    files = filter[:included]
+    manifest = manifest_decision_for(files)
+    manifest_resolution = resolve_manifest_path_for(files)
+    preset = validation_preset_for(files, manifest, manifest_resolution)
+    docs = doc_sync_rows_for(files)
+    report = {
+      generated_at: now,
+      original_file_count: filter[:original_file_count],
+      filtered_file_count: filter[:filtered_file_count],
+      excluded_file_count: filter[:excluded_file_count],
+      excluded_files_sample: filter[:excluded].first(25),
+      changed_file_count: files.size,
+      categories: files.map { |path| category_for(path) }.uniq.sort,
+      domains: files.map { |path| domain_for(path) }.uniq.sort,
+      files: files,
+      manifest_decision: manifest,
+      manifest_resolution: manifest_resolution,
+      validation_preset: preset,
+      doc_targets: docs.flat_map { |row| row[:likely_docs] }.uniq.sort,
+      source_reports: [
+        "docs/generated/local-tooling/diff-summary.md",
+        "docs/generated/local-tooling/audit-router-summary.md",
+        "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+        "docs/generated/local-tooling/manifest-decision-summary.md",
+        "docs/generated/local-tooling/manifest-path-resolution-summary.md",
+        "docs/generated/local-tooling/validation-preset-summary.md"
+      ],
+      ordered_actions: changeset_playbook_steps(files, manifest, preset, docs)
+    }
+    write_report("changeset-playbook", "Changeset Playbook", report)
+  end
+
+  def run_resolve_manifest_path(argv)
+    options = parse_key_values(argv)
+    files = option_files(options, argv)
+    files = changed_files if files.empty?
+    filter = filter_files(files, options)
+    files = filter[:included]
+    report = resolve_manifest_path_for(files).merge(
+      generated_at: now,
+      original_file_count: filter[:original_file_count],
+      filtered_file_count: filter[:filtered_file_count],
+      excluded_file_count: filter[:excluded_file_count],
+      excluded_files_sample: filter[:excluded].first(25),
+      files_considered: files.first(120)
+    )
+    write_report("manifest-path-resolution", "Manifest Path Resolution", report)
+  end
+
   def run_doc_sync_preflight(argv)
     files = argv.empty? ? changed_files : argv
     rows = files.map do |path|
@@ -173,6 +365,204 @@ module LocalToolingExtendedTools
     end
     report = {generated_at: now, files: rows, unique_docs: rows.flat_map { |row| row[:likely_docs] }.uniq.sort}
     write_report("doc-sync-preflight", "Doc Sync Preflight", report)
+  end
+
+  def run_validation_preset(argv)
+    options = parse_key_values(argv)
+    files = option_files(options, argv)
+    files = changed_files if files.empty?
+    filter = filter_files(files, options)
+    files = filter[:included]
+    manifest = manifest_decision_for(files)
+    manifest_resolution = resolve_manifest_path_for(files)
+    report = validation_preset_for(files, manifest, manifest_resolution).merge(
+      generated_at: now,
+      original_file_count: filter[:original_file_count],
+      filtered_file_count: filter[:filtered_file_count],
+      excluded_file_count: filter[:excluded_file_count],
+      excluded_files_sample: filter[:excluded].first(25),
+      files_considered: files.first(120)
+    )
+    write_report("validation-preset", "Validation Preset", report)
+  end
+
+  def run_link_symbol_to_tests(argv)
+    options = parse_key_values(argv)
+    symbol = (options["symbol"] || argv.reject { |arg| arg.include?("=") || arg.start_with?("--") }.first).to_s.strip
+    raise "usage: link-symbol-to-tests symbol=<symbol-name>" if symbol.empty?
+
+    symbol_files = symbol_definition_files(symbol)
+    direct_tests = direct_symbol_tests(symbol)
+    nearby_tests = related_tests(symbol_files).reject { |path| direct_tests.include?(path) }.first(20)
+    domains = symbol_files.map { |path| domain_for(path) }.uniq
+    scenario_hits = regression_scenarios.select do |scenario|
+      scenario_files = Array(scenario["test_files"])
+      (scenario_files & (direct_tests + nearby_tests)).any? || domains.include?(scenario["domain"])
+    end
+    report = {
+      generated_at: now,
+      symbol: symbol,
+      symbol_files: symbol_files.map { |path| file_entry(path) },
+      direct_tests: direct_tests,
+      nearby_tests: nearby_tests,
+      scenario_hits: scenario_hits.map do |scenario|
+        {
+          id: scenario["id"],
+          domain: scenario["domain"],
+          risk: scenario["risk"],
+          scenario: scenario["scenario"],
+          test_files: Array(scenario["test_files"]),
+          commands: Array(scenario["commands"])
+        }
+      end,
+      recommended_commands: symbol_test_commands(symbol_files, direct_tests, nearby_tests, scenario_hits),
+      residual_risk: symbol_test_residual_risk(symbol_files, direct_tests, nearby_tests, scenario_hits)
+    }
+    write_report("symbol-test-links/#{slug(symbol)}", "Symbol Test Links #{symbol}", report)
+  end
+
+  def run_dto_usage_pack(argv)
+    options = parse_key_values(argv)
+    dto = (options["dto"] || argv.reject { |arg| arg.include?("=") || arg.start_with?("--") }.first).to_s.strip
+    raise "usage: dto-usage-pack dto=<dto-name>" if dto.empty?
+
+    dto_files = rel_glob("apps/themuffinman/src/main/java/**/*#{dto}.java")
+    backend_refs = rel_glob("apps/themuffinman/src/main/java/**/*.java").select { |path| read(path).match?(/\b#{Regexp.escape(dto)}\b/) }
+    frontend_refs = rel_glob("apps/themuffinman/frontend/src/**/*.{ts,vue}").select { |path| read(path).match?(/\b#{Regexp.escape(dto)}\b/) }
+    controller_methods = endpoint_entries.select { |entry| Array(entry[:dtos]).include?(dto) }
+    tests = rel_glob("apps/themuffinman/src/test/java/**/*.java").select { |path| read(path).match?(/\b#{Regexp.escape(dto)}\b/) }.first(30)
+    docs_refs = rel_glob("docs/**/*.md", "docs/**/*.yaml").select { |path| read(path).match?(/\b#{Regexp.escape(dto)}\b/) }.first(20)
+    generated_contract_refs = rel_glob("apps/themuffinman/frontend/src/contracts/**/*.ts", "docs/generated/**/*.json").select { |path| read(path).match?(/\b#{Regexp.escape(dto)}\b/) }.first(20)
+    report = {
+      generated_at: now,
+      dto: dto,
+      dto_files: dto_files.map { |path| file_entry(path) },
+      controller_methods: controller_methods,
+      backend_refs: backend_refs.first(30).map { |path| file_entry(path) },
+      frontend_refs: frontend_refs.first(30).map { |path| file_entry(path) },
+      tests: tests,
+      docs_refs: docs_refs,
+      generated_contract_refs: generated_contract_refs,
+      recommended_commands: dto_usage_commands(controller_methods, frontend_refs, tests),
+      residual_risk: dto_usage_residual_risk(dto_files, controller_methods, frontend_refs, tests)
+    }
+    write_report("dto-usage-packs/#{slug(dto)}", "DTO Usage Pack #{dto}", report)
+  end
+
+  def run_workflow_slice_pack(argv)
+    options = parse_key_values(argv)
+    workflow = (options["workflow"] || argv.reject { |arg| arg.include?("=") || arg.start_with?("--") }.first).to_s.strip
+    raise "usage: workflow-slice-pack workflow=<workflow-id>" if workflow.empty?
+
+    machine = workflow_machine_for(workflow)
+    service_files = workflow_service_files(machine)
+    tests = workflow_related_tests(machine, workflow)
+    frontend_actions = workflow_frontend_actions(machine, workflow)
+    docs_refs = workflow_doc_refs(machine, workflow)
+    report = {
+      generated_at: now,
+      workflow: workflow,
+      state_machine: machine,
+      service_files: service_files.map { |path| file_entry(path) },
+      tests: tests,
+      frontend_actions: frontend_actions,
+      docs_refs: docs_refs,
+      recommended_commands: workflow_commands(tests, machine),
+      residual_risk: workflow_residual_risk(machine, service_files, tests)
+    }
+    write_report("workflow-slices/#{slug(workflow)}", "Workflow Slice #{workflow}", report)
+  end
+
+  def run_plan_code_map(argv)
+    options = parse_key_values(argv)
+    plan = (options["plan"] || argv.reject { |arg| arg.include?("=") || arg.start_with?("--") }.first).to_s.strip
+    raise "usage: plan-code-map plan=<plan-file>" if plan.empty?
+    raise "plan file not found: #{plan}" unless File.file?(abs(plan))
+
+    plan_text = read(plan)
+    plan_id = File.basename(plan, ".md")
+    files = plan_candidate_files(plan, plan_text)
+    categories = files.map { |path| category_for(path) }.uniq.sort
+    domains = files.map { |path| domain_for(path) }.uniq.sort
+    manifest_resolution = resolve_manifest_path_for(files)
+    report = {
+      generated_at: now,
+      plan: plan,
+      plan_id: plan_id,
+      categories: categories,
+      domains: domains,
+      mapped_files: files.map { |path| plan_file_map_entry(path, plan_text) },
+      likely_docs: doc_sync_rows_for(files).flat_map { |row| row[:likely_docs] }.uniq.sort,
+      related_generated_artifacts: plan_related_generated_artifacts(plan_text, files),
+      related_audits: router_audits_for(files),
+      recommended_commands: validation_preset_for(files, manifest_decision_for(files), manifest_resolution)[:commands],
+      related_manifests: plan_related_manifests(plan, plan_text, files, manifest_resolution),
+      residual_risk: plan_map_residual_risk(files, manifest_resolution)
+    }
+    write_report("plan-code-maps/#{slug(plan_id)}", "Plan Code Map #{plan_id}", report)
+  end
+
+  def run_rank_changeset_hotspots(argv)
+    options = parse_key_values(argv)
+    files = option_files(options, argv)
+    files = changed_files if files.empty?
+    filter = filter_files(files, options)
+    files = filter[:included]
+    report = rank_changeset_hotspots_for(files).merge(
+      generated_at: now,
+      original_file_count: filter[:original_file_count],
+      filtered_file_count: filter[:filtered_file_count],
+      excluded_file_count: filter[:excluded_file_count],
+      excluded_files_sample: filter[:excluded].first(25)
+    )
+    write_report("hotspots", "Changeset Hotspots", report)
+  end
+
+  def run_domain_pack(argv)
+    options = parse_key_values(argv)
+    domain = (options["domain"] || argv.reject { |arg| arg.include?("=") || arg.start_with?("--") }.first).to_s.strip
+    raise "usage: domain-pack domain=<domain-id>" if domain.empty?
+    raise "unknown domain: #{domain}" unless known_domains.include?(domain)
+
+    runtime_files = domain_runtime_files(domain)
+    categories = runtime_files.map { |path| category_for(path) }.uniq.sort
+    workflows = workflow_state_machines.select { |machine| machine["domain"].to_s == domain }
+    scenario_rows = regression_scenarios.select { |scenario| scenario["domain"].to_s == domain }
+    tests = domain_related_tests(domain, runtime_files, workflows, scenario_rows)
+    report = {
+      generated_at: now,
+      domain: domain,
+      file_count: runtime_files.size,
+      categories: categories,
+      key_services: domain_key_backend_files(domain, runtime_files, "service"),
+      key_controllers: domain_key_backend_files(domain, runtime_files, "controller"),
+      key_repositories: domain_key_backend_files(domain, runtime_files, "repository"),
+      key_models: domain_key_backend_files(domain, runtime_files, "model"),
+      dto_groups: domain_dto_groups(domain, runtime_files),
+      frontend_surfaces: domain_frontend_surfaces(domain, runtime_files),
+      workflows: workflows.map do |machine|
+        {
+          id: machine["id"],
+          owner: machine["owner"],
+          states: Array(machine["states"]).size,
+          transitions: Array(machine["transitions"]).size
+        }
+      end,
+      docs: DOCS_BY_DOMAIN.fetch(domain, default_domain_docs(domain)),
+      tests: tests.first(20),
+      scenario_catalog: scenario_rows.map do |scenario|
+        {
+          id: scenario["id"],
+          risk: scenario["risk"],
+          scenario: scenario["scenario"],
+          test_files: Array(scenario["test_files"]).first(6),
+          commands: Array(scenario["commands"]).first(2)
+        }
+      end,
+      first_commands: domain_first_commands(domain, runtime_files, tests, scenario_rows),
+      residual_risk: domain_pack_residual_risk(domain, runtime_files, workflows, tests)
+    }
+    write_report("domain-packs/#{slug(domain)}", "Domain Pack #{domain}", report)
   end
 
   def run_migration_entity_drift(_argv)
@@ -227,9 +617,17 @@ module LocalToolingExtendedTools
   end
 
   def run_diff_summary(_argv)
+    options = parse_key_values(_argv)
     entries = git_status_entries
+    filter = filter_files(entries.map { |entry| entry[:path] }, options)
+    included = filter[:included].to_set
+    entries = entries.select { |entry| included.include?(entry[:path]) }
     report = {
       generated_at: now,
+      original_file_count: filter[:original_file_count],
+      filtered_file_count: filter[:filtered_file_count],
+      excluded_file_count: filter[:excluded_file_count],
+      excluded_files_sample: filter[:excluded].first(25),
       changed_file_count: entries.size,
       groups: entries.group_by { |entry| [domain_for(entry[:path]), category_for(entry[:path])] }.map { |(domain, category), rows| {domain: domain, category: category, count: rows.size, files: rows} },
       recommended_audits: router_audits_for(entries.map { |entry| entry[:path] })
@@ -238,11 +636,27 @@ module LocalToolingExtendedTools
   end
 
   def run_session_handoff(argv)
-    topic = slug(parse_key_values(argv)["topic"] || argv.first || "current-work")
+    options = parse_key_values(argv)
+    topic = slug(options["topic"] || argv.first || "current-work")
     files = changed_files
+    filter = filter_files(files, options)
+    files = filter[:included]
+    budget = context_budget(options["budget"])
+    omitted_sections = []
+    if files.size > budget[:file_limit]
+      omitted_sections << "changed files truncated from #{files.size} to #{budget[:file_limit]} by #{budget[:id]} budget"
+      files = files.first(budget[:file_limit])
+    end
     report = {
       generated_at: now,
       topic: topic,
+      budget: budget[:id],
+      omitted_sections: omitted_sections,
+      read_next: budget_read_next(topic, files, omitted_sections),
+      original_file_count: filter[:original_file_count],
+      filtered_file_count: filter[:filtered_file_count],
+      excluded_file_count: filter[:excluded_file_count],
+      excluded_files_sample: filter[:excluded].first(25),
       changed_files: files,
       plans: rel_glob(".agents/*#{topic}*plan.md"),
       manifests: rel_glob(".agents/feature-manifests/*#{topic}*.yaml"),
@@ -295,17 +709,113 @@ module LocalToolingExtendedTools
   end
 
   def run_fast_check_report(argv)
-    files = option_files(parse_key_values(argv), argv)
+    options = parse_key_values(argv)
+    files = option_files(options, argv)
     files = changed_files if files.empty?
+    filter = filter_files(files, options)
+    files = filter[:included]
     audits = router_audits_for(files).first(10)
     commands = files.flat_map { |path| validation_rules.fetch(category_for(path), []) }.uniq.first(8)
-    report = {generated_at: now, files: files, audits_to_run: audits, commands_to_run: commands, note: "Advisory fast-check plan only; run full validation for behavior changes."}
+    report = {
+      generated_at: now,
+      original_file_count: filter[:original_file_count],
+      filtered_file_count: filter[:filtered_file_count],
+      excluded_file_count: filter[:excluded_file_count],
+      excluded_files_sample: filter[:excluded].first(25),
+      files: files,
+      audits_to_run: audits,
+      commands_to_run: commands,
+      note: "Advisory fast-check plan only; run full validation for behavior changes."
+    }
     write_report("fast-check-report", "Fast Check Report", report)
   end
 
   def run_api_contract_snapshot(_argv)
     report = {generated_at: now, endpoint_count: endpoint_entries.size, endpoints: endpoint_entries}
     write_report("api-contract-snapshot", "API Contract Snapshot", report)
+  end
+
+  def run_failure_knowledge_base(argv)
+    options = parse_key_values(argv)
+    sources = option_source_reports(options)
+    observations = sources.flat_map { |path| diagnostic_observations(path) }
+    entries = failure_patterns.map do |pattern|
+      matches = observations.select { |observation| observation[:line].match?(pattern[:regex]) }
+      pattern.merge(
+        regex: pattern[:regex].source,
+        source_reports: matches.map { |match| match[:source_report] }.uniq.sort,
+        matched_examples: matches.map { |match| match[:line] }.uniq.first(5),
+        observed: matches.any?
+      )
+    end
+    unmatched = observations.reject do |observation|
+      failure_patterns.any? { |pattern| observation[:line].match?(pattern[:regex]) }
+    end
+    report = {
+      generated_at: now,
+      source_reports: sources,
+      entry_count: entries.size,
+      observed_entry_count: entries.count { |entry| entry[:observed] },
+      entries: entries.map { |entry| entry.reject { |key, _| key == :regex } },
+      review_needed: unmatched.first(25),
+      notes: [
+        "This index stores compact failure patterns and fixes, not full logs.",
+        "Use diagnostic reports as the source of truth for exact command output."
+      ]
+    }
+    write_report("failure-knowledge-base", "Failure Knowledge Base", report)
+  end
+
+  def run_test_history_summary(_argv)
+    history = test_history_runs
+    report = test_history_report(history)
+    write_test_history_files(report)
+    puts terminal_line("Test History", {rows: report[:runs]}, "#{OUT}/test-history.json", "#{OUT}/test-history-summary.md")
+  end
+
+  def run_codebase_capsule(_argv)
+    report = {
+      generated_at: now,
+      purpose: "Very small read-first context for a new Codex session before broad repository discovery.",
+      repo_layout: [
+        "apps/themuffinman: current Spring Boot app and Vue frontend",
+        "apps/themuffinman/src/main/java/com/themuffinman/app: backend domains and layers",
+        "apps/themuffinman/src/main/resources/db/migration: Flyway migrations",
+        "apps/themuffinman/frontend: frontend app",
+        "services: planned shared backend capabilities",
+        "docs: living documentation and agent operating artifacts",
+        ".agents: temporary plans, manifests, and validation evidence"
+      ],
+      active_conventions: [
+        "Keep business rules, permissions, validations, workflows, and state transitions in backend services.",
+        "Keep controllers thin and frontend logic minimal.",
+        "Use new Flyway migrations for schema changes; do not edit old migrations.",
+        "Update living docs and generated agent artifacts with logic or contract changes.",
+        "Use `.agents/*-plan.md` for multi-file, multi-layer, high-risk, or broad autonomous work.",
+        "Do not commit or push unless the user explicitly asks."
+      ],
+      open_backlog_ids: open_backlog_ids,
+      open_master_plan_items: open_master_plan_items.first(12),
+      preferred_first_commands: [
+        "ruby scripts/todo-audit.rb",
+        "make diff-summary",
+        "make audit-summary-index",
+        "make context-pack topic=<topic>",
+        "make audit-router files=<csv>",
+        "make changeset-risk"
+      ],
+      read_next: [
+        "AGENTS.md",
+        "docs/codex-local-tooling-todo.md",
+        "docs/domain-technical.md",
+        "docs/business-logic.md",
+        "docs/generated/local-tooling/audit-summary-index.md"
+      ]
+    }
+    LocalToolingCommon.write_json("#{OUT}/codebase-capsule.json", report)
+    LocalToolingCommon.write_text("#{OUT}/codebase-capsule.md", codebase_capsule_markdown(report))
+    update_audit_cache("codebase-capsule", "#{OUT}/codebase-capsule.json", report)
+    puts terminal_line("Codebase Capsule", {rows: report[:repo_layout]}, "#{OUT}/codebase-capsule.json", "#{OUT}/codebase-capsule.md")
   end
 
   def run_doc_canonical_phrases(_argv)
@@ -353,18 +863,377 @@ module LocalToolingExtendedTools
     write_report("closeout-bundle", "Closeout Bundle", report)
   end
 
+  def run_post_merge_retrospective(argv)
+    options = parse_key_values(argv)
+    topic = slug(options["topic"] || argv.first || "latest")
+    files = option_files(options, argv)
+    files = changed_files if files.empty?
+    audit_data = {
+      change_impact: read_json_if_present("#{OUT}/change-impact-preflight.json"),
+      architecture_drift: read_json_if_present("#{OUT}/architecture-drift.json"),
+      doc_coverage_gap: read_json_if_present("#{OUT}/doc-coverage-gap-audit.json"),
+      doc_staleness: read_json_if_present("#{OUT}/doc-staleness-scoring.json"),
+      automation_readiness_gap: read_json_if_present("#{OUT}/automation-readiness-gap-audit.json"),
+      test_gap_recommendations: read_json_if_present("#{OUT}/test-gap-recommendations.json")
+    }
+    report = {
+      generated_at: now,
+      topic: topic,
+      changed_file_count: files.size,
+      changed_file_groups: files.group_by { |path| [domain_for(path), category_for(path)] }.map do |(domain, category), rows|
+        {domain: domain, category: category, count: rows.size}
+      end.sort_by { |row| [row[:domain], row[:category]] },
+      failure_points: retrospective_failure_points(audit_data),
+      missing_tools: retrospective_missing_tools,
+      docs_gaps: retrospective_docs_gaps(audit_data),
+      reusable_patterns: retrospective_reusable_patterns(files, audit_data),
+      next_commands: ["make audit-change-impact-preflight", "make audit-summary-index", "make closeout-bundle", "make post-merge-retrospective topic=#{topic}"]
+    }
+    write_retrospective_report(topic, report)
+  end
+
+  def run_audit_delta_report(argv)
+    options = parse_key_values(argv)
+    audit_id = (options["audit"] || argv.first).to_s.strip
+    raise "usage: audit-delta-report audit=<audit-id>" if audit_id.empty?
+
+    current_output = audit_json_output_for(audit_id)
+    current = read_json_if_present(current_output)
+    previous_snapshot = latest_history_snapshot(audit_id)
+    previous = previous_snapshot && read_json_if_present(previous_snapshot[:path])
+    report = {
+      generated_at: now,
+      audit: audit_id,
+      current_output: current_output,
+      current_exists: !current.nil?,
+      previous_output: previous_snapshot && previous_snapshot[:path],
+      previous_exists: !previous.nil?,
+      history_entries: history_snapshots_for(audit_id).last(10).map { |entry| entry[:path] },
+      changed: current && previous ? Digest::SHA256.hexdigest(JSON.generate(current)) != Digest::SHA256.hexdigest(JSON.generate(previous)) : nil,
+      current_generated_at: current && (current["generated_at"] || current[:generated_at]),
+      previous_generated_at: previous && (previous["generated_at"] || previous[:generated_at]),
+      introduced_risks: current && previous ? (risk_signals_from_report(current) - risk_signals_from_report(previous)).first(30) : [],
+      fixed_risks: current && previous ? (risk_signals_from_report(previous) - risk_signals_from_report(current)).first(30) : [],
+      count_deltas: count_deltas(previous, current),
+      field_deltas: top_level_field_deltas(previous, current),
+      notes: audit_delta_notes(current_output, current, previous)
+    }
+    write_report("audit-deltas/#{audit_id}", "Audit Delta #{audit_id}", report)
+  end
+
   def run_diagnostic(argv, command_name)
     command = diagnostic_command(command_name)
-    started = now
+    started_at = Time.now
+    started = started_at.utc.iso8601
     stdout, stderr, status = Open3.capture3(*command, chdir: command_workdir(command_name))
+    duration_seconds = (Time.now - started_at).round(3)
     failures = (stdout + "\n" + stderr).lines.select { |line| line.match?(/FAIL|ERROR|Exception|Cannot find|TS\d+|BUILD FAILED/i) }.first(80)
-    report = {generated_at: started, command: command.join(" "), success: status.success?, exit_status: status.exitstatus, failure_lines: failures, changed_files: changed_files}
+    report = {generated_at: started, command: command.join(" "), success: status.success?, exit_status: status.exitstatus, duration_seconds: duration_seconds, failure_lines: failures, changed_files: changed_files}
     name = command_name.tr("_", "-")
     write_report("diagnostics/#{name}-latest", "Diagnostic #{name}", report)
+    record_test_history(command_name, report)
     exit(status.exitstatus || 1) unless status.success?
   end
 
   private
+
+  def read_json_if_present(path)
+    absolute = abs(path)
+    return nil unless File.exist?(absolute)
+
+    JSON.parse(File.read(absolute))
+  rescue JSON::ParserError
+    nil
+  end
+
+  def write_retrospective_report(topic, payload)
+    base = "#{OUT}/post-merge-retrospectives/#{topic}"
+    latest = "#{OUT}/post-merge-retrospectives/latest"
+    LocalToolingCommon.write_json("#{base}.json", payload)
+    LocalToolingCommon.write_text("#{base}-summary.md", retrospective_markdown(payload))
+    LocalToolingCommon.write_json("#{latest}.json", payload)
+    LocalToolingCommon.write_text("#{latest}-summary.md", retrospective_markdown(payload))
+    update_audit_cache("post-merge-retrospective", "#{latest}.json", payload)
+    puts terminal_line("Post Merge Retrospective", {changed_file_count: payload[:changed_file_count]}, "#{latest}.json", "#{latest}-summary.md")
+  end
+
+  def retrospective_failure_points(audit_data)
+    points = []
+    guardrails = audit_data.dig(:change_impact, "scope_guardrail_warnings") || []
+    points += guardrails.map { |warning| "Scope guardrail: #{warning["id"] || warning[:id] || warning}" }.first(5)
+    architecture = audit_data[:architecture_drift] || {}
+    total_findings = architecture["total_findings"] || architecture["findings"]&.size
+    points << "Architecture drift candidates: #{total_findings}" if total_findings.to_i.positive?
+    stale = read_json_if_present("#{OUT}/generated-artifact-freshness.json")
+    stale_count = stale && (stale["stale"] || stale["stale_count"])
+    points << "Generated artifacts stale: #{stale_count}" if stale_count.to_i.positive?
+    points = diagnostic_failure_points if points.empty?
+    points.empty? ? ["No failed validation or guardrail signal was found in available local reports."] : points.uniq.first(8)
+  end
+
+  def diagnostic_failure_points
+    rel_glob("docs/generated/local-tooling/diagnostics/*latest.json").flat_map do |path|
+      report = read_json_if_present(path)
+      next [] unless report && report["success"] == false
+
+      failures = report["failure_lines"] || []
+      failures.first(3).map { |line| "#{File.basename(path, ".json")}: #{line.strip}" }
+    end
+  end
+
+  def retrospective_missing_tools
+    local = read("docs/codex-local-tooling-todo.md")
+    agent = read("docs/agent-improvement-backlog.md")
+    ids = (local + "\n" + agent).scan(/- \[ \] ([A-Z0-9-]+):/).flatten
+    ids.first(10).map { |id| "Open improvement/tooling backlog: #{id}" }
+  rescue StandardError
+    ["Open improvement/tooling backlog could not be read."]
+  end
+
+  def retrospective_docs_gaps(audit_data)
+    gaps = []
+    doc_gap = audit_data[:doc_coverage_gap] || {}
+    gap_count = doc_gap["gaps"]&.size || doc_gap["gap_count"] || doc_gap["gaps"]
+    gaps << "Doc coverage gap candidates: #{gap_count}" if gap_count.to_i.positive?
+    staleness = audit_data[:doc_staleness] || {}
+    candidates = staleness["candidates"]&.size || staleness["candidate_count"] || staleness["candidates"]
+    gaps << "Doc staleness candidates: #{candidates}" if candidates.to_i.positive?
+    gaps.empty? ? ["No documentation gap signal was found in available local reports."] : gaps.uniq.first(8)
+  end
+
+  def retrospective_reusable_patterns(files, audit_data)
+    patterns = []
+    categories = files.map { |path| category_for(path) }.uniq
+    patterns << "Run router-selected audits before full validation for #{categories.sort.join(', ')} changes." if categories.any?
+    patterns << "Use report-first architecture drift findings to plan refactors separately from feature work." if audit_data[:architecture_drift]
+    patterns << "Keep generated local reports refreshed through `make audit-local-tooling-incremental` after adding audit targets." if files.any? { |path| path.start_with?("scripts/") || path == "Makefile" }
+    patterns << "Record backlog removal and plan completion in the same change that implements a persistent item." if files.any? { |path| path.start_with?(".agents/") || path.include?("backlog") }
+    patterns.uniq.first(8)
+  end
+
+  def retrospective_markdown(payload)
+    lines = ["# Post Merge Retrospective", ""]
+    lines << "- Topic: `#{payload[:topic]}`"
+    lines << "- Changed files: `#{payload[:changed_file_count]}`"
+    lines << ""
+    {
+      "Failure Points" => payload[:failure_points],
+      "Missing Tools" => payload[:missing_tools],
+      "Docs Gaps" => payload[:docs_gaps],
+      "Reusable Patterns" => payload[:reusable_patterns],
+      "Next Commands" => payload[:next_commands]
+    }.each do |heading, values|
+      lines << "## #{heading}"
+      lines << ""
+      values.first(10).each { |value| lines << "- #{value}" }
+      lines << ""
+    end
+    lines.join("\n")
+  end
+
+  def option_source_reports(options)
+    source = options["source"]
+    reports = source.to_s.empty? ? rel_glob("docs/generated/local-tooling/diagnostics/*latest.json") : [source]
+    reports.select { |path| File.exist?(abs(path)) }.uniq.sort
+  end
+
+  def record_test_history(command_name, diagnostic_report)
+    runs = test_history_runs
+    runs << {
+      "recorded_at" => now,
+      "diagnostic" => command_name.tr("_", "-"),
+      "command" => diagnostic_report[:command],
+      "success" => diagnostic_report[:success],
+      "exit_status" => diagnostic_report[:exit_status],
+      "duration_seconds" => diagnostic_report[:duration_seconds],
+      "failing_tests" => failing_tests_from_lines(diagnostic_report[:failure_lines]),
+      "top_error_patterns" => error_patterns_from_lines(diagnostic_report[:failure_lines]),
+      "changed_file_count" => Array(diagnostic_report[:changed_files]).size
+    }
+    report = test_history_report(runs.last(100))
+    write_test_history_files(report)
+  rescue StandardError
+    nil
+  end
+
+  def test_history_runs
+    report = read_json_if_present("#{OUT}/test-history.json")
+    Array(report && report["runs"])
+  end
+
+  def test_history_report(runs)
+    runs = runs.last(100)
+    failures = runs.reject { |run| run["success"] }
+    {
+      generated_at: now,
+      run_count: runs.size,
+      failure_count: failures.size,
+      success_count: runs.count { |run| run["success"] },
+      slowest_runs: runs.sort_by { |run| -run["duration_seconds"].to_f }.first(10),
+      repeated_failures: repeated_values(failures.flat_map { |run| Array(run["top_error_patterns"]) }),
+      repeated_failing_tests: repeated_values(failures.flat_map { |run| Array(run["failing_tests"]) }),
+      runs: runs
+    }
+  end
+
+  def write_test_history_files(report)
+    LocalToolingCommon.write_json("#{OUT}/test-history.json", report)
+    LocalToolingCommon.write_text("#{OUT}/test-history-summary.md", test_history_markdown(report))
+    update_audit_cache("test-history-summary", "#{OUT}/test-history.json", report)
+  end
+
+  def failing_tests_from_lines(lines)
+    Array(lines).flat_map do |line|
+      line.scan(/\b([A-Z][A-Za-z0-9_]*(?:Test|IT))\b/).flatten
+    end.uniq.first(20)
+  end
+
+  def error_patterns_from_lines(lines)
+    Array(lines).map do |line|
+      normalized = line.to_s.strip
+      normalized = normalized.gsub(%r{/Users/[^ ]+}, "<path>")
+      normalized = normalized.gsub(/\b\d+\b/, "<n>")
+      normalized[0, 180]
+    end.reject(&:empty?).uniq.first(20)
+  end
+
+  def repeated_values(values)
+    values.each_with_object(Hash.new(0)) { |value, counts| counts[value] += 1 }
+          .select { |_, count| count > 1 }
+          .sort_by { |value, count| [-count, value] }
+          .first(20)
+          .map { |value, count| {value: value, count: count} }
+  end
+
+  def test_history_markdown(report)
+    lines = ["# Test History", ""]
+    lines << "- Generated at: `#{report[:generated_at]}`"
+    lines << "- Runs tracked: `#{report[:run_count]}`"
+    lines << "- Successes: `#{report[:success_count]}`"
+    lines << "- Failures: `#{report[:failure_count]}`"
+    lines << ""
+    lines << "## Slowest Runs"
+    lines << ""
+    report[:slowest_runs].first(10).each do |run|
+      lines << "- `#{run['diagnostic']}` #{run['duration_seconds']}s success=#{run['success']} command=`#{run['command']}`"
+    end
+    lines << ""
+    lines << "## Repeated Failures"
+    lines << ""
+    values = report[:repeated_failures]
+    lines << "- None" if values.empty?
+    values.each { |row| lines << "- #{row[:count]}x `#{row[:value]}`" }
+    lines << ""
+    lines << "## Recent Runs"
+    lines << ""
+    report[:runs].last(10).reverse.each do |run|
+      lines << "- `#{run['recorded_at']}` `#{run['diagnostic']}` success=#{run['success']} duration=#{run['duration_seconds']}s changed_files=#{run['changed_file_count']}"
+    end
+    lines.join("\n") + "\n"
+  end
+
+  def open_backlog_ids
+    files = ["docs/codex-local-tooling-todo.md", "docs/implementation-backlog.md", "docs/agent-improvement-backlog.md"]
+    files.flat_map do |path|
+      read(path).scan(/- \[ \] ([A-Z0-9-]+):/).flatten
+    end.uniq.sort
+  end
+
+  def open_master_plan_items
+    read(".agents/todo-master-plan.md").lines.map do |line|
+      next unless line.start_with?("- [ ] ")
+
+      line.sub("- [ ] ", "").strip
+    end.compact
+  end
+
+  def codebase_capsule_markdown(report)
+    lines = ["# Codebase Capsule", ""]
+    lines << "- Generated at: `#{report[:generated_at]}`"
+    lines << "- Purpose: #{report[:purpose]}"
+    {
+      "Repo Layout" => report[:repo_layout],
+      "Active Conventions" => report[:active_conventions],
+      "Open Backlog IDs" => report[:open_backlog_ids].empty? ? ["None"] : report[:open_backlog_ids],
+      "Open Master Plan Items" => report[:open_master_plan_items].empty? ? ["None"] : report[:open_master_plan_items],
+      "Preferred First Commands" => report[:preferred_first_commands],
+      "Read Next" => report[:read_next]
+    }.each do |heading, values|
+      lines << ""
+      lines << "## #{heading}"
+      lines << ""
+      values.each { |value| lines << "- #{value}" }
+    end
+    lines.join("\n") + "\n"
+  end
+
+  def diagnostic_observations(path)
+    report = read_json_if_present(path)
+    return [] unless report
+
+    lines = report["failure_lines"] || report[:failure_lines] || []
+    lines.map do |line|
+      {
+        source_report: path,
+        command: report["command"] || report[:command],
+        exit_status: report["exit_status"] || report[:exit_status],
+        line: line.to_s.strip
+      }
+    end.reject { |row| row[:line].empty? }
+  end
+
+  def failure_patterns
+    [
+      {
+        id: "backend-java-compilation",
+        pattern: "Maven or javac reports a Java compilation error.",
+        owning_surface: "backend Java",
+        likely_cause: "A Java contract, import, symbol, method signature, or generated type changed without updating all call sites.",
+        verified_fix: "Update the affected Java references, then rerun `./mvnw test` from `apps/themuffinman`.",
+        regex: /COMPILATION ERROR|cannot find symbol|package .* does not exist|Failed to execute goal .*maven-compiler-plugin/i
+      },
+      {
+        id: "frontend-typescript-contract",
+        pattern: "TypeScript or vue-tsc reports a TS diagnostic.",
+        owning_surface: "frontend TypeScript/Vue",
+        likely_cause: "Frontend props, API DTO types, generated contracts, or composable return values are out of sync.",
+        verified_fix: "Align the frontend type or generated contract usage, then rerun `npm run type-check` from `apps/themuffinman/frontend`.",
+        regex: /TS\d{4}|vue-tsc|Type .* is not assignable|Property .* does not exist/i
+      },
+      {
+        id: "frontend-build-contract",
+        pattern: "Frontend build reports a Vite, Rollup, or module-resolution failure.",
+        owning_surface: "frontend build",
+        likely_cause: "A module path, export, asset reference, or build-time type dependency changed without matching build wiring.",
+        verified_fix: "Fix the import/export or asset path, then rerun `npm run build` from `apps/themuffinman/frontend`.",
+        regex: /vite|rollup|Cannot find module|Could not resolve|BUILD FAILED/i
+      },
+      {
+        id: "flyway-schema-drift",
+        pattern: "Flyway, SQL, or schema validation reports a migration drift.",
+        owning_surface: "backend persistence",
+        likely_cause: "Entity or repository behavior expects schema that is missing from forward-only Flyway migrations.",
+        verified_fix: "Add a new Flyway migration instead of editing old migrations, then rerun `./mvnw test`.",
+        regex: /Flyway|Migration|schema-validation|relation .* does not exist|column .* does not exist|SQLSyntaxError/i
+      },
+      {
+        id: "lazy-dto-mapping",
+        pattern: "Hibernate reports a lazy loading failure during DTO mapping.",
+        owning_surface: "backend read DTO assembly",
+        likely_cause: "A read path maps associations after the persistence session closed or uses a repository fetch pattern that omits required associations.",
+        verified_fix: "Fix the service-level DTO assembly or repository fetch path, audit sibling read surfaces using the same mapper, then rerun backend tests.",
+        regex: /LazyInitializationException|could not initialize proxy|failed to lazily initialize/i
+      },
+      {
+        id: "documentation-sync-canonical-phrase",
+        pattern: "Documentation or agent-safety validation reports protected wording drift.",
+        owning_surface: "living docs and agent operating artifacts",
+        likely_cause: "A protected documentation-sync phrase was paraphrased, omitted, or changed outside the canonical YAML rule.",
+        verified_fix: "Copy the canonical sentence exactly into required targets, then rerun `make audit-documentation` and `make audit-agent-safety`.",
+        regex: /canonical|protected phrase|must_contain_all|documentation sync|AgentOperatingModelValidationTest/i
+      }
+    ]
+  end
 
   def write_smoke_placeholder(name, argv, note)
     payload = {generated_at: now, smoke: name, status: "not_run", args: argv, note: note}
@@ -376,10 +1245,25 @@ module LocalToolingExtendedTools
   def write_report(base_name, title, payload, terminal: true, summary_path: nil)
     json_path = "#{OUT}/#{base_name}.json"
     md_path = summary_path || "#{OUT}/#{base_name}-summary.md"
+    archive_previous_report(base_name, json_path, payload)
     LocalToolingCommon.write_json(json_path, payload)
     LocalToolingCommon.write_text(md_path, summary_markdown(title, payload))
     update_audit_cache(base_name, json_path, payload)
     puts terminal_line(title, payload, json_path, md_path) if terminal
+  end
+
+  def archive_previous_report(base_name, json_path, payload)
+    absolute_json = abs(json_path)
+    return unless File.exist?(absolute_json)
+
+    current_content = File.read(absolute_json)
+    next_content = JSON.pretty_generate(payload) + "\n"
+    return if Digest::SHA256.hexdigest(current_content) == Digest::SHA256.hexdigest(next_content)
+
+    timestamp = now.gsub(":", "-")
+    LocalToolingCommon.write_text("#{OUT}/.history/#{base_name}/#{timestamp}.json", current_content)
+  rescue StandardError
+    nil
   end
 
   def update_audit_cache(base_name, json_path, payload)
@@ -436,6 +1320,51 @@ module LocalToolingExtendedTools
     }
   end
 
+  def validation_preset_for(files, manifest = nil, manifest_resolution = nil)
+    categories = files.map { |path| category_for(path) }.uniq.sort
+    domains = files.map { |path| domain_for(path) }.uniq.sort
+    runtime_files = files.reject do |path|
+      path.start_with?("docs/") || path.start_with?(".agents/") || path.start_with?("scripts/") ||
+        path == "Makefile" || LocalToolingCommon.generated_path?(path)
+    end
+    manifest ||= manifest_decision_for(files)
+    manifest_resolution ||= resolve_manifest_path_for(files)
+    preset =
+      if manifest[:decision] == "required"
+        "manifest-required"
+      elsif files.empty?
+        "review"
+      elsif files.size <= 3 && categories.all? { |category| %w[docs script other].include?(category) }
+        "fast"
+      elsif categories.all? { |category| category.start_with?("frontend_") || %w[docs other].include?(category) } &&
+            categories.any? { |category| category.start_with?("frontend_") }
+        "standard-frontend"
+      elsif categories.any? { |category| category.start_with?("backend_") } &&
+            categories.none? { |category| category.start_with?("frontend_") } &&
+            domains.size <= 1 &&
+            (categories & %w[backend_controller backend_dto backend_model]).empty?
+        "standard-backend"
+      elsif (runtime_files.any? && domains.size > 1) ||
+            (categories.any? { |category| category.start_with?("backend_") } &&
+             categories.any? { |category| category.start_with?("frontend_") })
+        "full-closeout"
+      else
+        "fast"
+      end
+
+    {
+      preset: preset,
+      reasons: validation_preset_reasons(preset, files, categories, domains, manifest),
+      commands: validation_preset_commands(preset, files, categories, manifest_resolution),
+      supporting_reports: validation_preset_supporting_reports(preset),
+      manifest_decision: manifest[:decision],
+      manifest_resolution: manifest_resolution,
+      categories: categories,
+      domains: domains,
+      changed_file_count: files.size
+    }
+  end
+
   def router_audits_for(files)
     categories = files.map { |path| category_for(path) }
     audits = []
@@ -446,6 +1375,69 @@ module LocalToolingExtendedTools
     audits += ["make audit-migration-entity-drift"] if categories.include?("backend_model")
     audits += ["make audit-test-gap-recommendations", "make audit-summary-index"]
     audits.uniq
+  end
+
+  def manifest_decision_for(files)
+    categories = files.group_by { |path| category_for(path) }
+    domains = files.map { |path| domain_for(path) }.reject { |value| %w[shared common].include?(value) }.uniq.sort
+    runtime_files = files.reject do |path|
+      LocalToolingCommon.generated_path?(path) || path.start_with?(".agents/") || path.start_with?("docs/") ||
+        path.start_with?("scripts/") || path == "Makefile"
+    end
+    logic_files = files.select do |path|
+      text = read(path)
+      path.match?(%r{/(service|controller|model|dto|repository|db/migration)/}) ||
+        text.match?(/\b(permission|workflow|transition|state|visibility|validation|contract|manifest|agent|automation|sandbox)\b/i)
+    end
+    schema_files = files.select { |path| path.include?("/db/migration/") || path.end_with?(".schema.json") }
+    agent_contract_files = files.select { |path| path.start_with?("docs/agent-operating-model") || path.include?("AdminAgent") || path.include?("agent/") }
+    frontend_contract_files = files.select do |path|
+      path.include?("/frontend/src/contracts/") ||
+        path.include?("/frontend/scripts/generate") ||
+        path.include?("/frontend/src/modules/") && read(path).include?("api")
+    end
+    generated_files = files.select { |path| LocalToolingCommon.generated_path?(path) }
+    automation_safety_files = files.select do |path|
+      path.start_with?("scripts/") || path == "Makefile" || path.include?("feature-closeout") ||
+        path.include?("validation-evidence") || path.include?("todo-audit") || path.include?("documentation-sync")
+    end
+    workflow_files = files.select { |path| read(path).match?(/\b(workflow|transition|state machine|ScenarioTest|UseCaseContractTest)\b/i) }
+    rules = []
+    rules << manifest_rule("multi_file_multi_layer_change", files, "Multiple files across multiple change categories need a manifest for closeout traceability.") if files.size > 1 && categories.keys.size > 1
+    rules << manifest_rule("high_risk_or_executor_critical_surface", (logic_files + automation_safety_files).uniq, "Backend logic, automation safety, or validation tooling changes need explicit evidence.")
+    rules << manifest_rule("agent_contract_change", agent_contract_files, "Agent-facing contracts and operating-model surfaces require manifest tracking.")
+    rules << manifest_rule("workflow_expansion_change", workflow_files, "Workflow or scenario surfaces require scenario evidence and docs synchronization.")
+    rules << manifest_rule("frontend_contract_change", frontend_contract_files, "Frontend contract or API surfaces require frontend validation evidence.")
+    rules << manifest_rule("schema_or_generated_artifact_change", (schema_files + generated_files).uniq, "Schema and generated-artifact changes require explicit generated-artifact evidence.")
+    rules << manifest_rule("mixed_product_domains", files, "Multiple product domains in one changeset require explicit scope and residual-risk review.") if runtime_files.any? && domains.size > 1
+    rules.compact!
+    allow_skip = files.size <= 1 &&
+      rules.empty? &&
+      files.all? { |path| %w[docs script other].include?(category_for(path)) || path.end_with?(".md") }
+    decision =
+      if rules.any?
+        "required"
+      elsif allow_skip
+        "not_required"
+      else
+        "review"
+      end
+    {
+      decision: decision,
+      manifest_required: decision == "required",
+      skip_allowed: decision == "not_required",
+      skip_reason: decision == "not_required" ? "Cosmetic or single-surface contract-neutral change; no manifest required if the closeout records the reason." : nil,
+      rules: rules,
+      changed_file_count: files.size,
+      categories: categories.keys.sort,
+      domains: domains
+    }
+  end
+
+  def manifest_rule(id, files, reason)
+    return nil if files.empty?
+
+    {id: id, file_count: files.size, files: files.first(25), reason: reason}
   end
 
   def endpoint_entries
@@ -501,6 +1493,10 @@ module LocalToolingExtendedTools
   end
 
   def changed_files
+    git_status_entries.map { |entry| entry[:path] }.select { |path| File.file?(abs(path)) }.uniq
+  end
+
+  def changed_files_all
     git_status_entries.map { |entry| entry[:path] }.select { |path| File.exist?(abs(path)) }.uniq
   end
 
@@ -528,6 +1524,10 @@ module LocalToolingExtendedTools
     return "identity" if path.include?("/identity/") || path.include?("user")
     return "location" if path.include?("/location/")
     return "chat" if path.include?("/chat/")
+    return "business" if path.include?("/business/")
+    return "things" if path.include?("/things/")
+    return "rides" if path.include?("/rides/")
+    return "common" if path.include?("/common/") || path.include?("/config/")
     return "agent" if path.include?("/agent") || path.include?("agent-")
 
     "shared"
@@ -548,7 +1548,7 @@ module LocalToolingExtendedTools
 
   def read(path)
     normalize_text(File.binread(abs(path)))
-  rescue Errno::ENOENT
+  rescue Errno::ENOENT, Errno::EISDIR
     ""
   end
 
@@ -588,7 +1588,935 @@ module LocalToolingExtendedTools
   def option_files(options, argv)
     raw = options["files"]
     files = raw ? raw.split(",") : argv.reject { |arg| arg.include?("=") || arg.start_with?("--") }
-    files.map(&:strip).reject(&:empty?).select { |path| File.exist?(abs(path)) }.uniq
+    files.map(&:strip).reject(&:empty?).select { |path| File.file?(abs(path)) }.uniq
+  end
+
+  def symbol_definition_files(symbol)
+    escaped = Regexp.escape(symbol)
+    rel_glob("apps/themuffinman/src/main/java/**/*.java", "apps/themuffinman/frontend/src/**/*.{ts,vue}").select do |path|
+      basename = File.basename(path, File.extname(path))
+      next true if basename == symbol
+
+      text = read(path)
+      text.match?(/\b(class|interface|enum|record)\s+#{escaped}\b/) ||
+        text.match?(/\bexport\s+(?:default\s+)?(?:function|const|class|interface|type)\s+#{escaped}\b/) ||
+        (path.end_with?(".vue") && text.match?(/\b#{escaped}\b/))
+    end.first(20)
+  end
+
+  def direct_symbol_tests(symbol)
+    escaped = Regexp.escape(symbol)
+    rel_glob("apps/themuffinman/src/test/java/**/*.java").select do |path|
+      read(path).match?(/\b#{escaped}\b/)
+    end.first(30)
+  end
+
+  def symbol_test_commands(symbol_files, direct_tests, nearby_tests, scenario_hits)
+    commands = []
+    test_names = (direct_tests + nearby_tests).map { |path| File.basename(path, ".java") }.uniq
+    if test_names.any?
+      commands << "cd apps/themuffinman && ./mvnw test -Dtest=#{test_names.first(8).join(',')}"
+    elsif symbol_files.any? { |path| category_for(path).start_with?("frontend_") }
+      commands << "npm --prefix apps/themuffinman/frontend run type-check"
+      commands << "npm --prefix apps/themuffinman/frontend run build"
+    end
+    commands += scenario_hits.flat_map { |scenario| Array(scenario["commands"]).first(1) }
+    commands.uniq.first(10)
+  end
+
+  def symbol_test_residual_risk(symbol_files, direct_tests, nearby_tests, scenario_hits)
+    risks = []
+    risks << "Symbol definition file could not be resolved deterministically." if symbol_files.empty?
+    risks << "No direct test references were found for the symbol." if direct_tests.empty?
+    risks << "Only nearby tests were found; symbol-level coverage may still be indirect." if direct_tests.empty? && nearby_tests.any?
+    risks << "No regression scenario catalog entry matched the symbol domain." if scenario_hits.empty?
+    risks.uniq
+  end
+
+  def dto_usage_commands(controller_methods, frontend_refs, tests)
+    commands = []
+    test_names = tests.map { |path| File.basename(path, ".java") }.uniq
+    commands << "cd apps/themuffinman && ./mvnw test -Dtest=#{test_names.first(8).join(',')}" if test_names.any?
+    if controller_methods.any?
+      commands << "make audit-api-contract-drift"
+      commands << "make endpoint-contract-packs"
+    end
+    if frontend_refs.any?
+      commands << "npm --prefix apps/themuffinman/frontend run type-check"
+      commands << "npm --prefix apps/themuffinman/frontend run build"
+    end
+    commands.uniq.first(10)
+  end
+
+  def dto_usage_residual_risk(dto_files, controller_methods, frontend_refs, tests)
+    risks = []
+    risks << "DTO definition file was not found." if dto_files.empty?
+    risks << "No controller method was found using this DTO directly." if controller_methods.empty?
+    risks << "No frontend usage was found for this DTO; generated contract-only usage may still exist." if frontend_refs.empty?
+    risks << "No test references were found for this DTO." if tests.empty?
+    risks.uniq
+  end
+
+  def workflow_state_machines
+    data = YAML.load_file(abs("docs/workflow-state-machines.yaml"))
+    Array(data["stateMachines"])
+  rescue StandardError
+    []
+  end
+
+  def known_domains
+    %w[workmarket social identity location chat business things rides agent]
+  end
+
+  def domain_runtime_files(domain)
+    rel_glob(
+      "apps/themuffinman/src/main/java/**/*.java",
+      "apps/themuffinman/frontend/src/**/*.{ts,vue}"
+    ).select { |path| domain_for(path) == domain }.uniq.sort
+  end
+
+  def domain_related_tests(domain, runtime_files, workflows, scenario_rows)
+    owners = workflows.map { |machine| machine["owner"].to_s }.reject(&:empty?)
+    dto_names = runtime_files.select { |path| path.include?("/dto/") }.map { |path| File.basename(path, ".java") }
+    rel_glob("apps/themuffinman/src/test/java/**/*.java").select do |path|
+      text = read(path)
+      domain_for(path) == domain ||
+        path.downcase.include?(domain.downcase) ||
+        owners.any? { |owner| text.include?(owner) } ||
+        dto_names.any? { |dto| text.include?(dto) } ||
+        Array(scenario_rows).flat_map { |row| Array(row["test_files"]) }.include?(path)
+    end.uniq.sort
+  end
+
+  def domain_key_backend_files(domain, files, layer)
+    files.select do |path|
+      domain_for(path) == domain && path.include?("/#{layer}/")
+    end.first(8).map { |path| file_entry(path) }
+  end
+
+  def domain_dto_groups(domain, files)
+    dto_files = files.select do |path|
+      domain_for(path) == domain && path.include?("/dto/") && path.end_with?(".java")
+    end
+    dto_files.group_by do |path|
+      base = File.basename(path, ".java")
+      case base
+      when /Request|Response/ then "request-response"
+      when /Detail|Summary|List/ then "read-models"
+      when /Option|Status|Type/ then "enum-like"
+      else "other"
+      end
+    end.map do |group, paths|
+      {group: group, count: paths.size, files: paths.first(10)}
+    end.sort_by { |row| row[:group] }
+  end
+
+  def domain_frontend_surfaces(domain, files)
+    files.select do |path|
+      domain_for(path) == domain && category_for(path).start_with?("frontend_")
+    end.first(12).map { |path| file_entry(path) }
+  end
+
+  def default_domain_docs(domain)
+    docs = %w[docs/business-logic.md docs/domain-technical.md]
+    docs << "docs/location-services.md" if domain == "location"
+    docs << "docs/agent-operating-model.md" if %w[agent business things rides].include?(domain)
+    docs
+  end
+
+  def domain_first_commands(domain, files, tests, scenario_rows)
+    categories = files.map { |path| category_for(path) }.uniq
+    commands = []
+    commands.concat(validation_rules.fetch("backend_service", [])) if categories.any? { |category| category.start_with?("backend_") }
+    commands.concat(targeted_frontend_commands(files, categories).map { |row| row[:command] }) if categories.any? { |category| category.start_with?("frontend_") }
+    test_names = tests.map { |path| File.basename(path, ".java") }.uniq.first(6)
+    commands << "cd apps/themuffinman && ./mvnw test -Dtest=#{test_names.join(',')}" if test_names.any?
+    commands.concat(scenario_rows.flat_map { |row| Array(row["commands"]).first(1) })
+    commands << "make audit-doc-sync-preflight files=#{files.first(8).join(',')}" if files.any?
+    commands.uniq.first(8)
+  end
+
+  def domain_pack_residual_risk(domain, files, workflows, tests)
+    risks = []
+    risks << "No runtime files resolved for domain `#{domain}`." if files.empty?
+    risks << "No documented workflow state machine exists for domain `#{domain}`." if workflows.empty? && %w[workmarket social chat things].include?(domain)
+    risks << "No related tests resolved for domain `#{domain}`." if tests.empty?
+    risks.uniq
+  end
+
+  def workflow_machine_for(workflow)
+    key = workflow.to_s.downcase.tr("_", "-")
+    workflow_state_machines.find do |machine|
+      machine_id = machine["id"].to_s.tr("_", "-")
+      owner = machine["owner"].to_s.downcase
+      machine_id.include?(key) || key.include?(machine_id) || owner.include?(workflow.to_s.downcase)
+    end || {}
+  end
+
+  def workflow_service_files(machine)
+    owner = machine["owner"].to_s
+    files = []
+    files += rel_glob("apps/themuffinman/src/main/java/**/*#{owner}.java") unless owner.empty?
+    transition_ids = Array(machine["transitions"]).map { |transition| transition["intentId"].to_s }.reject(&:empty?)
+    files += rel_glob("apps/themuffinman/src/main/java/**/*.java").select do |path|
+      text = read(path)
+      transition_ids.any? { |intent| text.include?(intent) }
+    end
+    files.uniq.first(30)
+  end
+
+  def workflow_related_tests(machine, workflow)
+    owner = machine["owner"].to_s
+    transition_ids = Array(machine["transitions"]).map { |transition| transition["intentId"].to_s }.reject(&:empty?)
+    scenario_tests = regression_scenarios.select do |scenario|
+      scenario["domain"] == machine["domain"] || scenario["id"].to_s.include?(workflow.to_s.tr("_", "-"))
+    end.flat_map { |scenario| Array(scenario["test_files"]) }
+    owner_tests = rel_glob("apps/themuffinman/src/test/java/**/*.java").select do |path|
+      text = read(path)
+      text.include?(owner) || transition_ids.any? { |intent| text.include?(intent) } || path.downcase.include?(workflow.to_s.downcase)
+    end
+    (scenario_tests + owner_tests).uniq.first(30)
+  end
+
+  def workflow_frontend_actions(machine, workflow)
+    transition_ids = Array(machine["transitions"]).map { |transition| transition["intentId"].to_s }.reject(&:empty?)
+    rel_glob("apps/themuffinman/frontend/src/**/*.{ts,vue}").select do |path|
+      text = read(path)
+      text.downcase.include?(workflow.to_s.downcase) || transition_ids.any? { |intent| text.include?(intent) }
+    end.first(30).map { |path| file_entry(path) }
+  end
+
+  def workflow_doc_refs(machine, workflow)
+    refs = rel_glob("docs/**/*.md", "docs/**/*.yaml").select do |path|
+      text = read(path)
+      text.include?(machine["id"].to_s) || text.include?(machine["owner"].to_s) || text.downcase.include?(workflow.to_s.downcase)
+    end
+    refs.first(20)
+  end
+
+  def workflow_commands(tests, machine)
+    commands = []
+    test_names = tests.map { |path| File.basename(path, ".java") }.uniq
+    commands << "cd apps/themuffinman && ./mvnw test -Dtest=#{test_names.first(8).join(',')}" if test_names.any?
+    commands += regression_scenarios.select { |scenario| scenario["domain"] == machine["domain"] }.flat_map { |scenario| Array(scenario["commands"]).first(1) }
+    commands.uniq.first(10)
+  end
+
+  def workflow_residual_risk(machine, service_files, tests)
+    risks = []
+    risks << "Workflow did not resolve to a documented state machine." if machine.empty?
+    risks << "No owning service or supporting files were resolved from the state machine owner." if service_files.empty?
+    risks << "No matching tests were found for the workflow slice." if tests.empty?
+    risks.uniq
+  end
+
+  def plan_candidate_files(plan, plan_text)
+    tokens = plan_map_tokens(plan, plan_text)
+    candidates = rel_glob(
+      "apps/themuffinman/src/main/java/**/*.java",
+      "apps/themuffinman/src/test/java/**/*.java",
+      "apps/themuffinman/frontend/src/**/*.{ts,vue}",
+      "docs/**/*.md",
+      "docs/**/*.yaml",
+      "docs/**/*.json",
+      "scripts/**/*.rb",
+      ".agents/**/*.md",
+      ".agents/feature-manifests/*.yaml",
+      "Makefile"
+    ).reject { |path| path.start_with?("docs/generated/local-tooling/.history/") }
+
+    scored = candidates.map do |path|
+      score, reasons = plan_candidate_score(path, plan_text, tokens)
+      next if score.zero?
+
+      {path: path, score: score, reasons: reasons}
+    end.compact
+    scored.sort_by { |row| [-row[:score], row[:path]] }.first(40).map { |row| row[:path] }
+  end
+
+  def plan_map_tokens(plan, plan_text)
+    text = [plan, plan_text].join("\n")
+    tokens = text.scan(/\b[A-Z][A-Za-z0-9]+(?:DTO|Service|Controller|Repository|Mapper|Test|IT)?\b/).uniq
+    tokens += text.scan(/\b[a-z0-9]+(?:-[a-z0-9]+){1,}\b/).uniq
+    tokens += text.scan(%r{\b(?:apps|docs|scripts|\.agents)/[A-Za-z0-9_./-]+\b}).map { |path| File.basename(path, File.extname(path)) }
+    tokens.map { |token| token.to_s.strip }.reject { |token| token.size < 3 }.uniq
+  end
+
+  def plan_candidate_score(path, plan_text, tokens)
+    reasons = []
+    score = 0
+    content = read(path)
+    basename = File.basename(path, File.extname(path))
+    token_hits = tokens.select do |token|
+      path.downcase.include?(token.downcase) || basename.casecmp?(token) || content.match?(/\b#{Regexp.escape(token)}\b/i)
+    end.uniq
+    if token_hits.any?
+      score += [token_hits.size * 2, 8].min
+      reasons << "Matched plan tokens: #{token_hits.first(6).join(', ')}."
+    end
+    if plan_text.include?(path)
+      score += 10
+      reasons << "Plan references the file path directly."
+    end
+    if path.start_with?(".agents/feature-manifests/") && plan_text.match?(/\bmanifest\b/i)
+      score += 4
+      reasons << "Plan mentions manifests and this file is a feature manifest."
+    end
+    if LocalToolingCommon.generated_path?(path) && plan_text.match?(/\b(generated|artifact|summary)\b/i)
+      score += 3
+      reasons << "Plan mentions generated artifacts."
+    end
+    [score, reasons]
+  end
+
+  def plan_file_map_entry(path, plan_text)
+    {
+      path: path,
+      category: category_for(path),
+      domain: domain_for(path),
+      lines: File.exist?(abs(path)) ? File.readlines(abs(path)).size : 0,
+      reasons: plan_candidate_score(path, plan_text, plan_map_tokens(path, plan_text)).last
+    }
+  end
+
+  def plan_related_generated_artifacts(plan_text, files)
+    names = files.map { |path| File.basename(path, File.extname(path)).downcase }.uniq
+    rel_glob("docs/generated/**/*.md", "docs/generated/**/*.json").select do |path|
+      downcased = path.downcase
+      names.any? { |name| downcased.include?(name) } ||
+        (plan_text.match?(/\b(summary|generated|artifact|report)\b/i) && path.include?("local-tooling"))
+    end.first(25)
+  end
+
+  def plan_related_manifests(plan, plan_text, files, manifest_resolution)
+    manifests = manifest_inventory.select do |manifest|
+      manifest[:plan_file] == plan ||
+        files.include?(manifest[:manifest_path]) ||
+        files.any? { |path| (manifest[:code_paths] + manifest[:doc_paths] + manifest[:test_paths]).include?(path) }
+    end
+    manifests = manifest_inventory.select { |manifest| manifest[:manifest_path] == manifest_resolution[:manifest_path] } if manifests.empty? && manifest_resolution[:manifest_path]
+    manifests.map do |manifest|
+      {
+        manifest_path: manifest[:manifest_path],
+        feature_id: manifest[:feature_id],
+        title: manifest[:title],
+        plan_file: manifest[:plan_file]
+      }
+    end.first(10)
+  end
+
+  def plan_map_residual_risk(files, manifest_resolution)
+    risks = []
+    risks << "Plan did not map to any likely code or documentation file." if files.empty?
+    risks << "Manifest could not be resolved deterministically from the mapped files." if manifest_resolution[:decision] != "resolved"
+    risks.uniq
+  end
+
+  def resolve_manifest_path_for(files)
+    manifests = manifest_inventory
+    analysis_files = (files + changed_files_all.select { |path| path.start_with?(".agents/") }).uniq
+    candidates = manifests.map do |manifest|
+      score_manifest_candidate(manifest, analysis_files)
+    end.reject { |candidate| candidate[:score].zero? }
+      .sort_by { |candidate| [-candidate[:score], candidate[:manifest_path]] }
+    top = candidates.first
+    second = candidates[1]
+    decision =
+      if top.nil?
+        "no_match"
+      elsif top[:score] >= 8 && (second.nil? || top[:score] - second[:score] >= 3)
+        "resolved"
+      else
+        "review"
+      end
+    {
+      decision: decision,
+      manifest_path: decision == "resolved" ? top[:manifest_path] : nil,
+      feature_id: decision == "resolved" ? top[:feature_id] : nil,
+      title: decision == "resolved" ? top[:title] : nil,
+      confidence: top ? manifest_resolution_confidence(decision, top, second) : "none",
+      reasons: decision == "resolved" ? top[:reasons] : manifest_resolution_notes(decision, candidates),
+      candidates: candidates.first(10)
+    }
+  end
+
+  def rank_changeset_hotspots_for(files)
+    corpus = hotspot_corpus
+    hotspots = files.map do |path|
+      hotspot_entry_for(path, corpus)
+    end.sort_by { |row| [-row[:score], row[:path]] }
+    categories = hotspots.map { |row| row[:category] }.uniq.sort
+    {
+      changed_file_count: files.size,
+      categories: categories,
+      hotspots: hotspots.first(25),
+      read_first: hotspots.first(8).map { |row| row[:path] },
+      recommended_commands: validation_preset_for(files)[:commands],
+      residual_risk: hotspot_residual_risk(files, hotspots)
+    }
+  end
+
+  def hotspot_entry_for(path, corpus = nil)
+    content = read(path)
+    category = category_for(path)
+    basename = File.basename(path, File.extname(path))
+    domains = [domain_for(path)]
+    linked_tests = related_tests([path]).first(8)
+    fanout = ref_count(basename, corpus)
+    dependency_centrality = hotspot_dependency_centrality(path, content)
+    workflow_sensitivity = hotspot_workflow_sensitivity(path, content)
+    category_weight = hotspot_category_weight(category, path, content)
+    test_signal = [linked_tests.size * 2, 6].min
+    score = category_weight + [fanout, 8].min + dependency_centrality + workflow_sensitivity + test_signal
+    {
+      path: path,
+      category: category,
+      domain: domains.first,
+      score: score,
+      score_breakdown: {
+        category: category_weight,
+        fanout: [fanout, 8].min,
+        dependency_centrality: dependency_centrality,
+        workflow_sensitivity: workflow_sensitivity,
+        test_links: test_signal
+      },
+      linked_tests: linked_tests,
+      related_docs: DOCS_BY_DOMAIN.fetch(domains.first, []).first(6),
+      recommended_commands: validation_rules.fetch(category, []),
+      reasons: hotspot_reasons(path, content, linked_tests, fanout, dependency_centrality, workflow_sensitivity)
+    }
+  end
+
+  def hotspot_corpus
+    @hotspot_corpus ||= [
+      read_all("apps/themuffinman/src/main/java"),
+      read_all("apps/themuffinman/src/test/java"),
+      read_all("apps/themuffinman/frontend/src"),
+      read_all("docs")
+    ].join("\n")
+  end
+
+  def hotspot_category_weight(category, path, content)
+    return 8 if %w[backend_controller backend_service backend_repository backend_model].include?(category)
+    return 7 if %w[backend_dto backend_mapper frontend_api frontend_view frontend_composable].include?(category)
+    return 5 if category == "docs"
+    return 4 if category == "script" || path == "Makefile"
+    return 6 if content.match?(/\b(workflow|transition|permission|validation|state)\b/i)
+
+    3
+  end
+
+  def hotspot_dependency_centrality(path, content)
+    return [content.scan(/\b(?:private\s+final|private)\s+[A-Z][A-Za-z0-9_<>?, ]+\s+[a-z][A-Za-z0-9_]*\b/).size, 6].min if path.end_with?(".java")
+    return [content.scan(/from\s+['"][^'"]+['"]/).size, 6].min if path.end_with?(".ts") || path.end_with?(".vue")
+
+    1
+  end
+
+  def hotspot_workflow_sensitivity(path, content)
+    score = 0
+    score += 4 if content.match?(/\b(workflow|transition|state machine|permission|ScenarioTest|UseCaseContractTest)\b/i)
+    score += 3 if path.include?("/db/migration/") || path.include?("agent-operating-model")
+    score
+  end
+
+  def hotspot_reasons(path, content, linked_tests, fanout, dependency_centrality, workflow_sensitivity)
+    reasons = []
+    reasons << "High repo fanout for `#{File.basename(path)}` (#{fanout} references)." if fanout >= 4
+    reasons << "Multiple dependency edges detected." if dependency_centrality >= 4
+    reasons << "Workflow or permission-sensitive logic detected." if workflow_sensitivity >= 4
+    reasons << "Direct or nearby tests exist: #{linked_tests.first(4).join(', ')}." if linked_tests.any?
+    reasons << "Generated or tooling surface influences local automation." if path.start_with?("scripts/") || path == "Makefile"
+    reasons << "Documentation or agent-safety surface can force sync work." if content.match?(/\b(canonical|manifest|documentation sync|agent)\b/i)
+    reasons.uniq
+  end
+
+  def hotspot_residual_risk(files, hotspots)
+    risks = []
+    risks << "No files were available for hotspot ranking." if files.empty?
+    risks << "Hotspot ranking is heuristic and does not replace feature-level domain judgment."
+    risks << "No file reached a strong score threshold; read the diff summary first." if hotspots.none? { |row| row[:score] >= 12 }
+    risks.uniq
+  end
+
+  def manifest_inventory
+    rel_glob(".agents/feature-manifests/*.yaml").map do |path|
+      data = YAML.load_file(abs(path)) || {}
+      {
+        manifest_path: path,
+        feature_id: data["featureId"].to_s,
+        title: data["title"].to_s,
+        plan_file: data["planFile"].to_s,
+        code_paths: Array(data.dig("artifacts", "codePaths")),
+        doc_paths: Array(data.dig("artifacts", "docPaths")),
+        test_paths: Array(data.dig("artifacts", "testPaths"))
+      }
+    rescue StandardError
+      nil
+    end.compact
+  end
+
+  def score_manifest_candidate(manifest, files)
+    reasons = []
+    score = 0
+    normalized_paths = files.map { |path| path.to_s.downcase }
+    manifest_tokens = slug_tokens(manifest[:feature_id]) +
+      slug_tokens(manifest[:title]) +
+      slug_tokens(File.basename(manifest[:plan_file].to_s, ".md")) +
+      slug_tokens(File.basename(manifest[:manifest_path].to_s, ".yaml"))
+    manifest_tokens.uniq!
+
+    if files.include?(manifest[:manifest_path])
+      score += 10
+      reasons << "Manifest file itself is in the current changeset."
+    end
+
+    if manifest[:plan_file] && files.include?(manifest[:plan_file])
+      score += 8
+      reasons << "Referenced plan file is in the current changeset."
+    end
+
+    artifact_hits = (manifest[:code_paths] + manifest[:doc_paths] + manifest[:test_paths]).uniq & files
+    if artifact_hits.any?
+      score += [artifact_hits.size, 8].min
+      reasons << "Changed files overlap manifest artifact lists (#{artifact_hits.first(5).join(', ')})."
+    end
+
+    token_hits = normalized_paths.flat_map { |path| manifest_tokens.select { |token| !token.empty? && path.include?(token) } }.uniq
+    if token_hits.any?
+      score += [token_hits.size * 2, 6].min
+      reasons << "Changed paths include feature/plan tokens: #{token_hits.first(6).join(', ')}."
+    end
+
+    {
+      manifest_path: manifest[:manifest_path],
+      feature_id: manifest[:feature_id],
+      title: manifest[:title],
+      plan_file: manifest[:plan_file],
+      score: score,
+      reasons: reasons
+    }
+  end
+
+  def slug_tokens(value)
+    slug(value).split("-").reject { |token| token.size < 3 }
+  end
+
+  def manifest_resolution_confidence(decision, top, second)
+    return "none" if decision == "no_match"
+    return "high" if decision == "resolved" && (second.nil? || top[:score] - second[:score] >= 5)
+    return "medium" if decision == "resolved"
+
+    "low"
+  end
+
+  def manifest_resolution_notes(decision, candidates)
+    return ["No manifest candidate matched the current files strongly enough."] if decision == "no_match"
+    return ["More than one manifest candidate matched the current files. Review the candidate list before closeout."] if candidates.size > 1
+
+    ["One manifest candidate matched weakly; review before using it for closeout."]
+  end
+
+  def doc_sync_rows_for(files)
+    files.map do |path|
+      category = category_for(path)
+      domain = domain_for(path)
+      docs = DOCS_BY_DOMAIN.fetch(domain, []).dup
+      docs << "docs/codex-local-tooling-todo.md" if path.start_with?("scripts/")
+      docs << "docs/agent-operating-model.yaml" if category.start_with?("backend_") || category == "docs"
+      docs.uniq!
+      {file: path, category: category, domain: domain, likely_docs: docs}
+    end
+  end
+
+  def changeset_playbook_steps(files, manifest, preset, docs)
+    resolved_manifest = preset.dig(:manifest_resolution, :manifest_path)
+    closeout_command = resolved_manifest ? "make closeout-bundle manifest=#{resolved_manifest}" : "make closeout-bundle manifest=.agents/feature-manifests/<feature-id>-manifest.yaml"
+    [
+      {
+        step: 1,
+        kind: "read",
+        title: "Review changeset shape",
+        commands: ["make diff-summary"],
+        outputs: ["docs/generated/local-tooling/diff-summary.md"],
+        purpose: "See domain/category grouping before opening files."
+      },
+      {
+        step: 2,
+        kind: "decide",
+        title: "Confirm manifest path",
+        commands: ["make audit-manifest-decision", "make resolve-manifest-path"],
+        outputs: ["docs/generated/local-tooling/manifest-decision-summary.md", "docs/generated/local-tooling/manifest-path-resolution-summary.md"],
+        purpose: manifest[:manifest_required] ? "Manifest is required before final closeout." : "Manifest is optional, but the decision should still be visible.",
+        decision: manifest[:decision],
+        resolved_manifest: resolved_manifest
+      },
+      {
+        step: 3,
+        kind: "audit",
+        title: "Run focused audits",
+        commands: router_audits_for(files).first(12),
+        outputs: ["docs/generated/local-tooling/audit-router-summary.md", "docs/generated/local-tooling/doc-sync-preflight-summary.md"],
+        purpose: "Pick the smallest report set that matches the current files."
+      },
+      {
+        step: 4,
+        kind: "update",
+        title: "Update living docs and agent artifacts",
+        files: docs.flat_map { |row| row[:likely_docs] }.uniq.first(20),
+        purpose: "Keep business, technical, and agent-safety docs synchronized with the changeset."
+      },
+      {
+        step: 5,
+        kind: "validate",
+        title: "Run preset validation",
+        commands: preset[:commands],
+        outputs: preset[:supporting_reports],
+        purpose: "Use one preset instead of manually assembling commands."
+      },
+      {
+        step: 6,
+        kind: "closeout",
+        title: "Use resolved manifest path for final closeout",
+        commands: [closeout_command],
+        purpose: resolved_manifest ? "Resolved manifest path can be reused directly in closeout commands." : "Resolver could not pick one manifest deterministically; replace the placeholder after review."
+      }
+    ]
+  end
+
+  def validation_preset_reasons(preset, files, categories, domains, manifest)
+    reasons = []
+    reasons << "Manifest decision is `#{manifest[:decision]}`."
+    reasons << "Changed files span #{categories.size} categories." if categories.any?
+    reasons << "Changed files span #{domains.size} domains." if domains.any?
+    reasons << "Preset `#{preset}` keeps validation selection deterministic for #{files.size} files."
+    reasons
+  end
+
+  def validation_preset_commands(preset, files, categories, manifest_resolution)
+    targeted = dedupe_command_rows(
+      targeted_backend_commands(files, related_tests(files)) +
+      targeted_frontend_commands(files, categories) +
+      targeted_docs_commands(files, categories) +
+      targeted_generated_commands(files)
+    ).map { |row| row[:command] }
+    manifest_path = manifest_resolution[:manifest_path] || ".agents/feature-manifests/<feature-id>-manifest.yaml"
+    case preset
+    when "manifest-required"
+      ([
+        "make recommend-targeted-tests",
+        "make closeout-bundle manifest=#{manifest_path}",
+        "make feature-closeout-audit manifest=#{manifest_path}"
+      ] + targeted + ["make audit-agent-safety"]).uniq.first(12)
+    when "full-closeout"
+      (["make closeout-bundle"] + targeted + ["make audit-agent-safety"]).uniq.first(12)
+    when "standard-backend"
+      (["make recommend-targeted-tests"] + targeted + ["cd apps/themuffinman && ./mvnw test"]).uniq.first(10)
+    when "standard-frontend"
+      (["make recommend-targeted-tests"] + targeted + ["npm --prefix apps/themuffinman/frontend run type-check", "npm --prefix apps/themuffinman/frontend run build"]).uniq.first(10)
+    when "fast"
+      ["make fast-check", "make recommend-targeted-tests", "make audit-summary-index"]
+    else
+      ["make audit-router", "make recommend-targeted-tests", "make audit-summary-index"]
+    end
+  end
+
+  def validation_preset_supporting_reports(preset)
+    reports = ["docs/generated/local-tooling/targeted-tests-summary.md", "docs/generated/local-tooling/audit-router-summary.md"]
+    reports << "docs/generated/local-tooling/closeout-bundle-summary.md" if %w[full-closeout manifest-required].include?(preset)
+    reports << "docs/generated/local-tooling/fast-check-report-summary.md" if preset == "fast"
+    reports
+  end
+
+  def audit_json_output_for(audit_id)
+    registry_entry = AUDIT_REGISTRY.find { |target, _script, _output| target == audit_id }
+    raise "Unknown audit target: #{audit_id}" unless registry_entry
+
+    output = registry_entry[2]
+    raise "Audit delta does not support templated outputs for #{audit_id}" if output.include?("<")
+    return output if output.end_with?(".json")
+    if output.end_with?("-summary.md")
+      same_stem = output.sub(/\.md\z/, ".json")
+      return same_stem if File.exist?(abs(same_stem))
+
+      return output.sub(/-summary\.md\z/, ".json")
+    end
+    return output.sub(/\.md\z/, ".json") if output.end_with?(".md")
+
+    raise "Could not infer JSON output for #{audit_id}"
+  end
+
+  def history_snapshots_for(audit_id)
+    rel_glob("#{OUT}/.history/#{audit_id}/*.json").map do |path|
+      {path: path, mtime: File.mtime(abs(path)).utc.iso8601}
+    end.sort_by { |entry| entry[:mtime] }
+  end
+
+  def latest_history_snapshot(audit_id)
+    history_snapshots_for(audit_id).last
+  end
+
+  def risk_signals_from_report(payload)
+    collect_signal_entries(payload).uniq.sort
+  end
+
+  def collect_signal_entries(value, path = [])
+    case value
+    when Hash
+      value.flat_map do |key, child|
+        key_path = path + [key.to_s]
+        signals = risk_key?(key.to_s) ? normalize_signal_entries(key_path.join("."), child) : []
+        signals + collect_signal_entries(child, key_path)
+      end
+    when Array
+      value.flat_map { |child| collect_signal_entries(child, path) }
+    else
+      []
+    end
+  end
+
+  def normalize_signal_entries(label, value)
+    case value
+    when Array
+      value.flat_map { |entry| normalize_signal_entries(label, entry) }
+    when Hash
+      keys = %w[id file reason command path category domain preset decision]
+      summary = keys.each_with_object([]) do |key, parts|
+        match = value[key] || value[key.to_sym]
+        parts << match if match
+      end.join(" | ")
+      ["#{label}: #{summary.empty? ? JSON.generate(value)[0, 200] : summary}"]
+    else
+      ["#{label}: #{value}"]
+    end
+  end
+
+  def risk_key?(key)
+    key.match?(/risk|warning|missing|review|issue|failure|gap|stale|conflict|residual|required/i)
+  end
+
+  def count_deltas(previous, current)
+    current_counts = flatten_count_fields(current || {})
+    previous_counts = flatten_count_fields(previous || {})
+    (current_counts.keys | previous_counts.keys).sort.map do |key|
+      old_value = previous_counts[key] || 0
+      new_value = current_counts[key] || 0
+      next if old_value == new_value
+
+      {field: key, previous: old_value, current: new_value, delta: new_value - old_value}
+    end.compact.first(30)
+  end
+
+  def flatten_count_fields(value, path = [], acc = {})
+    case value
+    when Hash
+      value.each do |key, child|
+        key_path = path + [key.to_s]
+        if child.is_a?(Integer) && (key.to_s.end_with?("_count") || key.to_s =~ /count|total|rows|findings|issues|gaps|missing|stale/i)
+          acc[key_path.join(".")] = child
+        else
+          flatten_count_fields(child, key_path, acc)
+        end
+      end
+    when Array
+      acc[path.join(".")] = value.size if path.last.to_s.match?(/files|rows|items|groups|audits|commands|risks|warnings|missing|review/i)
+      value.first(10).each_with_index { |child, index| flatten_count_fields(child, path + [index.to_s], acc) if child.is_a?(Hash) }
+    end
+    acc
+  end
+
+  def top_level_field_deltas(previous, current)
+    old_hash = previous.is_a?(Hash) ? previous : {}
+    new_hash = current.is_a?(Hash) ? current : {}
+    (old_hash.keys | new_hash.keys).first(40).each_with_object([]) do |key, rows|
+      old_value = summarize_delta_value(old_hash[key] || old_hash[key.to_sym])
+      new_value = summarize_delta_value(new_hash[key] || new_hash[key.to_sym])
+      next if old_value == new_value
+
+      rows << {field: key, previous: old_value, current: new_value}
+    end
+  end
+
+  def summarize_delta_value(value)
+    case value
+    when Array then "array(size=#{value.size})"
+    when Hash then "object(keys=#{value.keys.size})"
+    else value
+    end
+  end
+
+  def audit_delta_notes(current_output, current, previous)
+    notes = []
+    notes << "Run the target audit at least twice to build a richer delta history." unless previous
+    notes << "No current JSON output was found at `#{current_output}`." unless current
+    notes << "History snapshots are created automatically when a report changes." if current
+    notes
+  end
+
+  def feature_slice(kind, files, domains, categories)
+    {
+      id: kind,
+      purpose: "Implement the smallest #{kind} behavior or contract change before widening scope.",
+      files: files.first(30),
+      docs: domains.flat_map { |domain| DOCS_BY_DOMAIN.fetch(domain, []) }.uniq.first(12),
+      validation: categories.flat_map { |category| validation_rules.fetch(category, []) }.uniq.first(10)
+    }
+  end
+
+  def targeted_backend_commands(files, direct_tests)
+    backend_files = files.select { |path| category_for(path).start_with?("backend_") || path.include?("/src/main/java/") }
+    return [] if backend_files.empty?
+
+    rows = []
+    if direct_tests.any?
+      test_names = direct_tests.map { |path| File.basename(path, ".java") }.uniq.first(8)
+      rows << {
+        command: "cd apps/themuffinman && ./mvnw test -Dtest=#{test_names.join(',')}",
+        reason: "Runs nearest backend tests for changed Java files.",
+        confidence: "high",
+        covers: direct_tests.first(8),
+        uncovered: backend_files.size > direct_tests.size ? ["Some backend files only matched by domain or broad category."] : []
+      }
+    else
+      rows << {
+        command: "cd apps/themuffinman && ./mvnw test",
+        reason: "Backend files changed but no nearby direct tests were found.",
+        confidence: "medium",
+        covers: backend_files.first(12),
+        uncovered: ["No direct test class name or domain match was found."]
+      }
+    end
+    rows
+  end
+
+  def targeted_frontend_commands(files, categories)
+    return [] unless categories.any? { |category| category.start_with?("frontend_") }
+
+    frontend_files = files.select { |path| path.include?("/frontend/") }.first(12)
+    [
+      {
+        command: "npm --prefix apps/themuffinman/frontend run type-check",
+        reason: "Frontend TypeScript or Vue files changed.",
+        confidence: "high",
+        covers: frontend_files,
+        uncovered: []
+      },
+      {
+        command: "npm --prefix apps/themuffinman/frontend run build",
+        reason: "Covers Vite/build-time imports, generated contract usage, and production bundling.",
+        confidence: "medium",
+        covers: frontend_files,
+        uncovered: ["Does not replace browser-level interaction checks for visual or workflow changes."]
+      }
+    ]
+  end
+
+  def targeted_docs_commands(files, categories)
+    return [] unless categories.include?("docs") || files.any? { |path| path.start_with?(".agents/") }
+
+    [
+      {
+        command: "make audit-documentation",
+        reason: "Docs, plans, or agent artifacts changed.",
+        confidence: "high",
+        covers: files.select { |path| path.start_with?("docs/") || path.start_with?(".agents/") }.first(12),
+        uncovered: []
+      },
+      {
+        command: "make audit-doc-canonical-phrases",
+        reason: "Protected documentation wording may be affected by docs or agent-safety edits.",
+        confidence: "medium",
+        covers: files.select { |path| path.start_with?("docs/") }.first(12),
+        uncovered: ["Does not validate Java-side agent operating model tests."]
+      }
+    ]
+  end
+
+  def targeted_generated_commands(files)
+    return [] unless files.any? { |path| LocalToolingCommon.generated_path?(path) || path.start_with?("scripts/") || path == "Makefile" }
+
+    [
+      {
+        command: "make audit-generated-artifact-freshness",
+        reason: "Generated artifacts, generation scripts, or Make targets changed.",
+        confidence: "high",
+        covers: files.select { |path| LocalToolingCommon.generated_path?(path) || path.start_with?("scripts/") || path == "Makefile" }.first(12),
+        uncovered: []
+      },
+      {
+        command: "make audit-generated-commit-scope",
+        reason: "Classifies changed generated artifacts before closeout.",
+        confidence: "medium",
+        covers: files.select { |path| LocalToolingCommon.generated_path?(path) }.first(12),
+        uncovered: ["Advisory only; reviewer still chooses which generated files belong in the changeset."]
+      }
+    ]
+  end
+
+  def targeted_scenario_commands(domains)
+    scenarios = regression_scenarios.select { |scenario| domains.include?(scenario["domain"]) }
+    scenarios.first(6).map do |scenario|
+      {
+        command: Array(scenario["commands"]).first,
+        reason: "Regression scenario `#{scenario['id']}` covers #{scenario['scenario']}",
+        confidence: scenario["risk"] == "high" ? "high" : "medium",
+        covers: Array(scenario["test_files"]),
+        uncovered: []
+      }
+    end
+  end
+
+  def regression_scenarios
+    data = YAML.load_file(abs("docs/regression-scenario-catalog.yaml"))
+    data.fetch("regression_scenarios", [])
+  rescue StandardError
+    []
+  end
+
+  def dedupe_command_rows(rows)
+    seen = Set.new
+    rows.compact.select do |row|
+      command = row[:command].to_s
+      next false if command.empty? || seen.include?(command)
+
+      seen << command
+      true
+    end
+  end
+
+  def targeted_residual_risk(files, domains, categories, commands)
+    risks = []
+    risks << "No changed files were available; recommendations may be incomplete." if files.empty?
+    risks << "Multiple domains changed; targeted commands do not prove cross-domain integration." if domains.size > 1
+    risks << "Backend behavior changed; full `cd apps/themuffinman && ./mvnw test` may still be required before closeout." if categories.any? { |category| category.start_with?("backend_") }
+    risks << "Frontend behavior changed; targeted type/build checks do not verify manual UX behavior." if categories.any? { |category| category.start_with?("frontend_") }
+    risks << "No targeted command could be selected; fall back to audit-router and full validation." if commands.empty?
+    risks.uniq
+  end
+
+  def context_budget(value)
+    case value.to_s
+    when "medium" then {id: "medium", file_limit: 50}
+    when "large" then {id: "large", file_limit: 100}
+    else {id: "small", file_limit: 20}
+    end
+  end
+
+  def budget_read_next(topic, files, omitted_sections)
+    next_steps = []
+    next_steps << "Rerun with `budget=medium` or `budget=large` if omitted sections matter." if omitted_sections.any?
+    next_steps << "Rerun with `include_generated=true` when generated artifacts are the primary review target."
+    next_steps << "Rerun with `include_agents=true` when temporary plan or manifest files are the primary review target."
+    next_steps << "Use `make context-pack topic=#{topic} budget=large` for a broader handoff." if files.size >= 20
+    next_steps.uniq
+  end
+
+  def filter_files(files, options)
+    LocalToolingCommon.filter_file_list(
+      files,
+      include_generated: LocalToolingCommon.truthy?(options["include_generated"]),
+      include_agents: LocalToolingCommon.truthy?(options["include_agents"])
+    )
   end
 
   def diagnostic_command(command_name)

@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-06-29T12:47:35Z",
+  "run_count": 1,
+  "failure_count": 0,
+  "success_count": 1,
+  "slowest_runs": [
+    {
+      "recorded_at": "2026-06-29T11:07:58Z",
+      "diagnostic": "frontend-type-check",
+      "command": "npm run type-check",
+      "success": true,
+      "exit_status": 0,
+      "duration_seconds": 3.489,
+      "failing_tests": [
+
+      ],
+      "top_error_patterns": [
+
+      ],
+      "changed_file_count": 353
+    }
+  ],
+  "repeated_failures": [
+
+  ],
+  "repeated_failing_tests": [
+
+  ],
+  "runs": [
+    {
+      "recorded_at": "2026-06-29T11:07:58Z",
+      "diagnostic": "frontend-type-check",
+      "command": "npm run type-check",
+      "success": true,
+      "exit_status": 0,
+      "duration_seconds": 3.489,
+      "failing_tests": [
+
+      ],
+      "top_error_patterns": [
+
+      ],
+      "changed_file_count": 353
+    }
+  ]
+}

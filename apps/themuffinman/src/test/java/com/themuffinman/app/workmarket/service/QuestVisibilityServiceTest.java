@@ -18,9 +18,11 @@ class QuestVisibilityServiceTest {
     @Mock
     private CircleService circleService;
 
+    private final QuestAccessPolicyService questAccessPolicyService = new QuestAccessPolicyService();
+
     @Test
     void allowsEveryoneAudienceForAnyUser() {
-        QuestVisibilityService visibilityService = new QuestVisibilityService(circleService);
+        QuestVisibilityService visibilityService = new QuestVisibilityService(circleService, questAccessPolicyService);
 
         AppUser viewer = createUser(1L, "viewer");
         AppUser creator = createUser(2L, "creator");
@@ -33,7 +35,7 @@ class QuestVisibilityServiceTest {
 
     @Test
     void allowsCircleAudienceWhenUsersAreConnected() {
-        QuestVisibilityService visibilityService = new QuestVisibilityService(circleService);
+        QuestVisibilityService visibilityService = new QuestVisibilityService(circleService, questAccessPolicyService);
 
         AppUser viewer = createUser(1L, "viewer");
         AppUser creator = createUser(2L, "creator");
@@ -48,7 +50,7 @@ class QuestVisibilityServiceTest {
 
     @Test
     void allowsAdminRegardlessOfAudience() {
-        QuestVisibilityService visibilityService = new QuestVisibilityService(circleService);
+        QuestVisibilityService visibilityService = new QuestVisibilityService(circleService, questAccessPolicyService);
 
         AppUser admin = createUser(1L, "admin");
         admin.setRole(AppUserRole.ADMIN);

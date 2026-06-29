@@ -1,8 +1,8 @@
 # Frontend Usage Graph
 
-- Generated At: `2026-06-28T21:02:37Z`
-- Node Count: `230`
-- Edge Count: `835`
+- Generated At: `2026-06-29T12:47:34Z`
+- Node Count: `239`
+- Edge Count: `872`
 ## `nodes`
 
 - `{:file: "apps/themuffinman/frontend/src/App.vue", :category: "other", :domain: "shared"}`

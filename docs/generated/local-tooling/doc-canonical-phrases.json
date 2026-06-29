@@ -1,19 +1,21 @@
 {
-  "generated_at": "2026-06-28T21:02:38Z",
+  "generated_at": "2026-06-29T12:47:34Z",
   "phrase_count": 13,
   "phrases": [
     {
       "phrase": "update all affected living docs in the same change",
       "present_in": [
         "docs/agent-operating-model.md",
-        "docs/documentation-sync-policy.md"
+        "docs/documentation-sync-policy.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     },
     {
       "phrase": "No logic-only change is complete until the affected docs, agent artifacts, and",
       "present_in": [
         "docs/agent-operating-model.md",
-        "docs/documentation-sync-policy.md"
+        "docs/documentation-sync-policy.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     },
     {
@@ -21,7 +23,8 @@
       "present_in": [
         "docs/agent-operating-model.md",
         "docs/change-completion-checklist.md",
-        "docs/documentation-sync-policy.md"
+        "docs/documentation-sync-policy.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     },
     {
@@ -30,6 +33,7 @@
         "docs/agent-improvement-backlog.md",
         "docs/agent-operating-model.md",
         "docs/documentation-sync-policy.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
         "docs/implementation-backlog.md"
       ]
     },
@@ -37,21 +41,24 @@
       "phrase": "review and extend affected admin or sandbox generation flows",
       "present_in": [
         "docs/agent-operating-model.md",
-        "docs/documentation-sync-policy.md"
+        "docs/documentation-sync-policy.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     },
     {
       "phrase": "admin-generation or sandbox-generation coverage for entities and workflows",
       "present_in": [
         "docs/agent-operating-model.md",
-        "docs/documentation-sync-policy.md"
+        "docs/documentation-sync-policy.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     },
     {
       "phrase": "synthetic admin-generation flows must be kept current with newly introduced",
       "present_in": [
         "docs/agent-operating-model.md",
-        "docs/documentation-sync-policy.md"
+        "docs/documentation-sync-policy.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     },
     {
@@ -60,7 +67,8 @@
         "docs/agent-operating-model.md",
         "docs/business-logic.md",
         "docs/documentation-sync-policy.md",
-        "docs/domain-technical.md"
+        "docs/domain-technical.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     },
     {
@@ -69,7 +77,8 @@
         "docs/agent-operating-model.md",
         "docs/business-logic.md",
         "docs/documentation-sync-policy.md",
-        "docs/domain-technical.md"
+        "docs/domain-technical.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     },
     {
@@ -78,7 +87,8 @@
         "docs/agent-operating-model.md",
         "docs/business-logic.md",
         "docs/documentation-sync-policy.md",
-        "docs/domain-technical.md"
+        "docs/domain-technical.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     },
     {
@@ -86,7 +96,8 @@
       "present_in": [
         "docs/agent-operating-model.md",
         "docs/business-logic.md",
-        "docs/domain-technical.md"
+        "docs/domain-technical.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     },
     {
@@ -94,7 +105,8 @@
       "present_in": [
         "docs/agent-operating-model.md",
         "docs/business-logic.md",
-        "docs/domain-technical.md"
+        "docs/domain-technical.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     },
     {
@@ -102,7 +114,8 @@
       "present_in": [
         "docs/agent-operating-model.md",
         "docs/business-logic.md",
-        "docs/domain-technical.md"
+        "docs/domain-technical.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     }
   ],

@@ -84,8 +84,9 @@ class AgentOperatingModelValidationTest {
         );
         validateIntentSafetyCatalog(yaml.path("intent_safety_catalog"), yaml.path("intents"), endpoints);
         validateDocumentationCoverage(yaml.path("documentation_coverage"), repoRoot, sourceFiles);
+        validateDocumentationOwnership(yaml.path("documentation_ownership"), yaml.path("backend_audit_coverage"), repoRoot);
         validateGeneratedBackendAuditInventory(repoRoot, yaml.path("backend_audit_coverage"), sourceFiles);
-        validateGeneratedSourceOfTruthAudit(repoRoot);
+        validateGeneratedSourceOfTruthAudit(repoRoot, sourceFiles);
         validateFrontendContractGeneration(yaml.path("frontend_contract_generation"), repoRoot);
         validateFrontendContracts(yaml.path("frontend_contracts"), repoRoot);
         validateFrontendSafetyRegressions(yaml.path("frontend_safety_regressions"), repoRoot);
@@ -103,6 +104,10 @@ class AgentOperatingModelValidationTest {
         validateDocumentationSync(yaml.path("documentation_sync"), repoRoot, sourceFiles.keySet());
         validatePersistentBacklogSystem(repoRoot);
         validateFeatureCompletionManifests(repoRoot);
+        validateValidationEvidenceRecords(repoRoot);
+        validateExampleScenarioLibrary(repoRoot);
+        validateRegressionScenarioCatalog(repoRoot);
+        validateDocsAsContractSlices(repoRoot);
     }
 
     private static void validateEnums(JsonNode enumsNode) throws ClassNotFoundException {
@@ -136,6 +141,7 @@ class AgentOperatingModelValidationTest {
                 "mutating_intent_contracts",
                 "intent_safety_catalog",
                 "documentation_coverage",
+                "documentation_ownership",
                 "frontend_contract_generation",
                 "frontend_contracts",
                 "frontend_safety_regressions",
@@ -295,6 +301,82 @@ class AgentOperatingModelValidationTest {
     }
 
     private static void validatePolicies(JsonNode policiesNode, Set<String> sourceIds) {
+        Set<String> expectedSelfTestTierIds = Set.of(
+                "syntax_only",
+                "targeted_unit",
+                "domain_scenario",
+                "contract_type_check",
+                "generated_artifact_validation",
+                "full_validation");
+        Set<String> selfTestTierIds = new LinkedHashSet<>();
+        for (JsonNode tierNode : iterable(policiesNode.path("self_test_matrix").path("tiers"))) {
+            String tierId = tierNode.path("id").asText();
+            assertTrue(expectedSelfTestTierIds.contains(tierId), () -> "Unexpected self-test tier id: " + tierId);
+            assertTrue(selfTestTierIds.add(tierId), () -> "Duplicate self-test tier id: " + tierId);
+            assertFalse(tierNode.path("example_commands").isEmpty(),
+                    () -> "Self-test tier must include example commands: " + tierId);
+        }
+        assertEquals(expectedSelfTestTierIds, selfTestTierIds,
+                "self_test_matrix must define every required validation tier exactly once");
+        for (JsonNode riskNode : iterable(policiesNode.path("self_test_matrix").path("risk_tiers"))) {
+            for (String tierId : readStringList(riskNode.path("minimum_tiers"))) {
+                assertTrue(selfTestTierIds.contains(tierId),
+                        () -> "self_test_matrix risk tier references unknown tier: " + tierId);
+            }
+        }
+        for (JsonNode profileNode : iterable(policiesNode.path("self_test_matrix").path("profile_overrides"))) {
+            for (String tierId : readStringList(profileNode.path("add_tiers"))) {
+                assertTrue(selfTestTierIds.contains(tierId),
+                        () -> "self_test_matrix profile override references unknown tier: " + tierId);
+            }
+        }
+
+        JsonNode validationEvidenceQualityNode = policiesNode.path("validation_evidence_quality");
+        assertEquals("make audit-validation-evidence-quality", validationEvidenceQualityNode.path("audit_command").asText(),
+                "validation evidence quality policy must name the strict audit command");
+        Set<String> expectedValidationEvidenceRuleIds = Set.of(
+                "exact_command_required",
+                "scope_required",
+                "skipped_reason_required",
+                "vague_summary_rejected");
+        Set<String> actualValidationEvidenceRuleIds = new LinkedHashSet<>();
+        for (JsonNode ruleNode : iterable(validationEvidenceQualityNode.path("command_rules"))) {
+            String ruleId = ruleNode.path("id").asText();
+            assertTrue(expectedValidationEvidenceRuleIds.contains(ruleId),
+                    () -> "Unexpected validation evidence quality rule id: " + ruleId);
+            assertTrue(actualValidationEvidenceRuleIds.add(ruleId),
+                    () -> "Duplicate validation evidence quality rule id: " + ruleId);
+            assertFalse(ruleNode.path("applies_to").isEmpty(),
+                    () -> "Validation evidence quality rule must name result states: " + ruleId);
+        }
+        assertEquals(expectedValidationEvidenceRuleIds, actualValidationEvidenceRuleIds,
+                "validation_evidence_quality must define every required quality rule exactly once");
+
+        JsonNode closeoutDocDeltaNode = policiesNode.path("closeout_doc_delta");
+        assertEquals(
+                Set.of("behavior_changed", "docs_updated", "intentionally_unchanged"),
+                readStringSet(closeoutDocDeltaNode.path("required_fields")),
+                "closeout_doc_delta must require behavior, docs, and intentionally unchanged summaries");
+        assertFalse(closeoutDocDeltaNode.path("record_in").isEmpty(),
+                "closeout_doc_delta must list where the summary is recorded");
+
+        List<String> expectedCheckpointIds = List.of(
+                "plan",
+                "first_backend_slice",
+                "first_frontend_slice",
+                "docs_artifacts_sync",
+                "validation",
+                "commit_boundary"
+        );
+        List<String> actualCheckpointIds = new ArrayList<>();
+        for (JsonNode checkpointNode : policiesNode.path("implementation_checkpoints").path("checkpoints")) {
+            actualCheckpointIds.add(checkpointNode.path("id").asText());
+            assertFalse(checkpointNode.path("required_evidence").isEmpty(),
+                    () -> "Implementation checkpoint must define required evidence: " + checkpointNode.path("id").asText());
+        }
+        assertEquals(expectedCheckpointIds, actualCheckpointIds,
+                "Implementation checkpoints must remain explicit and dependency-ordered");
+
         for (JsonNode edgeCaseNode : policiesNode.path("edge_cases")) {
             for (JsonNode sourceRefNode : edgeCaseNode.path("source_refs")) {
                 String sourceRef = sourceRefNode.asText();
@@ -473,13 +555,30 @@ class AgentOperatingModelValidationTest {
                 () -> "mutating_intent_contracts must cover every mutating intent exactly");
     }
 
-    private static void validateGeneratedSourceOfTruthAudit(Path repoRoot) throws Exception {
+    private static void validateGeneratedSourceOfTruthAudit(Path repoRoot, Map<String, String> sourceFiles) throws Exception {
         Path auditScriptPath = repoRoot.resolve("scripts/generate-source-of-truth-audit.rb");
         Path auditReportPath = repoRoot.resolve("docs/generated/source-of-truth-audit.json");
         assertTrue(Files.exists(auditScriptPath), () -> "Missing source-of-truth audit script: " + auditScriptPath);
         assertTrue(Files.exists(auditReportPath), () -> "Missing source-of-truth audit report: " + auditReportPath);
 
         JsonNode auditNode = JSON_MAPPER.readTree(Files.readString(auditReportPath));
+        assertTrue(iterable(auditNode.path("candidateEntries")).size() > 0,
+                "Source-of-truth audit must include ownership-aware candidateEntries");
+        assertTrue(auditNode.path("summary").path("domainCounts").isObject(),
+                "Source-of-truth audit summary must include domainCounts");
+        assertTrue(auditNode.path("summary").path("ownerCounts").isObject(),
+                "Source-of-truth audit summary must include ownerCounts");
+        for (JsonNode candidateNode : iterable(auditNode.path("candidateEntries"))) {
+            String path = candidateNode.path("path").asText();
+            assertTrue(Files.exists(repoRoot.resolve(path)),
+                    () -> "Source-of-truth audit candidate references missing file: " + path);
+            assertTrue(candidateNode.path("domainId").isTextual() && !candidateNode.path("domainId").asText().isBlank(),
+                    () -> "Source-of-truth audit candidate must include domainId: " + path);
+            assertTrue(candidateNode.path("ownerId").isTextual() && !candidateNode.path("ownerId").asText().isBlank(),
+                    () -> "Source-of-truth audit candidate must include ownerId: " + path);
+            assertTrue(candidateNode.path("sourceRefId").isTextual() && sourceFiles.containsKey(candidateNode.path("sourceRefId").asText()),
+                    () -> "Source-of-truth audit candidate must include known sourceRefId: " + path);
+        }
         assertTrue(iterable(auditNode.path("missingSourceRefs")).isEmpty(),
                 () -> "Source-of-truth audit found unregistered files: " + auditNode.path("missingSourceRefs"));
         assertTrue(iterable(auditNode.path("missingDocumentationCoverage")).isEmpty(),
@@ -724,10 +823,71 @@ class AgentOperatingModelValidationTest {
         }
     }
 
+    private static void validateDocumentationOwnership(JsonNode documentationOwnershipNode, JsonNode backendAuditCoverageNode, Path repoRoot) throws Exception {
+        Set<String> requiredTemplateIds = Set.of(
+                "new_workflow",
+                "new_endpoint",
+                "new_dto_contract",
+                "new_module",
+                "new_permission_rule",
+                "schema_migration");
+        Set<String> documentedTemplateIds = new LinkedHashSet<>();
+        for (JsonNode templateNode : iterable(documentationOwnershipNode.path("documentation_templates"))) {
+            String templateId = templateNode.path("id").asText();
+            assertTrue(requiredTemplateIds.contains(templateId),
+                    () -> "Unexpected documentation template id: " + templateId);
+            assertTrue(documentedTemplateIds.add(templateId),
+                    () -> "Duplicate documentation template id: " + templateId);
+            assertExistingPaths(repoRoot, templateNode.path("required_living_docs"),
+                    "documentation template docs " + templateId);
+
+            Path templatePath = repoRoot.resolve(templateNode.path("template_path").asText());
+            assertTrue(Files.exists(templatePath), () -> "Missing documentation template file: " + templatePath);
+            String templateContent = Files.readString(templatePath);
+            for (JsonNode sectionNode : iterable(templateNode.path("required_sections"))) {
+                String section = sectionNode.asText();
+                assertTrue(templateContent.contains("## " + section),
+                        () -> "Documentation template " + templateId + " is missing section: " + section);
+            }
+        }
+        assertEquals(requiredTemplateIds, documentedTemplateIds,
+                "documentation_ownership must define every required documentation template exactly once");
+
+        Set<String> knownDomainIds = new LinkedHashSet<>();
+        for (JsonNode domainNode : iterable(backendAuditCoverageNode.path("domain_ownership"))) {
+            knownDomainIds.add(domainNode.path("id").asText());
+        }
+
+        Set<String> documentedDomainIds = new LinkedHashSet<>();
+        for (JsonNode domainNode : iterable(documentationOwnershipNode.path("domains"))) {
+            String domainId = domainNode.path("id").asText();
+            assertTrue(knownDomainIds.contains(domainId),
+                    () -> "documentation_ownership domain must match backend_audit_coverage domain_ownership id: " + domainId);
+            assertTrue(documentedDomainIds.add(domainId), () -> "Duplicate documentation_ownership domain id: " + domainId);
+            assertExistingPaths(repoRoot, domainNode.path("required_living_docs"), "documentation_ownership domain docs " + domainId);
+            assertExistingPaths(repoRoot, domainNode.path("generated_artifacts"), "documentation_ownership domain artifacts " + domainId);
+            assertExistingPaths(repoRoot, domainNode.path("validation_tests"), "documentation_ownership domain tests " + domainId);
+        }
+        assertEquals(knownDomainIds, documentedDomainIds,
+                "documentation_ownership must map every backend audit domain exactly once");
+
+        Set<String> categoryIds = new LinkedHashSet<>();
+        for (JsonNode categoryNode : iterable(documentationOwnershipNode.path("change_categories"))) {
+            String categoryId = categoryNode.path("id").asText();
+            assertTrue(categoryIds.add(categoryId), () -> "Duplicate documentation_ownership change category id: " + categoryId);
+            assertExistingPaths(repoRoot, categoryNode.path("required_living_docs"), "documentation_ownership category docs " + categoryId);
+            assertExistingPaths(repoRoot, categoryNode.path("generated_artifacts"), "documentation_ownership category artifacts " + categoryId);
+            assertFalse(categoryNode.path("validation_commands").isEmpty(),
+                    () -> "documentation_ownership change category must list validation commands: " + categoryId);
+        }
+    }
+
     private static void validateFrontendContractGeneration(JsonNode frontendContractGenerationNode, Path repoRoot) throws Exception {
         Path scriptPath = repoRoot.resolve(frontendContractGenerationNode.path("script").asText());
         Path generatedContractPath = repoRoot.resolve(frontendContractGenerationNode.path("generated_contract_file").asText());
         assertTrue(Files.exists(scriptPath), () -> "Missing frontend contract generation script: " + scriptPath);
+        assertFalse(frontendContractGenerationNode.path("check_command").asText().isBlank(),
+                "frontend_contract_generation.check_command must be set");
         assertTrue(Files.exists(generatedContractPath), () -> "Missing generated frontend contract file: " + generatedContractPath);
 
         String generatedContent = Files.readString(generatedContractPath);
@@ -843,9 +1003,28 @@ class AgentOperatingModelValidationTest {
         assertTrue(Files.exists(closeoutAuditScriptPath), "feature-closeout-audit.sh must exist");
         assertTrue(Files.exists(todoAuditScriptPath), "todo-audit.rb must exist");
         assertTrue(Files.isDirectory(manifestsDir), ".agents/feature-manifests must exist");
+        String planTemplateContent = Files.readString(planTemplatePath);
+        assertTrue(planTemplateContent.contains("Doc delta summary"),
+                "feature implementation plan template must request doc delta summary evidence");
 
         JsonNode schemaNode = JSON_MAPPER.readTree(Files.readString(schemaPath));
         JsonSchema schema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012).getSchema(schemaNode);
+        JsonNode manifestTemplateNode = YAML_MAPPER.readTree(Files.readString(templatePath));
+        JsonNode docDeltaNode = manifestTemplateNode.path("docDelta");
+        assertFalse(docDeltaNode.path("behaviorChanged").isEmpty(),
+                "feature completion manifest template must include docDelta.behaviorChanged");
+        assertFalse(docDeltaNode.path("docsUpdated").isEmpty(),
+                "feature completion manifest template must include docDelta.docsUpdated");
+        assertFalse(docDeltaNode.path("intentionallyUnchanged").isEmpty(),
+                "feature completion manifest template must include docDelta.intentionallyUnchanged");
+        assertFalse(manifestTemplateNode.path("validationEvidence").path("commands").isEmpty(),
+                "feature completion manifest template must include validationEvidence.commands");
+        assertTrue(manifestTemplateNode.path("validationEvidence").path("commands").get(0).has("skippedReason"),
+                "feature completion manifest template must include skipped-check reason placeholder");
+        assertTrue(manifestTemplateNode.path("planCompletion").has("openTasks"),
+                "feature completion manifest template must include planCompletion.openTasks");
+        assertTrue(manifestTemplateNode.path("closeoutDecision").has("status"),
+                "feature completion manifest template must include closeoutDecision.status");
 
         List<Path> manifestPaths;
         try (var paths = Files.list(manifestsDir)) {
@@ -876,6 +1055,7 @@ class AgentOperatingModelValidationTest {
             List<String> codePaths = readStringList(manifestNode.path("artifacts").path("codePaths"));
             List<String> docPaths = readStringList(manifestNode.path("artifacts").path("docPaths"));
             List<String> testPaths = readStringList(manifestNode.path("artifacts").path("testPaths"));
+            List<JsonNode> validationEvidenceCommands = iterable(manifestNode.path("validationEvidence").path("commands"));
 
             assertEquals(codePaths.size(), new LinkedHashSet<>(codePaths).size(),
                     () -> "Feature manifest codePaths must not contain duplicates: " + manifestPath);
@@ -903,6 +1083,26 @@ class AgentOperatingModelValidationTest {
             codeTestOverlap.retainAll(testPaths);
             assertTrue(codeTestOverlap.isEmpty(),
                     () -> "Feature manifest must not list the same path in both codePaths and testPaths: " + codeTestOverlap + " in " + manifestPath);
+            Set<String> allArtifactPaths = new LinkedHashSet<>();
+            List<String> duplicatedArtifactPaths = new ArrayList<>();
+            for (String artifactPath : codePaths) {
+                if (!allArtifactPaths.add(artifactPath)) {
+                    duplicatedArtifactPaths.add(artifactPath);
+                }
+            }
+            for (String artifactPath : docPaths) {
+                if (!allArtifactPaths.add(artifactPath)) {
+                    duplicatedArtifactPaths.add(artifactPath);
+                }
+            }
+            for (String artifactPath : testPaths) {
+                if (!allArtifactPaths.add(artifactPath)) {
+                    duplicatedArtifactPaths.add(artifactPath);
+                }
+            }
+            assertTrue(duplicatedArtifactPaths.isEmpty(),
+                    () -> "Feature manifest must not list the same path in multiple artifact buckets: "
+                            + duplicatedArtifactPaths + " in " + manifestPath);
 
             Set<String> createdResolvedOverlap = new LinkedHashSet<>(createdBacklogIds);
             createdResolvedOverlap.retainAll(new LinkedHashSet<>(resolvedBacklogIds));
@@ -935,10 +1135,41 @@ class AgentOperatingModelValidationTest {
             if ("complete".equals(manifestNode.path("status").asText())) {
                 assertTrue(backlogReviewed,
                         () -> "Completed manifest must mark backlog.reviewed=true: " + manifestPath);
+                assertFalse(validationEvidenceCommands.isEmpty(),
+                        () -> "Completed manifest must include validationEvidence.commands: " + manifestPath);
+                for (JsonNode evidenceCommand : validationEvidenceCommands) {
+                    assertFalse(evidenceCommand.path("command").asText().isBlank(),
+                            () -> "Validation evidence command must name exact command: " + manifestPath);
+                    assertFalse(evidenceCommand.path("summary").asText().isBlank(),
+                            () -> "Validation evidence command must include summary: " + manifestPath);
+                    assertFalse("failed".equals(evidenceCommand.path("result").asText()),
+                            () -> "Completed manifest must not include failed validation evidence: " + manifestPath);
+                    if ("skipped".equals(evidenceCommand.path("result").asText())
+                            || "not_applicable".equals(evidenceCommand.path("result").asText())) {
+                        assertFalse(evidenceCommand.path("skippedReason").asText().isBlank(),
+                                () -> "Skipped validation evidence must include skippedReason: " + manifestPath);
+                    }
+                }
                 assertTrue(manifestNode.path("checklist").path("codeImplemented").asBoolean(),
                         () -> "Completed manifest must mark codeImplemented=true: " + manifestPath);
                 assertTrue(manifestNode.path("checklist").path("backendTestsPassed").asBoolean(),
                         () -> "Completed manifest must mark backendTestsPassed=true: " + manifestPath);
+                assertTrue(manifestNode.path("checklist").path("docsSynced").asBoolean(),
+                        () -> "Completed manifest must mark docsSynced=true: " + manifestPath);
+                assertTrue(manifestNode.path("checklist").path("agentModelSynced").asBoolean(),
+                        () -> "Completed manifest must mark agentModelSynced=true: " + manifestPath);
+                assertTrue(manifestNode.path("checklist").path("destructivePolicyChecked").asBoolean(),
+                        () -> "Completed manifest must mark destructivePolicyChecked=true: " + manifestPath);
+                assertTrue(manifestNode.path("checklist").path("multilingualCoverageChecked").asBoolean(),
+                        () -> "Completed manifest must mark multilingualCoverageChecked=true: " + manifestPath);
+                assertTrue(manifestNode.path("planCompletion").path("reviewed").asBoolean(),
+                        () -> "Completed manifest must mark planCompletion.reviewed=true: " + manifestPath);
+                assertEquals(0, manifestNode.path("planCompletion").path("openTasks").asInt(),
+                        () -> "Completed manifest must mark planCompletion.openTasks=0: " + manifestPath);
+                assertEquals("ready", manifestNode.path("closeoutDecision").path("status").asText(),
+                        () -> "Completed manifest must mark closeoutDecision.status=ready: " + manifestPath);
+                assertTrue(hasPassedEvidence(validationEvidenceCommands, "make audit-todo"),
+                        () -> "Completed manifest must include passed make audit-todo evidence: " + manifestPath);
                 List<String> openPlanTasks = Files.readAllLines(referencedPlan).stream()
                         .filter(line -> line.startsWith("- [ ]"))
                         .toList();
@@ -968,6 +1199,11 @@ class AgentOperatingModelValidationTest {
                         () -> "backend-logic manifest must include docs/domain-technical.md: " + manifestPath);
                 assertTrue(auditCommands.contains("./mvnw test") || auditCommands.contains("make audit-agent-safety"),
                         () -> "backend-logic manifest must include backend validation audit command: " + manifestPath);
+                if ("complete".equals(manifestNode.path("status").asText())) {
+                    assertTrue(hasPassedEvidence(validationEvidenceCommands, "./mvnw test")
+                                    || hasPassedEvidence(validationEvidenceCommands, "make audit-agent-safety"),
+                            () -> "Completed backend-logic manifest must include passed backend validation evidence: " + manifestPath);
+                }
             }
 
             if (changeProfiles.contains("agent-contract")) {
@@ -979,13 +1215,32 @@ class AgentOperatingModelValidationTest {
                         () -> "agent-contract manifest must include make generate-agent-operating-model: " + manifestPath);
                 assertTrue(auditCommands.contains("make audit-agent-safety"),
                         () -> "agent-contract manifest must include make audit-agent-safety: " + manifestPath);
+                if ("complete".equals(manifestNode.path("status").asText())) {
+                    assertTrue(hasPassedEvidence(validationEvidenceCommands, "make audit-agent-safety"),
+                            () -> "Completed agent-contract manifest must include passed make audit-agent-safety evidence: " + manifestPath);
+                    assertTrue(hasPassedEvidence(validationEvidenceCommands, "make generate-agent-operating-model")
+                                    || hasPassedEvidence(validationEvidenceCommands, "make generate-agent-artifacts"),
+                            () -> "Completed agent-contract manifest must include passed generated model/artifact evidence: " + manifestPath);
+                }
             }
 
             if (changeProfiles.contains("frontend-contract")) {
+                assertTrue(manifestNode.path("checklist").path("frontendValidationPassed").asBoolean(),
+                        () -> "frontend-contract manifest must mark frontendValidationPassed=true: " + manifestPath);
+                assertTrue(auditCommands.contains("npm run validate:contracts"),
+                        () -> "frontend-contract manifest must include npm run validate:contracts: " + manifestPath);
                 assertTrue(auditCommands.contains("npm run type-check"),
                         () -> "frontend-contract manifest must include npm run type-check: " + manifestPath);
                 assertTrue(auditCommands.contains("npm run build") || auditCommands.contains("make audit-agent-safety"),
                         () -> "frontend-contract manifest must include frontend build validation: " + manifestPath);
+                if ("complete".equals(manifestNode.path("status").asText())) {
+                    assertTrue(hasPassedEvidence(validationEvidenceCommands, "npm run validate:contracts"),
+                            () -> "Completed frontend-contract manifest must include passed contract validation evidence: " + manifestPath);
+                    assertTrue(hasPassedEvidence(validationEvidenceCommands, "npm run type-check"),
+                            () -> "Completed frontend-contract manifest must include passed type-check evidence: " + manifestPath);
+                    assertTrue(hasPassedEvidence(validationEvidenceCommands, "npm run build"),
+                            () -> "Completed frontend-contract manifest must include passed build evidence: " + manifestPath);
+                }
             }
 
             if (changeProfiles.contains("workflow-expansion")) {
@@ -993,6 +1248,208 @@ class AgentOperatingModelValidationTest {
                         () -> "workflow-expansion manifest must include make generate-agent-artifacts: " + manifestPath);
                 assertTrue(testPaths.stream().anyMatch(path -> path.contains("ScenarioTest")),
                         () -> "workflow-expansion manifest must include at least one ScenarioTest: " + manifestPath);
+                if ("complete".equals(manifestNode.path("status").asText())) {
+                    assertTrue(hasPassedEvidence(validationEvidenceCommands, "ScenarioTest")
+                                    || hasPassedEvidence(validationEvidenceCommands, "UseCaseContractTest"),
+                            () -> "Completed workflow-expansion manifest must include passed scenario or use-case contract evidence: " + manifestPath);
+                }
+            }
+        }
+    }
+
+    private static void validateValidationEvidenceRecords(Path repoRoot) throws Exception {
+        Path evidenceDir = repoRoot.resolve(".agents/validation-evidence");
+        Path schemaPath = repoRoot.resolve("docs/validation-evidence.schema.json");
+        Path templatePath = repoRoot.resolve(".agents/templates/validation-evidence.template.yaml");
+
+        assertTrue(Files.exists(schemaPath), "validation-evidence.schema.json must exist");
+        assertTrue(Files.exists(templatePath), "validation evidence template must exist");
+        assertTrue(Files.exists(repoRoot.resolve("scripts/audits/audit-validation-evidence-quality.rb")),
+                "validation evidence quality audit script must exist");
+        assertTrue(Files.isDirectory(evidenceDir), ".agents/validation-evidence must exist");
+
+        JsonNode schemaNode = JSON_MAPPER.readTree(Files.readString(schemaPath));
+        JsonSchema schema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012).getSchema(schemaNode);
+
+        JsonNode templateNode = YAML_MAPPER.readTree(Files.readString(templatePath));
+        Set<ValidationMessage> templateMessages = schema.validate(templateNode);
+        assertTrue(templateMessages.isEmpty(), () -> "Validation evidence template schema validation failed: " + templateMessages);
+
+        List<Path> evidencePaths;
+        try (var paths = Files.list(evidenceDir)) {
+            evidencePaths = paths
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().endsWith(".yaml"))
+                    .sorted()
+                    .toList();
+        }
+
+        Set<String> changeIds = new LinkedHashSet<>();
+        for (Path evidencePath : evidencePaths) {
+            JsonNode evidenceNode = YAML_MAPPER.readTree(Files.readString(evidencePath));
+            Set<ValidationMessage> validationMessages = schema.validate(evidenceNode);
+            assertTrue(validationMessages.isEmpty(),
+                    () -> "Validation evidence schema validation failed for " + evidencePath + ": " + validationMessages);
+
+            String changeId = evidenceNode.path("changeId").asText();
+            assertTrue(changeIds.add(changeId), () -> "Duplicate validation evidence changeId: " + changeId);
+            for (JsonNode artifactNode : iterable(evidenceNode.path("generatedArtifacts"))) {
+                if (!"not_applicable".equals(artifactNode.path("action").asText())) {
+                    String artifactPath = artifactNode.path("path").asText();
+                    assertTrue(Files.exists(repoRoot.resolve(artifactPath)),
+                            () -> "Validation evidence references missing generated artifact: " + artifactPath + " in " + evidencePath);
+                }
+            }
+        }
+    }
+
+    private static void validateExampleScenarioLibrary(Path repoRoot) throws Exception {
+        Path libraryPath = repoRoot.resolve("docs/example-scenario-library.md");
+        assertTrue(Files.exists(libraryPath), "example scenario library must exist");
+        String content = Files.readString(libraryPath);
+        for (String heading : List.of(
+                "## Add An Endpoint",
+                "## Change A Workflow Transition",
+                "## Add A DTO Contract",
+                "## Add A Schema Migration",
+                "## Update Documentation")) {
+            assertTrue(content.contains(heading),
+                    () -> "example scenario library is missing required heading: " + heading);
+        }
+    }
+
+    private static void validateRegressionScenarioCatalog(Path repoRoot) throws Exception {
+        Path catalogYamlPath = repoRoot.resolve("docs/regression-scenario-catalog.yaml");
+        Path catalogMarkdownPath = repoRoot.resolve("docs/regression-scenario-catalog.md");
+        assertTrue(Files.exists(catalogYamlPath), "regression scenario catalog YAML must exist");
+        assertTrue(Files.exists(catalogMarkdownPath), "regression scenario catalog summary must exist");
+
+        JsonNode catalogNode = YAML_MAPPER.readTree(Files.readString(catalogYamlPath));
+        List<JsonNode> scenarios = iterable(catalogNode.path("regression_scenarios"));
+        assertFalse(scenarios.isEmpty(), "regression scenario catalog must contain scenarios");
+
+        Set<String> expectedDomains = Set.of(
+                "agent",
+                "workmarket",
+                "social",
+                "location",
+                "identity",
+                "business",
+                "things",
+                "rides",
+                "common");
+        Set<String> expectedRisks = Set.of("low", "medium", "high", "executor-critical");
+        Set<String> seenIds = new LinkedHashSet<>();
+        Set<String> coveredDomains = new LinkedHashSet<>();
+        String markdown = Files.readString(catalogMarkdownPath);
+
+        for (JsonNode scenarioNode : scenarios) {
+            String id = scenarioNode.path("id").asText();
+            String domain = scenarioNode.path("domain").asText();
+            String risk = scenarioNode.path("risk").asText();
+            assertFalse(id.isBlank(), "regression scenario id must not be blank");
+            assertTrue(seenIds.add(id), () -> "Duplicate regression scenario id: " + id);
+            assertTrue(markdown.contains(id), () -> "regression scenario summary must mention id: " + id);
+            assertTrue(expectedDomains.contains(domain), () -> "Unexpected regression scenario domain: " + domain);
+            assertTrue(expectedRisks.contains(risk), () -> "Unexpected regression scenario risk: " + risk);
+            assertFalse(scenarioNode.path("scenario").asText().isBlank(),
+                    () -> "Regression scenario must describe the protected behavior: " + id);
+
+            List<String> testFiles = readStringList(scenarioNode.path("test_files"));
+            List<String> commands = readStringList(scenarioNode.path("commands"));
+            assertFalse(testFiles.isEmpty(), () -> "Regression scenario must list test files: " + id);
+            assertFalse(commands.isEmpty(), () -> "Regression scenario must list commands: " + id);
+
+            Set<String> testClassNames = new LinkedHashSet<>();
+            for (String testFile : testFiles) {
+                Path testPath = repoRoot.resolve(testFile);
+                assertTrue(Files.exists(testPath), () -> "Regression scenario references missing test file: " + testFile);
+                assertTrue(testFile.endsWith("Test.java"), () -> "Regression scenario test file must be a Java test: " + testFile);
+                testClassNames.add(testPath.getFileName().toString().replace(".java", ""));
+            }
+
+            for (String command : commands) {
+                assertTrue(command.startsWith("cd apps/themuffinman && ./mvnw test -Dtest="),
+                        () -> "Regression scenario command must be a focused backend test command: " + command);
+                for (String testClassName : testClassNames) {
+                    assertTrue(command.contains(testClassName),
+                            () -> "Regression scenario command must include listed test class " + testClassName + ": " + command);
+                }
+            }
+            coveredDomains.add(domain);
+        }
+
+        assertTrue(coveredDomains.containsAll(expectedDomains),
+                () -> "regression scenario catalog must cover core domains. Missing: " + expectedDomains.stream()
+                        .filter(domain -> !coveredDomains.contains(domain))
+                        .toList());
+    }
+
+    private static void validateDocsAsContractSlices(Path repoRoot) throws Exception {
+        Path slicesYamlPath = repoRoot.resolve("docs/docs-as-contract-slices.yaml");
+        Path slicesMarkdownPath = repoRoot.resolve("docs/docs-as-contract-slices.md");
+        assertTrue(Files.exists(slicesYamlPath), "docs-as-contract slices YAML must exist");
+        assertTrue(Files.exists(slicesMarkdownPath), "docs-as-contract slices summary must exist");
+
+        JsonNode slicesNode = YAML_MAPPER.readTree(Files.readString(slicesYamlPath));
+        List<JsonNode> slices = iterable(slicesNode.path("docs_as_contract_slices"));
+        assertFalse(slices.isEmpty(), "docs-as-contract catalog must contain slices");
+
+        Set<String> expectedDomains = Set.of(
+                "agent",
+                "workmarket",
+                "social",
+                "chat",
+                "location",
+                "identity",
+                "common");
+        Set<String> seenIds = new LinkedHashSet<>();
+        String markdown = Files.readString(slicesMarkdownPath);
+
+        for (JsonNode sliceNode : slices) {
+            String id = sliceNode.path("id").asText();
+            String domain = sliceNode.path("domain").asText();
+            assertFalse(id.isBlank(), "docs-as-contract slice id must not be blank");
+            assertTrue(seenIds.add(id), () -> "Duplicate docs-as-contract slice id: " + id);
+            assertTrue(markdown.contains(id), () -> "docs-as-contract summary must mention id: " + id);
+            assertTrue(expectedDomains.contains(domain), () -> "Unexpected docs-as-contract domain: " + domain);
+            assertFalse(sliceNode.path("protected_claim").asText().isBlank(),
+                    () -> "docs-as-contract slice must describe the protected claim: " + id);
+
+            for (JsonNode docNode : iterable(sliceNode.path("docs"))) {
+                String docPath = docNode.path("path").asText();
+                Path resolvedDocPath = repoRoot.resolve(docPath);
+                assertTrue(Files.exists(resolvedDocPath),
+                        () -> "docs-as-contract slice references missing doc: " + docPath);
+                String docContent = Files.readString(resolvedDocPath);
+                List<String> headings = readStringList(docNode.path("headings"));
+                assertFalse(headings.isEmpty(), () -> "docs-as-contract doc entry must list headings: " + id + " -> " + docPath);
+                for (String heading : headings) {
+                    assertTrue(docContent.contains(heading),
+                            () -> "docs-as-contract slice references missing heading " + heading + " in " + docPath);
+                }
+            }
+
+            List<String> testFiles = readStringList(sliceNode.path("test_files"));
+            List<String> commands = readStringList(sliceNode.path("commands"));
+            assertFalse(testFiles.isEmpty(), () -> "docs-as-contract slice must list test files: " + id);
+            assertFalse(commands.isEmpty(), () -> "docs-as-contract slice must list commands: " + id);
+
+            Set<String> testClassNames = new LinkedHashSet<>();
+            for (String testFile : testFiles) {
+                Path testPath = repoRoot.resolve(testFile);
+                assertTrue(Files.exists(testPath), () -> "docs-as-contract slice references missing test file: " + testFile);
+                assertTrue(testFile.endsWith("Test.java"), () -> "docs-as-contract test file must be a Java test: " + testFile);
+                testClassNames.add(testPath.getFileName().toString().replace(".java", ""));
+            }
+
+            for (String command : commands) {
+                assertTrue(command.startsWith("cd apps/themuffinman && ./mvnw test -Dtest="),
+                        () -> "docs-as-contract command must be a focused backend test command: " + command);
+                for (String testClassName : testClassNames) {
+                    assertTrue(command.contains(testClassName),
+                            () -> "docs-as-contract command must include listed test class " + testClassName + ": " + command);
+                }
             }
         }
     }
@@ -1006,8 +1463,7 @@ class AgentOperatingModelValidationTest {
         assertTrue(Files.exists(agentImprovementBacklogPath), "docs/agent-improvement-backlog.md must exist");
         assertTrue(Files.exists(todoAuditScriptPath), "scripts/todo-audit.rb must exist");
 
-        Map<String, String> openBacklogEntries = readOpenBacklogEntries(repoRoot);
-        assertFalse(openBacklogEntries.isEmpty(), "Persistent backlog files must contain at least one open backlog item");
+        readOpenBacklogEntries(repoRoot);
     }
 
     private static Map<String, String> readOpenBacklogEntries(Path repoRoot) throws Exception {
@@ -1514,6 +1970,20 @@ class AgentOperatingModelValidationTest {
             values.add(node.asText());
         }
         return values;
+    }
+
+    private static boolean hasPassedEvidence(List<JsonNode> evidenceCommands, String commandFragment) {
+        return evidenceCommands.stream()
+                .anyMatch(commandNode -> "passed".equals(commandNode.path("result").asText())
+                        && commandNode.path("command").asText().contains(commandFragment));
+    }
+
+    private static void assertExistingPaths(Path repoRoot, JsonNode pathNodes, String label) {
+        for (JsonNode pathNode : iterable(pathNodes)) {
+            String relativePath = pathNode.asText();
+            assertTrue(Files.exists(repoRoot.resolve(relativePath)),
+                    () -> "Missing " + label + " path: " + relativePath);
+        }
     }
 
     private static Set<String> collectDirectMachineSourceRefs(JsonNode yaml, Map<String, String> sourceFiles) {

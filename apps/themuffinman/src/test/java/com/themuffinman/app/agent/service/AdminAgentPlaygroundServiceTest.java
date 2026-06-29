@@ -4,6 +4,7 @@ import com.themuffinman.app.agent.dto.AdminAgentPlaygroundRequestDTO;
 import com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO;
 import com.themuffinman.app.agent.dto.AdminAgentSimulationRequestDTO;
 import com.themuffinman.app.agent.dto.AdminAgentSimulationResponseDTO;
+import com.themuffinman.app.agent.sandbox.SandboxGenerationPlanner;
 import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
@@ -19,7 +20,8 @@ class AdminAgentPlaygroundServiceTest {
     private final AgentProperties agentProperties = new AgentProperties();
     private final StubAdminAgentTextProvider provider = new StubAdminAgentTextProvider();
     private final LocalAdminAgentPromptTranslator localTranslator = new LocalAdminAgentPromptTranslator();
-    private final AdminAgentPlaygroundService service = new AdminAgentPlaygroundService(agentProperties, provider, localTranslator);
+    private final SandboxGenerationPlanner sandboxGenerationPlanner = new SandboxGenerationPlanner();
+    private final AdminAgentPlaygroundService service = new AdminAgentPlaygroundService(agentProperties, provider, localTranslator, sandboxGenerationPlanner);
 
     @Test
     void rejectsNonAdminAccess() {
@@ -45,7 +47,10 @@ class AdminAgentPlaygroundServiceTest {
         );
 
         assertTrue(response.getSuggestedWorkflows().contains("create_user_with_quests"));
+        assertTrue(response.getSuggestedWorkflows().contains("create_sandbox_user_with_circle_and_quest_flow"));
+        assertTrue(response.getMatchedSignals().contains("sandbox_generation"));
         assertTrue(response.getWarnings().stream().anyMatch(item -> item.contains("meaningfully unique")));
+        assertTrue(response.getWarnings().stream().anyMatch(item -> item.contains("Synthetic generation")));
         assertTrue(response.getWarnings().stream().anyMatch(item -> item.contains("timezone")));
     }
 

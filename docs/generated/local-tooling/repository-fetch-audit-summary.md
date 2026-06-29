@@ -1,7 +1,7 @@
 # Repository Fetch Audit
 
-- Generated at: `2026-06-28T20:30:13Z`
-- Repository methods scanned: `70`
+- Generated at: `2026-06-29T12:47:10Z`
+- Repository methods scanned: `100`
 - High risk: `0`
 - Medium risk: `10`
 
@@ -11,6 +11,14 @@
 - Query style: `jpql_query`
 - Fetch relations: none
 - Likely lazy relations touched downstream: `role`, `servletRequest`
+- Risk: `medium`
+
+## `BusinessProfileRepository.findByOwnerId`
+
+- Returned entity: `BusinessProfile`
+- Query style: `jpql_query`
+- Fetch relations: `owner`
+- Likely lazy relations touched downstream: `slug`
 - Risk: `medium`
 
 ## `ChatConversationRepository.findByLeftParticipantIdAndRightParticipantId`
@@ -53,20 +61,12 @@
 - Likely lazy relations touched downstream: `circle`
 - Risk: `medium`
 
-## `QuestApplicationRepository.findByIdDetailed`
+## `QuestApplicationRepository.findForApplicationDetail`
 
 - Returned entity: `QuestApplication`
 - Query style: `jpql_query`
-- Fetch relations: `applicant`, `quest`
+- Fetch relations: `applicant`, `creator`, `quest`
 - Likely lazy relations touched downstream: `proposedPrice`
-- Risk: `medium`
-
-## `QuestApplicationRepository.findByQuestIdAndApplicantIdAndStatus`
-
-- Returned entity: `QuestApplication`
-- Query style: `jpql_query`
-- Fetch relations: `applicant`, `quest`
-- Likely lazy relations touched downstream: `creator`
 - Risk: `medium`
 
 ## `QuestNewsRepository.findByRecipientUserIdOrderByCreatedAtDesc`
@@ -133,6 +133,38 @@
 - Likely lazy relations touched downstream: none
 - Risk: `low`
 
+## `BusinessProfileRepository.existsBySlug`
+
+- Returned entity: _non-entity_
+- Query style: `derived_query`
+- Fetch relations: none
+- Likely lazy relations touched downstream: none
+- Risk: `low`
+
+## `BusinessProfileRepository.existsBySlugAndOwnerIdNot`
+
+- Returned entity: _non-entity_
+- Query style: `derived_query`
+- Fetch relations: none
+- Likely lazy relations touched downstream: none
+- Risk: `low`
+
+## `BusinessProfileRepository.findActiveProfiles`
+
+- Returned entity: `BusinessProfile`
+- Query style: `jpql_query`
+- Fetch relations: `owner`
+- Likely lazy relations touched downstream: none
+- Risk: `low`
+
+## `BusinessProfileRepository.findBySlug`
+
+- Returned entity: `BusinessProfile`
+- Query style: `jpql_query`
+- Fetch relations: `owner`
+- Likely lazy relations touched downstream: none
+- Risk: `low`
+
 ## `ChatConversationRepository.findDetailedById`
 
 - Returned entity: `ChatConversation`
@@ -170,37 +202,5 @@
 - Returned entity: `ChatMessage`
 - Query style: `jpql_query`
 - Fetch relations: `sender`
-- Likely lazy relations touched downstream: none
-- Risk: `low`
-
-## `ChatMessageRepository.findUnreadCountsByConversationIds`
-
-- Returned entity: _non-entity_
-- Query style: `jpql_query`
-- Fetch relations: none
-- Likely lazy relations touched downstream: none
-- Risk: `low`
-
-## `ChatMessageRepository.findUnreadIncomingByConversationId`
-
-- Returned entity: `ChatMessage`
-- Query style: `jpql_query`
-- Fetch relations: none
-- Likely lazy relations touched downstream: none
-- Risk: `low`
-
-## `ChatMessageRepository.getConversationId`
-
-- Returned entity: _non-entity_
-- Query style: `derived_query`
-- Fetch relations: none
-- Likely lazy relations touched downstream: none
-- Risk: `low`
-
-## `ChatMessageRepository.getUnreadCount`
-
-- Returned entity: _non-entity_
-- Query style: `derived_query`
-- Fetch relations: none
 - Likely lazy relations touched downstream: none
 - Risk: `low`

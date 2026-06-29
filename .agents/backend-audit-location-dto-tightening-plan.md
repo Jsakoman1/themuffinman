@@ -21,3 +21,12 @@ Purpose: promote the location DTO contract surface into the strict `automation_r
 - [x] Location DTOs are documentation-covered.
 - [x] Agent operating model validation passes.
 - [x] Backend test suite passes.
+
+## Completion Evidence
+
+- Status: complete
+- Changed files: Historical completed plan; see `.agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml` for the structured artifact list.
+- Validation evidence: Historical completed plan; see `.agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml` for validation commands recorded during manifest migration.
+- Doc delta summary: Historical completed plan; see `.agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml` for docs and generated-artifact coverage.
+- Backlog update: Historical completed plan; see `.agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml` for backlog review state.
+- Residual risk: none recorded in the historical manifest.

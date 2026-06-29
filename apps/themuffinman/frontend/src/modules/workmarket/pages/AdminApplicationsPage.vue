@@ -5,7 +5,7 @@ import UiDialog from "../../../components/ui/UiDialog.vue"
 import UiAdminPageSection from "../../../components/ui/UiAdminPageSection.vue"
 import UiAdminTableShell from "../../../components/ui/UiAdminTableShell.vue"
 import UiAdminTableSection from "../../../components/ui/UiAdminTableSection.vue"
-import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
+import UiAppShellPage from "../../../components/ui/UiAppShellPage.vue"
 import UiFieldGroup from "../../../components/ui/UiFieldGroup.vue"
 import UiFilterBar from "../../../components/ui/UiFilterBar.vue"
 import UiToast from "../../../components/ui/UiToast.vue"
@@ -97,7 +97,7 @@ const deleteApplication = async (application: QuestApplication) => {
 </script>
 
 <template>
-  <UiDashboardPage admin>
+  <UiAppShellPage admin>
         <AdminShellHeader
           title="Applications"
           subtitle=""
@@ -231,5 +231,5 @@ const deleteApplication = async (application: QuestApplication) => {
             </template>
           </DetailDialogFrame>
         </UiDialog>
-  </UiDashboardPage>
+  </UiAppShellPage>
 </template>

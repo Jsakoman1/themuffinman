@@ -1,0 +1,24 @@
+{
+  "plan": ".agents/todo-plans/87-codex-local-symbol-to-test-linker.md",
+  "exists": true,
+  "completion_evidence": true,
+  "completion_status": "complete",
+  "open_tasks": [
+
+  ],
+  "unresolved_open_tasks": [
+
+  ],
+  "child_plans": [
+
+  ],
+  "issues": [
+
+  ],
+  "warnings": [
+
+  ],
+  "status": "passed",
+  "generated_at": "2026-06-29T12:31:49Z",
+  "manifest": null
+}

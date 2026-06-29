@@ -40,6 +40,13 @@ intent_safety_catalog:
     - resolve_chat_conversation
     - open_chat_conversation_messages
     - open_location_debug_status
+    - browse_business_profiles
+    - open_my_business_profile
+    - open_business_profile_by_slug
+    - browse_thing_listings
+    - open_my_thing_listings
+    - browse_ride_offers
+    - open_my_ride_offers
     safe_write:
     - authenticate_user
     - set_profile_location
@@ -66,6 +73,10 @@ intent_safety_catalog:
     - complete_quest
     - request_owner_term_change
     - create_review
+    - save_my_business_profile
+    - create_thing_listing
+    - request_borrow_thing
+    - create_ride_offer
     destructive_write:
     - delete_user_as_admin
     - delete_circle

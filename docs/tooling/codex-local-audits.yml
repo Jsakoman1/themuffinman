@@ -3,12 +3,21 @@ audits:
 - target: audit-change-impact-preflight
   script: scripts/audits/audit-change-impact-preflight.rb
   primaryOutput: docs/generated/local-tooling/change-impact-preflight-summary.md
+- target: changeset-risk
+  script: scripts/audits/score-changeset-risk.rb
+  primaryOutput: docs/generated/local-tooling/changeset-risk-summary.md
 - target: audit-router
   script: scripts/audits/audit-router.rb
   primaryOutput: docs/generated/local-tooling/audit-router-summary.md
 - target: context-pack
   script: scripts/audits/generate-context-pack.rb
   primaryOutput: docs/generated/local-tooling/context-packs
+- target: recommend-feature-slices
+  script: scripts/audits/recommend-feature-slices.rb
+  primaryOutput: docs/generated/local-tooling/feature-slices/<topic>-summary.md
+- target: recommend-targeted-tests
+  script: scripts/audits/recommend-targeted-tests.rb
+  primaryOutput: docs/generated/local-tooling/targeted-tests-summary.md
 - target: repo-map
   script: scripts/audits/generate-repo-map.rb
   primaryOutput: docs/generated/local-tooling/repo-map-summary.md
@@ -21,21 +30,81 @@ audits:
 - target: validation-matrix
   script: scripts/audits/generate-validation-matrix.rb
   primaryOutput: docs/generated/local-tooling/validation-matrix-summary.md
+- target: changeset-playbook
+  script: scripts/audits/generate-changeset-playbook.rb
+  primaryOutput: docs/generated/local-tooling/changeset-playbook-summary.md
+- target: resolve-manifest-path
+  script: scripts/audits/resolve-manifest-path.rb
+  primaryOutput: docs/generated/local-tooling/manifest-path-resolution-summary.md
+- target: link-symbol-to-tests
+  script: scripts/audits/link-symbol-to-tests.rb
+  primaryOutput: docs/generated/local-tooling/symbol-test-links/<symbol-name>-summary.md
+- target: dto-usage-pack
+  script: scripts/audits/generate-dto-usage-pack.rb
+  primaryOutput: docs/generated/local-tooling/dto-usage-packs/<dto-name>-summary.md
+- target: workflow-slice-pack
+  script: scripts/audits/generate-workflow-slice-pack.rb
+  primaryOutput: docs/generated/local-tooling/workflow-slices/<workflow-id>-summary.md
+- target: plan-code-map
+  script: scripts/audits/generate-plan-code-map.rb
+  primaryOutput: docs/generated/local-tooling/plan-code-maps/<plan-id>-summary.md
+- target: rank-changeset-hotspots
+  script: scripts/audits/rank-changeset-hotspots.rb
+  primaryOutput: docs/generated/local-tooling/hotspots-summary.md
+- target: domain-pack
+  script: scripts/audits/generate-domain-pack.rb
+  primaryOutput: docs/generated/local-tooling/domain-packs/<domain-id>-summary.md
 - target: audit-doc-sync-preflight
   script: scripts/audits/audit-doc-sync-preflight.rb
   primaryOutput: docs/generated/local-tooling/doc-sync-preflight-summary.md
+- target: audit-doc-template-coverage
+  script: scripts/audits/audit-doc-template-coverage.rb
+  primaryOutput: docs/generated/local-tooling/doc-template-coverage-summary.md
+- target: audit-doc-sync-duplicates
+  script: scripts/audits/audit-doc-sync-duplicates.rb
+  primaryOutput: docs/generated/local-tooling/doc-sync-duplicates-summary.md
+- target: audit-manifest-decision
+  script: scripts/audits/audit-manifest-decision.rb
+  primaryOutput: docs/generated/local-tooling/manifest-decision-summary.md
+- target: recommend-validation-preset
+  script: scripts/audits/recommend-validation-preset.rb
+  primaryOutput: docs/generated/local-tooling/validation-preset-summary.md
+- target: audit-doc-staleness-scoring
+  script: scripts/audits/audit-doc-staleness-scoring.rb
+  primaryOutput: docs/generated/local-tooling/doc-staleness-scoring-summary.md
+- target: audit-architecture-drift
+  script: scripts/audits/audit-architecture-drift.rb
+  primaryOutput: docs/generated/local-tooling/architecture-drift-summary.md
+- target: architecture-decision-index
+  script: scripts/audits/generate-architecture-decision-index.rb
+  primaryOutput: docs/generated/local-tooling/architecture-decision-index-summary.md
+- target: audit-generated-commit-scope
+  script: scripts/audits/audit-generated-commit-scope.rb
+  primaryOutput: docs/generated/local-tooling/generated-commit-scope-summary.md
 - target: audit-migration-entity-drift
   script: scripts/audits/audit-migration-entity-drift.rb
   primaryOutput: docs/generated/local-tooling/migration-entity-drift-audit-summary.md
 - target: audit-test-gap-recommendations
   script: scripts/audits/audit-test-gap-recommendations.rb
   primaryOutput: docs/generated/local-tooling/test-gap-recommendations-summary.md
+- target: audit-contract-test-gaps
+  script: scripts/audits/audit-contract-test-gaps.rb
+  primaryOutput: docs/generated/local-tooling/contract-test-gaps-summary.md
+- target: audit-mutation-safety
+  script: scripts/audits/audit-mutation-safety.rb
+  primaryOutput: docs/generated/local-tooling/mutation-safety-summary.md
+- target: audit-docs-as-tests
+  script: scripts/audits/audit-docs-as-tests.rb
+  primaryOutput: docs/generated/local-tooling/docs-as-tests-summary.md
 - target: audit-frontend-usage-graph
   script: scripts/audits/audit-frontend-usage-graph.rb
   primaryOutput: docs/generated/local-tooling/frontend-usage-graph-summary.md
 - target: audit-backend-dependency-graph
   script: scripts/audits/audit-backend-dependency-graph.rb
   primaryOutput: docs/generated/local-tooling/backend-dependency-graph-summary.md
+- target: audit-test-fixture-duplication
+  script: scripts/audits/audit-test-fixture-duplication.rb
+  primaryOutput: docs/generated/local-tooling/test-fixture-duplication-summary.md
 - target: diff-summary
   script: scripts/audits/generate-diff-summary.rb
   primaryOutput: docs/generated/local-tooling/diff-summary.md
@@ -63,6 +132,18 @@ audits:
 - target: diagnose-frontend-build
   script: scripts/audits/diagnose-frontend-build.rb
   primaryOutput: docs/generated/local-tooling/diagnostics/frontend-build-latest-summary.md
+- target: test-history-summary
+  script: scripts/audits/generate-test-history-summary.rb
+  primaryOutput: docs/generated/local-tooling/test-history-summary.md
+- target: failure-knowledge-base
+  script: scripts/audits/update-failure-knowledge-base.rb
+  primaryOutput: docs/generated/local-tooling/failure-knowledge-base-summary.md
+- target: codebase-capsule
+  script: scripts/audits/generate-codebase-capsule.rb
+  primaryOutput: docs/generated/local-tooling/codebase-capsule.md
+- target: record-validation
+  script: scripts/audits/record-validation-evidence.rb
+  primaryOutput: docs/generated/local-tooling/validation-evidence/<feature-id>.json
 - target: api-contract-snapshot
   script: scripts/audits/generate-api-contract-snapshot.rb
   primaryOutput: docs/generated/local-tooling/api-contract-snapshot-summary.md
@@ -81,3 +162,18 @@ audits:
 - target: closeout-bundle
   script: scripts/audits/generate-closeout-bundle.rb
   primaryOutput: docs/generated/local-tooling/closeout-bundle-summary.md
+- target: closeout-report
+  script: scripts/audits/generate-closeout-report.rb
+  primaryOutput: docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md
+- target: enforce-feature-closeout
+  script: scripts/audits/enforce-feature-closeout.rb
+  primaryOutput: docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md
+- target: post-merge-retrospective
+  script: scripts/audits/generate-post-merge-retrospective.rb
+  primaryOutput: docs/generated/local-tooling/post-merge-retrospectives/latest-summary.md
+- target: audit-plan-completion
+  script: scripts/audits/audit-plan-completion.rb
+  primaryOutput: docs/generated/local-tooling/plan-completion/<plan-id>-summary.md
+- target: audit-delta-report
+  script: scripts/audits/audit-delta-report.rb
+  primaryOutput: docs/generated/local-tooling/audit-deltas/<audit-id>-summary.md

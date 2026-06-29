@@ -1,8 +1,8 @@
 # Backend Dependency Graph
 
-- Generated At: `2026-06-28T21:02:37Z`
-- Node Count: `255`
-- Edge Count: `780`
+- Generated At: `2026-06-29T12:47:34Z`
+- Node Count: `305`
+- Edge Count: `878`
 ## `nodes`
 
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/TheMuffinManApplication.java", :class_name: "TheMuffinManApplication", :category: "other", :domain: "shared"}`
@@ -18,18 +18,18 @@
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentIntentLineageDTO.java", :class_name: "AgentIntentLineageDTO", :category: "backend_dto", :domain: "agent"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionConfidenceDTO.java", :class_name: "AgentResolutionConfidenceDTO", :category: "backend_dto", :domain: "agent"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionRequirementDTO.java", :class_name: "AgentResolutionRequirementDTO", :category: "backend_dto", :domain: "agent"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java", :class_name: "SandboxGenerationPlan", :category: "other", :domain: "agent"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java", :class_name: "SandboxGenerationPlanner", :category: "other", :domain: "agent"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java", :class_name: "AdminAgentPlaygroundService", :category: "backend_service", :domain: "agent"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslation.java", :class_name: "AdminAgentPromptTranslation", :category: "backend_service", :domain: "agent"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslator.java", :class_name: "AdminAgentPromptTranslator", :category: "backend_service", :domain: "agent"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTextProvider.java", :class_name: "AdminAgentTextProvider", :category: "backend_service", :domain: "agent"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java", :class_name: "LocalAdminAgentPromptTranslator", :category: "backend_service", :domain: "agent"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java", :class_name: "OpenAiAdminAgentClient", :category: "backend_service", :domain: "agent"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java", :class_name: "ChatController", :category: "backend_controller", :domain: "chat"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatCircleOptionDTO.java", :class_name: "ChatCircleOptionDTO", :category: "backend_dto", :domain: "chat"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatContactDTO.java", :class_name: "ChatContactDTO", :category: "backend_dto", :domain: "chat"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSummaryDTO.java", :class_name: "ChatConversationSummaryDTO", :category: "backend_dto", :domain: "chat"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageDTO.java", :class_name: "ChatMessageDTO", :category: "backend_dto", :domain: "chat"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageRequestDTO.java", :class_name: "ChatMessageRequestDTO", :category: "backend_dto", :domain: "chat"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java", :class_name: "BusinessProfileController", :category: "backend_controller", :domain: "business"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileListResponseDTO.java", :class_name: "BusinessProfileListResponseDTO", :category: "backend_dto", :domain: "business"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java", :class_name: "BusinessProfileRequestDTO", :category: "backend_dto", :domain: "business"}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java", :class_name: "BusinessProfileResponseDTO", :category: "backend_dto", :domain: "business"}`
 
 ## `edges`
 

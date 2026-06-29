@@ -1,0 +1,1139 @@
+{
+  "generated_at": "2026-06-29T11:46:31Z",
+  "original_file_count": 386,
+  "filtered_file_count": 199,
+  "excluded_file_count": 199,
+  "excluded_files_sample": [
+    {
+      "path": ".agents/agent-control-phase-two-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/agent-operating-refactor-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/agent-safety-enforcement-round2-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/agent-safety-upgrade-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/backend-audit-domain-tagging-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/backend-audit-identity-dto-tightening-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/backend-audit-location-dto-tightening-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/backend-audit-manifest-cleanup-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/backend-audit-tiering-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/backend-audit-tightening-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/executor-readiness-program-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/persistent-backlog-system-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/agent-endpoint-inventory.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/automation-read-model-inventory.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/backend-audit-inventory.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/backend-unused-summary.md",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/backend-unused.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/dead-code-summary-summary.md",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/dead-code-summary.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/frontend-unused-summary.md",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/frontend-unused.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.cache/audit-inputs.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/agent-model-feature-coverage-audit.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    }
+  ],
+  "changed_file_count": 187,
+  "groups": [
+    {
+      "domain": "agent",
+      "category": "other",
+      "count": 7,
+      "files": [
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/agent-control-phase-two-manifest.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/agent-operating-refactor-manifest.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/README.md"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "other",
+      "count": 33,
+      "files": [
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/backend-audit-tiering-manifest.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/backend-audit-tightening-manifest.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/executor-readiness-program-manifest.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/persistent-backlog-system-manifest.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/templates/feature-completion-manifest.template.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/templates/feature-implementation-plan.template.md"
+        },
+        {
+          "status": "M",
+          "path": ".gitignore"
+        },
+        {
+          "status": "M",
+          "path": "Makefile"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/README.md"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/package.json"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/moduleRegistry.ts"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/router.ts"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/style.css"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+        },
+        {
+          "status": "M",
+          "path": "package.json"
+        },
+        {
+          "status": "??",
+          "path": ".agents/templates/docs/"
+        },
+        {
+          "status": "??",
+          "path": ".agents/templates/validation-evidence.template.yaml"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/styles/business.css"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/styles/chat-module.css"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/styles/rides.css"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/styles/things.css"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/resources/db/migration/V31__create_business_profile_table.sql"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/resources/db/migration/V32__create_thing_sharing_tables.sql"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/resources/db/migration/V33__create_ride_offer_tables.sql"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/RepositoryFetchProfileContractTest.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/WorkflowStateMachineCatalogTest.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/testing/"
+        }
+      ]
+    },
+    {
+      "domain": "workmarket",
+      "category": "frontend_script",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs"
+        }
+      ]
+    },
+    {
+      "domain": "agent",
+      "category": "frontend_script",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/scripts/validate-admin-agent-ui-scenarios.mjs"
+        }
+      ]
+    },
+    {
+      "domain": "social",
+      "category": "frontend_view",
+      "count": 2,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue"
+        }
+      ]
+    },
+    {
+      "domain": "workmarket",
+      "category": "frontend_composable",
+      "count": 4,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts"
+        }
+      ]
+    },
+    {
+      "domain": "workmarket",
+      "category": "frontend_view",
+      "count": 7,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+        }
+      ]
+    },
+    {
+      "domain": "agent",
+      "category": "backend_service",
+      "count": 4,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java"
+        }
+      ]
+    },
+    {
+      "domain": "location",
+      "category": "backend_service",
+      "count": 3,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java"
+        }
+      ]
+    },
+    {
+      "domain": "workmarket",
+      "category": "backend_dto",
+      "count": 3,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java"
+        }
+      ]
+    },
+    {
+      "domain": "workmarket",
+      "category": "backend_repository",
+      "count": 2,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestApplicationRepository.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/QuestRepository.java"
+        }
+      ]
+    },
+    {
+      "domain": "workmarket",
+      "category": "backend_service",
+      "count": 27,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestUpdateService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestVisibilityService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestWorkflowNotificationService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeclineApplicationUseCase.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UpdateMyApplicationUseCase.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WithdrawMyApplicationUseCase.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java"
+        }
+      ]
+    },
+    {
+      "domain": "agent",
+      "category": "docs",
+      "count": 17,
+      "files": [
+        {
+          "status": "M",
+          "path": "docs/agent-improvement-backlog.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model.schema.json"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model.yaml"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model/sections/api.yaml"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model/sections/frontend_contract_generation.yaml"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model/sections/intent_safety_catalog.yaml"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model/sections/intents.yaml"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model/sections/policies.yaml"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model/sections/request_validation_gate.yaml"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model/sections/service_workflow_inventory.yaml"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml"
+        },
+        {
+          "status": "??",
+          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "docs",
+      "count": 18,
+      "files": [
+        {
+          "status": "M",
+          "path": "docs/business-logic.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/change-completion-checklist.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/codex-local-tooling-todo.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/documentation-sync-policy.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/domain-technical.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/feature-completion-manifest.schema.json"
+        },
+        {
+          "status": "M",
+          "path": "docs/implementation-backlog.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/tooling/codex-local-audits.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/tooling/codex-local-audits.yml"
+        },
+        {
+          "status": "??",
+          "path": "docs/cross-domain-glossary.md"
+        },
+        {
+          "status": "??",
+          "path": "docs/docs-as-contract-slices.md"
+        },
+        {
+          "status": "??",
+          "path": "docs/docs-as-contract-slices.yaml"
+        },
+        {
+          "status": "??",
+          "path": "docs/example-scenario-library.md"
+        },
+        {
+          "status": "??",
+          "path": "docs/regression-scenario-catalog.md"
+        },
+        {
+          "status": "??",
+          "path": "docs/regression-scenario-catalog.yaml"
+        },
+        {
+          "status": "??",
+          "path": "docs/validation-evidence.schema.json"
+        },
+        {
+          "status": "??",
+          "path": "docs/workflow-state-machines.md"
+        },
+        {
+          "status": "??",
+          "path": "docs/workflow-state-machines.yaml"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "script",
+      "count": 30,
+      "files": [
+        {
+          "status": "M",
+          "path": "scripts/audits/audit-change-impact-preflight.rb"
+        },
+        {
+          "status": "M",
+          "path": "scripts/audits/local_tooling_batch_audits.rb"
+        },
+        {
+          "status": "M",
+          "path": "scripts/audits/local_tooling_extended_tools.rb"
+        },
+        {
+          "status": "M",
+          "path": "scripts/feature-closeout-audit.sh"
+        },
+        {
+          "status": "M",
+          "path": "scripts/generate-source-of-truth-audit.rb"
+        },
+        {
+          "status": "M",
+          "path": "scripts/local_tooling_common.rb"
+        },
+        {
+          "status": "M",
+          "path": "scripts/todo-audit.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/audit-architecture-drift.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/audit-contract-test-gaps.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/audit-doc-staleness-scoring.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/audit-doc-sync-duplicates.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/audit-doc-template-coverage.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/audit-docs-as-tests.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/audit-generated-commit-scope.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/audit-manifest-decision.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/audit-mutation-safety.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/audit-plan-completion.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/audit-test-fixture-duplication.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/audit-validation-evidence-quality.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/enforce-feature-closeout.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/generate-architecture-decision-index.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/generate-closeout-report.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/generate-codebase-capsule.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/generate-post-merge-retrospective.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/generate-test-history-summary.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/recommend-feature-slices.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/recommend-targeted-tests.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/record-validation-evidence.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/score-changeset-risk.rb"
+        },
+        {
+          "status": "??",
+          "path": "scripts/audits/update-failure-knowledge-base.rb"
+        }
+      ]
+    },
+    {
+      "domain": "agent",
+      "category": "script",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "scripts/generate-agent-operating-model.rb"
+        }
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "other",
+      "count": 3,
+      "files": [
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/modules/business/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/"
+        }
+      ]
+    },
+    {
+      "domain": "chat",
+      "category": "other",
+      "count": 2,
+      "files": [
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/modules/chat/README.md"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/README.md"
+        }
+      ]
+    },
+    {
+      "domain": "chat",
+      "category": "frontend_view",
+      "count": 1,
+      "files": [
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/modules/chat/views/"
+        }
+      ]
+    },
+    {
+      "domain": "identity",
+      "category": "other",
+      "count": 2,
+      "files": [
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/modules/identity/README.md"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/README.md"
+        }
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "other",
+      "count": 3,
+      "files": [
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/modules/rides/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/rides/"
+        }
+      ]
+    },
+    {
+      "domain": "social",
+      "category": "other",
+      "count": 2,
+      "files": [
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/modules/social/README.md"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/README.md"
+        }
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "other",
+      "count": 3,
+      "files": [
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/modules/things/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/things/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/things/"
+        }
+      ]
+    },
+    {
+      "domain": "workmarket",
+      "category": "other",
+      "count": 4,
+      "files": [
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/README.md"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/README.md"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/event/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/"
+        }
+      ]
+    },
+    {
+      "domain": "workmarket",
+      "category": "frontend_api",
+      "count": 1,
+      "files": [
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts"
+        }
+      ]
+    },
+    {
+      "domain": "common",
+      "category": "other",
+      "count": 5,
+      "files": [
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/common/README.md"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/common/concepts/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceLayeringConventionTest.java"
+        }
+      ]
+    },
+    {
+      "domain": "location",
+      "category": "other",
+      "count": 1,
+      "files": [
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/README.md"
+        }
+      ]
+    }
+  ],
+  "recommended_audits": [
+    "make audit-read-surface-inventory",
+    "make audit-repository-fetch",
+    "make audit-mapper-usage",
+    "make audit-api-contract-drift",
+    "make audit-endpoint-callsite-linker",
+    "make endpoint-contract-packs",
+    "make audit-frontend-route-surfaces",
+    "make audit-async-mutation-flow",
+    "make audit-frontend-usage-graph",
+    "make audit-doc-sync-preflight",
+    "make audit-documentation",
+    "make audit-doc-canonical-phrases",
+    "make audit-test-gap-recommendations",
+    "make audit-summary-index"
+  ]
+}

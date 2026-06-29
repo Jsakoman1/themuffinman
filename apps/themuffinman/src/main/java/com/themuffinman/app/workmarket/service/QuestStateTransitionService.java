@@ -2,7 +2,6 @@ package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
@@ -22,15 +21,18 @@ public class QuestStateTransitionService {
     private final QuestApplicationRepository questApplicationRepository;
     private final QuestValidationService questValidationService;
     private final QuestWorkflowNotificationService questWorkflowNotificationService;
+    private final QuestAccessPolicyService questAccessPolicyService;
 
     public QuestStateTransitionService(
             QuestApplicationRepository questApplicationRepository,
             QuestValidationService questValidationService,
-            QuestWorkflowNotificationService questWorkflowNotificationService
+            QuestWorkflowNotificationService questWorkflowNotificationService,
+            QuestAccessPolicyService questAccessPolicyService
     ) {
         this.questApplicationRepository = questApplicationRepository;
         this.questValidationService = questValidationService;
         this.questWorkflowNotificationService = questWorkflowNotificationService;
+        this.questAccessPolicyService = questAccessPolicyService;
     }
 
     public void requireQuestStatus(Quest quest, QuestStatus requiredStatus, String message) {
@@ -40,19 +42,13 @@ public class QuestStateTransitionService {
     }
 
     public void validateQuestExecutionAuthority(Quest quest, AppUser currentUser) {
-        if (isAdmin(currentUser)) {
-            return;
-        }
-
-        if (quest.getCreator().getId().equals(currentUser.getId())) {
-            return;
-        }
-
-        if (questApplicationRepository.findByQuestIdAndApplicantIdAndStatus(
+        boolean hasApprovedApplication = currentUser != null && questApplicationRepository.findForViewerApplicationWithStatus(
                 quest.getId(),
                 currentUser.getId(),
                 QuestApplicationStatus.APPROVED
-        ).isPresent()) {
+        ).isPresent();
+
+        if (questAccessPolicyService.canExecuteQuest(quest, currentUser, hasApprovedApplication)) {
             return;
         }
 
@@ -60,15 +56,13 @@ public class QuestStateTransitionService {
     }
 
     public void validateQuestTermDecisionAuthority(Quest quest, AppUser currentUser) {
-        if (isAdmin(currentUser)) {
-            return;
-        }
-
-        if (questApplicationRepository.findByQuestIdAndApplicantIdAndStatus(
+        boolean hasApprovedApplication = currentUser != null && questApplicationRepository.findForViewerApplicationWithStatus(
                 quest.getId(),
                 currentUser.getId(),
                 QuestApplicationStatus.APPROVED
-        ).isEmpty()) {
+        ).isPresent();
+
+        if (!questAccessPolicyService.canDecideQuestTermChange(quest, currentUser, hasApprovedApplication)) {
             throw ServiceErrors.forbidden("You are not allowed to confirm this quest term change");
         }
     }
@@ -151,7 +145,7 @@ public class QuestStateTransitionService {
             return;
         }
 
-        if (!quest.getCreator().getId().equals(currentUser.getId())) {
+        if (!questAccessPolicyService.isQuestOwner(quest, currentUser)) {
             throw ServiceErrors.forbidden("Only the quest owner can change this quest status");
         }
 
@@ -241,7 +235,7 @@ public class QuestStateTransitionService {
 
     private void reopenQuestApplications(Quest quest) {
         List<QuestApplication> reopenedApplications = new ArrayList<>();
-        List<QuestApplication> applications = questApplicationRepository.findByQuestId(quest.getId());
+        List<QuestApplication> applications = questApplicationRepository.findForQuestApplicationManagement(quest.getId());
         if (applications.isEmpty()) {
             return;
         }
@@ -260,7 +254,4 @@ public class QuestStateTransitionService {
         }
     }
 
-    private boolean isAdmin(AppUser user) {
-        return user != null && user.getRole() == AppUserRole.ADMIN;
-    }
 }

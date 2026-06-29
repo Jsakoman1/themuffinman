@@ -1,0 +1,100 @@
+---
+regression_scenarios:
+  - id: agent-exact-target-fail-closed
+    domain: agent
+    risk: high
+    scenario: Admin-agent mutating prompts must fail closed until exact target resolution and required confirmation exist.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingScenarioTest,AdminAgentCapabilityBoundaryTest
+  - id: workmarket-quest-lifecycle
+    domain: workmarket
+    risk: high
+    scenario: Quest create, update, delete, start, complete, and term-change flows must resolve actors, validate state, persist changes, and publish expected notifications.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest
+  - id: workmarket-application-lifecycle
+    domain: workmarket
+    risk: high
+    scenario: Application apply, applicant edit, withdraw, owner approve, owner decline, and admin mutation flows must enforce ownership, status, pricing, and notification rules.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest
+  - id: workmarket-dashboard-read-model
+    domain: workmarket
+    risk: medium
+    scenario: Dashboard sections, applicant actions, open-work groups, and notification destinations must stay backend-prepared and role-aware.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest
+  - id: social-chat-relation-access
+    domain: social
+    risk: high
+    scenario: Circle membership, accepted relation state, blocking, discovery, and chat eligibility must not leak pending or stale contacts.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=CircleServiceTest,CircleRelationServiceTest,ChatServiceTest
+  - id: location-exact-visibility
+    domain: location
+    risk: high
+    scenario: Exact location access must allow owners, respect circle and explicit-user scopes, and avoid provider calls when lookup is disabled.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=LocationAccessPolicyServiceTest,LocationLookupServiceTest
+  - id: identity-admin-account-safety
+    domain: identity
+    risk: high
+    scenario: Account creation, deletion, role changes, duplicate email checks, profile sanitization, and admin detail access must stay fail-closed.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=AppUserServiceTest,AdminUserDetailServiceTest,AuthControllerTest
+  - id: business-profile-public-directory
+    domain: business
+    risk: medium
+    scenario: Business profiles must derive stable slugs, reject duplicate slugs, expose active directory entries, and hide inactive public profiles.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=BusinessProfileServiceTest
+  - id: things-borrow-request-workflow
+    domain: things
+    risk: medium
+    scenario: Thing listings and borrow requests must enforce owner boundaries, duplicate pending request rules, and viewer-specific pending request read state.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=ThingSharingServiceTest
+  - id: rides-circle-scoped-offers
+    domain: rides
+    risk: medium
+    scenario: Ride offers must validate scheduling windows, reject unowned visibility circles, and return visible offer read models.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=RideOfferServiceTest
+  - id: common-cross-module-primitives
+    domain: common
+    risk: medium
+    scenario: Shared actor, ownership, scheduling-window, circle visibility, rich-text sanitization, and structured error primitives must remain stable across modules.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/common/concepts/CoreConceptsTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/common/validation/RichTextInputValidatorTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=CoreConceptsTest,RichTextInputValidatorTest,GlobalExceptionHandlerTest

@@ -1,7 +1,7 @@
 # File Relation Graph
 
-- Generated At: `2026-06-28T20:30:22Z`
-- Edge Count: `1398`
+- Generated At: `2026-06-29T12:47:25Z`
+- Edge Count: `1522`
 ## `edges`
 
 - `{:from: "AdminAgentController", :to: "AdminAgentPlaygroundRequestDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"}`

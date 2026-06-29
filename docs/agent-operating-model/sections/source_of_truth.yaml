@@ -19,6 +19,10 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java
   - id: openai_admin_agent_client
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java
+  - id: sandbox_generation_plan
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java
+  - id: sandbox_generation_planner
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java
   - id: auth_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java
   - id: auth_service
@@ -53,18 +57,116 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java
   - id: dashboard_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java
+  - id: dashboard_application_group_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardApplicationGroupDTO.java
+  - id: dashboard_navigation_item_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java
+  - id: dashboard_navigation_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java
+  - id: dashboard_notification_destination_type
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationType.java
+  - id: dashboard_notification_item_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java
+  - id: dashboard_notifications_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationsSectionDTO.java
+  - id: dashboard_open_work_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardOpenWorkSectionDTO.java
+  - id: dashboard_planner_item_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerItemDTO.java
+  - id: dashboard_planner_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerSectionDTO.java
+  - id: dashboard_quest_group_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardQuestGroupDTO.java
+  - id: dashboard_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardResponseDTO.java
+  - id: dashboard_sections_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java
+  - id: dashboard_summary_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java
   - id: quest_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java
   - id: quest_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java
+  - id: admin_applications_query_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminApplicationsQueryDTO.java
+  - id: app_user_role_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AppUserRoleOptionDTO.java
+  - id: quest_application_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationListResponseDTO.java
+  - id: quest_application_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java
+  - id: quest_applications_view_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationsViewDTO.java
+  - id: quest_application_status_filter_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationStatusFilterOptionDTO.java
+  - id: quest_audience_filter_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceFilterOptionDTO.java
+  - id: quest_audience_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceOptionDTO.java
+  - id: quest_list_preset
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPreset.java
+  - id: quest_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListResponseDTO.java
+  - id: quest_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java
+  - id: quest_search_defaults_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSearchDefaultsDTO.java
+  - id: quest_search_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSearchRequestDTO.java
+  - id: quest_sort_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSortOptionDTO.java
+  - id: quest_status_filter_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusFilterOptionDTO.java
+  - id: quest_status_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusOptionDTO.java
+  - id: workmarket_options_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkmarketOptionsDTO.java
   - id: quest_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestRequestDTO.java
+  - id: quest_allowed_action
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedAction.java
+  - id: quest_detail_execution_action
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionAction.java
+  - id: quest_detail_execution_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java
+  - id: quest_detail_management_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailManagementSectionDTO.java
+  - id: quest_detail_navigation_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailNavigationSectionDTO.java
+  - id: quest_detail_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailResponseDTO.java
+  - id: quest_detail_review_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewSectionDTO.java
+  - id: quest_detail_review_target_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewTargetDTO.java
+  - id: quest_detail_sections_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailSectionsDTO.java
+  - id: quest_detail_term_change_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailTermChangeSectionDTO.java
+  - id: quest_presentation_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestPresentationDTO.java
+  - id: quest_viewer_relation
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelation.java
   - id: quest_application_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java
   - id: quest_application_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java
+  - id: quest_application_workflow_support
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java
   - id: quest_application_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationRequestDTO.java
+  - id: application_allowed_action
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedAction.java
+  - id: quest_application_detail_context_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailContextSectionDTO.java
+  - id: quest_application_detail_navigation_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailNavigationSectionDTO.java
+  - id: quest_application_detail_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailResponseDTO.java
+  - id: quest_application_detail_sections_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailSectionsDTO.java
+  - id: quest_application_presentation_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationPresentationDTO.java
   - id: user_review_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/UserReviewController.java
   - id: quest_news_controller
@@ -75,6 +177,10 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewRequestDTO.java
   - id: quest_news_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsService.java
+  - id: quest_news_destination_type
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationType.java
+  - id: quest_news_item_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java
   - id: quest_access_policy_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java
   - id: quest_update_service
@@ -103,6 +209,16 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java
   - id: reject_quest_term_change_use_case
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/RejectQuestTermChangeUseCase.java
+  - id: apply_for_quest_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java
+  - id: update_my_application_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UpdateMyApplicationUseCase.java
+  - id: withdraw_my_application_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WithdrawMyApplicationUseCase.java
+  - id: approve_application_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java
+  - id: decline_application_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeclineApplicationUseCase.java
   - id: quest_mgr
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java
   - id: quest_news_mgr
@@ -111,6 +227,8 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestApplicationMgr.java
   - id: location_settings_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java
+  - id: location_access_policy_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java
   - id: location_lookup_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java
   - id: location_lookup_service
@@ -147,6 +265,46 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java
   - id: circle_view_assembler
     path: apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java
+  - id: business_profile_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java
+  - id: business_profile_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java
+  - id: business_profile_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessProfileMgr.java
+  - id: business_profile_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java
+  - id: business_profile_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java
+  - id: business_profile_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileListResponseDTO.java
+  - id: thing_sharing_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java
+  - id: thing_sharing_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java
+  - id: thing_sharing_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java
+  - id: thing_listing_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingRequestDTO.java
+  - id: thing_borrow_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestDTO.java
+  - id: thing_listing_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingResponseDTO.java
+  - id: thing_borrow_request_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java
+  - id: thing_listing_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingListResponseDTO.java
+  - id: ride_offer_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java
+  - id: ride_offer_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java
+  - id: ride_offer_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java
+  - id: ride_offer_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferRequestDTO.java
+  - id: ride_offer_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java
+  - id: ride_offer_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferListResponseDTO.java
   - id: chat_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java
   - id: chat_service
@@ -169,16 +327,58 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketEventDTO.java
   - id: chat_workspace_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatWorkspaceDTO.java
-  - id: circle_group_request_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleGroupRequestDTO.java
-  - id: circle_request_create_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestCreateDTO.java
-  - id: circle_request_mgr
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/mapper/CircleRequestMgr.java
-  - id: connection_circle_update_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/ConnectionCircleUpdateDTO.java
+  - id: admin_circle_group_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/AdminCircleGroupResponseDTO.java
+  - id: admin_circle_overview_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/AdminCircleOverviewDTO.java
+  - id: admin_circle_relation_row_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/AdminCircleRelationRowDTO.java
+  - id: bulk_circle_membership_action
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipAction.java
   - id: bulk_circle_membership_update_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipUpdateDTO.java
+  - id: circle_block_create_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleBlockCreateDTO.java
+  - id: circle_candidate_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleCandidateDTO.java
+  - id: circle_connections_query_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleConnectionsQueryDTO.java
+  - id: circle_contact_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleContactDTO.java
+  - id: circle_contact_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleContactListResponseDTO.java
+  - id: circle_group_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleGroupRequestDTO.java
+  - id: circle_group_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleGroupResponseDTO.java
+  - id: circle_member_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleMemberDTO.java
+  - id: circle_overview_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleOverviewDTO.java
+  - id: circle_relation_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationDTO.java
+  - id: circle_relation_status
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatus.java
+  - id: circle_request_create_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestCreateDTO.java
+  - id: circle_request_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestListResponseDTO.java
+  - id: circle_request_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestResponseDTO.java
+  - id: circle_request_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/mapper/CircleRequestMgr.java
+  - id: circle_search_result_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSearchResultDTO.java
+  - id: circle_search_result_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSearchResultListResponseDTO.java
+  - id: circle_summary_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSummaryDTO.java
+  - id: connection_circle_update_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/ConnectionCircleUpdateDTO.java
+  - id: page_query_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/PageQueryDTO.java
+  - id: text_page_query_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/TextPageQueryDTO.java
   - id: rich_text_validator
     path: apps/themuffinman/src/main/java/com/themuffinman/app/common/validation/RichTextInputValidator.java
   - id: service_errors
@@ -205,12 +405,16 @@ source_of_truth:
     path: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java
   - id: quest_application_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - id: quest_application_use_case_contract_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java
   - id: admin_agent_playground_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java
   - id: admin_agent_golden_prompt_matrix_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
   - id: admin_agent_capability_boundary_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
+  - id: sandbox_generation_planner_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java
   - id: auth_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
   - id: request_dto_validation_test
@@ -223,6 +427,10 @@ source_of_truth:
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java
   - id: agent_operating_model_validation_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  - id: repository_fetch_profile_contract_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/RepositoryFetchProfileContractTest.java
+  - id: workflow_state_machine_catalog_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/WorkflowStateMachineCatalogTest.java
   - id: admin_agent_simulation_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java
   - id: admin_agent_simulation_response_dto
@@ -243,5 +451,15 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionRequirementDTO.java
   - id: user_review_mgr
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/UserReviewMgr.java
+  - id: action_result_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java
+  - id: action_results
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResults.java
+  - id: label_value_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java
+  - id: navigation_target_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetDTO.java
+  - id: navigation_target_type
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetType.java
   - id: agents_doc
     path: AGENTS.md

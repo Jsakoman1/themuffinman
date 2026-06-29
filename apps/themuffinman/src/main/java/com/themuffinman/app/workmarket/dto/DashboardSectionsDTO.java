@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DashboardSectionsDTO {
+    private DashboardNavigationSectionDTO navigation;
     private List<QuestResponseDTO> recentMyQuests;
     private List<QuestApplicationResponseDTO> recentMyApplications;
     private List<QuestApplicationResponseDTO> activeWorkApplications;

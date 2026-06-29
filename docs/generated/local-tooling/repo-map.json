@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-28T21:00:53Z",
-  "total_files": 602,
+  "generated_at": "2026-06-29T12:47:28Z",
+  "total_files": 804,
   "groups": [
     {
       "domain": "agent",
@@ -41,11 +41,24 @@
     {
       "domain": "agent",
       "category": "docs",
-      "count": 3,
+      "count": 7,
       "sample_paths": [
         "docs/agent-improvement-backlog.md",
         "docs/agent-operating-model.md",
-        "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md"
+        "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md",
+        "docs/generated/local-tooling/closeout-enforcement/agent_control_phase_two-summary.md",
+        "docs/generated/local-tooling/endpoint-contract-packs/agent-summary.md",
+        "docs/generated/local-tooling/plan-completion/59-agent-plan-completion-enforcement-summary.md",
+        "docs/generated/local-tooling/plan-completion/60-agent-closeout-report-generation-summary.md"
+      ]
+    },
+    {
+      "domain": "agent",
+      "category": "other",
+      "count": 2,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java"
       ]
     },
     {
@@ -56,6 +69,72 @@
         "scripts/audits/audit-agent-model-feature-coverage.rb",
         "scripts/generate-agent-endpoint-inventory.rb",
         "scripts/generate-agent-operating-model.rb"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_controller",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_dto",
+      "count": 3,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileListResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_mapper",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessProfileMgr.java"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_model",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_repository",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessProfileRepository.java"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_service",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "frontend_api",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "frontend_view",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue"
       ]
     },
     {
@@ -130,11 +209,54 @@
     },
     {
       "domain": "chat",
+      "category": "frontend_view",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue"
+      ]
+    },
+    {
+      "domain": "chat",
       "category": "other",
       "count": 2,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/chat/websocket/ChatWebSocketAuthInterceptor.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/chat/websocket/ChatWebSocketHandler.java"
+      ]
+    },
+    {
+      "domain": "common",
+      "category": "backend_controller",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/controller/GlobalExceptionHandler.java"
+      ]
+    },
+    {
+      "domain": "common",
+      "category": "backend_dto",
+      "count": 5,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResults.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetType.java"
+      ]
+    },
+    {
+      "domain": "common",
+      "category": "other",
+      "count": 23,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/ActorIdentity.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/CircleVisibilitySelection.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/ModuleOwnership.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/SchedulingWindow.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/contract/ContractOptional.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/ServiceErrors.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/DomainEvent.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/DomainEventPublisher.java"
       ]
     },
     {
@@ -197,6 +319,14 @@
         "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java"
+      ]
+    },
+    {
+      "domain": "identity",
+      "category": "docs",
+      "count": 1,
+      "sample_paths": [
+        "docs/generated/local-tooling/endpoint-contract-packs/app_users-summary.md"
       ]
     },
     {
@@ -275,34 +405,88 @@
     {
       "domain": "location",
       "category": "backend_service",
-      "count": 6,
+      "count": 7,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/DisabledLocationLookupClient.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/GeoapifyLocationLookupClient.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupClient.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java"
       ]
     },
     {
-      "domain": "shared",
+      "domain": "rides",
       "category": "backend_controller",
       "count": 1,
       "sample_paths": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/common/controller/GlobalExceptionHandler.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "backend_dto",
+      "count": 3,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferListResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "backend_mapper",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "backend_model",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "backend_repository",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/repository/RideOfferRepository.java"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "backend_service",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "frontend_api",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "frontend_view",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue"
       ]
     },
     {
       "domain": "shared",
       "category": "backend_dto",
-      "count": 7,
+      "count": 2,
       "sample_paths": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResults.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetType.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiErrorResponseDTO.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiFieldErrorDTO.java"
       ]
@@ -310,16 +494,16 @@
     {
       "domain": "shared",
       "category": "docs",
-      "count": 44,
+      "count": 147,
       "sample_paths": [
         "docs/business-logic.md",
         "docs/change-completion-checklist.md",
         "docs/codex-local-tooling-todo.md",
+        "docs/cross-domain-glossary.md",
+        "docs/docs-as-contract-slices.md",
         "docs/documentation-sync-policy.md",
         "docs/domain-technical.md",
-        "docs/generated/dead-code-audit/backend-unused-summary.md",
-        "docs/generated/dead-code-audit/dead-code-summary-summary.md",
-        "docs/generated/dead-code-audit/frontend-unused-summary.md"
+        "docs/example-scenario-library.md"
       ]
     },
     {
@@ -356,7 +540,7 @@
     {
       "domain": "shared",
       "category": "other",
-      "count": 86,
+      "count": 71,
       "sample_paths": [
         "apps/themuffinman/frontend/src/App.vue",
         "apps/themuffinman/frontend/src/api/apiErrors.ts",
@@ -371,16 +555,16 @@
     {
       "domain": "shared",
       "category": "script",
-      "count": 67,
+      "count": 100,
       "sample_paths": [
         "scripts/audits/audit-api-contract-drift.rb",
+        "scripts/audits/audit-architecture-drift.rb",
         "scripts/audits/audit-async-mutation-flow.rb",
         "scripts/audits/audit-automation-readiness-gap.rb",
         "scripts/audits/audit-backend-dead-code.rb",
         "scripts/audits/audit-backend-dependency-graph.rb",
         "scripts/audits/audit-change-impact-preflight.rb",
-        "scripts/audits/audit-config-sprawl.rb",
-        "scripts/audits/audit-dead-code.rb"
+        "scripts/audits/audit-config-sprawl.rb"
       ]
     },
     {
@@ -450,6 +634,14 @@
     },
     {
       "domain": "social",
+      "category": "docs",
+      "count": 1,
+      "sample_paths": [
+        "docs/generated/local-tooling/endpoint-contract-packs/circles-summary.md"
+      ]
+    },
+    {
+      "domain": "social",
       "category": "frontend_composable",
       "count": 9,
       "sample_paths": [
@@ -489,6 +681,77 @@
       ]
     },
     {
+      "domain": "things",
+      "category": "backend_controller",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "backend_dto",
+      "count": 5,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingListResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingResponseDTO.java"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "backend_mapper",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "backend_model",
+      "count": 3,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequest.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequestStatus.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingListing.java"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "backend_repository",
+      "count": 2,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingBorrowRequestRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingListingRepository.java"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "backend_service",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "frontend_api",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "frontend_view",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue"
+      ]
+    },
+    {
       "domain": "workmarket",
       "category": "backend_controller",
       "count": 5,
@@ -503,16 +766,16 @@
     {
       "domain": "workmarket",
       "category": "backend_dto",
-      "count": 54,
+      "count": 56,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminApplicationsQueryDTO.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AppUserRoleOptionDTO.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedAction.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardApplicationGroupDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationType.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationsSectionDTO.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationType.java"
       ]
     },
     {
@@ -555,31 +818,39 @@
     {
       "domain": "workmarket",
       "category": "backend_service",
-      "count": 25,
+      "count": 32,
       "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeleteQuestUseCase.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeclineApplicationUseCase.java"
+      ]
+    },
+    {
+      "domain": "workmarket",
+      "category": "docs",
+      "count": 1,
+      "sample_paths": [
+        "docs/generated/local-tooling/domain-packs/workmarket-summary.md"
       ]
     },
     {
       "domain": "workmarket",
       "category": "frontend_api",
-      "count": 13,
+      "count": 14,
       "sample_paths": [
         "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
         "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
         "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
         "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
         "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
         "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts"
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts"
       ]
     },
     {
@@ -615,7 +886,7 @@
     {
       "domain": "workmarket",
       "category": "other",
-      "count": 44,
+      "count": 46,
       "sample_paths": [
         "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref, watch} from "vue"
+import {ref, watch} from "vue"
 import {useQuestDetailView} from "../composables/useQuestDetailView.ts"
 import UiDialog from "../../../components/ui/UiDialog.vue"
 import UiConfirmDialog from "../../../components/ui/UiConfirmDialog.vue"
@@ -12,7 +12,6 @@ import QuestDetailContent from "../components/shared/QuestDetailContent.vue"
 import QuestDetailEditForm from "../components/shared/QuestDetailEditForm.vue"
 import ApplicationManagementCard from "../components/shared/ApplicationManagementCard.vue"
 import {routeForNavigationTarget} from "../shared/navigationTargets.ts"
-import {formatInstantForInput} from "../../../shared/questSchedule.ts"
 import {formatApplicationPrice, isQuestFree} from "../shared/pricing.ts"
 const {
   router,
@@ -37,9 +36,10 @@ const {
   reviewSection,
   executionSection,
   termChangeSection,
-  managementSection,
+  visibleManagementSection,
+  approvedApplications,
+  remainingApplications,
   canApply,
-  applicationSentVisible,
   canSubmitApplication,
   hasSubmittedReview,
   actionMessage,
@@ -80,6 +80,12 @@ const {
   questAudienceOptions,
   questLocationVisibilityOptions,
   canEdit,
+  hasChanges: ownerQuestHasChanges,
+  showApplicationsSection,
+  showOfferSection,
+  showMyApplicationAside,
+  showOverview,
+  showOverviewStatus,
   cancelEditing,
   setEditTermMode,
   toggleEditCircle,
@@ -89,61 +95,6 @@ const {
   assignQuestNow,
   closeQuestDetail
 } = useQuestDetailView()
-
-const visibleManagementSection = computed(() => {
-  if (!managementSection.value || canEdit.value) {
-    return {
-      editVisible: false,
-      deleteVisible: false,
-      postingSettingsVisible: false,
-      audienceLabel: null,
-      visibleToCirclesLabel: null,
-    }
-  }
-
-  return managementSection.value
-})
-
-const approvedApplications = computed(() => applicationsView.value?.approvedApplications ?? [])
-const remainingApplications = computed(() => applications.value)
-
-const isOwnerView = computed(() => canEdit.value)
-
-const showApplicationsSection = computed(() => isOwnerView.value && !!applicationsView.value)
-const showOfferSection = computed(() => !isOwnerView.value && (canApply.value || applicationSentVisible.value || !!myApplication.value))
-const showMyApplicationAside = computed(() => isOwnerView.value && !showOfferSection.value)
-const showOverview = computed(() => true)
-const showOverviewStatus = computed(() => isOwnerView.value)
-const ownerQuestHasChanges = computed(() => {
-  if (!quest.value) {
-    return false
-  }
-
-  const normalizedTermMode = quest.value.termFixed
-    ? (quest.value.endsAt ? "start-end" : "start-only")
-    : "flexible"
-
-  return editTitle.value.trim() !== quest.value.title.trim()
-    || editDescription.value !== quest.value.description
-    || editAwardAmount.value.trim() !== String(quest.value.awardAmount ?? "").trim()
-    || editAssigneeTarget.value.trim() !== String(quest.value.assigneeTarget ?? 1).trim()
-    || editShowApprovedApplicants.value !== quest.value.showApprovedApplicants
-    || editScheduledAt.value !== formatInstantForInput(quest.value.scheduledAt)
-    || editEndsAt.value !== formatInstantForInput(quest.value.endsAt)
-    || editTermMode.value !== normalizedTermMode
-    || editAudience.value !== quest.value.audience
-    || editLocationSource.value !== (quest.value.locationSource ?? "PROFILE")
-    || editLocationCountry.value !== (quest.value.locationCountry ?? "")
-    || editLocationLocality.value !== (quest.value.locationLocality ?? "")
-    || editLocationPostalCode.value !== (quest.value.locationPostalCode ?? "")
-    || editLocationStreet.value !== (quest.value.locationStreet ?? "")
-    || editLocationHouseNumber.value !== (quest.value.locationHouseNumber ?? "")
-    || editLocationVisibility.value !== quest.value.locationVisibility
-    || editSelectedCircleIds.value.length !== quest.value.visibleToCircles.length
-    || editSelectedCircleIds.value.some((id) => !quest.value?.visibleToCircles.some((circle) => circle.id === id))
-    || editImages.value.length !== quest.value.images.length
-    || editImages.value.some((image, index) => image !== quest.value?.images[index])
-})
 const isApplyFormVisible = ref(false)
 
 watch(() => quest.value?.id, () => {

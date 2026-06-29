@@ -28,7 +28,7 @@ public class QuestExecutionPrimitiveService {
 
     @Transactional(readOnly = true)
     public Quest resolveTarget(Long questId) {
-        return questRepository.findByIdWithCreator(questId)
+        return questRepository.findForQuestDetail(questId)
                 .orElseThrow(() -> ServiceErrors.notFound("Quest not found with id " + questId));
     }
 
@@ -61,11 +61,7 @@ public class QuestExecutionPrimitiveService {
     }
 
     public void validateOwnerAuthority(Quest quest, AppUser actor) {
-        if (questAccessPolicyService.isAdmin(actor)) {
-            return;
-        }
-
-        if (quest == null || actor == null || quest.getCreator() == null || !quest.getCreator().getId().equals(actor.getId())) {
+        if (!questAccessPolicyService.canManageQuest(quest, actor)) {
             throw ServiceErrors.forbidden("You are not allowed to modify this quest");
         }
     }
@@ -101,15 +97,7 @@ public class QuestExecutionPrimitiveService {
     }
 
     public void validateApplicationDetailAccess(QuestApplication application, Quest quest, AppUser currentUser) {
-        if (currentUser == null) {
-            throw ServiceErrors.forbidden("You are not allowed to view this application");
-        }
-
-        if (questAccessPolicyService.isAdmin(currentUser) || questAccessPolicyService.isQuestOwner(quest, currentUser)) {
-            return;
-        }
-
-        if (application.getApplicant() != null && application.getApplicant().getId().equals(currentUser.getId())) {
+        if (questAccessPolicyService.canViewQuestApplication(application, quest, currentUser)) {
             return;
         }
 

@@ -1,6 +1,6 @@
 # Endpoint Contract Pack circles
 
-- Generated At: `2026-06-28T21:02:37Z`
+- Generated At: `2026-06-29T12:47:29Z`
 - Endpoint Family: `circles`
 ## `endpoints`
 
@@ -51,6 +51,7 @@
 - `{:file: "apps/themuffinman/frontend/src/components/ui/UiSearchableMultiSelect.vue", :matched_paths: ["search"]}`
 - `{:file: "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts", :matched_paths: ["circles", "overview", "blocked", "candidates", "connections", "bulk", "nearby", "requests"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts", :matched_paths: ["circles", "search"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue", :matched_paths: ["accept", "search"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/moduleRegistry.ts", :matched_paths: ["circles"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue", :matched_paths: ["circles", "overview", "connections", "bulk"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesDirectoryPanel.vue", :matched_paths: ["circles"]}`
@@ -64,7 +65,6 @@
 - `{:file: "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesPagination.ts", :matched_paths: ["connections", "incoming", "outgoing"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts", :matched_paths: ["/circles", "circles", "overview", "blocked", "connections", "bulk", "nearby", "incoming"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts", :matched_paths: ["blocked"]}`
-- `{:file: "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue", :matched_paths: ["circles", "overview", "blocked", "connections", "requests", "accept", "search"]}`
 
 ## `docs`
 

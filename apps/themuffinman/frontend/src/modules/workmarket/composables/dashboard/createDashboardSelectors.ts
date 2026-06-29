@@ -28,14 +28,17 @@ export const createDashboardSelectors = (state: {
   applicationDetailsById: Ref<Record<number, QuestApplicationDetail>>
   questDialogId: Ref<number | null>
   applicationDialogId: Ref<number | null>
-  dashboardTabs: Array<{id: DashboardTab; title: string; description: string}>
 }) => {
+  const activeNavigationItem = computed(() => {
+    return state.dashboardSections.value?.navigation?.tabs.find((tab) => tab.id === state.activeTab.value) ?? null
+  })
+
   const sectionTitle = computed(() => {
-    return state.dashboardTabs.find((tab) => tab.id === state.activeTab.value)?.title ?? "Overview"
+    return activeNavigationItem.value?.title ?? "Overview"
   })
 
   const sectionSubtitle = computed(() => {
-    return state.dashboardTabs.find((tab) => tab.id === state.activeTab.value)?.description ?? ""
+    return activeNavigationItem.value?.description ?? ""
   })
 
   const recentMyQuests = computed(() => state.dashboardSections.value?.recentMyQuests ?? [])

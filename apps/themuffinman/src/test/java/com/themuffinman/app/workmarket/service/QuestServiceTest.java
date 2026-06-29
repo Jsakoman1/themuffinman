@@ -117,7 +117,8 @@ class QuestServiceTest {
         questStateTransitionService = new QuestStateTransitionService(
                 questApplicationRepository,
                 questValidationService,
-                questWorkflowNotificationService
+                questWorkflowNotificationService,
+                questAccessPolicyService
         );
         questUpdateService = new QuestUpdateService(
                 appUserLookupService,
@@ -162,7 +163,6 @@ class QuestServiceTest {
         questService = new QuestService(
                 questRepository,
                 questApplicationRepository,
-                questApplicationMgr,
                 questApplicationService,
                 questVisibilityService,
                 questAccessPolicyService,
@@ -270,7 +270,7 @@ class QuestServiceTest {
         hiddenQuest.setCreator(creator);
         hiddenQuest.setAudience(QuestAudience.CIRCLES);
 
-        when(questRepository.findAllWithCreator()).thenReturn(List.of(visibleQuest, hiddenQuest));
+        when(questRepository.findForQuestList()).thenReturn(List.of(visibleQuest, hiddenQuest));
         when(questVisibilityService.canViewQuest(currentUser, visibleQuest)).thenReturn(true);
         when(questVisibilityService.canViewQuest(currentUser, hiddenQuest)).thenReturn(false);
 
@@ -290,7 +290,7 @@ class QuestServiceTest {
         visibleQuest.setCreator(creator);
         visibleQuest.setAudience(QuestAudience.CIRCLES);
 
-        when(questRepository.findAllWithCreator()).thenReturn(List.of(visibleQuest));
+        when(questRepository.findForQuestList()).thenReturn(List.of(visibleQuest));
         when(questVisibilityService.canViewQuest(currentUser, visibleQuest)).thenReturn(true);
 
         List<Quest> result = questService.getAllQuests(currentUser);
@@ -309,7 +309,7 @@ class QuestServiceTest {
         visibleQuest.setCreator(creator);
         visibleQuest.setAudience(QuestAudience.EVERYONE);
 
-        when(questRepository.findAllWithCreator()).thenReturn(List.of(visibleQuest));
+        when(questRepository.findForQuestList()).thenReturn(List.of(visibleQuest));
         when(questVisibilityService.canViewQuest(currentUser, visibleQuest)).thenReturn(true);
 
         List<Quest> result = questService.getAllQuests(currentUser);
@@ -344,7 +344,7 @@ class QuestServiceTest {
         secondQuest.setScheduledAt(Instant.parse("2026-01-11T10:00:00Z"));
         secondQuest.setStatus(QuestStatus.OPEN);
 
-        when(questRepository.findAllWithCreator()).thenReturn(List.of(firstQuest, secondQuest));
+        when(questRepository.findForQuestList()).thenReturn(List.of(firstQuest, secondQuest));
         when(questVisibilityService.canViewQuest(currentUser, firstQuest)).thenReturn(true);
         when(questVisibilityService.canViewQuest(currentUser, secondQuest)).thenReturn(true);
         when(questMgr.toDto(org.mockito.ArgumentMatchers.any(Quest.class))).thenAnswer(invocation -> {
@@ -397,7 +397,7 @@ class QuestServiceTest {
         secondQuest.setAwardAmount(BigDecimal.valueOf(20));
         secondQuest.setStatus(QuestStatus.OPEN);
 
-        when(questRepository.findAllWithCreator()).thenReturn(List.of(firstQuest, secondQuest));
+        when(questRepository.findForQuestList()).thenReturn(List.of(firstQuest, secondQuest));
         when(questVisibilityService.canViewQuest(currentUser, firstQuest)).thenReturn(true);
         when(questVisibilityService.canViewQuest(currentUser, secondQuest)).thenReturn(true);
         when(questMgr.toDto(org.mockito.ArgumentMatchers.any(Quest.class))).thenAnswer(invocation -> {
@@ -446,9 +446,9 @@ class QuestServiceTest {
         application.setApplicant(currentUser);
         application.setStatus(QuestApplicationStatus.APPROVED);
 
-        when(questRepository.findByIdWithCreator(31L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(31L)).thenReturn(Optional.of(quest));
         when(questVisibilityService.canViewQuest(currentUser, quest)).thenReturn(true);
-        when(questApplicationRepository.findByApplicantId(currentUser.getId())).thenReturn(List.of(application));
+        when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of(application));
         when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
                 .id(quest.getId())
                 .status(quest.getStatus())
@@ -480,9 +480,9 @@ class QuestServiceTest {
         quest.setTitle("Clean garage");
         quest.setStatus(QuestStatus.OPEN);
 
-        when(questRepository.findByIdWithCreator(32L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(32L)).thenReturn(Optional.of(quest));
         when(questVisibilityService.canViewQuest(currentUser, quest)).thenReturn(true);
-        when(questApplicationRepository.findByApplicantId(currentUser.getId())).thenReturn(List.of());
+        when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of());
         when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
                 .id(quest.getId())
                 .status(quest.getStatus())
@@ -508,9 +508,9 @@ class QuestServiceTest {
         quest.setTitle("Organize garage");
         quest.setStatus(QuestStatus.OPEN);
 
-        when(questRepository.findByIdWithCreator(34L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(34L)).thenReturn(Optional.of(quest));
         when(questVisibilityService.canViewQuest(currentUser, quest)).thenReturn(true);
-        when(questApplicationRepository.findByApplicantId(currentUser.getId())).thenReturn(List.of());
+        when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of());
         when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
                 .id(quest.getId())
                 .status(quest.getStatus())
@@ -557,16 +557,16 @@ class QuestServiceTest {
         myApplication.setApplicant(currentUser);
         myApplication.setStatus(QuestApplicationStatus.DECLINED);
 
-        when(questRepository.findByIdWithCreator(33L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(33L)).thenReturn(Optional.of(quest));
         when(questVisibilityService.canViewQuest(currentUser, quest)).thenReturn(true);
-        when(questApplicationRepository.findByApplicantId(currentUser.getId())).thenReturn(List.of(myApplication));
+        when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of(myApplication));
         when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
                 .id(quest.getId())
                 .status(quest.getStatus())
                 .audience(QuestAudience.CIRCLES)
                 .visibleToCircles(List.of(CircleSummaryDTO.builder().id(9L).name("Trusted neighbours").build()))
                 .build());
-        when(questApplicationService.toApplicantResponse(myApplication)).thenReturn(QuestApplicationResponseDTO.builder().id(52L).build());
+        when(questApplicationService.toViewerResponse(myApplication, currentUser)).thenReturn(QuestApplicationResponseDTO.builder().id(52L).build());
         when(questApplicationService.getApplicationsViewForQuest(33L, currentUser, false)).thenReturn(
                 com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO.builder()
                         .visibleApplications(List.of(
@@ -608,11 +608,11 @@ class QuestServiceTest {
         myApplication.setApplicant(applicant);
         myApplication.setStatus(QuestApplicationStatus.APPROVED);
 
-        when(questRepository.findByIdWithCreator(33L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(33L)).thenReturn(Optional.of(quest));
         when(questVisibilityService.canViewQuest(applicant, quest)).thenReturn(true);
-        when(questApplicationRepository.findByApplicantId(applicant.getId())).thenReturn(List.of(myApplication));
+        when(questApplicationRepository.findForApplicantDashboard(applicant.getId())).thenReturn(List.of(myApplication));
         when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder().id(quest.getId()).status(quest.getStatus()).creatorId(creator.getId()).build());
-        when(questApplicationService.toApplicantResponse(myApplication)).thenReturn(QuestApplicationResponseDTO.builder()
+        when(questApplicationService.toViewerResponse(myApplication, applicant)).thenReturn(QuestApplicationResponseDTO.builder()
                 .id(52L)
                 .questId(33L)
                 .status(QuestApplicationStatus.APPROVED)
@@ -657,18 +657,17 @@ class QuestServiceTest {
                 .allowedActions(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW))
                 .build();
 
-        when(questRepository.findByIdWithCreator(33L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(33L)).thenReturn(Optional.of(quest));
         when(questVisibilityService.canViewQuest(applicant, quest)).thenReturn(true);
-        when(questApplicationRepository.findByApplicantId(applicant.getId())).thenReturn(List.of(myApplication));
+        when(questApplicationRepository.findForApplicantDashboard(applicant.getId())).thenReturn(List.of(myApplication));
         when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder().id(quest.getId()).status(quest.getStatus()).creatorId(creator.getId()).build());
-        when(questApplicationService.toApplicantResponse(myApplication)).thenReturn(myApplicationDto);
+        when(questApplicationService.toViewerResponse(myApplication, applicant)).thenReturn(myApplicationDto);
 
         QuestDetailResponseDTO result = questService.getQuestDetailResponseById(33L, applicant);
 
         assertNotNull(result.getMyApplication());
         assertEquals(List.of(ApplicationAllowedAction.EDIT, ApplicationAllowedAction.WITHDRAW), result.getMyApplication().getAllowedActions());
-        verify(questApplicationService).toApplicantResponse(myApplication);
-        verify(questApplicationMgr, never()).toDto(myApplication);
+        verify(questApplicationService).toViewerResponse(myApplication, applicant);
     }
 
     @Test
@@ -689,9 +688,9 @@ class QuestServiceTest {
         application.setApplicant(applicant);
         application.setStatus(QuestApplicationStatus.PENDING);
 
-        when(questApplicationRepository.findByIdDetailed(52L)).thenReturn(Optional.of(application));
-        when(questRepository.findByIdWithCreator(33L)).thenReturn(Optional.of(quest));
-        when(questApplicationRepository.findByApplicantId(applicant.getId())).thenReturn(List.of(application));
+        when(questApplicationRepository.findForApplicationDetail(52L)).thenReturn(Optional.of(application));
+        when(questRepository.findForQuestDetail(33L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findForApplicantDashboard(applicant.getId())).thenReturn(List.of(application));
         when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
                 .id(33L)
                 .status(QuestStatus.OPEN)
@@ -705,7 +704,7 @@ class QuestServiceTest {
                         .entityId(7L)
                         .build())
                 .build());
-        when(questApplicationService.toApplicantResponse(application)).thenReturn(QuestApplicationResponseDTO.builder()
+        when(questApplicationService.toViewerResponse(application, applicant)).thenReturn(QuestApplicationResponseDTO.builder()
                 .id(52L)
                 .questId(33L)
                 .questTitle("Assemble shelf")
@@ -726,8 +725,7 @@ class QuestServiceTest {
         assertEquals(true, result.getSections().getContext().isShowStatus());
         assertEquals(true, result.getSections().getContext().isShowTerm());
         assertEquals(true, result.getSections().getContext().isShowWorkers());
-        verify(questApplicationService).toApplicantResponse(application);
-        verify(questApplicationMgr, never()).toDto(application);
+        verify(questApplicationService).toViewerResponse(application, applicant);
     }
 
     @Test
@@ -748,8 +746,8 @@ class QuestServiceTest {
         application.setApplicant(applicant);
         application.setStatus(QuestApplicationStatus.PENDING);
 
-        when(questApplicationRepository.findByIdDetailed(52L)).thenReturn(Optional.of(application));
-        when(questRepository.findByIdWithCreator(33L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findForApplicationDetail(52L)).thenReturn(Optional.of(application));
+        when(questRepository.findForQuestDetail(33L)).thenReturn(Optional.of(quest));
         assertThrows(ResponseStatusException.class, () -> questService.getApplicationDetailResponseById(52L, viewer));
     }
 
@@ -764,7 +762,7 @@ class QuestServiceTest {
         hiddenQuest.setCreator(creator);
         hiddenQuest.setAudience(QuestAudience.CIRCLES);
 
-        when(questRepository.findAllWithCreator()).thenReturn(List.of(hiddenQuest));
+        when(questRepository.findForQuestList()).thenReturn(List.of(hiddenQuest));
         when(questVisibilityService.canViewQuest(admin, hiddenQuest)).thenReturn(true);
 
         List<Quest> result = questService.getAllQuests(admin);
@@ -787,7 +785,7 @@ class QuestServiceTest {
                 .awardAmount(BigDecimal.TEN)
                 .build();
 
-        when(questRepository.findByIdWithCreator(9L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(9L)).thenReturn(Optional.of(quest));
 
         assertThrows(ResponseStatusException.class, () -> questService.updateQuest(9L, requestDTO, otherUser));
     }
@@ -806,7 +804,7 @@ class QuestServiceTest {
                 .awardAmount(BigDecimal.valueOf(80))
                 .build();
 
-        when(questRepository.findByIdWithCreator(9L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(9L)).thenReturn(Optional.of(quest));
         when(questRepository.save(quest)).thenReturn(quest);
 
         questService.updateQuest(9L, requestDTO, creator);
@@ -840,7 +838,7 @@ class QuestServiceTest {
                 .status(QuestStatus.ASSIGNED)
                 .build();
 
-        when(questRepository.findByIdWithCreator(24L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(24L)).thenReturn(Optional.of(quest));
         when(questApplicationRepository.countByQuestIdAndStatus(24L, QuestApplicationStatus.APPROVED)).thenReturn(1L);
         when(questRepository.save(quest)).thenReturn(quest);
 
@@ -871,7 +869,7 @@ class QuestServiceTest {
                 .termFixed(true)
                 .build();
 
-        when(questRepository.findByIdWithCreator(21L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(21L)).thenReturn(Optional.of(quest));
         when(questRepository.save(quest)).thenReturn(quest);
 
         questService.updateQuest(21L, requestDTO, creator);
@@ -898,7 +896,7 @@ class QuestServiceTest {
                 .awardAmount(BigDecimal.valueOf(40))
                 .build();
 
-        when(questRepository.findByIdWithCreator(22L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(22L)).thenReturn(Optional.of(quest));
         when(questRepository.save(quest)).thenReturn(quest);
 
         questService.updateQuest(22L, requestDTO, creator);
@@ -929,8 +927,8 @@ class QuestServiceTest {
                 .awardAmount(BigDecimal.ZERO)
                 .build();
 
-        when(questRepository.findByIdWithCreator(23L)).thenReturn(Optional.of(quest));
-        when(questApplicationRepository.findByQuestId(23L)).thenReturn(List.of(application));
+        when(questRepository.findForQuestDetail(23L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findForQuestApplicationManagement(23L)).thenReturn(List.of(application));
         when(questRepository.save(quest)).thenReturn(quest);
 
         questService.updateQuest(23L, requestDTO, creator);
@@ -959,7 +957,7 @@ class QuestServiceTest {
                 .status(QuestStatus.CANCELLED)
                 .build();
 
-        when(questRepository.findByIdWithCreator(31L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(31L)).thenReturn(Optional.of(quest));
         when(appUserLookupService.requireById(2L, "Creator not found with id 2")).thenReturn(newCreator);
         when(questRepository.save(quest)).thenReturn(quest);
 
@@ -979,7 +977,7 @@ class QuestServiceTest {
         quest.setCreator(creator);
         quest.setStatus(QuestStatus.ASSIGNED);
 
-        when(questRepository.findByIdWithCreator(10L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(10L)).thenReturn(Optional.of(quest));
         when(questRepository.save(quest)).thenReturn(quest);
 
         questService.startQuest(10L, creator);
@@ -995,7 +993,7 @@ class QuestServiceTest {
         quest.setCreator(creator);
         quest.setStatus(QuestStatus.IN_PROGRESS);
 
-        when(questRepository.findByIdWithCreator(11L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(11L)).thenReturn(Optional.of(quest));
         when(questRepository.save(quest)).thenReturn(quest);
 
         questService.completeQuest(11L, creator);
@@ -1015,8 +1013,8 @@ class QuestServiceTest {
         QuestApplication approvedApplication = new QuestApplication();
         approvedApplication.setId(41L);
 
-        when(questRepository.findByIdWithCreator(21L)).thenReturn(Optional.of(quest));
-        when(questApplicationRepository.findByQuestIdAndApplicantIdAndStatus(21L, 2L, QuestApplicationStatus.APPROVED))
+        when(questRepository.findForQuestDetail(21L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findForViewerApplicationWithStatus(21L, 2L, QuestApplicationStatus.APPROVED))
                 .thenReturn(Optional.of(approvedApplication));
         when(questRepository.save(quest)).thenReturn(quest);
 
@@ -1037,8 +1035,8 @@ class QuestServiceTest {
         QuestApplication approvedApplication = new QuestApplication();
         approvedApplication.setId(42L);
 
-        when(questRepository.findByIdWithCreator(22L)).thenReturn(Optional.of(quest));
-        when(questApplicationRepository.findByQuestIdAndApplicantIdAndStatus(22L, 2L, QuestApplicationStatus.APPROVED))
+        when(questRepository.findForQuestDetail(22L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findForViewerApplicationWithStatus(22L, 2L, QuestApplicationStatus.APPROVED))
                 .thenReturn(Optional.of(approvedApplication));
         when(questRepository.save(quest)).thenReturn(quest);
 
@@ -1055,7 +1053,7 @@ class QuestServiceTest {
         quest.setCreator(creator);
         quest.setStatus(QuestStatus.OPEN);
 
-        when(questRepository.findByIdWithCreator(12L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(12L)).thenReturn(Optional.of(quest));
 
         assertThrows(ResponseStatusException.class, () -> questService.startQuest(12L, creator));
     }
@@ -1080,7 +1078,7 @@ class QuestServiceTest {
                 .termFixed(false)
                 .build();
 
-        when(questRepository.findByIdWithCreator(15L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(15L)).thenReturn(Optional.of(quest));
         when(questRepository.save(quest)).thenReturn(quest);
 
         questService.updateQuest(15L, requestDTO, creator);
@@ -1118,7 +1116,7 @@ class QuestServiceTest {
                 .status(QuestStatus.WAITING_CONFIRMATION)
                 .build();
 
-        when(questRepository.findByIdWithCreator(18L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(18L)).thenReturn(Optional.of(quest));
         when(questRepository.save(quest)).thenReturn(quest);
 
         questService.updateQuest(18L, requestDTO, admin);
@@ -1153,7 +1151,7 @@ class QuestServiceTest {
                 .status(QuestStatus.OPEN)
                 .build();
 
-        when(questRepository.findByIdWithCreator(19L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(19L)).thenReturn(Optional.of(quest));
         when(questRepository.save(quest)).thenReturn(quest);
 
         questService.updateQuest(19L, requestDTO, admin);
@@ -1197,8 +1195,8 @@ class QuestServiceTest {
                 .status(QuestStatus.OPEN)
                 .build();
 
-        when(questRepository.findByIdWithCreator(20L)).thenReturn(Optional.of(quest));
-        when(questApplicationRepository.findByQuestId(20L)).thenReturn(List.of(
+        when(questRepository.findForQuestDetail(20L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findForQuestApplicationManagement(20L)).thenReturn(List.of(
                 approvedApplication,
                 declinedApplication,
                 pendingApplication,
@@ -1225,7 +1223,7 @@ class QuestServiceTest {
         quest.setId(14L);
         quest.setCreator(creator);
 
-        when(questRepository.findByIdWithCreator(14L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(14L)).thenReturn(Optional.of(quest));
 
         questService.deleteQuest(14L, creator);
 
@@ -1250,8 +1248,8 @@ class QuestServiceTest {
         com.themuffinman.app.workmarket.model.QuestApplication approvedApplication = new com.themuffinman.app.workmarket.model.QuestApplication();
         approvedApplication.setId(22L);
 
-        when(questRepository.findByIdWithCreator(16L)).thenReturn(Optional.of(quest));
-        when(questApplicationRepository.findByQuestIdAndApplicantIdAndStatus(16L, 2L, com.themuffinman.app.workmarket.model.QuestApplicationStatus.APPROVED))
+        when(questRepository.findForQuestDetail(16L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findForViewerApplicationWithStatus(16L, 2L, com.themuffinman.app.workmarket.model.QuestApplicationStatus.APPROVED))
                 .thenReturn(Optional.of(approvedApplication));
         when(questRepository.save(quest)).thenReturn(quest);
 
@@ -1281,8 +1279,8 @@ class QuestServiceTest {
         com.themuffinman.app.workmarket.model.QuestApplication approvedApplication = new com.themuffinman.app.workmarket.model.QuestApplication();
         approvedApplication.setId(23L);
 
-        when(questRepository.findByIdWithCreator(17L)).thenReturn(Optional.of(quest));
-        when(questApplicationRepository.findByQuestIdAndApplicantIdAndStatus(17L, 2L, com.themuffinman.app.workmarket.model.QuestApplicationStatus.APPROVED))
+        when(questRepository.findForQuestDetail(17L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findForViewerApplicationWithStatus(17L, 2L, com.themuffinman.app.workmarket.model.QuestApplicationStatus.APPROVED))
                 .thenReturn(Optional.of(approvedApplication));
         when(questRepository.save(quest)).thenReturn(quest);
 

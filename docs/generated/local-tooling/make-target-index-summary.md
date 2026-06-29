@@ -1,49 +1,49 @@
 # Make Target Index
 
-- Generated At: `2026-06-28T21:06:27Z`
+- Generated At: `2026-06-29T12:47:28Z`
 ## `targets`
 
 - `api-contract-snapshot`
+- `architecture-decision-index`
 - `audit-agent-model-feature-coverage`
 - `audit-agent-safety`
 - `audit-api-contract-drift`
+- `audit-architecture-drift`
 - `audit-async-mutation-flow`
 - `audit-automation-readiness-gap`
 - `audit-backend-dead-code`
 - `audit-backend-dependency-graph`
 - `audit-change-impact-preflight`
 - `audit-config-sprawl`
+- `audit-contract-test-gaps`
 - `audit-dead-code`
+- `audit-delta-report`
 - `audit-doc-canonical-phrases`
 - `audit-doc-coverage-gap`
+- `audit-doc-staleness-scoring`
+- `audit-doc-sync-duplicates`
 - `audit-doc-sync-preflight`
-- `audit-docs-to-code-drift`
-- `audit-documentation`
-- `audit-domain-ownership-inventory`
-- `audit-dormant-code`
-- `audit-duplicate-logic`
-- `audit-endpoint-callsite-linker`
 
 ## `audit_targets`
 
 - `audit-agent-model-feature-coverage`
 - `audit-agent-safety`
 - `audit-api-contract-drift`
+- `audit-architecture-drift`
 - `audit-async-mutation-flow`
 - `audit-automation-readiness-gap`
 - `audit-backend-dead-code`
 - `audit-backend-dependency-graph`
 - `audit-change-impact-preflight`
 - `audit-config-sprawl`
+- `audit-contract-test-gaps`
 - `audit-dead-code`
+- `audit-delta-report`
 - `audit-doc-canonical-phrases`
 - `audit-doc-coverage-gap`
+- `audit-doc-staleness-scoring`
+- `audit-doc-sync-duplicates`
 - `audit-doc-sync-preflight`
-- `audit-docs-to-code-drift`
-- `audit-documentation`
-- `audit-domain-ownership-inventory`
-- `audit-dormant-code`
-- `audit-duplicate-logic`
-- `audit-endpoint-callsite-linker`
-- `audit-error-pattern`
+- `audit-doc-template-coverage`
+- `audit-docs-as-tests`
 

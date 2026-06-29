@@ -1,0 +1,27 @@
+.rides-list,
+.rides-form {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.rides-list__item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.85rem;
+}
+
+.rides-list__item h3 {
+  margin: 0;
+}
+
+.rides-list__note {
+  line-height: 1.55;
+  margin-top: 0.5rem;
+}
+
+.rides-form__textarea {
+  min-height: 6rem;
+  resize: vertical;
+}

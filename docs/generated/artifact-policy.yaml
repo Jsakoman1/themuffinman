@@ -1,0 +1,51 @@
+version: 1
+generated_artifact_policy:
+  source_of_truth:
+    description: Generated artifacts that act as reviewed contract or audit snapshots and should stay tracked when their source inputs change.
+    paths:
+      - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+      - docs/agent-operating-model.yaml
+      - docs/generated/README.md
+      - docs/generated/artifact-policy.yaml
+      - docs/generated/agent-endpoint-inventory.json
+      - docs/generated/automation-read-model-inventory.json
+      - docs/generated/backend-audit-inventory.json
+      - docs/generated/source-of-truth-audit.json
+  tracked_review_context:
+    description: Generated local-tooling summaries and inventories that may stay tracked when they are concise, reviewer-useful, and directly refreshed by the task.
+    path_globs:
+      - docs/generated/dead-code-audit/*.json
+      - docs/generated/dead-code-audit/*.md
+      - docs/generated/local-tooling/*.json
+      - docs/generated/local-tooling/*.md
+      - docs/generated/local-tooling/endpoint-contract-packs/*.json
+      - docs/generated/local-tooling/endpoint-contract-packs/*.md
+  disposable_local_context:
+    description: Per-session, per-smoke, cache, diagnostic, context-pack, handoff, and closeout outputs that should remain untracked by default.
+    path_globs:
+      - docs/generated/local-tooling/.cache/**
+      - docs/generated/local-tooling/context-packs/**
+      - docs/generated/local-tooling/session-handoffs/**
+      - docs/generated/local-tooling/smoke/**
+      - docs/generated/local-tooling/diagnostics/**
+      - docs/generated/local-tooling/feature-slices/**
+      - docs/generated/local-tooling/closeout-reports/**
+      - docs/generated/local-tooling/plan-completion/**
+      - docs/generated/local-tooling/post-merge-retrospectives/**
+  do_not_commit_by_default:
+    description: Outputs that may be useful locally but should not be added to a changeset unless the task explicitly needs them as review evidence.
+    path_globs:
+      - docs/generated/local-tooling/.cache/**
+      - docs/generated/local-tooling/context-packs/**
+      - docs/generated/local-tooling/session-handoffs/**
+      - docs/generated/local-tooling/smoke/**
+      - docs/generated/local-tooling/diagnostics/**
+      - docs/generated/local-tooling/feature-slices/**
+      - docs/generated/local-tooling/closeout-reports/**
+      - docs/generated/local-tooling/plan-completion/**
+      - docs/generated/local-tooling/post-merge-retrospectives/**
+  review_rules:
+    - Keep source-of-truth generated artifacts aligned with their source inputs before validation.
+    - Commit tracked review context only when it is task-required, concise enough to review, and helps a reviewer avoid rerunning local tooling.
+    - Do not commit disposable local context by default.
+    - Prefer committing summaries over broad raw generated output when both exist and the raw output is not directly required.

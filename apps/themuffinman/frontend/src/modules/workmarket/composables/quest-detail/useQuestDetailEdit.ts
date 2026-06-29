@@ -45,6 +45,33 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
 
   const canEdit = computed(() => state.quest.value?.presentation.canEdit ?? false)
 
+  const hasChanges = computed(() => {
+    if (!state.quest.value) {
+      return false
+    }
+
+    return editTitle.value.trim() !== state.quest.value.title.trim()
+      || editDescription.value !== state.quest.value.description
+      || editAwardAmount.value.trim() !== String(state.quest.value.awardAmount ?? "").trim()
+      || editAssigneeTarget.value.trim() !== String(state.quest.value.assigneeTarget ?? 1).trim()
+      || editShowApprovedApplicants.value !== state.quest.value.showApprovedApplicants
+      || editScheduledAt.value !== formatInstantForInput(state.quest.value.scheduledAt)
+      || editEndsAt.value !== formatInstantForInput(state.quest.value.endsAt)
+      || editTermMode.value !== resolveQuestTermMode(state.quest.value)
+      || editAudience.value !== state.quest.value.audience
+      || editLocationSource.value !== (state.quest.value.locationSource ?? "PROFILE")
+      || editLocationCountry.value !== (state.quest.value.locationCountry ?? "")
+      || editLocationLocality.value !== (state.quest.value.locationLocality ?? "")
+      || editLocationPostalCode.value !== (state.quest.value.locationPostalCode ?? "")
+      || editLocationStreet.value !== (state.quest.value.locationStreet ?? "")
+      || editLocationHouseNumber.value !== (state.quest.value.locationHouseNumber ?? "")
+      || editLocationVisibility.value !== state.quest.value.locationVisibility
+      || editSelectedCircleIds.value.length !== state.quest.value.visibleToCircles.length
+      || editSelectedCircleIds.value.some((id) => !state.quest.value?.visibleToCircles.some((circle) => circle.id === id))
+      || editImages.value.length !== state.quest.value.images.length
+      || editImages.value.some((image, index) => image !== state.quest.value?.images[index])
+  })
+
   const syncEditStateFromQuest = () => {
     if (!state.quest.value) {
       return
@@ -251,6 +278,7 @@ export const useQuestDetailEdit = (state: QuestDetailEditState) => {
     questAudienceOptions,
     questLocationVisibilityOptions,
     canEdit,
+    hasChanges,
     startEditing,
     cancelEditing,
     setEditTermMode,

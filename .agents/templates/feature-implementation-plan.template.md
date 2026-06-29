@@ -27,4 +27,14 @@ Purpose: track a multi-step feature change from initial scope through final vali
 - [ ] Backend validation passes.
 - [ ] Frontend validation passes if frontend contracts changed.
 - [ ] Docs and machine-operating artifacts are updated.
+- [ ] Doc delta summary records behavior changed, docs updated, and intentionally unchanged related surfaces.
 - [ ] This plan is updated to reflect actual completion state before closing the task.
+
+## Completion Evidence
+
+- Status: draft
+- Changed files: TBD
+- Validation evidence: TBD
+- Doc delta summary: TBD
+- Backlog update: TBD
+- Residual risk: TBD

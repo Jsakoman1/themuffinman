@@ -1,0 +1,3549 @@
+{
+  "generated_at": "2026-06-29T12:47:34Z",
+  "endpoint_count": 89,
+  "review_needed_count": 0,
+  "high_priority_count": 0,
+  "entries": [
+    {
+      "endpoint": "POST /admin/agent/playground",
+      "controller": "AdminAgentController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java",
+      "domain": "agent",
+      "dtos": [
+        "AdminAgentSimulationResponseDTO",
+        "AdminAgentSimulationRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "AdminAgentController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /admin/agent/simulate",
+      "controller": "AdminAgentController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java",
+      "domain": "agent",
+      "dtos": [
+        "AdminAgentSimulationRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "AdminAgentController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /business/profiles",
+      "controller": "BusinessProfileController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "domain": "business",
+      "dtos": [
+        "BusinessProfileResponseDTO"
+      ],
+      "automation_relevant": false,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+        "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+        "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/business/profiles",
+        "BusinessProfileController",
+        "BusinessProfileResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /business/profiles/me",
+      "controller": "BusinessProfileController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "domain": "business",
+      "dtos": [
+        "BusinessProfileResponseDTO"
+      ],
+      "automation_relevant": false,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/business/profiles/me",
+        "BusinessProfileController",
+        "BusinessProfileResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PUT /business/profiles/me",
+      "controller": "BusinessProfileController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "domain": "business",
+      "dtos": [
+        "BusinessProfileResponseDTO"
+      ],
+      "automation_relevant": false,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/business/profiles/me",
+        "BusinessProfileController",
+        "BusinessProfileResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /business/profiles/{slug}",
+      "controller": "BusinessProfileController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "domain": "business",
+      "dtos": [
+        "BusinessProfileResponseDTO"
+      ],
+      "automation_relevant": false,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "BusinessProfileController",
+        "BusinessProfileResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /chat/workspace",
+      "controller": "ChatController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "domain": "chat",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiWorkspace.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "ChatController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /chat/conversations/open",
+      "controller": "ChatController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "domain": "chat",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue",
+        "apps/themuffinman/frontend/src/components/profile/ProfileEntityCard.vue",
+        "apps/themuffinman/frontend/src/components/profile/ProfileOpenQuestItem.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiDialog.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "ChatController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /chat/conversations/{conversationId}/messages",
+      "controller": "ChatController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "domain": "chat",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "ChatController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /chat/conversations/{conversationId}/messages",
+      "controller": "ChatController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "domain": "chat",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "ChatController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PATCH /chat/conversations/{conversationId}/read",
+      "controller": "ChatController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "domain": "chat",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/ui/UiReadonlyField.vue",
+        "apps/themuffinman/frontend/src/env.d.ts",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "ChatController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /chat/presence/heartbeat",
+      "controller": "ChatController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "domain": "chat",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "ChatController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /app_users",
+      "controller": "AppUserController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "domain": "identity",
+      "dtos": [
+        "AppUserResponseDTO",
+        "AppUserRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/app_users",
+        "AppUserController",
+        "AppUserResponseDTO",
+        "AppUserRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /app_users",
+      "controller": "AppUserController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "domain": "identity",
+      "dtos": [
+        "AppUserRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/app_users",
+        "AppUserController",
+        "AppUserRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /app_users/options",
+      "controller": "AppUserController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "domain": "identity",
+      "dtos": [
+        "AppUserRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/ui/UiChoiceChips.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiSearchableMultiSelect.vue",
+        "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardPostWork.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileLocationEditor.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/app_users/options",
+        "AppUserController",
+        "AppUserRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /app_users/me",
+      "controller": "AppUserController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "domain": "identity",
+      "dtos": [
+        "AppUserRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/app_users/me",
+        "AppUserController",
+        "AppUserRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /app_users/{id}",
+      "controller": "AppUserController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "domain": "identity",
+      "dtos": [
+        "AppUserRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "AppUserController",
+        "AppUserRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /app_users/{id}/admin-detail",
+      "controller": "AppUserController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "domain": "identity",
+      "dtos": [
+        "AppUserRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "AppUserController",
+        "AppUserRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /app_users/{id}/profile-view",
+      "controller": "AppUserController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "domain": "identity",
+      "dtos": [
+        "AppUserRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "AppUserController",
+        "AppUserRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "DELETE /app_users/{id}",
+      "controller": "AppUserController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "domain": "identity",
+      "dtos": [
+        "AppUserRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "AppUserController",
+        "AppUserRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PUT /app_users/{id}",
+      "controller": "AppUserController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "domain": "identity",
+      "dtos": [
+        "AppUserRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "AppUserController",
+        "AppUserRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PUT /app_users/me",
+      "controller": "AppUserController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "domain": "identity",
+      "dtos": [
+        "AppUserRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/app_users/me",
+        "AppUserController",
+        "AppUserRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /auth/register",
+      "controller": "AuthController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java",
+      "domain": "identity",
+      "dtos": [
+        "AuthResponse"
+      ],
+      "automation_relevant": false,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+        "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
+        "apps/themuffinman/frontend/src/router.ts",
+        "apps/themuffinman/frontend/src/services/sessionService.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/auth/register",
+        "AuthController",
+        "AuthResponse"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /auth/login",
+      "controller": "AuthController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java",
+      "domain": "identity",
+      "dtos": [
+        "AuthResponse"
+      ],
+      "automation_relevant": false,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+        "apps/themuffinman/frontend/src/modules/identity/auth.ts",
+        "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/auth/login",
+        "AuthController",
+        "AuthResponse"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /auth/me",
+      "controller": "AuthController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java",
+      "domain": "identity",
+      "dtos": [
+        "AuthResponse"
+      ],
+      "automation_relevant": false,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/auth/me",
+        "AuthController",
+        "AuthResponse"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /location/lookup",
+      "controller": "LocationLookupController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
+      "domain": "location",
+      "dtos": [
+        "LocationDebugStatusDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileLocationEditor.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/location/lookup",
+        "LocationLookupController",
+        "LocationDebugStatusDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /location/reverse-lookup",
+      "controller": "LocationLookupController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
+      "domain": "location",
+      "dtos": [
+        "LocationDebugStatusDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/location/reverse-lookup",
+        "LocationLookupController",
+        "LocationDebugStatusDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /location/admin/status",
+      "controller": "LocationLookupController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
+      "domain": "location",
+      "dtos": [
+        "LocationDebugStatusDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/profile/ProfileOpenQuestItem.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiStatusBanner.vue",
+        "apps/themuffinman/frontend/src/httpDebug.ts",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/location/admin/status",
+        "LocationLookupController",
+        "LocationDebugStatusDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /rides/offers",
+      "controller": "RideOfferController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "domain": "rides",
+      "dtos": [
+        "RideOfferResponseDTO",
+        "RideOfferRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+        "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "RideOfferController",
+        "RideOfferResponseDTO",
+        "RideOfferRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /rides/offers/me",
+      "controller": "RideOfferController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "domain": "rides",
+      "dtos": [
+        "RideOfferRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "RideOfferController",
+        "RideOfferRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /rides/offers",
+      "controller": "RideOfferController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "domain": "rides",
+      "dtos": [
+        "RideOfferRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+        "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "RideOfferController",
+        "RideOfferRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /circles/me/overview",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /circles/admin/overview",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /circles/groups",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PUT /circles/groups/{id}",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "DELETE /circles/groups/{id}",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "DELETE /circles/admin/groups/{id}",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /circles/groups",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PUT /circles/connections/{userId}/circles",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesDirectoryPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PUT /circles/connections/circles/bulk",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /circles",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesDirectoryPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/circles",
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /circles/requests/incoming",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiEventPill.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesPagination.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /circles/requests/outgoing",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/ui/UiEventPill.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesPagination.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /circles/candidates",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /circles/connections",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesPagination.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /circles/relations/{userId}",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /circles/search",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/ui/UiSearchableMultiSelect.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /circles/blocked",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /circles/nearby",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /circles/requests",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PATCH /circles/requests/{id}/accept",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "DELETE /circles/requests/{id}",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /circles/blocks",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "DELETE /circles/blocks/{userId}",
+      "controller": "CircleController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "domain": "social",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "CircleController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /things/listings",
+      "controller": "ThingSharingController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "domain": "things",
+      "dtos": [
+        "ThingBorrowRequestResponseDTO",
+        "ThingBorrowRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+        "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "ThingSharingController",
+        "ThingBorrowRequestResponseDTO",
+        "ThingBorrowRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /things/listings/me",
+      "controller": "ThingSharingController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "domain": "things",
+      "dtos": [
+        "ThingBorrowRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "ThingSharingController",
+        "ThingBorrowRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /things/listings",
+      "controller": "ThingSharingController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "domain": "things",
+      "dtos": [
+        "ThingBorrowRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+        "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "ThingSharingController",
+        "ThingBorrowRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /things/listings/{listingId}/borrow-requests",
+      "controller": "ThingSharingController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "domain": "things",
+      "dtos": [
+        "ThingBorrowRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "ThingSharingController",
+        "ThingBorrowRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /dashboard/me",
+      "controller": "DashboardController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "DashboardSummaryDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "DashboardController",
+        "DashboardSummaryDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /dashboard/me/summary",
+      "controller": "DashboardController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "DashboardSummaryDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/profile/ProfileSummaryCard.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiRequestError.vue",
+        "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "DashboardController",
+        "DashboardSummaryDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /quests/{questId}/applications",
+      "controller": "QuestApplicationController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestApplicationController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /quests/{questId}/applications",
+      "controller": "QuestApplicationController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestApplicationController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /quests/{questId}/applications/view",
+      "controller": "QuestApplicationController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/profile/ProfileReviewItem.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestApplicationController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /quests/applications/me",
+      "controller": "QuestApplicationController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestApplicationController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /applications/{applicationId}/detail",
+      "controller": "QuestApplicationController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/ui/UiRequestError.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiWorkspace.vue",
+        "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestApplicationController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /admin/applications",
+      "controller": "QuestApplicationController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/admin/applications",
+        "QuestApplicationController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PUT /admin/applications/{applicationId}",
+      "controller": "QuestApplicationController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestApplicationController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "DELETE /admin/applications/{applicationId}",
+      "controller": "QuestApplicationController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestApplicationController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PUT /quests/{questId}/applications/me",
+      "controller": "QuestApplicationController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestApplicationController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PATCH /quests/{questId}/applications/me/withdraw",
+      "controller": "QuestApplicationController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/dashboardFacades.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailUiActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestApplicationController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PATCH /quests/{questId}/applications/{applicationId}/approve",
+      "controller": "QuestApplicationController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardPostWork.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailEditForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestApplicationController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PATCH /quests/{questId}/applications/{applicationId}/decline",
+      "controller": "QuestApplicationController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/dashboardFacades.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDialogUiActions.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestApplicationController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /quests",
+      "controller": "QuestController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "QuestResponseDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/quests",
+        "QuestController",
+        "QuestResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /quests",
+      "controller": "QuestController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "QuestResponseDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/quests",
+        "QuestController",
+        "QuestResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /quests/search",
+      "controller": "QuestController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "QuestResponseDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/ui/UiSearchableMultiSelect.vue",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "/quests/search",
+        "QuestController",
+        "QuestResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /quests/presets/{preset}",
+      "controller": "QuestController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "QuestResponseDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestController",
+        "QuestResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /quests/{id}",
+      "controller": "QuestController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "QuestResponseDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestController",
+        "QuestResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /quests/{id}/detail",
+      "controller": "QuestController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "QuestResponseDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/ui/UiRequestError.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiWorkspace.vue",
+        "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestController",
+        "QuestResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "DELETE /quests/{id}",
+      "controller": "QuestController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "QuestResponseDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestController",
+        "QuestResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PUT /quests/{id}",
+      "controller": "QuestController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "QuestResponseDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestController",
+        "QuestResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PATCH /quests/{id}/start",
+      "controller": "QuestController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "QuestResponseDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiFormActions.vue",
+        "apps/themuffinman/frontend/src/components/ui/UiSearchableMultiSelect.vue",
+        "apps/themuffinman/frontend/src/lib/dashboardCalendar.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesDirectoryPanel.vue",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestController",
+        "QuestResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PATCH /quests/{id}/complete",
+      "controller": "QuestController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "QuestResponseDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestApplyForm.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestLifecycleMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestController",
+        "QuestResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PATCH /quests/{id}/term/confirm",
+      "controller": "QuestController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "QuestResponseDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/dashboardFacades.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestController",
+        "QuestResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PATCH /quests/{id}/term/reject",
+      "controller": "QuestController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "QuestResponseDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/dashboardFacades.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDialogUiActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailMutationActions.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailUiActions.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestController",
+        "QuestResponseDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /news/me",
+      "controller": "QuestNewsController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestNewsController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "GET /news/me/unread-count",
+      "controller": "QuestNewsController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestNewsController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PATCH /news/me/read",
+      "controller": "QuestNewsController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/ui/UiReadonlyField.vue",
+        "apps/themuffinman/frontend/src/env.d.ts",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestNewsController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "PATCH /news/me/{id}/read",
+      "controller": "QuestNewsController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "ActionResultDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
+        "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
+        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
+        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/components/ui/UiReadonlyField.vue",
+        "apps/themuffinman/frontend/src/env.d.ts",
+        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+        "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "QuestNewsController"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    },
+    {
+      "endpoint": "POST /quests/{questId}/reviews",
+      "controller": "UserReviewController",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/UserReviewController.java",
+      "domain": "workmarket",
+      "dtos": [
+        "UserReviewResponseDTO",
+        "UserReviewRequestDTO"
+      ],
+      "automation_relevant": true,
+      "backend_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java"
+      ],
+      "frontend_usage": [
+        "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
+        "apps/themuffinman/frontend/src/shared/profileFormatting.ts"
+      ],
+      "missing_generated_contract_dtos": [
+
+      ],
+      "documented_refs": [
+        "UserReviewController",
+        "UserReviewResponseDTO",
+        "UserReviewRequestDTO"
+      ],
+      "gaps": [
+
+      ],
+      "priority": "none"
+    }
+  ],
+  "review_needed": [
+
+  ]
+}

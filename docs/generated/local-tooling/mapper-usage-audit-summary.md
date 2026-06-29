@@ -1,19 +1,7 @@
 # Mapper Usage Audit
 
-- Generated at: `2026-06-28T20:30:13Z`
-- Mappers scanned: `7`
-
-## `QuestApplicationMgr`
-
-- Risk flags: `navigation_logic`, `relation_dereference`, `rich_text_sanitization`
-- Usage count: `7`
-- `QuestApplicationService.applyForQuest` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java` -> `toEntity` (`mutating`)
-- `QuestApplicationService.getAllApplicationsForAdmin` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java` -> `toDto` (`read_oriented`)
-- `QuestApplicationService.getApplicationsForQuest` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java` -> `toDto` (`read_oriented`)
-- `QuestApplicationService.getApplicationsViewForQuest` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java` -> `toDto` (`read_oriented`)
-- `QuestApplicationService.getPublicApprovedApplicationsViewForQuest` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java` -> `toDto` (`read_oriented`)
-- `QuestApplicationService.searchApplicationsForAdmin` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java` -> `toDto` (`read_oriented`)
-- `QuestApplicationService.toApplicantResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java` -> `toDto` (`read_oriented`)
+- Generated at: `2026-06-29T12:47:09Z`
+- Mappers scanned: `10`
 
 ## `AppUserMgr`
 
@@ -24,6 +12,24 @@
 - `AdminUserDetailService.getDetail` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java` -> `withProfileStats` (`read_oriented`)
 - `UserProfileViewService.getProfileView` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java` -> `toDto` (`read_oriented`)
 - `UserProfileViewService.getProfileView` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java` -> `withProfileStats` (`read_oriented`)
+
+## `QuestApplicationMgr`
+
+- Risk flags: `navigation_logic`, `relation_dereference`, `rich_text_sanitization`
+- Usage count: `4`
+- `ApplyForQuestUseCase.execute` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java` -> `toEntity` (`supporting`)
+- `QuestApplicationViewAssembler.toApplicantResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java` -> `toDto` (`read_oriented`)
+- `QuestApplicationViewAssembler.toManagementResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java` -> `toDto` (`read_oriented`)
+- `QuestApplicationViewAssembler.toPublicResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java` -> `toDto` (`read_oriented`)
+
+## `ThingSharingMgr`
+
+- Risk flags: `relation_dereference`, `rich_text_sanitization`
+- Usage count: `4`
+- `ThingSharingService.getAvailableListings` in `apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java` -> `toListingDto` (`read_oriented`)
+- `ThingSharingService.getMyListings` in `apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java` -> `toListingDto` (`read_oriented`)
+- `ThingSharingService.requestBorrow` in `apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java` -> `toBorrowRequestDto` (`supporting`)
+- `ThingSharingService.saveMyListing` in `apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java` -> `toListingDto` (`supporting`)
 
 ## `AuthMgr`
 
@@ -48,6 +54,19 @@
 - `CreateQuestUseCase.execute` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java` -> `toEntity` (`supporting`)
 - `QuestViewAssembler.toResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java` -> `toDto` (`read_oriented`)
 - `QuestViewAssembler.toResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java` -> `withViewerContext` (`read_oriented`)
+
+## `BusinessProfileMgr`
+
+- Risk flags: `relation_dereference`, `rich_text_sanitization`
+- Usage count: `2`
+- `BusinessProfileService.getProfileBySlug` in `apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java` -> `toDto` (`read_oriented`)
+- `BusinessProfileService.saveMyProfile` in `apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java` -> `toDto` (`supporting`)
+
+## `RideOfferMgr`
+
+- Risk flags: `relation_dereference`, `rich_text_sanitization`
+- Usage count: `1`
+- `RideOfferService.createOffer` in `apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java` -> `toDto` (`mutating`)
 
 ## `UserReviewMgr`
 

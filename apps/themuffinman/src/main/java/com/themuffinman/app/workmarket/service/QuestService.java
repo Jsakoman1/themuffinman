@@ -21,7 +21,6 @@ import com.themuffinman.app.workmarket.dto.QuestListPreset;
 import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.workmarket.mapper.QuestMgr;
-import com.themuffinman.app.workmarket.mapper.QuestApplicationMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.model.QuestAudience;
 import com.themuffinman.app.workmarket.model.Quest;
@@ -50,7 +49,6 @@ public class QuestService {
 
     private final QuestRepository questRepository;
     private final QuestApplicationRepository questApplicationRepository;
-    private final QuestApplicationMgr questApplicationMgr;
     private final QuestApplicationService questApplicationService;
     private final QuestVisibilityService questVisibilityService;
     private final QuestAccessPolicyService questAccessPolicyService;
@@ -71,7 +69,7 @@ public class QuestService {
     }
 
     public List<Quest> getAllQuests(AppUser currentUser) {
-        return questRepository.findAllWithCreator().stream()
+        return questRepository.findForQuestList().stream()
                 .filter(quest -> questVisibilityService.canViewQuest(currentUser, quest))
                 .toList();
     }
@@ -191,7 +189,7 @@ public class QuestService {
         Quest quest = getQuestById(id, currentUser);
         QuestResponseDTO questResponse = toResponse(quest, currentUser, applicationsByQuestId);
         QuestApplication viewerApplication = currentUser == null ? null : applicationsByQuestId.get(quest.getId());
-        QuestApplicationResponseDTO myApplication = toViewerApplicationResponse(viewerApplication, currentUser);
+        QuestApplicationResponseDTO myApplication = questApplicationService.toViewerResponse(viewerApplication, currentUser);
         QuestApplicationsViewDTO applicationsView = questResponse.isCanViewApplications()
                 ? questApplicationService.getApplicationsViewForQuest(quest.getId(), currentUser, false)
                 : (questResponse.isShowApprovedApplicants()
@@ -221,11 +219,11 @@ public class QuestService {
     }
 
     public QuestApplicationDetailResponseDTO getApplicationDetailResponseById(Long applicationId, AppUser currentUser) {
-        QuestApplication application = questApplicationRepository.findByIdDetailed(applicationId)
+        QuestApplication application = questApplicationRepository.findForApplicationDetail(applicationId)
                 .orElseThrow(() -> ServiceErrors.notFound("Quest application not found with id " + applicationId));
         Quest quest = questExecutionPrimitiveService.resolveTarget(application.getQuest().getId());
         questExecutionPrimitiveService.validateApplicationDetailAccess(application, quest, currentUser);
-        QuestApplicationResponseDTO applicationResponse = toViewerApplicationResponse(application, currentUser);
+        QuestApplicationResponseDTO applicationResponse = questApplicationService.toViewerResponse(application, currentUser);
         QuestResponseDTO questResponse = toResponse(quest, currentUser);
 
         return QuestApplicationDetailResponseDTO.builder()
@@ -345,21 +343,9 @@ public class QuestService {
         return questViewAssembler.toResponse(quest, currentUser, applicationsByQuestId);
     }
 
-    private QuestApplicationResponseDTO toViewerApplicationResponse(QuestApplication application, AppUser currentUser) {
-        if (application == null) {
-            return null;
-        }
-
-        if (currentUser != null && application.getApplicant() != null && currentUser.getId().equals(application.getApplicant().getId())) {
-            return questApplicationService.toApplicantResponse(application);
-        }
-
-        return questApplicationMgr.toDto(application);
-    }
-
     private List<Quest> loadQuestSearchScope(AppUser currentUser, Integer radiusKm) {
         if (radiusKm == null) {
-            return questRepository.findAllWithCreator();
+            return questRepository.findForQuestList();
         }
 
         if (currentUser == null || currentUser.getLocationLatitude() == null || currentUser.getLocationLongitude() == null) {
@@ -375,7 +361,7 @@ public class QuestService {
             return List.of();
         }
 
-        return questRepository.findAllWithCreatorByIds(nearbyQuestIds);
+        return questRepository.findForQuestListByIds(nearbyQuestIds);
     }
 
     private Map<Long, QuestApplication> getCurrentUserApplicationsByQuestId(AppUser currentUser) {
@@ -383,7 +369,7 @@ public class QuestService {
             return Map.of();
         }
 
-        return questApplicationRepository.findByApplicantId(currentUser.getId()).stream()
+        return questApplicationRepository.findForApplicantDashboard(currentUser.getId()).stream()
                 .collect(Collectors.toMap(
                         application -> application.getQuest().getId(),
                         Function.identity(),

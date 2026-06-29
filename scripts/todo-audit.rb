@@ -14,6 +14,12 @@ SKIP_DIRS = %w[
   .git
   node_modules
 ].freeze
+TRACEABILITY_SKIP_DIRS = %w[
+  .git
+  node_modules
+  target
+  dist
+].freeze
 
 def parse_backlog_entries(path)
   entries = []
@@ -99,6 +105,73 @@ def scan_open_plan_tasks
   plan_items
 end
 
+def categorize_trace_path(relative_path)
+  return "plan" if relative_path.start_with?(".agents/") && relative_path.end_with?(".md")
+  return "feature_manifest" if relative_path.start_with?(".agents/feature-manifests/") && relative_path.end_with?(".yaml")
+  return "doc" if relative_path.start_with?("docs/") || relative_path == "AGENTS.md"
+  return "code" if relative_path.start_with?("apps/") || relative_path.start_with?("services/") || relative_path.start_with?("scripts/")
+
+  "other"
+end
+
+def scan_backlog_traceability(open_backlog_ids)
+  traceability = {}
+  open_backlog_ids.each_key do |id|
+    traceability[id] = {
+      "plan" => [],
+      "feature_manifest" => [],
+      "doc" => [],
+      "code" => [],
+      "other" => []
+    }
+  end
+
+  return traceability if open_backlog_ids.empty?
+
+  backlog_ids = open_backlog_ids.keys.sort
+
+  candidate_paths = []
+  [
+    ".agents/**/*.md",
+    ".agents/feature-manifests/*.yaml",
+    "docs/**/*",
+    "apps/**/*",
+    "services/**/*",
+    "scripts/**/*",
+    "AGENTS.md"
+  ].each do |pattern|
+    candidate_paths.concat(Dir.glob(File.join(REPO_ROOT, pattern), File::FNM_DOTMATCH))
+  end
+
+  candidate_paths.uniq.sort.each do |absolute_path|
+    next unless File.file?(absolute_path)
+
+    relative_path = absolute_path.delete_prefix("#{REPO_ROOT}/")
+    next if relative_path.empty?
+    path_segments = relative_path.split("/")
+    next if TRACEABILITY_SKIP_DIRS.any? { |segment| path_segments.include?(segment) }
+    next if relative_path.start_with?("docs/generated/")
+    next if BACKLOG_FILES.include?(relative_path)
+
+    content = begin
+      File.binread(absolute_path).encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
+    rescue ArgumentError, Encoding::UndefinedConversionError, Encoding::InvalidByteSequenceError
+      next
+    end
+    category = categorize_trace_path(relative_path)
+    backlog_ids.select { |id| content.include?(id) }.each do |id|
+      traceability[id][category] << relative_path
+    end
+  end
+
+  traceability.each_value do |links_by_category|
+    links_by_category.each_value(&:uniq!)
+    links_by_category.each_value(&:sort!)
+  end
+
+  traceability
+end
+
 manifest_path = ARGV.each_cons(2).find { |flag, _| flag == "--manifest" }&.last
 manifest = manifest_path ? YAML.load_file(File.join(REPO_ROOT, manifest_path)) : nil
 
@@ -123,6 +196,15 @@ todo_references.each do |reference|
 end
 
 plan_items = scan_open_plan_tasks
+backlog_traceability = scan_backlog_traceability(open_backlog_ids)
+
+backlog_traceability.each do |id, links_by_category|
+  link_count = links_by_category.values.flatten.size
+  if link_count.zero?
+    entry = open_backlog_ids.fetch(id)
+    violations << "#{entry[:path]}:#{entry[:line]} backlog ID #{id} has no traceability links in plans, feature manifests, docs, code, or inline TODO/FIXME references"
+  end
+end
 
 if manifest
   backlog = manifest.fetch("backlog", {})
@@ -173,6 +255,12 @@ end
 puts "  Open plan tasks: #{plan_items.size}"
 plan_items.each do |item|
   puts "    - #{item[:path]}:#{item[:line]} #{item[:text]}"
+end
+
+puts "  Backlog traceability:"
+backlog_traceability.each do |id, links_by_category|
+  counts = links_by_category.map { |category, paths| "#{category}=#{paths.size}" }.join(", ")
+  puts "    - #{id}: #{counts}"
 end
 
 if violations.empty?

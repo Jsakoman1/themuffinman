@@ -59,8 +59,8 @@ class UserReviewServiceTest {
         dto.setStars(5);
         dto.setComment("Great employer");
 
-        when(questRepository.findByIdWithCreator(50L)).thenReturn(Optional.of(quest));
-        when(questApplicationRepository.findByQuestIdAndApplicantIdAndStatus(50L, 2L, QuestApplicationStatus.APPROVED))
+        when(questRepository.findForQuestDetail(50L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findForViewerApplicationWithStatus(50L, 2L, QuestApplicationStatus.APPROVED))
                 .thenReturn(Optional.of(approvedApplication));
         when(userReviewRepository.save(any(UserReview.class))).thenAnswer(invocation -> {
             UserReview review = invocation.getArgument(0);
@@ -98,8 +98,8 @@ class UserReviewServiceTest {
         dto.setStars(4);
         dto.setComment("Reliable worker");
 
-        when(questRepository.findByIdWithCreator(80L)).thenReturn(Optional.of(quest));
-        when(questApplicationRepository.findByQuestIdAndApplicantIdAndStatus(80L, 2L, QuestApplicationStatus.APPROVED))
+        when(questRepository.findForQuestDetail(80L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findForViewerApplicationWithStatus(80L, 2L, QuestApplicationStatus.APPROVED))
                 .thenReturn(Optional.of(approvedApplication));
         when(userReviewRepository.save(any(UserReview.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(userReviewMgr.toDto(any(UserReview.class))).thenAnswer(invocation -> {
@@ -131,7 +131,7 @@ class UserReviewServiceTest {
         dto.setReviewedUserId(1L);
         dto.setStars(5);
 
-        when(questRepository.findByIdWithCreator(90L)).thenReturn(Optional.of(quest));
+        when(questRepository.findForQuestDetail(90L)).thenReturn(Optional.of(quest));
 
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
@@ -151,8 +151,8 @@ class UserReviewServiceTest {
         dto.setReviewedUserId(1L);
         dto.setStars(2);
 
-        when(questRepository.findByIdWithCreator(100L)).thenReturn(Optional.of(quest));
-        when(questApplicationRepository.findByQuestIdAndApplicantIdAndStatus(100L, 3L, QuestApplicationStatus.APPROVED))
+        when(questRepository.findForQuestDetail(100L)).thenReturn(Optional.of(quest));
+        when(questApplicationRepository.findForViewerApplicationWithStatus(100L, 3L, QuestApplicationStatus.APPROVED))
                 .thenReturn(Optional.empty());
 
         ResponseStatusException exception = assertThrows(

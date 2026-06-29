@@ -10,6 +10,7 @@ For multi-file, multi-layer, or high-risk logical changes, start with a temporar
 Prefer `make bootstrap-feature-work topic=<short-feature-topic> [risk=<tier>] [mode=<mode>] [impact=<impact>] [profiles=<csv>]` when you want the plan and matching manifest created together.
 For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
 Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
+For broad, long-running, high-complexity, multi-layer, high-risk, or master-plan-driven changes, use the implementation checkpoints in `docs/agent-operating-model.md` and `docs/agent-operating-model.yaml`: plan, first backend slice, first frontend slice, docs/artifacts sync, validation, and commit boundary.
 
 ## Checklist
 
@@ -21,6 +22,8 @@ Use the master-plan pattern when it safely reduces unnecessary human interaction
 - Add or extend tests that cover the changed logic, edge cases, and regressions.
 - Keep existing affected test suites passing.
 - If the change expands a workflow, prefer both a use-case contract test and a scenario-style workflow test.
+- Use `docs/regression-scenario-catalog.yaml` to choose focused regression commands for the affected domain before widening validation.
+- If a changed living-doc section is listed in `docs/docs-as-contract-slices.yaml`, run the slice command or update the slice with the new verification in the same change.
 
 3. Business meaning
 - Update `docs/business-logic.md` if the change affects user-facing behavior, permissions, workflow meaning, or FAQ-level explanation.
@@ -55,12 +58,21 @@ Use the master-plan pattern when it safely reduces unnecessary human interaction
 - Update `docs/documentation-sync-policy.md` only if the documentation or validation process itself changes.
 - Update `docs/feature-completion-manifest.schema.json` if the machine-readable feature manifest structure changes.
 - Update `AGENTS.md` only if repository-wide working rules or mandatory maintenance surfaces change.
+- Use `documentation_ownership` in `docs/agent-operating-model.yaml` as the machine-readable starting point for required living docs, generated artifacts, and validation checks by domain and change category.
+- For new workflows, endpoints, DTO contracts, modules, permission rules, or schema migrations, start from the matching `.agents/templates/docs/` documentation template and keep only the sections that apply to the concrete change.
+- Use `docs/example-scenario-library.md` as the short canonical pattern reference for adding endpoints, changing workflow transitions, adding DTO contracts, adding migrations, and updating docs.
+- Keep `docs/regression-scenario-catalog.yaml` and `docs/regression-scenario-catalog.md` current when a critical domain workflow, permission rule, validation rule, or automation-safe behavior gains a new regression scenario.
+- Keep `docs/docs-as-contract-slices.yaml` and `docs/docs-as-contract-slices.md` current when a living-doc section becomes contract-like or its runtime/audit proof changes.
+- For logic-drift changes, record a doc delta summary: behavior changed, docs updated, and related surfaces intentionally left unchanged.
+- Use `make audit-doc-staleness-scoring` when a broad code change needs a ranked report of likely stale living-doc sections.
+- Use `make audit-architecture-drift` when a broad change adds or heavily edits services, controllers, Vue views, or long living-doc sections.
 - If a change touches protected documentation-sync wording, copy the exact canonical phrase verbatim into every required file instead of paraphrasing it.
 
 9. Persistent backlog hygiene
 - Add newly discovered deferred implementation work to `docs/implementation-backlog.md` with a stable ID before closing the change.
 - Add newly discovered deferred agent/control-system work to `docs/agent-improvement-backlog.md` with a stable ID before closing the change.
 - If inline `TODO/FIXME` notes are needed, use `TODO(<ID>):` or `FIXME(<ID>):` and keep the same ID open in one persistent backlog file.
+- Keep every open persistent backlog ID traceable to at least one plan, feature manifest, doc, code surface, or inline backlog reference outside the backlog file itself.
 - When implementing a backlog item, remove it from the open backlog and clear matching inline references in the same change.
 - Run `make audit-todo` after backlog or inline TODO changes.
 
@@ -81,16 +93,34 @@ Use the master-plan pattern when it safely reduces unnecessary human interaction
 - Run `./mvnw test` for backend changes.
 - Run `make audit-agent-safety` when agent-safety contracts, multilingual planning behavior, or machine-operating docs changed.
 - Run `make audit-todo` when backlog state or inline TODO references changed.
-- Run `npm run type-check` and `npm run build` for frontend changes.
+- Run `npm run validate:contracts`, `npm run type-check`, and `npm run build` for frontend contract changes; run type-check and build for other frontend changes.
 - Confirm previously existing behavior still matches the updated docs and contracts.
 
-12. Optional feature manifest
-- If the change uses the plan-driven workflow, keep a matching machine-readable manifest under `.agents/feature-manifests/` and update it before closing the task.
+12. Feature manifest decision
+- Manifest required: use a machine-readable manifest under `.agents/feature-manifests/` for multi-file, multi-layer, high-risk, executor-critical, workflow-expansion, agent-contract, frontend-contract, backend-logic, generated-artifact, or master-plan-driven changes.
+- Manifest optional: cosmetic and single-file contract-neutral refactors may skip the manifest workflow when they do not alter behavior, contracts, generated artifacts, validation scope, or documentation meaning.
+- Manifest skipped with reason: if a non-trivial change does not use a manifest, record a one-line reason in the temporary plan or final closeout that names why the required category does not apply.
+- If the change uses the plan-driven workflow, keep the matching machine-readable manifest updated before closing the task.
 - Declare the correct `changeMode`, `changeImpact`, and `changeProfiles` so required docs, generators, and validation commands are enforced automatically.
+- Use `policies.self_test_matrix` in `docs/agent-operating-model.yaml` to pick the validation tier set for the change risk and profiles.
 - Keep the manifest `backlog.reviewed`, `backlog.createdIds`, and `backlog.resolvedIds` aligned with the actual open backlog state.
 - Keep manifest artifact groups precise and non-overlapping; do not list test files in `codePaths` or repeat the same path across artifact buckets.
-- Use `make feature-closeout-audit manifest=<manifest-file>` as a fast close-out check before final validation on plan-driven changes.
+- For changes that need a compact validation trail, keep a validation evidence record under `.agents/validation-evidence/` using `docs/validation-evidence.schema.json`.
+- Record exact command results, `ranAt`, generated artifact refreshes, skipped checks, and skipped-check reasons in the validation evidence record.
+- Run `make audit-validation-evidence-quality` when validation evidence records are added or changed; vague summaries such as "tests not run" or "build passed" are not enough without exact command, scope, and skipped-check reason details.
+- Use `make feature-closeout-audit manifest=<manifest-file>` as a hard-fail close-out check before final validation on plan-driven changes. Completed manifests must include structured validation evidence for required checks, a completed plan state, and a ready closeout decision.
+- Use `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]` when closing a temporary plan, master plan, or completed manifest-backed change; the audit fails open task checkboxes that are not explicitly deferred to a stable backlog ID.
+- Use `make closeout-report manifest=<manifest-file>` when a manifest-backed change needs a compact final review summary from changed files, artifact groups, validation commands, docs delta, generated artifacts, backlog delta, and residual risks.
+- After a large change or master-plan batch, run `make post-merge-retrospective topic=<short-topic>` to capture failure points, missing tools, docs gaps, and reusable patterns for the next session.
 - If the task is orchestrated through a master plan plus child plans, update the master plan to reflect the final state of the whole batch before closing the task.
+
+13. Implementation checkpoints
+- For broad or high-risk work, record the plan checkpoint before substantial edits.
+- If backend is in scope, finish and validate the first backend slice before widening backend changes.
+- If frontend is in scope, finish and validate the first frontend slice before widening UI changes.
+- Sync affected living docs and generated artifacts before final validation.
+- Record exact validation commands, scopes, and skipped-check reasons before closing the slice.
+- Treat commit or push as outside the normal checkpoint unless the user explicitly requested it.
 
 ## Temporary Working Notes
 

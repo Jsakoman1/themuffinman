@@ -7,74 +7,161 @@ if [[ $# -ne 1 ]]; then
 fi
 
 repo_root="$(cd "$(dirname "$0")/.." && pwd)"
-manifest_path="$repo_root/$1"
+manifest_arg="$1"
+manifest_path="$repo_root/$manifest_arg"
 
 if [[ ! -f "$manifest_path" ]]; then
   echo "manifest not found: $manifest_path" >&2
   exit 1
 fi
 
-plan_file="$(sed -n 's/^planFile: //p' "$manifest_path" | head -n 1)"
-manifest_status="$(sed -n 's/^status: //p' "$manifest_path" | head -n 1)"
-risk_tier="$(sed -n 's/^riskTier: //p' "$manifest_path" | head -n 1)"
-change_mode="$(sed -n 's/^changeMode: //p' "$manifest_path" | head -n 1)"
-change_impact="$(sed -n 's/^changeImpact: //p' "$manifest_path" | head -n 1)"
-change_profiles="$(awk '
-  /^changeProfiles:/ {in_profiles=1; next}
-  in_profiles && /^  - / {sub(/^  - /, ""); print; next}
-  in_profiles {exit}
-' "$manifest_path" | paste -sd ',' -)"
+ruby -ryaml - "$repo_root" "$manifest_arg" <<'RUBY'
+repo_root = ARGV.fetch(0)
+manifest_arg = ARGV.fetch(1)
+manifest_path = File.join(repo_root, manifest_arg)
+manifest = YAML.load_file(manifest_path)
+errors = []
 
-if [[ -z "$plan_file" ]]; then
-  echo "manifest is missing planFile: $manifest_path" >&2
+def list(value)
+  value.is_a?(Array) ? value.compact : []
+end
+
+def commands(manifest)
+  list(manifest.dig("validationEvidence", "commands"))
+end
+
+def passed_command?(manifest, pattern)
+  commands(manifest).any? do |entry|
+    entry.is_a?(Hash) &&
+      entry["result"] == "passed" &&
+      entry["command"].to_s.match?(pattern)
+  end
+end
+
+def require_passed_command(manifest, errors, pattern, description)
+  errors << "missing passed validation evidence for #{description}" unless passed_command?(manifest, pattern)
+end
+
+def require_bool(manifest, errors, key)
+  value = manifest.dig("checklist", key)
+  errors << "checklist.#{key} must be true for completed closeout" unless value == true
+end
+
+plan_file = manifest["planFile"].to_s
+plan_path = File.join(repo_root, plan_file)
+status = manifest["status"].to_s
+risk_tier = manifest["riskTier"].to_s
+profiles = list(manifest["changeProfiles"])
+checklist = manifest["checklist"] || {}
+artifact_groups = manifest["artifacts"] || {}
+evidence_commands = commands(manifest)
+
+errors << "manifest status must be complete for closeout" unless status == "complete"
+errors << "manifest is missing planFile" if plan_file.empty?
+errors << "referenced plan file is missing: #{plan_file}" unless !plan_file.empty? && File.exist?(plan_path)
+errors << "validationEvidence.commands must contain at least one command" if evidence_commands.empty?
+
+evidence_commands.each_with_index do |entry, index|
+  unless entry.is_a?(Hash)
+    errors << "validationEvidence.commands[#{index}] must be an object"
+    next
+  end
+  result = entry["result"].to_s
+  command = entry["command"].to_s
+  summary = entry["summary"].to_s
+  errors << "validationEvidence.commands[#{index}].command is required" if command.empty?
+  errors << "validationEvidence.commands[#{index}].summary is required" if summary.empty?
+  errors << "validationEvidence.commands[#{index}] records failed evidence: #{command}" if result == "failed"
+  if %w[skipped not_applicable].include?(result) && entry["skippedReason"].to_s.empty?
+    errors << "validationEvidence.commands[#{index}].skippedReason is required when result is #{result}"
+  end
+end
+
+if status == "complete"
+  %w[
+    tempPlanCreated
+    codeImplemented
+    backendTestsPassed
+    docsSynced
+    agentModelSynced
+    destructivePolicyChecked
+    multilingualCoverageChecked
+  ].each { |key| require_bool(manifest, errors, key) }
+
+  errors << "backlog.reviewed must be true for completed closeout" unless manifest.dig("backlog", "reviewed") == true
+  errors << "planCompletion.reviewed must be true for completed closeout" unless manifest.dig("planCompletion", "reviewed") == true
+  errors << "planCompletion.openTasks must be 0 for completed closeout" unless manifest.dig("planCompletion", "openTasks").to_i == 0
+  errors << "closeoutDecision.status must be ready for completed closeout" unless manifest.dig("closeoutDecision", "status").to_s == "ready"
+
+  if File.exist?(plan_path)
+    open_tasks = File.readlines(plan_path).count { |line| line.start_with?("- [ ]") }
+    errors << "referenced plan still has #{open_tasks} open task(s)" unless open_tasks.zero?
+    plan_content = File.read(plan_path)
+    completion_section = plan_content[/^## Completion Evidence\s*$([\s\S]*?)(?=^## |\z)/, 1]
+    completion_status = completion_section && completion_section[/^\s*-\s*Status:\s*(.+?)\s*$/i, 1]
+    errors << "referenced plan is missing ## Completion Evidence" unless completion_section
+    if completion_status.to_s.empty? || completion_status.match?(/\A(TBD|draft|not started|unknown)\z/i)
+      errors << "referenced plan completion evidence status is missing or not final"
+    end
+  end
+
+  require_passed_command(manifest, errors, /make audit-todo/, "make audit-todo")
+  if checklist["backendTestsPassed"] == true || profiles.include?("backend-logic")
+    require_passed_command(manifest, errors, %r{(\./mvnw test|mvnw .* test|make audit-agent-safety)}, "backend test coverage")
+  end
+  if checklist["frontendValidationPassed"] == true || profiles.include?("frontend-contract")
+    require_bool(manifest, errors, "frontendValidationPassed")
+    require_passed_command(manifest, errors, /npm run type-check/, "frontend type-check")
+    require_passed_command(manifest, errors, /npm run build/, "frontend build")
+  end
+  if %w[high executor-critical].include?(risk_tier)
+    require_passed_command(manifest, errors, /make audit-agent-safety/, "high-risk agent safety audit")
+  end
+  if profiles.include?("agent-contract")
+    require_passed_command(manifest, errors, /make audit-agent-safety/, "agent-contract safety audit")
+    require_passed_command(manifest, errors, /make generate-agent-(operating-model|artifacts)/, "agent-contract generated model or artifacts")
+  end
+  if profiles.include?("frontend-contract")
+    require_passed_command(manifest, errors, /npm run validate:contracts/, "frontend contract validation")
+    require_passed_command(manifest, errors, /npm run type-check/, "frontend-contract type-check")
+    require_passed_command(manifest, errors, /npm run build/, "frontend-contract build")
+  end
+  if profiles.include?("workflow-expansion")
+    require_passed_command(manifest, errors, /(ScenarioTest|UseCaseContractTest)/, "workflow scenario or use-case contract test")
+  end
+end
+
+all_paths = []
+artifact_groups.each do |group, paths|
+  next unless paths.is_a?(Array)
+
+  paths.each do |path|
+    all_paths << [group, path]
+  end
+end
+
+duplicates = all_paths
+  .group_by { |_group, path| path }
+  .select { |_path, rows| rows.size > 1 }
+duplicates.each do |path, rows|
+  errors << "artifact path appears in multiple buckets: #{path} (#{rows.map(&:first).join(', ')})"
+end
+
+puts "Feature close-out audit"
+puts "  Manifest: #{manifest_path}"
+puts "  Plan:     #{plan_path}"
+puts "  Status:   #{status.empty? ? 'unknown' : status}"
+puts "  Risk:     #{risk_tier.empty? ? 'unknown' : risk_tier}"
+puts "  Profiles: #{profiles.empty? ? 'none' : profiles.join(',')}"
+puts "  Evidence: #{evidence_commands.size} command(s)"
+
+if errors.any?
+  warn "Feature close-out audit failed:"
+  errors.each { |error| warn "  - #{error}" }
   exit 1
-fi
+end
 
-if [[ ! -f "$repo_root/$plan_file" ]]; then
-  echo "referenced plan file is missing: $repo_root/$plan_file" >&2
-  exit 1
-fi
+puts "Feature close-out audit passed"
+RUBY
 
-echo "Feature close-out audit"
-echo "  Manifest: $manifest_path"
-echo "  Plan:     $repo_root/$plan_file"
-echo "  Status:   ${manifest_status:-unknown}"
-echo "  Risk:     ${risk_tier:-unknown}"
-echo "  Mode:     ${change_mode:-unknown}"
-echo "  Impact:   ${change_impact:-unknown}"
-echo "  Profiles: ${change_profiles:-none}"
-echo "  Backlog reviewed: $(sed -n 's/^  reviewed: //p' "$manifest_path" | head -n 1)"
-
-required_commands=()
-if [[ "$risk_tier" == "executor-critical" || "$risk_tier" == "high" ]]; then
-  required_commands+=("make audit-agent-safety")
-fi
-required_commands+=("make audit-todo")
-
-if grep -q "frontendValidationPassed: true" "$manifest_path"; then
-  required_commands+=("npm run type-check")
-fi
-
-echo "Required checks:"
-for command in "${required_commands[@]}"; do
-  echo "  - $command"
-done
-
-echo "Declared generators:"
-awk '
-  /^  generatorCommands:/ {in_generators=1; next}
-  in_generators && /^  auditCommands:/ {exit}
-  in_generators && /^    - / {sub(/^    - /, ""); print "  - " $0}
-' "$manifest_path" || true
-
-echo "Checklist status:"
-grep -E '^  (tempPlanCreated|codeImplemented|backendTestsPassed|frontendValidationPassed|docsSynced|agentModelSynced|destructivePolicyChecked|multilingualCoverageChecked): ' "$manifest_path" || true
-
-echo "Backlog links:"
-awk '
-  /^backlog:/ {in_backlog=1; next}
-  in_backlog && /^checklist:/ {exit}
-  in_backlog && /^  / {print}
-' "$manifest_path" || true
-
-ruby "$repo_root/scripts/todo-audit.rb" --manifest "$1"
+ruby "$repo_root/scripts/todo-audit.rb" --manifest "$manifest_arg"

@@ -11,6 +11,8 @@ import com.themuffinman.app.agent.dto.AgentExecutionReadinessDTO;
 import com.themuffinman.app.agent.dto.AgentIntentLineageDTO;
 import com.themuffinman.app.agent.dto.AgentResolutionConfidenceDTO;
 import com.themuffinman.app.agent.dto.AgentResolutionRequirementDTO;
+import com.themuffinman.app.agent.sandbox.SandboxGenerationPlan;
+import com.themuffinman.app.agent.sandbox.SandboxGenerationPlanner;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.identity.model.AppUser;
@@ -76,15 +78,18 @@ public class AdminAgentPlaygroundService {
     private final AgentProperties agentProperties;
     private final AdminAgentTextProvider adminAgentTextProvider;
     private final AdminAgentPromptTranslator localPromptTranslator;
+    private final SandboxGenerationPlanner sandboxGenerationPlanner;
 
     public AdminAgentPlaygroundService(
             AgentProperties agentProperties,
             OpenAiAdminAgentClient adminAgentTextProvider,
-            LocalAdminAgentPromptTranslator localPromptTranslator
+            LocalAdminAgentPromptTranslator localPromptTranslator,
+            SandboxGenerationPlanner sandboxGenerationPlanner
     ) {
         this.agentProperties = agentProperties;
         this.adminAgentTextProvider = adminAgentTextProvider;
         this.localPromptTranslator = localPromptTranslator;
+        this.sandboxGenerationPlanner = sandboxGenerationPlanner;
     }
 
     public AdminAgentPlaygroundResponseDTO runPrompt(AdminAgentPlaygroundRequestDTO dto, AppUser currentUser) {
@@ -139,19 +144,24 @@ public class AdminAgentPlaygroundService {
             unresolvedInputs.add("destructive confirmation");
         }
 
-        if (mentionsQuestGeneration(normalizedPrompt)) {
+        boolean userCreationMentioned = mentionsUserCreation(normalizedPrompt);
+        SandboxGenerationPlan sandboxGenerationPlan = sandboxGenerationPlanner.planFor(normalizedPrompt, userCreationMentioned);
+        if (!sandboxGenerationPlan.isEmpty()) {
             matchedSignals.add("quest_generation");
-            if (mentionsUserCreation(normalizedPrompt)) {
+            matchedSignals.addAll(sandboxGenerationPlan.matchedSignals());
+            if (userCreationMentioned) {
                 suggestedWorkflows.add("create_user_with_quests");
             }
             suggestedWorkflows.add("create_quest");
             suggestedWorkflows.add("create_user_with_quests");
-            suggestedWorkflows.add("create_sandbox_user_with_circle_and_quest_flow");
+            suggestedWorkflows.addAll(sandboxGenerationPlan.suggestedWorkflows());
             warnings.add("Batch quest generation must keep titles and descriptions meaningfully unique.");
-            warnings.add("Synthetic generation must stay admin-only and keep a synthetic marker strategy.");
-            nextSteps.add("Review uniqueness policy, batch stop conditions, and sandbox marker rules before enabling execution.");
+            warnings.addAll(sandboxGenerationPlan.warnings());
+            nextSteps.add("Review uniqueness policy and batch stop conditions before enabling execution.");
+            nextSteps.addAll(sandboxGenerationPlan.nextSteps());
             unresolvedInputs.add("unique quest titles");
             unresolvedInputs.add("unique quest descriptions");
+            unresolvedInputs.addAll(sandboxGenerationPlan.unresolvedInputs());
         }
 
         if (normalizedPrompt.contains("free quest") || normalizedPrompt.contains("besplat") || normalizedPrompt.contains("award") && normalizedPrompt.contains("0")) {
@@ -540,19 +550,6 @@ public class AdminAgentPlaygroundService {
         if (dto.getPrompt().length() > agentProperties.getPromptMaxLength()) {
             throw ServiceErrors.badRequest("Prompt must be " + agentProperties.getPromptMaxLength() + " characters or less");
         }
-    }
-
-    private boolean mentionsQuestGeneration(String normalizedPrompt) {
-        return mentionsQuest(normalizedPrompt)
-                && (normalizedPrompt.contains("generate")
-                || normalizedPrompt.contains("create ")
-                || normalizedPrompt.contains("napravi ")
-                || normalizedPrompt.contains("batch")
-                || normalizedPrompt.contains("unikat")
-                || normalizedPrompt.contains("unique")
-                || normalizedPrompt.contains("new quest")
-                || normalizedPrompt.contains("novi quest")
-                || normalizedPrompt.contains("novu quest"));
     }
 
     private boolean mentionsUserCreation(String normalizedPrompt) {

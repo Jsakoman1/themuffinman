@@ -14,6 +14,7 @@
     "mutating_intent_contracts",
     "intent_safety_catalog",
     "documentation_coverage",
+    "documentation_ownership",
     "frontend_contract_generation",
     "frontend_contracts",
     "frontend_safety_regressions",
@@ -289,9 +290,156 @@
     },
     "policies": {
       "type": "object",
-      "required": ["uniqueness", "edge_cases"],
+      "required": ["self_test_matrix", "validation_evidence_quality", "closeout_doc_delta", "plan_completion_audit", "implementation_checkpoints", "uniqueness", "edge_cases"],
       "additionalProperties": false,
       "properties": {
+        "self_test_matrix": {
+          "type": "object",
+          "required": ["default_rule", "tiers", "risk_tiers", "profile_overrides"],
+          "additionalProperties": false,
+          "properties": {
+            "default_rule": {"type": "string", "minLength": 1},
+            "tiers": {
+              "type": "array",
+              "minItems": 6,
+              "items": {
+                "type": "object",
+                "required": ["id", "purpose", "example_commands"],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {"type": "string", "minLength": 1},
+                  "purpose": {"type": "string", "minLength": 1},
+                  "example_commands": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {"type": "string", "minLength": 1}
+                  }
+                }
+              }
+            },
+            "risk_tiers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["risk", "minimum_tiers"],
+                "additionalProperties": false,
+                "properties": {
+                  "risk": {"type": "string", "minLength": 1},
+                  "minimum_tiers": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {"type": "string", "minLength": 1}
+                  }
+                }
+              }
+            },
+            "profile_overrides": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["profile", "add_tiers"],
+                "additionalProperties": false,
+                "properties": {
+                  "profile": {"type": "string", "minLength": 1},
+                  "add_tiers": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {"type": "string", "minLength": 1}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "validation_evidence_quality": {
+          "type": "object",
+          "required": ["default_rule", "command_rules", "audit_command"],
+          "additionalProperties": false,
+          "properties": {
+            "default_rule": {"type": "string", "minLength": 1},
+            "command_rules": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["id", "applies_to", "requirement"],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {"type": "string", "minLength": 1},
+                  "applies_to": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {"type": "string", "minLength": 1}
+                  },
+                  "requirement": {"type": "string", "minLength": 1}
+                }
+              }
+            },
+            "audit_command": {"type": "string", "minLength": 1}
+          }
+        },
+        "closeout_doc_delta": {
+          "type": "object",
+          "required": ["applies_to", "required_fields", "record_in", "completion_rule"],
+          "additionalProperties": false,
+          "properties": {
+            "applies_to": {"type": "string", "minLength": 1},
+            "required_fields": {
+              "type": "array",
+              "minItems": 3,
+              "items": {"type": "string", "minLength": 1}
+            },
+            "record_in": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"type": "string", "minLength": 1}
+            },
+            "completion_rule": {"type": "string", "minLength": 1}
+          }
+        },
+        "plan_completion_audit": {
+          "type": "object",
+          "required": ["applies_to", "required_evidence", "audit_command", "completion_rule"],
+          "additionalProperties": false,
+          "properties": {
+            "applies_to": {"type": "string", "minLength": 1},
+            "required_evidence": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"type": "string", "minLength": 1}
+            },
+            "audit_command": {"type": "string", "minLength": 1},
+            "completion_rule": {"type": "string", "minLength": 1}
+          }
+        },
+        "implementation_checkpoints": {
+          "type": "object",
+          "required": ["broad_change_trigger", "default_rule", "checkpoints"],
+          "additionalProperties": false,
+          "properties": {
+            "broad_change_trigger": {"type": "string", "minLength": 1},
+            "default_rule": {"type": "string", "minLength": 1},
+            "checkpoints": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["id", "required_evidence", "completion_rule"],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {"type": "string", "minLength": 1},
+                  "required_evidence": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {"type": "string", "minLength": 1}
+                  },
+                  "completion_rule": {"type": "string", "minLength": 1}
+                }
+              }
+            }
+          }
+        },
         "uniqueness": {
           "type": "object",
           "required": ["default_rule", "rules"],
@@ -493,12 +641,96 @@
         }
       }
     },
+    "documentation_ownership": {
+      "type": "object",
+      "required": ["documentation_templates", "domains", "change_categories"],
+      "additionalProperties": false,
+      "properties": {
+        "documentation_templates": {
+          "type": "array",
+          "minItems": 6,
+          "items": {
+            "type": "object",
+            "required": ["id", "label", "template_path", "required_living_docs", "required_sections"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "label": {"type": "string", "minLength": 1},
+              "template_path": {"type": "string", "minLength": 1},
+              "required_living_docs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string", "minLength": 1}
+              },
+              "required_sections": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        },
+        "domains": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "required_living_docs", "generated_artifacts", "validation_tests"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "required_living_docs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string", "minLength": 1}
+              },
+              "generated_artifacts": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              },
+              "validation_tests": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        },
+        "change_categories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "required_living_docs", "generated_artifacts", "validation_commands"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "required_living_docs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string", "minLength": 1}
+              },
+              "generated_artifacts": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              },
+              "validation_commands": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        }
+      }
+    },
     "frontend_contract_generation": {
       "type": "object",
-      "required": ["script", "generated_contract_file", "required_aliases"],
+      "required": ["script", "check_command", "generated_contract_file", "required_aliases"],
       "additionalProperties": false,
       "properties": {
         "script": {"type": "string", "minLength": 1},
+        "check_command": {"type": "string", "minLength": 1},
         "generated_contract_file": {"type": "string", "minLength": 1},
         "required_aliases": {
           "type": "array",

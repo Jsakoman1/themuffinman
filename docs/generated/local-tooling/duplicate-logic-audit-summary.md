@@ -1,19 +1,19 @@
 # Duplicate Logic Audit
 
-- Generated at: `2026-06-28T20:30:14Z`
-- Frontend files scanned: `136`
-- Active route-backed files: `31`
+- Generated at: `2026-06-29T12:47:11Z`
+- Frontend files scanned: `140`
+- Active route-backed files: `34`
 - Review candidates: `8`
 - Status mapping hits: `2`
 - Permission gate hits: `9`
-- Transition eligibility hits: `6`
+- Transition eligibility hits: `5`
 
 ## Review shortlist
 
-- `apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue` score=`11` active=`true` status-maps=`0` permission-gates=`3` transition-helpers=`3`
-  line 110: `const isOwnerView = computed(() => canEdit.value)`
-  line 112: `const showApplicationsSection = computed(() => isOwnerView.value && !!applicationsView.value)`
-  line 113: `const showOfferSection = computed(() => !isOwnerView.value && (canApply.value || applicationSentVisible.value || !!myApplication.value))`
+- `apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts` score=`10` active=`true` status-maps=`0` permission-gates=`3` transition-helpers=`2`
+  line 33: `const isOwnerView = computed(() => edit.canEdit.value)`
+  line 34: `const showApplicationsSection = computed(() => isOwnerView.value && !!page.applicationsView.value)`
+  line 35: `const showOfferSection = computed(() => !isOwnerView.value && (`
   backend: `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java`
   backend: `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java`
   backend: `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java`

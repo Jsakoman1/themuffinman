@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-28T20:30:21Z",
+  "generated_at": "2026-06-29T12:47:24Z",
   "entities": [
     {
       "entity": "ActionResult",
@@ -95,6 +95,18 @@
     },
     {
       "entity": "BulkCircleMembershipUpdate",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "BusinessProfileListResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "BusinessProfileRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "BusinessProfileResponse",
       "sandbox_or_synthetic_mentioned": true
     },
     {
@@ -203,6 +215,14 @@
     },
     {
       "entity": "DashboardApplicationGroup",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardNavigationItem",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardNavigationSection",
       "sandbox_or_synthetic_mentioned": true
     },
     {
@@ -414,7 +434,39 @@
       "sandbox_or_synthetic_mentioned": true
     },
     {
+      "entity": "RideOfferListResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "RideOfferRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "RideOfferResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
       "entity": "TextPageQuery",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ThingBorrowRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ThingBorrowRequestResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ThingListingListResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ThingListingRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "ThingListingResponse",
       "sandbox_or_synthetic_mentioned": true
     },
     {

@@ -1,6 +1,6 @@
 # Endpoint Contract Pack auth
 
-- Generated At: `2026-06-28T21:02:37Z`
+- Generated At: `2026-06-29T12:47:29Z`
 - Endpoint Family: `auth`
 ## `endpoints`
 
@@ -36,11 +36,11 @@
 - `{:file: "apps/themuffinman/frontend/src/components/profile/ProfileSummaryCard.vue", :matched_paths: ["me"]}`
 - `{:file: "apps/themuffinman/frontend/src/components/ui/UiAdminPageSection.vue", :matched_paths: ["me"]}`
 - `{:file: "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue", :matched_paths: ["me"]}`
+- `{:file: "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue", :matched_paths: ["me"]}`
 - `{:file: "apps/themuffinman/frontend/src/components/ui/UiAuthCard.vue", :matched_paths: ["me"]}`
 - `{:file: "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue", :matched_paths: ["me"]}`
 - `{:file: "apps/themuffinman/frontend/src/components/ui/UiDialog.vue", :matched_paths: ["me"]}`
 - `{:file: "apps/themuffinman/frontend/src/components/ui/UiEventPill.vue", :matched_paths: ["me"]}`
-- `{:file: "apps/themuffinman/frontend/src/components/ui/UiFieldGroup.vue", :matched_paths: ["me"]}`
 
 ## `docs`
 

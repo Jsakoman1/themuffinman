@@ -92,7 +92,7 @@ public class QuestUpdateService {
     }
 
     private void clearApplicationPrices(Long questId) {
-        questApplicationRepository.findByQuestId(questId).forEach(application -> application.setProposedPrice(null));
+        questApplicationRepository.findForQuestApplicationManagement(questId).forEach(application -> application.setProposedPrice(null));
     }
 
     private boolean hasTermChanged(Quest quest, QuestRequestDTO dto) {

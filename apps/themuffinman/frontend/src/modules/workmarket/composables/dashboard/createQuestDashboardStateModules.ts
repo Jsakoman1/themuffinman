@@ -24,6 +24,10 @@ export const createQuestDashboardStateModules = (
   const optionState = createDashboardOptionState(dataState.dashboardOptions)
   const profileState = createDashboardProfileState()
   const questState = createDashboardQuestState()
+  const backendPreparedDashboardTabs = computed(() => {
+    const tabs = dataState.dashboardSections.value?.navigation?.tabs
+    return tabs && tabs.length > 0 ? tabs : dashboardTabs
+  })
 
   const selectors = createDashboardSelectors({
     activeTab: tabState.activeTab,
@@ -40,8 +44,7 @@ export const createQuestDashboardStateModules = (
     questDetailsById: dataState.questDetailsById,
     applicationDetailsById: dataState.applicationDetailsById,
     questDialogId: questState.questDialogId,
-    applicationDialogId: questState.applicationDialogId,
-    dashboardTabs
+    applicationDialogId: questState.applicationDialogId
   })
 
   const adminModeEnabled = computed(() => dataState.dashboardSummary.value?.adminModeEnabled ?? false)
@@ -138,6 +141,6 @@ export const createQuestDashboardStateModules = (
     errorState,
     adminModeEnabled,
     parseInstantFromInput,
-    dashboardTabs
+    dashboardTabs: backendPreparedDashboardTabs
   }
 }

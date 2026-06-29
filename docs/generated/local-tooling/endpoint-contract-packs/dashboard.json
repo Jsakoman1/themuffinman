@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-28T21:02:37Z",
+  "generated_at": "2026-06-29T12:47:29Z",
   "endpoint_family": "dashboard",
   "endpoints": [
     {
@@ -150,6 +150,12 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiAuthCard.vue",
       "matched_paths": [
         "me"
@@ -284,6 +290,19 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "matched_paths": [
+        "me",
+        "summary"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
       "matched_paths": [
         "me"
@@ -291,6 +310,13 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
+      "matched_paths": [
+        "me",
+        "summary"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
       "matched_paths": [
         "me",
         "summary"
@@ -312,6 +338,19 @@
       "file": "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
       "matched_paths": [
         "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "matched_paths": [
+        "me",
+        "summary"
       ]
     },
     {
@@ -397,6 +436,19 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+      "matched_paths": [
+        "me",
+        "summary"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
       "matched_paths": [
         "me",
         "summary"
@@ -858,6 +910,12 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
       "matched_paths": [
         "me"
       ]

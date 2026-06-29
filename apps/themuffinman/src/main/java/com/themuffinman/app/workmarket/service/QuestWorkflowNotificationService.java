@@ -25,7 +25,7 @@ public class QuestWorkflowNotificationService {
     }
 
     public void notifyQuestDeleted(Quest quest, AppUser actor) {
-        List<QuestApplication> applications = questApplicationRepository.findByQuestId(quest.getId());
+        List<QuestApplication> applications = questApplicationRepository.findForQuestApplicationManagement(quest.getId());
         if (applications.isEmpty()) {
             return;
         }
@@ -40,7 +40,7 @@ public class QuestWorkflowNotificationService {
     }
 
     public void notifyApprovedApplicant(Quest quest, AppUser actor, QuestNewsType type, String title, String message) {
-        List<QuestApplication> approvedApplications = questApplicationRepository.findByQuestIdAndStatus(
+        List<QuestApplication> approvedApplications = questApplicationRepository.findForQuestApplicationsByStatus(
                 quest.getId(),
                 QuestApplicationStatus.APPROVED
         );
@@ -58,7 +58,7 @@ public class QuestWorkflowNotificationService {
     }
 
     public void notifyQuestApplicants(Quest quest, AppUser actor, QuestNewsType type, String title, String message) {
-        List<QuestApplication> applications = questApplicationRepository.findByQuestId(quest.getId());
+        List<QuestApplication> applications = questApplicationRepository.findForQuestApplicationManagement(quest.getId());
         if (applications.isEmpty()) {
             return;
         }

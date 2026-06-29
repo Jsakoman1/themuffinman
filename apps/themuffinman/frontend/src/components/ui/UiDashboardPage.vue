@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import UiAppShellPage from "./UiAppShellPage.vue"
+
 withDefaults(defineProps<{
   admin?: boolean
 }>(), {
@@ -7,11 +9,7 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <div class="page page--dashboard">
-    <div class="dashboard-shell">
-      <main :class="['dashboard-main', { 'dashboard-main--admin': admin }]">
-        <slot />
-      </main>
-    </div>
-  </div>
+  <UiAppShellPage :admin="admin">
+    <slot />
+  </UiAppShellPage>
 </template>

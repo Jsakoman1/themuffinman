@@ -1,7 +1,23 @@
 {
-  "generated_at": "2026-06-28T20:30:19Z",
-  "surfaces_scanned": 163,
+  "generated_at": "2026-06-29T12:47:18Z",
+  "surfaces_scanned": 174,
   "gaps": [
+    {
+      "file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+      "feature": "businessApi",
+      "missing_docs": [
+        "business",
+        "agent"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+      "feature": "BusinessHub",
+      "missing_docs": [
+        "business",
+        "agent"
+      ]
+    },
     {
       "file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
       "feature": "chatApi",
@@ -16,6 +32,14 @@
       "missing_docs": [
         "business",
         "technical",
+        "agent"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+      "feature": "ChatWorkspace",
+      "missing_docs": [
+        "business",
         "agent"
       ]
     },
@@ -39,6 +63,22 @@
       "missing_docs": [
         "business",
         "technical",
+        "agent"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+      "feature": "ridesApi",
+      "missing_docs": [
+        "business",
+        "agent"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+      "feature": "RideSharing",
+      "missing_docs": [
+        "business",
         "agent"
       ]
     },
@@ -212,6 +252,22 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "feature": "thingsApi",
+      "missing_docs": [
+        "business",
+        "agent"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "feature": "ThingSharing",
+      "missing_docs": [
+        "business",
+        "agent"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
       "feature": "adminAgentContractGate",
       "missing_docs": [
@@ -223,6 +279,15 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
       "feature": "adminAgentSafetyViewModel",
+      "missing_docs": [
+        "business",
+        "technical",
+        "agent"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
+      "feature": "agentWorkflowGuards",
       "missing_docs": [
         "business",
         "technical",
@@ -495,7 +560,6 @@
       "feature": "ApplicationDetailSections",
       "missing_docs": [
         "business",
-        "technical",
         "agent"
       ]
     },
@@ -1071,7 +1135,6 @@
       "feature": "useQuestDetailEdit",
       "missing_docs": [
         "business",
-        "technical",
         "agent"
       ]
     },
@@ -1161,7 +1224,6 @@
       "feature": "useQuestDetail",
       "missing_docs": [
         "business",
-        "technical",
         "agent"
       ]
     },
@@ -1188,7 +1250,6 @@
       "feature": "useQuestDetail",
       "missing_docs": [
         "business",
-        "technical",
         "agent"
       ]
     },
@@ -1303,6 +1364,14 @@
       ]
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "feature": "BusinessProfile",
+      "missing_docs": [
+        "business",
+        "agent"
+      ]
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
       "feature": "AppUser",
       "missing_docs": [
@@ -1312,6 +1381,22 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
       "feature": "LocationLookup",
+      "missing_docs": [
+        "business",
+        "agent"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "feature": "RideOffer",
+      "missing_docs": [
+        "business",
+        "agent"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "feature": "ThingSharing",
       "missing_docs": [
         "business",
         "agent"

@@ -1,6 +1,6 @@
 # Endpoint Contract Pack location
 
-- Generated At: `2026-06-28T21:02:37Z`
+- Generated At: `2026-06-29T12:47:29Z`
 - Endpoint Family: `location`
 ## `endpoints`
 
@@ -25,9 +25,12 @@
 - `{:file: "apps/themuffinman/frontend/src/components/ui/UiStatusBanner.vue", :matched_paths: ["status"]}`
 - `{:file: "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts", :matched_paths: ["status", "lookup"]}`
 - `{:file: "apps/themuffinman/frontend/src/httpDebug.ts", :matched_paths: ["status"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue", :matched_paths: ["status"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue", :matched_paths: ["status"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue", :matched_paths: ["status"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue", :matched_paths: ["status", "lookup"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue", :matched_paths: ["status"]}`
+- `{:file: "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue", :matched_paths: ["status"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts", :matched_paths: ["status"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts", :matched_paths: ["lookup", "reverse-lookup"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts", :matched_paths: ["/location/admin/status", "status"]}`
@@ -40,9 +43,6 @@
 - `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue", :matched_paths: ["status"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue", :matched_paths: ["status"]}`
 - `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue", :matched_paths: ["status"]}`
-- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue", :matched_paths: ["status"]}`
-- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue", :matched_paths: ["status"]}`
-- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationManagementCard.vue", :matched_paths: ["status"]}`
 
 ## `docs`
 

@@ -24,7 +24,7 @@ export const productModules: ProductModule[] = [
     shortTitle: "Business",
     path: "/business",
     description: "Business profiles, mini websites, calendars, and appointment booking.",
-    state: "planned"
+    state: "live"
   },
   {
     key: "things",
@@ -32,7 +32,7 @@ export const productModules: ProductModule[] = [
     shortTitle: "Things",
     path: "/things",
     description: "Lend, borrow, and coordinate everyday item sharing with trusted people.",
-    state: "planned"
+    state: "live"
   },
   {
     key: "rides",
@@ -40,7 +40,7 @@ export const productModules: ProductModule[] = [
     shortTitle: "Rides",
     path: "/rides",
     description: "Coordinate voluntary route-based rides between selected circles.",
-    state: "planned"
+    state: "live"
   },
   {
     key: "chat",
@@ -48,7 +48,7 @@ export const productModules: ProductModule[] = [
     shortTitle: "Chat",
     path: "/chat",
     description: "Cross-module messaging that follows the same user through work, circles, and future modules.",
-    state: "planned"
+    state: "live"
   }
 ]
 

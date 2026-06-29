@@ -15,7 +15,10 @@ const LoginView = () => import("./modules/identity/views/LoginView.vue");
 const RegisterView = () => import("./modules/identity/views/RegisterView.vue");
 const UserProfileView = () => import("./modules/social/views/UserProfileView.vue");
 const UserSettingsView = () => import("./modules/social/views/UserSettingsView.vue");
-const ModulePlaceholderView = () => import("./views/ModulePlaceholderView.vue");
+const BusinessHubView = () => import("./modules/business/views/BusinessHubView.vue");
+const ThingSharingView = () => import("./modules/things/views/ThingSharingView.vue");
+const RideSharingView = () => import("./modules/rides/views/RideSharingView.vue");
+const ChatWorkspaceView = () => import("./modules/chat/views/ChatWorkspaceView.vue");
 
 
 const routes = [
@@ -111,43 +114,23 @@ const routes = [
     },
     {
         path: '/business',
-        component: ModulePlaceholderView,
-        meta: {
-            requiresAuth: true,
-            moduleKey: 'business',
-            moduleTitle: 'Business Hub',
-            moduleDescription: 'Business profiles, mini websites, calendars, and appointment booking will live here.'
-        }
+        component: BusinessHubView,
+        meta: {requiresAuth: true}
     },
     {
         path: '/things',
-        component: ModulePlaceholderView,
-        meta: {
-            requiresAuth: true,
-            moduleKey: 'things',
-            moduleTitle: 'Thing Sharing',
-            moduleDescription: 'Item lending, borrowing, and sharing workflows will live here.'
-        }
+        component: ThingSharingView,
+        meta: {requiresAuth: true}
     },
     {
         path: '/rides',
-        component: ModulePlaceholderView,
-        meta: {
-            requiresAuth: true,
-            moduleKey: 'rides',
-            moduleTitle: 'Car Sharing',
-            moduleDescription: 'Voluntary route-based ride sharing between selected circles will live here.'
-        }
+        component: RideSharingView,
+        meta: {requiresAuth: true}
     },
     {
         path: '/chat',
-        component: ModulePlaceholderView,
-        meta: {
-            requiresAuth: true,
-            moduleKey: 'chat',
-            moduleTitle: 'Shared Chat',
-            moduleDescription: 'Cross-module messaging and conversation history will live here.'
-        }
+        component: ChatWorkspaceView,
+        meta: {requiresAuth: true}
     }
 ];
 

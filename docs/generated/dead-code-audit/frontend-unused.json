@@ -1,10 +1,17 @@
 {
-  "generated_at": "2026-06-28T20:30:16Z",
-  "files_scanned": 224,
+  "generated_at": "2026-06-29T12:47:13Z",
+  "files_scanned": 233,
   "likely_unused_files": [
     {
       "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
       "basename": "UiAmountField",
+      "refs": 0,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue",
+      "basename": "UiDashboardPage",
       "refs": 0,
       "route_refs": 0,
       "status": "likely_unused"
@@ -130,7 +137,6 @@
     }
   ],
   "unused_dependencies": [
-    "@tiptap/pm",
     "yaml"
   ]
 }

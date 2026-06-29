@@ -30,3 +30,12 @@ Purpose: track the controller, workflow, contract, and operating-model refactor 
 - [x] Frontend validation passes if frontend contracts changed.
 - [x] Docs and machine-operating artifacts are updated.
 - [x] This plan is updated to reflect actual completion state before closing the task.
+
+## Completion Evidence
+
+- Status: complete
+- Changed files: Historical completed plan; see `.agents/feature-manifests/agent-operating-refactor-manifest.yaml` for the structured artifact list.
+- Validation evidence: Historical completed plan; see `.agents/feature-manifests/agent-operating-refactor-manifest.yaml` for validation commands recorded during manifest migration.
+- Doc delta summary: Historical completed plan; see `.agents/feature-manifests/agent-operating-refactor-manifest.yaml` for docs and generated-artifact coverage.
+- Backlog update: Historical completed plan; see `.agents/feature-manifests/agent-operating-refactor-manifest.yaml` for backlog review state.
+- Residual risk: none recorded in the historical manifest.

@@ -1,0 +1,263 @@
+---
+documentation_ownership:
+  documentation_templates:
+  - id: new_workflow
+    label: New workflow
+    template_path: .agents/templates/docs/new-workflow.template.md
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    required_sections:
+    - Behavior Summary
+    - State Model
+    - Permissions And Visibility
+    - Validation And Edge Cases
+    - Documentation Delta
+    - Validation Evidence
+  - id: new_endpoint
+    label: New endpoint
+    template_path: .agents/templates/docs/new-endpoint.template.md
+    required_living_docs:
+    - docs/domain-technical.md
+    - docs/business-logic.md
+    - docs/agent-operating-model.md
+    required_sections:
+    - Endpoint Contract
+    - Behavior Summary
+    - Permissions And Visibility
+    - Validation And Errors
+    - Documentation Delta
+    - Validation Evidence
+  - id: new_dto_contract
+    label: New DTO contract
+    template_path: .agents/templates/docs/new-dto-contract.template.md
+    required_living_docs:
+    - docs/domain-technical.md
+    - docs/business-logic.md
+    - docs/agent-operating-model.md
+    required_sections:
+    - DTO Contract
+    - Field Semantics
+    - Permissions And Visibility
+    - Compatibility Notes
+    - Documentation Delta
+    - Validation Evidence
+  - id: new_module
+    label: New module
+    template_path: .agents/templates/docs/new-module.template.md
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    required_sections:
+    - Module Purpose
+    - Core Entities
+    - Workflows
+    - Permissions And Visibility
+    - Documentation Delta
+    - Validation Evidence
+  - id: new_permission_rule
+    label: New permission rule
+    template_path: .agents/templates/docs/new-permission-rule.template.md
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    required_sections:
+    - Rule Summary
+    - Enforcement Point
+    - Visibility And Consent
+    - Failure Behavior
+    - Documentation Delta
+    - Validation Evidence
+  - id: schema_migration
+    label: Schema migration
+    template_path: .agents/templates/docs/schema-migration.template.md
+    required_living_docs:
+    - docs/domain-technical.md
+    - docs/business-logic.md
+    required_sections:
+    - Migration Summary
+    - Domain Impact
+    - Runtime Compatibility
+    - Documentation Delta
+    - Validation Evidence
+  domains:
+  - id: agent
+    required_living_docs:
+    - docs/agent-operating-model.md
+    - docs/domain-technical.md
+    - docs/documentation-sync-policy.md
+    generated_artifacts:
+    - docs/agent-operating-model.yaml
+    - docs/generated/source-of-truth-audit.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  - id: chat
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/generated/backend-audit-inventory.json
+    - docs/generated/source-of-truth-audit.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - id: business
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    generated_artifacts:
+    - docs/generated/agent-endpoint-inventory.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java
+  - id: common
+    required_living_docs:
+    - docs/domain-technical.md
+    generated_artifacts:
+    - docs/generated/backend-audit-inventory.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/common/concepts/CoreConceptsTest.java
+  - id: identity
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/generated/agent-endpoint-inventory.json
+    - docs/generated/source-of-truth-audit.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
+  - id: location
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/generated/automation-read-model-inventory.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java
+  - id: rides
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    generated_artifacts:
+    - docs/generated/agent-endpoint-inventory.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+  - id: social
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/generated/agent-endpoint-inventory.json
+    - docs/generated/source-of-truth-audit.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java
+  - id: things
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    generated_artifacts:
+    - docs/generated/agent-endpoint-inventory.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java
+  - id: workmarket
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/generated/agent-endpoint-inventory.json
+    - docs/generated/automation-read-model-inventory.json
+    - docs/generated/source-of-truth-audit.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+  - id: platform
+    required_living_docs:
+    - docs/domain-technical.md
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    generated_artifacts:
+    - docs/generated/backend-audit-inventory.json
+    - docs/generated/local-tooling/audit-summary-index.json
+    validation_tests:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java
+  change_categories:
+  - id: backend_logic
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    generated_artifacts:
+    - docs/generated/backend-audit-inventory.json
+    validation_commands:
+    - ./mvnw test
+  - id: frontend_contract
+    required_living_docs:
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+    validation_commands:
+    - npm run validate:contracts
+    - npm run type-check
+    - npm run build
+  - id: workflow_change
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/agent-operating-model.yaml
+    - docs/generated/automation-read-model-inventory.json
+    validation_commands:
+    - make audit-agent-safety
+    - ./mvnw test
+  - id: schema_migration
+    required_living_docs:
+    - docs/domain-technical.md
+    generated_artifacts:
+    - docs/generated/backend-audit-inventory.json
+    validation_commands:
+    - ./mvnw test
+  - id: agent_contract
+    required_living_docs:
+    - docs/agent-operating-model.md
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    generated_artifacts:
+    - docs/agent-operating-model.yaml
+    - docs/generated/source-of-truth-audit.json
+    validation_commands:
+    - ruby scripts/generate-agent-operating-model.rb
+    - make audit-agent-safety
+  - id: sandbox_generation
+    required_living_docs:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    generated_artifacts:
+    - docs/agent-operating-model.yaml
+    validation_commands:
+    - make audit-agent-safety
+    - ./mvnw test
+  - id: local_tooling
+    required_living_docs:
+    - docs/domain-technical.md
+    - docs/tooling/codex-local-audits.md
+    generated_artifacts:
+    - docs/generated/local-tooling/audit-summary-index.json
+    validation_commands:
+    - make audit-local-tooling-incremental
+  - id: backlog_hygiene
+    required_living_docs:
+    - docs/implementation-backlog.md
+    - docs/agent-improvement-backlog.md
+    generated_artifacts: []
+    validation_commands:
+    - ruby scripts/todo-audit.rb

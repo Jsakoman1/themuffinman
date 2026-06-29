@@ -3,7 +3,7 @@ import AdminShellHeader from "../components/admin/AdminShellHeader.vue"
 import DashboardAdmin from "../components/dashboard/DashboardAdmin.vue"
 import DashboardApplicationDialog from "../components/dashboard/DashboardApplicationDialog.vue"
 import DashboardQuestDialog from "../components/dashboard/DashboardQuestDialog.vue"
-import UiDashboardPage from "../../../components/ui/UiDashboardPage.vue"
+import UiAppShellPage from "../../../components/ui/UiAppShellPage.vue"
 import {useMountedAsync} from "../../../composables/useMountedAsync.ts"
 import UiRequestError from "../../../components/ui/UiRequestError.vue"
 import UiToast from "../../../components/ui/UiToast.vue"
@@ -15,7 +15,7 @@ useMountedAsync(dashboard.init)
 </script>
 
 <template>
-  <UiDashboardPage admin>
+  <UiAppShellPage admin>
         <AdminShellHeader
           title="Quests"
           subtitle=""
@@ -34,5 +34,5 @@ useMountedAsync(dashboard.init)
 
         <DashboardQuestDialog :dashboard="dashboard" />
         <DashboardApplicationDialog :dashboard="dashboard" />
-  </UiDashboardPage>
+  </UiAppShellPage>
 </template>

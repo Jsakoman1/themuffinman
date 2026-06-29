@@ -38,6 +38,12 @@ def workflow_inventory_covered?(source_ref, relative_path, workflow_entries)
   end
 end
 
+def tally_values(values)
+  values.each_with_object({}) do |value, counts|
+    counts[value] = counts.fetch(value, 0) + 1
+  end
+end
+
 def mutating_service_candidate?(path)
   return true if File.basename(path).end_with?("UseCase.java")
   return false unless File.basename(path).end_with?("Service.java")
@@ -58,10 +64,23 @@ def tracked_test_candidate?(path)
     basename.end_with?("ValidationTest.java")
 end
 
+def test_domain_id(relative_path, known_domain_ids)
+  package_segment = relative_path[%r{apps/themuffinman/src/test/java/com/themuffinman/app/([^/]+)/}, 1]
+  return package_segment if package_segment && known_domain_ids.include?(package_segment)
+
+  "platform"
+end
+
 source_of_truth = load_section("source_of_truth").fetch("files")
 documentation_coverage = load_section("documentation_coverage")
 workflow_inventory = load_section("service_workflow_inventory")
+backend_audit_coverage = load_section("backend_audit_coverage")
 backend_inventory = JSON.parse(File.read(BACKEND_AUDIT_INVENTORY_PATH))
+domain_ownership = backend_audit_coverage.fetch("domain_ownership")
+strict_backend_rule_ids = (
+  Array(backend_audit_coverage.fetch("current_enforcement").fetch("strict_source_of_truth_rule_ids")) +
+    Array(backend_audit_coverage.fetch("current_enforcement").fetch("strict_documentation_rule_ids"))
+).to_set
 
 path_to_ref = {}
 source_of_truth.each do |entry|
@@ -74,47 +93,105 @@ coverage_group_refs = documentation_coverage.fetch("required_source_ref_groups",
 workflow_entries = workflow_inventory
 auto_scans = documentation_coverage.fetch("auto_scans", [])
 
-strict_backend_paths = Array(backend_inventory["entries"])
-  .select { |entry| entry["tier"] == "executor_critical" }
+strict_backend_entries = Array(backend_inventory["entries"])
+  .select do |entry|
+    entry["tier"] == "executor_critical" ||
+      strict_backend_rule_ids.include?(entry.fetch("classificationRuleId"))
+  end
+strict_backend_paths = strict_backend_entries
   .map { |entry| File.join(REPO_ROOT, entry.fetch("path")) }
   .sort
 test_paths = Dir.glob(File.join(TEST_ROOT, "**", "*.java")).select { |path| tracked_test_candidate?(path) }.sort
 
 candidate_paths = (strict_backend_paths + test_paths).uniq
+backend_entries_by_path = Array(backend_inventory["entries"]).to_h { |entry| [entry.fetch("path"), entry] }
+owner_by_domain = domain_ownership.to_h { |entry| [entry.fetch("id"), entry.fetch("owner_id")] }
+known_domain_ids = owner_by_domain.keys.to_set
 
 missing_source_refs = []
 missing_documentation_coverage = []
 missing_service_workflow_coverage = []
+missing_source_ref_details = []
+missing_documentation_coverage_details = []
+missing_service_workflow_coverage_details = []
+candidate_entries = []
 
 candidate_paths.each do |absolute_path|
   relative_path = relative_repo_path(absolute_path)
   source_ref = path_to_ref[relative_path]
+  backend_entry = backend_entries_by_path[relative_path]
+  domain_id = backend_entry&.fetch("domainId") || test_domain_id(relative_path, known_domain_ids)
+  owner_id = backend_entry&.fetch("ownerId") || owner_by_domain.fetch(domain_id)
+  candidate_type = absolute_path.start_with?(TEST_ROOT) ? "tracked_test" : "backend_executor_critical"
 
   if source_ref.nil?
     missing_source_refs << relative_path
+    missing_source_ref_details << {
+      "path" => relative_path,
+      "candidateType" => candidate_type,
+      "domainId" => domain_id,
+      "ownerId" => owner_id
+    }
     next
   end
 
   covered_by_documentation = coverage_group_refs.include?(source_ref) || matches_auto_scan?(relative_path, auto_scans)
-  missing_documentation_coverage << relative_path unless covered_by_documentation
+  mutating_service = absolute_path.include?("/service/") && mutating_service_candidate?(absolute_path)
+  covered_by_workflow_inventory = mutating_service ? workflow_inventory_covered?(source_ref, relative_path, workflow_entries) : nil
 
-  next unless absolute_path.include?("/service/")
-  next unless mutating_service_candidate?(absolute_path)
+  candidate_entries << {
+    "path" => relative_path,
+    "candidateType" => candidate_type,
+    "domainId" => domain_id,
+    "ownerId" => owner_id,
+    "sourceRefId" => source_ref,
+    "documentationCovered" => covered_by_documentation,
+    "mutatingServiceCandidate" => mutating_service,
+    "serviceWorkflowCovered" => covered_by_workflow_inventory
+  }
 
-  covered_by_workflow_inventory = workflow_inventory_covered?(source_ref, relative_path, workflow_entries)
-  missing_service_workflow_coverage << relative_path unless covered_by_workflow_inventory
+  unless covered_by_documentation
+    missing_documentation_coverage << relative_path
+    missing_documentation_coverage_details << {
+      "path" => relative_path,
+      "candidateType" => candidate_type,
+      "domainId" => domain_id,
+      "ownerId" => owner_id,
+      "sourceRefId" => source_ref
+    }
+  end
+
+  next unless mutating_service
+
+  unless covered_by_workflow_inventory
+    missing_service_workflow_coverage << relative_path
+    missing_service_workflow_coverage_details << {
+      "path" => relative_path,
+      "candidateType" => candidate_type,
+      "domainId" => domain_id,
+      "ownerId" => owner_id,
+      "sourceRefId" => source_ref
+    }
+  end
 end
 
 report = {
   "generatedAt" => Time.now.utc.iso8601,
   "summary" => {
+    "candidateCount" => candidate_entries.length,
+    "domainCounts" => tally_values(candidate_entries.map { |entry| entry["domainId"] }),
+    "ownerCounts" => tally_values(candidate_entries.map { |entry| entry["ownerId"] }),
     "missingSourceRefCount" => missing_source_refs.length,
     "missingDocumentationCoverageCount" => missing_documentation_coverage.length,
     "missingServiceWorkflowCoverageCount" => missing_service_workflow_coverage.length
   },
+  "candidateEntries" => candidate_entries,
   "missingSourceRefs" => missing_source_refs,
+  "missingSourceRefDetails" => missing_source_ref_details,
   "missingDocumentationCoverage" => missing_documentation_coverage,
-  "missingServiceWorkflowCoverage" => missing_service_workflow_coverage
+  "missingDocumentationCoverageDetails" => missing_documentation_coverage_details,
+  "missingServiceWorkflowCoverage" => missing_service_workflow_coverage,
+  "missingServiceWorkflowCoverageDetails" => missing_service_workflow_coverage_details
 }
 
 FileUtils.mkdir_p(File.dirname(OUTPUT_PATH))

@@ -1,25 +1,55 @@
 {
-  "generated_at": "2026-06-28T20:30:23Z",
+  "generated_at": "2026-06-29T12:47:27Z",
   "backend_fields": [
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "line": 150,
+      "line": 158,
       "snippet": "warnings.add(\"Batch quest generation must keep titles and descriptions meaningfully unique.\");"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "line": 154,
+      "line": 163,
       "snippet": "unresolvedInputs.add(\"unique quest descriptions\");"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "line": 698,
+      "line": 695,
       "snippet": "|| normalizedPrompt.contains(\"change my bio\")"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "line": 703,
+      "line": 700,
       "snippet": "|| normalizedPrompt.contains(\"promijeni moj bio\")"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java",
+      "line": 31,
+      "snippet": "@Size(max = 4000, message = \"Business description must be 4000 characters or less\")"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java",
+      "line": 32,
+      "snippet": "private String description;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java",
+      "line": 17,
+      "snippet": "private String description;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessProfileMgr.java",
+      "line": 23,
+      "snippet": ".description(RichTextInputValidator.sanitize(profile.getDescription()))"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java",
+      "line": 44,
+      "snippet": "private String description;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java",
+      "line": 70,
+      "snippet": "profile.setDescription(RichTextInputValidator.sanitize(dto.getDescription()));"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatContactDTO.java",
@@ -202,6 +232,41 @@
       "snippet": ".profileDescription(RichTextInputValidator.sanitize(member.getProfileDescription()))"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingRequestDTO.java",
+      "line": 17,
+      "snippet": "@Size(max = 2000, message = \"Thing description must be 2000 characters or less\")"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingRequestDTO.java",
+      "line": 18,
+      "snippet": "private String description;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingResponseDTO.java",
+      "line": 15,
+      "snippet": "private String description;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java",
+      "line": 23,
+      "snippet": ".description(RichTextInputValidator.sanitize(listing.getDescription()))"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingListing.java",
+      "line": 27,
+      "snippet": "private String description;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java",
+      "line": 90,
+      "snippet": "listing.setDescription(RichTextInputValidator.sanitize(dto.getDescription()));"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java",
+      "line": 15,
+      "snippet": "private String description;"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java",
       "line": 25,
       "snippet": "private String questDescription;"
@@ -282,6 +347,16 @@
       "snippet": "private String comment;"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+      "line": 106,
+      "snippet": ".description(\"See scheduled work and open days\")"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+      "line": 111,
+      "snippet": ".description(\"Offer jobs, track applications, and open the right flow when needed\")"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestQueryService.java",
       "line": 74,
       "snippet": "|| safeLower(quest.getDescription()).contains(query)"
@@ -303,22 +378,22 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java",
-      "line": 49,
+      "line": 51,
       "snippet": "validateQuestDescription(dto.getDescription());"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java",
-      "line": 142,
+      "line": 145,
       "snippet": "private void validateQuestDescription(String description) {"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java",
-      "line": 143,
+      "line": 146,
       "snippet": "if (!RichTextInputValidator.hasContent(description)) {"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java",
-      "line": 144,
+      "line": 147,
       "snippet": "throw ServiceErrors.badRequest(\"Quest description is required\");"
     },
     {
@@ -750,12 +825,12 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 365,
+      "line": 316,
       "snippet": "<ProfileBio"
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 366,
+      "line": 317,
       "snippet": "v-if=\"richTextHasContent(myApplication.message)\""
     },
     {

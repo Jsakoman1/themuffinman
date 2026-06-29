@@ -9,6 +9,16 @@ require "time"
 module LocalToolingCommon
   REPO_ROOT = File.expand_path("..", __dir__)
   OUTPUT_ROOT = File.join(REPO_ROOT, "docs/generated/local-tooling")
+  GENERATED_PATH_PREFIXES = [
+    "docs/generated/",
+    "apps/themuffinman/frontend/dist/",
+    "apps/themuffinman/frontend/src/contracts/generated/"
+  ].freeze
+  AGENT_TRANSIENT_PATTERNS = [
+    %r{\A\.agents/todo-plans/},
+    %r{\A\.agents/validation-evidence/},
+    %r{\A\.agents/.+-plan\.md\z}
+  ].freeze
 
   module_function
 
@@ -64,6 +74,34 @@ module LocalToolingCommon
     end
   rescue StandardError
     []
+  end
+
+  def truthy?(value)
+    value.to_s.match?(/\A(true|1|yes|y)\z/i)
+  end
+
+  def generated_path?(relative_path)
+    GENERATED_PATH_PREFIXES.any? { |prefix| relative_path.start_with?(prefix) }
+  end
+
+  def agent_transient_path?(relative_path)
+    AGENT_TRANSIENT_PATTERNS.any? { |pattern| relative_path.match?(pattern) }
+  end
+
+  def filter_file_list(files, include_generated: false, include_agents: false)
+    rows = files.uniq.map do |path|
+      reasons = []
+      reasons << "generated" if !include_generated && generated_path?(path)
+      reasons << "agent_transient" if !include_agents && agent_transient_path?(path)
+      {path: path, excluded: reasons.any?, reasons: reasons}
+    end
+    {
+      included: rows.reject { |row| row[:excluded] }.map { |row| row[:path] },
+      excluded: rows.select { |row| row[:excluded] },
+      original_file_count: rows.size,
+      filtered_file_count: rows.count { |row| row[:excluded] },
+      excluded_file_count: rows.count { |row| row[:excluded] }
+    }
   end
 
   def iso_mtime(path)

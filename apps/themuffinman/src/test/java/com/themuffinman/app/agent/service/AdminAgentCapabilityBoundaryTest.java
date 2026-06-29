@@ -2,6 +2,7 @@ package com.themuffinman.app.agent.service;
 
 import com.themuffinman.app.agent.dto.AdminAgentPlaygroundRequestDTO;
 import com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO;
+import com.themuffinman.app.agent.sandbox.SandboxGenerationPlanner;
 import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
@@ -15,7 +16,8 @@ class AdminAgentCapabilityBoundaryTest {
     private final AgentProperties agentProperties = new AgentProperties();
     private final OpenAiAdminAgentClient provider = new OpenAiAdminAgentClient(agentProperties);
     private final LocalAdminAgentPromptTranslator localTranslator = new LocalAdminAgentPromptTranslator();
-    private final AdminAgentPlaygroundService service = new AdminAgentPlaygroundService(agentProperties, provider, localTranslator);
+    private final SandboxGenerationPlanner sandboxGenerationPlanner = new SandboxGenerationPlanner();
+    private final AdminAgentPlaygroundService service = new AdminAgentPlaygroundService(agentProperties, provider, localTranslator, sandboxGenerationPlanner);
 
     @Test
     void deletePromptStaysBlockedUntilExactTargetAndConfirmationExist() {

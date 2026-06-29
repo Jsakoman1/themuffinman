@@ -1,14 +1,308 @@
 {
+  "repo-map": {
+    "updated_at": "2026-06-29T12:47:28Z",
+    "output": "docs/generated/local-tooling/repo-map.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "43200e01ff3f6b3c11e02979801b675e1ae04f0defee93d0e1159add72a85550"
+  },
+  "symbol-index": {
+    "updated_at": "2026-06-29T12:47:28Z",
+    "output": "docs/generated/local-tooling/symbol-index.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "a973dbd79636a0f02b72e48095bbda2e627958e161850d5e2514b41d5fad51ae"
+  },
+  "endpoint-contract-packs/agent": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/agent.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "12dd49f32012a799ce0a00b82de0d7585d3cfb94446a64cf4c9053e317a12d2c"
+  },
+  "endpoint-contract-packs/admin": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/admin.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "ba4cce2792a0702a8d885d275347042f1e93f5a2583fd8c490f5fbc6731256d3"
+  },
+  "endpoint-contract-packs/app_users": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/app_users.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "0af9c3c23f42622a92f3d1cb84faa0019e14730652770c71e673dfe04a863f0d"
+  },
+  "endpoint-contract-packs/applications": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/applications.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "231bb01859a2e3696e02bc0cca94563817f3ae9656811f61ef420291217dbd45"
+  },
+  "endpoint-contract-packs/auth": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/auth.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "c4b6a7d46e5724c1950431cde59ffb482382eefbabec769862b746c5d933241d"
+  },
+  "endpoint-contract-packs/business": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/business.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "08756365fa5645fdf5544227b57f85e6b7f90b11cce13bda5531099603b75a42"
+  },
+  "endpoint-contract-packs/chat": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/chat.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "99749956ad106fef398739a8d53d1db4a89be2b4bd4aaf0a1d54683fdd2fabb6"
+  },
+  "endpoint-contract-packs/circles": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/circles.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "cf46ed0bb4a42f3616f192da8cf647102269e4a2e361c1e88cd3ba36bbe728e6"
+  },
+  "endpoint-contract-packs/dashboard": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/dashboard.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "b9f0b64925eb1e44cd718454f22d374b2e675f81b08c577387434bfaee7a6172"
+  },
+  "endpoint-contract-packs/location": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/location.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "7e52d3140ad72e684c0c6f740fc8938609ff322a9c739da398a33dde26f89661"
+  },
+  "endpoint-contract-packs/news": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/news.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "39e0b7c43ed70e3fee39a22c61270d305c49130ac4a8908973fc13b8feefb781"
+  },
+  "endpoint-contract-packs/quests": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/quests.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "f10c05330178ad5b8749dca178aa64996cf1cbf96ea789b56c7a3b84f62e6cd2"
+  },
+  "endpoint-contract-packs/rides": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/rides.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "77c4371fe06b32bfcff2945886e3bcba83b012121ebae3a2ec607df49f37c37e"
+  },
+  "endpoint-contract-packs/things": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/things.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "2fa4d13a40c56517918afdd371efa10e807bd80b3fdb0d81756434636753658e"
+  },
+  "endpoint-contract-packs/index": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/endpoint-contract-packs/index.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "5442a66adf008ecf065aeb37199c93a57f56002e23a5740cf75013f1bc5bb9eb"
+  },
+  "validation-matrix": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/validation-matrix.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "cbba6724676c9c3a6905a45740415312ad0f1768d160658bbaaaae934a67cde8"
+  },
+  "doc-sync-preflight": {
+    "updated_at": "2026-06-29T12:47:32Z",
+    "output": "docs/generated/local-tooling/doc-sync-preflight.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "c1393176110a80b30cde5a7a78d5e074545bf4aaa2bc8c1040ca556bcd7c015c"
+  },
+  "migration-entity-drift-audit": {
+    "updated_at": "2026-06-29T12:47:33Z",
+    "output": "docs/generated/local-tooling/migration-entity-drift-audit.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "30b5e9e6e123e81fa9c03f88cea18cc85c9511bf05cea7490cf9b2809a36f636"
+  },
+  "test-gap-recommendations": {
+    "updated_at": "2026-06-29T12:47:33Z",
+    "output": "docs/generated/local-tooling/test-gap-recommendations.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "519923288d2321c362ce40904118299be082f7542f133200a36190f71f22c603"
+  },
+  "frontend-usage-graph": {
+    "updated_at": "2026-06-29T12:47:34Z",
+    "output": "docs/generated/local-tooling/frontend-usage-graph.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "c97154103112b2cfa961b4b10021f546bdbdb25d319d4692fd09d3552e5e5528"
+  },
+  "backend-dependency-graph": {
+    "updated_at": "2026-06-29T12:47:34Z",
+    "output": "docs/generated/local-tooling/backend-dependency-graph.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "b20788c85d0a1b266ffd863db576fa95023b81b2eaf977203d6116c11adf26ff"
+  },
+  "diff-summary": {
+    "updated_at": "2026-06-29T12:47:34Z",
+    "output": "docs/generated/local-tooling/diff-summary.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "2ff24030a142318c48112d3f925068c166ef7fc58be8652ad9c291e04bd661b8"
+  },
+  "doc-canonical-phrases": {
+    "updated_at": "2026-06-29T12:47:34Z",
+    "output": "docs/generated/local-tooling/doc-canonical-phrases.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "f64c2121ccb8da39c1a2c422c9113d0e59f930c0bd6132f319950b03ff2be14f"
+  },
+  "sandbox-data-coverage-pack": {
+    "updated_at": "2026-06-29T12:47:35Z",
+    "output": "docs/generated/local-tooling/sandbox-data-coverage-pack.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "adde8cd6ec394ee99fb6c605e28a1878b0ba7040498a24b1a794860e2ab33209"
+  },
+  "api-contract-snapshot": {
+    "updated_at": "2026-06-29T12:47:35Z",
+    "output": "docs/generated/local-tooling/api-contract-snapshot.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "4c66a093024581d3b26ba74075994aad154ac61c4bcf3d0818782ebb1ab918d7"
+  },
   "audit-summary-index": {
-    "updated_at": "2026-06-28T21:06:09Z",
+    "updated_at": "2026-06-29T12:47:35Z",
     "output": "docs/generated/local-tooling/audit-summary-index.json",
     "cache_status": "refreshed",
-    "payload_checksum": "e3f0f946152d4f3781cb4750cf1aa6395944b51ef73af667ad428f1f849af548"
+    "payload_checksum": "49af7b22ac5d056be36f4e7a338ad59a8b0060b59cddcff3c552a423904d2cc7"
   },
   "audit-registry-artifacts": {
-    "updated_at": "2026-06-28T21:06:09Z",
+    "updated_at": "2026-06-29T12:47:03Z",
     "output": "docs/generated/local-tooling/audit-registry-artifacts.json",
     "cache_status": "refreshed",
-    "payload_checksum": "1b4b99bafaa2f0de74d000df5e3d04ae9ab593d0a521690f258f74b20eb9f54f"
+    "payload_checksum": "9d6a65ca5e6c4e456bbeccc718fb715e5a560cdb8b30774bc290ce4fc4bc9375"
+  },
+  "post-merge-retrospective": {
+    "updated_at": "2026-06-29T10:07:43Z",
+    "output": "docs/generated/local-tooling/post-merge-retrospectives/latest.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "e9c4eaf976ae515393385128345009badc51e8a496a2ea1e32839f26599b613a"
+  },
+  "fast-check-report": {
+    "updated_at": "2026-06-29T10:41:47Z",
+    "output": "docs/generated/local-tooling/fast-check-report.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "837b92548ec06bc273830e888815a0a6c50462fcaa2fb99e152a24add86e8b9f"
+  },
+  "audit-router": {
+    "updated_at": "2026-06-29T12:04:50Z",
+    "output": "docs/generated/local-tooling/audit-router.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "8e1d522310e2a98c69c84937a198208f8d0a19868b5853797ef427cd0b29a9b6"
+  },
+  "context-packs/todo-master-plan": {
+    "updated_at": "2026-06-29T10:46:23Z",
+    "output": "docs/generated/local-tooling/context-packs/todo-master-plan.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "166fad72d74b42fc0b1167c10636888d844aed0917bdd05327216ace7888affd"
+  },
+  "session-handoffs/todo-master-plan": {
+    "updated_at": "2026-06-29T10:46:13Z",
+    "output": "docs/generated/local-tooling/session-handoffs/todo-master-plan.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "20c4e5f083eddb263f4d65b16fd94b67b3bfaf6d2d9c44e854ed754b7900c59b"
+  },
+  "feature-slices/todo-master-plan": {
+    "updated_at": "2026-06-29T10:50:51Z",
+    "output": "docs/generated/local-tooling/feature-slices/todo-master-plan.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "9160b3b83178f6b4cfec6283430b7dde7b0a0e9ec40d99e8aaad4cd486f91ac0"
+  },
+  "failure-knowledge-base": {
+    "updated_at": "2026-06-29T12:47:35Z",
+    "output": "docs/generated/local-tooling/failure-knowledge-base.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "6478c68aa288251ca81904adb4a0d80fe194e469396c8d2659f16cec037b8feb"
+  },
+  "codebase-capsule": {
+    "updated_at": "2026-06-29T12:47:35Z",
+    "output": "docs/generated/local-tooling/codebase-capsule.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "82460dd73c451e575c78dee4e4d1785a5988a16e53752e123a5dc300c9cdad9f"
+  },
+  "targeted-tests": {
+    "updated_at": "2026-06-29T12:47:32Z",
+    "output": "docs/generated/local-tooling/targeted-tests.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "7bfcd04083ffb3510360721e2db5240c652786b78fe30530566565265a30c2cf"
+  },
+  "test-history-summary": {
+    "updated_at": "2026-06-29T12:47:35Z",
+    "output": "docs/generated/local-tooling/test-history.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "4059d260508f5a025db29d9e55cd7bfe5e0a5881a7cd73c06b09456226a4c3ef"
+  },
+  "diagnostics/frontend-type-check-latest": {
+    "updated_at": "2026-06-29T11:07:58Z",
+    "output": "docs/generated/local-tooling/diagnostics/frontend-type-check-latest.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "e9792f14acc915b2d106d97e9456e871198947fb238ffd2b4ea798b5322f1d51"
+  },
+  "validation-preset": {
+    "updated_at": "2026-06-29T12:47:32Z",
+    "output": "docs/generated/local-tooling/validation-preset.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "c0a263f4c105c74c233148d9affca2478b046d1889659db2137de3ed65b70fbb"
+  },
+  "changeset-playbook": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/changeset-playbook.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "3a15107c801ac8db3e0a4162f495e540da773b8e19bbe61788d830210666453e"
+  },
+  "audit-deltas/diff-summary": {
+    "updated_at": "2026-06-29T12:47:34Z",
+    "output": "docs/generated/local-tooling/audit-deltas/diff-summary.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "a78a6e9f98c94384807b9b64f6852398af1274f92bd2c362b75d33283889b28b"
+  },
+  "audit-deltas/audit-router": {
+    "updated_at": "2026-06-29T12:08:39Z",
+    "output": "docs/generated/local-tooling/audit-deltas/audit-router.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "64c9909dadbf1518828692805c80ebdb63cbd77bd0d6b8f98f03b2b55f0f4c46"
+  },
+  "manifest-path-resolution": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/manifest-path-resolution.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "828d02208d1da1ceef373723af260bce545a034ebb0065ef6970359b9fd296f1"
+  },
+  "symbol-test-links/questservice": {
+    "updated_at": "2026-06-29T12:47:29Z",
+    "output": "docs/generated/local-tooling/symbol-test-links/questservice.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "c5023c0cce22e6e3ff19621269484a44410907909f57f6ed2c17ecec74523a94"
+  },
+  "workflow-slices/quest-application": {
+    "updated_at": "2026-06-29T12:47:30Z",
+    "output": "docs/generated/local-tooling/workflow-slices/quest-application.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "2b18bba1934f58e294a1b89466fcf78b9f5aeaa04329484af0e58464e6d3bffe"
+  },
+  "dto-usage-packs/dashboardsectionsdto": {
+    "updated_at": "2026-06-29T12:47:30Z",
+    "output": "docs/generated/local-tooling/dto-usage-packs/dashboardsectionsdto.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "65cba33aa8d03036ed662bccacd1d40c22ceca464ab5bddecc01defaa3bcfd33"
+  },
+  "plan-code-maps/86-codex-local-manifest-path-resolver": {
+    "updated_at": "2026-06-29T12:47:30Z",
+    "output": "docs/generated/local-tooling/plan-code-maps/86-codex-local-manifest-path-resolver.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "841b20588b8b6e96844da4f3a8b8a64f4c1e22cad827c426b374c0aa2e2071f5"
+  },
+  "hotspots": {
+    "updated_at": "2026-06-29T12:47:31Z",
+    "output": "docs/generated/local-tooling/hotspots.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "79a70be5af44c4489cad8e5d12d5f7a3d3450d0e6a587145eabbc4638b5e55ab"
+  },
+  "domain-packs/workmarket": {
+    "updated_at": "2026-06-29T12:47:32Z",
+    "output": "docs/generated/local-tooling/domain-packs/workmarket.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "e5ac8140b5ff76636c580acad0db5999a135fe89994261f6706b80ad5070691d"
   }
 }

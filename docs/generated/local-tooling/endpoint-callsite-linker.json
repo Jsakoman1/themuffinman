@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-28T20:30:13Z",
-  "endpoint_count": 76,
-  "frontend_client_method_count": 84,
-  "linked_endpoint_count": 76,
+  "generated_at": "2026-06-29T12:47:10Z",
+  "endpoint_count": 87,
+  "frontend_client_method_count": 95,
+  "linked_endpoint_count": 87,
   "unlinked_endpoint_count": 0,
   "endpoints": [
     {
@@ -398,6 +398,104 @@
       ]
     },
     {
+      "endpoint_id": "GET /business/profiles",
+      "domain": "business",
+      "backend_controller": "BusinessProfileController",
+      "backend_method": "getDirectory",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "http_method": "GET",
+      "full_path": "/business/profiles",
+      "frontend_matches": [
+        {
+          "client_object": "businessApi",
+          "client_method": "getDirectory",
+          "client_file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+          "client_path": "/business/profiles",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/profiles/:param",
+      "domain": "business",
+      "backend_controller": "BusinessProfileController",
+      "backend_method": "getProfileBySlug",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "http_method": "GET",
+      "full_path": "/business/profiles/:param",
+      "frontend_matches": [
+        {
+          "client_object": "businessApi",
+          "client_method": "getProfile",
+          "client_file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+          "client_path": "/business/profiles/:param",
+          "callsites": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/profiles/me",
+      "domain": "business",
+      "backend_controller": "BusinessProfileController",
+      "backend_method": "getMyProfile",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "http_method": "GET",
+      "full_path": "/business/profiles/me",
+      "frontend_matches": [
+        {
+          "client_object": "businessApi",
+          "client_method": "getMyProfile",
+          "client_file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+          "client_path": "/business/profiles/me",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "PUT /business/profiles/me",
+      "domain": "business",
+      "backend_controller": "BusinessProfileController",
+      "backend_method": "saveMyProfile",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "http_method": "PUT",
+      "full_path": "/business/profiles/me",
+      "frontend_matches": [
+        {
+          "client_object": "businessApi",
+          "client_method": "saveMyProfile",
+          "client_file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
+          "client_path": "/business/profiles/me",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "endpoint_id": "GET /chat/conversations/:param/messages",
       "domain": "chat",
       "backend_controller": "ChatController",
@@ -541,6 +639,13 @@
               "category": "frontend_composable",
               "ui_surfaces": [
 
+              ]
+            },
+            {
+              "file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue"
               ]
             }
           ]
@@ -1617,6 +1722,188 @@
           "client_path": "/quests/search",
           "callsites": [
 
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "GET /rides/offers",
+      "domain": "rides",
+      "backend_controller": "RideOfferController",
+      "backend_method": "getVisibleOffers",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "http_method": "GET",
+      "full_path": "/rides/offers",
+      "frontend_matches": [
+        {
+          "client_object": "ridesApi",
+          "client_method": "getVisibleOffers",
+          "client_file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+          "client_path": "/rides/offers",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "POST /rides/offers",
+      "domain": "rides",
+      "backend_controller": "RideOfferController",
+      "backend_method": "createOffer",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "http_method": "POST",
+      "full_path": "/rides/offers",
+      "frontend_matches": [
+        {
+          "client_object": "ridesApi",
+          "client_method": "createOffer",
+          "client_file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+          "client_path": "/rides/offers",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "GET /rides/offers/me",
+      "domain": "rides",
+      "backend_controller": "RideOfferController",
+      "backend_method": "getMyOffers",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "http_method": "GET",
+      "full_path": "/rides/offers/me",
+      "frontend_matches": [
+        {
+          "client_object": "ridesApi",
+          "client_method": "getMyOffers",
+          "client_file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
+          "client_path": "/rides/offers/me",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "GET /things/listings",
+      "domain": "things",
+      "backend_controller": "ThingSharingController",
+      "backend_method": "getAvailableListings",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "http_method": "GET",
+      "full_path": "/things/listings",
+      "frontend_matches": [
+        {
+          "client_object": "thingsApi",
+          "client_method": "getAvailableListings",
+          "client_file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+          "client_path": "/things/listings",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "POST /things/listings",
+      "domain": "things",
+      "backend_controller": "ThingSharingController",
+      "backend_method": "createListing",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "http_method": "POST",
+      "full_path": "/things/listings",
+      "frontend_matches": [
+        {
+          "client_object": "thingsApi",
+          "client_method": "createListing",
+          "client_file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+          "client_path": "/things/listings",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "POST /things/listings/:param/borrow-requests",
+      "domain": "things",
+      "backend_controller": "ThingSharingController",
+      "backend_method": "requestBorrow",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "http_method": "POST",
+      "full_path": "/things/listings/:param/borrow-requests",
+      "frontend_matches": [
+        {
+          "client_object": "thingsApi",
+          "client_method": "requestBorrow",
+          "client_file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+          "client_path": "/things/listings/:param/borrow-requests",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "GET /things/listings/me",
+      "domain": "things",
+      "backend_controller": "ThingSharingController",
+      "backend_method": "getMyListings",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "http_method": "GET",
+      "full_path": "/things/listings/me",
+      "frontend_matches": [
+        {
+          "client_object": "thingsApi",
+          "client_method": "getMyListings",
+          "client_file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+          "client_path": "/things/listings/me",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue"
+              ]
+            }
           ]
         }
       ]

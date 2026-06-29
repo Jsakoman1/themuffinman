@@ -72,3 +72,12 @@ Purpose: implement the next large executor-readiness and feature-delivery contro
 - Frontend regression coverage now validates explicit negative planner and dry-run scenarios plus one safe path through `npm run validate:admin-agent-ui`.
 - Frontend contract generation, regression fixtures, and feature-scoped expectations are now enforced through the YAML contract plus `AgentOperatingModelValidationTest`.
 - Final validation should stay green for `make audit-agent-safety`, `npm run type-check`, `npm run build`, and full backend `./mvnw test`.
+
+## Completion Evidence
+
+- Status: complete
+- Changed files: Historical completed plan; see `.agents/feature-manifests/executor-readiness-program-manifest.yaml` for the structured artifact list.
+- Validation evidence: Historical completed plan; see `.agents/feature-manifests/executor-readiness-program-manifest.yaml` for validation commands recorded during manifest migration.
+- Doc delta summary: Historical completed plan; see `.agents/feature-manifests/executor-readiness-program-manifest.yaml` for docs and generated-artifact coverage.
+- Backlog update: Historical completed plan; see `.agents/feature-manifests/executor-readiness-program-manifest.yaml` for backlog review state.
+- Residual risk: none recorded in the historical manifest.

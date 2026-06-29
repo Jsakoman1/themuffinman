@@ -1,6 +1,6 @@
 # Endpoint Contract Pack admin
 
-- Generated At: `2026-06-28T21:02:37Z`
+- Generated At: `2026-06-29T12:47:29Z`
 - Endpoint Family: `admin`
 ## `endpoints`
 
