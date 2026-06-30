@@ -3,7 +3,7 @@ import ProfileAvatar from "../../../../components/profile/ProfileAvatar.vue"
 import UiListItem from "../../../../components/ui/UiListItem.vue"
 import UiPagination from "../../../../components/ui/UiPagination.vue"
 import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
-import type {CircleRequest, ProfilePrimaryAction} from "../../../workmarket/api/workmarketApi.ts"
+import type {CircleRequest, ProfilePrimaryAction} from "../../../../contracts/index.ts"
 
 defineProps<{
   incomingItems: CircleRequest[]

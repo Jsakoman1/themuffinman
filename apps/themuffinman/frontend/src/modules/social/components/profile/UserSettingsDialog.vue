@@ -12,7 +12,7 @@ import type {
   LocationLookupCandidate,
   LocationLookupResponse,
   LocationModeOption
-} from "../../../workmarket/api/workmarketApi.ts"
+} from "../../../../contracts/index.ts"
 import {workmarketApi} from "../../../workmarket/api/workmarketApi.ts"
 import DetailDialogFrame from "../../../workmarket/components/shared/DetailDialogFrame.vue"
 import DetailUtilitySection from "../../../workmarket/components/shared/DetailUtilitySection.vue"

@@ -1,10 +1,11 @@
 import {computed, type Ref} from "vue"
 import type {
   CircleCandidate,
+  CircleCandidateListResponse,
   CircleContactListResponse,
   CircleGroup,
   CircleRequestListResponse
-} from "../../../workmarket/api/workmarketApi.ts"
+} from "../../../../contracts/index.ts"
 
 export const createCirclesViewState = (state: {
   circles: Ref<CircleGroup[]>
@@ -15,8 +16,8 @@ export const createCirclesViewState = (state: {
   connectionsPageData: Ref<CircleContactListResponse | null>
   incomingPageData: Ref<CircleRequestListResponse | null>
   outgoingPageData: Ref<CircleRequestListResponse | null>
-  blockedPageData: Ref<import("../../../workmarket/api/workmarketApi.ts").CircleCandidateListResponse | null>
-  nearbyPageData: Ref<import("../../../workmarket/api/workmarketApi.ts").CircleCandidateListResponse | null>
+  blockedPageData: Ref<CircleCandidateListResponse | null>
+  nearbyPageData: Ref<CircleCandidateListResponse | null>
   overviewConnectionCount: Ref<number>
   overviewIncomingRequestCount: Ref<number>
   overviewOutgoingRequestCount: Ref<number>

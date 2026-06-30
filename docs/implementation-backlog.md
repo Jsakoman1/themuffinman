@@ -8,7 +8,9 @@ Keep only currently open items here. When an item is implemented, remove it from
 
 ## Open Items
 
-- `BACKEND-MODEL-STANDARDIZATION-001`: Standardize backend transport models, read-model families, and service boundaries so similar domains can share naming, assemblers, DTO shapes, and validation patterns without ad-hoc per-feature drift. Planned in `.agents/backend-model-standardization-master-plan.md`.
+- `BACKEND-DRIFT-WORKMARKET-002`: Reduce the remaining workmarket backend hotspots by continuing the service-boundary cleanup around dashboard, quest state, validation, news, execution primitives, and application/admin/controller orchestration. Planned in `.agents/todo-plans/94-backend-hotspot-reduction-workmarket-social.md`.
+- `BACKEND-DRIFT-SOCIAL-003`: Reduce the remaining social backend hotspots by continuing the service-boundary cleanup around circle read, discovery, relation, membership, assembler, and controller orchestration. Planned in `.agents/todo-plans/94-backend-hotspot-reduction-workmarket-social.md`.
+- `BACKEND-DRIFT-IDENTITY-LOCATION-004`: Reduce the remaining identity and location backend drift after the workmarket and social slices settle, using the same service-boundary and read-model standardization pattern. Planned in `.agents/backend-drift-remediation-master-plan.md`.
 
 ## Intake Rules
 

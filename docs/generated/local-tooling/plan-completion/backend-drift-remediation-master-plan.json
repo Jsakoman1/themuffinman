@@ -1,0 +1,43 @@
+{
+  "plan": ".agents/backend-drift-remediation-master-plan.md",
+  "exists": true,
+  "completion_evidence": true,
+  "completion_status": "complete",
+  "open_tasks": [
+
+  ],
+  "unresolved_open_tasks": [
+
+  ],
+  "child_plans": [
+    {
+      "line": 28,
+      "checked": true,
+      "path": ".agents/todo-plans/93-backend-drift-backlog-execution.md",
+      "text": "- [x] `BACKEND-DRIFT-BACKLOG-EXECUTION` - `.agents/todo-plans/93-backend-drift-backlog-execution.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 29,
+      "checked": true,
+      "path": ".agents/todo-plans/94-backend-hotspot-reduction-workmarket-social.md",
+      "text": "- [x] `BACKEND-HOTSPOT-REDUCTION-WORKMARKET-SOCIAL` - `.agents/todo-plans/94-backend-hotspot-reduction-workmarket-social.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    }
+  ],
+  "issues": [
+
+  ],
+  "warnings": [
+
+  ],
+  "status": "passed",
+  "generated_at": "2026-06-30T06:40:06Z",
+  "manifest": null
+}

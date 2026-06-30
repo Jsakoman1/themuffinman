@@ -1,6 +1,6 @@
 # Workflow Slice quest-application
 
-- Generated At: `2026-06-29T19:55:08Z`
+- Generated At: `2026-06-29T20:14:27Z`
 - Workflow: `quest-application`
 - `state_machine`: `8` entries
 ## `service_files`
@@ -28,7 +28,6 @@
 - `docs/agent-operating-model.yaml`
 - `docs/agent-operating-model/sections/source_of_truth.yaml`
 - `docs/domain-technical.md`
-- `docs/generated/local-tooling/diff-summary.md`
 - `docs/generated/local-tooling/domain-packs/workmarket-summary.md`
 - `docs/generated/local-tooling/workflow-slices/quest-application-summary.md`
 - `docs/workflow-state-machines.md`

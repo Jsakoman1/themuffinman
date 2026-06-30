@@ -24,6 +24,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -49,6 +52,9 @@ class LocationLookupServiceTest {
     @Mock
     private AdminDatabaseMetricsService adminDatabaseMetricsService;
 
+    @Mock
+    private LocationDebugStatusAssembler locationDebugStatusAssembler;
+
     private LocationLookupService locationLookupService;
 
     @BeforeEach
@@ -59,7 +65,8 @@ class LocationLookupServiceTest {
                 appUserRepository,
                 questRepository,
                 locationLookupEventRepository,
-                adminDatabaseMetricsService
+                adminDatabaseMetricsService,
+                locationDebugStatusAssembler
         );
     }
 
@@ -120,14 +127,33 @@ class LocationLookupServiceTest {
                 DatabaseTableStatusViewDTO.builder().tableName("app_user").rowCount(10L).build(),
                 DatabaseTableStatusViewDTO.builder().tableName("quest").rowCount(20L).build()
         ));
+        LocationDebugStatusViewDTO expected = LocationDebugStatusViewDTO.builder().provider("geoapify").build();
+        when(locationDebugStatusAssembler.buildDebugStatus(
+                anyBoolean(),
+                anyString(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                anyLong(),
+                any()
+        )).thenReturn(expected);
 
         LocationDebugStatusViewDTO status = locationLookupService.getDebugStatus();
 
-        assertEquals(12L, status.getCurrentMonthProviderRequests());
-        assertEquals(7L, status.getCurrentMonthProviderLookupRequests());
-        assertEquals(5L, status.getCurrentMonthProviderReverseLookupRequests());
-        assertEquals(9_437_184L, status.getDatabaseSizeBytes());
-        assertEquals(2, status.getTableStatuses().size());
+        assertSame(expected, status);
     }
 
     @Test

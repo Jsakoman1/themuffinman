@@ -3,7 +3,6 @@ package com.themuffinman.app.identity.service;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.identity.dto.AdminUserDetailDTO;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
-import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.social.service.CircleService;
@@ -19,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminUserDetailService {
     private final AppUserLookupService appUserLookupService;
     private final AppUserService appUserService;
-    private final AppUserMgr appUserMgr;
+    private final IdentityUserSummaryAssembler identityUserSummaryAssembler;
     private final CircleService circleService;
     private final WorkmarketOptionsService workmarketOptionsService;
 
@@ -27,8 +26,8 @@ public class AdminUserDetailService {
         validateAdmin(currentUser);
 
         AppUser targetUser = appUserLookupService.requireById(userId);
-        AppUserResponseDTO user = appUserMgr.withProfileStats(
-                appUserMgr.toDto(targetUser),
+        AppUserResponseDTO user = identityUserSummaryAssembler.buildProfileSummary(
+                targetUser,
                 appUserService.countQuestsByCreatorId(targetUser.getId()),
                 appUserService.getOpenQuestsByCreatorId(targetUser.getId())
         );

@@ -9,6 +9,7 @@ import {
   buildPlaygroundSafetyViewModel,
   buildSimulationSafetyViewModel
 } from "../api/adminAgentSafetyViewModel.ts"
+import {adminAgentContractGate} from "../api/adminAgentContractGate.ts"
 import {collectAgentWorkflowReferenceIssues} from "../api/agentWorkflowGuards.ts"
 import {
   workmarketApi,
@@ -34,6 +35,13 @@ const simulationSafety = computed(() => simulationResponse.value
 const simulationWorkflowReferenceIssues = computed(() => simulationResponse.value
   ? collectAgentWorkflowReferenceIssues(simulationResponse.value)
   : [])
+
+const contractGateSummary = computed(() => ({
+  playgroundFields: adminAgentContractGate.adminAgentPlaygroundResponseKeys.length,
+  simulationFields: adminAgentContractGate.adminAgentSimulationResponseKeys.length,
+  knownIntents: adminAgentContractGate.knownIntentIds.length,
+  knownEndpoints: adminAgentContractGate.knownEndpointIds.length
+}))
 
 const runPlanner = async () => {
   isSubmittingPlanner.value = true
@@ -98,6 +106,25 @@ const runSimulation = async () => {
               </button>
             </div>
           </div>
+        </div>
+      </UiSurfaceSection>
+
+      <UiSurfaceSection title="Contract gate" compact>
+        <div class="surface-inline-spread">
+          <strong>Planner fields</strong>
+          <span>{{ contractGateSummary.playgroundFields }}</span>
+        </div>
+        <div class="surface-inline-spread">
+          <strong>Simulation fields</strong>
+          <span>{{ contractGateSummary.simulationFields }}</span>
+        </div>
+        <div class="surface-inline-spread">
+          <strong>Known intents</strong>
+          <span>{{ contractGateSummary.knownIntents }}</span>
+        </div>
+        <div class="surface-inline-spread">
+          <strong>Known endpoints</strong>
+          <span>{{ contractGateSummary.knownEndpoints }}</span>
         </div>
       </UiSurfaceSection>
 

@@ -79,6 +79,11 @@ class CircleServiceTest {
             new SocialRelationActionHelper()
     );
 
+    @Spy
+    private CircleAdminOverviewAssembler circleAdminOverviewAssembler = new CircleAdminOverviewAssembler(
+            new SocialPresentationHelper()
+    );
+
     private CircleReadService circleReadService;
 
     private CircleDiscoveryService circleDiscoveryService;
@@ -101,6 +106,7 @@ class CircleServiceTest {
                 circleMembershipService,
                 circleRelationService,
                 circleRequestMgr,
+                circleAdminOverviewAssembler,
                 circleViewAssembler
         );
         circleService = new CircleService(

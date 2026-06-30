@@ -200,11 +200,11 @@ backend_audit_coverage:
     - id: social_request_relation_dto_surface
       tier: automation_relevant
       file_names:
-        - BulkCircleMembershipAction.java
+        - BulkCircleMembershipActionDTO.java
         - BulkCircleMembershipUpdateDTO.java
         - CircleBlockCreateDTO.java
         - CircleRelationDTO.java
-        - CircleRelationStatus.java
+        - CircleRelationStatusDTO.java
         - CircleRequestCreateDTO.java
         - CircleRequestListResponseDTO.java
         - CircleRequestResponseDTO.java
@@ -239,7 +239,7 @@ backend_audit_coverage:
         - DashboardApplicationGroupDTO.java
         - DashboardNavigationItemDTO.java
         - DashboardNavigationSectionDTO.java
-        - DashboardNotificationDestinationType.java
+        - DashboardNotificationDestinationTypeDTO.java
         - DashboardNotificationItemDTO.java
         - DashboardNotificationsSectionDTO.java
         - DashboardOpenWorkSectionDTO.java
@@ -252,8 +252,8 @@ backend_audit_coverage:
     - id: workmarket_quest_detail_dto_surface
       tier: automation_relevant
       file_names:
-        - QuestAllowedAction.java
-        - QuestDetailExecutionAction.java
+        - QuestAllowedActionDTO.java
+        - QuestDetailExecutionActionDTO.java
         - QuestDetailExecutionSectionDTO.java
         - QuestDetailManagementSectionDTO.java
         - QuestDetailNavigationSectionDTO.java
@@ -263,11 +263,11 @@ backend_audit_coverage:
         - QuestDetailSectionsDTO.java
         - QuestDetailTermChangeSectionDTO.java
         - QuestPresentationDTO.java
-        - QuestViewerRelation.java
+        - QuestViewerRelationDTO.java
     - id: workmarket_application_detail_dto_surface
       tier: automation_relevant
       file_names:
-        - ApplicationAllowedAction.java
+        - ApplicationAllowedActionDTO.java
         - QuestApplicationDetailContextSectionDTO.java
         - QuestApplicationDetailNavigationSectionDTO.java
         - QuestApplicationDetailResponseDTO.java
@@ -284,7 +284,7 @@ backend_audit_coverage:
         - QuestApplicationStatusFilterOptionDTO.java
         - QuestAudienceFilterOptionDTO.java
         - QuestAudienceOptionDTO.java
-        - QuestListPreset.java
+        - QuestListPresetDTO.java
         - QuestListResponseDTO.java
         - QuestResponseDTO.java
         - QuestSearchDefaultsDTO.java
@@ -296,7 +296,7 @@ backend_audit_coverage:
     - id: workmarket_news_read_model_dto_surface
       tier: automation_relevant
       file_names:
-        - QuestNewsDestinationType.java
+        - QuestNewsDestinationTypeDTO.java
         - QuestNewsItemResponseDTO.java
     - id: common_action_navigation_dto_surface
       tier: automation_relevant

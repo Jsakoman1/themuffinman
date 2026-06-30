@@ -1,10 +1,11 @@
 import {computed, ref} from "vue"
 import type {
   CircleCandidate,
+  CircleCandidateListResponse,
   CircleContactListResponse,
   CircleGroup,
   CircleRequestListResponse
-} from "../../../workmarket/api/workmarketApi.ts"
+} from "../../../../contracts/index.ts"
 import {hasSearchQuery, normalizeSearchQuery} from "../../../../lib/searchQuery.ts"
 import {useTimedBanner} from "../../../../composables/useTimedBanner.ts"
 
@@ -17,8 +18,8 @@ export const createCirclesPageState = () => {
   const connectionsPageData = ref<CircleContactListResponse | null>(null)
   const incomingPageData = ref<CircleRequestListResponse | null>(null)
   const outgoingPageData = ref<CircleRequestListResponse | null>(null)
-  const blockedPageData = ref<import("../../../workmarket/api/workmarketApi.ts").CircleCandidateListResponse | null>(null)
-  const nearbyPageData = ref<import("../../../workmarket/api/workmarketApi.ts").CircleCandidateListResponse | null>(null)
+  const blockedPageData = ref<CircleCandidateListResponse | null>(null)
+  const nearbyPageData = ref<CircleCandidateListResponse | null>(null)
   const selectedCircleIdsByUserId = ref<Record<number, number[]>>({})
   const overviewConnectionCount = ref(0)
   const overviewUnassignedConnectionCount = ref(0)

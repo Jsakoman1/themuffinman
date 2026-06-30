@@ -1,5 +1,5 @@
 import type {Ref} from "vue"
-import type {CircleContact} from "../../../workmarket/api/workmarketApi.ts"
+import type {CircleContact} from "../../../../contracts/index.ts"
 
 export const sameCircleIds = (left: number[], right: number[]) => {
   if (left.length !== right.length) {

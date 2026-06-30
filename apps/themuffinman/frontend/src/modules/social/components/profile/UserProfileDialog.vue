@@ -22,7 +22,7 @@ import {formatReviewedRoleLabel, formatUserRatingSummary} from "../../../../shar
 import {formatQuestTermForDisplay} from "../../../../shared/questSchedule.ts"
 import {routeForNavigationTarget} from "../../../workmarket/shared/navigationTargets.ts"
 import {formatQuestReward} from "../../../workmarket/shared/pricing.ts"
-import type {AppUser} from "../../../workmarket/api/workmarketApi.ts"
+import type {AppUser} from "../../../../contracts/index.ts"
 import {executeSocialAction} from "../../shared/socialActions.ts"
 import {useUserProfileView} from "../../composables/useUserProfileView.ts"
 

@@ -7,7 +7,6 @@ import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.workmarket.mapper.QuestNewsMgr;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.workmarket.dto.DashboardResponseDTO;
 import com.themuffinman.app.workmarket.dto.DashboardSectionsDTO;
 import com.themuffinman.app.workmarket.dto.DashboardSummaryDTO;
@@ -29,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +45,7 @@ public class DashboardService {
     private final AppUserMgr appUserMgr;
     private final WorkmarketOptionsService workmarketOptionsService;
     private final DashboardSectionsFactory dashboardSectionsFactory;
+    private final DashboardSummaryAssembler dashboardSummaryAssembler;
 
     private static final Map<QuestStatus, Integer> QUEST_STATUS_SORT_ORDER = Map.of(
             QuestStatus.OPEN, 0,
@@ -103,7 +102,14 @@ public class DashboardService {
 
         return DashboardResponseDTO.builder()
                 .options(workmarketOptionsService.getOptions(currentUser))
-                .summary(buildSummary(currentUser, visibleQuests, applications))
+                .summary(dashboardSummaryAssembler.buildSummary(
+                        currentUser,
+                        visibleQuests,
+                        applications,
+                        questNewsService.getUnreadCount(currentUser),
+                        appUserRepository.count(),
+                        appUserRepository.countByRole(com.themuffinman.app.identity.model.AppUserRole.ADMIN)
+                ))
                 .sections(sections)
                 .quests(questDtos)
                 .myQuests(myQuestDtos)
@@ -123,41 +129,14 @@ public class DashboardService {
 
         List<Quest> quests = questService.getAllQuests(currentUser);
         List<QuestApplication> applications = questApplicationRepository.findForApplicantDashboard(currentUser.getId());
-        return buildSummary(currentUser, quests, applications);
-    }
-
-    private DashboardSummaryDTO buildSummary(AppUser currentUser, List<Quest> quests, List<QuestApplication> applications) {
-        if (currentUser == null) {
-            return DashboardSummaryDTO.builder().build();
-        }
-
-        long questCount = quests.size();
-        long visibleMyQuestsCount = countMyQuestsByStatus(quests, currentUser.getId(), QuestStatus::isVisibleOwnerWork);
-        long activeMyQuestsCount = countActiveMyQuests(quests, currentUser.getId());
-        long completedMyQuestsCount = countMyQuestsByStatus(quests, currentUser.getId(), status -> status == QuestStatus.COMPLETED);
-        long openQuestCount = countQuestsByStatus(quests, QuestStatus.OPEN);
-        long assignedQuestCount = countQuestsByStatus(quests, QuestStatus.ASSIGNED);
-        long waitingConfirmationQuestCount = countQuestsByStatus(quests, QuestStatus.WAITING_CONFIRMATION);
-        long pendingWorkApplicationsCount = countApplicationsByStatus(applications, QuestApplicationStatus.PENDING);
-        long activeWorkApplicationsCount = countActiveWorkApplications(applications);
-        long activeWorkCount = activeMyQuestsCount + activeWorkApplicationsCount;
-
-        return DashboardSummaryDTO.builder()
-                .adminModeEnabled(ActorIdentity.from(currentUser).admin())
-                .questCount(questCount)
-                .visibleMyQuestsCount(visibleMyQuestsCount)
-                .pendingWorkApplicationsCount(pendingWorkApplicationsCount)
-                .activeWorkApplicationsCount(activeWorkApplicationsCount)
-                .activeMyQuestsCount(activeMyQuestsCount)
-                .activeWorkCount(activeWorkCount)
-                .completedMyQuestsCount(completedMyQuestsCount)
-                .openQuestCount(openQuestCount)
-                .assignedQuestCount(assignedQuestCount)
-                .waitingConfirmationQuestCount(waitingConfirmationQuestCount)
-                .unreadNewsCount(questNewsService.getUnreadCount(currentUser))
-                .totalUserCount(appUserRepository.count())
-                .adminUserCount(appUserRepository.countByRole(AppUserRole.ADMIN))
-                .build();
+        return dashboardSummaryAssembler.buildSummary(
+                currentUser,
+                quests,
+                applications,
+                questNewsService.getUnreadCount(currentUser),
+                appUserRepository.count(),
+                appUserRepository.countByRole(com.themuffinman.app.identity.model.AppUserRole.ADMIN)
+        );
     }
 
     private List<Quest> sortQuests(List<Quest> quests) {
@@ -187,43 +166,4 @@ public class DashboardService {
                 .toList();
     }
 
-    private long countMyQuestsByStatus(
-            List<Quest> quests,
-            Long currentUserId,
-            Predicate<QuestStatus> statusPredicate
-    ) {
-        return quests.stream()
-                .filter(quest -> quest.getCreator() != null && quest.getCreator().getId().equals(currentUserId))
-                .filter(quest -> statusPredicate.test(quest.getStatus()))
-                .count();
-    }
-
-    private long countActiveMyQuests(List<Quest> quests, Long currentUserId) {
-        return quests.stream()
-                .filter(quest -> quest.getCreator() != null && quest.getCreator().getId().equals(currentUserId))
-                .filter(quest -> quest.getStatus().isActiveForOwner())
-                .count();
-    }
-
-    private long countQuestsByStatus(List<Quest> quests, QuestStatus status) {
-        return quests.stream()
-                .filter(quest -> quest.getStatus() == status)
-                .count();
-    }
-
-    private long countApplicationsByStatus(List<QuestApplication> applications, QuestApplicationStatus status) {
-        return applications.stream()
-                .filter(application -> application.getStatus() == status)
-                .count();
-    }
-
-    private long countActiveWorkApplications(List<QuestApplication> applications) {
-        return applications.stream()
-                .filter(application -> application.getStatus() == QuestApplicationStatus.APPROVED)
-                .filter(application -> {
-                    QuestStatus questStatus = application.getQuest() == null ? null : application.getQuest().getStatus();
-                    return questStatus != null && questStatus.isActiveForWorker();
-                })
-                .count();
-    }
 }

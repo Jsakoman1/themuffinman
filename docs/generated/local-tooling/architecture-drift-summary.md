@@ -1,6 +1,6 @@
 # Architecture Drift Audit
 
-- Generated At: `2026-06-29T19:54:52Z`
+- Generated At: `2026-06-30T06:36:39Z`
 - Mode: `report_first`
 - `thresholds`: `6` entries
 ## `backend_entries`
@@ -10,13 +10,13 @@
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java", :kind: "service", :lines: 285, :public_methods: 33, :responsibility_markers: ["query", "mutation", "policy"], :flags: ["many_public_methods", "mixed_responsibilities"]}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java", :kind: "controller", :lines: 261, :public_methods: 21, :responsibility_markers: ["query", "mutation", "policy"], :flags: ["oversized_controller", "many_public_methods", "mixed_responsibilities"]}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java", :kind: "service", :lines: 257, :public_methods: 10, :responsibility_markers: ["query", "mutation", "policy"], :flags: ["mixed_responsibilities"]}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java", :kind: "service", :lines: 242, :public_methods: 4, :responsibility_markers: ["query", "mutation", "notification"], :flags: ["mixed_responsibilities"]}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java", :kind: "service", :lines: 229, :public_methods: 2, :responsibility_markers: ["query", "mutation", "policy", "mapping"], :flags: ["mixed_responsibilities"]}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java", :kind: "service", :lines: 242, :public_methods: 3, :responsibility_markers: ["query", "mutation", "notification"], :flags: ["mixed_responsibilities"]}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsService.java", :kind: "service", :lines: 223, :public_methods: 14, :responsibility_markers: ["query", "mutation"], :flags: ["many_public_methods"]}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java", :kind: "service", :lines: 221, :public_methods: 7, :responsibility_markers: ["query", "mutation", "policy", "mapping"], :flags: ["mixed_responsibilities"]}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java", :kind: "service", :lines: 205, :public_methods: 10, :responsibility_markers: ["query", "mutation", "policy"], :flags: ["mixed_responsibilities"]}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java", :kind: "service", :lines: 197, :public_methods: 17, :responsibility_markers: ["query", "policy", "mapping"], :flags: ["many_public_methods", "mixed_responsibilities"]}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java", :kind: "service", :lines: 198, :public_methods: 17, :responsibility_markers: ["query", "policy", "mapping"], :flags: ["many_public_methods", "mixed_responsibilities"]}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java", :kind: "service", :lines: 186, :public_methods: 7, :responsibility_markers: ["query", "mutation", "policy", "mapping"], :flags: ["mixed_responsibilities"]}`
+- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java", :kind: "service", :lines: 169, :public_methods: 2, :responsibility_markers: ["query", "policy", "mapping"], :flags: ["mixed_responsibilities"]}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java", :kind: "service", :lines: 168, :public_methods: 3, :responsibility_markers: ["query", "mutation", "policy", "mapping"], :flags: ["mixed_responsibilities"]}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java", :kind: "controller", :lines: 135, :public_methods: 12, :responsibility_markers: ["query", "mutation", "policy"], :flags: ["mixed_responsibilities"]}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java", :kind: "service", :lines: 121, :public_methods: 4, :responsibility_markers: ["query", "mutation", "mapping"], :flags: ["mixed_responsibilities"]}`
@@ -34,4 +34,4 @@
 - `{:file: "docs/agent-operating-model.md", :section: "Current Scope", :level: 2, :lines: 203, :flags: ["oversized_doc_section"]}`
 - `{:file: "docs/domain-technical.md", :section: "Control-System Technical Notes", :level: 2, :lines: 139, :flags: ["oversized_doc_section"]}`
 
-- Total Findings: `26`
+- Total Findings: `25`

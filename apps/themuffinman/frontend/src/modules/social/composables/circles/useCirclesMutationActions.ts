@@ -1,6 +1,7 @@
 import {createFeedbackMutationRunner} from "../../../../composables/createFeedbackMutationRunner.ts"
 import {normalizeSearchQuery} from "../../../../lib/searchQuery.ts"
-import {workmarketApi, type CircleContact} from "../../../workmarket/api/workmarketApi.ts"
+import {workmarketApi} from "../../../workmarket/api/workmarketApi.ts"
+import type {CircleContact} from "../../../../contracts/index.ts"
 
 type CirclesMutationState = {
   isSaving: {value: boolean}

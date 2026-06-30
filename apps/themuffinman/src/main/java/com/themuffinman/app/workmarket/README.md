@@ -7,7 +7,7 @@ Owns quests, applications, quest workflow transitions, reviews, dashboard read m
 ## Main Entry Points
 
 - Controllers: `controller/`
-- Query/read services: `service/QuestService.java`, `service/DashboardService.java`, `service/QuestViewAssembler.java`, `service/QuestApplicationViewAssembler.java`
+- Query/read services: `service/QuestService.java`, `service/DashboardService.java`, `service/DashboardSummaryAssembler.java`, `service/QuestViewAssembler.java`, `service/QuestApplicationViewAssembler.java`
 - Mutation use cases: `service/*UseCase.java`
 - Domain events and side-effect handlers: `event/`
 - Policies and workflow support: `service/QuestAccessPolicyService.java`, `service/QuestStateTransitionService.java`, `service/QuestApplicationWorkflowSupport.java`

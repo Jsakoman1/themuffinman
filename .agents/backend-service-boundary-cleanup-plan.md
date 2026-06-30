@@ -20,13 +20,9 @@ Purpose: reduce oversized workmarket and sibling services by extracting read-onl
 - `LocationSettingsService` geo/query helpers moved into `LocationGeoService`.
 - `QuestPresentationAssembler` quest-location presentation moved into `LocationQuestPresentationService`.
 
-## Next Candidate Slices
+## Completion Evidence
 
-- Workmarket application admin flow extraction.
-- Social service boundary cleanup where query/policy/mapping responsibilities are mixed.
-- Circle read-service slimming if the current read facade remains above the audit threshold.
-- Location lookup boundary cleanup if the same pattern is repeated there.
-
-## Validation
-
-- `./mvnw test -Dtest=QuestServiceTest,QuestPresentationAssemblerTest,QuestApplicationPresentationAssemblerTest,DashboardServiceTest,QuestMgrTest,QuestApplicationServiceTest`
+- Status: complete
+- Validation evidence: `./mvnw test -Dtest=QuestServiceTest,QuestPresentationAssemblerTest,QuestApplicationPresentationAssemblerTest,DashboardServiceTest,QuestMgrTest,QuestApplicationServiceTest`
+- Backlog update: no separate backlog item; the cleanup slices are closed through the completed workmarket, social, and location standardization passes.
+- Residual risk: future service-splitting opportunities can be handled in narrower follow-up plans if they reappear.

@@ -114,6 +114,6 @@ automation_read_models:
   - pendingApplicationCount
   - oldestPendingApplicationId
   producer_source_refs:
-  - quest_application_service
+  - quest_application_read_service
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java

@@ -10,7 +10,6 @@ import com.themuffinman.app.social.service.SocialPresentationHelper;
 import com.themuffinman.app.workmarket.dto.UserRatingSummaryDTO;
 import com.themuffinman.app.workmarket.dto.UserReviewResponseDTO;
 import com.themuffinman.app.identity.dto.UserProfileViewDTO;
-import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.model.ReviewRole;
 import com.themuffinman.app.workmarket.service.UserReviewService;
@@ -40,7 +39,7 @@ class UserProfileViewServiceTest {
     private CircleService circleService;
 
     @Mock
-    private AppUserMgr appUserMgr;
+    private IdentityUserSummaryAssembler identityUserSummaryAssembler;
 
     @Mock
     private UserReviewService userReviewService;
@@ -60,10 +59,9 @@ class UserProfileViewServiceTest {
         AppUserResponseDTO profileDto = AppUserResponseDTO.builder().id(7L).username("owner").build();
 
         when(appUserService.getAppUser(7L)).thenReturn(currentUser);
-        when(appUserMgr.toDto(currentUser)).thenReturn(profileDto);
         when(appUserService.countQuestsByCreatorId(7L)).thenReturn(2L);
         when(appUserService.getOpenQuestsByCreatorId(7L)).thenReturn(List.of());
-        when(appUserMgr.withProfileStats(profileDto, 2L, List.of())).thenReturn(profileDto);
+        when(identityUserSummaryAssembler.buildProfileSummary(currentUser, 2L, List.of())).thenReturn(profileDto);
         mockReviewData(7L);
 
         UserProfileViewDTO result = userProfileViewService.getProfileView(7L, currentUser);
@@ -86,10 +84,9 @@ class UserProfileViewServiceTest {
                 .build();
 
         when(appUserService.getAppUser(2L)).thenReturn(profileUser);
-        when(appUserMgr.toDto(profileUser)).thenReturn(profileDto);
         when(appUserService.countQuestsByCreatorId(2L)).thenReturn(0L);
         when(appUserService.getOpenQuestsByCreatorId(2L)).thenReturn(List.of());
-        when(appUserMgr.withProfileStats(profileDto, 0L, List.of())).thenReturn(profileDto);
+        when(identityUserSummaryAssembler.buildProfileSummary(profileUser, 0L, List.of())).thenReturn(profileDto);
         when(circleService.getRelationWithUser(currentUser, 2L)).thenReturn(relation);
         mockReviewData(2L);
 
@@ -114,10 +111,9 @@ class UserProfileViewServiceTest {
                 .build();
 
         when(appUserService.getAppUser(4L)).thenReturn(profileUser);
-        when(appUserMgr.toDto(profileUser)).thenReturn(profileDto);
         when(appUserService.countQuestsByCreatorId(4L)).thenReturn(0L);
         when(appUserService.getOpenQuestsByCreatorId(4L)).thenReturn(List.of());
-        when(appUserMgr.withProfileStats(profileDto, 0L, List.of())).thenReturn(profileDto);
+        when(identityUserSummaryAssembler.buildProfileSummary(profileUser, 0L, List.of())).thenReturn(profileDto);
         when(circleService.getRelationWithUser(currentUser, 4L)).thenReturn(relation);
         mockReviewData(4L);
 

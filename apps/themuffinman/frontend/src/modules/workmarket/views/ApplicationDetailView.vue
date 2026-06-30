@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from "vue"
 import {RouterLink, useRoute, useRouter} from "vue-router"
+import UiAppShellPage from "../../../components/ui/UiAppShellPage.vue"
 import UiDialog from "../../../components/ui/UiDialog.vue"
 import UiRequestError from "../../../components/ui/UiRequestError.vue"
 import {getApiErrorMessage} from "../../../api/apiErrors.ts"
@@ -80,7 +81,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="page">
+  <UiAppShellPage>
     <UiDialog
       :open="true"
       :title="application?.questTitle ?? 'Application details'"
@@ -115,5 +116,5 @@ onMounted(() => {
         </DetailDialogFrame>
       </div>
     </UiDialog>
-  </div>
+  </UiAppShellPage>
 </template>

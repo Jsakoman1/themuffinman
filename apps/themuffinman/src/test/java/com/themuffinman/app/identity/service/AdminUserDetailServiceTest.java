@@ -3,7 +3,6 @@ package com.themuffinman.app.identity.service;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.identity.dto.AdminUserDetailDTO;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
-import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.social.dto.CircleContactDTO;
@@ -36,7 +35,7 @@ class AdminUserDetailServiceTest {
     private AppUserService appUserService;
 
     @Mock
-    private AppUserMgr appUserMgr;
+    private IdentityUserSummaryAssembler identityUserSummaryAssembler;
 
     @Mock
     private CircleService circleService;
@@ -81,10 +80,9 @@ class AdminUserDetailServiceTest {
         List<CircleContactDTO> contacts = List.of(CircleContactDTO.builder().userId(11L).username("mark").build());
 
         when(appUserLookupService.requireById(7L)).thenReturn(target);
-        when(appUserMgr.toDto(target)).thenReturn(dto);
-        when(appUserMgr.withProfileStats(dto, 2L, List.of())).thenReturn(dto);
         when(appUserService.countQuestsByCreatorId(7L)).thenReturn(2L);
         when(appUserService.getOpenQuestsByCreatorId(7L)).thenReturn(List.of());
+        when(identityUserSummaryAssembler.buildProfileSummary(target, 2L, List.of())).thenReturn(dto);
         when(workmarketOptionsService.getOptions(target)).thenReturn(options);
         when(circleService.getCirclesForUserAsAdmin(7L, admin)).thenReturn(circles);
         when(circleService.getConnectionsForUserAsAdmin(7L, admin)).thenReturn(contacts);

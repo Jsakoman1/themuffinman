@@ -140,9 +140,9 @@ Core files:
 - `src/main/java/com/themuffinman/app/identity/dto/AppUserResponseDTO.java`
 - `src/main/java/com/themuffinman/app/identity/dto/UserProfileViewDTO.java`
 - `src/main/java/com/themuffinman/app/identity/dto/AdminUserDetailDTO.java`
-- `src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequest.java`
-- `src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequest.java`
-- `src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponse.java`
+- `src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java`
+- `src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java`
+- `src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java`
 - `src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java`
 
 Primary schema migrations:
@@ -179,7 +179,7 @@ Core files:
 - `src/main/java/com/themuffinman/app/location/dto/UserLocationSettingsRequestDTO.java`
 - `src/main/java/com/themuffinman/app/location/dto/LocationLookupCandidateDTO.java`
 - `src/main/java/com/themuffinman/app/location/dto/LocationLookupResponseDTO.java`
-- `src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusDTO.java`
+- `src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusViewDTO.java`
 
 Primary schema migrations:
 - `V23__add_location_settings.sql`

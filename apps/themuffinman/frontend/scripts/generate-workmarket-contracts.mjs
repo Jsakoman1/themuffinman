@@ -62,7 +62,7 @@ const transportAliases = {
   LocationReverseLookupRequest: "LocationReverseLookupRequestDTO",
   LocationModeOption: "LocationModeOptionDTO",
   NavigationTarget: "NavigationTargetDTO",
-  QuestApplicationAllowedAction: "ApplicationAllowedAction",
+  QuestApplicationAllowedAction: "ApplicationAllowedActionDTO",
   PageQuery: "PageQueryDTO",
   ProfilePrimaryAction: "ProfilePrimaryActionDTO",
   Quest: "QuestResponseDTO",

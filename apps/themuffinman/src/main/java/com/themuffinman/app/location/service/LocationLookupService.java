@@ -5,7 +5,6 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.location.dto.LocationLookupCandidateDTO;
-import com.themuffinman.app.location.dto.LocationDebugStatusViewDTO;
 import com.themuffinman.app.location.dto.LocationLookupResponseDTO;
 import com.themuffinman.app.location.model.LocationLookupEvent;
 import com.themuffinman.app.location.model.LocationLookupEventType;
@@ -40,6 +39,7 @@ public class LocationLookupService {
     private final QuestRepository questRepository;
     private final LocationLookupEventRepository locationLookupEventRepository;
     private final AdminDatabaseMetricsService adminDatabaseMetricsService;
+    private final LocationDebugStatusAssembler locationDebugStatusAssembler;
     private final Cache<String, LocationLookupResponseDTO> lookupCache = Caffeine.newBuilder()
             .expireAfterWrite(Duration.ofDays(14))
             .maximumSize(2_000)
@@ -138,7 +138,7 @@ public class LocationLookupService {
     }
 
     @Transactional(readOnly = true)
-    public LocationDebugStatusViewDTO getDebugStatus() {
+    public com.themuffinman.app.location.dto.LocationDebugStatusViewDTO getDebugStatus() {
         LocationLookupClient client = geoapifyLocationLookupClient.isConfigured()
                 ? geoapifyLocationLookupClient
                 : disabledLocationLookupClient;
@@ -150,28 +150,28 @@ public class LocationLookupService {
         long currentMonthLookupRequests = locationLookupEventRepository.countByCreatedAtGreaterThanEqualAndRequestType(monthStart, LocationLookupEventType.LOOKUP);
         long currentMonthReverseLookupRequests = locationLookupEventRepository.countByCreatedAtGreaterThanEqualAndRequestType(monthStart, LocationLookupEventType.REVERSE_LOOKUP);
 
-        return LocationDebugStatusViewDTO.builder()
-                .configured(client.isConfigured())
-                .provider(client.providerName())
-                .lookupCacheEntries(lookupCache.estimatedSize())
-                .reverseLookupCacheEntries(reverseLookupCache.estimatedSize())
-                .lookupRequests(lookupRequests.get())
-                .reverseLookupRequests(reverseLookupRequests.get())
-                .providerLookupCalls(providerLookupCalls.get())
-                .providerReverseLookupCalls(providerReverseLookupCalls.get())
-                .lookupCacheHits(lookupCacheHits.get())
-                .reverseLookupCacheHits(reverseLookupCacheHits.get())
-                .rateLimitedRequests(rateLimitedRequests.get())
-                .usersWithCoordinates(appUserRepository.countByLocationLatitudeIsNotNullAndLocationLongitudeIsNotNull())
-                .questsWithCoordinates(questRepository.countByLocationLatitudeIsNotNullAndLocationLongitudeIsNotNull())
-                .usersWithProviderMetadata(appUserRepository.countByLocationProviderPlaceIdIsNotNull())
-                .questsWithProviderMetadata(questRepository.countByLocationProviderPlaceIdIsNotNull())
-                .currentMonthProviderRequests(locationLookupEventRepository.countByCreatedAtGreaterThanEqual(monthStart))
-                .currentMonthProviderLookupRequests(currentMonthLookupRequests)
-                .currentMonthProviderReverseLookupRequests(currentMonthReverseLookupRequests)
-                .databaseSizeBytes(adminDatabaseMetricsService.getDatabaseSizeBytes())
-                .tableStatuses(adminDatabaseMetricsService.getTableStatuses())
-                .build();
+        return locationDebugStatusAssembler.buildDebugStatus(
+                client.isConfigured(),
+                client.providerName(),
+                lookupCache.estimatedSize(),
+                reverseLookupCache.estimatedSize(),
+                lookupRequests.get(),
+                reverseLookupRequests.get(),
+                providerLookupCalls.get(),
+                providerReverseLookupCalls.get(),
+                lookupCacheHits.get(),
+                reverseLookupCacheHits.get(),
+                rateLimitedRequests.get(),
+                appUserRepository.countByLocationLatitudeIsNotNullAndLocationLongitudeIsNotNull(),
+                questRepository.countByLocationLatitudeIsNotNullAndLocationLongitudeIsNotNull(),
+                appUserRepository.countByLocationProviderPlaceIdIsNotNull(),
+                questRepository.countByLocationProviderPlaceIdIsNotNull(),
+                locationLookupEventRepository.countByCreatedAtGreaterThanEqual(monthStart),
+                currentMonthLookupRequests,
+                currentMonthReverseLookupRequests,
+                adminDatabaseMetricsService.getDatabaseSizeBytes(),
+                adminDatabaseMetricsService.getTableStatuses()
+        );
     }
 
     private void recordProviderCall(String provider, LocationLookupEventType requestType) {

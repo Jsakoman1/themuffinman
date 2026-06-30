@@ -1,5 +1,5 @@
 import type {Router} from "vue-router"
-import type {ProfilePrimaryAction} from "../../workmarket/api/workmarketApi.ts"
+import type {ProfilePrimaryAction} from "../../../contracts/index.ts"
 import {routeForNavigationTarget} from "../../workmarket/shared/navigationTargets.ts"
 
 type SocialActionHandlers = {

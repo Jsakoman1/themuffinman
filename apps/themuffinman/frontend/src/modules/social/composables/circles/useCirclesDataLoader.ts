@@ -1,5 +1,6 @@
 import {getApiErrorMessage} from "../../../../api/apiErrors.ts"
-import {workmarketApi, type CircleCandidate, type CircleContactListResponse, type CircleGroup, type CircleRequestListResponse} from "../../../workmarket/api/workmarketApi.ts"
+import {workmarketApi} from "../../../workmarket/api/workmarketApi.ts"
+import type {CircleCandidate, CircleCandidateListResponse, CircleContactListResponse, CircleGroup, CircleRequestListResponse} from "../../../../contracts/index.ts"
 
 type CirclesDataLoaderState = {
   pageSize: number
@@ -21,8 +22,8 @@ type CirclesDataLoaderState = {
   connectionsPageData: {value: CircleContactListResponse | null}
   incomingPageData: {value: CircleRequestListResponse | null}
   outgoingPageData: {value: CircleRequestListResponse | null}
-  blockedPageData: {value: import("../../../workmarket/api/workmarketApi.ts").CircleCandidateListResponse | null}
-  nearbyPageData: {value: import("../../../workmarket/api/workmarketApi.ts").CircleCandidateListResponse | null}
+  blockedPageData: {value: CircleCandidateListResponse | null}
+  nearbyPageData: {value: CircleCandidateListResponse | null}
   overviewConnectionCount: {value: number}
   overviewUnassignedConnectionCount: {value: number}
   overviewIncomingRequestCount: {value: number}

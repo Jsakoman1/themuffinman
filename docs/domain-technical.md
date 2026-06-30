@@ -75,6 +75,7 @@ Primary files:
 - `identity/service/AppUserLookupService.java`
 - `identity/service/UserProfileViewService.java`
 - `identity/service/AdminUserDetailService.java`
+- `identity/service/IdentityUserSummaryAssembler.java`
 - `identity/security/JwtService.java`
 - `identity/security/JwtAuthFilter.java`
 - `identity/security/RepositoryUserDetailsService.java`
@@ -84,9 +85,9 @@ Primary files:
 - `identity/dto/AppUserResponseDTO.java`
 - `identity/dto/UserProfileViewDTO.java`
 - `identity/dto/AdminUserDetailDTO.java`
-- `identity/dto/auth/RegisterRequest.java`
-- `identity/dto/auth/LoginRequest.java`
-- `identity/dto/auth/AuthResponse.java`
+- `identity/dto/auth/RegisterRequestDTO.java`
+- `identity/dto/auth/LoginRequestDTO.java`
+- `identity/dto/auth/AuthResponseDTO.java`
 
 Primary migrations:
 - `V1__init.sql`
@@ -107,9 +108,9 @@ Primary files:
 - `identity/security/JwtService.java`
 - `identity/security/JwtAuthFilter.java`
 - `identity/security/RepositoryUserDetailsService.java`
-- `identity/dto/auth/RegisterRequest.java`
-- `identity/dto/auth/LoginRequest.java`
-- `identity/dto/auth/AuthResponse.java`
+- `identity/dto/auth/RegisterRequestDTO.java`
+- `identity/dto/auth/LoginRequestDTO.java`
+- `identity/dto/auth/AuthResponseDTO.java`
 
 Technical notes:
 - `AuthController` is transport-only and delegates register, login, and current-user response assembly to `AuthService`.
@@ -340,12 +341,14 @@ Primary files:
 Primary files:
 - `identity/model/AppUser.java`
 - `identity/service/UserProfileViewService.java`
+- `identity/service/IdentityUserSummaryAssembler.java`
 - `identity/mapper/AppUserMgr.java`
 - `identity/dto/AppUserResponseDTO.java`
 - `identity/dto/UserProfileViewDTO.java`
 
 Technical notes:
 - `UserProfileViewDTO` now carries deterministic resolution metadata so future automation can refer to an exact profile target without rebuilding labels client-side.
+- `IdentityUserSummaryAssembler` owns the shared enriched `AppUserResponseDTO` assembly used by profile-view and admin-detail surfaces so the repeated stats wiring stays in one place.
 - Current-location profile updates should resolve trusted coordinates before they reuse the normal self-update location flow.
 
 ### Admin user detail
@@ -373,6 +376,7 @@ Primary files:
 - `location/model/LocationLookupEventType.java`
 - `location/service/LocationSettingsService.java`
 - `location/service/LocationLookupService.java`
+- `location/service/LocationDebugStatusAssembler.java`
 - `location/service/GeoapifyLocationLookupClient.java`
 - `location/service/DisabledLocationLookupClient.java`
 - `location/service/AdminDatabaseMetricsService.java`
@@ -381,7 +385,7 @@ Primary files:
 - `location/dto/UserLocationSettingsRequestDTO.java`
 - `location/dto/LocationLookupCandidateDTO.java`
 - `location/dto/LocationLookupResponseDTO.java`
-- `location/dto/LocationDebugStatusDTO.java`
+- `location/dto/LocationDebugStatusViewDTO.java`
 
 Primary migrations:
 - `V23__add_location_settings.sql`
@@ -429,10 +433,14 @@ Primary files:
 
 Primary files:
 - `location/service/LocationLookupService.java`
+- `location/service/LocationDebugStatusAssembler.java`
 - `location/service/AdminDatabaseMetricsService.java`
 - `location/model/LocationLookupEvent.java`
 - `location/repository/LocationLookupEventRepository.java`
-- `location/dto/LocationDebugStatusDTO.java`
+- `location/dto/LocationDebugStatusViewDTO.java`
+
+Technical notes:
+- `LocationDebugStatusAssembler` owns the final debug/status DTO shaping so `LocationLookupService` can stay focused on lookup execution, rate limiting, caching, and audit recording.
 
 ## Chat Source Map
 
@@ -569,6 +577,7 @@ Primary files:
 - `social/service/CircleRelationService.java`
 - `social/service/CircleMembershipService.java`
 - `social/service/CircleDiscoveryService.java`
+- `social/service/CircleAdminOverviewAssembler.java`
 - `social/service/CircleViewAssembler.java`
 - `social/service/SocialPresentationHelper.java`
 - `social/service/SocialRelationActionHelper.java`
@@ -588,7 +597,7 @@ Primary migrations:
 Primary files:
 - `social/service/CircleRelationService.java`
 - `social/model/CircleRequest.java`
-- `social/dto/CircleRelationStatus.java`
+- `social/dto/CircleRelationStatusDTO.java`
 - `social/mapper/CircleRequestMgr.java`
 
 ### Circle groups
@@ -607,6 +616,7 @@ Primary files:
 
 Primary files:
 - `social/service/CircleService.java`
+- `social/service/CircleAdminOverviewAssembler.java`
 - `social/service/CircleViewAssembler.java`
 
 ### Search and nearby discovery
@@ -622,6 +632,9 @@ Primary files:
 - `social/service/SocialPresentationHelper.java`
 - `social/service/SocialRelationActionHelper.java`
 - `social/service/CircleViewAssembler.java`
+
+Technical notes:
+- `CircleAdminOverviewAssembler` owns admin circle overview filtering and row shaping so `CircleReadService` stays focused on orchestration and `CircleViewAssembler` stays focused on the non-admin presentation surface.
 
 Technical notes:
 - `CircleSearchResultDTO` and `CircleRelationDTO` now carry deterministic resolution metadata for exact candidate targeting in future automation.
@@ -800,6 +813,7 @@ Voice-flow notes:
 
 Primary files:
 - `workmarket/service/DashboardService.java`
+- `workmarket/service/DashboardSummaryAssembler.java`
 - `workmarket/service/DashboardSectionsFactory.java`
 - `workmarket/service/QuestNewsService.java`
 - `workmarket/model/QuestNewsItem.java`
@@ -821,6 +835,7 @@ Primary files:
 - `workmarket/dto/QuestNewsItemResponseDTO.java`
 
 Technical notes:
+- `DashboardSummaryAssembler` owns the workmarket dashboard summary counts so `DashboardService` stays focused on orchestration and screen assembly.
 - `DashboardSectionsFactory` owns dashboard navigation section labels and descriptions, plus grouped quest/application, planner, open-work, and notification sections.
 - Frontend dashboard selectors should prefer `DashboardSectionsDTO.navigation.tabs` for dashboard section titles and descriptions, with local tab ids kept only for routing fallback before the dashboard response loads.
 
@@ -862,7 +877,6 @@ Primary files:
 - `frontend/src/api/httpClient.ts`
 - `frontend/src/api/apiErrors.ts`
 - `frontend/src/components/ui/UiAppShellPage.vue`
-- `frontend/src/components/ui/UiDashboardPage.vue`
 - `frontend/src/modules/identity/api/authApi.ts`
 - `frontend/src/modules/workmarket/api/workmarketApi.ts`
 - `frontend/src/modules/workmarket/api/contracts.ts`
@@ -894,8 +908,8 @@ Primary route entrypoints:
 - `frontend/src/modules/identity/views/RegisterView.vue`
 
 Frontend state notes:
-- `UiAppShellPage.vue` is the shared authenticated page shell for normal module routes and admin routes; `UiDashboardPage.vue` remains only as a compatibility wrapper for older dashboard imports.
-- `QuestDetailView.vue` should stay a thin rendering surface. Quest-detail section visibility, owner/application surface state, and edit dirty-state checks live in `useQuestDetailView` and `useQuestDetailEdit` so future workflow changes are made in composables or backend-prepared sections instead of the template file.
+- `UiAppShellPage.vue` is the shared authenticated page shell for normal module routes and admin routes.
+- `QuestDetailView.vue` and `ApplicationDetailView.vue` should stay thin rendering surfaces. Quest-detail section visibility, owner/application surface state, and edit dirty-state checks live in `useQuestDetailView` and `useQuestDetailEdit` so future workflow changes are made in composables or backend-prepared sections instead of the template file.
 
 ## Key Entity Map
 
@@ -1586,6 +1600,18 @@ Bootstrap configuration:
 - `app.bootstrap.admin.enabled` controls a separate bootstrap-admin ensure flow
 - bootstrap-admin flow requires explicit email, username, and password
 - seed and bootstrap flows upsert by normalized email lookup and overwrite username, password hash, and role
+
+## Config Source Map
+
+Primary files:
+- `config/AgentProperties.java`
+- `config/BootstrapProperties.java`
+- `config/LocationProviderProperties.java`
+- `config/RetentionProperties.java`
+- `config/SecurityProperties.java`
+- `config/AdminBootstrapConfig.java`
+- `config/SecurityConfig.java`
+- `config/WebSocketConfig.java`
 
 ## Update Rule
 

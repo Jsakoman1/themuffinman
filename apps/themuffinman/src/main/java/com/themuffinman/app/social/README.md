@@ -7,7 +7,7 @@ Owns circles, circle membership, circle requests, social relationships, user pro
 ## Main Entry Points
 
 - Controllers: `controller/`
-- Services: `service/CircleService.java`, `service/UserProfileViewService.java`
+- Services: `service/CircleService.java`, `service/CircleAdminOverviewAssembler.java`, `service/UserProfileViewService.java`
 - Repositories: `repository/`
 - DTOs and mappers: `dto/`, `mapper/`
 

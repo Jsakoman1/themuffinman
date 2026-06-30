@@ -108,10 +108,10 @@
     "payload_checksum": "0ec4a816b318b2f3b38bc9dc21a5c06e497bf1139b1ddd43dfe73b487b3bdc13"
   },
   "doc-sync-preflight": {
-    "updated_at": "2026-06-29T19:55:16Z",
+    "updated_at": "2026-06-30T06:25:26Z",
     "output": "docs/generated/local-tooling/doc-sync-preflight.json",
     "cache_status": "refreshed",
-    "payload_checksum": "fbbff4b16d1928e180fed585f81261fa68caeb80465d57308ac3099960a3682b"
+    "payload_checksum": "a2fd1bbc83032f9e55c75242328ce0b110077cbbd32cc60cd5fb7a605a07c26f"
   },
   "migration-entity-drift-audit": {
     "updated_at": "2026-06-29T19:55:17Z",
@@ -120,10 +120,10 @@
     "payload_checksum": "eb864720033dd19ef7cf7c76a8e932b40f22c3f669d7483a1a5273ace2659a54"
   },
   "test-gap-recommendations": {
-    "updated_at": "2026-06-29T19:55:18Z",
+    "updated_at": "2026-06-30T06:38:28Z",
     "output": "docs/generated/local-tooling/test-gap-recommendations.json",
     "cache_status": "refreshed",
-    "payload_checksum": "2454fe9b5123a48a53d020e7bb5abaf7495a913e16cd82b12b09f4e9a645f543"
+    "payload_checksum": "856ae75daf5404bf3a885c12da3814c67faa558c768f6f4e2059aee48ee2969b"
   },
   "frontend-usage-graph": {
     "updated_at": "2026-06-29T19:55:19Z",
@@ -222,10 +222,10 @@
     "payload_checksum": "886db1ff6b74c1df3ad25c6ee900c6c9ed3d03aefab0f3e8307f16886159ec20"
   },
   "targeted-tests": {
-    "updated_at": "2026-06-29T19:55:15Z",
+    "updated_at": "2026-06-29T20:14:22Z",
     "output": "docs/generated/local-tooling/targeted-tests.json",
     "cache_status": "refreshed",
-    "payload_checksum": "1606e05cfd268863354bc2081beaaee0385052cc82b83375c6b7f80110fe9e98"
+    "payload_checksum": "3f47cad8e259cff9736cad80ed6400feb11860f2a5485aff6c2d4c90892f06a2"
   },
   "test-history-summary": {
     "updated_at": "2026-06-29T19:55:22Z",
@@ -276,10 +276,10 @@
     "payload_checksum": "d3eb25ffd7c7b1cff7423424db84ae68edc6d6c550ac95b3905e6ab82ca80fcc"
   },
   "workflow-slices/quest-application": {
-    "updated_at": "2026-06-29T19:55:08Z",
+    "updated_at": "2026-06-29T20:14:27Z",
     "output": "docs/generated/local-tooling/workflow-slices/quest-application.json",
     "cache_status": "refreshed",
-    "payload_checksum": "eb8a0748f5b8e40fb921e78e1c2120353adaa27c212a316cda7867b05cc329aa"
+    "payload_checksum": "e5ce590f56c5f77c3b5ba2d9370a236116a37badee4f1f0b08cc5e3d7992dacd"
   },
   "dto-usage-packs/dashboardsectionsdto": {
     "updated_at": "2026-06-29T19:55:08Z",

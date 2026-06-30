@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-29T17:31:08Z",
+  "generatedAt": "2026-06-30T06:38:27Z",
   "summary": {
     "candidateCount": 197,
     "domainCounts": {
@@ -483,7 +483,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponse.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "identity",
       "ownerId": "identity_domain",
@@ -493,7 +493,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequest.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "identity",
       "ownerId": "identity_domain",
@@ -503,7 +503,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequest.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "identity",
       "ownerId": "identity_domain",
@@ -573,7 +573,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusViewDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "location",
       "ownerId": "location_domain",
@@ -593,7 +593,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusViewDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "location",
       "ownerId": "location_domain",
@@ -773,7 +773,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipAction.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipActionDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "social",
       "ownerId": "social_domain",
@@ -883,7 +883,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatus.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatusDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "social",
       "ownerId": "social_domain",
@@ -1123,7 +1123,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedAction.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedActionDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "workmarket",
       "ownerId": "workmarket_domain",
@@ -1163,7 +1163,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationType.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationTypeDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "workmarket",
       "ownerId": "workmarket_domain",
@@ -1263,7 +1263,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedAction.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedActionDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "workmarket",
       "ownerId": "workmarket_domain",
@@ -1383,7 +1383,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionAction.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionActionDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "workmarket",
       "ownerId": "workmarket_domain",
@@ -1473,7 +1473,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPreset.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPresetDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "workmarket",
       "ownerId": "workmarket_domain",
@@ -1493,7 +1493,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationType.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationTypeDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "workmarket",
       "ownerId": "workmarket_domain",
@@ -1583,7 +1583,7 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelation.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelationDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "workmarket",
       "ownerId": "workmarket_domain",

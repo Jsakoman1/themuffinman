@@ -7,7 +7,7 @@ Owns user and quest location settings, visibility decisions, location DTOs, and 
 ## Main Entry Points
 
 - Controllers: `controller/`
-- Services: `service/LocationSettingsService.java`, `service/LocationAccessPolicyService.java`, provider services
+- Services: `service/LocationSettingsService.java`, `service/LocationAccessPolicyService.java`, `service/LocationDebugStatusAssembler.java`, provider services
 - Repositories and models: `repository/`, `model/`
 
 ## Tests

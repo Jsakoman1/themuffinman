@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:54:52Z",
+  "generated_at": "2026-06-30T06:36:39Z",
   "mode": "report_first",
   "thresholds": {
     "service_lines": 420,
@@ -89,26 +89,11 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
       "kind": "service",
       "lines": 242,
-      "public_methods": 4,
+      "public_methods": 3,
       "responsibility_markers": [
         "query",
         "mutation",
         "notification"
-      ],
-      "flags": [
-        "mixed_responsibilities"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
-      "kind": "service",
-      "lines": 229,
-      "public_methods": 2,
-      "responsibility_markers": [
-        "query",
-        "mutation",
-        "policy",
-        "mapping"
       ],
       "flags": [
         "mixed_responsibilities"
@@ -159,7 +144,7 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
       "kind": "service",
-      "lines": 197,
+      "lines": 198,
       "public_methods": 17,
       "responsibility_markers": [
         "query",
@@ -179,6 +164,20 @@
       "responsibility_markers": [
         "query",
         "mutation",
+        "policy",
+        "mapping"
+      ],
+      "flags": [
+        "mixed_responsibilities"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+      "kind": "service",
+      "lines": 169,
+      "public_methods": 2,
+      "responsibility_markers": [
+        "query",
         "policy",
         "mapping"
       ],
@@ -329,20 +328,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
-      "kind": "service",
-      "lines": 52,
-      "public_methods": 1,
-      "responsibility_markers": [
-        "query",
-        "policy",
-        "mapping"
-      ],
-      "flags": [
-        "mixed_responsibilities"
-      ]
-    },
-    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
       "kind": "controller",
       "lines": 51,
@@ -380,5 +365,5 @@
       ]
     }
   ],
-  "total_findings": 26
+  "total_findings": 25
 }

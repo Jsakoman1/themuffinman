@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, ref, watch} from "vue"
-import type {CircleGroup} from "../../../workmarket/api/workmarketApi.ts"
+import type {CircleGroup} from "../../../../contracts/index.ts"
 
 const props = defineProps<{
   circles: CircleGroup[]

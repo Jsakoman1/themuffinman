@@ -11,7 +11,8 @@ import UiToast from "../../../components/ui/UiToast.vue"
 import {useAutoDismissFeedback} from "../../../composables/useAutoDismissFeedback.ts"
 import {useDebouncedWatch} from "../../../composables/useDebouncedWatch.ts"
 import {createFeedbackMutationRunner} from "../../../composables/createFeedbackMutationRunner.ts"
-import {workmarketApi, type AdminCircleOverview} from "../../workmarket/api/workmarketApi.ts"
+import {workmarketApi} from "../../workmarket/api/workmarketApi.ts"
+import type {AdminCircleOverview} from "../../../contracts/index.ts"
 import {getApiErrorMessage} from "../../../api/apiErrors.ts"
 
 const overview = ref<AdminCircleOverview | null>(null)

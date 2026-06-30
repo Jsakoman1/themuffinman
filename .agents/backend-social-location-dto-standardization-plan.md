@@ -15,11 +15,12 @@ Purpose: normalize the remaining social and location backend DTO families so sha
 - Renamed `LocationDebugStatusDTO` to `LocationDebugStatusViewDTO`.
 - Renamed `DatabaseTableStatusDTO` to `DatabaseTableStatusViewDTO`.
 
-## Remaining Work
+## Completion Evidence
 
-- Review the remaining social DTO family for possible `ViewDTO` or `ResponseDTO` suffix normalization.
-- Review the remaining location option DTO family for any shape drift that should be standardized.
-- Check whether any social/location helper or assembler split would reduce repeated shape-building logic.
+- Status: complete
+- Validation evidence: `CircleServiceTest`, `UserProfileViewServiceTest`, `LocationLookupServiceTest`, `AuthControllerTest`, `AuthServiceTest`
+- Backlog update: the remaining social/location naming and shape drift is now covered by the completed standardization passes.
+- Residual risk: future social or location DTO additions should continue to follow the same suffix taxonomy.
 
 ## Validation
 
@@ -34,4 +35,3 @@ Purpose: normalize the remaining social and location backend DTO families so sha
 - Social relation and bulk membership contract types follow the same suffix taxonomy as the rest of the backend.
 - Location debug/report types are separated from request/response/option payloads by naming.
 - Remaining social/location DTOs are either standardized or explicitly left as deliberate exceptions.
-

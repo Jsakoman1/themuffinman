@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {CircleCandidate, ProfilePrimaryAction} from "../../../workmarket/api/workmarketApi.ts"
+import type {CircleCandidate, ProfilePrimaryAction} from "../../../../contracts/index.ts"
 import ProfileEntityCard from "../../../../components/profile/ProfileEntityCard.vue"
 
 const props = defineProps<{

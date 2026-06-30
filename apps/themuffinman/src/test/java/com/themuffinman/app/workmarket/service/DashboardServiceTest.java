@@ -69,6 +69,9 @@ class DashboardServiceTest {
     private WorkmarketOptionsService workmarketOptionsService;
 
     @Spy
+    private DashboardSummaryAssembler dashboardSummaryAssembler = new DashboardSummaryAssembler();
+
+    @Spy
     private DashboardSectionsFactory dashboardSectionsFactory = new DashboardSectionsFactory(
             new DashboardSectionGrouper(),
             new DashboardPlannerAssembler(),

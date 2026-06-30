@@ -98,7 +98,7 @@ request_validation_gate:
     required_annotations:
     - Digits
   service_validator_source_refs:
-  - quest_application_service
+  - quest_application_admin_service
   service_validation_markers:
   - Application update request is required
   - applyAdminStatusUpdate

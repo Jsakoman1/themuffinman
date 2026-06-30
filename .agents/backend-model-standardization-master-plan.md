@@ -57,10 +57,10 @@ This order matches the current drift density and the amount of shared pattern re
 
 - [x] `BACKEND-WORKMARKET-PRESENTATION-ASSEMBLY` - completed as the initial pilot slice by extracting `QuestPresentationAssembler`.
 - [x] `BACKEND-WORKMARKET-READ-MODEL-STANDARDIZATION` - align quest, application, and dashboard read-model families around shared DTO shapes and assemblers.
-- [ ] `BACKEND-IDENTITY-AUTH-NAMING-STANDARDIZATION` - normalize auth and app-user transport naming.
-- [ ] `BACKEND-SOCIAL-LOCATION-DTO-STANDARDIZATION` - normalize social and location transport families and option/status payloads; work has started on the relation and debug/status subsets in `.agents/backend-social-location-dto-standardization-plan.md`.
-- [ ] `BACKEND-SERVICE-BOUNDARY-CLEANUP` - trim oversized services/controllers after the model families are stabilized.
-- [ ] `BACKEND-VALIDATION-AND-CONTRACT-SAFETY` - lock naming, assembler, and contract rules in tests and audit checks.
+- [x] `BACKEND-IDENTITY-AUTH-NAMING-STANDARDIZATION` - normalized through `.agents/todo-plans/85-std-identity-surface-standardization.md`.
+- [x] `BACKEND-SOCIAL-LOCATION-DTO-STANDARDIZATION` - normalized through `.agents/todo-plans/84-std-social-surface-standardization.md`, `.agents/todo-plans/86-std-location-surface-standardization.md`, and the focused DTO pass in `.agents/backend-social-location-dto-standardization-plan.md`.
+- [x] `BACKEND-SERVICE-BOUNDARY-CLEANUP` - completed by the extracted read-service and assembler slices in `.agents/backend-service-boundary-cleanup-plan.md`.
+- [x] `BACKEND-VALIDATION-AND-CONTRACT-SAFETY` - completed by `.agents/todo-plans/89-std-docs-validation-standardization.md` and the validation audits that lock the contract rules in place.
 
 ## Phase 1: Inventory and taxonomy
 
@@ -174,7 +174,8 @@ Candidate hotspots from the current audit:
 
 ## Completion Evidence
 
-- Plan status: draft
-- Implementation status: pending
-- Persistent backlog item: `BACKEND-MODEL-STANDARDIZATION-001`
+- Status: complete
+- Execution status: complete
+- Backlog update: removed from open backlog.
+- Residual risk: none known
 - Primary source files: backend DTOs, services, controllers, mappers, and generated audit summaries

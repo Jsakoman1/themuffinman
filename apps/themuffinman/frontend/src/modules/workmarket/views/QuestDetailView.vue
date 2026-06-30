@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref, watch} from "vue"
 import {useQuestDetailView} from "../composables/useQuestDetailView.ts"
+import UiAppShellPage from "../../../components/ui/UiAppShellPage.vue"
 import UiDialog from "../../../components/ui/UiDialog.vue"
 import UiConfirmDialog from "../../../components/ui/UiConfirmDialog.vue"
 import UiStatusBanner from "../../../components/ui/UiStatusBanner.vue"
@@ -118,7 +119,7 @@ const openApplicantProfile = (applicationId: number) => {
 </script>
 
 <template>
-  <div class="page">
+  <UiAppShellPage>
     <UiConfirmDialog
       :open="isDeleteConfirmDialogOpen"
       title="Delete quest"
@@ -342,5 +343,5 @@ const openApplicantProfile = (applicationId: number) => {
         </template>
       </QuestDetailContent>
     </UiDialog>
-  </div>
+  </UiAppShellPage>
 </template>

@@ -3,7 +3,7 @@ import {computed, ref} from "vue"
 import ProfileAvatar from "../../../../components/profile/ProfileAvatar.vue"
 import UiPagination from "../../../../components/ui/UiPagination.vue"
 import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
-import type {CircleContact, CircleGroup} from "../../../workmarket/api/workmarketApi.ts"
+import type {CircleContact, CircleGroup} from "../../../../contracts/index.ts"
 
 const props = defineProps<{
   circles: CircleGroup[]

@@ -5,7 +5,6 @@ import com.themuffinman.app.social.dto.CircleRelationDTO;
 import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import com.themuffinman.app.identity.dto.ProfilePrimaryActionDTO;
 import com.themuffinman.app.identity.dto.UserProfileViewDTO;
-import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.social.service.SocialRelationActionHelper;
@@ -22,15 +21,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserProfileViewService {
     private final AppUserService appUserService;
     private final CircleService circleService;
-    private final AppUserMgr appUserMgr;
+    private final IdentityUserSummaryAssembler identityUserSummaryAssembler;
     private final UserReviewService userReviewService;
     private final SocialPresentationHelper socialPresentationHelper;
     private final SocialRelationActionHelper socialRelationActionHelper;
 
     public UserProfileViewDTO getProfileView(Long profileUserId, AppUser currentUser) {
         AppUser profileUser = appUserService.getAppUser(profileUserId);
-        AppUserResponseDTO profile = appUserMgr.withProfileStats(
-                appUserMgr.toDto(profileUser),
+        AppUserResponseDTO profile = identityUserSummaryAssembler.buildProfileSummary(
+                profileUser,
                 appUserService.countQuestsByCreatorId(profileUser.getId()),
                 appUserService.getOpenQuestsByCreatorId(profileUser.getId())
         );

@@ -1,0 +1,93 @@
+{
+  "plan": ".agents/system-standardization-master-plan.md",
+  "exists": true,
+  "completion_evidence": true,
+  "completion_status": "complete",
+  "open_tasks": [
+
+  ],
+  "unresolved_open_tasks": [
+
+  ],
+  "child_plans": [
+    {
+      "line": 30,
+      "checked": true,
+      "path": ".agents/todo-plans/83-std-workmarket-surface-standardization.md",
+      "text": "- [x] `STD-WORKMARKET-SURFACE-STANDARDIZATION` - `.agents/todo-plans/83-std-workmarket-surface-standardization.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 31,
+      "checked": true,
+      "path": ".agents/todo-plans/84-std-social-surface-standardization.md",
+      "text": "- [x] `STD-SOCIAL-SURFACE-STANDARDIZATION` - `.agents/todo-plans/84-std-social-surface-standardization.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 32,
+      "checked": true,
+      "path": ".agents/todo-plans/85-std-identity-surface-standardization.md",
+      "text": "- [x] `STD-IDENTITY-SURFACE-STANDARDIZATION` - `.agents/todo-plans/85-std-identity-surface-standardization.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 33,
+      "checked": true,
+      "path": ".agents/todo-plans/86-std-location-surface-standardization.md",
+      "text": "- [x] `STD-LOCATION-SURFACE-STANDARDIZATION` - `.agents/todo-plans/86-std-location-surface-standardization.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 34,
+      "checked": true,
+      "path": ".agents/todo-plans/87-std-core-module-standardization.md",
+      "text": "- [x] `STD-CORE-MODULE-STANDARDIZATION` - `.agents/todo-plans/87-std-core-module-standardization.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 35,
+      "checked": true,
+      "path": ".agents/todo-plans/88-std-frontend-shell-state-standardization.md",
+      "text": "- [x] `STD-FRONTEND-SHELL-STATE-STANDARDIZATION` - `.agents/todo-plans/88-std-frontend-shell-state-standardization.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 36,
+      "checked": true,
+      "path": ".agents/todo-plans/89-std-docs-validation-standardization.md",
+      "text": "- [x] `STD-DOCS-VALIDATION-STANDARDIZATION` - `.agents/todo-plans/89-std-docs-validation-standardization.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    }
+  ],
+  "issues": [
+
+  ],
+  "warnings": [
+
+  ],
+  "status": "passed",
+  "generated_at": "2026-06-30T06:59:28Z",
+  "manifest": null
+}

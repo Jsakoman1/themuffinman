@@ -360,7 +360,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.identity.dto.auth.AuthResponse",
+    "javaClass": "com.themuffinman.app.identity.dto.auth.AuthResponseDTO",
     "fields": [
       "id",
       "email",
@@ -373,14 +373,14 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.identity.dto.auth.LoginRequest",
+    "javaClass": "com.themuffinman.app.identity.dto.auth.LoginRequestDTO",
     "fields": [
       "email",
       "password"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.identity.dto.auth.RegisterRequest",
+    "javaClass": "com.themuffinman.app.identity.dto.auth.RegisterRequestDTO",
     "fields": [
       "email",
       "3",
@@ -390,7 +390,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.location.dto.DatabaseTableStatusDTO",
+    "javaClass": "com.themuffinman.app.location.dto.DatabaseTableStatusViewDTO",
     "fields": [
       "tableName",
       "rowCount"
@@ -405,7 +405,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.location.dto.LocationDebugStatusDTO",
+    "javaClass": "com.themuffinman.app.location.dto.LocationDebugStatusViewDTO",
     "fields": [
       "configured",
       "provider",
@@ -1082,7 +1082,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDraftRulesDTO",
+    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDraftRulesViewDTO",
     "fields": [
       "messageRequired",
       "proposedPriceRequired",

@@ -2,14 +2,13 @@ featureId: codex_workflow_lean_context
 title: Codex Workflow Lean Context
 workflowTier: tier4-agent-tooling-workflow
 manifestDecision: required
-manifestRequirement: required
 status: in_progress
 riskTier: high
 changeMode: major-change
 changeImpact: logic-drift
 changeProfiles:
-  - agent-tooling
-  - local-tooling
+  - agent-contract
+  - workflow-expansion
 planFile: .agents/codex-workflow-lean-context-plan.md
 summary:
   - Make bootstrap-generated plans more operational by replacing placeholder-heavy sections with tier, routing, validation, and closeout fields.
@@ -53,6 +52,12 @@ validationEvidence:
       ranAt: '2026-06-29T00:00:00Z'
       durationSeconds: 0.0
       summary: Todo audit passed with no open backlog items
+    - command: make audit-agent-safety
+      scope: agent-safety
+      result: passed
+      ranAt: '2026-06-29T00:00:00Z'
+      durationSeconds: 0.0
+      summary: Agent safety audit passed for workflow tooling change
     - command: make audit-manifest-decision files=scripts/bootstrap-feature-work.sh,.agents/templates/feature-implementation-plan.template.md,.agents/templates/feature-completion-manifest.template.yaml
       scope: manifest
       result: passed
@@ -108,15 +113,22 @@ artifacts:
   codePaths:
     - scripts/bootstrap-feature-work.sh
   docPaths:
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
     - .agents/templates/feature-implementation-plan.template.md
     - .agents/templates/feature-completion-manifest.template.yaml
     - .agents/codex-workflow-lean-context-plan.md
   testPaths:
     - scripts/audits/clean-text-noise.rb
     - scripts/audits/record-validation-evidence.rb
-  generatorCommands: []
+    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+  generatorCommands:
+    - make generate-agent-operating-model
+    - make generate-agent-artifacts
   auditCommands:
     - make audit-doc-template-coverage
+    - make audit-agent-safety
     - make audit-todo
     - make audit-manifest-decision files=scripts/bootstrap-feature-work.sh,.agents/templates/feature-implementation-plan.template.md,.agents/templates/feature-completion-manifest.template.yaml
     - make audit-local-tooling-incremental

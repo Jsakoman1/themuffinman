@@ -43,6 +43,7 @@ public class CircleReadService {
     private final CircleMembershipService circleMembershipService;
     private final CircleRelationService circleRelationService;
     private final CircleRequestMgr circleRequestMgr;
+    private final CircleAdminOverviewAssembler circleAdminOverviewAssembler;
     private final CircleViewAssembler circleViewAssembler;
 
     @Transactional(readOnly = true)
@@ -56,7 +57,7 @@ public class CircleReadService {
     @Transactional(readOnly = true)
     public AdminCircleOverviewDTO getAdminOverview(AppUser currentUser, String query) {
         validateAdmin(currentUser);
-        return circleViewAssembler.buildAdminOverview(
+        return circleAdminOverviewAssembler.buildAdminOverview(
                 getAllCirclesForAdmin(),
                 circleRequestRepository.findAllDetailed(),
                 query

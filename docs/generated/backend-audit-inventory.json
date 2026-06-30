@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-06-29T17:31:08Z",
+  "generatedAt": "2026-06-30T06:38:27Z",
   "summary": {
-    "totalFiles": 306,
-    "classifiedFiles": 306,
+    "totalFiles": 323,
+    "classifiedFiles": 323,
     "unclassifiedFileCount": 0,
     "unownedDomainFileCount": 0,
     "tierCounts": {
       "executor_critical": 67,
-      "automation_relevant": 167,
+      "automation_relevant": 184,
       "internal_support": 71,
       "out_of_scope": 1
     },
@@ -17,27 +17,27 @@
       "business": 8,
       "chat": 22,
       "common": 21,
-      "identity": 24,
-      "location": 26,
+      "identity": 25,
+      "location": 30,
       "rides": 8,
-      "social": 40,
+      "social": 42,
       "things": 13,
-      "workmarket": 113
+      "workmarket": 123
     },
     "ownerCounts": {
       "platform_core": 32,
       "agent_platform": 20,
       "business_domain": 8,
       "chat_domain": 22,
-      "identity_domain": 24,
-      "location_domain": 26,
+      "identity_domain": 25,
+      "location_domain": 30,
       "rides_domain": 8,
-      "social_domain": 40,
+      "social_domain": 42,
       "things_domain": 13,
-      "workmarket_domain": 113
+      "workmarket_domain": 123
     },
     "executorCriticalWithoutSourceRefCount": 0,
-    "automationRelevantWithoutSourceRefCount": 30,
+    "automationRelevantWithoutSourceRefCount": 45,
     "strictSourceOfTruthMissingCount": 0,
     "strictDocumentationMissingCount": 0
   },
@@ -1200,7 +1200,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponse.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "identity_contract_dto_surface",
       "domainId": "identity",
@@ -1213,7 +1213,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequest.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "identity_contract_dto_surface",
       "domainId": "identity",
@@ -1226,7 +1226,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequest.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "identity_contract_dto_surface",
       "domainId": "identity",
@@ -1408,6 +1408,19 @@
       "currentGate": "fail_hard"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "identity",
+      "ownerId": "identity_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
       "tier": "automation_relevant",
       "classificationRuleId": "automation_relevant_remaining_service_surface",
@@ -1434,7 +1447,7 @@
       "currentGate": "fail_hard"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusViewDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "location_contract_dto_surface",
       "domainId": "location",
@@ -1460,7 +1473,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusViewDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "location_contract_dto_surface",
       "domainId": "location",
@@ -1720,6 +1733,32 @@
       "currentGate": "fail_hard"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationDebugStatusAssembler.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "location",
+      "ownerId": "location_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationGeoService.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "location",
+      "ownerId": "location_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupClient.java",
       "tier": "automation_relevant",
       "classificationRuleId": "automation_relevant_remaining_service_surface",
@@ -1746,6 +1785,19 @@
       "currentGate": "fail_hard"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "location",
+      "ownerId": "location_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
       "tier": "executor_critical",
       "classificationRuleId": "executor_tracked_service_surface",
@@ -1757,6 +1809,19 @@
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null,
       "currentGate": "fail_hard"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "location",
+      "ownerId": "location_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": false,
+      "currentGate": "report_only"
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
@@ -1915,7 +1980,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipAction.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipActionDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "social_request_relation_dto_surface",
       "domainId": "social",
@@ -2071,7 +2136,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatus.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatusDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "social_request_relation_dto_surface",
       "domainId": "social",
@@ -2292,6 +2357,19 @@
       "currentGate": "report_only"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleAdminOverviewAssembler.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "social",
+      "ownerId": "social_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
       "tier": "automation_relevant",
       "classificationRuleId": "automation_relevant_remaining_service_surface",
@@ -2316,6 +2394,19 @@
       "mutatingServiceCandidate": true,
       "serviceWorkflowCovered": false,
       "currentGate": "fail_hard"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "social",
+      "ownerId": "social_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
@@ -2656,7 +2747,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedAction.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedActionDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "workmarket_application_detail_dto_surface",
       "domainId": "workmarket",
@@ -2708,7 +2799,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationType.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationTypeDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "workmarket_dashboard_dto_surface",
       "domainId": "workmarket",
@@ -2838,7 +2929,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedAction.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedActionDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "workmarket_quest_detail_dto_surface",
       "domainId": "workmarket",
@@ -2903,7 +2994,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesViewDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "automation_relevant_dto_surface",
       "domainId": "workmarket",
@@ -3020,7 +3111,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionAction.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionActionDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "workmarket_quest_detail_dto_surface",
       "domainId": "workmarket",
@@ -3137,7 +3228,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPreset.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPresetDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "workmarket_list_search_options_dto_surface",
       "domainId": "workmarket",
@@ -3163,7 +3254,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationType.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationTypeDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "workmarket_news_read_model_dto_surface",
       "domainId": "workmarket",
@@ -3293,7 +3384,7 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelation.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelationDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "workmarket_quest_detail_dto_surface",
       "domainId": "workmarket",
@@ -3670,6 +3761,45 @@
       "currentGate": "fail_hard"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardNotificationAssembler.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardPlannerAssembler.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionGrouper.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
       "tier": "automation_relevant",
       "classificationRuleId": "automation_relevant_remaining_service_surface",
@@ -3691,9 +3821,22 @@
       "registeredInSourceOfTruth": true,
       "sourceRefId": "dashboard_service",
       "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
       "currentGate": "fail_hard"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssembler.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeclineApplicationUseCase.java",
@@ -3733,6 +3876,58 @@
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null,
       "currentGate": "fail_hard"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminQueryService.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "registeredInSourceOfTruth": true,
+      "sourceRefId": "quest_application_admin_service",
+      "documentationCovered": false,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": false,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "registeredInSourceOfTruth": true,
+      "sourceRefId": "quest_application_read_service",
+      "documentationCovered": false,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": false,
+      "currentGate": "report_only"
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
@@ -3813,6 +4008,19 @@
       "currentGate": "fail_hard"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPresentationAssembler.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestQueryService.java",
       "tier": "executor_critical",
       "classificationRuleId": "executor_tracked_service_surface",
@@ -3824,6 +4032,19 @@
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null,
       "currentGate": "fail_hard"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
@@ -4040,23 +4261,38 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiErrorResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiFieldErrorDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/DisabledLocationLookupClient.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/GeoapifyLocationLookupClient.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationDebugStatusAssembler.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationGeoService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupClient.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleAdminOverviewAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialPresentationHelper.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesViewDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserRatingSummaryDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEvent.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandler.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardNotificationAssembler.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardPlannerAssembler.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionGrouper.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssembler.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminQueryService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsRetentionService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPresentationAssembler.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestWorkflowNotificationService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
