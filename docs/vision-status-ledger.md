@@ -23,10 +23,14 @@ It should stay short, factual, and updated when a vision batch materially change
 - recent `/vision` task summaries now expose stage and progress metadata so the surface can distinguish resumable clarifications, review-ready tasks, blocked tasks, and completed tasks without frontend inference
 - recent `/vision` tasks are now grouped into active, review-ready, blocked, and completed sections, with stale markers and disabled resume for completed work
 - the frontend canvas renderer now delegates review, field-request, result-summary, and shared status framing to focused block components instead of growing one monolithic renderer
+- the `/vision` route shell now behaves more like a blank canvas by hiding state and recent-task context behind secondary reveal controls instead of keeping header chrome and task lists always open
+- the route shell now auto-reveals state context for review, blocked, and complete modes while staying quiet in routine clarification mode
+- the animated agent surface now uses layered drift, halo, and spark motion to read as a living presence instead of a flat indicator
 
 ## In Progress
 
 - frontend blank-canvas rendering is still moving from the standardized component split into the final minimal adaptive surface and richer block vocabulary
+- `VISION-BLANK-CANVAS-001` is underway as iterative shell simplification and contextual reveal work rather than one oversized frontend rewrite
 - create-quest conversation hardening is still expanding around ambiguity wording, richer review editing, and executor confidence boundaries
 - vision memory and workflow standardization are being pushed into repo-persistent docs, checklists, and fixtures
 

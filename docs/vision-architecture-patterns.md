@@ -65,6 +65,17 @@ Frontend renderer shape should stay split into:
 
 Do not let one Vue file absorb the entire block vocabulary once the backend response shape expands.
 
+Route-shell behavior should also stay blank-canvas oriented:
+- avoid persistent page headers and module chrome when the task does not need them
+- reveal status, memory, and support context only when useful
+- keep the animated agent and prompt dock as the dominant anchors in the default state
+- auto-reveal state context when the backend enters review, blocked, or complete modes, because those are the moments when the user needs summary context most
+
+Animated agent motion should feel layered and ambient:
+- use slow field drift, halo breathing, and subtle spark motion instead of flat pulsing
+- increase motion slightly when the backend is listening or processing
+- keep the center readable and calm, not noisy or gimmicky
+
 ## Locked Preflight Decisions
 
 Treat these as the default architecture baseline for upcoming `/vision` implementation unless a later documented architecture change replaces them:
