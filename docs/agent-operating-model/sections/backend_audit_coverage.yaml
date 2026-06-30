@@ -49,6 +49,7 @@ backend_audit_coverage:
       owner_id: agent_platform
       path_prefixes:
         - apps/themuffinman/src/main/java/com/themuffinman/app/agent/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/vision/
     - id: chat
       owner_id: chat_domain
       path_prefixes:
@@ -138,6 +139,7 @@ backend_audit_coverage:
         - apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/
         - apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/
         - apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/
         - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/
     - id: executor_mapper_surface
       tier: executor_critical

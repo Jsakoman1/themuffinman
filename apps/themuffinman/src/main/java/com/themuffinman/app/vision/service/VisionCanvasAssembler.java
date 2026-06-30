@@ -3,6 +3,7 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
 import com.themuffinman.app.vision.dto.VisionCanvasBlockDTO;
+import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionOptionDTO;
 import com.themuffinman.app.vision.dto.VisionQuestReviewDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
@@ -10,12 +11,16 @@ import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionTurn;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class VisionCanvasAssembler {
+    private static final DateTimeFormatter REVIEW_TIME_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm");
 
     private final VisionProperties visionProperties;
 
@@ -23,7 +28,11 @@ public class VisionCanvasAssembler {
         this.visionProperties = visionProperties;
     }
 
-    public VisionConversationTurnResponseDTO assemble(VisionConversation conversation, VisionTurn turn) {
+    public VisionConversationTurnResponseDTO assemble(
+            VisionConversation conversation,
+            VisionTurn turn,
+            List<VisionConversationSummaryDTO> recentConversations
+    ) {
         return VisionConversationTurnResponseDTO.builder()
                 .conversationId(conversation.getId())
                 .turnId(turn.getId())
@@ -40,6 +49,7 @@ public class VisionCanvasAssembler {
                 .blocks(toBlocks(conversation, turn))
                 .slotSummaries(toSlotSummaries(conversation.getSlotData()))
                 .review(toReview(conversation.getSlotData(), turn))
+                .recentConversations(recentConversations)
                 .build();
     }
 
@@ -84,6 +94,11 @@ public class VisionCanvasAssembler {
                     .build());
         }
 
+        VisionCanvasBlockDTO locationResolutionBlock = toLocationResolutionBlock(conversation.getSlotData());
+        if (locationResolutionBlock != null) {
+            blocks.add(locationResolutionBlock);
+        }
+
         if (turn.getRequestedSlot() != null && turn.getNextAction() == com.themuffinman.app.vision.model.VisionNextAction.ASK_FOR_SLOT) {
             blocks.add(VisionCanvasBlockDTO.builder()
                     .type("field_request")
@@ -93,7 +108,7 @@ public class VisionCanvasAssembler {
                     .fieldKind(kindForSlot(turn.getRequestedSlot()))
                     .required(true)
                     .placeholder(placeholderForSlot(turn.getRequestedSlot()))
-                    .options(optionsForSlot(turn.getRequestedSlot()))
+                    .options(optionsForSlot(turn.getRequestedSlot(), conversation.getSlotData()))
                     .build());
         }
 
@@ -111,6 +126,15 @@ public class VisionCanvasAssembler {
         }
 
         if (turn.getNextAction() == com.themuffinman.app.vision.model.VisionNextAction.COMPLETE) {
+            if ("cancelled".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("warning")
+                        .title("Task cancelled")
+                        .body("The current vision task was cancelled before execution.")
+                        .tone("info")
+                        .build());
+                return blocks;
+            }
             String createdQuestId = conversation.getSlotData().get("created_quest_id");
             String createdQuestTitle = conversation.getSlotData().get("quest_title");
             blocks.add(VisionCanvasBlockDTO.builder()
@@ -136,7 +160,63 @@ public class VisionCanvasAssembler {
             addSummary(summaries, "reward_amount", "Reward", slotData.get("reward_amount"));
         }
         addSummary(summaries, "visibility", "Visibility", slotData.get("visibility"));
+        addSummary(summaries, "schedule_mode", "Schedule", formatScheduleSummary(slotData));
+        addSummary(summaries, "location_mode", "Location", formatLocationSummary(slotData));
         return summaries;
+    }
+
+    private VisionCanvasBlockDTO toLocationResolutionBlock(Map<String, String> slotData) {
+        if (!"custom".equals(slotData.get("location_mode"))) {
+            return null;
+        }
+
+        String status = slotData.get("location_resolution_status");
+        if ("lookup_resolved".equals(status)) {
+            String provider = slotData.get("location_resolution_provider");
+            return VisionCanvasBlockDTO.builder()
+                    .type("info")
+                    .title("Location resolved")
+                    .body(provider == null || provider.isBlank()
+                            ? "The backend matched your custom location to a resolved place candidate."
+                            : "The backend matched your custom location through " + provider + " and enriched the address details.")
+                    .tone("info")
+                    .build();
+        }
+
+        if ("candidate_pending".equals(status)) {
+            String typedLabel = slotData.get("location_label");
+            String resolvedLabel = slotData.get("pending_location_candidate_1_label");
+            String topMatchNote = slotData.get("pending_location_candidate_1_match_note");
+            String rawCount = slotData.get("pending_location_candidate_count");
+            int candidateCount = 1;
+            try {
+                candidateCount = rawCount == null ? 1 : Integer.parseInt(rawCount);
+            } catch (NumberFormatException ignored) {
+                candidateCount = 1;
+            }
+            return VisionCanvasBlockDTO.builder()
+                    .type("info")
+                    .title("Location match found")
+                    .body("The backend found "
+                            + (candidateCount > 1 ? candidateCount + " location candidates" : "a more precise match")
+                            + (resolvedLabel == null || resolvedLabel.isBlank() ? "." : ": " + resolvedLabel + ".")
+                            + (topMatchNote == null || topMatchNote.isBlank() ? "" : " " + topMatchNote)
+                            + (typedLabel == null || typedLabel.isBlank() ? "" : " Your typed location was " + typedLabel + ".")
+                            + " You can also keep the typed location if none of the candidates is correct.")
+                    .tone("info")
+                    .build();
+        }
+
+        if ("parsed_only".equals(status)) {
+            return VisionCanvasBlockDTO.builder()
+                    .type("info")
+                    .title("Location kept as typed")
+                    .body("The backend kept your custom location from the typed text because no lookup candidate was applied.")
+                    .tone("neutral")
+                    .build();
+        }
+
+        return null;
     }
 
     private VisionQuestReviewDTO toReview(Map<String, String> slotData, VisionTurn turn) {
@@ -151,6 +231,8 @@ public class VisionCanvasAssembler {
                 .description(slotData.get("quest_description"))
                 .rewardLabel(rewardLabel)
                 .visibility(slotData.get("visibility"))
+                .schedule(formatScheduleSummary(slotData))
+                .location(formatLocationSummary(slotData))
                 .build();
     }
 
@@ -171,6 +253,11 @@ public class VisionCanvasAssembler {
             case "quest_description" -> "Description";
             case "reward_amount" -> "Reward";
             case "visibility" -> "Visibility";
+            case "schedule_mode" -> "Schedule";
+            case "scheduled_at" -> "Date and time";
+            case "location_mode" -> "Location";
+            case "location_label" -> "Custom place";
+            case "location_candidate_confirmation" -> "Location confirmation";
             default -> "Next field";
         };
     }
@@ -180,6 +267,9 @@ public class VisionCanvasAssembler {
             case "quest_description" -> "long_text";
             case "reward_amount" -> "money";
             case "visibility" -> "single_choice";
+            case "schedule_mode", "location_mode" -> "single_choice";
+            case "location_candidate_confirmation" -> "single_choice";
+            case "scheduled_at" -> "date_time";
             default -> "short_text";
         };
     }
@@ -190,17 +280,122 @@ public class VisionCanvasAssembler {
             case "quest_description" -> "Describe the task clearly";
             case "reward_amount" -> "Example: 20 euros or free";
             case "visibility" -> "Choose who should see the quest";
+            case "schedule_mode" -> "Choose fixed time or by agreement";
+            case "scheduled_at" -> "Example: 2026-07-03 14:30";
+            case "location_mode" -> "Choose profile, hidden, or custom";
+            case "location_label" -> "Example: Main square in Zurich";
+            case "location_candidate_confirmation" -> "Choose resolved place or keep typed location";
             default -> "Type the next detail";
         };
     }
 
-    private List<VisionOptionDTO> optionsForSlot(String slotId) {
-        if (!"visibility".equals(slotId)) {
-            return List.of();
+    private List<VisionOptionDTO> optionsForSlot(String slotId, Map<String, String> slotData) {
+        return switch (slotId) {
+            case "visibility" -> List.of(
+                    VisionOptionDTO.builder().id("PUBLIC").label("Public").value("PUBLIC").build(),
+                    VisionOptionDTO.builder().id("CIRCLES").label("Circles only").value("CIRCLES").build()
+            );
+            case "schedule_mode" -> List.of(
+                    VisionOptionDTO.builder().id("fixed").label("Fixed time").value("fixed").build(),
+                    VisionOptionDTO.builder().id("agreement").label("By agreement").value("agreement").build()
+            );
+            case "location_mode" -> List.of(
+                    VisionOptionDTO.builder().id("profile").label("Use profile").value("profile").build(),
+                    VisionOptionDTO.builder().id("off").label("Hide location").value("off").build(),
+                    VisionOptionDTO.builder().id("custom").label("Custom place").value("custom").build()
+            );
+            case "location_candidate_confirmation" -> locationCandidateOptions(slotData);
+            default -> List.of();
+        };
+    }
+
+    private List<VisionOptionDTO> locationCandidateOptions(Map<String, String> slotData) {
+        List<VisionOptionDTO> options = new ArrayList<>();
+        int count = 0;
+        try {
+            count = Integer.parseInt(slotData.getOrDefault("pending_location_candidate_count", "0"));
+        } catch (NumberFormatException ignored) {
+            count = 0;
         }
-        return List.of(
-                VisionOptionDTO.builder().id("PUBLIC").label("Public").build(),
-                VisionOptionDTO.builder().id("CIRCLES").label("Circles only").build()
-        );
+        for (int index = 1; index <= count; index++) {
+            String label = slotData.get("pending_location_candidate_" + index + "_label");
+            if (label == null || label.isBlank()) {
+                continue;
+            }
+            String matchNote = slotData.get("pending_location_candidate_" + index + "_match_note");
+            options.add(VisionOptionDTO.builder()
+                    .id("candidate_" + index)
+                    .label(matchNote == null || matchNote.isBlank()
+                            ? "Candidate " + index + ": " + label
+                            : "Candidate " + index + ": " + label + " (" + matchNote + ")")
+                    .value("candidate " + index)
+                    .build());
+        }
+        options.add(VisionOptionDTO.builder()
+                .id("typed")
+                .label("Keep typed location exactly as entered")
+                .value("keep typed location")
+                .build());
+        return options;
+    }
+
+    private String formatScheduleSummary(Map<String, String> slotData) {
+        String scheduleMode = slotData.get("schedule_mode");
+        if ("fixed".equals(scheduleMode)) {
+            return formatScheduledAt(slotData.get("scheduled_at"));
+        }
+        if ("agreement".equals(scheduleMode)) {
+            return "By agreement";
+        }
+        return null;
+    }
+
+    private String formatLocationSummary(Map<String, String> slotData) {
+        String locationMode = slotData.get("location_mode");
+        if ("profile".equals(locationMode)) {
+            return "Use profile location";
+        }
+        if ("off".equals(locationMode)) {
+            return "Hidden";
+        }
+        if ("custom".equals(locationMode)) {
+            String locality = slotData.get("location_locality");
+            String postalCode = slotData.get("location_postal_code");
+            String street = slotData.get("location_street");
+            String houseNumber = slotData.get("location_house_number");
+            String country = slotData.get("location_country");
+            if (street != null || locality != null) {
+                String streetLine = joinParts(" ", street, houseNumber);
+                String localityLine = joinParts(" ", postalCode, locality);
+                return joinParts(", ", streetLine, localityLine, country);
+            }
+            return slotData.get("location_label");
+        }
+        return null;
+    }
+
+    private String formatScheduledAt(String rawValue) {
+        if (rawValue == null || rawValue.isBlank()) {
+            return "Fixed time";
+        }
+        try {
+            return REVIEW_TIME_FORMAT.format(Instant.parse(rawValue).atZone(ZoneId.systemDefault()));
+        } catch (RuntimeException ignored) {
+            return rawValue;
+        }
+    }
+
+    private String joinParts(String delimiter, String... parts) {
+        StringBuilder builder = new StringBuilder();
+        for (String part : parts) {
+            if (part == null || part.isBlank()) {
+                continue;
+            }
+            if (!builder.isEmpty()) {
+                builder.append(delimiter);
+            }
+            builder.append(part.trim());
+        }
+        return builder.isEmpty() ? null : builder.toString();
     }
 }

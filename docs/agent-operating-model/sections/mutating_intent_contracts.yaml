@@ -129,10 +129,24 @@ mutating_intent_contracts:
 - intent_id: process_vision_conversation_turn
   preconditions: [authenticated actor, persisted vision conversation, execution flag enabled, review-ready create quest conversation, explicit confirmation]
   state_changes: [persist new quest through the vision conversation executor path]
-  side_effects: [store execution result in the conversation timeline, preserve backend-owned clarification and review flow]
+  side_effects: [store execution result in the conversation timeline, preserve backend-owned clarification and review flow, require explicit confirmation when a custom location lookup proposes a more precise candidate before review may continue, allow one-field review corrections for reward schedule and location before confirmation, keep reset and cancel on dedicated lifecycle endpoints]
   notifications: [none]
   blocking_conditions: [execution flag disabled, review not ready, confirmation missing, invalid collected quest slots, quest validation failure]
   source_refs: [vision_conversation_service, vision_create_quest_execution_adapter, create_quest_use_case]
+- intent_id: reset_vision_conversation
+  preconditions: [authenticated actor, persisted vision conversation owned by caller]
+  state_changes: [clear collected conversation slot state, persist new reset turn]
+  side_effects: [restart clarification at quest title, preserve the same conversation timeline]
+  notifications: [none]
+  blocking_conditions: [missing conversation, caller is not owner, conversation turn cap reached]
+  source_refs: [vision_conversation_service]
+- intent_id: cancel_vision_conversation
+  preconditions: [authenticated actor, persisted vision conversation owned by caller]
+  state_changes: [mark conversation complete with cancelled outcome, persist cancellation turn]
+  side_effects: [prevent task execution, preserve cancellation in the conversation timeline]
+  notifications: [none]
+  blocking_conditions: [missing conversation, caller is not owner, conversation turn cap reached]
+  source_refs: [vision_conversation_service]
 - intent_id: update_quest
   preconditions: [exact quest identity, owner or admin authority, validated quest payload]
   state_changes: [persist quest field updates]

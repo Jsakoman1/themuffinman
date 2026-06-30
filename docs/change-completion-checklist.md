@@ -106,6 +106,7 @@ Default path:
 2. Plan
 - Tier 2, Tier 3, and Tier 4 work has a current plan in `.agents/`.
 - Broad work uses a master plan plus child plans when that keeps the batch auditable.
+- When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 - Use `make codex-context topic=<topic> intent='<intent>'` before broad discovery so the plan starts from the diff summary, audit summary index, and the most relevant audit.
 - If a manifest is in scope, read `docs/validation-memory.md` and `docs/validation-memory.json` before finalizing evidence so canonical command strings and manifest bucket rules are explicit.
 

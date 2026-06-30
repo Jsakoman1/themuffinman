@@ -118,6 +118,10 @@ Full flow is mandatory:
 7. Autofill the closeout state.
 8. Run the required closeout audits before the final response.
 
+If `AGENTS.md` records a standing autonomous continuation preference, do not pause between safe proposed follow-up slices just to ask the user which offered option to pick; continue with the best sequenced slice unless scope changes, approval is needed, or a real blocker appears.
+
+If `AGENTS.md` records the standing follow-up capture preference, record discovered safe improvements, likely next slices, and repeated failure patterns in the active follow-up or backlog surface during the current slice, then continue with the best sequenced follow-up slice after current validation and closeout finish.
+
 Typical evidence helpers:
 
 - `make record-validation manifest=<manifest-file> command='<command>'`

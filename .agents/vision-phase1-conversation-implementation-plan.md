@@ -59,13 +59,19 @@ Response:
 
 ### Clarification Order For `create_quest`
 
+Initial implementation note:
+- The first pass landed title, description, reward, and visibility.
+- The follow-up expansion now lives in `.agents/vision-create-quest-conversation-expansion-plan.md` and adds schedule, location, and review-edit retargeting while keeping the same one-slot-at-a-time rule.
+
 1. `quest_title`
 2. `quest_description`
 3. `reward_amount` or `free_quest`
 4. `visibility`
-5. review
-
-Schedule and location stay deferred for the first Phase 1 pass so the conversation layer lands quickly without binding to half-finished execution semantics.
+5. `schedule_mode`
+6. `scheduled_at` when fixed time is chosen
+7. `location_mode`
+8. `location_label` when custom location is chosen
+9. review
 
 ## Validation
 

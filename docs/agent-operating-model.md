@@ -36,6 +36,8 @@ The machine-readable source of truth is:
 - Keep workflows procedural, explicit, and dependency-ordered.
 - For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
 - Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
+- When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
+- When `AGENTS.md` records the standing follow-up capture preference, record discovered safe improvements and repeated failure patterns in the appropriate follow-up or backlog surface during the active slice and continue with the best sequenced follow-up slice after the current slice closes.
 - Prefer hard failure over implicit fallback when the spec does not define a safe next step.
 - Every workflow step should point to concrete source files or concrete endpoint contracts.
 - Resolve entities before mutating them.
@@ -160,7 +162,9 @@ Related admin tooling:
 - that playground is a planning surface only and never executes mutations directly
 - when configured, the same admin endpoint may request a backend-managed OpenAI planning summary and still fall back to deterministic backend rules
 - planner responses should keep deterministic matched signals and unresolved inputs separate from provider-authored summary text
-- the dedicated `/vision/conversations/turns` backend is the persisted conversation path for stepwise adaptive orchestration, while dashboard prompt decoding remains a lighter planning surface
+- the dedicated `/vision/conversations/turns` backend is the persisted prompt-bearing path for stepwise adaptive orchestration, `GET /vision/conversations/recent` and `GET /vision/conversations/{conversationId}` provide resume state, dedicated `/vision/conversations/{conversationId}/reset` and `/vision/conversations/{conversationId}/cancel` endpoints own lifecycle control, and dashboard prompt decoding remains a lighter planning surface
+- the first persisted `/vision` quest conversation now stepwise-collects reward, visibility, schedule, and location decisions, pauses for explicit candidate choice when a custom location lookup finds one or more more precise matches, accepts a broader deterministic HR/EN spoken-time vocabulary while still rejecting ambiguous spoken times without a day-period signal, and can route a review correction back to one named field instead of reopening a legacy form
+- explicit turn actions now exist for prompt submission, review confirmation, and typed review-edit targeting, while lifecycle control moved onto dedicated conversation endpoints
 - when the execution flag is enabled, that same persisted conversation path may cross from review into the first real `create_quest` executor only after explicit confirmation
 
 Initial machine policies:

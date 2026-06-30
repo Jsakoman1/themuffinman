@@ -354,6 +354,30 @@
     "path": "/vision/conversations/turns"
   },
   {
+    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
+    "handlerMethod": "resetConversation",
+    "httpMethod": "POST",
+    "path": "/vision/conversations/{conversationId}/reset"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
+    "handlerMethod": "cancelConversation",
+    "httpMethod": "POST",
+    "path": "/vision/conversations/{conversationId}/cancel"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
+    "handlerMethod": "getRecentConversations",
+    "httpMethod": "GET",
+    "path": "/vision/conversations/recent"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
+    "handlerMethod": "getConversation",
+    "httpMethod": "GET",
+    "path": "/vision/conversations/{conversationId}"
+  },
+  {
     "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
     "handlerMethod": "getMyDashboard",
     "httpMethod": "GET",

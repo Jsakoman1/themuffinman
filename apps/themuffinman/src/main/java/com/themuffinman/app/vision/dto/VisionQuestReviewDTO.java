@@ -16,4 +16,6 @@ public class VisionQuestReviewDTO {
     private String description;
     private String rewardLabel;
     private String visibility;
+    private String schedule;
+    private String location;
 }

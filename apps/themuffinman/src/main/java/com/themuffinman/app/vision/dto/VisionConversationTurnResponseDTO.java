@@ -29,4 +29,5 @@ public class VisionConversationTurnResponseDTO {
     private List<VisionCanvasBlockDTO> blocks;
     private List<VisionSlotSummaryDTO> slotSummaries;
     private VisionQuestReviewDTO review;
+    private List<VisionConversationSummaryDTO> recentConversations;
 }

@@ -872,6 +872,104 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionCanvasBlockDTO",
+    "fields": [
+      "type",
+      "title",
+      "body",
+      "fieldId",
+      "fieldKind",
+      "required",
+      "placeholder",
+      "options",
+      "items",
+      "review",
+      "tone"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionConversationListResponseDTO",
+    "fields": [
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionConversationSummaryDTO",
+    "fields": [
+      "conversationId",
+      "intent",
+      "status",
+      "title",
+      "subtitle",
+      "stageLabel",
+      "progressLabel",
+      "groupKey",
+      "requestedSlot",
+      "resumable",
+      "completed",
+      "stale",
+      "updatedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO",
+    "fields": [
+      "conversationId",
+      "prompt",
+      "source",
+      "action",
+      "reviewTarget"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO",
+    "fields": [
+      "conversationId",
+      "turnId",
+      "intent",
+      "agentState",
+      "canvasMode",
+      "nextAction",
+      "message",
+      "requestedSlot",
+      "normalizedPrompt",
+      "translationApplied",
+      "translationReliable",
+      "executionEnabled",
+      "blocks",
+      "slotSummaries",
+      "review",
+      "recentConversations"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionOptionDTO",
+    "fields": [
+      "id",
+      "label",
+      "value"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionQuestReviewDTO",
+    "fields": [
+      "title",
+      "description",
+      "rewardLabel",
+      "visibility",
+      "schedule",
+      "location"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionSlotSummaryDTO",
+    "fields": [
+      "slotId",
+      "label",
+      "value"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.workmarket.dto.AdminApplicationsQueryDTO",
     "fields": [
       "q",
@@ -1045,6 +1143,28 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardVisionPromptRequestDTO",
+    "fields": [
+      "prompt",
+      "source"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardVisionPromptResponseDTO",
+    "fields": [
+      "prompt",
+      "normalizedPrompt",
+      "source",
+      "translationProvider",
+      "translationApplied",
+      "translationReliable",
+      "activeFilter",
+      "surfaceMode",
+      "assistantNote",
+      "matchedSignals"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.workmarket.dto.DashboardVoiceConfigDTO",
     "fields": [
       "enabled",
@@ -1057,6 +1177,20 @@
       "continuousRecognition",
       "maxAlternatives",
       "autoSpeakResponses"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardVoiceSpeechRequestDTO",
+    "fields": [
+      "text"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardVoiceTranscriptionDTO",
+    "fields": [
+      "text",
+      "provider",
+      "model"
     ]
   },
   {

@@ -107,6 +107,16 @@ public class LocationLookupService {
         return response.getItems().getFirst();
     }
 
+    public List<LocationLookupCandidateDTO> lookupTopCandidates(String query, String actorKey, int limit) {
+        LocationLookupResponseDTO response = lookup(query, actorKey);
+        if (response.getItems() == null || response.getItems().isEmpty() || limit <= 0) {
+            return List.of();
+        }
+        return response.getItems().stream()
+                .limit(limit)
+                .toList();
+    }
+
     public LocationLookupCandidateDTO reverseLookup(BigDecimal latitude, BigDecimal longitude, String actorKey) {
         reverseLookupRequests.incrementAndGet();
         LocationLookupClient client = geoapifyLocationLookupClient.isConfigured()

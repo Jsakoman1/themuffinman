@@ -121,6 +121,26 @@ api:
     path: "/vision/conversations/turns"
     controller_class: com.themuffinman.app.vision.controller.VisionConversationController
     handler_method: processTurn
+  - id: reset_vision_conversation
+    method: POST
+    path: "/vision/conversations/{conversationId}/reset"
+    controller_class: com.themuffinman.app.vision.controller.VisionConversationController
+    handler_method: resetConversation
+  - id: cancel_vision_conversation
+    method: POST
+    path: "/vision/conversations/{conversationId}/cancel"
+    controller_class: com.themuffinman.app.vision.controller.VisionConversationController
+    handler_method: cancelConversation
+  - id: get_recent_vision_conversations
+    method: GET
+    path: "/vision/conversations/recent"
+    controller_class: com.themuffinman.app.vision.controller.VisionConversationController
+    handler_method: getRecentConversations
+  - id: get_vision_conversation
+    method: GET
+    path: "/vision/conversations/{conversationId}"
+    controller_class: com.themuffinman.app.vision.controller.VisionConversationController
+    handler_method: getConversation
   - id: transcribe_dashboard_voice
     method: POST
     path: "/dashboard/me/voice/transcribe"

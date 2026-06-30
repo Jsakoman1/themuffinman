@@ -1,5 +1,11 @@
 import {computed, onUnmounted, ref} from "vue"
-import {visionApi, type VisionCanvasBlock, type VisionConversationTurnResponse} from "../api/visionApi.ts"
+import {
+  visionApi,
+  type VisionCanvasBlock,
+  type VisionConversationSummary,
+  type VisionConversationTurnResponse,
+  type VisionReviewTarget
+} from "../api/visionApi.ts"
 import type {DashboardVoiceConfig} from "../../workmarket/api/contracts.ts"
 
 export type VisionVoiceState = "idle" | "listening" | "processing" | "speaking"
@@ -9,14 +15,24 @@ const slotLabels: Record<string, string> = {
   quest_title: "Title",
   quest_description: "Description",
   reward_amount: "Reward",
-  visibility: "Visibility"
+  visibility: "Visibility",
+  schedule_mode: "Schedule",
+  scheduled_at: "Date and time",
+  location_mode: "Location",
+  location_label: "Custom place",
+  location_candidate_confirmation: "Location confirmation"
 }
 
 const slotPlaceholders: Record<string, string> = {
   quest_title: "Name the quest in a few words",
   quest_description: "Describe the task clearly",
   reward_amount: "Example: 20 euros or free",
-  visibility: "Example: public or circles"
+  visibility: "Example: public or circles",
+  schedule_mode: "Example: fixed time or by agreement",
+  scheduled_at: "Example: 2026-07-03T14:30",
+  location_mode: "Example: use profile, hide location, or custom place",
+  location_label: "Example: Ban Jelacic Square, Zagreb",
+  location_candidate_confirmation: "Choose resolved place or keep typed location"
 }
 
 export const useVisionConversation = () => {
@@ -24,6 +40,7 @@ export const useVisionConversation = () => {
   const error = ref("")
   const inputText = ref("")
   const response = ref<VisionConversationTurnResponse | null>(null)
+  const recentConversations = ref<VisionConversationSummary[]>([])
   const conversationId = ref<number | null>(null)
   const voiceConfig = ref<DashboardVoiceConfig | null>(null)
   const voiceRuntimeError = ref("")
@@ -65,6 +82,8 @@ export const useVisionConversation = () => {
     }
     return "Tell the agent what you want to do"
   })
+
+  const currentFieldKind = computed(() => fieldRequestBlock.value?.fieldKind ?? "short_text")
 
   const currentMessage = computed(() => response.value?.message ?? "The agent is waiting for a prompt.")
 
@@ -144,6 +163,7 @@ export const useVisionConversation = () => {
 
     try {
       voiceConfig.value = await visionApi.getVoiceConfig()
+      recentConversations.value = (await visionApi.getRecentConversations()).items
     } catch (caught) {
       console.error(caught)
       error.value = "Vision bootstrap failed."
@@ -152,9 +172,14 @@ export const useVisionConversation = () => {
     }
   }
 
-  const processPrompt = async (prompt: string, source = "text") => {
+  const processPrompt = async (
+    prompt: string,
+    source = "text",
+    action = "SUBMIT_PROMPT",
+    reviewTarget: VisionReviewTarget | null = null
+  ) => {
     const trimmedPrompt = prompt.trim()
-    if (!trimmedPrompt) {
+    if (action === "SUBMIT_PROMPT" && !trimmedPrompt) {
       return
     }
 
@@ -162,9 +187,10 @@ export const useVisionConversation = () => {
 
     try {
       voiceState.value = "processing"
-      const next = await visionApi.processConversationTurn(trimmedPrompt, conversationId.value, source)
+      const next = await visionApi.processConversationTurn(trimmedPrompt, conversationId.value, source, action, reviewTarget)
       response.value = next
       conversationId.value = next.conversationId
+      recentConversations.value = next.recentConversations
       inputText.value = ""
       composerExpanded.value = true
 
@@ -181,17 +207,76 @@ export const useVisionConversation = () => {
   }
 
   const confirmReview = async () => {
-    await processPrompt("confirm", "text")
+    await processPrompt("", "text", "CONFIRM_REVIEW")
   }
 
-  const resetConversation = () => {
+  const requestReviewChange = async (reviewTarget: VisionReviewTarget) => {
+    await processPrompt("", "text", "REQUEST_REVIEW_EDIT", reviewTarget)
+  }
+
+  const resetConversation = async () => {
+    if (conversationId.value != null) {
+      try {
+        voiceState.value = "processing"
+        const next = await visionApi.resetConversation(conversationId.value)
+        response.value = next
+        conversationId.value = next.conversationId
+        recentConversations.value = next.recentConversations
+        inputText.value = ""
+        composerExpanded.value = true
+        voiceState.value = "idle"
+      } catch (caught) {
+        console.error(caught)
+        voiceRuntimeError.value = "Vision conversation reset failed in the backend."
+        voiceState.value = "idle"
+      }
+      return
+    }
     stopSpeaking()
     conversationId.value = null
     response.value = null
+    recentConversations.value = []
     inputText.value = ""
     lastTranscript.value = ""
     composerExpanded.value = true
     voiceRuntimeError.value = ""
+  }
+
+  const cancelConversation = async () => {
+    if (conversationId.value == null) {
+      await resetConversation()
+      return
+    }
+    try {
+      voiceState.value = "processing"
+      const next = await visionApi.cancelConversation(conversationId.value)
+      response.value = next
+      conversationId.value = next.conversationId
+      recentConversations.value = next.recentConversations
+      inputText.value = ""
+      composerExpanded.value = true
+      voiceState.value = "idle"
+    } catch (caught) {
+      console.error(caught)
+      voiceRuntimeError.value = "Vision conversation cancel failed in the backend."
+      voiceState.value = "idle"
+    }
+  }
+
+  const resumeConversation = async (nextConversationId: number) => {
+    try {
+      voiceState.value = "processing"
+      const next = await visionApi.getConversation(nextConversationId)
+      response.value = next
+      conversationId.value = next.conversationId
+      recentConversations.value = next.recentConversations
+      composerExpanded.value = true
+      voiceState.value = "idle"
+    } catch (caught) {
+      console.error(caught)
+      voiceRuntimeError.value = "Vision conversation resume failed in the backend."
+      voiceState.value = "idle"
+    }
   }
 
   const resetRecordingState = () => {
@@ -351,6 +436,7 @@ export const useVisionConversation = () => {
     displayBlocks,
     currentSlotLabel,
     currentPlaceholder,
+    currentFieldKind,
     currentMessage,
     attentionState,
     translationWarning,
@@ -359,10 +445,14 @@ export const useVisionConversation = () => {
     lastTranscript,
     canSend,
     canConfirm,
+    recentConversations,
     init,
     processPrompt,
     confirmReview,
+    requestReviewChange,
     resetConversation,
+    cancelConversation,
+    resumeConversation,
     startListening,
     stopListening,
     speakSummary,

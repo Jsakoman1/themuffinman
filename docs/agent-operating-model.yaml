@@ -579,6 +579,7 @@ backend_audit_coverage:
     owner_id: agent_platform
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/agent/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/
   - id: chat
     owner_id: chat_domain
     path_prefixes:
@@ -673,6 +674,7 @@ backend_audit_coverage:
     - apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/
     - apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/
     - apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/
     - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/
   - id: executor_mapper_surface
     tier: executor_critical
@@ -1030,6 +1032,11 @@ policies:
       - temporary plan or master child plan exists
       - scope, risk, affected surfaces, and expected validation are listed
       - approval needs are front-loaded before autonomous work begins
+      - when AGENTS.md records a standing autonomous continuation preference, safe
+        offered follow-up slices continue without waiting for option-selection input
+      - when AGENTS.md records the standing follow-up capture preference, discovered
+        safe improvements and repeated failure patterns are recorded during the active
+        slice instead of being left to memory
       completion_rule: Do not start substantial edits until the slice has a concrete
         plan and validation target.
     - id: first_backend_slice
@@ -1893,6 +1900,10 @@ mutating_intent_contracts:
   side_effects:
   - store execution result in the conversation timeline
   - preserve backend-owned clarification and review flow
+  - require explicit confirmation when a custom location lookup proposes a more precise
+    candidate before review may continue
+  - allow one-field review corrections for reward schedule and location before confirmation
+  - keep reset and cancel on dedicated lifecycle endpoints
   notifications:
   - none
   blocking_conditions:
@@ -1905,6 +1916,42 @@ mutating_intent_contracts:
   - vision_conversation_service
   - vision_create_quest_execution_adapter
   - create_quest_use_case
+- intent_id: reset_vision_conversation
+  preconditions:
+  - authenticated actor
+  - persisted vision conversation owned by caller
+  state_changes:
+  - clear collected conversation slot state
+  - persist new reset turn
+  side_effects:
+  - restart clarification at quest title
+  - preserve the same conversation timeline
+  notifications:
+  - none
+  blocking_conditions:
+  - missing conversation
+  - caller is not owner
+  - conversation turn cap reached
+  source_refs:
+  - vision_conversation_service
+- intent_id: cancel_vision_conversation
+  preconditions:
+  - authenticated actor
+  - persisted vision conversation owned by caller
+  state_changes:
+  - mark conversation complete with cancelled outcome
+  - persist cancellation turn
+  side_effects:
+  - prevent task execution
+  - preserve cancellation in the conversation timeline
+  notifications:
+  - none
+  blocking_conditions:
+  - missing conversation
+  - caller is not owner
+  - conversation turn cap reached
+  source_refs:
+  - vision_conversation_service
 - intent_id: update_quest
   preconditions:
   - exact quest identity
@@ -2464,6 +2511,8 @@ intent_safety_catalog:
     - open_dashboard_summary
     - open_dashboard_voice_config
     - process_dashboard_vision_prompt
+    - open_recent_vision_conversations
+    - open_vision_conversation
     - transcribe_dashboard_voice
     - speak_dashboard_voice
     - open_news_feed
@@ -2505,6 +2554,8 @@ intent_safety_catalog:
     - assign_circle_members
     - create_quest
     - process_vision_conversation_turn
+    - reset_vision_conversation
+    - cancel_vision_conversation
     - update_quest
     - apply_to_quest
     - update_my_application
@@ -3898,9 +3949,13 @@ service_workflow_inventory:
   service_class: com.themuffinman.app.vision.service.VisionConversationService
   service_methods:
   - processTurn
+  - resetConversation
+  - cancelConversation
   - handleCreateQuestReviewTurn
   covered_intents:
   - process_vision_conversation_turn
+  - reset_vision_conversation
+  - cancel_vision_conversation
   automation_relevant: true
   source_refs:
   - vision_conversation_service
@@ -4203,6 +4258,20 @@ permission_matrix:
     - blocked_user
     endpoint_ids:
     - update_current_user
+  - id: vision_conversation_self_service
+    intent_ids:
+    - process_vision_conversation_turn
+    - reset_vision_conversation
+    - cancel_vision_conversation
+    allowed_actors:
+    - current_user
+    forbidden_actors:
+    - anonymous
+    - blocked_user
+    endpoint_ids:
+    - process_vision_conversation_turn
+    - reset_vision_conversation
+    - cancel_vision_conversation
   - id: connection_request_management
     intent_ids:
     - create_circle_connection
@@ -4802,6 +4871,10 @@ documentation_sync:
     - Use the master-plan pattern when it safely reduces unnecessary human interaction,
       increases automation, or makes a larger batch auditable through one final closeout
       pass.
+    - When `AGENTS.md` records a standing autonomous continuation preference, do not
+      stop only to ask which safe offered follow-up slice should run next; continue
+      with the best sequenced slice unless scope changes, approval is required, or
+      a real blocker appears.
   - id: persistent_backlog_tracks_deferred_work
     description: Deferred implementation and control-system follow-ups must stay in
       persistent backlog files with stable IDs, and resolved items must be removed
@@ -5040,6 +5113,26 @@ api:
     path: "/vision/conversations/turns"
     controller_class: com.themuffinman.app.vision.controller.VisionConversationController
     handler_method: processTurn
+  - id: reset_vision_conversation
+    method: POST
+    path: "/vision/conversations/{conversationId}/reset"
+    controller_class: com.themuffinman.app.vision.controller.VisionConversationController
+    handler_method: resetConversation
+  - id: cancel_vision_conversation
+    method: POST
+    path: "/vision/conversations/{conversationId}/cancel"
+    controller_class: com.themuffinman.app.vision.controller.VisionConversationController
+    handler_method: cancelConversation
+  - id: get_recent_vision_conversations
+    method: GET
+    path: "/vision/conversations/recent"
+    controller_class: com.themuffinman.app.vision.controller.VisionConversationController
+    handler_method: getRecentConversations
+  - id: get_vision_conversation
+    method: GET
+    path: "/vision/conversations/{conversationId}"
+    controller_class: com.themuffinman.app.vision.controller.VisionConversationController
+    handler_method: getConversation
   - id: transcribe_dashboard_voice
     method: POST
     path: "/dashboard/me/voice/transcribe"
@@ -6208,7 +6301,8 @@ intents:
     - dashboard_voice_config_dto
     - service_errors
 - id: process_dashboard_vision_prompt
-  description: Decode a typed or transcribed prompt into backend-driven adaptive surface state.
+  description: Decode a typed or transcribed prompt into backend-driven adaptive surface
+    state.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -6217,7 +6311,8 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require authenticated context and submit the prompt to the backend vision prompt service.
+    action: Require authenticated context and submit the prompt to the backend vision
+      prompt service.
     endpoint_id: process_dashboard_vision_prompt
     source_refs:
     - dashboard_controller
@@ -6226,18 +6321,23 @@ intents:
     - dashboard_vision_prompt_response_dto
     - service_errors
 - id: process_vision_conversation_turn
-  description: Advance one persisted `/vision` conversation turn through backend-owned stepwise orchestration, including review-to-execution when the flag is enabled and the user explicitly confirms.
+  description: Advance one persisted `/vision` conversation turn through backend-owned
+    stepwise orchestration, including review-to-execution when the flag is enabled
+    and the user explicitly confirms.
   mutating: true
   required_inputs:
   - authenticated_user
-  - prompt_text
   optional_inputs:
+  - prompt_text
   - conversation_id
   - source
+  - action
+  - review_target
   defaults: []
   workflow:
   - step: 1
-    action: Require authenticated context and load or create one persisted vision conversation.
+    action: Require authenticated context and load or create one persisted vision
+      conversation.
     endpoint_id: process_vision_conversation_turn
     source_refs:
     - vision_conversation_controller
@@ -6248,14 +6348,109 @@ intents:
     - vision_quest_review_dto
     - service_errors
   - step: 2
-    action: Keep the turn read-only until the conversation reaches review-ready state; execute the first real quest creation only when the execution flag is enabled and the user explicitly confirms.
+    action: Keep the turn read-only while the backend collects one missing quest slot
+      at a time, including reward, visibility, schedule, and location decisions; require
+      explicit confirmation when a custom location lookup proposes a more precise
+      candidate before review may continue; require typed review-edit actions with
+      one explicit review target whenever the client requests a review correction;
+      keep reset and cancel on dedicated lifecycle endpoints; execute the first real
+      quest creation only when the execution flag is enabled and the user explicitly
+      confirms.
     source_refs:
     - vision_conversation_service
     - vision_create_quest_execution_adapter
     - create_quest_use_case
     - service_errors
+- id: reset_vision_conversation
+  description: Reset one persisted `/vision` conversation back to a fresh create quest
+    clarification flow for the authenticated owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require authenticated context and load the persisted vision conversation
+      owned by the caller.
+    endpoint_id: reset_vision_conversation
+    source_refs:
+    - vision_conversation_controller
+    - vision_conversation_service
+    - vision_conversation_turn_response_dto
+    - service_errors
+  - step: 2
+    action: Clear collected quest slots, restart the requested slot at quest title,
+      and persist a new backend-authored reset turn in the same conversation timeline.
+    source_refs:
+    - vision_conversation_service
+    - service_errors
+- id: cancel_vision_conversation
+  description: Cancel one persisted `/vision` conversation for the authenticated owner
+    without executing the underlying task.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require authenticated context and load the persisted vision conversation
+      owned by the caller.
+    endpoint_id: cancel_vision_conversation
+    source_refs:
+    - vision_conversation_controller
+    - vision_conversation_service
+    - vision_conversation_turn_response_dto
+    - service_errors
+  - step: 2
+    action: Mark the conversation complete with a cancelled outcome and persist a
+      non-executing completion turn in the same conversation timeline.
+    source_refs:
+    - vision_conversation_service
+    - service_errors
+- id: open_recent_vision_conversations
+  description: Load a compact recent-conversation list for the authenticated user's
+    `/vision` surface.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require authenticated context and load the most recent persisted `/vision`
+      conversations owned by the caller.
+    endpoint_id: get_recent_vision_conversations
+    source_refs:
+    - vision_conversation_controller
+    - vision_conversation_service
+    - service_errors
+- id: open_vision_conversation
+  description: Reopen one persisted `/vision` conversation snapshot for the authenticated
+    owner without advancing the task.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require authenticated context, load the persisted vision conversation
+      owned by the caller, and return the latest backend-authored conversation snapshot
+      with recent summaries.
+    endpoint_id: get_vision_conversation
+    source_refs:
+    - vision_conversation_controller
+    - vision_conversation_service
+    - vision_conversation_turn_response_dto
+    - service_errors
 - id: transcribe_dashboard_voice
-  description: Transcribe a recorded voice clip into text for the authenticated user's adaptive surface.
+  description: Transcribe a recorded voice clip into text for the authenticated user's
+    adaptive surface.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -6264,7 +6459,8 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require authenticated context and submit the recorded audio to the backend voice transcription service.
+    action: Require authenticated context and submit the recorded audio to the backend
+      voice transcription service.
     endpoint_id: transcribe_dashboard_voice
     source_refs:
     - dashboard_controller
@@ -6273,7 +6469,8 @@ intents:
     - dashboard_voice_transcription_dto
     - service_errors
 - id: speak_dashboard_voice
-  description: Generate spoken audio for the authenticated user's adaptive surface summary.
+  description: Generate spoken audio for the authenticated user's adaptive surface
+    summary.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -6282,7 +6479,8 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require authenticated context and submit text to the backend voice synthesis service.
+    action: Require authenticated context and submit text to the backend voice synthesis
+      service.
     endpoint_id: speak_dashboard_voice
     source_refs:
     - dashboard_controller

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-06-30T12:58:58Z",
+  "generatedAt": "2026-06-30T18:59:51Z",
   "summary": {
-    "candidateCount": 197,
+    "candidateCount": 199,
     "domainCounts": {
-      "agent": 25,
+      "agent": 27,
       "business": 2,
       "chat": 11,
       "common": 5,
@@ -16,7 +16,7 @@
       "platform": 3
     },
     "ownerCounts": {
-      "agent_platform": 25,
+      "agent_platform": 27,
       "business_domain": 2,
       "chat_domain": 11,
       "platform_core": 8,
@@ -208,6 +208,16 @@
       "domainId": "agent",
       "ownerId": "agent_platform",
       "sourceRefId": "admin_agent_text_provider",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AgentModelProfile.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "sourceRefId": "agent_model_profile",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
@@ -1048,6 +1058,16 @@
       "domainId": "things",
       "ownerId": "things_domain",
       "sourceRefId": "thing_sharing_mgr",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "sourceRefId": "vision_conversation_controller",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null

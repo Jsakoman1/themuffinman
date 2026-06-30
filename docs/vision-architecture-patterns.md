@@ -4,6 +4,15 @@ This document is the durable implementation guide for future `/vision` work.
 
 Read it before implementing any backend, API, or frontend change that affects the adaptive vision surface, conversation orchestration, prompt handling, canvas state, or natural-language execution.
 
+The compact companion set for daily work is:
+
+- `docs/vision-context-gateway.md`
+- `docs/vision-decision-record.md`
+- `docs/vision-feature-slice-checklist.md`
+- `docs/vision-generated-artifact-policy.md`
+- `docs/vision-failure-memory.md`
+- `docs/vision-status-ledger.md`
+
 ## Product Target
 
 `/vision` is the long-term primary interface direction for TheMuffinMan.
@@ -32,6 +41,8 @@ Preferred order:
 4. API contract and frontend canvas work
 5. first execution adapter under flag
 
+Use `docs/vision-feature-slice-checklist.md` as the per-batch enforcement layer for this start pattern.
+
 ## Core Principle
 
 Backend decides meaning. Frontend renders state.
@@ -46,6 +57,14 @@ The frontend may animate, arrange, focus, and polish the experience, but it must
 
 Those decisions belong in backend orchestration and domain services.
 
+Frontend renderer shape should stay split into:
+- one route shell
+- one conversation composable
+- one canvas router
+- focused block components for review, field requests, result summaries, and shared status framing
+
+Do not let one Vue file absorb the entire block vocabulary once the backend response shape expands.
+
 ## Locked Preflight Decisions
 
 Treat these as the default architecture baseline for upcoming `/vision` implementation unless a later documented architecture change replaces them:
@@ -54,6 +73,8 @@ Treat these as the default architecture baseline for upcoming `/vision` implemen
 - Conversation continuity: persisted backend conversation state, not client-managed state tokens.
 - Rollout boundary: real mutation execution stays behind typed backend `vision.*` feature flags.
 - Migration boundary: new `/vision` orchestration grows beside legacy dashboard/backend read models instead of extending them as the primary design source.
+
+The shorter immutable record for those decisions lives in `docs/vision-decision-record.md`.
 
 ## Backend Layers
 
@@ -106,6 +127,8 @@ A turn should produce exactly one primary next step:
 Default rule: ask one high-value question at a time.
 
 Do not ask for a full form worth of data unless the user explicitly asks to review or edit all details.
+
+See `docs/vision-decision-record.md` `VDR-002` and `VDR-005`.
 
 ## Slot Pattern
 
@@ -193,6 +216,18 @@ Adapter must not:
 - skip domain validation
 - silently coerce unsafe values
 
+## Review Edit Pattern
+
+Review corrections should use typed backend actions instead of natural-language edit heuristics.
+
+The stable shape is:
+- action says the user wants a review correction
+- a typed review target identifies one editable field family
+- backend maps that target to one requested slot
+- clarification resumes for one field only
+
+Natural-language review-edit detection should not exist in the review-ready backend path once typed review controls are available.
+
 ## Safety Pattern
 
 Fail closed on:
@@ -206,6 +241,8 @@ Fail closed on:
 - domain validation failure
 
 Read-only planning can be permissive. Mutation execution cannot.
+
+See `docs/vision-decision-record.md` `VDR-003` and `VDR-007`.
 
 ## API Pattern
 
@@ -257,6 +294,23 @@ Recommended frontend shape:
 - `VisionCanvasRenderer.vue`: renders backend blocks
 - `blocks/*`: focused block components
 - `visionApi.ts`: API client
+
+Current standardized implementation:
+- `VisionSurfaceModernView.vue`: thin route shell and top-level layout
+- `components/VisionAgentOrb.vue`: central animated agent surface
+- `components/VisionPromptDock.vue`: prompt and voice dock
+- `components/VisionCanvasRenderer.vue`: backend-driven block and review rendering
+- `useVisionConversation.ts`: orchestration-facing frontend state
+- `visionApi.ts`: contract boundary
+
+## Reuse And Failure Memory
+
+Future `/vision` work should prefer the local context and failure-memory path before broad repo rediscovery:
+
+- use `docs/vision-context-gateway.md` for location of backend, API, frontend, tests, and docs
+- use `docs/vision-failure-memory.md` when generator drift, docs drift, contract drift, or conversation-test drift appears
+- use `docs/vision-generated-artifact-policy.md` before closeout when DTOs, endpoints, or agent-operating docs changed
+- use reusable fixtures under `apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/` for conversation builders, slot presets, location candidates, and schedule phrases
 
 The frontend should treat backend canvas state as the source of truth.
 

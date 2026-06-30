@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import {computed} from "vue"
 import {useMountedAsync} from "../../../composables/useMountedAsync.ts"
+import VisionAgentOrb from "../components/VisionAgentOrb.vue"
+import VisionCanvasRenderer from "../components/VisionCanvasRenderer.vue"
+import VisionPromptDock from "../components/VisionPromptDock.vue"
 import {useVisionConversation} from "../composables/useVisionConversation.ts"
 
 const {
@@ -18,6 +21,7 @@ const {
   displayBlocks,
   currentSlotLabel,
   currentPlaceholder,
+  currentFieldKind,
   currentMessage,
   attentionState,
   translationWarning,
@@ -26,10 +30,14 @@ const {
   lastTranscript,
   canSend,
   canConfirm,
+  recentConversations,
   init,
   processPrompt,
   confirmReview,
+  requestReviewChange,
   resetConversation,
+  cancelConversation,
+  resumeConversation,
   startListening,
   stopListening,
   speakSummary,
@@ -55,6 +63,15 @@ const submitPrompt = async () => {
   await processPrompt(inputText.value, "text")
 }
 
+const submitChoice = async (value: string) => {
+  inputText.value = value
+  await processPrompt(value, "text")
+}
+
+const updateInputText = (value: string) => {
+  inputText.value = value
+}
+
 const nextActionLabel = computed(() => {
   if (!response.value) {
     return "Blank"
@@ -70,6 +87,39 @@ const nextActionLabel = computed(() => {
   }
   return "Clarify"
 })
+
+const recentConversationGroups = computed(() => {
+  const groups = [
+    {
+      key: "active",
+      title: "In progress",
+      items: recentConversations.value.filter((conversation) => conversation.groupKey === "active")
+    },
+    {
+      key: "review_ready",
+      title: "Ready for review",
+      items: recentConversations.value.filter((conversation) => conversation.groupKey === "review_ready")
+    },
+    {
+      key: "blocked",
+      title: "Blocked",
+      items: recentConversations.value.filter((conversation) => conversation.groupKey === "blocked")
+    },
+    {
+      key: "completed",
+      title: "Completed",
+      items: recentConversations.value.filter((conversation) => conversation.groupKey === "completed")
+    }
+  ]
+  return groups.filter((group) => group.items.length > 0)
+})
+
+const openRecentConversation = async (conversationId: number, resumable: boolean) => {
+  if (!resumable) {
+    return
+  }
+  await resumeConversation(conversationId)
+}
 
 useMountedAsync(init)
 </script>
@@ -90,14 +140,7 @@ useMountedAsync(init)
     </header>
 
     <main class="vision-surface__stage">
-      <div class="vision-agent" :class="[`vision-agent--${voiceState}`, `vision-agent--${attentionState}`]">
-        <span class="vision-agent__halo"></span>
-        <span class="vision-agent__ring vision-agent__ring--outer"></span>
-        <span class="vision-agent__ring vision-agent__ring--middle"></span>
-        <span class="vision-agent__ring vision-agent__ring--inner"></span>
-        <span class="vision-agent__pulse"></span>
-        <span class="vision-agent__core"></span>
-      </div>
+      <VisionAgentOrb :voice-state="voiceState" :attention-state="attentionState" />
 
       <div class="vision-surface__intro">
         <p class="vision-surface__eyebrow">Adaptive conversation</p>
@@ -105,157 +148,79 @@ useMountedAsync(init)
         <p>{{ agentCaption }}</p>
         <p v-if="translationWarning" class="vision-surface__hint">{{ translationWarning }}</p>
         <p v-if="voiceRuntimeError" class="vision-surface__error">{{ voiceRuntimeError }}</p>
+        <div v-if="recentConversations.length" class="vision-surface__recent">
+          <p class="vision-surface__eyebrow">Recent tasks</p>
+          <section
+            v-for="group in recentConversationGroups"
+            :key="group.key"
+            class="vision-recent-group"
+          >
+            <p class="vision-recent-group__title">{{ group.title }}</p>
+            <div class="vision-choice-list vision-choice-list--recent">
+              <button
+                v-for="conversation in group.items"
+                :key="conversation.conversationId"
+                type="button"
+                class="vision-choice-chip vision-choice-chip--recent"
+                :class="{
+                  'vision-choice-chip--completed': conversation.completed,
+                  'vision-choice-chip--active': conversation.resumable,
+                  'vision-choice-chip--stale': conversation.stale
+                }"
+                :disabled="!conversation.resumable"
+                @click="openRecentConversation(conversation.conversationId, conversation.resumable)"
+              >
+                <span class="vision-recent-task__stage">
+                  {{ conversation.stageLabel }}<span v-if="conversation.stale"> · Stale</span>
+                </span>
+                <span class="vision-recent-task__title">{{ conversation.title }}</span>
+                <span class="vision-recent-task__progress">{{ conversation.progressLabel }}</span>
+              </button>
+            </div>
+          </section>
+        </div>
       </div>
 
       <transition name="vision-panel-fade">
-        <section v-if="response" class="vision-panel">
-          <div
-            v-for="(block, index) in displayBlocks"
-            :key="`${block.type}-${index}`"
-            class="vision-panel__section"
-            :class="{
-              'vision-review': block.type === 'review_summary',
-              'vision-panel__section--warning': block.type === 'warning',
-              'vision-panel__section--field': block.type === 'field_request',
-              'vision-panel__section--success': block.type === 'success'
-            }"
-          >
-            <p v-if="block.title" class="vision-panel__label">{{ block.title }}</p>
-            <p v-if="block.body" class="vision-panel__body">{{ block.body }}</p>
-
-            <div v-if="block.type === 'result_summary' && block.items.length" class="vision-slot-list">
-              <article v-for="slot in block.items" :key="slot.slotId" class="vision-slot-card">
-                <span class="vision-slot-card__label">{{ slot.label }}</span>
-                <p class="vision-slot-card__value">{{ slot.value }}</p>
-              </article>
-            </div>
-
-            <div v-if="block.type === 'field_request' && block.options.length" class="vision-choice-list">
-              <button
-                v-for="option in block.options"
-                :key="option.id"
-                type="button"
-                class="vision-choice-chip"
-                @click="inputText = option.label"
-              >
-                {{ option.label }}
-              </button>
-            </div>
-
-            <template v-if="block.type === 'review_summary' && block.review">
-              <h2>{{ block.review.title }}</h2>
-              <p>{{ block.review.description }}</p>
-              <dl class="vision-review__grid">
-                <div>
-                  <dt>Reward</dt>
-                  <dd>{{ block.review.rewardLabel }}</dd>
-                </div>
-                <div>
-                  <dt>Visibility</dt>
-                  <dd>{{ block.review.visibility }}</dd>
-                </div>
-                <div>
-                  <dt>Execution</dt>
-                  <dd>{{ response.executionEnabled ? "Enabled" : "Planning only" }}</dd>
-                </div>
-              </dl>
-              <div class="vision-review__actions">
-                <button
-                  type="button"
-                  class="vision-composer__action vision-composer__action--primary"
-                  :disabled="!canConfirm"
-                  @click="confirmReview"
-                >
-                  Confirm and create
-                </button>
-              </div>
-            </template>
-          </div>
-
-          <div v-if="lastTranscript" class="vision-panel__section">
-            <p class="vision-panel__label">Last transcript</p>
-            <p class="vision-panel__body">{{ lastTranscript }}</p>
-          </div>
-        </section>
+        <VisionCanvasRenderer
+          v-if="response"
+          :response="response"
+          :display-blocks="displayBlocks"
+          :last-transcript="lastTranscript"
+          :can-confirm="canConfirm"
+          @choice="submitChoice"
+          @review-change="requestReviewChange"
+          @confirm-review="confirmReview"
+        />
       </transition>
     </main>
 
-    <transition name="vision-composer-fade">
-      <section v-if="promptComposerVisible" class="vision-composer">
-        <div class="vision-composer__header">
-          <div>
-            <p class="vision-surface__eyebrow">Prompt dock</p>
-            <h2>{{ currentSlotLabel || "Speak or type the next turn" }}</h2>
-          </div>
-          <div class="vision-composer__header-actions">
-            <button type="button" class="vision-composer__ghost" @click="resetConversation">New task</button>
-            <button type="button" class="vision-composer__ghost" @click="closeComposer">Hide</button>
-          </div>
-        </div>
-
-        <textarea
-          v-model="inputText"
-          class="vision-composer__input"
-          rows="3"
-          :placeholder="currentPlaceholder"
-          @focus="openComposer"
-        ></textarea>
-
-        <div class="vision-composer__actions">
-          <button
-            type="button"
-            class="vision-composer__action"
-            :disabled="!voiceEnabled || !speechToTextEnabled || !speechRecognitionSupported"
-            @click="startListening"
-          >
-            Mic
-          </button>
-          <button
-            type="button"
-            class="vision-composer__action"
-            :disabled="!response || !voiceEnabled || !textToSpeechEnabled || !speechSynthesisSupported"
-            @click="speakSummary"
-          >
-            Speak
-          </button>
-          <button
-            type="button"
-            class="vision-composer__action vision-composer__action--primary"
-            :disabled="!canSend"
-            @click="submitPrompt"
-          >
-            Send
-          </button>
-          <button
-            type="button"
-            class="vision-composer__action"
-            :disabled="voiceState !== 'listening'"
-            @click="() => stopListening()"
-          >
-            Stop mic
-          </button>
-          <button
-            type="button"
-            class="vision-composer__action"
-            :disabled="voiceState !== 'speaking'"
-            @click="stopSpeaking"
-          >
-            Stop audio
-          </button>
-        </div>
-
-        <p class="vision-surface__status-text">{{ speechStatusLabel }}</p>
-      </section>
-    </transition>
-
-    <button
-      v-if="!promptComposerVisible"
-      type="button"
-      class="vision-composer-launcher"
-      @click="openComposer"
-    >
-      Ask agent
-    </button>
+    <VisionPromptDock
+      :visible="promptComposerVisible"
+      :current-slot-label="currentSlotLabel"
+      :current-field-kind="currentFieldKind"
+      :current-placeholder="currentPlaceholder"
+      :input-text="inputText"
+      :voice-enabled="voiceEnabled"
+      :speech-to-text-enabled="speechToTextEnabled"
+      :text-to-speech-enabled="textToSpeechEnabled"
+      :speech-recognition-supported="speechRecognitionSupported"
+      :speech-synthesis-supported="speechSynthesisSupported"
+      :has-response="!!response"
+      :speech-status-label="speechStatusLabel"
+      :can-send="canSend"
+      :voice-state="voiceState"
+      @update:input-text="updateInputText"
+      @submit="submitPrompt"
+      @start-listening="startListening"
+      @stop-listening="stopListening"
+      @speak-summary="speakSummary"
+      @stop-speaking="stopSpeaking"
+      @reset="resetConversation"
+      @cancel="cancelConversation"
+      @open="openComposer"
+      @close="closeComposer"
+    />
 
     <div v-if="isLoading" class="vision-surface__loading">Loading adaptive canvas...</div>
     <div v-else-if="error" class="vision-surface__loading vision-surface__loading--error">{{ error }}</div>
@@ -343,85 +308,6 @@ useMountedAsync(init)
   text-align: center;
 }
 
-.vision-agent {
-  position: relative;
-  width: min(25rem, 76vw);
-  aspect-ratio: 1;
-  display: grid;
-  place-items: center;
-}
-
-.vision-agent__halo,
-.vision-agent__ring,
-.vision-agent__pulse,
-.vision-agent__core {
-  position: absolute;
-  border-radius: 50%;
-}
-
-.vision-agent__halo {
-  inset: 8%;
-  background: radial-gradient(circle, rgba(118, 190, 255, 0.32), rgba(118, 190, 255, 0.06) 48%, transparent 70%);
-  filter: blur(10px);
-  animation: halo-breathe 9s ease-in-out infinite;
-}
-
-.vision-agent__ring {
-  inset: 12%;
-  border: 1px solid rgba(24, 36, 47, 0.08);
-}
-
-.vision-agent__ring--outer {
-  animation: rotate-slow 18s linear infinite;
-}
-
-.vision-agent__ring--middle {
-  inset: 21%;
-  border-style: dashed;
-  animation: rotate-reverse 14s linear infinite;
-}
-
-.vision-agent__ring--inner {
-  inset: 31%;
-  border-color: rgba(255, 153, 112, 0.24);
-  animation: pulse-ring 7s ease-in-out infinite;
-}
-
-.vision-agent__pulse {
-  inset: 28%;
-  background: radial-gradient(circle, rgba(255, 175, 132, 0.18), rgba(125, 195, 255, 0.08) 58%, transparent 76%);
-  animation: pulse-core 5.5s ease-in-out infinite;
-}
-
-.vision-agent__core {
-  inset: 38%;
-  background: linear-gradient(145deg, #fff4ed 0%, #e6f5ff 100%);
-  box-shadow:
-    0 0 0 1px rgba(24, 36, 47, 0.06),
-    0 24px 60px rgba(77, 130, 168, 0.2),
-    inset 0 0 32px rgba(255, 255, 255, 0.9);
-}
-
-.vision-agent--listening .vision-agent__core {
-  box-shadow:
-    0 0 0 1px rgba(24, 36, 47, 0.06),
-    0 28px 72px rgba(255, 160, 122, 0.26),
-    inset 0 0 38px rgba(255, 255, 255, 0.95);
-}
-
-.vision-agent--processing .vision-agent__ring--outer,
-.vision-agent--processing .vision-agent__ring--middle {
-  animation-duration: 7s;
-}
-
-.vision-agent--review .vision-agent__core {
-  background: linear-gradient(145deg, #fff8f0 0%, #f3fbff 100%);
-}
-
-.vision-agent--blocked .vision-agent__core {
-  background: linear-gradient(145deg, #fff0ef 0%, #fff8f7 100%);
-}
-
 .vision-surface__intro {
   max-width: 42rem;
 }
@@ -459,244 +345,85 @@ useMountedAsync(init)
   color: #b24747 !important;
 }
 
-.vision-panel {
-  width: min(60rem, 100%);
+.vision-choice-list--recent {
   display: grid;
-  gap: 1rem;
-  padding: 1.2rem;
-  border-radius: 2rem;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(24, 36, 47, 0.06);
-  box-shadow: 0 32px 80px rgba(24, 36, 47, 0.08);
-  backdrop-filter: blur(20px);
-  text-align: left;
-}
-
-.vision-panel__section {
-  display: grid;
-  gap: 0.55rem;
-}
-
-.vision-panel__section--warning {
-  padding: 0.9rem 1rem;
-  border-radius: 1.2rem;
-  background: rgba(255, 244, 229, 0.9);
-}
-
-.vision-panel__section--field {
-  padding: 0.9rem 1rem;
-  border-radius: 1.2rem;
-  background: rgba(244, 249, 255, 0.88);
-}
-
-.vision-panel__section--success {
-  padding: 0.9rem 1rem;
-  border-radius: 1.2rem;
-  background: rgba(237, 250, 241, 0.95);
-}
-
-.vision-panel__label {
-  margin: 0;
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(24, 36, 47, 0.44);
-}
-
-.vision-panel__body {
-  margin: 0;
-  color: rgba(24, 36, 47, 0.74);
-}
-
-.vision-slot-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-  gap: 0.8rem;
-}
-
-.vision-choice-list {
-  display: flex;
-  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: 0.7rem;
+  width: 100%;
+  margin-top: 1rem;
 }
 
-.vision-choice-chip {
+.vision-recent-group {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.vision-recent-group__title {
+  margin: 0;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(24, 36, 47, 0.44) !important;
+}
+
+.vision-choice-chip--recent {
   appearance: none;
+  display: grid;
+  gap: 0.4rem;
+  justify-items: flex-start;
+  width: 100%;
   border: 1px solid rgba(24, 36, 47, 0.08);
-  border-radius: 999px;
-  padding: 0.65rem 0.95rem;
-  background: rgba(255, 255, 255, 0.92);
+  border-radius: 1.3rem;
+  padding: 0.95rem 1rem;
+  background: rgba(255, 255, 255, 0.9);
   color: #18242f;
+  text-align: left;
   cursor: pointer;
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
 
-.vision-choice-chip:hover {
+.vision-choice-chip--recent:hover {
   transform: translateY(-1px);
   box-shadow: 0 10px 24px rgba(24, 36, 47, 0.08);
 }
 
-.vision-slot-card {
-  border-radius: 1.2rem;
-  padding: 0.95rem 1rem;
-  background: rgba(248, 250, 252, 0.9);
-  border: 1px solid rgba(24, 36, 47, 0.05);
+.vision-choice-chip--active {
+  background: rgba(255, 255, 255, 0.94);
 }
 
-.vision-slot-card__label {
-  display: block;
-  margin-bottom: 0.35rem;
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: rgba(24, 36, 47, 0.46);
+.vision-choice-chip--completed {
+  background: rgba(249, 250, 251, 0.9);
 }
 
-.vision-slot-card__value {
-  margin: 0;
-  color: #18242f;
+.vision-choice-chip--stale {
+  border-color: rgba(202, 144, 73, 0.28);
 }
 
-.vision-review h2 {
-  margin: 0;
-  font-size: 1.4rem;
-  letter-spacing: -0.03em;
-}
-
-.vision-review p {
-  margin: 0;
-  color: rgba(24, 36, 47, 0.74);
-}
-
-.vision-review__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  gap: 0.8rem;
-  margin: 0;
-}
-
-.vision-review__grid dt {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: rgba(24, 36, 47, 0.46);
-}
-
-.vision-review__grid dd {
-  margin: 0.35rem 0 0;
-  color: #18242f;
-}
-
-.vision-review__actions {
-  display: flex;
-  gap: 0.7rem;
-  margin-top: 0.2rem;
-}
-
-.vision-composer {
-  position: fixed;
-  left: 50%;
-  bottom: 1.2rem;
-  z-index: 2;
-  width: min(56rem, calc(100vw - 1.4rem));
-  transform: translateX(-50%);
-  border-radius: 2rem;
-  padding: 1.1rem;
-  background: rgba(255, 255, 255, 0.86);
-  border: 1px solid rgba(24, 36, 47, 0.08);
-  box-shadow: 0 28px 80px rgba(24, 36, 47, 0.12);
-  backdrop-filter: blur(24px);
-}
-
-.vision-composer__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.9rem;
-}
-
-.vision-composer__header h2 {
-  margin: 0;
-  font-size: 1.05rem;
-  letter-spacing: -0.02em;
-}
-
-.vision-composer__header-actions {
-  display: flex;
-  gap: 0.55rem;
-}
-
-.vision-composer__ghost,
-.vision-composer__action,
-.vision-composer-launcher {
-  appearance: none;
-  border: 0;
-  border-radius: 999px;
-  padding: 0.72rem 1rem;
-  font: inherit;
-  cursor: pointer;
-  transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
-}
-
-.vision-composer__ghost,
-.vision-composer__action {
-  background: rgba(24, 36, 47, 0.06);
-  color: #18242f;
-}
-
-.vision-composer__action--primary {
-  background: linear-gradient(135deg, #ff9d73 0%, #7fcbff 100%);
-  color: #10202c;
-}
-
-.vision-composer__ghost:hover,
-.vision-composer__action:hover,
-.vision-composer-launcher:hover {
-  transform: translateY(-1px);
-}
-
-.vision-composer__action:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
+.vision-choice-chip--recent:disabled {
+  cursor: default;
+  opacity: 0.8;
   transform: none;
+  box-shadow: none;
 }
 
-.vision-composer__input {
-  width: 100%;
-  min-height: 7.5rem;
-  resize: vertical;
-  border: 0;
-  outline: none;
-  border-radius: 1.4rem;
-  padding: 1rem 1.1rem;
-  background: rgba(248, 250, 252, 0.92);
+.vision-recent-task__stage {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(24, 36, 47, 0.46);
+}
+
+.vision-recent-task__title {
+  font-size: 0.98rem;
+  font-weight: 600;
   color: #18242f;
-  box-shadow: inset 0 0 0 1px rgba(24, 36, 47, 0.06);
 }
 
-.vision-composer__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  margin-top: 0.9rem;
-}
-
-.vision-surface__status-text {
-  margin: 0.9rem 0 0;
-  font-size: 0.92rem;
-  color: rgba(24, 36, 47, 0.58);
-}
-
-.vision-composer-launcher {
-  position: fixed;
-  left: 50%;
-  bottom: 1.25rem;
-  z-index: 2;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.9);
-  color: #18242f;
-  box-shadow: 0 22px 64px rgba(24, 36, 47, 0.1);
+.vision-recent-task__progress {
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: rgba(24, 36, 47, 0.66);
 }
 
 .vision-surface__loading {
@@ -718,61 +445,20 @@ useMountedAsync(init)
 
 .vision-panel-fade-enter-active,
 .vision-panel-fade-leave-active,
-.vision-composer-fade-enter-active,
-.vision-composer-fade-leave-active {
-  transition: opacity 220ms ease, transform 220ms ease;
-}
-
 .vision-panel-fade-enter-from,
-.vision-panel-fade-leave-to,
-.vision-composer-fade-enter-from,
-.vision-composer-fade-leave-to {
+.vision-panel-fade-leave-to {
   opacity: 0;
   transform: translateY(10px);
 }
 
-@keyframes rotate-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes rotate-reverse {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
-}
-
-@keyframes halo-breathe {
-  0%, 100% { transform: scale(0.96); opacity: 0.72; }
-  50% { transform: scale(1.04); opacity: 1; }
-}
-
-@keyframes pulse-ring {
-  0%, 100% { transform: scale(0.96); opacity: 0.45; }
-  50% { transform: scale(1.04); opacity: 0.9; }
-}
-
-@keyframes pulse-core {
-  0%, 100% { transform: scale(0.95); opacity: 0.72; }
-  50% { transform: scale(1.03); opacity: 1; }
-}
-
 @media (max-width: 720px) {
-  .vision-surface__header,
-  .vision-composer__header {
+  .vision-surface__header {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .vision-surface__chips,
-  .vision-composer__header-actions,
-  .vision-composer__actions {
+  .vision-surface__chips {
     width: 100%;
-  }
-
-  .vision-composer {
-    bottom: 0.75rem;
-    width: calc(100vw - 0.9rem);
-    border-radius: 1.5rem;
   }
 
   .vision-surface__stage {

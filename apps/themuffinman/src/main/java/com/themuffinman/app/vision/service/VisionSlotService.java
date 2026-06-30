@@ -1,6 +1,7 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.vision.model.VisionConversation;
+import com.themuffinman.app.vision.model.VisionReviewTarget;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,6 +16,16 @@ import java.util.regex.Pattern;
 public class VisionSlotService {
 
     private static final Pattern AMOUNT_PATTERN = Pattern.compile("(?<!\\d)(\\d{1,5}(?:[.,]\\d{1,2})?)(?!\\d)");
+    private final VisionScheduleParserService visionScheduleParserService;
+    private final VisionLocationResolutionService visionLocationResolutionService;
+
+    public VisionSlotService(
+            VisionScheduleParserService visionScheduleParserService,
+            VisionLocationResolutionService visionLocationResolutionService
+    ) {
+        this.visionScheduleParserService = visionScheduleParserService;
+        this.visionLocationResolutionService = visionLocationResolutionService;
+    }
 
     public Map<String, String> mergeCreateQuestSlots(VisionConversation conversation, String normalizedPrompt) {
         Map<String, String> merged = new LinkedHashMap<>(conversation.getSlotData());
@@ -31,15 +42,53 @@ public class VisionSlotService {
             if (visibility != null) {
                 merged.put("visibility", visibility);
             }
+        } else if ("schedule_mode".equals(requestedSlot)) {
+            applyScheduleModeAnswer(merged, normalizedPrompt);
+        } else if ("scheduled_at".equals(requestedSlot)) {
+            applyScheduledAtAnswer(merged, normalizedPrompt);
+        } else if ("location_mode".equals(requestedSlot)) {
+            applyLocationModeAnswer(merged, normalizedPrompt, actorKeyForConversation(conversation));
+        } else if ("location_label".equals(requestedSlot)) {
+            applyLocationLabelAnswer(merged, normalizedPrompt, actorKeyForConversation(conversation));
+        } else if ("location_candidate_confirmation".equals(requestedSlot)) {
+            applyLocationCandidateConfirmation(merged, normalizedPrompt);
         } else {
-            autoFillCreateQuestSlots(merged, normalizedPrompt);
+            autoFillCreateQuestSlots(merged, normalizedPrompt, actorKeyForConversation(conversation));
         }
 
         cleanupEmptyValues(merged);
         return merged;
     }
 
-    private void autoFillCreateQuestSlots(Map<String, String> merged, String normalizedPrompt) {
+    public void prepareForReviewEdit(Map<String, String> slotData, VisionReviewTarget reviewTarget) {
+        if (slotData == null || reviewTarget == null) {
+            return;
+        }
+
+        String slotId = reviewTarget.getSlotId();
+
+        switch (slotId) {
+            case "reward_amount" -> {
+                slotData.remove("reward_amount");
+                slotData.remove("free_quest");
+            }
+            case "schedule_mode" -> {
+                slotData.remove("schedule_mode");
+                slotData.remove("scheduled_at");
+            }
+            case "location_mode" -> {
+                slotData.remove("location_mode");
+                slotData.remove("location_label");
+                slotData.remove("location_resolution_status");
+                slotData.remove("location_resolution_provider");
+                clearPendingLocationCandidate(slotData);
+                slotData.remove("location_candidate_confirmation");
+            }
+            default -> slotData.remove(slotId);
+        }
+    }
+
+    private void autoFillCreateQuestSlots(Map<String, String> merged, String normalizedPrompt, String actorKey) {
         String prompt = normalizedPrompt.trim();
         if (isGenericCreateQuestCommand(prompt)) {
             return;
@@ -64,6 +113,22 @@ public class VisionSlotService {
             if (visibility != null) {
                 merged.put("visibility", visibility);
             }
+        }
+
+        if (!merged.containsKey("schedule_mode")) {
+            applyScheduleModeAnswer(merged, prompt);
+        }
+
+        if ("fixed".equals(merged.get("schedule_mode")) && !merged.containsKey("scheduled_at")) {
+            applyScheduledAtAnswer(merged, prompt);
+        }
+
+        if (!merged.containsKey("location_mode")) {
+            applyLocationModeAnswer(merged, prompt, actorKey);
+        }
+
+        if ("custom".equals(merged.get("location_mode")) && !merged.containsKey("location_label")) {
+            applyLocationLabelAnswer(merged, prompt, actorKey);
         }
     }
 
@@ -92,6 +157,225 @@ public class VisionSlotService {
             return "CIRCLES";
         }
         return null;
+    }
+
+    private void applyScheduleModeAnswer(Map<String, String> merged, String normalizedPrompt) {
+        String scheduleMode = extractScheduleMode(normalizedPrompt);
+        if (scheduleMode == null) {
+            return;
+        }
+
+        merged.put("schedule_mode", scheduleMode);
+        if ("agreement".equals(scheduleMode)) {
+            merged.remove("scheduled_at");
+        } else {
+            applyScheduledAtAnswer(merged, normalizedPrompt);
+        }
+    }
+
+    private void applyScheduledAtAnswer(Map<String, String> merged, String normalizedPrompt) {
+        String scheduledAt = extractScheduledAt(normalizedPrompt);
+        if (scheduledAt != null) {
+            merged.put("scheduled_at", scheduledAt);
+        }
+    }
+
+    private void applyLocationModeAnswer(Map<String, String> merged, String normalizedPrompt, String actorKey) {
+        String locationMode = extractLocationMode(normalizedPrompt);
+        if (locationMode == null) {
+            return;
+        }
+
+        merged.put("location_mode", locationMode);
+        if (!"custom".equals(locationMode)) {
+            merged.remove("location_label");
+            merged.remove("location_resolution_status");
+            merged.remove("location_resolution_provider");
+            merged.remove("location_candidate_confirmation");
+            clearPendingLocationCandidate(merged);
+            return;
+        }
+
+        String locationLabel = deriveLocationLabel(normalizedPrompt);
+        if (locationLabel != null) {
+            applyLocationLabelAnswer(merged, locationLabel, actorKey);
+        }
+    }
+
+    private void applyLocationLabelAnswer(Map<String, String> merged, String normalizedPrompt, String actorKey) {
+        String locationLabel = deriveLocationLabel(normalizedPrompt);
+        if (locationLabel == null) {
+            return;
+        }
+
+        Map<String, String> parsedLocation = visionLocationResolutionService.resolveCustomLocation(locationLabel, actorKey);
+        clearPendingLocationCandidate(merged);
+        merged.remove("location_candidate_confirmation");
+        merged.putAll(parsedLocation);
+    }
+
+    private void applyLocationCandidateConfirmation(Map<String, String> merged, String normalizedPrompt) {
+        String decision = extractLocationCandidateDecision(normalizedPrompt);
+        if (decision == null) {
+            return;
+        }
+
+        if ("resolved".equals(decision)) {
+            String candidateKey = extractLocationCandidateKey(merged, normalizedPrompt);
+            if (candidateKey == null) {
+                return;
+            }
+            visionLocationResolutionService.confirmPendingCandidate(merged, candidateKey);
+        } else if ("typed".equals(decision)) {
+            visionLocationResolutionService.keepTypedLocation(merged);
+        }
+        merged.put("location_candidate_confirmation", decision);
+    }
+
+    private String actorKeyForConversation(VisionConversation conversation) {
+        if (conversation == null || conversation.getOwner() == null || conversation.getOwner().getId() == null) {
+            return "system:vision";
+        }
+        return "vision:user:" + conversation.getOwner().getId();
+    }
+
+    private String extractScheduleMode(String normalizedPrompt) {
+        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        if (containsAny(lower, "agreement", "arrange", "flexible", "any time", "anytime", "dogovor", "po dogovoru")) {
+            return "agreement";
+        }
+        if (visionScheduleParserService.suggestsFixedSchedule(normalizedPrompt)) {
+            return "fixed";
+        }
+        return null;
+    }
+
+    private String extractScheduledAt(String normalizedPrompt) {
+        return visionScheduleParserService.extractScheduledAt(normalizedPrompt);
+    }
+
+    private String extractLocationMode(String normalizedPrompt) {
+        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        if (containsAny(lower, "hide", "hidden", "off", "no location", "without location")) {
+            return "off";
+        }
+        if (containsAny(lower, "profile", "my location", "use my location", "saved location")) {
+            return "profile";
+        }
+        if (containsAny(lower, "custom", "different place", "other place", "address", "at ")) {
+            return "custom";
+        }
+        return null;
+    }
+
+    private String deriveLocationLabel(String prompt) {
+        String cleaned = prompt
+                .replaceAll("(?i)^custom\\s+", "")
+                .replaceAll("(?i)^custom place\\s+", "")
+                .replaceAll("(?i)^custom address\\s+", "")
+                .replaceAll("(?i)^address\\s+", "")
+                .replaceAll("(?i)^at\\s+", "")
+                .trim();
+        String normalized = cleaned.toLowerCase(Locale.ROOT);
+        if (cleaned.isBlank()
+                || normalized.equals("custom")
+                || normalized.equals("place")
+                || normalized.equals("address")
+                || normalized.equals("custom place")
+                || normalized.equals("custom address")) {
+            return null;
+        }
+        return cleaned;
+    }
+
+    private String extractLocationCandidateDecision(String normalizedPrompt) {
+        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        if (lower.matches(".*\\bcandidate\\s+[1-3]\\b.*") || lower.matches(".*\\boption\\s+[1-3]\\b.*")) {
+            return "resolved";
+        }
+        if (containsAny(
+                lower,
+                "use resolved",
+                "resolved place",
+                "use matched",
+                "use suggested",
+                "use lookup",
+                "yes",
+                "yeah",
+                "yep",
+                "sure",
+                "ok",
+                "okay",
+                "that one",
+                "use that",
+                "sounds good",
+                "correct",
+                "da"
+        )) {
+            return "resolved";
+        }
+        if (containsAny(
+                lower,
+                "keep typed",
+                "keep my text",
+                "keep typed location",
+                "use typed",
+                "keep original",
+                "keep mine",
+                "my location",
+                "my text",
+                "no",
+                "nope",
+                "ne",
+                "zadrzi",
+                "zadrži"
+        )) {
+            return "typed";
+        }
+        return null;
+    }
+
+    private String extractLocationCandidateKey(Map<String, String> slotData, String normalizedPrompt) {
+        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        Matcher matcher = Pattern.compile("\\b(?:candidate|option)\\s+([1-3])\\b").matcher(lower);
+        if (matcher.find()) {
+            return "pending_location_candidate_" + matcher.group(1);
+        }
+        if ("1".equals(slotData.get("pending_location_candidate_count"))) {
+            return "pending_location_candidate_1";
+        }
+        if (containsAny(
+                lower,
+                "use resolved",
+                "resolved place",
+                "use matched",
+                "use suggested",
+                "use lookup",
+                "yes",
+                "yeah",
+                "yep",
+                "sure",
+                "ok",
+                "okay",
+                "that one",
+                "use that",
+                "sounds good",
+                "correct",
+                "da"
+        )) {
+            return "pending_location_candidate_1";
+        }
+        return null;
+    }
+
+    private void clearPendingLocationCandidate(Map<String, String> slotData) {
+        slotData.remove("pending_location_label");
+        slotData.remove("pending_location_country_code");
+        slotData.remove("pending_location_country");
+        slotData.remove("pending_location_locality");
+        slotData.remove("pending_location_postal_code");
+        slotData.remove("pending_location_street");
+        slotData.remove("pending_location_house_number");
     }
 
     private String deriveTitleFromPrompt(String prompt) {

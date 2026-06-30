@@ -125,9 +125,13 @@ service_workflow_inventory:
   service_class: com.themuffinman.app.vision.service.VisionConversationService
   service_methods:
   - processTurn
+  - resetConversation
+  - cancelConversation
   - handleCreateQuestReviewTurn
   covered_intents:
   - process_vision_conversation_turn
+  - reset_vision_conversation
+  - cancel_vision_conversation
   automation_relevant: true
   source_refs:
   - vision_conversation_service

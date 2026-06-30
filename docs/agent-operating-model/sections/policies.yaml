@@ -154,6 +154,8 @@ policies:
       - temporary plan or master child plan exists
       - scope, risk, affected surfaces, and expected validation are listed
       - approval needs are front-loaded before autonomous work begins
+      - when AGENTS.md records a standing autonomous continuation preference, safe offered follow-up slices continue without waiting for option-selection input
+      - when AGENTS.md records the standing follow-up capture preference, discovered safe improvements and repeated failure patterns are recorded during the active slice instead of being left to memory
       completion_rule: Do not start substantial edits until the slice has a concrete
         plan and validation target.
     - id: first_backend_slice

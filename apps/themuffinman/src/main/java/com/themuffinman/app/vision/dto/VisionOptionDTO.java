@@ -14,4 +14,5 @@ import lombok.Setter;
 public class VisionOptionDTO {
     private String id;
     private String label;
+    private String value;
 }
