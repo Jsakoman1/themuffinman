@@ -203,13 +203,22 @@ module ReadSurfaceInventory
     lines << "- Transaction-relevant read surfaces: `#{report[:transaction_relevant_read_surface_count]}`"
     lines << "- Missing explicit or inherited read-only coverage: `#{report[:missing_read_only_transaction_count]}`"
     lines << ""
-    report[:read_surfaces].group_by { |entry| entry[:service] }.sort.each do |service, entries|
-      lines << "## `#{service}`"
-      lines << ""
-      entries.each do |entry|
-        lines << "- `#{entry[:method]}` -> `#{entry[:return_type]}` | tx=`#{entry[:transaction_source]}` | relevant=`#{entry[:transaction_relevant]}` | repos=#{format_inline(entry[:repositories])} | dto=#{format_inline(entry[:dto_types])}"
+    grouped = report[:read_surfaces].group_by { |entry| entry[:service] }.sort_by { |service, entries| [-entries.size, service] }
+    lines << "## Top services"
+    lines << ""
+    grouped.first(8).each do |service, entries|
+      lines << "- `#{service}`: `#{entries.size}` surfaces, tx-relevant=`#{entries.count { |entry| entry[:transaction_relevant] }}`"
+      entries.first(3).each do |entry|
+        lines << "  - `#{entry[:method]}` -> `#{entry[:return_type]}` | tx=`#{entry[:transaction_source]}` | repos=#{format_inline(entry[:repositories])} | dto=#{format_inline(entry[:dto_types])}"
       end
-      lines << ""
+    end
+    remaining = grouped.size - 8
+    lines << "- ... #{remaining} more services" if remaining.positive?
+    lines << ""
+    lines << "## Read surface sample"
+    lines << ""
+    report[:read_surfaces].first(10).each do |entry|
+      lines << "- `#{entry[:service]}.#{entry[:method]}` -> `#{entry[:return_type]}` | tx=`#{entry[:transaction_source]}` | relevant=`#{entry[:transaction_relevant]}`"
     end
     lines.join("\n")
   end

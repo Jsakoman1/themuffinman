@@ -15,11 +15,13 @@ if [[ ! -f "$manifest_path" ]]; then
   exit 1
 fi
 
-ruby -ryaml - "$repo_root" "$manifest_arg" <<'RUBY'
+ruby -rjson -ryaml - "$repo_root" "$manifest_arg" <<'RUBY'
 repo_root = ARGV.fetch(0)
 manifest_arg = ARGV.fetch(1)
 manifest_path = File.join(repo_root, manifest_arg)
 manifest = YAML.load_file(manifest_path)
+validation_memory_path = File.join(repo_root, "docs/validation-memory.json")
+validation_memory = File.exist?(validation_memory_path) ? JSON.parse(File.read(validation_memory_path)) : {}
 errors = []
 
 def list(value)
@@ -40,6 +42,10 @@ end
 
 def require_passed_command(manifest, errors, pattern, description)
   errors << "missing passed validation evidence for #{description}" unless passed_command?(manifest, pattern)
+end
+
+def require_passed_command_exact(manifest, errors, command, description)
+  errors << "missing passed validation evidence for #{description}: #{command}" unless passed_command?(manifest, /\A#{Regexp.escape(command)}\z/)
 end
 
 def require_bool(manifest, errors, key)
@@ -105,29 +111,51 @@ if status == "complete"
     end
   end
 
-  require_passed_command(manifest, errors, /make audit-todo/, "make audit-todo")
+  closeout_commands = list(validation_memory.dig("canonicalCommands", "closeout"))
+  frontend_contract_commands = list(validation_memory.dig("canonicalCommands", "frontendContract"))
+  backend_logic_commands = list(validation_memory.dig("canonicalCommands", "backendLogic"))
+  agent_contract_commands = list(validation_memory.dig("canonicalCommands", "agentContract"))
+  workflow_expansion_commands = list(validation_memory.dig("canonicalCommands", "workflowExpansion"))
+
+  require_passed_command_exact(manifest, errors, closeout_commands.first || "make audit-todo", "make audit-todo")
   if checklist["backendTestsPassed"] == true || profiles.include?("backend-logic")
-    require_passed_command(manifest, errors, %r{(\./mvnw test|mvnw .* test|make audit-agent-safety)}, "backend test coverage")
+    allowed_backend_patterns = backend_logic_commands.map { |command| /\A#{Regexp.escape(command)}\z/ }
+    has_backend_evidence = allowed_backend_patterns.any? { |pattern| passed_command?(manifest, pattern) } ||
+      passed_command?(manifest, %r{(\./mvnw test|mvnw .* test|make audit-agent-safety)})
+    errors << "missing passed validation evidence for backend test coverage" unless has_backend_evidence
   end
   if checklist["frontendValidationPassed"] == true || profiles.include?("frontend-contract")
     require_bool(manifest, errors, "frontendValidationPassed")
-    require_passed_command(manifest, errors, /npm run type-check/, "frontend type-check")
-    require_passed_command(manifest, errors, /npm run build/, "frontend build")
+    frontend_contract_commands.each do |command|
+      require_passed_command_exact(manifest, errors, command, "frontend contract validation")
+    end
   end
   if %w[high executor-critical].include?(risk_tier)
     require_passed_command(manifest, errors, /make audit-agent-safety/, "high-risk agent safety audit")
   end
   if profiles.include?("agent-contract")
-    require_passed_command(manifest, errors, /make audit-agent-safety/, "agent-contract safety audit")
-    require_passed_command(manifest, errors, /make generate-agent-(operating-model|artifacts)/, "agent-contract generated model or artifacts")
+    if agent_contract_commands.any?
+      require_passed_command_exact(manifest, errors, "make audit-agent-safety", "agent-contract safety audit")
+      has_agent_generator = agent_contract_commands.any? do |command|
+        command.start_with?("make generate-agent-") && passed_command?(manifest, /\A#{Regexp.escape(command)}\z/)
+      end
+      errors << "missing passed validation evidence for agent-contract generated model or artifacts" unless has_agent_generator
+    else
+      require_passed_command(manifest, errors, /make audit-agent-safety/, "agent-contract safety audit")
+      require_passed_command(manifest, errors, /make generate-agent-(operating-model|artifacts)/, "agent-contract generated model or artifacts")
+    end
   end
   if profiles.include?("frontend-contract")
-    require_passed_command(manifest, errors, /npm run validate:contracts/, "frontend contract validation")
-    require_passed_command(manifest, errors, /npm run type-check/, "frontend-contract type-check")
-    require_passed_command(manifest, errors, /npm run build/, "frontend-contract build")
+    frontend_contract_commands.each do |command|
+      require_passed_command_exact(manifest, errors, command, "frontend contract validation")
+    end
   end
   if profiles.include?("workflow-expansion")
-    require_passed_command(manifest, errors, /(ScenarioTest|UseCaseContractTest)/, "workflow scenario or use-case contract test")
+    if workflow_expansion_commands.any?
+      require_passed_command_exact(manifest, errors, workflow_expansion_commands.first, "workflow scenario or use-case contract test")
+    else
+      require_passed_command(manifest, errors, /(ScenarioTest|UseCaseContractTest)/, "workflow scenario or use-case contract test")
+    end
   end
 end
 
@@ -164,4 +192,5 @@ end
 puts "Feature close-out audit passed"
 RUBY
 
+ruby "$repo_root/scripts/audits/audit-validation-memory-drift.rb"
 ruby "$repo_root/scripts/todo-audit.rb" --manifest "$manifest_arg"

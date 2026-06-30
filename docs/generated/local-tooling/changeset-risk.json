@@ -1,125 +1,74 @@
 {
-  "generated_at": "2026-06-29T19:54:42Z",
-  "changed_file_count": 123,
-  "score": 94,
-  "risk_tier": "high",
+  "generated_at": "2026-06-30T11:00:37Z",
+  "changed_file_count": 174,
+  "score": 28,
+  "risk_tier": "medium",
   "factors": [
     {
-      "id": "controller_contract_change",
-      "weight": 20,
-      "file_count": 5,
-      "files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java"
-      ],
-      "reason": "Controller mappings can change endpoint contracts."
-    },
-    {
-      "id": "dto_or_model_contract_change",
-      "weight": 18,
-      "file_count": 39,
-      "files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponse.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequest.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequest.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipAction.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipUpdateDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatus.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSearchResultDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedAction.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationType.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedAction.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionAction.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPreset.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationType.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestPresentationDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelation.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java"
-      ],
-      "reason": "DTO/model changes can affect API, frontend, persistence, or automation contracts."
-    },
-    {
-      "id": "service_workflow_or_permission_logic",
-      "weight": 18,
-      "file_count": 10,
-      "files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPresentationAssembler.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java"
-      ],
-      "reason": "Service changes mention workflow, permission, validation, state, or visibility logic."
-    },
-    {
-      "id": "frontend_contract_or_api_change",
+      "id": "agent_or_docs_contract_change",
       "weight": 12,
-      "file_count": 1,
+      "file_count": 3,
       "files": [
-        "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts"
+        "docs/agent-operating-model.md",
+        "docs/change-completion-checklist.md",
+        "docs/documentation-sync-policy.md"
       ],
-      "reason": "Frontend API/contract surfaces can drift from backend contracts."
+      "reason": "Agent operating docs and sync policies affect automation safety."
     },
     {
       "id": "generated_artifact_churn",
       "weight": 10,
-      "file_count": 17,
+      "file_count": 126,
       "files": [
-        "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
-        "docs/generated/local-tooling/architecture-drift-summary.md",
-        "docs/generated/local-tooling/architecture-drift.json",
+        "docs/generated/local-tooling/.cache/audit-inputs.json",
+        "docs/generated/local-tooling/architecture-decision-index-summary.md",
+        "docs/generated/local-tooling/architecture-decision-index.json",
+        "docs/generated/local-tooling/audit-documentation-summary.md",
+        "docs/generated/local-tooling/audit-documentation.json",
+        "docs/generated/local-tooling/audit-router-summary.md",
+        "docs/generated/local-tooling/audit-router.json",
+        "docs/generated/local-tooling/audit-summary-index.json",
+        "docs/generated/local-tooling/audit-summary-index.md",
         "docs/generated/local-tooling/change-impact-preflight-summary.md",
         "docs/generated/local-tooling/change-impact-preflight.json",
+        "docs/generated/local-tooling/changeset-playbook-summary.md",
+        "docs/generated/local-tooling/changeset-playbook.json",
         "docs/generated/local-tooling/changeset-risk-summary.md",
         "docs/generated/local-tooling/changeset-risk.json",
-        "docs/generated/local-tooling/doc-template-coverage-summary.md",
-        "docs/generated/local-tooling/doc-template-coverage.json",
-        "docs/generated/local-tooling/manifest-decision-summary.md",
-        "docs/generated/local-tooling/manifest-decision.json",
-        "docs/generated/local-tooling/mapper-usage-audit-summary.md",
-        "docs/generated/local-tooling/mapper-usage-audit.json",
-        "docs/generated/local-tooling/naming-consistency-audit-summary.md",
-        "docs/generated/local-tooling/naming-consistency-audit.json",
-        "docs/generated/local-tooling/read-surface-inventory-summary.md",
-        "docs/generated/local-tooling/read-surface-inventory.json"
+        "docs/generated/local-tooling/codebase-capsule.json",
+        "docs/generated/local-tooling/codebase-capsule.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
+        "docs/generated/local-tooling/doc-canonical-phrases.json",
+        "docs/generated/local-tooling/doc-sync-duplicates-summary.md",
+        "docs/generated/local-tooling/doc-sync-duplicates.json",
+        "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+        "docs/generated/local-tooling/doc-sync-required-surfaces.json",
+        "docs/generated/local-tooling/duplicate-logic-audit-summary.md",
+        "docs/generated/local-tooling/duplicate-logic-audit.json"
       ],
       "reason": "Large generated artifact churn needs commit-scope review."
     },
     {
-      "id": "mixed_product_domains",
-      "weight": 10,
-      "file_count": 4,
-      "files": [
-        "identity",
-        "location",
-        "social",
-        "workmarket"
-      ],
-      "reason": "Multiple product domains in one changeset increase review scope."
-    },
-    {
       "id": "tooling_or_infrastructure_change",
       "weight": 6,
-      "file_count": 1,
+      "file_count": 16,
       "files": [
-        "scripts/bootstrap-feature-work.sh"
+        "scripts/audits/CodexJavaAstContext.java",
+        "scripts/audits/audit-change-impact-preflight.rb",
+        "scripts/audits/audit-doc-sync-duplicates.rb",
+        "scripts/audits/audit-duplicate-logic.rb",
+        "scripts/audits/audit-endpoint-callsite-linker.rb",
+        "scripts/audits/audit-frontend-route-surfaces.rb",
+        "scripts/audits/audit-frontend-state-logic-duplication.rb",
+        "scripts/audits/audit-generated-artifact-freshness.rb",
+        "scripts/audits/audit-generated-commit-scope.rb",
+        "scripts/audits/audit-permission-rule-duplication.rb",
+        "scripts/audits/audit-read-surface-inventory.rb",
+        "scripts/audits/audit-repository-fetch.rb",
+        "scripts/audits/codex_local_context_gateway.rb",
+        "scripts/audits/local_tooling_extended_tools.rb",
+        "scripts/audits/score-changeset-risk.rb",
+        "scripts/local_tooling_common.rb"
       ],
       "reason": "Tooling and infrastructure changes can affect validation behavior."
     }
@@ -127,7 +76,6 @@
   "recommended_commands": [
     "make audit-generated-commit-scope",
     "make audit-router",
-    "make audit-agent-safety",
     "make audit-generated-artifact-freshness"
   ]
 }

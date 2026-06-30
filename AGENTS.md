@@ -99,6 +99,8 @@ Planned modules:
     - `docs/agent-operating-model.yaml` for machine-readable workflow rules, dependencies, defaults, enums, and endpoint
       mappings
     - `docs/feature-delivery-workflow.md` for the canonical end-to-end feature delivery workflow from Codex prompt intake through planning, implementation, documentation sync, validation evidence, closeout audits, and final response
+    - `docs/validation-memory.md` and `docs/validation-memory.json` for canonical validator-facing commands, manifest evidence rules, and repeat closeout lessons that should be reused instead of rediscovered
+    - `docs/generated/local-tooling/validation-memory-closeout-card-summary.md` for the shortest generated closeout command reminder during manifest-backed finalization
     - `docs/agent-operating-model.schema.json` for validating the YAML structure
     - `docs/implementation-backlog.md` for persistent open implementation and product-delivery work that should survive
       across Codex sessions
@@ -108,8 +110,11 @@ Planned modules:
       under `.agents/feature-manifests/`
     - `docs/documentation-sync-policy.md` for change-propagation requirements across code, docs, and agent-safety
       artifacts
-    - `docs/change-completion-checklist.md` for the fast operational completion checklist layered on top of the policy
-      and operating-model rules
+- `docs/change-completion-checklist.md` for the fast operational completion checklist layered on top of the policy
+  and operating-model rules
+- For product-direction, UX, interaction-design, or Social Useful Network vision work, treat `docs/product-memory.md`
+  and `docs/product-vision.md` as the first canonical reference points before expanding into broader business or
+  technical docs.
 - For multi-file, multi-layer, or high-risk logical changes, create a temporary implementation plan in `.agents/` before
   substantial edits.
 - Read `AGENTS.md` first for every task.

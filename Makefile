@@ -1,6 +1,6 @@
 SHELL := /bin/zsh
 
-.PHONY: dev backend-dev backend-test backend-package backend-bootstrap-example generate-frontend-contracts validate-frontend-contracts audit-agent-safety audit-todo audit-validation-evidence-quality audit-plan-completion audit-generated-commit-scope changeset-risk audit-change-impact-preflight audit-read-surface-inventory audit-mapper-usage audit-generated-artifact-freshness audit-api-contract-drift audit-repository-fetch audit-endpoint-callsite-linker audit-frontend-route-surfaces audit-frontend-stale-surfaces audit-frontend-state-logic-duplication audit-duplicate-logic audit-permission-rule-duplication audit-frontend-dead-code audit-backend-dead-code audit-dead-code audit-state-transition-coverage audit-docs-to-code-drift audit-doc-staleness-scoring audit-architecture-drift architecture-decision-index audit-doc-coverage-gap audit-automation-readiness-gap audit-agent-model-feature-coverage audit-sandbox-generation-coverage audit-domain-ownership-inventory audit-config-sprawl audit-naming-consistency audit-dormant-code audit-manual-cleanup-candidate-report audit-file-relation-graph audit-test-surface-inventory audit-test-fixture-duplication audit-mutation-safety audit-docs-as-tests audit-error-pattern audit-rich-text-safety audit-async-mutation-flow audit-style-token-usage audit-feature-intro-check audit-make-target-index audit-documentation codex-context codex-context-explain codex-context-clean context-pack recommend-feature-slices recommend-targeted-tests audit-router repo-map symbol-index endpoint-contract-packs validation-matrix changeset-playbook resolve-manifest-path link-symbol-to-tests dto-usage-pack workflow-slice-pack plan-code-map rank-changeset-hotspots domain-pack recommend-validation-preset audit-delta-report audit-doc-sync-preflight audit-doc-sync-required-surfaces audit-doc-template-coverage audit-doc-sync-duplicates audit-migration-entity-drift audit-test-gap-recommendations audit-contract-test-gaps audit-frontend-usage-graph audit-backend-dependency-graph diff-summary session-handoff audit-summary-index generate-audit-registry-artifacts fast-check api-contract-snapshot audit-doc-canonical-phrases audit-sandbox-data-coverage-pack smoke-local-authenticated smoke-local-dashboard closeout-bundle closeout-report autofill-feature-closeout post-merge-retrospective failure-knowledge-base test-history-summary codebase-capsule diagnose-backend-test diagnose-frontend-type-check diagnose-frontend-build audit-local-tooling audit-local-tooling-incremental bootstrap-feature-work feature-closeout-audit enforce-feature-closeout record-validation audit-manifest-decision clean-text-noise generate-agent-operating-model generate-agent-artifacts
+.PHONY: dev backend-dev backend-test backend-package backend-bootstrap-example generate-frontend-contracts validate-frontend-contracts audit-agent-safety audit-todo audit-validation-evidence-quality audit-plan-completion audit-generated-commit-scope changeset-risk audit-change-impact-preflight audit-read-surface-inventory audit-mapper-usage audit-generated-artifact-freshness audit-api-contract-drift audit-repository-fetch audit-endpoint-callsite-linker audit-frontend-route-surfaces audit-frontend-stale-surfaces audit-frontend-state-logic-duplication audit-duplicate-logic audit-permission-rule-duplication audit-frontend-dead-code audit-backend-dead-code audit-dead-code audit-state-transition-coverage audit-docs-to-code-drift audit-doc-staleness-scoring audit-architecture-drift architecture-decision-index audit-doc-coverage-gap audit-automation-readiness-gap audit-agent-model-feature-coverage audit-sandbox-generation-coverage audit-domain-ownership-inventory audit-config-sprawl audit-naming-consistency audit-dormant-code audit-manual-cleanup-candidate-report audit-file-relation-graph audit-test-surface-inventory audit-test-fixture-duplication audit-mutation-safety audit-docs-as-tests audit-error-pattern audit-rich-text-safety audit-async-mutation-flow audit-style-token-usage audit-feature-intro-check audit-make-target-index audit-documentation codex-context codex-context-explain codex-context-clean context-pack recommend-feature-slices recommend-targeted-tests audit-router repo-map symbol-index endpoint-contract-packs validation-matrix changeset-playbook resolve-manifest-path link-symbol-to-tests dto-usage-pack workflow-slice-pack plan-code-map rank-changeset-hotspots domain-pack recommend-validation-preset audit-delta-report audit-doc-sync-preflight audit-doc-sync-required-surfaces audit-doc-template-coverage audit-doc-sync-duplicates audit-migration-entity-drift audit-test-gap-recommendations audit-contract-test-gaps audit-frontend-usage-graph audit-backend-dependency-graph diff-summary session-handoff audit-summary-index generate-audit-registry-artifacts fast-check api-contract-snapshot audit-doc-canonical-phrases audit-validation-memory-drift validation-memory-closeout-card audit-sandbox-data-coverage-pack smoke-local-authenticated smoke-local-dashboard closeout-bundle closeout-report autofill-feature-closeout post-merge-retrospective failure-knowledge-base test-history-summary codebase-capsule diagnose-backend-test diagnose-frontend-type-check diagnose-frontend-build audit-local-tooling audit-local-tooling-incremental bootstrap-feature-work feature-closeout-audit enforce-feature-closeout record-validation audit-manifest-decision clean-text-noise generate-agent-operating-model generate-agent-artifacts post-plan-memory-update
 
 dev:
 	$(MAKE) -C apps/themuffinman dev
@@ -26,6 +26,7 @@ validate-frontend-contracts:
 audit-agent-safety:
 	$(MAKE) -C apps/themuffinman audit-agent-safety
 	$(MAKE) audit-validation-evidence-quality
+	$(MAKE) audit-validation-memory-drift
 	$(MAKE) audit-todo
 
 audit-todo:
@@ -292,6 +293,12 @@ api-contract-snapshot:
 audit-doc-canonical-phrases:
 	ruby scripts/audits/audit-doc-canonical-phrases.rb
 
+audit-validation-memory-drift:
+	ruby scripts/audits/audit-validation-memory-drift.rb
+
+validation-memory-closeout-card:
+	ruby scripts/audits/generate-validation-memory-closeout-card.rb
+
 audit-sandbox-data-coverage-pack:
 	ruby scripts/audits/audit-sandbox-data-coverage-pack.rb
 
@@ -317,6 +324,17 @@ post-merge-retrospective:
 
 failure-knowledge-base:
 	ruby scripts/audits/update-failure-knowledge-base.rb source="$(source)"
+
+post-plan-memory-update:
+	@if [ -z "$(plan)" ]; then echo "usage: make post-plan-memory-update plan=<plan-file> [manifest=<manifest-file>] [source=<diagnostic-report>]"; exit 1; fi
+	$(MAKE) audit-plan-completion plan="$(plan)" $(if $(manifest),manifest="$(manifest)",)
+	$(MAKE) audit-todo
+	$(MAKE) failure-knowledge-base $(if $(source),source="$(source)",)
+	$(MAKE) audit-make-target-index
+	$(MAKE) audit-documentation
+	$(MAKE) audit-doc-canonical-phrases
+	$(MAKE) audit-summary-index
+	$(MAKE) audit-doc-staleness-scoring
 
 test-history-summary:
 	ruby scripts/audits/generate-test-history-summary.rb

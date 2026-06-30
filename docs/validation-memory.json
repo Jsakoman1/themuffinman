@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-06-30",
+  "purpose": "Canonical machine-readable validation, manifest, and closeout memory for future Codex sessions.",
+  "readWhen": [
+    "manifest-backed",
+    "closeout-sensitive",
+    "agent-contract",
+    "workflow-expansion",
+    "frontend-contract",
+    "backend-logic"
+  ],
+  "canonicalCommands": {
+    "frontendContract": [
+      "npm run validate:contracts",
+      "npm run type-check",
+      "npm run build"
+    ],
+    "backendLogic": [
+      "./mvnw test",
+      "make audit-agent-safety"
+    ],
+    "agentContract": [
+      "make generate-agent-operating-model",
+      "make generate-agent-artifacts",
+      "make audit-agent-safety"
+    ],
+    "workflowExpansion": [
+      "./mvnw test -Dtest=AgentOperatingScenarioTest"
+    ],
+    "closeout": [
+      "make audit-todo",
+      "make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"
+    ]
+  },
+  "manifestRules": {
+    "buckets": {
+      "codePaths": "runtime-code-only",
+      "testPaths": "test-code-only",
+      "docPaths": "living-docs-and-plan-artifacts",
+      "generatedArtifacts": "refreshed-generated-outputs-only"
+    },
+    "validationEvidenceScopes": [
+      "backend",
+      "frontend",
+      "docs",
+      "generated-artifact",
+      "local-tooling",
+      "agent-safety",
+      "manifest",
+      "smoke",
+      "other"
+    ],
+    "completedManifestRequires": [
+      "exact-command-evidence",
+      "plan-completion-aligned",
+      "canonical-profile-validation",
+      "closeout-decision-ready"
+    ]
+  },
+  "heuristics": {
+    "workflowExpansionRequiresScenarioTest": true,
+    "agentContractRequiresGeneratedModelEvidence": true,
+    "canonicalCommandStringsMatter": true,
+    "planMustCloseBeforeManifestComplete": true
+  },
+  "commonFailures": [
+    {
+      "id": "command_alias_drift",
+      "symptom": "Equivalent shell command ran but manifest validator expected a canonical command string.",
+      "fix": [
+        "record the exact canonical command string",
+        "keep path-prefixed command only as supporting evidence if useful"
+      ]
+    },
+    {
+      "id": "manifest_bucket_drift",
+      "symptom": "Files landed in the wrong manifest bucket such as test code inside codePaths.",
+      "fix": [
+        "separate runtime code from tests",
+        "keep generated artifacts and docs in their own explicit buckets"
+      ]
+    },
+    {
+      "id": "plan_manifest_drift",
+      "symptom": "Manifest was marked complete before plan checkboxes or child plans were closed.",
+      "fix": [
+        "close child plans first",
+        "close master plan second",
+        "run audit-plan-completion before final manifest closeout"
+      ]
+    }
+  ],
+  "gatewayHints": {
+    "autoIncludeWhen": [
+      "manifest decision is required",
+      "topic or intent contains closeout or manifest wording",
+      "files touch .agents, scripts, workflow docs, or agent-operating docs"
+    ],
+    "primaryHumanDoc": "docs/validation-memory.md"
+  }
+}

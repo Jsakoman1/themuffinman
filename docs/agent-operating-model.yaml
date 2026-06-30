@@ -93,6 +93,8 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java
   - id: dashboard_summary_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java
+  - id: dashboard_voice_config_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceConfigDTO.java
   - id: quest_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java
   - id: quest_service
@@ -695,15 +697,15 @@ backend_audit_coverage:
   - id: social_request_relation_dto_surface
     tier: automation_relevant
     file_names:
-      - BulkCircleMembershipActionDTO.java
-      - BulkCircleMembershipUpdateDTO.java
-      - CircleBlockCreateDTO.java
-      - CircleRelationDTO.java
-      - CircleRelationStatusDTO.java
-      - CircleRequestCreateDTO.java
-      - CircleRequestListResponseDTO.java
-      - CircleRequestResponseDTO.java
-      - ConnectionCircleUpdateDTO.java
+    - BulkCircleMembershipActionDTO.java
+    - BulkCircleMembershipUpdateDTO.java
+    - CircleBlockCreateDTO.java
+    - CircleRelationDTO.java
+    - CircleRelationStatusDTO.java
+    - CircleRequestCreateDTO.java
+    - CircleRequestListResponseDTO.java
+    - CircleRequestResponseDTO.java
+    - ConnectionCircleUpdateDTO.java
   - id: social_overview_member_dto_surface
     tier: automation_relevant
     file_names:
@@ -2398,6 +2400,7 @@ intent_safety_catalog:
     - search_nearby_users
     - open_dashboard
     - open_dashboard_summary
+    - open_dashboard_voice_config
     - open_news_feed
     - open_news_unread_count
     - open_quest_feed
@@ -4925,6 +4928,11 @@ api:
     path: "/dashboard/me/summary"
     controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: getMySummary
+  - id: get_dashboard_voice_config
+    method: GET
+    path: "/dashboard/me/voice-config"
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
+    handler_method: getMyVoiceConfig
   - id: create_quest
     method: POST
     path: "/quests"
@@ -6063,6 +6071,24 @@ intents:
     source_refs:
     - dashboard_controller
     - dashboard_service
+    - service_errors
+- id: open_dashboard_voice_config
+  description: Open the authenticated user's backend-provided voice capability and
+    default-config contract for adaptive surfaces.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require authenticated context and load the backend voice config that governs
+      adaptive speech defaults.
+    endpoint_id: get_dashboard_voice_config
+    source_refs:
+    - dashboard_controller
+    - dashboard_service
+    - dashboard_voice_config_dto
     - service_errors
 - id: open_news_feed
   description: Open the authenticated user's current news feed.

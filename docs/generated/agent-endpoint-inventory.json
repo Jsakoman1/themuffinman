@@ -360,6 +360,12 @@
     "path": "/dashboard/me/summary"
   },
   {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
+    "handlerMethod": "getMyVoiceConfig",
+    "httpMethod": "GET",
+    "path": "/dashboard/me/voice-config"
+  },
+  {
     "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
     "handlerMethod": "applyForQuest",
     "httpMethod": "POST",

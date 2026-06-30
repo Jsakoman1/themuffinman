@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-06-30T06:38:27Z",
+  "generatedAt": "2026-06-30T12:58:58Z",
   "summary": {
-    "totalFiles": 323,
-    "classifiedFiles": 323,
+    "totalFiles": 325,
+    "classifiedFiles": 325,
     "unclassifiedFileCount": 0,
     "unownedDomainFileCount": 0,
     "tierCounts": {
       "executor_critical": 67,
-      "automation_relevant": 184,
-      "internal_support": 71,
+      "automation_relevant": 185,
+      "internal_support": 72,
       "out_of_scope": 1
     },
     "domainCounts": {
-      "platform": 11,
+      "platform": 12,
       "agent": 20,
       "business": 8,
       "chat": 22,
@@ -22,10 +22,10 @@
       "rides": 8,
       "social": 42,
       "things": 13,
-      "workmarket": 123
+      "workmarket": 124
     },
     "ownerCounts": {
-      "platform_core": 32,
+      "platform_core": 33,
       "agent_platform": 20,
       "business_domain": 8,
       "chat_domain": 22,
@@ -34,7 +34,7 @@
       "rides_domain": 8,
       "social_domain": 42,
       "things_domain": 13,
-      "workmarket_domain": 123
+      "workmarket_domain": 124
     },
     "executorCriticalWithoutSourceRefCount": 0,
     "automationRelevantWithoutSourceRefCount": 45,
@@ -1058,6 +1058,19 @@
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityProperties.java",
+      "tier": "internal_support",
+      "classificationRuleId": "internal_support_config_surface",
+      "domainId": "platform",
+      "ownerId": "platform_core",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/config/VoiceProperties.java",
       "tier": "internal_support",
       "classificationRuleId": "internal_support_config_surface",
       "domainId": "platform",
@@ -2924,6 +2937,19 @@
       "registeredInSourceOfTruth": true,
       "sourceRefId": "dashboard_summary_dto",
       "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceConfigDTO.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_dto_surface",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "registeredInSourceOfTruth": true,
+      "sourceRefId": "dashboard_voice_config_dto",
+      "documentationCovered": false,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null,
       "currentGate": "report_only"

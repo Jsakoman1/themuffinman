@@ -798,6 +798,22 @@ intents:
     - dashboard_controller
     - dashboard_service
     - service_errors
+- id: open_dashboard_voice_config
+  description: Open the authenticated user's backend-provided voice capability and default-config contract for adaptive surfaces.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require authenticated context and load the backend voice config that governs adaptive speech defaults.
+    endpoint_id: get_dashboard_voice_config
+    source_refs:
+    - dashboard_controller
+    - dashboard_service
+    - dashboard_voice_config_dto
+    - service_errors
 - id: open_news_feed
   description: Open the authenticated user's current news feed.
   mutating: false

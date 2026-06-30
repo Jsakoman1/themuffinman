@@ -132,13 +132,13 @@ module FrontendStateLogicDuplicationAudit
     lines = []
     lines << "# Frontend State Logic Duplication Audit"
     lines << ""
-    lines << "- Generated at: `#{report[:generated_at]}`"
-    lines << "- Active frontend files scanned: `#{report[:active_file_count]}`"
+    lines << "- Decision: `#{[report[:mutation_runner_overlap], report[:workflow_action_overlap], report[:dialog_state_overlap], report[:feedback_error_overlap]].all?(&:empty?) ? "clear" : "review"}`"
+    lines << "- Why: active files=#{report[:active_file_count]}"
+    lines << "- Next action: review the overlap groups below"
+    lines << "- Evidence: mutation=#{report[:mutation_runner_overlap].size}, workflow=#{report[:workflow_action_overlap].size}, dialog=#{report[:dialog_state_overlap].size}, feedback=#{report[:feedback_error_overlap].size}"
     lines << ""
 
-    append_group(lines, "mutation_runner_overlap", report["mutation_runner_overlap"] || report[:mutation_runner_overlap])
     append_group(lines, "workflow_action_overlap", report["workflow_action_overlap"] || report[:workflow_action_overlap])
-    append_group(lines, "dialog_state_overlap", report["dialog_state_overlap"] || report[:dialog_state_overlap])
     append_group(lines, "feedback_error_overlap", report["feedback_error_overlap"] || report[:feedback_error_overlap])
 
     lines.join("\n")
@@ -147,7 +147,7 @@ module FrontendStateLogicDuplicationAudit
   def append_group(lines, title, entries)
     lines << "## `#{title}`"
     lines << ""
-    entries.first(8).each do |entry|
+    entries.first(5).each do |entry|
       lines << "- `#{entry[:signal] || entry['signal']}` files=`#{(entry[:files] || entry['files']).size}`"
     end
     lines << ""
@@ -161,7 +161,7 @@ module FrontendStateLogicDuplicationAudit
     lines << "  workflow action overlaps: #{report[:workflow_action_overlap].size}"
     lines << "  dialog overlaps: #{report[:dialog_state_overlap].size}"
     lines << "  feedback overlaps: #{report[:feedback_error_overlap].size}"
-    (report[:workflow_action_overlap].first(5) || []).each do |entry|
+    (report[:workflow_action_overlap].first(3) || []).each do |entry|
       lines << "  - #{entry[:signal]} files=#{entry[:files].size}"
     end
     lines.join("\n")

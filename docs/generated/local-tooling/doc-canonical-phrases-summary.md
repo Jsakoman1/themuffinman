@@ -1,10 +1,10 @@
 # Doc Canonical Phrases
 
-- Generated At: `2026-06-29T19:55:21Z`
+- Generated At: `2026-06-30T07:26:17Z`
 - Phrase Count: `14`
 ## `phrases`
 
-- `{:phrase: "docs/codex-fast-path.md is the compact execution entrypoint for most feature", :present_in: []}`
+- `{:phrase: "docs/codex-fast-path.md is the compact execution entrypoint for most feature", :present_in: ["docs/generated/local-tooling/doc-canonical-phrases-summary.md"]}`
 - `{:phrase: "update all affected living docs in the same change", :present_in: ["docs/agent-operating-model.md", "docs/documentation-sync-policy.md", "docs/generated/local-tooling/doc-canonical-phrases-summary.md"]}`
 - `{:phrase: "No logic-only change is complete until the affected docs, agent artifacts, and", :present_in: ["docs/agent-operating-model.md", "docs/documentation-sync-policy.md", "docs/feature-delivery-workflow.md", "docs/generated/local-tooling/doc-canonical-phrases-summary.md"]}`
 - `{:phrase: "For broad, long-running, or high-complexity work, prefer a master plan that", :present_in: ["docs/agent-operating-model.md", "docs/change-completion-checklist.md", "docs/documentation-sync-policy.md", "docs/generated/local-tooling/doc-canonical-phrases-summary.md"]}`
@@ -21,5 +21,4 @@
 
 ## `missing`
 
-- `{:phrase: "docs/codex-fast-path.md is the compact execution entrypoint for most feature", :present_in: []}`
 

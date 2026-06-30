@@ -148,16 +148,20 @@ module MapperUsageAudit
     lines << "- Generated at: `#{report[:generated_at]}`"
     lines << "- Mappers scanned: `#{report[:mapper_count]}`"
     lines << ""
-    report[:mapper_usages].sort_by { |entry| [-entry[:usage_count], entry[:mapper]] }.each do |entry|
+    report[:mapper_usages].sort_by { |entry| [-entry[:usage_count], entry[:mapper]] }.first(8).each do |entry|
       lines << "## `#{entry[:mapper]}`"
       lines << ""
       lines << "- Risk flags: #{format_inline(entry[:risk_flags])}"
       lines << "- Usage count: `#{entry[:usage_count]}`"
-      entry[:callers].first(12).each do |caller|
+      entry[:callers].first(5).each do |caller|
         lines << "- `#{caller[:caller_class]}.#{caller[:caller_method]}` in `#{caller[:file]}` -> `#{caller[:mapper_method]}` (`#{caller[:classification]}`)"
       end
+      remaining = entry[:callers].length - 5
+      lines << "- ... #{remaining} more callers" if remaining.positive?
       lines << ""
     end
+    remaining_mappers = report[:mapper_usages].length - 8
+    lines << "- ... #{remaining_mappers} more mappers" if remaining_mappers.positive?
     lines.join("\n")
   end
 
@@ -165,7 +169,7 @@ module MapperUsageAudit
     lines = []
     lines << "Mapper usage audit"
     lines << "  mappers scanned: #{report[:mapper_count]}"
-    report[:mapper_usages].sort_by { |entry| [-entry[:usage_count], entry[:mapper]] }.first(10).each do |entry|
+    report[:mapper_usages].sort_by { |entry| [-entry[:usage_count], entry[:mapper]] }.first(5).each do |entry|
       lines << "  - #{entry[:mapper]} usages=#{entry[:usage_count]} flags=#{entry[:risk_flags].join(',')}"
     end
     lines.join("\n")

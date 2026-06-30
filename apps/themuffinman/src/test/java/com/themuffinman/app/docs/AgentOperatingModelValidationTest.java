@@ -105,6 +105,7 @@ class AgentOperatingModelValidationTest {
         validatePersistentBacklogSystem(repoRoot);
         validateFeatureCompletionManifests(repoRoot);
         validateValidationEvidenceRecords(repoRoot);
+        validateValidationMemory(repoRoot);
         validateExampleScenarioLibrary(repoRoot);
         validateRegressionScenarioCatalog(repoRoot);
         validateDocsAsContractSlices(repoRoot);
@@ -216,6 +217,30 @@ class AgentOperatingModelValidationTest {
             assertTrue(generatedMappings.contains(documentedMapping),
                     () -> "Generated endpoint inventory missing documented mapping: " + documentedMapping);
         }
+    }
+
+    private static void validateValidationMemory(Path repoRoot) throws Exception {
+        Path jsonPath = repoRoot.resolve("docs/validation-memory.json");
+        Path schemaPath = repoRoot.resolve("docs/validation-memory.schema.json");
+
+        assertTrue(Files.exists(jsonPath), "validation-memory.json must exist");
+        assertTrue(Files.exists(schemaPath), "validation-memory.schema.json must exist");
+
+        JsonNode json = JSON_MAPPER.readTree(Files.readString(jsonPath));
+        JsonNode schemaNode = JSON_MAPPER.readTree(Files.readString(schemaPath));
+        JsonSchema schema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012)
+                .getSchema(schemaNode);
+        Set<ValidationMessage> validationMessages = schema.validate(json);
+        assertTrue(validationMessages.isEmpty(), () -> "Validation memory schema validation failed: " + validationMessages);
+
+        assertEquals("docs/validation-memory.md", json.path("gatewayHints").path("primaryHumanDoc").asText(),
+                "validation-memory primary human doc must stay aligned");
+        assertTrue(Files.exists(repoRoot.resolve(json.path("gatewayHints").path("primaryHumanDoc").asText())),
+                "validation-memory primary human doc must exist");
+        assertTrue(json.path("canonicalCommands").path("frontendContract").toString().contains("npm run validate:contracts"),
+                "validation-memory frontend contract commands must include npm run validate:contracts");
+        assertTrue(json.path("canonicalCommands").path("backendLogic").toString().contains("./mvnw test"),
+                "validation-memory backend logic commands must include ./mvnw test");
     }
 
     private static void validateAllControllerMappingsAreDocumented(Map<String, String> sourceFiles, Map<String, JsonNode> endpoints) throws Exception {

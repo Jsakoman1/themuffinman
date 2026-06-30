@@ -29,6 +29,9 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 
 - Read `AGENTS.md` first.
 - Use `docs/codex-fast-path.md` as the default compact workflow entrypoint for feature implementation.
+- Use `docs/validation-memory.md` and `docs/validation-memory.json` when manifest-backed validation or closeout evidence is in scope so canonical command and evidence rules are applied consistently.
+- Use `make codex-context topic=<topic> intent='<intent>'` as the one-shot local context chain before broad repository search.
+- When `codex-context` changes, keep the workflow docs, `docs/generated/local-tooling/codex-context/latest.execution.json`, and `docs/codex-context-execution-manifest.schema.json` aligned so the machine-readable batch manifest remains discoverable.
 - Use `docs/feature-delivery-workflow.md` only when the tier or resolver requires the full workflow.
 
 ## Tier Policy
@@ -128,6 +131,7 @@ If a non-trivial change does not use a manifest, the temporary plan or final clo
 - Manifest-backed work must pass `make feature-closeout-audit manifest=<manifest-file>`.
 - Completed manifest-backed changes must keep structured validation evidence for every required profile check, completed plan evidence, and a ready closeout decision.
 - Validation evidence must name exact commands, scopes, `ranAt`, generated-artifact actions, and concrete skipped-check reasons, and pass `make audit-validation-evidence-quality`.
+- Manifest-backed closeout should refresh `make validation-memory-closeout-card`, and `make feature-closeout-audit` should also rerun the validation-memory drift sub-check.
 - Manifest-backed closeout summaries can be generated with `make closeout-report manifest=<manifest-file>`.
 
 ## Maintenance Propagation
@@ -136,6 +140,9 @@ If the implementation workflow, planning workflow, context gateway workflow, evi
 
 - `docs/codex-fast-path.md`
 - `docs/feature-delivery-workflow.md`
+- `docs/validation-memory.md`
+- `docs/validation-memory.json`
+- `docs/validation-memory.schema.json`
 - `docs/documentation-sync-policy.md`
 - `docs/change-completion-checklist.md`
 - `docs/agent-operating-model.md`
@@ -158,6 +165,8 @@ For logical product changes, continue reviewing the normal living docs as needed
 
 - `docs/business-logic.md`
 - `docs/domain-technical.md`
+- `docs/product-vision.md` when long-term product direction or interaction principles change
+- `docs/product-memory.md` when product-direction sessions discover a durable lesson, recurring pattern, or stable product principle
 - `docs/implementation-backlog.md`
 - `docs/agent-improvement-backlog.md` when deferred control-system work changes
 - `docs/feature-completion-manifest.schema.json`

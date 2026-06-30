@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:54:42Z",
+  "generated_at": "2026-06-30T11:19:54Z",
   "mapper_count": 10,
   "mapper_usages": [
     {
@@ -45,7 +45,7 @@
         "rich_text_sanitization",
         "service_backed"
       ],
-      "usage_count": 5,
+      "usage_count": 3,
       "callers": [
         {
           "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
@@ -55,30 +55,16 @@
           "mapper_method": "withProfileStats"
         },
         {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
-          "caller_class": "AdminUserDetailService",
-          "caller_method": "getDetail",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java",
+          "caller_class": "IdentityUserSummaryAssembler",
+          "caller_method": "buildProfileSummary",
           "classification": "read_oriented",
           "mapper_method": "toDto"
         },
         {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
-          "caller_class": "AdminUserDetailService",
-          "caller_method": "getDetail",
-          "classification": "read_oriented",
-          "mapper_method": "withProfileStats"
-        },
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
-          "caller_class": "UserProfileViewService",
-          "caller_method": "getProfileView",
-          "classification": "read_oriented",
-          "mapper_method": "toDto"
-        },
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
-          "caller_class": "UserProfileViewService",
-          "caller_method": "getProfileView",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java",
+          "caller_class": "IdentityUserSummaryAssembler",
+          "caller_method": "buildProfileSummary",
           "classification": "read_oriented",
           "mapper_method": "withProfileStats"
         }

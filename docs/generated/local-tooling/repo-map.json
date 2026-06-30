@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-29T19:55:03Z",
-  "total_files": 840,
+  "generated_at": "2026-06-30T13:19:35Z",
+  "total_files": 886,
   "groups": [
     {
       "domain": "agent",
@@ -248,7 +248,7 @@
     {
       "domain": "common",
       "category": "other",
-      "count": 23,
+      "count": 24,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/ActorIdentity.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/CircleVisibilitySelection.java",
@@ -313,12 +313,13 @@
     {
       "domain": "identity",
       "category": "backend_service",
-      "count": 5,
+      "count": 6,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserLookupService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java"
       ]
     },
@@ -406,16 +407,16 @@
     {
       "domain": "location",
       "category": "backend_service",
-      "count": 10,
+      "count": 11,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/DisabledLocationLookupClient.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/GeoapifyLocationLookupClient.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationDebugStatusAssembler.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationGeoService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupClient.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java"
       ]
     },
     {
@@ -496,7 +497,7 @@
     {
       "domain": "shared",
       "category": "docs",
-      "count": 163,
+      "count": 208,
       "sample_paths": [
         "docs/business-logic.md",
         "docs/change-completion-checklist.md",
@@ -511,7 +512,7 @@
     {
       "domain": "shared",
       "category": "frontend_composable",
-      "count": 7,
+      "count": 8,
       "sample_paths": [
         "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
         "apps/themuffinman/frontend/src/composables/useAutoDismissFeedback.ts",
@@ -519,7 +520,8 @@
         "apps/themuffinman/frontend/src/composables/useDialogActionState.ts",
         "apps/themuffinman/frontend/src/composables/useMountedAsync.ts",
         "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts",
-        "apps/themuffinman/frontend/src/composables/useTimedBanner.ts"
+        "apps/themuffinman/frontend/src/composables/useTimedBanner.ts",
+        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts"
       ]
     },
     {
@@ -534,15 +536,16 @@
     {
       "domain": "shared",
       "category": "frontend_view",
-      "count": 1,
+      "count": 2,
       "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue",
         "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue"
       ]
     },
     {
       "domain": "shared",
       "category": "other",
-      "count": 71,
+      "count": 64,
       "sample_paths": [
         "apps/themuffinman/frontend/src/App.vue",
         "apps/themuffinman/frontend/src/api/apiErrors.ts",
@@ -623,16 +626,16 @@
     {
       "domain": "social",
       "category": "backend_service",
-      "count": 8,
+      "count": 9,
       "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleAdminOverviewAssembler.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialPresentationHelper.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialPresentationHelper.java"
       ]
     },
     {
@@ -769,7 +772,7 @@
     {
       "domain": "workmarket",
       "category": "backend_dto",
-      "count": 57,
+      "count": 58,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminApplicationsQueryDTO.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java",
@@ -821,7 +824,7 @@
     {
       "domain": "workmarket",
       "category": "backend_service",
-      "count": 41,
+      "count": 42,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java",
@@ -836,9 +839,10 @@
     {
       "domain": "workmarket",
       "category": "docs",
-      "count": 1,
+      "count": 2,
       "sample_paths": [
-        "docs/generated/local-tooling/domain-packs/workmarket-summary.md"
+        "docs/generated/local-tooling/domain-packs/workmarket-summary.md",
+        "docs/generated/local-tooling/plan-completion/94-backend-hotspot-reduction-workmarket-social-summary.md"
       ]
     },
     {
@@ -889,7 +893,7 @@
     {
       "domain": "workmarket",
       "category": "other",
-      "count": 46,
+      "count": 45,
       "sample_paths": [
         "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
         "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",

@@ -1,117 +1,136 @@
 {
   "repo-map": {
-    "updated_at": "2026-06-29T19:55:03Z",
+    "updated_at": "2026-06-30T13:19:35Z",
     "output": "docs/generated/local-tooling/repo-map.json",
     "cache_status": "refreshed",
-    "payload_checksum": "f83597fb510c7d21a6c3cc6dfe7322d420307ead5c2addc71e17c27472e75bbb"
+    "payload_checksum": "341277fd518e43983d909a8623a10b22311dc9eaf30d7d467fe247fd663233d0",
+    "semantic_checksum": "8a412839e0c4dbb424f7cda1d3381ddc6960d0c7f4a054b9bdad0597132a8ced"
   },
   "symbol-index": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:36Z",
     "output": "docs/generated/local-tooling/symbol-index.json",
     "cache_status": "refreshed",
-    "payload_checksum": "fb380fcd53975dfb2a5bd41a9277407a166d76acd1a0314675c1d42d32e26bdf"
+    "payload_checksum": "3fb30384c0728ad9ef82f1a6527dac253f9013f57af055a0b8c337dae2171a3c",
+    "semantic_checksum": "cce20ae0c520af489ed41dad590a2689e911dc6c7fb9e69845670ef83021a515"
   },
   "endpoint-contract-packs/agent": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T10:53:31Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/agent.json",
     "cache_status": "refreshed",
-    "payload_checksum": "a4d13dd2833ffe95a6958ea63e449b3a0cb30e6323b08d5dd142d9cd7670838a"
+    "payload_checksum": "8da5e5f3bc60e802c037f651c49add017654a0945fe6dd319f7d35b868a12291",
+    "semantic_checksum": "4955962120702a659f6f0980d4cf2acbf320afa1715e999c558f56d729741c64"
   },
   "endpoint-contract-packs/admin": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T10:53:31Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/admin.json",
     "cache_status": "refreshed",
-    "payload_checksum": "a8fc1977b8784c5f08770dba5116a3f563fc4bcf4a19ad3f25802d8ba9d38518"
+    "payload_checksum": "7a5379deea9f363ce2fed3a17f852182511e8dbc7cf21792bd5dbe516f5b74e1",
+    "semantic_checksum": "d20ece0a75078ed69205f8f30147b1ebac7c3a6eefdd36314b1b13d06316297d"
   },
   "endpoint-contract-packs/app_users": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:36Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/app_users.json",
     "cache_status": "refreshed",
-    "payload_checksum": "b2cd4dfe0ca80c329f4e22849cf6ca14b3347c2379a071d9c2399691735d2284"
+    "payload_checksum": "ad08aa5924b2e1c079143a14af6edb9665e28293a0821751693978d60596b423",
+    "semantic_checksum": "c6026538ad2d156a9873c2142ad37b2102b0bca63e960e469c41ab14dd8d2e9a"
   },
   "endpoint-contract-packs/applications": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:36Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/applications.json",
     "cache_status": "refreshed",
-    "payload_checksum": "798f824768855ccd22162b1770142b8450aac17089984c8309032fb1aff549db"
+    "payload_checksum": "7a47ee4b124ead15392df5b1aadf1378c11e5805a874661a876271ebe6a81eaa",
+    "semantic_checksum": "69c2ecdcf999b27abd94072a0a3ed4e54fb470b61586730d5ac64365424d4fbb"
   },
   "endpoint-contract-packs/auth": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:36Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/auth.json",
     "cache_status": "refreshed",
-    "payload_checksum": "72211ff838701206c30c23f172227370adab16e3053a344e0b1e3e0c77d048c6"
+    "payload_checksum": "743115e9db5b1c66056e95dd73aaacb11ede9a5a4a10291dbfea92dac8521648",
+    "semantic_checksum": "b2533b53e3bc026e4a3391ddca720544a3d986e342c9a214ef03b20037261835"
   },
   "endpoint-contract-packs/business": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:36Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/business.json",
     "cache_status": "refreshed",
-    "payload_checksum": "184f7d07822684e139d4f9d189234dda439ffa7b5f30a5250f3a2e964854e010"
+    "payload_checksum": "c5da6b14429904cad0bfa0ff579d85d4e41c4594efa64fe4af0d6deb33ca6859",
+    "semantic_checksum": "632b11447202ae65dc27f8e77f9091cf0e4d356f1baa35cd436c31850402b432"
   },
   "endpoint-contract-packs/chat": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:36Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/chat.json",
     "cache_status": "refreshed",
-    "payload_checksum": "09e795a1abe16d0354fe2f05f14156385b66c272c261a0cb0ec2f0b94983501e"
+    "payload_checksum": "5994b788f076ba68c7aac0a1a7a239052708478151f0fbb15fb765fd77fce8f1",
+    "semantic_checksum": "fefa7aae6bec16cf70f7b27a94035b0a581c8755d86230f85880420d08ccd3e7"
   },
   "endpoint-contract-packs/circles": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:36Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/circles.json",
     "cache_status": "refreshed",
-    "payload_checksum": "a2061d36fd412921c5560d8a6838518e889f4194273cb6935ec8324cd4a0d5f6"
+    "payload_checksum": "df00f4b67603b5ab4e2584591dc661b55dc405b16c871bb41bc27018814cb387",
+    "semantic_checksum": "d05ee93539135b57e2b7703e4e3d3c52cb1b28915443dda38125d40ec555a33c"
   },
   "endpoint-contract-packs/dashboard": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:36Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/dashboard.json",
     "cache_status": "refreshed",
-    "payload_checksum": "3e0cf132209e233ee0dff32639c922302794fdf4941c0f889c24994080f6e280"
+    "payload_checksum": "168aeaed27ae6adfb2df07d4c5b6ca4ccd244c862f516da7e6e8157b8e1f844f",
+    "semantic_checksum": "2e039c189638fe2a6eab4a979f1175129ecf188ae34999cca492ab6fbf07c6a3"
   },
   "endpoint-contract-packs/location": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:37Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/location.json",
     "cache_status": "refreshed",
-    "payload_checksum": "8ffdfdf2199754fceae3b826445778beb103b7708ec2ddd6ebc1d7524b2b9922"
+    "payload_checksum": "2a30dcc415657d02e2f210bee4f28f7c0555bf28e9c23718445a306cf93b432c",
+    "semantic_checksum": "9c4db1ce7d1d2b512e02f8fe3153d24e75d6047079f5fd1c67673f08217e1fab"
   },
   "endpoint-contract-packs/news": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:37Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/news.json",
     "cache_status": "refreshed",
-    "payload_checksum": "2a3ba485c2c8f17561def353767faa7cbb895eb3b6182651b4a4dd5b3145444b"
+    "payload_checksum": "be9671b73e27938e1f78401f3aa57937d73917e88d2493c8b48cf813fe402988",
+    "semantic_checksum": "b8a7b5b4ffc32081cc8494cf7a2a5e61022ed4cb9d4b77f9cb762a4c9cfad8ef"
   },
   "endpoint-contract-packs/quests": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:37Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/quests.json",
     "cache_status": "refreshed",
-    "payload_checksum": "9ae37d389f9b170f9e7fed2081fcd5fecac9d7119a0bfc9fc25b6d059ba9e141"
+    "payload_checksum": "3bf197f6f19d9a47ac4fd5c43024003899e43221f71ff40d408b3af39adc305b",
+    "semantic_checksum": "f0abb1456c95fad03a4b6d070e3cbd92f64d96313e5423faa72b116c550f471d"
   },
   "endpoint-contract-packs/rides": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:37Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/rides.json",
     "cache_status": "refreshed",
-    "payload_checksum": "da7100b6e77ac50e85a507ba1ed2d7a0aba41bdf60e97120926689f7ffe487be"
+    "payload_checksum": "72f5029d11183b846bd6c04c875d769f1fd81381262861d8327446e24608d522",
+    "semantic_checksum": "8f3d34888dfd92066a95df2530b4bfa5cecc31f9f2d503312062c7ad82a1e4f4"
   },
   "endpoint-contract-packs/things": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:37Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/things.json",
     "cache_status": "refreshed",
-    "payload_checksum": "e0ee5eac71388fbf36ccfa3d66825a8fa9c0cfcdc22d78465500dad14173deb2"
+    "payload_checksum": "30018023408596c5aec181d03318ce42d86cf507a751f963a50e2280b95706c0",
+    "semantic_checksum": "c2f1ebc97b577217336279eb21e09f8047c0b3c756f6016dac47bed6d5c48e2c"
   },
   "endpoint-contract-packs/index": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T10:53:32Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/index.json",
     "cache_status": "refreshed",
-    "payload_checksum": "148d69b1e6eb45f1b86e4c0f89a27594a09a0960b8bd361ff3aaeff45a07b912"
+    "payload_checksum": "e55ce37aebcfddc516c48b98042fb16b6dd7a015ae9f7204ff918d572925e467",
+    "semantic_checksum": "16c2a6b9c85e54721ae0d492f83b3a337e39678e6e3b9c7d1b95435f2119c033"
   },
   "validation-matrix": {
-    "updated_at": "2026-06-29T19:55:04Z",
+    "updated_at": "2026-06-30T13:19:35Z",
     "output": "docs/generated/local-tooling/validation-matrix.json",
     "cache_status": "refreshed",
-    "payload_checksum": "0ec4a816b318b2f3b38bc9dc21a5c06e497bf1139b1ddd43dfe73b487b3bdc13"
+    "payload_checksum": "bff198e46ea935368082e64e71b423a54c850fae142eb8eb4298e1bd249b82d5",
+    "semantic_checksum": "f2080443c09b1baa85967cb1b7ec654ab54d4feb1e7214b39f05f3556df2336a"
   },
   "doc-sync-preflight": {
-    "updated_at": "2026-06-30T06:25:26Z",
+    "updated_at": "2026-06-30T11:21:17Z",
     "output": "docs/generated/local-tooling/doc-sync-preflight.json",
     "cache_status": "refreshed",
-    "payload_checksum": "a2fd1bbc83032f9e55c75242328ce0b110077cbbd32cc60cd5fb7a605a07c26f"
+    "payload_checksum": "b4a09b4a22105ac814ffeb7d693fbc3267969721426497f9e72db093db64a7e4",
+    "semantic_checksum": "e9b9fa53a9709f3cb5ff869f1d288da5d7307f18fae266c216deec92d4e217bb"
   },
   "migration-entity-drift-audit": {
     "updated_at": "2026-06-29T19:55:17Z",
@@ -138,16 +157,18 @@
     "payload_checksum": "5726d6f30e50678446f65a7dc234ede33cd0a059862a293d06f8994b9cf3b8ea"
   },
   "diff-summary": {
-    "updated_at": "2026-06-29T19:55:21Z",
+    "updated_at": "2026-06-30T11:20:21Z",
     "output": "docs/generated/local-tooling/diff-summary.json",
     "cache_status": "refreshed",
-    "payload_checksum": "aef48abb3c362b40a8c7901dac5678cbdcaebb123562f024a0b07d927f8db208"
+    "payload_checksum": "f97da1b873ad26cdeb2e6ac899ebc0ff8349cfe46cafb9d5b243b7f512c311a1",
+    "semantic_checksum": "6efb2ddbb3bfb1a9276789c233037f7b66c6ab5a7a3363782c5b85340f6ff29d"
   },
   "doc-canonical-phrases": {
-    "updated_at": "2026-06-29T19:55:21Z",
+    "updated_at": "2026-06-30T07:26:17Z",
     "output": "docs/generated/local-tooling/doc-canonical-phrases.json",
     "cache_status": "refreshed",
-    "payload_checksum": "79674c3f76e9973264bf5d7ff2882d557ed03317324d75631b596372c6796b75"
+    "payload_checksum": "66ff9b82ecb6e900d2581febbf364317f83cc33bcdfae29c39c8009f23ede396",
+    "semantic_checksum": "1bcd758a21b3ef7513cf63c521b82b9b5a3119395d14b460cfe2e65bfc8f5250"
   },
   "sandbox-data-coverage-pack": {
     "updated_at": "2026-06-29T19:55:22Z",
@@ -162,94 +183,109 @@
     "payload_checksum": "4d9d575329a429db941f5f11206fb3242cd2287314771d6a025ad6f4fa6b4b1d"
   },
   "audit-summary-index": {
-    "updated_at": "2026-06-29T19:55:22Z",
+    "updated_at": "2026-06-30T13:52:39Z",
     "output": "docs/generated/local-tooling/audit-summary-index.json",
     "cache_status": "refreshed",
-    "payload_checksum": "78a1ec9ff4be9f5da8c034f20d6318eff439f095ffc328cfa32d2e3515745a8b"
+    "payload_checksum": "6f8995e4b4ccd97e6dc8ebeea5d9b0385c11271125012346cffdb4118f69d180",
+    "semantic_checksum": "c92c28860003c1f234547e5da74770f34bb2e3ad3984f381c4fbd75b3df36729"
   },
   "audit-registry-artifacts": {
-    "updated_at": "2026-06-29T17:51:25Z",
+    "updated_at": "2026-06-30T13:51:52Z",
     "output": "docs/generated/local-tooling/audit-registry-artifacts.json",
     "cache_status": "refreshed",
-    "payload_checksum": "c0dadfd529715f38aaa81262d470e30e8e82c67506b818dbde5f4d9977ffa55f"
+    "payload_checksum": "1e1768e857ebf045f0bbee15f8bee0dafb064c945f6b6f701649e1d93e66954b",
+    "semantic_checksum": "95048e0abe51b136f01135b49b7cd2fa123213fc44753b7c12db44a3160c1d59"
   },
   "post-merge-retrospective": {
-    "updated_at": "2026-06-29T10:07:43Z",
+    "updated_at": "2026-06-30T11:21:35Z",
     "output": "docs/generated/local-tooling/post-merge-retrospectives/latest.json",
     "cache_status": "refreshed",
-    "payload_checksum": "e9c4eaf976ae515393385128345009badc51e8a496a2ea1e32839f26599b613a"
+    "payload_checksum": "af77e6054cc754506a60800d5d463e4cf25722877ac6b87dfe61ca67c5802b09",
+    "semantic_checksum": "312aefb30a4a96c448b0700df4546e42014faafa946f1df87aa097c25d5872ba"
   },
   "fast-check-report": {
-    "updated_at": "2026-06-29T10:41:47Z",
+    "updated_at": "2026-06-30T10:53:32Z",
     "output": "docs/generated/local-tooling/fast-check-report.json",
     "cache_status": "refreshed",
-    "payload_checksum": "837b92548ec06bc273830e888815a0a6c50462fcaa2fb99e152a24add86e8b9f"
+    "payload_checksum": "51b62087554086027b2bb4c55e1e986c6cc525a6114588958fe5346b19358709",
+    "semantic_checksum": "40b32d0fb01ade30062148c71dd16ac10aab68e31b1bb83b0c8231b5f6186bb6"
   },
   "audit-router": {
-    "updated_at": "2026-06-29T12:04:50Z",
+    "updated_at": "2026-06-30T10:49:50Z",
     "output": "docs/generated/local-tooling/audit-router.json",
     "cache_status": "refreshed",
-    "payload_checksum": "8e1d522310e2a98c69c84937a198208f8d0a19868b5853797ef427cd0b29a9b6"
+    "payload_checksum": "73bc1ac201817173e96ed193a19322a1b4c9e548c731d8376f8275509c640d06",
+    "semantic_checksum": "40ff77f1100a08543dc441ebb3c5f58331d617402c55d6f2be86d4e05fabf58b"
   },
   "context-packs/todo-master-plan": {
-    "updated_at": "2026-06-29T10:46:23Z",
+    "updated_at": "2026-06-30T11:20:21Z",
     "output": "docs/generated/local-tooling/context-packs/todo-master-plan.json",
     "cache_status": "refreshed",
-    "payload_checksum": "166fad72d74b42fc0b1167c10636888d844aed0917bdd05327216ace7888affd"
+    "payload_checksum": "eb016cd361b0bb35e0b064703681134dda48312b01a38e7e82f3a8ce057d262b",
+    "semantic_checksum": "a1ee97df80f2c62afff3bed0fd65a854ec6adfb8db9362254889640e657bdec3"
   },
   "session-handoffs/todo-master-plan": {
-    "updated_at": "2026-06-29T10:46:13Z",
+    "updated_at": "2026-06-30T11:20:21Z",
     "output": "docs/generated/local-tooling/session-handoffs/todo-master-plan.json",
     "cache_status": "refreshed",
-    "payload_checksum": "20c4e5f083eddb263f4d65b16fd94b67b3bfaf6d2d9c44e854ed754b7900c59b"
+    "payload_checksum": "0222b7ef870eae14510aad6415b169f5e46eb1091f1043cc808e387c2d07e965",
+    "semantic_checksum": "2d8746652ad7f53c52547186c45c368e134797381fe29a07f6b34d2f37392f68"
   },
   "feature-slices/todo-master-plan": {
-    "updated_at": "2026-06-29T10:50:51Z",
+    "updated_at": "2026-06-30T11:20:21Z",
     "output": "docs/generated/local-tooling/feature-slices/todo-master-plan.json",
     "cache_status": "refreshed",
-    "payload_checksum": "9160b3b83178f6b4cfec6283430b7dde7b0a0e9ec40d99e8aaad4cd486f91ac0"
+    "payload_checksum": "307facb68a6960c96a9ba972793ab2e58d12c389263ae394bf7d54d64ec965b2",
+    "semantic_checksum": "767ad4efb5b30659646adc2e00376a00335d4c5c9c881c7ade995fa3d3bbbb28"
   },
   "failure-knowledge-base": {
-    "updated_at": "2026-06-29T19:55:22Z",
+    "updated_at": "2026-06-30T13:52:38Z",
     "output": "docs/generated/local-tooling/failure-knowledge-base.json",
     "cache_status": "refreshed",
-    "payload_checksum": "a843b62c144c5665d00471fd50b26ec9775f2cf5e5336aeab3366b220b99fc35"
+    "payload_checksum": "2c6926fdee506227fc724d6f67d33fcb66ea0c2bf29888b0151c0ec624d4f628",
+    "semantic_checksum": "fbd7b0b29cf6ee16fce580b67514eed0068542afad1554b2f5b8e2330b0a4b20"
   },
   "codebase-capsule": {
-    "updated_at": "2026-06-29T19:55:22Z",
+    "updated_at": "2026-06-30T13:20:15Z",
     "output": "docs/generated/local-tooling/codebase-capsule.json",
     "cache_status": "refreshed",
-    "payload_checksum": "886db1ff6b74c1df3ad25c6ee900c6c9ed3d03aefab0f3e8307f16886159ec20"
+    "payload_checksum": "e9a4305fe442d5ed19c025ac34c80298473ef4d4ef3b64c3db8581134c2f3776",
+    "semantic_checksum": "c599cd5d018b77a5793b8937bd6ab406538d44df8b141ce681d989c23a9f2ddd"
   },
   "targeted-tests": {
-    "updated_at": "2026-06-29T20:14:22Z",
+    "updated_at": "2026-06-30T11:21:17Z",
     "output": "docs/generated/local-tooling/targeted-tests.json",
     "cache_status": "refreshed",
-    "payload_checksum": "3f47cad8e259cff9736cad80ed6400feb11860f2a5485aff6c2d4c90892f06a2"
+    "payload_checksum": "69c6e2c6436c9cb6c998a8b4b8ad331209f4cb27ed9ca85c039531cead8b3be6",
+    "semantic_checksum": "a474da1ede130e4953315105ea3b0a201725b251bbef283bc649f890e4aa4655"
   },
   "test-history-summary": {
-    "updated_at": "2026-06-29T19:55:22Z",
+    "updated_at": "2026-06-30T11:21:38Z",
     "output": "docs/generated/local-tooling/test-history.json",
     "cache_status": "refreshed",
-    "payload_checksum": "a8fadf61e7e78367b41f9ac1a001c69516fd05db7db9d286fac5f46e935bb7c0"
+    "payload_checksum": "f8d07d57b7eeabcb84b2d156183475d7ab0c2423507e312281ae43b8eaf8fa4d",
+    "semantic_checksum": "b44b5d368c442cac8c77d4ed8642dcf3c6aa1c56b7c22f133a0c90c05279f3d7"
   },
   "diagnostics/frontend-type-check-latest": {
-    "updated_at": "2026-06-29T11:07:58Z",
+    "updated_at": "2026-06-30T11:21:38Z",
     "output": "docs/generated/local-tooling/diagnostics/frontend-type-check-latest.json",
     "cache_status": "refreshed",
-    "payload_checksum": "e9792f14acc915b2d106d97e9456e871198947fb238ffd2b4ea798b5322f1d51"
+    "payload_checksum": "ec7405b7f4678943f78406005a4f9e217d36bd7803c32227b8fc13c807b1bc1c",
+    "semantic_checksum": "612b97f72a42ea45ba2123b6f01b7431fdf94fd7733008ff36fb0e687ea24102"
   },
   "validation-preset": {
-    "updated_at": "2026-06-29T19:55:13Z",
+    "updated_at": "2026-06-30T13:36:27Z",
     "output": "docs/generated/local-tooling/validation-preset.json",
     "cache_status": "refreshed",
-    "payload_checksum": "0885edc4f68449ab00e172bcb1a36c64619aaacfb7dcf7a01c30f77ad36f698f"
+    "payload_checksum": "567fb29d407eb99c9beb9b5cb9f6609ab2b334c47f74663f75297c4aa92ca699",
+    "semantic_checksum": "b21f50808acda05ca0b3f015411eb5bf5da620b004fbbe335589c5ad0049d93b"
   },
   "changeset-playbook": {
-    "updated_at": "2026-06-29T19:55:06Z",
+    "updated_at": "2026-06-30T11:07:29Z",
     "output": "docs/generated/local-tooling/changeset-playbook.json",
     "cache_status": "refreshed",
-    "payload_checksum": "abf7f573e2239cc8a7231f0848507eec0277d86834d91190cd5fa44900441a98"
+    "payload_checksum": "49a29f233961348b73a7c38d30e75bd65ffcb6f30e082da4881531eca39ebdcd",
+    "semantic_checksum": "1ad7d8c47d436ee468acde1aec115317b5f936d5c76f0414ba9ccbd3c43d62ca"
   },
   "audit-deltas/diff-summary": {
     "updated_at": "2026-06-29T19:55:21Z",
@@ -330,10 +366,11 @@
     "payload_checksum": "6aa4b4537be85843384e04fdd125bbcd091a4cc97c0aae4e4435ac7a76c2cc00"
   },
   "doc-sync-required-surfaces": {
-    "updated_at": "2026-06-29T15:49:29Z",
+    "updated_at": "2026-06-30T11:21:35Z",
     "output": "docs/generated/local-tooling/doc-sync-required-surfaces.json",
     "cache_status": "refreshed",
-    "payload_checksum": "ef4cc0875773fd170768a8c908d685b96b20614c24dd0c250a3b6ca128c5f512"
+    "payload_checksum": "4a9573a563493f6d874b91bfe18e564e5e569273cceda882d85bd2a46b0c3f93",
+    "semantic_checksum": "f433bd4b4641d668d29dfc7af843ed73d08327af97ea4f195e3a16998d862477"
   },
   "domain-packs/agent": {
     "updated_at": "2026-06-29T15:47:48Z",
@@ -352,5 +389,26 @@
     "output": "docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow.json",
     "cache_status": "refreshed",
     "payload_checksum": "259d4a9c2f81accc482e5bef324fb44880da2cf93de6a8862eed5f2c826fc866"
+  },
+  "closeout-bundle": {
+    "updated_at": "2026-06-30T11:21:17Z",
+    "output": "docs/generated/local-tooling/closeout-bundle.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "d19bd06ab18941560b1b11219ed2812b27d5646bc6c6dde1eae08061428323df",
+    "semantic_checksum": "ece3c499ad491e074f671662e2f7bf0f79417b4addae77f6bb0070c1ad04d6f7"
+  },
+  "diagnostics/frontend-build-latest": {
+    "updated_at": "2026-06-30T11:21:36Z",
+    "output": "docs/generated/local-tooling/diagnostics/frontend-build-latest.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "2ea07a422634d8cc557c241ddc1a068867e01f7ac9b61bfdc0048a9507d473e3",
+    "semantic_checksum": "05b672e8608add1a0989db0b73aaabf998b922e31ba7029ca982b6b4f3dabe1a"
+  },
+  "post-merge-retrospective/master-plan": {
+    "updated_at": "2026-06-30T11:27:44Z",
+    "output": "docs/generated/local-tooling/post-merge-retrospectives/master-plan.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "9188acf1f421b47e7fcffc07c9a97eabacd6aad759c9ec755bf01abdf4a4f86b",
+    "semantic_checksum": "bf74143a2a1fe46cffe321ab179e59e2df09ca84c18251e3b6aff1b1bd32ce0e"
   }
 }

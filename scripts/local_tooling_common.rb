@@ -92,6 +92,7 @@ module LocalToolingCommon
         line.match?(%r{\Adist/(?:assets|chunks|css|js)/}) ||
           line.match?(%r{\A(?:\d+\.\d+|\d+,\d+)\s*kB\s*\│\s*gzip:}) ||
           line.match?(%r{\A✓ built in \d+(?:ms|s)\z}) ||
+          line.match?(%r{\A- (?:Generated At|Updated At|Cache Status|Payload Checksum|Semantic Checksum):\s*`?.+`?\z}) ||
           line.match?(%r{\A(?:cd\s+[^&]+&&\s+)?(?:npm|yarn|pnpm|ruby|./mvnw)\s+.+\z}) ||
           line.match?(%r{\A>\s+.+\z}) ||
           line.match?(%r{\A(?:Running|Tests run:|Results:|Failures:|Errors:|Skipped:|Time elapsed:)\b})

@@ -165,6 +165,12 @@ audits:
 - target: audit-doc-canonical-phrases
   script: scripts/audits/audit-doc-canonical-phrases.rb
   primaryOutput: docs/generated/local-tooling/doc-canonical-phrases-summary.md
+- target: audit-validation-memory-drift
+  script: scripts/audits/audit-validation-memory-drift.rb
+  primaryOutput: docs/generated/local-tooling/validation-memory-drift-summary.md
+- target: validation-memory-closeout-card
+  script: scripts/audits/generate-validation-memory-closeout-card.rb
+  primaryOutput: docs/generated/local-tooling/validation-memory-closeout-card-summary.md
 - target: audit-sandbox-data-coverage-pack
   script: scripts/audits/audit-sandbox-data-coverage-pack.rb
   primaryOutput: docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md

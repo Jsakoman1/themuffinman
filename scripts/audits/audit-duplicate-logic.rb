@@ -220,18 +220,15 @@ module DuplicateLogicAudit
     lines = []
     lines << "# Duplicate Logic Audit"
     lines << ""
-    lines << "- Generated at: `#{report[:generated_at]}`"
-    lines << "- Frontend files scanned: `#{report[:scanned_file_count]}`"
-    lines << "- Active route-backed files: `#{report[:active_route_backed_file_count]}`"
-    lines << "- Review candidates: `#{report[:candidate_count]}`"
-    lines << "- Status mapping hits: `#{report[:frontend_status_mapping_candidates].size}`"
-    lines << "- Permission gate hits: `#{report[:frontend_permission_gate_candidates].size}`"
-    lines << "- Transition eligibility hits: `#{report[:frontend_transition_eligibility_candidates].size}`"
+    lines << "- Decision: `#{report[:candidate_count].to_i.zero? ? "clear" : "review"}`"
+    lines << "- Why: candidates=#{report[:candidate_count]}, status=#{report[:frontend_status_mapping_candidates].size}, permission=#{report[:frontend_permission_gate_candidates].size}"
+    lines << "- Next action: review the shortlist below"
+    lines << "- Evidence: scanned=#{report[:scanned_file_count]}, active=#{report[:active_route_backed_file_count]}"
     lines << ""
     lines << "## Review shortlist"
     lines << ""
 
-    report[:review_shortlist].first(8).each do |entry|
+    report[:review_shortlist].first(5).each do |entry|
       lines << "- `#{entry[:file]}` score=`#{entry[:score]}` hits=`#{entry[:status_mapping_count] + entry[:permission_gate_count] + entry[:transition_eligibility_count]}`"
     end
 

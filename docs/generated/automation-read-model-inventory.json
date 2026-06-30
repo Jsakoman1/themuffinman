@@ -1045,6 +1045,21 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardVoiceConfigDTO",
+    "fields": [
+      "enabled",
+      "speechToTextEnabled",
+      "textToSpeechEnabled",
+      "recognitionProvider",
+      "synthesisProvider",
+      "preferredLocale",
+      "interimResults",
+      "continuousRecognition",
+      "maxAlternatives",
+      "autoSpeakResponses"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDetailContextSectionDTO",
     "fields": [
       "questLabel",

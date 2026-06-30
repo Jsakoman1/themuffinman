@@ -83,6 +83,8 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java
   - id: dashboard_summary_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java
+  - id: dashboard_voice_config_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceConfigDTO.java
   - id: quest_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java
   - id: quest_service

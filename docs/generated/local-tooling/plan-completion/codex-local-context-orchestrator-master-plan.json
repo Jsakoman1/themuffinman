@@ -1,0 +1,73 @@
+{
+  "plan": ".agents/codex-local-context-orchestrator-master-plan.md",
+  "exists": true,
+  "completion_evidence": true,
+  "completion_status": "complete",
+  "open_tasks": [
+
+  ],
+  "unresolved_open_tasks": [
+
+  ],
+  "child_plans": [
+    {
+      "line": 25,
+      "checked": true,
+      "path": ".agents/todo-plans/95-codex-local-context-pack-chain.md",
+      "text": "- [x] `CODEX-LOCAL-CONTEXT-CHAIN` - `.agents/todo-plans/95-codex-local-context-pack-chain.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 26,
+      "checked": true,
+      "path": ".agents/todo-plans/96-codex-local-context-cache-invalidation.md",
+      "text": "- [x] `CODEX-LOCAL-CONTEXT-CACHE` - `.agents/todo-plans/96-codex-local-context-cache-invalidation.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 27,
+      "checked": true,
+      "path": ".agents/todo-plans/97-codex-local-workflow-doc-dedup.md",
+      "text": "- [x] `CODEX-LOCAL-WORKFLOW-DOC-DEDUP` - `.agents/todo-plans/97-codex-local-workflow-doc-dedup.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 28,
+      "checked": true,
+      "path": ".agents/todo-plans/98-codex-local-java-ast-context-tightening.md",
+      "text": "- [x] `CODEX-JAVA-AST-CONTEXT-TIGHTENING` - `.agents/todo-plans/98-codex-local-java-ast-context-tightening.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 29,
+      "checked": true,
+      "path": ".agents/todo-plans/99-codex-local-noise-filter-tightening.md",
+      "text": "- [x] `CODEX-LOCAL-NOISE-FILTER-TIGHTENING` - `.agents/todo-plans/99-codex-local-noise-filter-tightening.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    }
+  ],
+  "issues": [
+
+  ],
+  "warnings": [
+
+  ],
+  "status": "passed",
+  "generated_at": "2026-06-30T10:10:32Z",
+  "manifest": null
+}

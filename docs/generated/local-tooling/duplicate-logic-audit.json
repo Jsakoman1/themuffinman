@@ -1,27 +1,14 @@
 {
-  "generated_at": "2026-06-29T19:54:44Z",
-  "scanned_file_count": 140,
+  "generated_at": "2026-06-30T10:07:29Z",
+  "scanned_file_count": 139,
   "active_route_backed_file_count": 34,
-  "candidate_count": 7,
+  "candidate_count": 6,
   "frontend_status_mapping_candidates": [
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
       "active_route_backed": false,
       "module_key": "workmarket",
       "line": 205,
-      "snippet": "const statusLabel = computed(() =>",
-      "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "active_route_backed": false,
-      "module_key": "workmarket",
-      "line": 80,
       "snippet": "const statusLabel = computed(() =>",
       "canonical_backend_files": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
@@ -77,19 +64,6 @@
       "module_key": "workmarket",
       "line": 799,
       "snippet": "<UiFieldGroup v-else-if=\"audience === 'CIRCLES'\" label=\"Visible to circles\">",
-      "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "active_route_backed": false,
-      "module_key": "workmarket",
-      "line": 251,
-      "snippet": "v-if=\"showAudience !== false && audience === 'CIRCLES'\"",
       "canonical_backend_files": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
@@ -173,31 +147,6 @@
         {
           "line": 751,
           "snippet": "v-if=\"inlineEditable && audience === 'CIRCLES'\""
-        }
-      ],
-      "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "active_route_backed": false,
-      "module_key": "workmarket",
-      "score": 5,
-      "status_mapping_count": 1,
-      "permission_gate_count": 1,
-      "transition_eligibility_count": 0,
-      "example_findings": [
-        {
-          "line": 80,
-          "snippet": "const statusLabel = computed(() =>"
-        },
-        {
-          "line": 251,
-          "snippet": "v-if=\"showAudience !== false && audience === 'CIRCLES'\""
         }
       ],
       "canonical_backend_files": [

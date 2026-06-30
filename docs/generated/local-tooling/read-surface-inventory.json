@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-29T19:54:42Z",
-  "service_count": 77,
-  "read_surface_count": 146,
+  "generated_at": "2026-06-30T10:54:35Z",
+  "service_count": 81,
+  "read_surface_count": 148,
   "read_surfaces": [
     {
       "service": "BusinessProfileService",
@@ -145,7 +145,7 @@
 
       ],
       "helper_types": [
-        "AppUserMgr"
+        "IdentityUserSummaryAssembler"
       ],
       "dto_types": [
         "AdminUserDetailDTO"
@@ -206,6 +206,31 @@
       ]
     },
     {
+      "service": "IdentityUserSummaryAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java",
+      "domain": "identity",
+      "method": "buildProfileSummary",
+      "return_type": "AppUserResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+        "AppUserMgr"
+      ],
+      "dto_types": [
+        "AppUserResponseDTO"
+      ],
+      "line_hints": [
+        "public AppUserResponseDTO buildProfileSummary(AppUser profileUser, long openQuestCount, List<QuestResponseDTO> openQuests) {",
+        "return appUserMgr.withProfileStats("
+      ]
+    },
+    {
       "service": "UserProfileViewService",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
       "domain": "identity",
@@ -220,7 +245,7 @@
 
       ],
       "helper_types": [
-        "AppUserMgr",
+        "IdentityUserSummaryAssembler",
         "SocialPresentationHelper",
         "SocialRelationActionHelper"
       ],
@@ -335,6 +360,31 @@
       ]
     },
     {
+      "service": "LocationDebugStatusAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationDebugStatusAssembler.java",
+      "domain": "location",
+      "method": "buildDebugStatus",
+      "return_type": "LocationDebugStatusViewDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "LocationDebugStatusViewDTO"
+      ],
+      "line_hints": [
+        "public LocationDebugStatusViewDTO buildDebugStatus(",
+        "boolean configured,"
+      ]
+    },
+    {
       "service": "LocationGeoService",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationGeoService.java",
       "domain": "location",
@@ -407,33 +457,6 @@
       "line_hints": [
         "public LocationLookupCandidateDTO lookupFirst(String query, String actorKey) {",
         "LocationLookupResponseDTO response = lookup(query, actorKey);"
-      ]
-    },
-    {
-      "service": "LocationLookupService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
-      "domain": "location",
-      "method": "getDebugStatus",
-      "return_type": "LocationDebugStatusViewDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "method",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "AppUserRepository",
-        "LocationLookupEventRepository",
-        "QuestRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "LocationDebugStatusViewDTO"
-      ],
-      "line_hints": [
-        "public LocationDebugStatusViewDTO getDebugStatus() {",
-        "LocationLookupClient client = geoapifyLocationLookupClient.isConfigured()"
       ]
     },
     {
@@ -634,6 +657,31 @@
       "line_hints": [
         "public RideOfferListResponseDTO getMyOffers(AppUser currentUser) {",
         "return RideOfferListResponseDTO.builder()"
+      ]
+    },
+    {
+      "service": "CircleAdminOverviewAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleAdminOverviewAssembler.java",
+      "domain": "social",
+      "method": "buildAdminOverview",
+      "return_type": "AdminCircleOverviewDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "AdminCircleOverviewDTO"
+      ],
+      "line_hints": [
+        "public AdminCircleOverviewDTO buildAdminOverview(",
+        "List<AdminCircleGroupResponseDTO> circles,"
       ]
     },
     {
@@ -951,7 +999,7 @@
         "CircleRequestRepository"
       ],
       "helper_types": [
-        "CircleViewAssembler"
+        "CircleAdminOverviewAssembler"
       ],
       "dto_types": [
         "AdminCircleOverviewDTO"
@@ -1840,31 +1888,6 @@
       "service": "CircleViewAssembler",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
       "domain": "social",
-      "method": "buildAdminOverview",
-      "return_type": "AdminCircleOverviewDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "AdminCircleOverviewDTO"
-      ],
-      "line_hints": [
-        "public AdminCircleOverviewDTO buildAdminOverview(",
-        "List<AdminCircleGroupResponseDTO> circles,"
-      ]
-    },
-    {
-      "service": "CircleViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "domain": "social",
       "method": "toContact",
       "return_type": "CircleContactDTO",
       "read_like": true,
@@ -2275,10 +2298,11 @@
       "transaction_source": "class",
       "mixed_side_effect_flow": false,
       "repositories": [
+        "AppUserRepository",
         "QuestApplicationRepository"
       ],
       "helper_types": [
-
+        "DashboardSummaryAssembler"
       ],
       "dto_types": [
         "DashboardResponseDTO",
@@ -2301,7 +2325,33 @@
       "transaction_source": "class",
       "mixed_side_effect_flow": false,
       "repositories": [
+        "AppUserRepository",
         "QuestApplicationRepository"
+      ],
+      "helper_types": [
+        "DashboardSummaryAssembler"
+      ],
+      "dto_types": [
+        "DashboardSummaryDTO"
+      ],
+      "line_hints": [
+        "public DashboardSummaryDTO getMySummary(AppUser currentUser) {",
+        "if (currentUser == null) {"
+      ]
+    },
+    {
+      "service": "DashboardSummaryAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssembler.java",
+      "domain": "workmarket",
+      "method": "buildSummary",
+      "return_type": "DashboardSummaryDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
       ],
       "helper_types": [
 
@@ -2310,8 +2360,8 @@
         "DashboardSummaryDTO"
       ],
       "line_hints": [
-        "public DashboardSummaryDTO getMySummary(AppUser currentUser) {",
-        "if (currentUser == null) {"
+        "public DashboardSummaryDTO buildSummary(",
+        "AppUser currentUser,"
       ]
     },
     {
@@ -3686,6 +3736,6 @@
       ]
     }
   ],
-  "transaction_relevant_read_surface_count": 87,
+  "transaction_relevant_read_surface_count": 86,
   "missing_read_only_transaction_count": 2
 }

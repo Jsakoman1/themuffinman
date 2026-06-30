@@ -1,53 +1,14 @@
 # Targeted Tests
 
-- Generated At: `2026-06-29T20:14:22Z`
-- Original File Count: `5`
-- Filtered File Count: `0`
-- Excluded File Count: `0`
-## `files_considered`
+- Why: This is a targeted recommendation report, not a replacement for full validation.; Use full `cd apps/themuffinman && ./mvnw test` for high-risk backend behavior, schema, or broad cross-domain changes.
+- Next action: `make audit-documentation`, `make audit-doc-canonical-phrases`, `make audit-generated-artifact-freshness`
 
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/UserReviewController.java`
+## Details
 
-## `domains`
-
-- `workmarket`
-
-## `categories`
-
-- `backend_controller`
-
-## `direct_tests`
-
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java`
-
-## `recommended_commands`
-
-- `{:command: "cd apps/themuffinman && ./mvnw test -Dtest=RequestDtoValidationTest,QuestApplicationNewsEventHandlerTest,QuestMgrTest,QuestNewsMgrTest,DashboardServiceTest,QuestAccessPolicyServiceTest,QuestApplicationPresentationAssemblerTest,QuestApplicationServiceTest", :reason: "Runs nearest backend tests for changed Java files.", :confidence: "high", :covers: ["apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"], :uncovered: []}`
-- `{:command: "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest", :reason: "Regression scenario `workmarket-quest-lifecycle` covers Quest create, update, delete, start, complete, and term-change flows must resolve actors, validate state, persist changes, and publish expected notifications.", :confidence: "high", :covers: ["apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java"], :uncovered: []}`
-- `{:command: "cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest", :reason: "Regression scenario `workmarket-application-lifecycle` covers Application apply, applicant edit, withdraw, owner approve, owner decline, and admin mutation flows must enforce ownership, status, pricing, and notification rules.", :confidence: "high", :covers: ["apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"], :uncovered: []}`
-- `{:command: "cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest", :reason: "Regression scenario `workmarket-dashboard-read-model` covers Dashboard sections, applicant actions, open-work groups, and notification destinations must stay backend-prepared and role-aware.", :confidence: "medium", :covers: ["apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java"], :uncovered: []}`
-
-## `residual_risk`
-
-- `Backend behavior changed; full `cd apps/themuffinman && ./mvnw test` may still be required before closeout.`
-
-## `notes`
-
-- `This is a targeted recommendation report, not a replacement for full validation.`
-- `Use full `cd apps/themuffinman && ./mvnw test` for high-risk backend behavior, schema, or broad cross-domain changes.`
-
+- Original File Count: 25
+- Filtered File Count: 0
+- Excluded File Count: 0
+- Recommended commands: command: make audit-documentation | reason: Docs, plans, or agent artifacts changed. | confidence: high | covers: docs/agent-operating-model.md, docs/change-completion-checklist.md, docs/codex-fast-path.md | command: make audit-doc-canonical-phrases | reason: Protected documentation wording may be affected by docs or agent-safety edits. | confidence: medium | covers: docs/agent-operating-model.md, docs/change-completion-checklist.md, docs/codex-fast-path.md | uncovered: Does not validate Java-side agent operating model tests. | command: make audit-generated-artifact-freshness | reason: Generated artifacts, generation scripts, or Make targets changed. | confidence: high | covers: scripts/audits/CodexJavaAstContext.java, scripts/audits/audit-api-contract-drift.rb, scripts/audits/audit-change-impact-preflight.rb | command: make audit-generated-commit-scope | reason: Classifies changed generated artifacts before closeout. | confidence: medium | uncovered: Advisory only; reviewer still chooses which generated files belong in the changeset. | command: cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingScenarioTest,AdminAgentCapabilityBoundaryTest | reason: Regression scenario `agent-exact-target-fail-closed` covers Admin-agent mutating prompts must fail closed until exact target resolution and required confirmation exist. | confidence: high | covers: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
+- Direct tests: apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java | apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java | apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
+- Direct tests more: 3
+- Notes: This is a targeted recommendation report, not a replacement for full validation. | Use full `cd apps/themuffinman && ./mvnw test` for high-risk backend behavior, schema, or broad cross-domain changes.

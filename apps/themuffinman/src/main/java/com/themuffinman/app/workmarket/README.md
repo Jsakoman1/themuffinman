@@ -28,6 +28,7 @@ Owns quests, applications, quest workflow transitions, reviews, dashboard read m
 ## Forbidden Shortcuts
 
 - Do not put workflow rules or permission decisions in controllers or frontend-only code.
+- Do not hardcode adaptive voice defaults in the frontend when `DashboardService` or typed config can provide the source-of-truth contract instead.
 - Do not duplicate quest owner, admin, application detail, execution, or term-decision checks outside `QuestAccessPolicyService`.
 - Do not map application or quest DTOs from lazy entities without using fetch-safe repository paths.
 - Do not add a new quest/application state transition without updating tests and living docs.

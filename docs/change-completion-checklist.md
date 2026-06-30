@@ -6,6 +6,8 @@ This file is the fast operational completion checklist for logical product chang
 
 Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it.
 
+For `codex-context` and related workflow changes, confirm that `docs/generated/local-tooling/codex-context/latest.execution.json` exists, matches the current batch state, and still conforms to `docs/codex-context-execution-manifest.schema.json` before closeout.
+
 Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
 
 It does not replace `AGENTS.md`, `docs/documentation-sync-policy.md`, or the agent-operating model.
@@ -104,6 +106,8 @@ Default path:
 2. Plan
 - Tier 2, Tier 3, and Tier 4 work has a current plan in `.agents/`.
 - Broad work uses a master plan plus child plans when that keeps the batch auditable.
+- Use `make codex-context topic=<topic> intent='<intent>'` before broad discovery so the plan starts from the diff summary, audit summary index, and the most relevant audit.
+- If a manifest is in scope, read `docs/validation-memory.md` and `docs/validation-memory.json` before finalizing evidence so canonical command strings and manifest bucket rules are explicit.
 
 3. Manifest decision
 - Manifest is required for high-risk business logic, invoice-critical behavior, DB migrations, frontend/backend contract changes, generated artifact changes, agent/tooling/workflow changes, 3+ meaningful surfaces, broad autonomous changes, and resolver-required changes.
@@ -112,6 +116,7 @@ Default path:
 
 4. Business meaning
 - Update `docs/business-logic.md` if user-facing behavior, permissions, or workflow meaning changed.
+- Update `docs/product-vision.md` if the change clarifies the long-term interaction model, app feel, or Social Useful Network direction.
 
 5. Technical meaning
 - Update `docs/domain-technical.md` if entities, DTOs, relations, validations, permissions, workflows, or invariants changed.
@@ -134,6 +139,8 @@ Default path:
 - High-risk and workflow changes record exact validation commands and skipped-check reasons.
 - Frontend contract changes run `npm run validate:contracts`, `npm run type-check`, and `npm run build`.
 - Backend changes keep `./mvnw test` or the required targeted backend suite passing.
+- Agent-contract changes record `make generate-agent-operating-model`, `make generate-agent-artifacts`, and `make audit-agent-safety` when the machine-operational surface changed.
+- Workflow-expansion manifests include at least one `*ScenarioTest` in `testPaths` plus passed scenario or use-case contract evidence.
 
 10. Closeout
 - Tier 1: run `make audit-todo`.
@@ -143,8 +150,11 @@ Default path:
   `make audit-todo`
   `make audit-plan-completion plan=<plan-file> manifest=<manifest-file>`
   `make audit-validation-evidence-quality`
+  `make validation-memory-closeout-card`
   `make feature-closeout-audit manifest=<manifest-file>`
   `make closeout-report manifest=<manifest-file>` when a compact final review summary helps
+- After each completed plan or master plan, run `make post-plan-memory-update plan=<plan-file> [manifest=<manifest-file>] [source=<diagnostic-report>]` to refresh durable lessons, failure memory, and the standard control loop.
+- For product-direction work, confirm that `docs/product-memory.md` and `docs/product-vision.md` were the first canonical reference points before broader business or technical docs were expanded.
 
 11. Final response
 - State what changed.

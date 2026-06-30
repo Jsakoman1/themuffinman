@@ -1,28 +1,6 @@
 # Endpoint Contract Pack agent
 
-- Generated At: `2026-06-29T19:55:04Z`
-- Endpoint Family: `agent`
-## `endpoints`
 
-- `{:method: "POST", :path: "/admin/agent/playground", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java", :dtos: ["AdminAgentPlaygroundResponseDTO", "AdminAgentPlaygroundRequestDTO", "AdminAgentSimulationResponseDTO", "AdminAgentSimulationRequestDTO"]}`
-- `{:method: "POST", :path: "/admin/agent/simulate", :controller: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java", :dtos: ["AdminAgentPlaygroundResponseDTO", "AdminAgentPlaygroundRequestDTO", "AdminAgentSimulationResponseDTO", "AdminAgentSimulationRequestDTO"]}`
+## Details
 
-## `dto_files`
-
-- `apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java`
-
-## `frontend_callsites`
-
-- `{:file: "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts", :matched_paths: ["playground", "simulate"]}`
-- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts", :matched_paths: ["playground"]}`
-- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts", :matched_paths: ["/admin/agent/playground", "playground", "/admin/agent/simulate", "simulate"]}`
-
-## `docs`
-
-- `docs/agent-operating-model.md`
-- `docs/agent-operating-model.yaml`
-- `docs/domain-technical.md`
-
+- Endpoints: method: POST | path: /admin/agent/playground | controller: apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java | dtos: AdminAgentPlaygroundResponseDTO, AdminAgentPlaygroundRequestDTO, AdminAgentSimulationResponseDTO | method: POST | path: /admin/agent/simulate | controller: apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java | dtos: AdminAgentPlaygroundResponseDTO, AdminAgentPlaygroundRequestDTO, AdminAgentSimulationResponseDTO

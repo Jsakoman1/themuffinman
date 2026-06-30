@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:55:04Z",
+  "generated_at": "2026-06-30T10:53:31Z",
   "endpoint_family": "agent",
   "endpoints": [
     {
@@ -52,6 +52,12 @@
         "playground",
         "/admin/agent/simulate",
         "simulate"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+      "matched_paths": [
+        "playground"
       ]
     }
   ],

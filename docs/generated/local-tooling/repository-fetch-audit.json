@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:54:43Z",
+  "generated_at": "2026-06-30T10:54:35Z",
   "repository_count": 16,
   "repository_method_count": 100,
   "high_risk_count": 0,
@@ -524,7 +524,7 @@
 
       ],
       "fetch_coverage": "none_detected",
-      "caller_count": 1,
+      "caller_count": 0,
       "likely_lazy_relations_touched_downstream": [
 
       ],
@@ -533,21 +533,7 @@
 
       ],
       "callers": [
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
-          "caller_class": "LocationLookupService",
-          "caller_method": "getDebugStatus",
-          "caller_classification": "read_oriented",
-          "helper_types": [
 
-          ],
-          "relation_dereferences": [
-
-          ],
-          "body_signals": [
-            "dto_builder"
-          ]
-        }
       ]
     },
     {
@@ -562,7 +548,7 @@
 
       ],
       "fetch_coverage": "none_detected",
-      "caller_count": 1,
+      "caller_count": 0,
       "likely_lazy_relations_touched_downstream": [
 
       ],
@@ -571,21 +557,7 @@
 
       ],
       "callers": [
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
-          "caller_class": "LocationLookupService",
-          "caller_method": "getDebugStatus",
-          "caller_classification": "read_oriented",
-          "helper_types": [
 
-          ],
-          "relation_dereferences": [
-
-          ],
-          "body_signals": [
-            "dto_builder"
-          ]
-        }
       ]
     },
     {
@@ -600,7 +572,7 @@
 
       ],
       "fetch_coverage": "none_detected",
-      "caller_count": 1,
+      "caller_count": 3,
       "likely_lazy_relations_touched_downstream": [
 
       ],
@@ -609,6 +581,39 @@
 
       ],
       "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+          "caller_class": "DashboardService",
+          "caller_method": "getMyDashboard",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder",
+            "mapper_or_assembler",
+            "stream_mapping"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+          "caller_class": "DashboardService",
+          "caller_method": "getMySummary",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder",
+            "mapper_or_assembler"
+          ]
+        },
         {
           "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java",
           "caller_class": "AppUserService",
@@ -1727,7 +1732,7 @@
 
       ],
       "fetch_coverage": "none_detected",
-      "caller_count": 1,
+      "caller_count": 0,
       "likely_lazy_relations_touched_downstream": [
 
       ],
@@ -1736,21 +1741,7 @@
 
       ],
       "callers": [
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
-          "caller_class": "LocationLookupService",
-          "caller_method": "getDebugStatus",
-          "caller_classification": "read_oriented",
-          "helper_types": [
 
-          ],
-          "relation_dereferences": [
-
-          ],
-          "body_signals": [
-            "dto_builder"
-          ]
-        }
       ]
     },
     {
@@ -1765,7 +1756,7 @@
 
       ],
       "fetch_coverage": "none_detected",
-      "caller_count": 2,
+      "caller_count": 0,
       "likely_lazy_relations_touched_downstream": [
 
       ],
@@ -1774,36 +1765,7 @@
 
       ],
       "callers": [
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
-          "caller_class": "LocationLookupService",
-          "caller_method": "getDebugStatus",
-          "caller_classification": "read_oriented",
-          "helper_types": [
 
-          ],
-          "relation_dereferences": [
-
-          ],
-          "body_signals": [
-            "dto_builder"
-          ]
-        },
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
-          "caller_class": "LocationLookupService",
-          "caller_method": "getDebugStatus",
-          "caller_classification": "read_oriented",
-          "helper_types": [
-
-          ],
-          "relation_dereferences": [
-
-          ],
-          "body_signals": [
-            "dto_builder"
-          ]
-        }
       ]
     },
     {
@@ -2142,6 +2104,7 @@
           ],
           "body_signals": [
             "dto_builder",
+            "mapper_or_assembler",
             "stream_mapping"
           ]
         },
@@ -2157,7 +2120,8 @@
 
           ],
           "body_signals": [
-            "dto_builder"
+            "dto_builder",
+            "mapper_or_assembler"
           ]
         },
         {
@@ -2213,6 +2177,7 @@
           ],
           "body_signals": [
             "dto_builder",
+            "mapper_or_assembler",
             "stream_mapping"
           ]
         },
@@ -2228,7 +2193,8 @@
 
           ],
           "body_signals": [
-            "dto_builder"
+            "dto_builder",
+            "mapper_or_assembler"
           ]
         },
         {
@@ -3107,7 +3073,7 @@
 
       ],
       "fetch_coverage": "none_detected",
-      "caller_count": 1,
+      "caller_count": 0,
       "likely_lazy_relations_touched_downstream": [
 
       ],
@@ -3116,21 +3082,7 @@
 
       ],
       "callers": [
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
-          "caller_class": "LocationLookupService",
-          "caller_method": "getDebugStatus",
-          "caller_classification": "read_oriented",
-          "helper_types": [
 
-          ],
-          "relation_dereferences": [
-
-          ],
-          "body_signals": [
-            "dto_builder"
-          ]
-        }
       ]
     },
     {
@@ -3145,7 +3097,7 @@
 
       ],
       "fetch_coverage": "none_detected",
-      "caller_count": 1,
+      "caller_count": 0,
       "likely_lazy_relations_touched_downstream": [
 
       ],
@@ -3154,21 +3106,7 @@
 
       ],
       "callers": [
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
-          "caller_class": "LocationLookupService",
-          "caller_method": "getDebugStatus",
-          "caller_classification": "read_oriented",
-          "helper_types": [
 
-          ],
-          "relation_dereferences": [
-
-          ],
-          "body_signals": [
-            "dto_builder"
-          ]
-        }
       ]
     },
     {

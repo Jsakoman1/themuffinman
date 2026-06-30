@@ -85,6 +85,7 @@ Before broad repository searches, read the compact local context in this order:
 - `audit-test-surface-inventory`
 - `audit-todo`
 - `audit-validation-evidence-quality`
+- `audit-validation-memory-drift`
 - `autofill-feature-closeout`
 - `bootstrap-feature-work`
 - `changeset-playbook`
@@ -115,6 +116,7 @@ Before broad repository searches, read the compact local context in this order:
 - `link-symbol-to-tests`
 - `plan-code-map`
 - `post-merge-retrospective`
+- `post-plan-memory-update`
 - `rank-changeset-hotspots`
 - `recommend-feature-slices`
 - `recommend-targeted-tests`
@@ -129,4 +131,5 @@ Before broad repository searches, read the compact local context in this order:
 - `test-history-summary`
 - `validate-frontend-contracts`
 - `validation-matrix`
+- `validation-memory-closeout-card`
 - `workflow-slice-pack`

@@ -1,6 +1,6 @@
 # Rich Text Safety Audit
 
-- Generated At: `2026-06-29T19:55:02Z`
+- Generated At: `2026-06-30T11:28:35Z`
 ## `backend_fields`
 
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java", :line: 158, :snippet: "warnings.add(\"Batch quest generation must keep titles and descriptions meaningfully unique.\");"}`
@@ -15,14 +15,6 @@
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java", :line: 70, :snippet: "profile.setDescription(RichTextInputValidator.sanitize(dto.getDescription()));"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatContactDTO.java", :line: 19, :snippet: "private String profileDescription;"}`
 - `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSummaryDTO.java", :line: 21, :snippet: "private String otherUserProfileDescription;"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java", :line: 259, :snippet: ".otherUserProfileDescription(otherUser.getProfileDescription())"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java", :line: 282, :snippet: ".profileDescription(contact.getProfileDescription())"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AppUserRequestDTO.java", :line: 26, :snippet: "private String profileDescription;"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AppUserResponseDTO.java", :line: 27, :snippet: "private String profileDescription;"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java", :line: 10, :snippet: "String profileDescription,"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java", :line: 37, :snippet: ".profileDescription(RichTextInputValidator.sanitize(appUser.getProfileDescription()))"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java", :line: 21, :snippet: "RichTextInputValidator.sanitize(appUser.getProfileDescription()),"}`
-- `{:file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/AppUser.java", :line: 32, :snippet: "private String profileDescription;"}`
 
 ## `frontend_renderers`
 
@@ -38,12 +30,4 @@
 - `{:file: "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue", :line: 112, :snippet: "const isEmpty = computed(() :  editor.value?.isEmpty ?? !richTextHasContent(props.modelValue))"}`
 - `{:file: "apps/themuffinman/frontend/src/components/profile/ProfileEntityCard.vue", :line: 4, :snippet: "import ProfileBio from \"./ProfileBio.vue\""}`
 - `{:file: "apps/themuffinman/frontend/src/components/profile/ProfileEntityCard.vue", :line: 51, :snippet: "<ProfileBio v-if=\"description || descriptionPlaceholder\" :text=\"description\" :placeholder=\"descriptionPlaceholder\" />"}`
-- `{:file: "apps/themuffinman/frontend/src/components/profile/ProfileOpenQuestItem.vue", :line: 3, :snippet: "import ProfileBio from \"./ProfileBio.vue\""}`
-- `{:file: "apps/themuffinman/frontend/src/components/profile/ProfileOpenQuestItem.vue", :line: 35, :snippet: "<ProfileBio v-if=\"description\" class=\"ui-inline-card-link__description\" :text=\"description\" />"}`
-- `{:file: "apps/themuffinman/frontend/src/components/profile/ProfileSummaryCard.vue", :line: 3, :snippet: "import ProfileBio from \"./ProfileBio.vue\""}`
-- `{:file: "apps/themuffinman/frontend/src/components/profile/ProfileSummaryCard.vue", :line: 46, :snippet: "<ProfileBio :text=\"description\" :placeholder=\"descriptionPlaceholder\" />"}`
-- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue", :line: 6, :snippet: "import ProfileBio from \"../../../../components/profile/ProfileBio.vue\""}`
-- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue", :line: 7, :snippet: "import {richTextHasContent} from \"../../../../shared/richText.ts\""}`
-- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue", :line: 201, :snippet: "<ProfileBio"}`
-- `{:file: "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue", :line: 202, :snippet: "v-if=\"richTextHasContent(myApplication.message)\""}`
 

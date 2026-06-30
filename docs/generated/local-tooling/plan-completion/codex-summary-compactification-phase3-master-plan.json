@@ -1,0 +1,53 @@
+{
+  "plan": ".agents/codex-summary-compactification-phase3-master-plan.md",
+  "exists": true,
+  "completion_evidence": true,
+  "completion_status": "complete",
+  "open_tasks": [
+
+  ],
+  "unresolved_open_tasks": [
+
+  ],
+  "child_plans": [
+    {
+      "line": 11,
+      "checked": true,
+      "path": ".agents/todo-plans/116-codex-summary-changeset-playbook-compaction.md",
+      "text": "- [x] `CODEX-SUMMARY-CHANGESET-PLAYBOOK-COMPACTION` - `.agents/todo-plans/116-codex-summary-changeset-playbook-compaction.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 12,
+      "checked": true,
+      "path": ".agents/todo-plans/117-codex-summary-audit-summary-index-compaction.md",
+      "text": "- [x] `CODEX-SUMMARY-AUDIT-SUMMARY-INDEX-COMPACTION` - `.agents/todo-plans/117-codex-summary-audit-summary-index-compaction.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    },
+    {
+      "line": 13,
+      "checked": true,
+      "path": ".agents/todo-plans/118-codex-summary-endpoint-contract-packs-compaction.md",
+      "text": "- [x] `CODEX-SUMMARY-ENDPOINT-CONTRACT-PACKS-COMPACTION` - `.agents/todo-plans/118-codex-summary-endpoint-contract-packs-compaction.md`",
+      "status": "complete",
+      "child_issues": [
+
+      ]
+    }
+  ],
+  "issues": [
+
+  ],
+  "warnings": [
+
+  ],
+  "status": "passed",
+  "generated_at": "2026-06-30T11:08:09Z",
+  "manifest": null
+}

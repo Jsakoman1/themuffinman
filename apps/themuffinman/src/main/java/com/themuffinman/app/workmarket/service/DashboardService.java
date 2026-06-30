@@ -1,6 +1,7 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.common.concepts.ActorIdentity;
+import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
@@ -10,6 +11,7 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.dto.DashboardResponseDTO;
 import com.themuffinman.app.workmarket.dto.DashboardSectionsDTO;
 import com.themuffinman.app.workmarket.dto.DashboardSummaryDTO;
+import com.themuffinman.app.workmarket.dto.DashboardVoiceConfigDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
@@ -46,6 +48,7 @@ public class DashboardService {
     private final WorkmarketOptionsService workmarketOptionsService;
     private final DashboardSectionsFactory dashboardSectionsFactory;
     private final DashboardSummaryAssembler dashboardSummaryAssembler;
+    private final VoiceProperties voiceProperties;
 
     private static final Map<QuestStatus, Integer> QUEST_STATUS_SORT_ORDER = Map.of(
             QuestStatus.OPEN, 0,
@@ -137,6 +140,23 @@ public class DashboardService {
                 appUserRepository.count(),
                 appUserRepository.countByRole(com.themuffinman.app.identity.model.AppUserRole.ADMIN)
         );
+    }
+
+    public DashboardVoiceConfigDTO getMyVoiceConfig(AppUser currentUser) {
+        boolean authenticated = currentUser != null;
+
+        return DashboardVoiceConfigDTO.builder()
+                .enabled(authenticated && voiceProperties.isEnabled())
+                .speechToTextEnabled(authenticated && voiceProperties.isEnabled() && voiceProperties.isSpeechToTextEnabled())
+                .textToSpeechEnabled(authenticated && voiceProperties.isEnabled() && voiceProperties.isTextToSpeechEnabled())
+                .recognitionProvider(voiceProperties.getRecognitionProvider())
+                .synthesisProvider(voiceProperties.getSynthesisProvider())
+                .preferredLocale(voiceProperties.getPreferredLocale())
+                .interimResults(voiceProperties.isInterimResults())
+                .continuousRecognition(voiceProperties.isContinuousRecognition())
+                .maxAlternatives(voiceProperties.getMaxAlternatives())
+                .autoSpeakResponses(voiceProperties.isAutoSpeakResponses())
+                .build();
     }
 
     private List<Quest> sortQuests(List<Quest> quests) {

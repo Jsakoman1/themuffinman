@@ -22,8 +22,11 @@ The machine-readable source of truth is:
 - Treat backend code as the final execution authority.
 - Treat `docs/codex-fast-path.md` as the compact execution entrypoint for most feature work.
 - `docs/codex-fast-path.md` is the compact execution entrypoint for most feature work.
+- For product-direction, UX, adaptive-surface, or Social Useful Network sessions, read `docs/product-memory.md` and `docs/product-vision.md` first so future reasoning starts from durable lessons and the canonical product direction instead of from backlog noise.
 - Treat `agent-operating-model.yaml` as the machine-operational contract for high-impact workflows.
 - Treat `docs/feature-delivery-workflow.md` as the canonical human-readable source for the end-to-end feature delivery process around plans, context, validation evidence, and closeout.
+- Treat `docs/validation-memory.md` and `docs/validation-memory.json` as the compact durable memory for canonical validator-facing commands, manifest evidence shape, and repeat closeout pitfalls.
+- Treat `docs/generated/local-tooling/validation-memory-closeout-card-summary.md` as the shortest generated reminder for manifest-backed closeout commands when the full validation-memory docs would be excessive.
 - Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it.
 - Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
 - Treat the section files under `docs/agent-operating-model/sections/` as the editable source for that machine contract and regenerate the combined YAML after changes.
@@ -51,6 +54,7 @@ The machine-readable source of truth is:
 - Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it.
 - Deferred implementation or control-system follow-ups must use stable backlog IDs, and matching inline `TODO(<ID>):` or `FIXME(<ID>):` notes must not outlive the open backlog item they reference.
 - `scripts/todo-audit.rb` must keep persistent backlog IDs traceable to plans, feature manifests, docs, code surfaces, or inline `TODO(<ID>):` and `FIXME(<ID>):` references.
+- After a completed plan or master plan, append durable lessons to `docs/product-memory.md` and run the standard post-plan control loop so stable memory, failure knowledge, and source-of-truth docs stay aligned.
 - Do not paraphrase, shorten, reorder, or partially restate protected canonical wording.
 
 Unified clarification contract:
@@ -122,6 +126,7 @@ Initial agent-safe workflows:
 - `open_location_debug_status`
 - `open_dashboard`
 - `open_dashboard_summary`
+- `open_dashboard_voice_config`
 - `open_quest_feed`
 - `open_quest_preset`
 - `open_quest_record`
@@ -211,14 +216,16 @@ Self-test matrix:
 Tiered workflow routing:
 - Tier 1 tiny changes use compact context, no manifest by default, targeted validation, and `make audit-todo`.
 - Tier 2 normal features require a short plan, use resolver-driven manifest decisions, and close through `make audit-plan-completion`.
-- Tier 3 high-risk or multi-layer features require plan, manifest, validation evidence, and full closeout.
+- Tier 3 high-risk or multi-layer features require plan, manifest, validation evidence, `make validation-memory-closeout-card`, and full closeout.
 - Tier 4 agent, tooling, or workflow changes keep the strictest path because they affect future Codex behavior.
 - Final responses must state what changed, what was validated, and any remaining risks or not-run checks.
 
 Context-first session workflow:
 - start with `docs/generated/local-tooling/diff-summary.md` to understand the changed-file shape before broad repository exploration
 - read `docs/generated/local-tooling/audit-summary-index.md` to choose the smallest relevant generated report
-- generate or read a topic context pack with `make context-pack topic=<topic>` when the task has a clear feature, domain, or changed-file focus
+- generate or read a topic context pack with `make codex-context topic=<topic> intent='<intent>'` when the task has a clear feature, domain, or changed-file focus; it now chains the diff summary, audit summary index, the most relevant audit, targeted tests, and a concise evidence bundle
+- treat `docs/generated/local-tooling/codex-context/latest.execution.json` as the canonical machine-readable manifest for the current context batch and `docs/codex-context-execution-manifest.schema.json` as its contract
+- for product-direction sessions, prepend `docs/product-memory.md` and `docs/product-vision.md` before broader business or technical docs so stable lessons and vision anchor the rest of the search
 - use `docs/generated/local-tooling/repo-map-summary.md` and `docs/generated/local-tooling/symbol-index-summary.md` only after the compact diff, audit index, and context pack do not identify the needed files
 - fall back to broad `rg` exploration only after the compact context path is insufficient
 
@@ -229,6 +236,7 @@ Broad implementation checkpoints:
 - first frontend slice checkpoint: when frontend is in scope, complete the smallest meaningful frontend contract, state, route, or component edit and record type-check, build, contract validation, or a not-applicable reason before broadening frontend edits
 - docs/artifacts sync checkpoint: update affected living docs and regenerate affected generated artifacts before treating behavior, contract, workflow, or automation-assumption changes as complete
 - validation checkpoint: record exact targeted checks plus any required full checks or concrete skipped-check reasons before marking the slice complete
+- validation checkpoint: when a manifest is in scope, prefer canonical validator-facing command strings in recorded evidence instead of only equivalent shell variants
 - commit boundary checkpoint: remove the persistent backlog item only after implementation and validation are complete, align temporary and master plan status with reality, and skip commit or push unless the user explicitly requested it
 
 Current mutation execution pattern:
@@ -248,6 +256,7 @@ Current control-test pattern:
 - generated backend audit inventory classifies the full backend into `executor_critical`, `automation_relevant`, `internal_support`, and `out_of_scope`
 - generated backend audit inventory also assigns every backend file to an explicit domain and owner so drift review can stay product-oriented instead of file-list oriented
 - generated source-of-truth audit also emits ownership-aware candidate entries plus domain and owner summaries for tracked controllers, services, mappers, and tests
+- Backend-provided read-only voice configuration keeps adaptive `/vision` speech defaults explicit instead of letting clients infer them ad hoc.
 - current fail-hard enforcement stays intentionally limited to `executor_critical`, while broader backend coverage stays inventory-first and report-first
 - the first stricter `automation_relevant` subset is the admin-agent planner DTO contract surface, which now requires source registration plus documentation coverage even though the wider tier is still report-first
 - the second stricter `automation_relevant` subset is the chat DTO contract surface, so chat workspace, conversation, message, and socket contract files cannot drift away from source registration or documentation coverage

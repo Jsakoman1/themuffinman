@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:54:43Z",
+  "generated_at": "2026-06-30T11:19:54Z",
   "dto_count": 137,
   "missing_contract_count": 9,
   "zero_usage_field_count": 79,
@@ -131,7 +131,7 @@
         {
           "field": "title",
           "in_generated_contract": true,
-          "frontend_usage_count": 112,
+          "frontend_usage_count": 106,
           "drift_category": "used"
         },
         {
@@ -293,7 +293,7 @@
         {
           "field": "status",
           "in_generated_contract": true,
-          "frontend_usage_count": 39,
+          "frontend_usage_count": 33,
           "drift_category": "used"
         }
       ]
@@ -307,7 +307,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -331,7 +331,7 @@
         {
           "field": "name",
           "in_generated_contract": true,
-          "frontend_usage_count": 23,
+          "frontend_usage_count": 20,
           "drift_category": "used"
         },
         {
@@ -369,7 +369,7 @@
         {
           "field": "circles",
           "in_generated_contract": true,
-          "frontend_usage_count": 32,
+          "frontend_usage_count": 26,
           "drift_category": "used"
         },
         {
@@ -389,7 +389,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -439,7 +439,7 @@
         {
           "field": "status",
           "in_generated_contract": true,
-          "frontend_usage_count": 39,
+          "frontend_usage_count": 33,
           "drift_category": "used"
         }
       ]
@@ -459,7 +459,7 @@
         {
           "field": "circles",
           "in_generated_contract": true,
-          "frontend_usage_count": 32,
+          "frontend_usage_count": 26,
           "drift_category": "used"
         },
         {
@@ -509,7 +509,7 @@
         {
           "field": "status",
           "in_generated_contract": true,
-          "frontend_usage_count": 39,
+          "frontend_usage_count": 33,
           "drift_category": "used"
         }
       ]
@@ -835,7 +835,7 @@
         {
           "field": "email",
           "in_generated_contract": true,
-          "frontend_usage_count": 35,
+          "frontend_usage_count": 32,
           "drift_category": "used"
         },
         {
@@ -847,7 +847,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -907,7 +907,7 @@
         {
           "field": "username",
           "in_generated_contract": true,
-          "frontend_usage_count": 53,
+          "frontend_usage_count": 50,
           "drift_category": "used"
         }
       ]
@@ -921,13 +921,13 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2196,
+          "frontend_usage_count": 2167,
           "drift_category": "used"
         }
       ]
@@ -974,7 +974,7 @@
         {
           "field": "circleId",
           "in_generated_contract": true,
-          "frontend_usage_count": 23,
+          "frontend_usage_count": 22,
           "drift_category": "used"
         },
         {
@@ -994,7 +994,7 @@
         {
           "field": "items",
           "in_generated_contract": true,
-          "frontend_usage_count": 76,
+          "frontend_usage_count": 75,
           "drift_category": "used"
         }
       ]
@@ -1032,7 +1032,7 @@
         {
           "field": "description",
           "in_generated_contract": true,
-          "frontend_usage_count": 66,
+          "frontend_usage_count": 60,
           "drift_category": "used"
         },
         {
@@ -1094,7 +1094,7 @@
         {
           "field": "description",
           "in_generated_contract": true,
-          "frontend_usage_count": 66,
+          "frontend_usage_count": 60,
           "drift_category": "used"
         },
         {
@@ -1106,7 +1106,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -1150,13 +1150,13 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
           "field": "name",
           "in_generated_contract": true,
-          "frontend_usage_count": 23,
+          "frontend_usage_count": 20,
           "drift_category": "used"
         }
       ]
@@ -1230,7 +1230,7 @@
         {
           "field": "username",
           "in_generated_contract": true,
-          "frontend_usage_count": 53,
+          "frontend_usage_count": 50,
           "drift_category": "used"
         }
       ]
@@ -1354,7 +1354,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -1502,7 +1502,7 @@
         {
           "field": "circles",
           "in_generated_contract": true,
-          "frontend_usage_count": 32,
+          "frontend_usage_count": 26,
           "drift_category": "used"
         },
         {
@@ -1554,13 +1554,13 @@
         {
           "field": "email",
           "in_generated_contract": true,
-          "frontend_usage_count": 35,
+          "frontend_usage_count": 32,
           "drift_category": "used"
         },
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -1578,7 +1578,7 @@
         {
           "field": "username",
           "in_generated_contract": true,
-          "frontend_usage_count": 53,
+          "frontend_usage_count": 50,
           "drift_category": "used"
         }
       ]
@@ -1592,7 +1592,7 @@
         {
           "field": "circleId",
           "in_generated_contract": true,
-          "frontend_usage_count": 23,
+          "frontend_usage_count": 22,
           "drift_category": "used"
         },
         {
@@ -1672,7 +1672,7 @@
         {
           "field": "username",
           "in_generated_contract": true,
-          "frontend_usage_count": 53,
+          "frontend_usage_count": 50,
           "drift_category": "used"
         }
       ]
@@ -1686,7 +1686,7 @@
         {
           "field": "items",
           "in_generated_contract": true,
-          "frontend_usage_count": 76,
+          "frontend_usage_count": 75,
           "drift_category": "used"
         },
         {
@@ -1724,7 +1724,7 @@
         {
           "field": "name",
           "in_generated_contract": true,
-          "frontend_usage_count": 23,
+          "frontend_usage_count": 20,
           "drift_category": "used"
         }
       ]
@@ -1744,7 +1744,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -1768,7 +1768,7 @@
         {
           "field": "name",
           "in_generated_contract": true,
-          "frontend_usage_count": 23,
+          "frontend_usage_count": 20,
           "drift_category": "used"
         },
         {
@@ -1812,7 +1812,7 @@
         {
           "field": "username",
           "in_generated_contract": true,
-          "frontend_usage_count": 53,
+          "frontend_usage_count": 50,
           "drift_category": "used"
         }
       ]
@@ -1919,7 +1919,7 @@
         {
           "field": "items",
           "in_generated_contract": true,
-          "frontend_usage_count": 76,
+          "frontend_usage_count": 75,
           "drift_category": "used"
         },
         {
@@ -2005,7 +2005,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -2115,7 +2115,7 @@
         {
           "field": "email",
           "in_generated_contract": true,
-          "frontend_usage_count": 35,
+          "frontend_usage_count": 32,
           "drift_category": "used"
         },
         {
@@ -2127,7 +2127,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -2193,7 +2193,7 @@
         {
           "field": "username",
           "in_generated_contract": true,
-          "frontend_usage_count": 53,
+          "frontend_usage_count": 50,
           "drift_category": "used"
         }
       ]
@@ -2207,7 +2207,7 @@
         {
           "field": "items",
           "in_generated_contract": true,
-          "frontend_usage_count": 76,
+          "frontend_usage_count": 75,
           "drift_category": "used"
         },
         {
@@ -2245,13 +2245,13 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
           "field": "name",
           "in_generated_contract": true,
-          "frontend_usage_count": 23,
+          "frontend_usage_count": 20,
           "drift_category": "used"
         }
       ]
@@ -2285,7 +2285,7 @@
         {
           "field": "items",
           "in_generated_contract": true,
-          "frontend_usage_count": 76,
+          "frontend_usage_count": 75,
           "drift_category": "used"
         },
         {
@@ -2297,7 +2297,7 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
@@ -2317,19 +2317,19 @@
         {
           "field": "description",
           "in_generated_contract": true,
-          "frontend_usage_count": 66,
+          "frontend_usage_count": 60,
           "drift_category": "used"
         },
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
           "field": "title",
           "in_generated_contract": true,
-          "frontend_usage_count": 112,
+          "frontend_usage_count": 106,
           "drift_category": "used"
         }
       ]
@@ -2426,7 +2426,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -2462,7 +2462,7 @@
         {
           "field": "title",
           "in_generated_contract": true,
-          "frontend_usage_count": 112,
+          "frontend_usage_count": 106,
           "drift_category": "used"
         },
         {
@@ -2534,7 +2534,7 @@
         {
           "field": "endsAt",
           "in_generated_contract": true,
-          "frontend_usage_count": 36,
+          "frontend_usage_count": 35,
           "drift_category": "used"
         },
         {
@@ -2546,7 +2546,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -2576,13 +2576,13 @@
         {
           "field": "scheduledAt",
           "in_generated_contract": true,
-          "frontend_usage_count": 34,
+          "frontend_usage_count": 33,
           "drift_category": "used"
         },
         {
           "field": "title",
           "in_generated_contract": true,
-          "frontend_usage_count": 112,
+          "frontend_usage_count": 106,
           "drift_category": "used"
         },
         {
@@ -2628,7 +2628,7 @@
         {
           "field": "items",
           "in_generated_contract": true,
-          "frontend_usage_count": 76,
+          "frontend_usage_count": 75,
           "drift_category": "used"
         },
         {
@@ -2640,7 +2640,7 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
@@ -2672,7 +2672,7 @@
         {
           "field": "circles",
           "in_generated_contract": true,
-          "frontend_usage_count": 32,
+          "frontend_usage_count": 26,
           "drift_category": "used"
         },
         {
@@ -2938,19 +2938,19 @@
         {
           "field": "description",
           "in_generated_contract": true,
-          "frontend_usage_count": 66,
+          "frontend_usage_count": 60,
           "drift_category": "used"
         },
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2196,
+          "frontend_usage_count": 2167,
           "drift_category": "used"
         }
       ]
@@ -2964,13 +2964,13 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2196,
+          "frontend_usage_count": 2167,
           "drift_category": "used"
         }
       ]
@@ -3130,7 +3130,7 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
@@ -3212,7 +3212,7 @@
         {
           "field": "items",
           "in_generated_contract": true,
-          "frontend_usage_count": 76,
+          "frontend_usage_count": 75,
           "drift_category": "used"
         },
         {
@@ -3232,19 +3232,19 @@
         {
           "field": "description",
           "in_generated_contract": true,
-          "frontend_usage_count": 66,
+          "frontend_usage_count": 60,
           "drift_category": "used"
         },
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2196,
+          "frontend_usage_count": 2167,
           "drift_category": "used"
         }
       ]
@@ -3333,7 +3333,7 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
@@ -3534,7 +3534,7 @@
         {
           "field": "items",
           "in_generated_contract": true,
-          "frontend_usage_count": 76,
+          "frontend_usage_count": 75,
           "drift_category": "used"
         },
         {
@@ -3715,7 +3715,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -3811,7 +3811,7 @@
         {
           "field": "status",
           "in_generated_contract": true,
-          "frontend_usage_count": 39,
+          "frontend_usage_count": 33,
           "drift_category": "used"
         }
       ]
@@ -3825,13 +3825,13 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2196,
+          "frontend_usage_count": 2167,
           "drift_category": "used"
         }
       ]
@@ -3913,13 +3913,13 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2196,
+          "frontend_usage_count": 2167,
           "drift_category": "used"
         }
       ]
@@ -3933,19 +3933,19 @@
         {
           "field": "description",
           "in_generated_contract": true,
-          "frontend_usage_count": 66,
+          "frontend_usage_count": 60,
           "drift_category": "used"
         },
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2196,
+          "frontend_usage_count": 2167,
           "drift_category": "used"
         }
       ]
@@ -4114,7 +4114,7 @@
         {
           "field": "placeholder",
           "in_generated_contract": true,
-          "frontend_usage_count": 7,
+          "frontend_usage_count": 6,
           "drift_category": "used"
         },
         {
@@ -4132,7 +4132,7 @@
         {
           "field": "target",
           "in_generated_contract": true,
-          "frontend_usage_count": 86,
+          "frontend_usage_count": 79,
           "drift_category": "used"
         },
         {
@@ -4164,7 +4164,7 @@
         {
           "field": "username",
           "in_generated_contract": true,
-          "frontend_usage_count": 53,
+          "frontend_usage_count": 50,
           "drift_category": "used"
         }
       ]
@@ -4311,7 +4311,7 @@
         {
           "field": "items",
           "in_generated_contract": true,
-          "frontend_usage_count": 76,
+          "frontend_usage_count": 75,
           "drift_category": "used"
         },
         {
@@ -4349,19 +4349,19 @@
         {
           "field": "description",
           "in_generated_contract": true,
-          "frontend_usage_count": 66,
+          "frontend_usage_count": 60,
           "drift_category": "used"
         },
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2196,
+          "frontend_usage_count": 2167,
           "drift_category": "used"
         }
       ]
@@ -4456,7 +4456,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -4504,7 +4504,7 @@
         {
           "field": "title",
           "in_generated_contract": true,
-          "frontend_usage_count": 112,
+          "frontend_usage_count": 106,
           "drift_category": "used"
         },
         {
@@ -4772,13 +4772,13 @@
         {
           "field": "audience",
           "in_generated_contract": true,
-          "frontend_usage_count": 34,
+          "frontend_usage_count": 27,
           "drift_category": "used"
         },
         {
           "field": "endsAt",
           "in_generated_contract": true,
-          "frontend_usage_count": 36,
+          "frontend_usage_count": 35,
           "drift_category": "used"
         },
         {
@@ -4838,7 +4838,7 @@
         {
           "field": "scheduledAt",
           "in_generated_contract": true,
-          "frontend_usage_count": 34,
+          "frontend_usage_count": 33,
           "drift_category": "used"
         },
         {
@@ -4850,7 +4850,7 @@
         {
           "field": "status",
           "in_generated_contract": true,
-          "frontend_usage_count": 39,
+          "frontend_usage_count": 33,
           "drift_category": "used"
         },
         {
@@ -4888,13 +4888,13 @@
         {
           "field": "audience",
           "in_generated_contract": true,
-          "frontend_usage_count": 34,
+          "frontend_usage_count": 27,
           "drift_category": "used"
         },
         {
           "field": "awardAmount",
           "in_generated_contract": true,
-          "frontend_usage_count": 27,
+          "frontend_usage_count": 26,
           "drift_category": "used"
         },
         {
@@ -4906,7 +4906,7 @@
         {
           "field": "creatorId",
           "in_generated_contract": true,
-          "frontend_usage_count": 8,
+          "frontend_usage_count": 7,
           "drift_category": "used"
         },
         {
@@ -4936,13 +4936,13 @@
         {
           "field": "description",
           "in_generated_contract": true,
-          "frontend_usage_count": 66,
+          "frontend_usage_count": 60,
           "drift_category": "used"
         },
         {
           "field": "endsAt",
           "in_generated_contract": true,
-          "frontend_usage_count": 36,
+          "frontend_usage_count": 35,
           "drift_category": "used"
         },
         {
@@ -4960,7 +4960,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -5080,7 +5080,7 @@
         {
           "field": "scheduledAt",
           "in_generated_contract": true,
-          "frontend_usage_count": 34,
+          "frontend_usage_count": 33,
           "drift_category": "used"
         },
         {
@@ -5092,7 +5092,7 @@
         {
           "field": "status",
           "in_generated_contract": true,
-          "frontend_usage_count": 39,
+          "frontend_usage_count": 33,
           "drift_category": "used"
         },
         {
@@ -5104,7 +5104,7 @@
         {
           "field": "title",
           "in_generated_contract": true,
-          "frontend_usage_count": 112,
+          "frontend_usage_count": 106,
           "drift_category": "used"
         },
         {
@@ -5168,7 +5168,7 @@
         {
           "field": "audience",
           "in_generated_contract": true,
-          "frontend_usage_count": 34,
+          "frontend_usage_count": 27,
           "drift_category": "used"
         },
         {
@@ -5228,7 +5228,7 @@
         {
           "field": "status",
           "in_generated_contract": true,
-          "frontend_usage_count": 39,
+          "frontend_usage_count": 33,
           "drift_category": "used"
         },
         {
@@ -5260,13 +5260,13 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2196,
+          "frontend_usage_count": 2167,
           "drift_category": "used"
         }
       ]
@@ -5280,13 +5280,13 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2196,
+          "frontend_usage_count": 2167,
           "drift_category": "used"
         }
       ]
@@ -5300,13 +5300,13 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
           "field": "value",
           "in_generated_contract": true,
-          "frontend_usage_count": 2196,
+          "frontend_usage_count": 2167,
           "drift_category": "used"
         }
       ]
@@ -5338,7 +5338,7 @@
         {
           "field": "items",
           "in_generated_contract": true,
-          "frontend_usage_count": 76,
+          "frontend_usage_count": 75,
           "drift_category": "used"
         }
       ]
@@ -5432,7 +5432,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -5528,7 +5528,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -5546,7 +5546,7 @@
         {
           "field": "status",
           "in_generated_contract": true,
-          "frontend_usage_count": 39,
+          "frontend_usage_count": 33,
           "drift_category": "used"
         }
       ]
@@ -5560,7 +5560,7 @@
         {
           "field": "items",
           "in_generated_contract": true,
-          "frontend_usage_count": 76,
+          "frontend_usage_count": 75,
           "drift_category": "used"
         }
       ]
@@ -5586,13 +5586,13 @@
         {
           "field": "description",
           "in_generated_contract": true,
-          "frontend_usage_count": 66,
+          "frontend_usage_count": 60,
           "drift_category": "used"
         },
         {
           "field": "title",
           "in_generated_contract": true,
-          "frontend_usage_count": 112,
+          "frontend_usage_count": 106,
           "drift_category": "used"
         }
       ]
@@ -5624,13 +5624,13 @@
         {
           "field": "description",
           "in_generated_contract": true,
-          "frontend_usage_count": 66,
+          "frontend_usage_count": 60,
           "drift_category": "used"
         },
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {
@@ -5654,7 +5654,7 @@
         {
           "field": "title",
           "in_generated_contract": true,
-          "frontend_usage_count": 112,
+          "frontend_usage_count": 106,
           "drift_category": "used"
         },
         {
@@ -5722,7 +5722,7 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
@@ -5850,7 +5850,7 @@
         {
           "field": "label",
           "in_generated_contract": true,
-          "frontend_usage_count": 145,
+          "frontend_usage_count": 132,
           "drift_category": "used"
         },
         {
@@ -6062,7 +6062,7 @@
         {
           "field": "id",
           "in_generated_contract": true,
-          "frontend_usage_count": 271,
+          "frontend_usage_count": 263,
           "drift_category": "used"
         },
         {

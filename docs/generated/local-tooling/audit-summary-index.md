@@ -1,59 +1,9 @@
 # Audit Summary Index
 
-- Generated At: `2026-06-29T19:55:22Z`
-## `registry`
 
-- `{:target: "audit-change-impact-preflight", :script: "scripts/audits/audit-change-impact-preflight.rb", :output: "docs/generated/local-tooling/change-impact-preflight-summary.md", :output_exists: true}`
-- `{:target: "changeset-risk", :script: "scripts/audits/score-changeset-risk.rb", :output: "docs/generated/local-tooling/changeset-risk-summary.md", :output_exists: true}`
-- `{:target: "audit-router", :script: "scripts/audits/audit-router.rb", :output: "docs/generated/local-tooling/audit-router-summary.md", :output_exists: true}`
-- `{:target: "codex-context", :script: "scripts/audits/codex-context.rb", :output: "docs/generated/local-tooling/codex-context/latest.human.md", :output_exists: true}`
-- `{:target: "codex-context-explain", :script: "scripts/audits/codex-context.rb", :output: "docs/generated/local-tooling/codex-context/latest.explain.md", :output_exists: true}`
-- `{:target: "codex-context-clean", :script: "scripts/audits/codex-context.rb", :output: "docs/generated/local-tooling/codex-context/", :output_exists: true}`
-- `{:target: "clean-text-noise", :script: "scripts/audits/clean-text-noise.rb", :output: "docs/generated/local-tooling/clean-text-noise-summary.md", :output_exists: false}`
-- `{:target: "context-pack", :script: "scripts/audits/generate-context-pack.rb", :output: "docs/generated/local-tooling/context-packs", :output_exists: true}`
-- `{:target: "recommend-feature-slices", :script: "scripts/audits/recommend-feature-slices.rb", :output: "docs/generated/local-tooling/feature-slices/<topic>-summary.md", :output_exists: false}`
-- `{:target: "recommend-targeted-tests", :script: "scripts/audits/recommend-targeted-tests.rb", :output: "docs/generated/local-tooling/targeted-tests-summary.md", :output_exists: true}`
-- `{:target: "repo-map", :script: "scripts/audits/generate-repo-map.rb", :output: "docs/generated/local-tooling/repo-map-summary.md", :output_exists: true}`
-- `{:target: "symbol-index", :script: "scripts/audits/generate-symbol-index.rb", :output: "docs/generated/local-tooling/symbol-index-summary.md", :output_exists: true}`
-- `{:target: "endpoint-contract-packs", :script: "scripts/audits/generate-endpoint-contract-packs.rb", :output: "docs/generated/local-tooling/endpoint-contract-packs", :output_exists: true}`
-- `{:target: "validation-matrix", :script: "scripts/audits/generate-validation-matrix.rb", :output: "docs/generated/local-tooling/validation-matrix-summary.md", :output_exists: true}`
-- `{:target: "changeset-playbook", :script: "scripts/audits/generate-changeset-playbook.rb", :output: "docs/generated/local-tooling/changeset-playbook-summary.md", :output_exists: true}`
-- `{:target: "resolve-manifest-path", :script: "scripts/audits/resolve-manifest-path.rb", :output: "docs/generated/local-tooling/manifest-path-resolution-summary.md", :output_exists: true}`
-- `{:target: "link-symbol-to-tests", :script: "scripts/audits/link-symbol-to-tests.rb", :output: "docs/generated/local-tooling/symbol-test-links/<symbol-name>-summary.md", :output_exists: false}`
-- `{:target: "dto-usage-pack", :script: "scripts/audits/generate-dto-usage-pack.rb", :output: "docs/generated/local-tooling/dto-usage-packs/<dto-name>-summary.md", :output_exists: false}`
-- `{:target: "workflow-slice-pack", :script: "scripts/audits/generate-workflow-slice-pack.rb", :output: "docs/generated/local-tooling/workflow-slices/<workflow-id>-summary.md", :output_exists: false}`
-- `{:target: "plan-code-map", :script: "scripts/audits/generate-plan-code-map.rb", :output: "docs/generated/local-tooling/plan-code-maps/<plan-id>-summary.md", :output_exists: false}`
-- `{:target: "rank-changeset-hotspots", :script: "scripts/audits/rank-changeset-hotspots.rb", :output: "docs/generated/local-tooling/hotspots-summary.md", :output_exists: true}`
-- `{:target: "domain-pack", :script: "scripts/audits/generate-domain-pack.rb", :output: "docs/generated/local-tooling/domain-packs/<domain-id>-summary.md", :output_exists: false}`
-- `{:target: "audit-doc-sync-preflight", :script: "scripts/audits/audit-doc-sync-preflight.rb", :output: "docs/generated/local-tooling/doc-sync-preflight-summary.md", :output_exists: true}`
-- `{:target: "audit-doc-sync-required-surfaces", :script: "scripts/audits/audit-doc-sync-required-surfaces.rb", :output: "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md", :output_exists: true}`
-- `{:target: "audit-doc-template-coverage", :script: "scripts/audits/audit-doc-template-coverage.rb", :output: "docs/generated/local-tooling/doc-template-coverage-summary.md", :output_exists: true}`
+## Details
 
-## `summaries`
-
-- `{:path: "docs/generated/dead-code-audit/backend-unused-summary.md", :mtime: "2026-06-29T19:54:50Z", :bytes: 1279}`
-- `{:path: "docs/generated/dead-code-audit/dead-code-summary-summary.md", :mtime: "2026-06-29T19:54:50Z", :bytes: 2290}`
-- `{:path: "docs/generated/dead-code-audit/frontend-unused-summary.md", :mtime: "2026-06-29T19:54:46Z", :bytes: 3181}`
-- `{:path: "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md", :mtime: "2026-06-29T19:54:52Z", :bytes: 1134}`
-- `{:path: "docs/generated/local-tooling/api-contract-drift-summary.md", :mtime: "2026-06-29T19:54:43Z", :bytes: 4491}`
-- `{:path: "docs/generated/local-tooling/api-contract-snapshot-summary.md", :mtime: "2026-06-29T19:55:22Z", :bytes: 6252}`
-- `{:path: "docs/generated/local-tooling/architecture-decision-index-summary.md", :mtime: "2026-06-29T19:54:52Z", :bytes: 1239}`
-- `{:path: "docs/generated/local-tooling/architecture-drift-summary.md", :mtime: "2026-06-29T19:54:52Z", :bytes: 5825}`
-- `{:path: "docs/generated/local-tooling/async-mutation-flow-audit-summary.md", :mtime: "2026-06-29T19:55:03Z", :bytes: 4713}`
-- `{:path: "docs/generated/local-tooling/audit-deltas/audit-router-summary.md", :mtime: "2026-06-29T12:08:39Z", :bytes: 1373}`
-- `{:path: "docs/generated/local-tooling/audit-deltas/diff-summary-summary.md", :mtime: "2026-06-29T19:55:21Z", :bytes: 3577}`
-- `{:path: "docs/generated/local-tooling/audit-documentation-summary.md", :mtime: "2026-06-29T19:55:03Z", :bytes: 143}`
-- `{:path: "docs/generated/local-tooling/audit-registry-artifacts-summary.md", :mtime: "2026-06-29T17:51:25Z", :bytes: 142}`
-- `{:path: "docs/generated/local-tooling/audit-router-summary.md", :mtime: "2026-06-29T12:04:50Z", :bytes: 5717}`
-- `{:path: "docs/generated/local-tooling/automation-readiness-gap-audit-summary.md", :mtime: "2026-06-29T19:54:52Z", :bytes: 3501}`
-- `{:path: "docs/generated/local-tooling/backend-dependency-graph-summary.md", :mtime: "2026-06-29T19:55:19Z", :bytes: 9830}`
-- `{:path: "docs/generated/local-tooling/change-impact-preflight-summary.md", :mtime: "2026-06-29T19:54:42Z", :bytes: 1191}`
-- `{:path: "docs/generated/local-tooling/changeset-playbook-summary.md", :mtime: "2026-06-29T19:55:06Z", :bytes: 6669}`
-- `{:path: "docs/generated/local-tooling/changeset-risk-summary.md", :mtime: "2026-06-29T19:54:42Z", :bytes: 335}`
-- `{:path: "docs/generated/local-tooling/closeout-autofill/codex_context_optimization-summary.md", :mtime: "2026-06-29T15:56:58Z", :bytes: 1980}`
-- `{:path: "docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow-summary.md", :mtime: "2026-06-29T17:09:37Z", :bytes: 2670}`
-- `{:path: "docs/generated/local-tooling/closeout-bundle-summary.md", :mtime: "2026-06-28T21:09:18Z", :bytes: 2817}`
-- `{:path: "docs/generated/local-tooling/closeout-enforcement/agent_control_phase_two-summary.md", :mtime: "2026-06-29T11:34:33Z", :bytes: 175}`
-- `{:path: "docs/generated/local-tooling/closeout-reports/backend_audit_tiering-summary.md", :mtime: "2026-06-29T10:36:26Z", :bytes: 806}`
-- `{:path: "docs/generated/local-tooling/closeout-reports/codex_context_optimization-summary.md", :mtime: "2026-06-29T15:59:22Z", :bytes: 1402}`
-
+- Registry: target: audit-change-impact-preflight | script: scripts/audits/audit-change-impact-preflight.rb | output: docs/generated/local-tooling/change-impact-preflight-summary.md | output_exists: true | target: changeset-risk | script: scripts/audits/score-changeset-risk.rb | output: docs/generated/local-tooling/changeset-risk-summary.md | output_exists: true | target: audit-router | script: scripts/audits/audit-router.rb | output: docs/generated/local-tooling/audit-router-summary.md | output_exists: true
+- Registry more: 64
+- Summaries: path: docs/generated/dead-code-audit/backend-unused-summary.md | mtime: 2026-06-29T19:54:50Z | bytes: 1279 | path: docs/generated/dead-code-audit/dead-code-summary-summary.md | mtime: 2026-06-29T19:54:50Z | bytes: 2290 | path: docs/generated/dead-code-audit/frontend-unused-summary.md | mtime: 2026-06-29T19:54:46Z | bytes: 3181
+- Summaries more: 195

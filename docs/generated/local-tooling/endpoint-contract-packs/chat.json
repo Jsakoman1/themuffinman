@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:55:04Z",
+  "generated_at": "2026-06-30T13:19:36Z",
   "endpoint_family": "chat",
   "endpoints": [
     {
@@ -143,12 +143,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiReadonlyField.vue",
-      "matched_paths": [
-        "read"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiWorkspace.vue",
       "matched_paths": [
         "workspace"
@@ -252,6 +246,20 @@
       "file": "apps/themuffinman/frontend/src/modules/social/views/UserSettingsView.vue",
       "matched_paths": [
         "open"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "matched_paths": [
+        "open",
+        "read"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue",
+      "matched_paths": [
+        "open",
+        "workspace"
       ]
     },
     {
@@ -413,12 +421,6 @@
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue",
       "matched_paths": [
         "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "matched_paths": [
-        "read"
       ]
     },
     {

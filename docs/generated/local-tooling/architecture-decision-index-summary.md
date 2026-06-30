@@ -1,6 +1,6 @@
 # Architecture Decision Index
 
-- Generated at: `2026-06-29T19:54:52Z`
+- Generated at: `2026-06-30T11:19:54Z`
 - Decisions: `10`
 
 ## `backend-centric-domain-logic`
@@ -33,22 +33,4 @@
 - Sandbox behavior stays separate
 - Applies to: `sandbox`, `automation`, `docs`
 
-## `no-commit-without-explicit-request`
-
-- No commit or push by default
-- Applies to: `workflow`, `git`
-
-## `plan-backed-high-risk-work`
-
-- High-risk work needs plan-backed closeout
-- Applies to: `workflow`, `docs`, `automation`
-
-## `typed-operational-config`
-
-- Centralize operational config
-- Applies to: `backend`, `config`
-
-## `frontend-shared-shell`
-
-- Standardize authenticated frontend surfaces
-- Applies to: `frontend`
+- ... 4 more decisions

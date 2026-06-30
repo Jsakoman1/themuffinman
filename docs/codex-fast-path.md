@@ -18,11 +18,14 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 
 1. Read `AGENTS.md`.
 2. Read this file.
-3. Run compact context first:
+3. If the task is product-direction, UX, interaction design, or Social Useful Network vision work, read `docs/product-memory.md` and `docs/product-vision.md` before broad discovery so you start from stable lessons and the canonical direction layer.
+4. If the task is manifest-backed, closeout-sensitive, or agent/workflow-heavy, read `docs/validation-memory.md` and `docs/validation-memory.json` before broad validation so canonical command strings and manifest evidence expectations are explicit up front.
+5. Run compact context first:
    - `make codex-context topic=<topic> intent='<intent>'`
    - `make recommend-targeted-tests`
    - `make clean-text-noise max_lines=80` when you need to strip Maven, audit, or generated log noise before summarizing evidence.
-4. Load deeper workflow docs only if the chosen tier or a resolver requires them.
+   - `make codex-context` now uses the diff summary, audit summary index, the most relevant audit, targeted tests, and a concise evidence bundle as its default read chain, writes a canonical execution manifest at `docs/generated/local-tooling/codex-context/latest.execution.json` with schema `docs/codex-context-execution-manifest.schema.json`, and auto-includes validation memory when the batch is manifest-backed or closeout-sensitive.
+5. Load deeper workflow docs only if the chosen tier or a resolver requires them.
 
 ## Tier Decision
 
@@ -72,7 +75,9 @@ Closeout:
 - `make audit-plan-completion plan=<plan-file>`
 - If manifest becomes required:
   `make autofill-feature-closeout manifest=<manifest-file> files=<csv>`
+  `make validation-memory-closeout-card`
   `make feature-closeout-audit manifest=<manifest-file>`
+- After closeout, run `make post-plan-memory-update plan=<plan-file> [manifest=<manifest-file>] [source=<diagnostic-report>]` so durable lessons and failure patterns are captured immediately.
 
 ## High-Risk Or Multi-Layer Feature
 
@@ -110,6 +115,7 @@ Closeout:
 - `make audit-todo`
 - `make audit-plan-completion plan=<plan-file> manifest=<manifest-file>`
 - `make audit-validation-evidence-quality`
+- `make validation-memory-closeout-card`
 - `make feature-closeout-audit manifest=<manifest-file>`
 - `make closeout-report manifest=<manifest-file>`
 
@@ -178,6 +184,9 @@ Do not claim completion while validation, required docs, or required closeout ga
 ## Deeper References
 
 - `docs/feature-delivery-workflow.md`: complete human-readable process
+- `docs/validation-memory.md`: canonical validator-facing commands, manifest heuristics, and closeout evidence patterns
+- `docs/validation-memory.json`: machine-readable validation and closeout cheat sheet for local tools
+- `docs/generated/local-tooling/validation-memory-closeout-card-summary.md`: ultra-short closeout command card derived from validation memory
 - `docs/documentation-sync-policy.md`: propagation and manifest rules
 - `docs/change-completion-checklist.md`: closeout checklist by tier
 - `docs/agent-operating-model.md`: human agent-safety contract

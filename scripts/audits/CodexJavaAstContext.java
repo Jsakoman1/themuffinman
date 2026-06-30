@@ -93,6 +93,9 @@ public final class CodexJavaAstContext {
                     public Void visitMethod(MethodTree node, Void unused) {
                         String owner = typeStack.peek();
                         String name = node.getName().toString();
+                        if ("<init>".equals(name)) {
+                            name = "constructor";
+                        }
                         String symbol = owner == null || owner.isBlank() ? name : owner + "." + name;
                         Span span = buildSpan("java-method", symbol, relativePath, sourceLines, changedLines, unit, positions, node);
                         if (span != null) {

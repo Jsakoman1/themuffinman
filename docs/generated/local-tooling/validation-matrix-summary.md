@@ -1,6 +1,6 @@
 # Validation Matrix
 
-- Generated At: `2026-06-29T19:55:04Z`
+- Generated At: `2026-06-30T13:19:35Z`
 ## `categories`
 
 - `{:category: "backend_controller", :commands: ["./mvnw test", "make generate-agent-artifacts", "make audit-api-contract-drift"]}`
@@ -11,8 +11,5 @@
 - `{:category: "backend_model", :commands: ["./mvnw test", "make audit-migration-entity-drift"]}`
 - `{:category: "frontend_api", :commands: ["npm run type-check", "npm run build", "make audit-api-contract-drift"]}`
 - `{:category: "frontend_view", :commands: ["npm run type-check", "npm run build", "make audit-frontend-route-surfaces"]}`
-- `{:category: "frontend_composable", :commands: ["npm run type-check", "npm run build", "make audit-async-mutation-flow"]}`
-- `{:category: "frontend_contract", :commands: ["npm run type-check", "npm run build"]}`
-- `{:category: "docs", :commands: ["./mvnw test", "make audit-documentation", "make audit-doc-canonical-phrases"]}`
-- `{:category: "script", :commands: ["ruby -c <script>", "make audit-summary-index"]}`
+- `... 4 more`
 

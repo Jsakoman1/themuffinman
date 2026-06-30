@@ -701,6 +701,27 @@ Use it for tooling that should produce compact outputs Codex can consume instead
   - This should help Codex resolve repeated Maven, frontend type-check, Flyway, and documentation validation failures without rereading long logs.
   - Keep entries factual: failure pattern, owning surface, likely cause, verified fix, and source report.
 
+- [x] CODEX-LOCAL-PRODUCT-MEMORY-LAYER: Maintain a canonical lesson-memory document for stable product lessons, repeated patterns, and durable product rules.
+  Proposed entrypoints:
+  - `docs/product-memory.md`
+  Notes:
+  - This should stay separate from open backlogs and from the failure knowledge base.
+  - Use it for lessons that are proven, reusable, and worth carrying across sessions.
+
+- [x] CODEX-LOCAL-POST-PLAN-MEMORY-UPDATE: Run the standard post-plan control loop that refreshes memory, docs, and compact audit indexes after a plan completes.
+  Proposed entrypoints:
+  - `make post-plan-memory-update plan=<plan-file> [manifest=<manifest-file>] [source=<diagnostic-report>]`
+  Proposed outputs:
+  - `docs/generated/local-tooling/failure-knowledge-base.json`
+  - `docs/generated/local-tooling/failure-knowledge-base-summary.md`
+  - `docs/generated/local-tooling/doc-canonical-phrases.json`
+  - `docs/generated/local-tooling/doc-canonical-phrases-summary.md`
+  - `docs/generated/local-tooling/audit-summary-index.json`
+  - `docs/generated/local-tooling/audit-summary-index.md`
+  Notes:
+  - This wraps the standard post-closeout control loop so stable lessons and repeated failure patterns are refreshed immediately.
+  - Keep it read-only with respect to source code; it should only update generated artifacts and validated docs.
+
 - [x] CODEX-LOCAL-PROMPTABLE-CODEBASE-CAPSULE: Generate a very small "read this first" capsule for new Codex sessions with current repo layout, active conventions, current open backlogs, and the preferred first commands.
   Proposed entrypoints:
   - `ruby scripts/audits/generate-codebase-capsule.rb`

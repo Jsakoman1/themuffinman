@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:54:44Z",
+  "generated_at": "2026-06-30T10:07:29Z",
   "active_route_backed_file_count": 34,
   "backend_permission_source_count": 13,
   "backend_presentation_flag_count": 4,
@@ -8,7 +8,7 @@
   "backend_permission_sources": [
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
-      "line": 56,
+      "line": 55,
       "snippet": ".primaryAction(socialRelationActionHelper.profilePrimaryAction(",
       "action_keys": [
         "PRIMARY_ACTION"
@@ -17,7 +17,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "line": 135,
+      "line": 117,
       "snippet": "SocialRelationActionHelper.SearchActions actions = socialRelationActionHelper.requestActions(incoming);",
       "action_keys": [
         "APPROVE",
@@ -29,7 +29,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "line": 161,
+      "line": 143,
       "snippet": "SocialRelationActionHelper.SearchActions actions = socialRelationActionHelper.searchActions(relationStatus, blockedByCurrentUser);",
       "action_keys": [
         "SEND_INVITE",
@@ -148,7 +148,7 @@
   "backend_presentation_flags": [
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
-      "line": 61,
+      "line": 60,
       "snippet": ".showBlockAction(!ownProfile && relation.getRelationStatus() != CircleRelationStatusDTO.BLOCKED)",
       "action_keys": [
         "BLOCK"
@@ -157,7 +157,7 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
-      "line": 62,
+      "line": 61,
       "snippet": ".blockActionEnabled(!ownProfile && relation.getRelationStatus() != CircleRelationStatusDTO.BLOCKED)",
       "action_keys": [
         "BLOCK"
@@ -487,7 +487,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
-      "line": 23,
+      "line": 24,
       "snippet": "const primaryAction = computed(() => profileView.value?.primaryAction ?? null)",
       "action_keys": [
         "PRIMARY_ACTION"
@@ -497,7 +497,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
-      "line": 131,
+      "line": 132,
       "snippet": "primaryAction,",
       "action_keys": [
         "PRIMARY_ACTION"
@@ -787,7 +787,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 327,
+      "line": 328,
       "snippet": "v-if=\"myApplication.presentation.canWithdraw\"",
       "action_keys": [
         "WITHDRAW"
@@ -879,7 +879,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 312,
+      "line": 313,
       "snippet": "<div v-if=\"myApplication.proposedPrice !== null && myApplication.proposedPrice !== undefined\" class=\"surface-price\">",
       "action_keys": [
         "UNKNOWN"
@@ -889,7 +889,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 317,
+      "line": 318,
       "snippet": "v-if=\"richTextHasContent(myApplication.message)\"",
       "action_keys": [
         "UNKNOWN"
@@ -899,7 +899,7 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 327,
+      "line": 328,
       "snippet": "v-if=\"myApplication.presentation.canWithdraw\"",
       "action_keys": [
         "WITHDRAW"

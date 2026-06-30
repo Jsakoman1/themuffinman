@@ -2,11 +2,11 @@
 
 ## Responsibility
 
-Owns typed operational configuration for security, bootstrap, retention, location provider settings, websocket wiring, and admin agent defaults.
+Owns typed operational configuration for security, bootstrap, retention, location provider settings, websocket wiring, admin agent defaults, and adaptive voice defaults.
 
 ## Main Entry Points
 
-- Properties: `AgentProperties.java`, `BootstrapProperties.java`, `LocationProviderProperties.java`, `RetentionProperties.java`, `SecurityProperties.java`
+- Properties: `AgentProperties.java`, `BootstrapProperties.java`, `LocationProviderProperties.java`, `RetentionProperties.java`, `SecurityProperties.java`, `VoiceProperties.java`
 - Runtime wiring: `AdminBootstrapConfig.java`, `SecurityConfig.java`, `WebSocketConfig.java`
 
 ## Tests

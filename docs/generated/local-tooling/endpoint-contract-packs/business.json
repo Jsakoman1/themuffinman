@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:55:04Z",
+  "generated_at": "2026-06-30T13:19:36Z",
   "endpoint_family": "business",
   "endpoints": [
     {
@@ -163,12 +163,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
       "matched_paths": [
         "me"
@@ -206,12 +200,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/components/ui/UiListItem.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiMetricPills.vue",
       "matched_paths": [
         "me"
       ]
@@ -470,6 +458,18 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
       "matched_paths": [
         "me"
@@ -705,12 +705,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailEditForm.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
       "matched_paths": [
         "me"
       ]

@@ -1,7 +1,7 @@
 # Symbol Index
 
-- Generated At: `2026-06-29T19:55:04Z`
-- Symbol Count: `909`
+- Generated At: `2026-06-30T13:19:36Z`
+- Symbol Count: `927`
 ## `symbols`
 
 - `{:symbol: "AdminAgentController", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java", :category: "backend_controller", :domain: "agent", :methods: ["runPlaygroundPrompt", "runSimulation"], :refs: 1}`
@@ -12,21 +12,5 @@
 - `{:symbol: "AdminAgentPromptTranslator", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslator.java", :category: "backend_service", :domain: "agent", :methods: [], :refs: 3}`
 - `{:symbol: "AdminAgentSimulationRequestDTO", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java", :category: "backend_dto", :domain: "agent", :methods: [], :refs: 7}`
 - `{:symbol: "AdminAgentSimulationResponseDTO", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java", :category: "backend_dto", :domain: "agent", :methods: [], :refs: 8}`
-- `{:symbol: "AdminAgentTextProvider", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTextProvider.java", :category: "backend_service", :domain: "agent", :methods: [], :refs: 3}`
-- `{:symbol: "AgentCapabilityAssessmentDTO", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentCapabilityAssessmentDTO.java", :category: "backend_dto", :domain: "agent", :methods: [], :refs: 9}`
-- `{:symbol: "AgentClarificationContractDTO", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentClarificationContractDTO.java", :category: "backend_dto", :domain: "agent", :methods: [], :refs: 9}`
-- `{:symbol: "AgentEndpointPlanDTO", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentEndpointPlanDTO.java", :category: "backend_dto", :domain: "agent", :methods: [], :refs: 7}`
-- `{:symbol: "AgentExecutionReadinessDTO", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentExecutionReadinessDTO.java", :category: "backend_dto", :domain: "agent", :methods: [], :refs: 10}`
-- `{:symbol: "AgentIntentLineageDTO", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentIntentLineageDTO.java", :category: "backend_dto", :domain: "agent", :methods: [], :refs: 7}`
-- `{:symbol: "AgentResolutionConfidenceDTO", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionConfidenceDTO.java", :category: "backend_dto", :domain: "agent", :methods: [], :refs: 7}`
-- `{:symbol: "AgentResolutionRequirementDTO", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionRequirementDTO.java", :category: "backend_dto", :domain: "agent", :methods: [], :refs: 8}`
-- `{:symbol: "LocalAdminAgentPromptTranslator", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java", :category: "backend_service", :domain: "agent", :methods: ["translateForPlanning", "detectSourceLanguage", "isLikelyEnglish", "containsCroatianMarkers"], :refs: 2}`
-- `{:symbol: "OpenAiAdminAgentClient", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java", :category: "backend_service", :domain: "agent", :methods: ["providerName", "isConfigured", "generatePlanningSummary", "translatePromptToEnglish", "buildInput", "parseResponseBody", "extractOutputText"], :refs: 3}`
-- `{:symbol: "SandboxGenerationPlan", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java", :category: "other", :domain: "agent", :methods: ["empty", "isEmpty"], :refs: 8}`
-- `{:symbol: "SandboxGenerationPlanner", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java", :category: "other", :domain: "agent", :methods: ["planFor", "mentionsQuestGeneration", "mentionsQuest"], :refs: 4}`
-- `{:symbol: "BusinessHubView", :kind: "frontend", :file: "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue", :category: "frontend_view", :domain: "business", :refs: 4}`
-- `{:symbol: "BusinessProfile", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java", :category: "backend_model", :domain: "business", :methods: [], :refs: 31}`
-- `{:symbol: "BusinessProfile", :kind: "frontend", :file: "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts", :category: "frontend_api", :domain: "business", :refs: 31}`
-- `{:symbol: "BusinessProfileController", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java", :category: "backend_controller", :domain: "business", :methods: ["getDirectory", "getMyProfile", "saveMyProfile", "getProfileBySlug"], :refs: 2}`
-- `{:symbol: "BusinessProfileListResponse", :kind: "frontend", :file: "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts", :category: "frontend_api", :domain: "business", :refs: 3}`
+- `... 919 more`
 

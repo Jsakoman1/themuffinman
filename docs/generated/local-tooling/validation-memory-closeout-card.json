@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-06-30T13:51:52Z",
+  "source": "docs/validation-memory.json",
+  "purpose": "Ultra-short closeout command card derived from canonical validation memory.",
+  "closeout": [
+    "make audit-todo",
+    "make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"
+  ],
+  "backendLogic": [
+    "./mvnw test",
+    "make audit-agent-safety"
+  ],
+  "frontendContract": [
+    "npm run validate:contracts",
+    "npm run type-check",
+    "npm run build"
+  ],
+  "agentContract": [
+    "make generate-agent-operating-model",
+    "make generate-agent-artifacts",
+    "make audit-agent-safety"
+  ],
+  "workflowExpansion": [
+    "./mvnw test -Dtest=AgentOperatingScenarioTest"
+  ]
+}

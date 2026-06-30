@@ -1,4 +1,4 @@
-export type ProductModuleKey = "work" | "business" | "things" | "rides" | "chat"
+export type ProductModuleKey = "work" | "business" | "things" | "rides" | "chat" | "vision"
 
 export type ProductModule = {
   key: ProductModuleKey
@@ -48,6 +48,14 @@ export const productModules: ProductModule[] = [
     shortTitle: "Chat",
     path: "/chat",
     description: "Cross-module messaging that follows the same user through work, circles, and future modules.",
+    state: "live"
+  },
+  {
+    key: "vision",
+    title: "Vision Surface",
+    shortTitle: "Vision",
+    path: "/vision",
+    description: "Experimental long-term adaptive canvas for parallel voice, visual feedback, and curated task surfaces.",
     state: "live"
   }
 ]

@@ -5,6 +5,7 @@ This file is the persistent forward-looking backlog for agent-safety, backend au
 It is not the execution source of truth for a single change. Active implementation details should still live in temporary plans under `.agents/`.
 
 Use this file to preserve what remains worth tightening across sessions.
+Completed plans and master plans should stay out of this file; keep their history in plan-completion or retrospective artifacts instead.
 
 ## Current State
 

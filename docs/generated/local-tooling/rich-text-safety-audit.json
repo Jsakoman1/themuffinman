@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:55:02Z",
+  "generated_at": "2026-06-30T11:28:35Z",
   "backend_fields": [
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
@@ -178,57 +178,57 @@
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
-      "line": 126,
+      "line": 127,
       "snippet": ".filter(request -> circleViewAssembler.matchesRequestQuery(request.getCounterpartUsername(), request.getCounterpartProfileDescription(), query))"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
-      "line": 139,
+      "line": 140,
       "snippet": ".filter(request -> circleViewAssembler.matchesRequestQuery(request.getCounterpartUsername(), request.getCounterpartProfileDescription(), query))"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "line": 83,
+      "line": 65,
       "snippet": ".profileDescription(RichTextInputValidator.sanitize(contact.getProfileDescription()))"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "line": 140,
+      "line": 122,
       "snippet": "request.setCounterpartProfileDescription(request.getRequesterProfileDescription());"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "line": 145,
+      "line": 127,
       "snippet": "request.setCounterpartProfileDescription(request.getRecipientProfileDescription());"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "line": 169,
+      "line": 151,
       "snippet": ".profileDescription(RichTextInputValidator.sanitize(candidate.getProfileDescription()))"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "line": 241,
+      "line": 223,
       "snippet": "connection.getProfileDescription(),"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "line": 257,
+      "line": 239,
       "snippet": "public boolean matchesRequestQuery(String username, String profileDescription, String query) {"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "line": 262,
+      "line": 244,
       "snippet": "return containsNormalized(normalizedQuery, username, profileDescription);"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "line": 272,
+      "line": 254,
       "snippet": "candidate.getProfileDescription()"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "line": 309,
+      "line": 291,
       "snippet": ".profileDescription(RichTextInputValidator.sanitize(member.getProfileDescription()))"
     },
     {
@@ -784,26 +784,6 @@
       "snippet": "v-if=\"richTextHasContent(quest.description)\""
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "line": 3,
-      "snippet": "import RichTextEditor from \"../../../../components/editor/AsyncRichTextEditor.vue\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "line": 4,
-      "snippet": "import ProfileBio from \"../../../../components/profile/ProfileBio.vue\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "line": 120,
-      "snippet": "<RichTextEditor"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "line": 128,
-      "snippet": "<ProfileBio"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
       "line": 1,
       "snippet": "import {richTextHasContent} from \"../../../shared/richText.ts\""
@@ -815,22 +795,22 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 8,
+      "line": 9,
       "snippet": "import ProfileBio from \"../../../components/profile/ProfileBio.vue\""
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 9,
+      "line": 10,
       "snippet": "import {richTextHasContent} from \"../../../shared/richText.ts\""
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 316,
+      "line": 317,
       "snippet": "<ProfileBio"
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 317,
+      "line": 318,
       "snippet": "v-if=\"richTextHasContent(myApplication.message)\""
     },
     {

@@ -96,13 +96,15 @@ lines = ["# Architecture Decision Index", ""]
 lines << "- Generated at: `#{report[:generated_at]}`"
 lines << "- Decisions: `#{report[:decision_count]}`"
 lines << ""
-DECISIONS.each do |decision|
+DECISIONS.first(6).each do |decision|
   lines << "## `#{decision[:id]}`"
   lines << ""
   lines << "- #{decision[:title]}"
   lines << "- Applies to: `#{decision[:applies_to].join('`, `')}`"
   lines << ""
 end
+remaining = DECISIONS.length - 6
+lines << "- ... #{remaining} more decisions" if remaining.positive?
 LocalToolingCommon.write_text("docs/generated/local-tooling/architecture-decision-index-summary.md", lines.join("\n"))
 
 puts "Architecture decision index"

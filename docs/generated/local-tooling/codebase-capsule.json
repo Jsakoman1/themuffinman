@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:55:22Z",
+  "generated_at": "2026-06-30T13:20:15Z",
   "purpose": "Very small read-first context for a new Codex session before broad repository discovery.",
   "repo_layout": [
     "apps/themuffinman: current Spring Boot app and Vue frontend",
@@ -27,16 +27,11 @@
   "preferred_first_commands": [
     "ruby scripts/todo-audit.rb",
     "make diff-summary",
-    "make audit-summary-index",
-    "make context-pack topic=<topic>",
-    "make audit-router files=<csv>",
-    "make changeset-risk"
+    "make audit-summary-index"
   ],
   "read_next": [
     "AGENTS.md",
     "docs/codex-local-tooling-todo.md",
-    "docs/domain-technical.md",
-    "docs/business-logic.md",
-    "docs/generated/local-tooling/audit-summary-index.md"
+    "docs/domain-technical.md"
   ]
 }

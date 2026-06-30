@@ -220,18 +220,16 @@ module ChangeImpactPreflight
     lines = []
     lines << "# Change Impact Preflight"
     lines << ""
-    lines << "- Generated at: `#{report[:generated_at]}`"
-    lines << "- Changed files: `#{report[:changed_file_count]}`"
-    lines << "- Unique docs to review: `#{report[:unique_docs].size}`"
-    lines << "- Unique tests to consider: `#{report[:unique_tests].size}`"
-    lines << "- Generated artifacts to check: `#{report[:unique_generated_artifacts].size}`"
-    lines << "- Scope guardrail warnings: `#{report[:scope_warning_count]}`"
+    lines << "- Decision: `#{report[:scope_warning_count].to_i.positive? ? "review" : "clear"}`"
+    lines << "- Why: guardrail warnings=#{report[:scope_warning_count]} files=#{report[:changed_file_count]}"
+    lines << "- Next action: #{report[:suggested_commands].first(3).map { |command| "`#{command}`" }.join(", ")}"
+    lines << "- Evidence: docs=#{report[:unique_docs].size}, tests=#{report[:unique_tests].size}, generated=#{report[:unique_generated_artifacts].size}"
     lines << ""
     lines << "## Scope Guardrails"
     lines << ""
-    report[:scope_guardrails].first(5).each { |guardrail| lines << "- `#{guardrail[:id]}`: `#{guardrail[:status]}`" }
+    report[:scope_guardrails].first(3).each { |guardrail| lines << "- `#{guardrail[:id]}`: `#{guardrail[:status]}`" }
     lines << ""
-    report[:changed_files].first(8).each do |entry|
+    report[:changed_files].first(5).each do |entry|
       lines << "- `#{entry[:path]}` `#{entry[:category]}` `#{entry[:domain]}`"
     end
     lines.join("\n")
@@ -245,10 +243,10 @@ module ChangeImpactPreflight
     lines << "  tests to consider: #{report[:unique_tests].size}"
     lines << "  generated artifacts: #{report[:unique_generated_artifacts].size}"
     lines << "  scope guardrail warnings: #{report[:scope_warning_count]}"
-    report[:scope_guardrails].select { |guardrail| guardrail[:status] == "warn" }.first(5).each do |guardrail|
+    report[:scope_guardrails].select { |guardrail| guardrail[:status] == "warn" }.first(3).each do |guardrail|
       lines << "  ! #{guardrail[:id]}: #{guardrail[:message]}"
     end
-    report[:changed_files].first(10).each do |entry|
+    report[:changed_files].first(5).each do |entry|
       lines << "  - #{entry[:path]} -> docs=#{entry[:likely_docs].size}, tests=#{entry[:likely_tests].size}, siblings=#{entry[:sibling_read_surfaces].size}"
     end
     lines.join("\n")

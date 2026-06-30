@@ -1,448 +1,232 @@
 {
-  "generated_at": "2026-06-29T19:54:43Z",
+  "generated_at": "2026-06-30T10:54:36Z",
   "policy": "docs/generated/artifact-policy.yaml",
   "source_changes": [
     {
       "status": "M",
-      "path": ".agents/backend-model-standardization-master-plan.md"
+      "path": ".agents/codex-summary-compactification-master-plan.md"
     },
     {
       "status": "M",
-      "path": ".agents/templates/feature-completion-manifest.template.yaml"
+      "path": "docs/agent-operating-model.md"
     },
     {
       "status": "M",
-      "path": ".agents/templates/feature-implementation-plan.template.md"
+      "path": "docs/change-completion-checklist.md"
     },
     {
       "status": "M",
-      "path": "AGENTS.md"
+      "path": "docs/codex-fast-path.md"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponse.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequest.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequest.java"
+      "path": "docs/documentation-sync-policy.md"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java"
+      "path": "docs/feature-delivery-workflow.md"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java"
+      "path": "scripts/audits/CodexJavaAstContext.java"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java"
+      "path": "scripts/audits/audit-change-impact-preflight.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java"
+      "path": "scripts/audits/audit-doc-sync-duplicates.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusDTO.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusDTO.java"
+      "path": "scripts/audits/audit-duplicate-logic.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java"
+      "path": "scripts/audits/audit-endpoint-callsite-linker.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java"
+      "path": "scripts/audits/audit-frontend-route-surfaces.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipAction.java"
+      "path": "scripts/audits/audit-frontend-state-logic-duplication.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipUpdateDTO.java"
+      "path": "scripts/audits/audit-generated-artifact-freshness.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationDTO.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatus.java"
+      "path": "scripts/audits/audit-generated-commit-scope.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSearchResultDTO.java"
+      "path": "scripts/audits/audit-permission-rule-duplication.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java"
+      "path": "scripts/audits/audit-read-surface-inventory.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java"
+      "path": "scripts/audits/audit-repository-fetch.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java"
+      "path": "scripts/audits/codex_local_context_gateway.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialPresentationHelper.java"
+      "path": "scripts/audits/local_tooling_extended_tools.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java"
+      "path": "scripts/audits/score-changeset-risk.rb"
     },
     {
       "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedAction.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationType.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedAction.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesDTO.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionAction.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPreset.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationType.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestPresentationDTO.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java"
-    },
-    {
-      "status": "D",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelation.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestApplicationMgr.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgr.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestQueryService.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
-    },
-    {
-      "status": "M",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
-    },
-    {
-      "status": "M",
-      "path": "scripts/bootstrap-feature-work.sh"
+      "path": "scripts/local_tooling_common.rb"
     },
     {
       "status": "??",
-      "path": ".agents/backend-service-boundary-cleanup-plan.md"
+      "path": ".agents/codex-context-manifest-standardization-master-plan.md"
     },
     {
       "status": "??",
-      "path": ".agents/backend-social-location-dto-standardization-plan.md"
+      "path": ".agents/codex-context-orchestration-v2-master-plan.md"
     },
     {
       "status": "??",
-      "path": ".agents/backend-workmarket-read-model-standardization-plan.md"
+      "path": ".agents/codex-local-context-orchestrator-master-plan.md"
     },
     {
       "status": "??",
-      "path": ".agents/codex-workflow-lean-context-plan.md"
+      "path": ".agents/todo-plans/100-codex-context-cache-key.md"
     },
     {
       "status": "??",
-      "path": ".agents/codex-workflow-lean-context-smoke-plan.md"
+      "path": ".agents/todo-plans/101-codex-context-early-filtering.md"
     },
     {
       "status": "??",
-      "path": ".agents/feature-manifests/codex-workflow-lean-context-manifest.yaml"
+      "path": ".agents/todo-plans/102-codex-context-plan-aware-routing.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java"
+      "path": ".agents/todo-plans/103-codex-context-parallel-fanout.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java"
+      "path": ".agents/todo-plans/104-codex-context-summary-contract.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java"
+      "path": ".agents/todo-plans/105-codex-context-invalidation-hardening.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusViewDTO.java"
+      "path": ".agents/todo-plans/106-codex-context-execution-manifest.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusViewDTO.java"
+      "path": ".agents/todo-plans/107-codex-context-fingerprint-tightening.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationGeoService.java"
+      "path": ".agents/todo-plans/108-codex-context-contract-validation.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java"
+      "path": ".agents/todo-plans/109-codex-summary-read-first-compaction.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java"
+      "path": ".agents/todo-plans/110-codex-summary-validation-compaction.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipActionDTO.java"
+      "path": ".agents/todo-plans/111-codex-summary-history-compaction.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatusDTO.java"
+      "path": ".agents/todo-plans/95-codex-local-context-pack-chain.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java"
+      "path": ".agents/todo-plans/96-codex-local-context-cache-invalidation.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedActionDTO.java"
+      "path": ".agents/todo-plans/97-codex-local-workflow-doc-dedup.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationTypeDTO.java"
+      "path": ".agents/todo-plans/98-codex-local-java-ast-context-tightening.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedActionDTO.java"
+      "path": ".agents/todo-plans/99-codex-local-noise-filter-tightening.md"
     },
     {
       "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesViewDTO.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionActionDTO.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPresetDTO.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationTypeDTO.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelationDTO.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardNotificationAssembler.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardPlannerAssembler.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionGrouper.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminQueryService.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPresentationAssembler.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java"
-    },
-    {
-      "status": "??",
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java"
+      "path": "docs/codex-context-execution-manifest.schema.json"
     }
   ],
   "generated_changes": [
     {
       "status": "M",
-      "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
-      "recommendation": "task_required",
-      "reason": "source-of-truth generated artifact tracked by policy"
+      "path": "docs/generated/local-tooling/.cache/audit-inputs.json",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/architecture-drift-summary.md",
+      "path": "docs/generated/local-tooling/architecture-decision-index-summary.md",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/architecture-drift.json",
+      "path": "docs/generated/local-tooling/architecture-decision-index.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/audit-documentation-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/audit-documentation.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/audit-router-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/audit-router.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/audit-summary-index.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/audit-summary-index.md",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
@@ -460,6 +244,18 @@
     },
     {
       "status": "M",
+      "path": "docs/generated/local-tooling/changeset-playbook-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/changeset-playbook.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
       "path": "docs/generated/local-tooling/changeset-risk-summary.md",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
@@ -472,13 +268,289 @@
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/doc-template-coverage-summary.md",
+      "path": "docs/generated/local-tooling/codebase-capsule.json",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/doc-template-coverage.json",
+      "path": "docs/generated/local-tooling/codebase-capsule.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/doc-canonical-phrases.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/doc-sync-duplicates-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/doc-sync-duplicates.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/doc-sync-required-surfaces.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/duplicate-logic-audit-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/duplicate-logic-audit.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-callsite-linker-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-callsite-linker.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/admin-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/admin.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/agent-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/agent.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/app_users-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/app_users.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/applications-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/applications.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/auth-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/auth.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/business-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/business.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/chat-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/chat.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/circles-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/circles.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/dashboard-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/dashboard.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/index-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/index.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/location-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/location.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/news-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/news.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/quests-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/quests.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/rides-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/rides.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/things-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/things.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/fast-check-report-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/fast-check-report.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/frontend-route-surface-inventory-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/frontend-route-surface-inventory.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/frontend-state-logic-duplication-audit-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/frontend-state-logic-duplication-audit.json",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
@@ -496,37 +568,25 @@
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/manifest-decision-summary.md",
+      "path": "docs/generated/local-tooling/generated-commit-scope-summary.md",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/manifest-decision.json",
+      "path": "docs/generated/local-tooling/generated-commit-scope.json",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/mapper-usage-audit-summary.md",
+      "path": "docs/generated/local-tooling/permission-rule-duplication-audit-summary.md",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
     {
       "status": "M",
-      "path": "docs/generated/local-tooling/mapper-usage-audit.json",
-      "recommendation": "supporting_context",
-      "reason": "tracked review context; commit only when refreshed for the task"
-    },
-    {
-      "status": "M",
-      "path": "docs/generated/local-tooling/naming-consistency-audit-summary.md",
-      "recommendation": "supporting_context",
-      "reason": "tracked review context; commit only when refreshed for the task"
-    },
-    {
-      "status": "M",
-      "path": "docs/generated/local-tooling/naming-consistency-audit.json",
+      "path": "docs/generated/local-tooling/permission-rule-duplication-audit.json",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
     },
@@ -541,10 +601,275 @@
       "path": "docs/generated/local-tooling/read-surface-inventory.json",
       "recommendation": "supporting_context",
       "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/repository-fetch-audit-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/repository-fetch-audit.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/test-history-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/test-history.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/validation-preset-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/validation-preset.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/audit-router/2026-06-30T10-49-50Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/audit-summary-index/2026-06-30T10-53-31Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/changeset-playbook/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/doc-canonical-phrases/2026-06-30T07-26-17Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/doc-sync-required-surfaces/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/admin/2026-06-30T10-53-31Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/agent/2026-06-30T10-53-31Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/app_users/2026-06-30T10-53-31Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/applications/2026-06-30T10-53-31Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/auth/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/business/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/chat/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/circles/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/dashboard/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/index/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/location/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/news/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/quests/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/rides/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/things/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/fast-check-report/",
+      "recommendation": "stale_or_unrelated",
+      "reason": "generated path is not covered by the artifact policy"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/.history/validation-preset/2026-06-30T10-53-32Z.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/95-codex-local-context-pack-chain-summary.md",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/95-codex-local-context-pack-chain.json",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/96-codex-local-context-cache-invalidation-summary.md",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/96-codex-local-context-cache-invalidation.json",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/97-codex-local-workflow-doc-dedup-summary.md",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/97-codex-local-workflow-doc-dedup.json",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/98-codex-local-java-ast-context-tightening-summary.md",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/98-codex-local-java-ast-context-tightening.json",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/99-codex-local-noise-filter-tightening-summary.md",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/99-codex-local-noise-filter-tightening.json",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/codex-context-manifest-standardization-master-plan-summary.md",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/codex-context-manifest-standardization-master-plan.json",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/codex-context-orchestration-v2-master-plan-summary.md",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/codex-context-orchestration-v2-master-plan.json",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/codex-local-context-orchestrator-master-plan-summary.md",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-completion/codex-local-context-orchestrator-master-plan.json",
+      "recommendation": "do_not_commit_by_default",
+      "reason": "disposable local context or cache output"
     }
   ],
   "summary": {
-    "task_required": 1,
-    "supporting_context": 18
+    "do_not_commit_by_default": 17,
+    "supporting_context": 97,
+    "stale_or_unrelated": 1
   }
 }

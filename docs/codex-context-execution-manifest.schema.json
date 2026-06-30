@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Codex Context Execution Manifest",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "gatewayVersion",
+    "generatedAt",
+    "topic",
+    "mode",
+    "budgetTokens",
+    "cacheKey",
+    "cacheStatus",
+    "requestFingerprint",
+    "planSource",
+    "selectedFiles",
+    "readOrder",
+    "packs",
+    "fingerprintInputs",
+    "planToEvidence",
+    "nextAction",
+    "outputPaths"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {"type": "integer", "minimum": 1},
+    "gatewayVersion": {"type": "integer", "minimum": 1},
+    "generatedAt": {"type": "string", "minLength": 1},
+    "topic": {"type": "string", "minLength": 1},
+    "mode": {"type": "string", "minLength": 1},
+    "budgetTokens": {"type": "integer", "minimum": 0},
+    "cacheKey": {"type": "string", "minLength": 1},
+    "cacheStatus": {"type": "string", "enum": ["hit", "miss"]},
+    "requestFingerprint": {"type": "string", "minLength": 1},
+    "planSource": {"type": "string", "minLength": 1},
+    "schemaPath": {"type": "string", "minLength": 1},
+    "selectedFiles": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "readOrder": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "source", "why"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "source": {"type": "string", "minLength": 1},
+          "why": {
+            "type": "array",
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "packs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "mode", "relevance", "confidence", "estimatedTokens", "fingerprint", "sourceFiles", "sourceCommands"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "kind": {"type": "string", "minLength": 1},
+          "mode": {"type": "string", "minLength": 1},
+          "relevance": {"type": "number"},
+          "confidence": {"type": "number"},
+          "estimatedTokens": {"type": "integer", "minimum": 0},
+          "fingerprint": {"type": "string", "minLength": 1},
+          "sourceFiles": {
+            "type": "array",
+            "items": {"type": "string", "minLength": 1}
+          },
+          "sourceCommands": {
+            "type": "array",
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "fingerprintInputs": {
+      "type": "object",
+      "required": ["gatewayVersion", "contractVersion", "topic", "mode", "budgetTokens", "files", "toolingSourceHashes"],
+      "additionalProperties": false,
+      "properties": {
+        "gatewayVersion": {"type": "integer", "minimum": 1},
+        "contractVersion": {"type": "integer", "minimum": 1},
+        "topic": {"type": "string", "minLength": 1},
+        "mode": {"type": "string", "minLength": 1},
+        "budgetTokens": {"type": "integer", "minimum": 0},
+        "files": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "intent": {"type": ["string", "null"]},
+        "providerDefaults": {"type": ["object", "null"]},
+        "includeGenerated": {"type": ["boolean", "null"]},
+        "includeAgents": {"type": ["boolean", "null"]},
+        "sourceHashes": {"type": "object"},
+        "allChangedFiles": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "planSource": {"type": ["string", "null"]},
+        "planSourceHash": {"type": ["string", "null"]},
+        "toolingSourceHashes": {"type": "object"}
+      }
+    },
+    "planToEvidence": {
+      "type": "object",
+      "required": ["planSource", "cacheKey", "readOrderIds", "validationPacks", "evidenceBundle"],
+      "additionalProperties": false,
+      "properties": {
+        "planSource": {"type": ["string", "null"]},
+        "cacheKey": {"type": ["string", "null"]},
+        "readOrderIds": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "validationPacks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "kind", "sourceFiles", "sourceCommands"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "kind": {"type": "string", "minLength": 1},
+              "sourceFiles": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              },
+              "sourceCommands": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        },
+        "evidenceBundle": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "nextAction": {
+      "type": "object",
+      "required": ["primaryRead", "primaryValidation", "followUps"],
+      "additionalProperties": false,
+      "properties": {
+        "primaryRead": {"type": ["string", "null"]},
+        "primaryValidation": {
+          "type": ["object", "null"],
+          "required": ["id", "source"],
+          "additionalProperties": false,
+          "properties": {
+            "id": {"type": "string", "minLength": 1},
+            "source": {"type": "string", "minLength": 1}
+          }
+        },
+        "followUps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "source"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "source": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "outputPaths": {
+      "type": "object",
+      "required": ["machine", "human", "execution", "packs"],
+      "additionalProperties": false,
+      "properties": {
+        "machine": {"type": "string", "minLength": 1},
+        "human": {"type": "string", "minLength": 1},
+        "execution": {"type": "string", "minLength": 1},
+        "packs": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

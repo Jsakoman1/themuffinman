@@ -59,6 +59,26 @@ module GeneratedArtifactFreshnessAudit
         "apps/themuffinman/src/main/java/com/themuffinman/app/**/*.java",
         "apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs"
       ]
+    },
+    {
+      artifact: "docs/generated/local-tooling/codex-context/latest.execution.json",
+      label: "codex_context_execution_manifest",
+      regenerate: "make codex-context topic=<topic> intent='<intent>'",
+      source_patterns: [
+        "scripts/audits/codex-context.rb",
+        "scripts/audits/codex_local_context_gateway.rb",
+        "scripts/audits/local_tooling_extended_tools.rb",
+        "scripts/local_tooling_common.rb",
+        "scripts/audits/CodexJavaAstContext.java",
+        "docs/codex-fast-path.md",
+        "docs/feature-delivery-workflow.md",
+        "docs/documentation-sync-policy.md",
+        "docs/change-completion-checklist.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/codex-context-execution-manifest.schema.json",
+        "docs/codex-local-tooling-todo.md"
+      ]
     }
   ].freeze
 
@@ -98,13 +118,14 @@ module GeneratedArtifactFreshnessAudit
     lines = []
     lines << "# Generated Artifact Freshness Audit"
     lines << ""
-    lines << "- Generated at: `#{report[:generated_at]}`"
-    lines << "- Artifacts checked: `#{report[:artifact_count]}`"
-    lines << "- Stale artifacts: `#{report[:stale_count]}`"
+    lines << "- Decision: `#{report[:stale_count].to_i.zero? ? "fresh" : "stale"}`"
+    lines << "- Why: stale artifacts=#{report[:stale_count]}"
+    lines << "- Next action: `#{report[:artifacts].select { |entry| entry[:status] == "stale" }.first(3).map { |entry| entry[:regenerate_command] }.join("`, `")}`" if report[:stale_count].to_i.positive?
+    lines << "- Evidence: artifacts=#{report[:artifact_count]}"
     lines << ""
-    report[:artifacts].each do |entry|
+    report[:artifacts].first(5).each do |entry|
       source = entry[:newest_source] ? entry[:newest_source] : "none"
-      lines << "- `#{entry[:label]}`: `#{entry[:status]}` (source: `#{source}`)"
+      lines << "- `#{entry[:label]}` `#{entry[:status]}` source=`#{source}`"
     end
     lines << ""
     lines.join("\n")
@@ -115,7 +136,7 @@ module GeneratedArtifactFreshnessAudit
     lines << "Generated artifact freshness audit"
     lines << "  artifacts checked: #{report[:artifact_count]}"
     lines << "  stale: #{report[:stale_count]}"
-    report[:artifacts].each do |entry|
+    report[:artifacts].first(5).each do |entry|
       lines << "  - #{entry[:label]}: #{entry[:status]} (newest source: #{entry[:newest_source] || 'none'})"
     end
     lines.join("\n")

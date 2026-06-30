@@ -96,15 +96,21 @@ module ApiContractDriftAudit
     lines << "- DTOs missing generated contracts: `#{report[:missing_contract_count]}`"
     lines << "- Zero-usage backend fields: `#{report[:zero_usage_field_count]}`"
     lines << ""
-    report[:dtos].select { |entry| !entry[:generated_contract_present] || entry[:fields].any? { |field| field[:drift_category] != "used" } }.first(25).each do |entry|
+    suspects = report[:dtos].select { |entry| !entry[:generated_contract_present] || entry[:fields].any? { |field| field[:drift_category] != "used" } }
+    suspects.first(8).each do |entry|
       lines << "## `#{entry[:dto]}`"
       lines << ""
       lines << "- Generated contract present: `#{entry[:generated_contract_present]}`"
-      entry[:fields].select { |field| field[:drift_category] != "used" }.first(20).each do |field|
+      drift_fields = entry[:fields].select { |field| field[:drift_category] != "used" }
+      drift_fields.first(8).each do |field|
         lines << "- `#{field[:field]}` -> `#{field[:drift_category]}` | usage=`#{field[:frontend_usage_count]}`"
       end
+      remaining = drift_fields.length - 8
+      lines << "- ... #{remaining} more drift fields" if remaining.positive?
       lines << ""
     end
+    remaining_dtos = suspects.length - suspects.first(8).length
+    lines << "- ... #{remaining_dtos} more DTOs" if remaining_dtos.positive?
     lines.join("\n")
   end
 
@@ -114,7 +120,7 @@ module ApiContractDriftAudit
     lines << "  backend DTOs scanned: #{report[:dto_count]}"
     lines << "  DTOs missing contracts: #{report[:missing_contract_count]}"
     lines << "  zero-usage fields: #{report[:zero_usage_field_count]}"
-    report[:dtos].first(10).each do |entry|
+    report[:dtos].first(5).each do |entry|
       suspicious = entry[:fields].count { |field| field[:drift_category] != "used" }
       lines << "  - #{entry[:dto]} suspicious_fields=#{suspicious}"
     end

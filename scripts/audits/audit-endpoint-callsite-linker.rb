@@ -314,22 +314,23 @@ module EndpointCallsiteLinker
     lines << "- Linked endpoints: `#{report[:linked_endpoint_count]}`"
     lines << "- Unlinked endpoints: `#{report[:unlinked_endpoint_count]}`"
     lines << ""
-    report[:endpoints].first(35).each do |entry|
-      lines << "## `#{entry[:endpoint_id]}`"
-      lines << ""
-      lines << "- Backend: `#{entry[:backend_controller]}.#{entry[:backend_method]}`"
+    lines << "## Endpoint sample"
+    lines << ""
+    report[:endpoints].first(12).each do |entry|
+      lines << "- `#{entry[:endpoint_id]}` | backend=`#{entry[:backend_controller]}.#{entry[:backend_method]}` | frontend_matches=#{entry[:frontend_matches].size}"
       if entry[:frontend_matches].empty?
-        lines << "- Frontend: _no direct client match detected_"
+        lines << "  - frontend: _no direct client match detected_"
       else
-        entry[:frontend_matches].each do |match|
-          lines << "- Frontend client: `#{match[:client_object]}.#{match[:client_method]}` in `#{match[:client_file]}`"
-          match[:callsites].first(6).each do |callsite|
-            lines << "- Caller: `#{callsite[:file]}` -> surfaces=#{format_inline(callsite[:ui_surfaces])}"
+        entry[:frontend_matches].first(2).each do |match|
+          lines << "  - `#{match[:client_object]}.#{match[:client_method]}` in `#{match[:client_file]}`"
+          match[:callsites].first(3).each do |callsite|
+            lines << "    - `#{callsite[:file]}` -> surfaces=#{format_inline(callsite[:ui_surfaces])}"
           end
         end
       end
-      lines << ""
     end
+    remaining = report[:endpoints].size - 12
+    lines << "- ... #{remaining} more endpoints" if remaining.positive?
     lines.join("\n")
   end
 

@@ -108,15 +108,15 @@ report = {
 
 LocalToolingCommon.write_json(OUT_JSON, report)
 lines = ["# Doc Sync Duplicates", ""]
-lines << "- Canonical phrases: `#{report[:canonical_phrase_count]}`"
-lines << "- Protected duplicate groups: `#{report[:protected_duplicate_count]}`"
-lines << "- Fragment-only bullets: `#{report[:fragment_only_count]}`"
-lines << "- Conflict groups: `#{report[:conflict_group_count]}`"
+lines << "- Decision: `#{report[:protected_duplicate_count].to_i.zero? && report[:conflict_group_count].to_i.zero? ? "clear" : "review"}`"
+lines << "- Why: protected duplicates=#{report[:protected_duplicate_count]}, conflicts=#{report[:conflict_group_count]}"
+lines << "- Next action: review the fragments listed below"
+lines << "- Evidence: canonical phrases=#{report[:canonical_phrase_count]}, fragment-only=#{report[:fragment_only_count]}"
 lines << ""
-fragment_only.first(8).each do |row|
+fragment_only.first(3).each do |row|
   lines << "- fragment `#{row[:path]}:#{row[:line]}`"
 end
-conflicts.first(8).each do |row|
+conflicts.first(3).each do |row|
   lines << "- conflict `#{row[:id]}` variants=#{row[:variant_count]}"
 end
 LocalToolingCommon.write_text(OUT_MD, lines.join("\n") + "\n")

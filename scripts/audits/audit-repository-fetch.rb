@@ -312,18 +312,21 @@ module RepositoryFetchAudit
     lines << "- High risk: `#{report[:high_risk_count]}`"
     lines << "- Medium risk: `#{report[:medium_risk_count]}`"
     lines << ""
-    report[:repository_methods].first(25).each do |entry|
-      lines << "## `#{entry[:repository]}.#{entry[:method]}`"
-      lines << ""
-      lines << "- Returned entity: #{entry[:returned_entity] ? "`#{entry[:returned_entity]}`" : "_non-entity_"}"
-      lines << "- Query style: `#{entry[:query_style]}`"
-      lines << "- Fetch relations: #{format_inline(entry[:fetch_relations])}"
-      lines << "- Likely lazy relations touched downstream: #{format_inline(entry[:likely_lazy_relations_touched_downstream])}"
-      lines << "- Risk: `#{entry[:risk_level]}`"
-      entry[:high_risk_call_chains].first(8).each do |chain|
-        lines << "- `#{chain[:caller]}` in `#{chain[:file]}` | helper=#{format_inline(chain[:helper_types])} | lazy=#{format_inline(chain[:likely_lazy_relations])}"
+    lines << "## High-risk and medium-risk methods"
+    lines << ""
+    report[:repository_methods].first(12).each do |entry|
+      lines << "- `#{entry[:repository]}.#{entry[:method]}` | risk=`#{entry[:risk_level]}` | query=`#{entry[:query_style]}` | fetch=#{format_inline(entry[:fetch_relations])} | lazy=#{format_inline(entry[:likely_lazy_relations_touched_downstream])}"
+      entry[:high_risk_call_chains].first(3).each do |chain|
+        lines << "  - `#{chain[:caller]}` in `#{chain[:file]}` | helper=#{format_inline(chain[:helper_types])} | lazy=#{format_inline(chain[:likely_lazy_relations])}"
       end
-      lines << ""
+    end
+    remaining = report[:repository_methods].size - 12
+    lines << "- ... #{remaining} more methods" if remaining.positive?
+    lines << ""
+    lines << "## High-risk sample"
+    lines << ""
+    report[:repository_methods].select { |entry| entry[:risk_level] == "high" }.first(5).each do |entry|
+      lines << "- `#{entry[:repository]}.#{entry[:method]}` -> `#{entry[:returned_entity] || 'non-entity'}`"
     end
     lines.join("\n")
   end

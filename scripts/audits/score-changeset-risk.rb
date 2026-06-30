@@ -76,12 +76,13 @@ report = {
 
 LocalToolingCommon.write_json("docs/generated/local-tooling/changeset-risk.json", report)
 lines = ["# Changeset Risk", ""]
-lines << "- Changed files: `#{report[:changed_file_count]}`"
-lines << "- Score: `#{score}`"
-lines << "- Risk tier: `#{tier}`"
+lines << "- Decision: `#{tier}`"
+lines << "- Why: #{factors.sort_by { |entry| -entry[:weight] }.first(3).map { |entry| "#{entry[:id]} +#{entry[:weight]}" }.join("; ")}"
+lines << "- Next action: #{report[:recommended_commands].first(2).map { |command| "`#{command}`" }.join(", ")}"
+lines << "- Evidence: changed files=#{report[:changed_file_count]}, score=#{score}"
 lines << ""
-factors.sort_by { |entry| -entry[:weight] }.first(6).each do |entry|
-  lines << "- `#{entry[:id]}` +#{entry[:weight]} (`#{entry[:file_count]}`)"
+factors.sort_by { |entry| -entry[:weight] }.first(2).each do |entry|
+  lines << "- `#{entry[:id]}` (`#{entry[:file_count]}` files)"
 end
 lines << ""
 LocalToolingCommon.write_text("docs/generated/local-tooling/changeset-risk-summary.md", lines.join("\n"))

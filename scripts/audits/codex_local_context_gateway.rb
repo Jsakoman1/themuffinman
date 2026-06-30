@@ -16,11 +16,16 @@ module CodexLocalContextGateway
   REPO_ROOT = LocalToolingCommon::REPO_ROOT
   CONTEXT_ROOT = File.join(REPO_ROOT, "docs/generated/local-tooling/codex-context")
   PACK_ROOT = File.join(CONTEXT_ROOT, "packs")
+  CACHE_ROOT = File.join(CONTEXT_ROOT, ".cache")
+  PAYLOAD_CACHE_ROOT = File.join(CACHE_ROOT, "payloads")
   HISTORY_ROOT = File.join(CONTEXT_ROOT, ".history")
   LATEST_MACHINE_PATH = File.join(CONTEXT_ROOT, "latest.machine.json")
   LATEST_HUMAN_PATH = File.join(CONTEXT_ROOT, "latest.human.md")
+  LATEST_EXECUTION_PATH = File.join(CONTEXT_ROOT, "latest.execution.json")
   CONFIG_PATH = File.join(CONTEXT_ROOT, "config.json")
   PLAN_PATH = File.join(REPO_ROOT, ".agents/codex-local-context-gateway-master-plan.md")
+  GATEWAY_VERSION = 3
+  CONTEXT_CONTRACT_VERSION = 1
 
   DEFAULT_CONFIG = {
     "schemaVersion" => 1,
@@ -38,6 +43,7 @@ module CodexLocalContextGateway
       "validation-matrix" => true,
       "session-handoff" => true,
       "link-symbol-to-tests" => true,
+      "audit-summary-index" => true,
       "dto-usage-pack" => true,
       "workflow-slice-pack" => true,
       "plan-code-map" => true,
@@ -52,6 +58,7 @@ module CodexLocalContextGateway
     "repo-map" => "docs/generated/local-tooling/repo-map.json",
     "symbol-index" => "docs/generated/local-tooling/symbol-index.json",
     "recommend-targeted-tests" => "docs/generated/local-tooling/targeted-tests.json",
+    "audit-summary-index" => "docs/generated/local-tooling/audit-summary-index.json",
     "endpoint-contract-packs" => "docs/generated/local-tooling/endpoint-contract-packs/index.json",
     "audit-frontend-usage-graph" => "docs/generated/local-tooling/frontend-usage-graph.json",
     "audit-backend-dependency-graph" => "docs/generated/local-tooling/backend-dependency-graph.json",
@@ -70,6 +77,8 @@ module CodexLocalContextGateway
     intent
     git-diff
     ast-diff
+    audit-summary-index
+    validation-memory
     symbol-test
     dto-endpoint-frontend
     workflow-slice
@@ -103,6 +112,18 @@ module CodexLocalContextGateway
     ensure_output_dirs
     options = parse_options(argv)
     request = build_request(options)
+    cache_key = context_cache_key(request)
+    unless request["refresh"]
+      cached_payload = load_cached_context_payload(cache_key)
+      if cached_payload
+        served_payload = deep_copy(cached_payload)
+        served_payload["cacheStatus"] = "hit"
+        served_payload["gatewayProvenance"]["cacheStatus"] = "hit" if served_payload["gatewayProvenance"].is_a?(Hash)
+        served_payload["gatewayProvenance"]["servedAt"] = now if served_payload["gatewayProvenance"].is_a?(Hash)
+        write_outputs(served_payload, store_cache: false)
+        return
+      end
+    end
     packs = []
     failures = []
 
@@ -125,8 +146,8 @@ module CodexLocalContextGateway
 
     packs = rescore_packs(packs.compact, request).sort_by { |pack| provider_sort_key(pack) }
     composition = compose_packs(packs, request["budgetTokens"])
-    latest_payload = build_latest_payload(request, composition, failures)
-    write_outputs(latest_payload)
+    latest_payload = build_latest_payload(request, composition, failures, cache_key: cache_key, cache_status: "miss")
+    write_outputs(latest_payload, store_cache: true)
   end
 
   def explain(argv)
@@ -172,6 +193,7 @@ module CodexLocalContextGateway
   def clean
     FileUtils.rm_f(LATEST_MACHINE_PATH)
     FileUtils.rm_f(LATEST_HUMAN_PATH)
+    FileUtils.rm_f(LATEST_EXECUTION_PATH)
     FileUtils.rm_f(File.join(CONTEXT_ROOT, "latest.explain.md"))
     FileUtils.rm_rf(PACK_ROOT)
     FileUtils.rm_rf(HISTORY_ROOT)
@@ -190,6 +212,8 @@ module CodexLocalContextGateway
   def ensure_output_dirs
     FileUtils.mkdir_p(CONTEXT_ROOT)
     FileUtils.mkdir_p(PACK_ROOT)
+    FileUtils.mkdir_p(CACHE_ROOT)
+    FileUtils.mkdir_p(PAYLOAD_CACHE_ROOT)
     FileUtils.mkdir_p(HISTORY_ROOT)
   end
 
@@ -225,7 +249,22 @@ module CodexLocalContextGateway
       "reuseExistingAuditOutputs" => options.key?("reuse_existing") ? truthy?(options["reuse_existing"]) : config["reuseExistingAuditOutputs"],
       "includeGenerated" => truthy?(options["include_generated"]),
       "includeAgents" => truthy?(options["include_agents"]),
+      "gatewayVersion" => GATEWAY_VERSION,
       "providerDefaults" => config["providerDefaults"],
+      "requestFingerprint" => context_cache_key(
+        {
+          "topic" => topic,
+          "mode" => options["mode"] || config["defaultMode"],
+          "budgetTokens" => resolve_budget_tokens(options["budget"], config["defaultBudgetTokens"]),
+          "files" => files.first(config["maxFiles"]),
+          "providerDefaults" => config["providerDefaults"],
+          "intent" => present_option(options["intent"]),
+          "includeGenerated" => truthy?(options["include_generated"]),
+          "includeAgents" => truthy?(options["include_agents"]),
+          "changesetSnapshot" => stringify_row(snapshot),
+          "gatewayVersion" => GATEWAY_VERSION
+        }
+      ),
       "changesetSnapshot" => stringify_row(snapshot)
     }
   end
@@ -316,66 +355,75 @@ module CodexLocalContextGateway
   end
 
   def existing_tool_packs(request)
-    packs = []
-    packs << in_memory_pack(
-      request,
-      id: "targeted-tests",
-      kind: "test",
-      provider: "existing-tool.recommend-targeted-tests",
-      confidence: 0.95,
-      relevance: 0.92,
-      payload: targeted_tests_report_for(request),
-      scope: {"files" => request["files"]},
-      source_commands: ["make recommend-targeted-tests files=<csv>"]
-    )
-    packs << tool_wrapper_pack(request, "endpoint-contract-packs", "endpoint-contract", "endpoint-contract", [], OUTPUT_REGISTRY.fetch("endpoint-contract-packs"), endpoint_relevance(request), 0.9)
-    packs << tool_wrapper_pack(request, "audit-frontend-usage-graph", "frontend-usage", "frontend-usage", [], OUTPUT_REGISTRY.fetch("audit-frontend-usage-graph"), frontend_relevance(request), 0.85)
-    packs << tool_wrapper_pack(request, "audit-backend-dependency-graph", "backend-dependency", "symbol", [], OUTPUT_REGISTRY.fetch("audit-backend-dependency-graph"), backend_relevance(request), 0.88)
-    packs << tool_wrapper_pack(request, "validation-matrix", "validation", "validation", [], OUTPUT_REGISTRY.fetch("validation-matrix"), 0.72, 0.98)
-    packs << tool_wrapper_pack(request, "repo-map", "repo-map", "domain", [], OUTPUT_REGISTRY.fetch("repo-map"), 0.45, 0.98)
-    packs << tool_wrapper_pack(request, "symbol-index", "symbol-index", "symbol", [], OUTPUT_REGISTRY.fetch("symbol-index"), symbol_index_relevance(request), 0.9)
-    packs << tool_wrapper_pack(request, "codebase-capsule", "codebase-capsule", "other", [], OUTPUT_REGISTRY.fetch("codebase-capsule"), 0.25, 0.98)
-    packs << in_memory_pack(
-      request,
-      id: "session",
-      kind: "session",
-      provider: "existing-tool.session-handoff",
-      confidence: 0.82,
-      relevance: request["files"].empty? ? 0.25 : 0.62,
-      payload: session_handoff_report_for(request),
-      scope: {"files" => request["files"]},
-      source_commands: ["make session-handoff topic=<topic>"]
-    )
-    packs << symbol_to_test_pack(request)
-    packs << dto_usage_pack(request)
-    packs << workflow_slice_pack(request)
-    packs << domain_pack(request)
-    packs << in_memory_pack(
-      request,
-      id: "hotspots",
-      kind: "other",
-      provider: "existing-tool.rank-changeset-hotspots",
-      confidence: 0.8,
-      relevance: 0.64,
-      payload: hotspot_report_for(request),
-      scope: {"files" => request["files"]},
-      source_commands: ["make rank-changeset-hotspots files=<csv>"]
-    )
-    plan_pack = plan_code_map_pack(request)
-    packs << plan_pack if plan_pack
-    packs << in_memory_pack(
-      request,
-      id: "audit-delta",
-      kind: "validation",
-      provider: "existing-tool.audit-delta-report",
-      confidence: 0.78,
-      relevance: 0.55,
-      payload: audit_delta_report_for("diff-summary"),
-      scope: {"files" => request["files"]},
-      source_commands: ["make audit-delta-report audit=diff-summary"],
-      source_files: [OUTPUT_REGISTRY.fetch("audit-delta-report")]
-    )
-    packs.compact
+    pack_jobs = []
+    pack_jobs << lambda do
+      in_memory_pack(
+        request,
+        id: "targeted-tests",
+        kind: "test",
+        provider: "existing-tool.recommend-targeted-tests",
+        confidence: 0.95,
+        relevance: 0.92,
+        payload: targeted_tests_report_for(request),
+        scope: {"files" => request["files"]},
+        source_commands: ["make recommend-targeted-tests files=<csv>"]
+      )
+    end
+    pack_jobs << lambda { tool_wrapper_pack(request, "endpoint-contract-packs", "endpoint-contract", "endpoint-contract", [], OUTPUT_REGISTRY.fetch("endpoint-contract-packs"), endpoint_relevance(request), 0.9) }
+    pack_jobs << lambda { tool_wrapper_pack(request, "audit-frontend-usage-graph", "frontend-usage", "frontend-usage", [], OUTPUT_REGISTRY.fetch("audit-frontend-usage-graph"), frontend_relevance(request), 0.85) }
+    pack_jobs << lambda { tool_wrapper_pack(request, "audit-backend-dependency-graph", "backend-dependency", "symbol", [], OUTPUT_REGISTRY.fetch("audit-backend-dependency-graph"), backend_relevance(request), 0.88) }
+    pack_jobs << lambda { tool_wrapper_pack(request, "validation-matrix", "validation", "validation", [], OUTPUT_REGISTRY.fetch("validation-matrix"), 0.72, 0.98) }
+    pack_jobs << lambda { audit_summary_index_pack(request) }
+    pack_jobs << lambda { validation_memory_pack(request) }
+    pack_jobs << lambda { tool_wrapper_pack(request, "repo-map", "repo-map", "domain", [], OUTPUT_REGISTRY.fetch("repo-map"), 0.45, 0.98) }
+    pack_jobs << lambda { tool_wrapper_pack(request, "symbol-index", "symbol-index", "symbol", [], OUTPUT_REGISTRY.fetch("symbol-index"), symbol_index_relevance(request), 0.9) }
+    pack_jobs << lambda { tool_wrapper_pack(request, "codebase-capsule", "codebase-capsule", "other", [], OUTPUT_REGISTRY.fetch("codebase-capsule"), 0.25, 0.98) }
+    pack_jobs << lambda do
+      in_memory_pack(
+        request,
+        id: "session",
+        kind: "session",
+        provider: "existing-tool.session-handoff",
+        confidence: 0.82,
+        relevance: request["files"].empty? ? 0.25 : 0.62,
+        payload: session_handoff_report_for(request),
+        scope: {"files" => request["files"]},
+        source_commands: ["make session-handoff topic=<topic>"]
+      )
+    end
+    pack_jobs << lambda { symbol_to_test_pack(request) }
+    pack_jobs << lambda { dto_usage_pack(request) }
+    pack_jobs << lambda { workflow_slice_pack(request) }
+    pack_jobs << lambda { domain_pack(request) }
+    pack_jobs << lambda do
+      in_memory_pack(
+        request,
+        id: "hotspots",
+        kind: "other",
+        provider: "existing-tool.rank-changeset-hotspots",
+        confidence: 0.8,
+        relevance: 0.64,
+        payload: hotspot_report_for(request),
+        scope: {"files" => request["files"]},
+        source_commands: ["make rank-changeset-hotspots files=<csv>"]
+      )
+    end
+    pack_jobs << lambda { plan_code_map_pack(request) }
+    pack_jobs << lambda do
+      in_memory_pack(
+        request,
+        id: "audit-delta",
+        kind: "validation",
+        provider: "existing-tool.audit-delta-report",
+        confidence: 0.78,
+        relevance: 0.55,
+        payload: audit_delta_report_for("diff-summary"),
+        scope: {"files" => request["files"]},
+        source_commands: ["make audit-delta-report audit=diff-summary"],
+        source_files: [OUTPUT_REGISTRY.fetch("audit-delta-report")]
+      )
+    end
+    run_pack_jobs(pack_jobs)
   end
 
   def in_memory_pack(request, id:, kind:, provider:, confidence:, relevance:, payload:, scope:, source_commands:, source_files: [])
@@ -417,6 +465,19 @@ module CodexLocalContextGateway
     {pack: pack}
   rescue StandardError => e
     {error: "#{target}: #{e.message.lines.first.to_s.strip}"}
+  end
+
+  def run_pack_jobs(pack_jobs)
+    results = Array.new(pack_jobs.size)
+    threads = pack_jobs.each_with_index.map do |job, index|
+      Thread.new do
+        results[index] = job.call
+      rescue StandardError => e
+        results[index] = {error: e.message.lines.first.to_s.strip}
+      end
+    end
+    threads.each(&:join)
+    results.compact
   end
 
   def symbol_to_test_pack(request)
@@ -548,6 +609,54 @@ module CodexLocalContextGateway
     {error: "plan-code-map: #{e.message.lines.first.to_s.strip}"}
   end
 
+  def audit_summary_index_pack(request)
+    return nil unless provider_enabled?(request, "audit-summary-index")
+
+    output_path = OUTPUT_REGISTRY.fetch("audit-summary-index")
+    ensure_tool_output("audit-summary-index", [], output_path, request)
+    payload = read_json_relative(output_path)
+    {
+      pack: build_pack(
+        id: "audit-summary-index",
+        kind: "validation",
+        scope: {"files" => request["files"]},
+        confidence: 0.94,
+        relevance: request["files"].empty? ? 0.7 : 0.92,
+        payload: payload,
+        provider: "existing-tool.audit-summary-index",
+        source_commands: ["make audit-summary-index"],
+        source_files: [output_path]
+      )
+    }
+  rescue StandardError => e
+    {error: "audit-summary-index: #{e.message.lines.first.to_s.strip}"}
+  end
+
+  def validation_memory_pack(request)
+    return nil unless validation_sensitive_request?(request)
+
+    payload = read_json_relative("docs/validation-memory.json")
+    {
+      pack: build_pack(
+        id: "validation-memory",
+        kind: "validation",
+        scope: {
+          "files" => request["files"],
+          "manifestSensitive" => true
+        },
+        confidence: 0.98,
+        relevance: 0.96,
+        payload: payload,
+        provider: "gateway.validation_memory",
+        source_commands: [],
+        source_files: ["docs/validation-memory.json", "docs/validation-memory.md"],
+        required: true
+      )
+    }
+  rescue StandardError => e
+    {error: "validation-memory: #{e.message.lines.first.to_s.strip}"}
+  end
+
   def compose_packs(packs, budget_tokens)
     active = packs.map { |pack| activate_pack_variant(pack, "full") }
     excluded = []
@@ -579,8 +688,10 @@ module CodexLocalContextGateway
     {packs: strip_internal_fields(active), excluded: excluded, total_tokens: total_tokens(active)}
   end
 
-  def build_latest_payload(request, composition, failures)
+  def build_latest_payload(request, composition, failures, cache_key: nil, cache_status: "miss")
     {
+      "gatewayVersion" => request["gatewayVersion"],
+      "contractVersion" => CONTEXT_CONTRACT_VERSION,
       "schemaVersion" => request["schemaVersion"],
       "generatedAt" => request["generatedAt"],
       "topic" => request["topic"],
@@ -592,10 +703,20 @@ module CodexLocalContextGateway
       "files" => request["files"],
       "providerFailures" => failures,
       "packs" => composition[:packs],
+      "recommendedReadOrder" => recommended_read_order(request, composition[:packs]),
+      "evidenceBundle" => concise_evidence_bundle(request, composition[:packs], composition, failures),
+      "cacheKey" => cache_key,
+      "cacheStatus" => cache_status,
+      "executionManifestPath" => relative_path(LATEST_EXECUTION_PATH),
+      "executionManifestSchemaPath" => "docs/codex-context-execution-manifest.schema.json",
       "gatewayProvenance" => {
         "provider" => "codex-local-context-gateway",
         "planPath" => relative_path(PLAN_PATH),
-        "reuseExistingAuditOutputs" => request["reuseExistingAuditOutputs"]
+        "reuseExistingAuditOutputs" => request["reuseExistingAuditOutputs"],
+        "cacheRoot" => relative_path(PAYLOAD_CACHE_ROOT),
+        "cachePath" => cache_key ? relative_path(cache_payload_path(cache_key)) : nil,
+        "requestFingerprint" => request["requestFingerprint"],
+        "cacheStatus" => cache_status
       }
     }
   end
@@ -697,14 +818,16 @@ module CodexLocalContextGateway
     }
   end
 
-  def write_outputs(latest_payload)
+  def write_outputs(latest_payload, store_cache: true)
     archive_latest_machine(latest_payload)
     File.write(LATEST_MACHINE_PATH, JSON.pretty_generate(latest_payload) + "\n")
+    File.write(LATEST_EXECUTION_PATH, JSON.pretty_generate(build_execution_manifest(latest_payload)) + "\n")
     latest_payload.fetch("packs", []).each do |pack|
       pack_path = File.join(PACK_ROOT, "#{pack.fetch("id")}.json")
       File.write(pack_path, JSON.pretty_generate(pack) + "\n")
     end
     File.write(LATEST_HUMAN_PATH, human_markdown(latest_payload))
+    store_cached_context_payload(latest_payload["cacheKey"], latest_payload) if store_cache && latest_payload["cacheKey"]
     puts "CODEX Local Context Gateway\n  machine: docs/generated/local-tooling/codex-context/latest.machine.json\n  human: docs/generated/local-tooling/codex-context/latest.human.md\n  packs: docs/generated/local-tooling/codex-context/packs/"
   end
 
@@ -729,11 +852,34 @@ module CodexLocalContextGateway
     lines << "- Budget Tokens: `#{latest_payload["budgetTokens"]}`"
     lines << "- Total Estimated Tokens: `#{latest_payload["totalEstimatedTokens"]}`"
     lines << "- Included Packs: `#{latest_payload["includedPackCount"]}`"
+    lines << "- Execution Manifest: `#{relative_path(LATEST_EXECUTION_PATH)}`"
+    lines << "- Execution Manifest Schema: `docs/codex-context-execution-manifest.schema.json`"
+    lines << "- Cache Key: `#{latest_payload["cacheKey"]}`" if latest_payload["cacheKey"]
+    lines << "- Cache Status: `#{latest_payload["cacheStatus"]}`" if latest_payload["cacheStatus"]
     lines << ""
     unless latest_payload["files"].empty?
       lines << "## Selected Files"
       lines << ""
       latest_payload["files"].first(20).each { |path| lines << "- `#{path}`" }
+      lines << ""
+    end
+    if latest_payload["recommendedReadOrder"].any?
+      lines << "## Recommended Read Order"
+      lines << ""
+      latest_payload["recommendedReadOrder"].each do |step|
+        lines << "- `#{step["id"]}` `#{step["source"]}`"
+        Array(step["why"]).first(2).each do |note|
+          lines << "  - #{note}"
+        end
+      end
+      lines << ""
+    end
+    if latest_payload["evidenceBundle"].any?
+      lines << "## Evidence Bundle"
+      lines << ""
+      latest_payload["evidenceBundle"].each do |entry|
+        lines << "- #{entry}"
+      end
       lines << ""
     end
     lines << "## Included Packs"
@@ -773,12 +919,19 @@ module CodexLocalContextGateway
       Array(payload["symbols"]).first(3).map { |row| "`#{row["symbol"]}` in `#{row["file"]}` lines #{row["lineStart"]}-#{row["lineEnd"]}" }
     when "targeted-tests"
       Array(payload["recommended_commands"]).first(3).map { |row| "`#{row}`" }
+    when "audit-summary-index"
+      summaries = Array(payload["summaries"]).first(3).map do |row|
+        path = row["path"] || row[:path]
+        bytes = row["bytes"] || row[:bytes]
+        "`#{path}` bytes=#{bytes}"
+      end
+      summaries.empty? ? ["Audit summary index is present but contains no summary rows."] : summaries
     else
       generic_payload_facts(payload).first(3)
     end
   end
 
-  def build_pack(id:, kind:, scope:, confidence:, relevance:, payload:, provider:, source_commands:, source_files:)
+  def build_pack(id:, kind:, scope:, confidence:, relevance:, payload:, provider:, source_commands:, source_files:, required: false)
     full = payload
     compact = compact_payload(payload)
     index_only = index_payload(payload)
@@ -808,7 +961,7 @@ module CodexLocalContextGateway
         "indexOnly" => index_only
       }
     }
-    pack["_required"] = %w[intent git-diff ast-diff targeted-tests].include?(id)
+    pack["_required"] = required || %w[intent git-diff ast-diff targeted-tests].include?(id)
     pack
   end
 
@@ -906,7 +1059,8 @@ module CodexLocalContextGateway
       has_controller: files.any? { |path| path.include?("/controller/") },
       has_plan: files.any? { |path| path.start_with?(".agents/") && path.end_with?("-plan.md") },
       direct_tests: tooling_call(:related_tests, files).first(12),
-      manifest_resolution: tooling_call(:resolve_manifest_path_for, files)
+      manifest_resolution: tooling_call(:resolve_manifest_path_for, files),
+      manifest_sensitive: validation_sensitive_request?(request)
     }
   end
 
@@ -938,6 +1092,9 @@ module CodexLocalContextGateway
       score += 0.08 if context[:has_docs] || context[:has_scripts]
       score += 0.05 if context[:manifest_resolution][:decision] == "resolved"
       notes << "Boosted by closeout and drift evidence."
+    when "validation-memory"
+      score += 0.18 if context[:manifest_sensitive]
+      notes << "Boosted because manifest-backed or closeout-sensitive work benefits from canonical validation memory."
     when "repo-map", "symbol-index", "codebase-capsule"
       score -= 0.12 if context[:file_count] <= 6
       score += 0.08 if context[:domains].size > 1
@@ -1007,6 +1164,138 @@ module CodexLocalContextGateway
 
       result[key] = value
     end
+  end
+
+  def context_cache_key(request)
+    Digest::SHA256.hexdigest(JSON.generate(fingerprint_input_payload(request)))
+  end
+
+  def cache_payload_path(cache_key)
+    File.join(PAYLOAD_CACHE_ROOT, "#{cache_key}.json")
+  end
+
+  def load_cached_context_payload(cache_key)
+    path = cache_payload_path(cache_key)
+    return nil unless File.exist?(path)
+
+    JSON.parse(File.read(path))
+  rescue StandardError
+    nil
+  end
+
+  def store_cached_context_payload(cache_key, payload)
+    File.write(cache_payload_path(cache_key), JSON.pretty_generate(payload) + "\n")
+  rescue StandardError
+    nil
+  end
+
+  def recommended_read_order(request, packs)
+    order = []
+    order << {
+      "id" => "diff-summary",
+      "source" => "docs/generated/local-tooling/diff-summary.md",
+      "why" => ["Shows the changed-file shape before broader inventory reads."]
+    }
+    order << {
+      "id" => "audit-summary-index",
+      "source" => OUTPUT_REGISTRY.fetch("audit-summary-index"),
+      "why" => ["Chooses the smallest relevant generated report before widening scope."]
+    }
+    if plan_or_tooling_request?(request)
+      order << {
+        "id" => "plan-code-map",
+        "source" => plan_source_for_read_order(request),
+        "why" => ["Plan or tooling work should read the plan-to-code map before broad repo inventory."]
+      }
+      order << {
+        "id" => "doc-sync-required-surfaces",
+        "source" => "make audit-doc-sync-required-surfaces files=<csv>",
+        "why" => ["Workflow and tooling changes should surface required docs before repo-wide scanning."]
+      }
+      order << {
+        "id" => "generated-artifact-freshness",
+        "source" => "make audit-generated-artifact-freshness",
+        "why" => ["Generated-artifact drift should be checked before widening to repo-map or symbol-index."]
+      }
+    end
+    if validation_sensitive_request?(request)
+      order << {
+        "id" => "validation-memory",
+        "source" => "docs/validation-memory.json",
+        "why" => ["Manifest-backed or closeout-sensitive work should load canonical validation and evidence rules before broader validation."]
+      }
+    end
+    relevant_audit = most_relevant_audit_pack(packs)
+    if relevant_audit && order.none? { |step| step["id"] == relevant_audit["id"] }
+      order << {
+        "id" => relevant_audit["id"],
+        "source" => Array(relevant_audit.dig("provenance", "sourceFiles")).first(1).first || relevant_audit["provider"],
+        "why" => ["Most relevant audit pack for the current change."]
+      }
+    end
+    targeted_tests = packs.find { |pack| pack["id"] == "targeted-tests" }
+    if targeted_tests
+      order << {
+        "id" => "targeted-tests",
+        "source" => Array(targeted_tests.dig("provenance", "sourceCommands")).first(1).first || "make recommend-targeted-tests",
+        "why" => ["Carries the smallest actionable validation set."]
+      }
+    end
+    order
+  end
+
+  def concise_evidence_bundle(request, packs, composition, failures)
+    relevant_audit = most_relevant_audit_pack(packs)
+    bundle = []
+    bundle << "Topic `#{request["topic"]}` with `#{request["files"].size}` selected files and `#{composition[:packs].size}` included packs."
+    bundle << "Read order starts with diff-summary, then audit-summary-index, then the most relevant audit."
+    bundle << "Plan-aware routing prefers plan-code-map and doc/generated-artifact checks first." if plan_or_tooling_request?(request)
+    bundle << "Validation memory is included because the request is manifest-backed or closeout-sensitive." if validation_sensitive_request?(request)
+    bundle << "Primary validation pack: `#{relevant_audit["id"]}`" if relevant_audit
+    bundle << "Targeted tests pack included: `#{packs.any? { |pack| pack["id"] == "targeted-tests" }}`"
+    bundle << "Provider failures: `#{failures.size}`"
+    bundle
+  end
+
+  def most_relevant_audit_pack(packs)
+    candidates = packs.reject do |pack|
+      %w[intent git-diff ast-diff targeted-tests session audit-summary-index].include?(pack["id"])
+    end
+    candidates.max_by { |pack| [pack["relevance"].to_f, pack["confidence"].to_f, -pack["estimatedTokens"].to_i] }
+  end
+
+  def plan_or_tooling_request?(request)
+    request["files"].any? { |path| path.start_with?(".agents/") || path.start_with?("scripts/") || path == "Makefile" } ||
+      request["topic"].to_s.include?("plan") ||
+      request["topic"].to_s.include?("tool")
+  end
+
+  def validation_sensitive_request?(request)
+    files = Array(request["files"])
+    topic = request["topic"].to_s.downcase
+    intent = request["intent"].to_s.downcase
+    manifest = tooling_call(:manifest_decision_for, files)
+    return true if manifest[:manifest_required]
+    return true if files.any? do |path|
+      path.start_with?(".agents/") ||
+        path.start_with?("scripts/") ||
+        path == "Makefile" ||
+        path == "AGENTS.md" ||
+        path == "docs/codex-fast-path.md" ||
+        path == "docs/feature-delivery-workflow.md" ||
+        path == "docs/documentation-sync-policy.md" ||
+        path == "docs/change-completion-checklist.md" ||
+        path.start_with?("docs/agent-operating-model")
+    end
+
+    %w[manifest closeout validation workflow agent evidence].any? do |keyword|
+      topic.include?(keyword) || intent.include?(keyword)
+    end
+  end
+
+  def plan_source_for_read_order(request)
+    plan_file = request["files"].find { |path| path.start_with?(".agents/") && path.end_with?("-plan.md") }
+    plan_file || ".agents/codex-local-context-orchestrator-master-plan.md"
   end
 
   def diff_notes(files, all_changed)
@@ -1117,6 +1406,157 @@ module CodexLocalContextGateway
     )
   end
 
+  def fingerprint_input_payload(request)
+    plan_source = plan_or_tooling_request?(request) ? plan_source_for_read_order(request) : nil
+    {
+      "schemaVersion" => request["schemaVersion"],
+      "gatewayVersion" => request["gatewayVersion"] || GATEWAY_VERSION,
+      "contractVersion" => CONTEXT_CONTRACT_VERSION,
+      "topic" => request["topic"],
+      "mode" => request["mode"],
+      "budgetTokens" => request["budgetTokens"],
+      "files" => request["files"],
+      "intent" => request["intent"],
+      "providerDefaults" => request["providerDefaults"],
+      "includeGenerated" => request["includeGenerated"],
+      "includeAgents" => request["includeAgents"],
+      "sourceHashes" => request.dig("changesetSnapshot", "source_hashes") || {},
+      "allChangedFiles" => request["allChangedFiles"] || [],
+      "planSource" => plan_source,
+      "planSourceHash" => plan_source ? LocalToolingCommon.sha256_for(plan_source) : nil,
+      "toolingSourceHashes" => tooling_source_hashes(plan_source)
+    }.compact
+  end
+
+  def execution_fingerprint_inputs(latest_payload)
+    plan_source = latest_payload.dig("gatewayProvenance", "planPath")
+    {
+      "gatewayVersion" => latest_payload["gatewayVersion"],
+      "contractVersion" => latest_payload["contractVersion"],
+      "cacheKey" => latest_payload["cacheKey"],
+      "requestFingerprint" => latest_payload.dig("gatewayProvenance", "requestFingerprint"),
+      "planSource" => plan_source,
+      "planSourceHash" => plan_source ? LocalToolingCommon.sha256_for(plan_source) : nil,
+      "selectedFiles" => Array(latest_payload["files"]),
+      "selectedSourceHashes" => selected_source_hashes(Array(latest_payload["files"])),
+      "toolingSourceHashes" => tooling_source_hashes(plan_source)
+    }.compact
+  end
+
+  def selected_source_hashes(files)
+    files.each_with_object({}) do |path, hashes|
+      hashes[path] = LocalToolingCommon.sha256_for(path)
+    end.compact
+  end
+
+  def tooling_source_hashes(plan_source = nil)
+    sources = [
+      "scripts/audits/codex-context.rb",
+      "scripts/audits/codex_local_context_gateway.rb",
+      "scripts/audits/local_tooling_extended_tools.rb",
+      "scripts/local_tooling_common.rb",
+      "scripts/audits/CodexJavaAstContext.java",
+      "docs/codex-fast-path.md",
+      "docs/validation-memory.md",
+      "docs/validation-memory.json",
+      "docs/validation-memory.schema.json",
+      "docs/feature-delivery-workflow.md",
+      "docs/documentation-sync-policy.md",
+      "docs/change-completion-checklist.md",
+      "docs/agent-operating-model.md",
+      "docs/agent-operating-model.yaml",
+      "docs/codex-context-execution-manifest.schema.json",
+      "docs/codex-local-tooling-todo.md"
+    ]
+    sources << plan_source if plan_source
+    sources.uniq.each_with_object({}) do |path, hashes|
+      hashes[path] = LocalToolingCommon.sha256_for(path)
+    end.compact
+  end
+
+  def build_execution_manifest(latest_payload)
+    read_order = Array(latest_payload["recommendedReadOrder"])
+    packs = Array(latest_payload["packs"])
+    {
+      "schemaVersion" => CONTEXT_CONTRACT_VERSION,
+      "gatewayVersion" => latest_payload["gatewayVersion"],
+      "generatedAt" => latest_payload["generatedAt"],
+      "topic" => latest_payload["topic"],
+      "mode" => latest_payload["mode"],
+      "budgetTokens" => latest_payload["budgetTokens"],
+      "cacheKey" => latest_payload["cacheKey"],
+      "cacheStatus" => latest_payload["cacheStatus"],
+      "requestFingerprint" => latest_payload.dig("gatewayProvenance", "requestFingerprint"),
+      "planSource" => latest_payload.dig("gatewayProvenance", "planPath"),
+      "schemaPath" => "docs/codex-context-execution-manifest.schema.json",
+      "selectedFiles" => Array(latest_payload["files"]),
+      "readOrder" => read_order.map do |step|
+        {
+          "id" => step["id"],
+          "source" => step["source"],
+          "why" => Array(step["why"])
+        }
+      end,
+      "packs" => packs.map do |pack|
+        {
+          "id" => pack["id"],
+          "kind" => pack["kind"],
+          "mode" => pack["mode"],
+          "relevance" => pack["relevance"],
+          "confidence" => pack["confidence"],
+          "estimatedTokens" => pack["estimatedTokens"],
+          "fingerprint" => pack["fingerprint"],
+          "sourceFiles" => Array(pack.dig("provenance", "sourceFiles")),
+          "sourceCommands" => Array(pack.dig("provenance", "sourceCommands"))
+        }
+      end,
+      "fingerprintInputs" => execution_fingerprint_inputs(latest_payload),
+      "planToEvidence" => plan_to_evidence_manifest(latest_payload),
+      "nextAction" => next_action_for(latest_payload),
+      "outputPaths" => {
+        "machine" => relative_path(LATEST_MACHINE_PATH),
+        "human" => relative_path(LATEST_HUMAN_PATH),
+        "execution" => relative_path(LATEST_EXECUTION_PATH),
+        "packs" => relative_path(PACK_ROOT)
+      }
+    }
+  end
+
+  def plan_to_evidence_manifest(latest_payload)
+    {
+      "planSource" => latest_payload.dig("gatewayProvenance", "planPath"),
+      "cacheKey" => latest_payload["cacheKey"],
+      "readOrderIds" => Array(latest_payload["recommendedReadOrder"]).map { |step| step["id"] },
+      "validationPacks" => Array(latest_payload["packs"]).select { |pack| %w[targeted-tests audit-summary-index validation validation-memory].include?(pack["id"]) }.map do |pack|
+        {
+          "id" => pack["id"],
+          "kind" => pack["kind"],
+          "sourceFiles" => Array(pack.dig("provenance", "sourceFiles")),
+          "sourceCommands" => Array(pack.dig("provenance", "sourceCommands"))
+        }
+      end,
+      "evidenceBundle" => Array(latest_payload["evidenceBundle"])
+    }
+  end
+
+  def next_action_for(latest_payload)
+    read_order = Array(latest_payload["recommendedReadOrder"])
+    primary_validation = read_order.find { |step| step["id"] == "targeted-tests" } || read_order.find { |step| step["id"] == "audit-summary-index" }
+    {
+      "primaryRead" => read_order.first&.fetch("id", nil),
+      "primaryValidation" => primary_validation && {
+        "id" => primary_validation["id"],
+        "source" => primary_validation["source"]
+      },
+      "followUps" => read_order.drop(1).first(3).map do |step|
+        {
+          "id" => step["id"],
+          "source" => step["source"]
+        }
+      end
+    }.compact
+  end
+
   def deep_copy(value)
     JSON.parse(JSON.generate(value))
   end
@@ -1183,6 +1623,7 @@ module CodexLocalContextGateway
     fallback_files = files - parser_backed_files
     notes = []
     notes << "Parser-backed AST extraction is active for TypeScript/JavaScript/Vue and Java files when local parsers are available." if parser_backed_files.any?
+    notes << "Java spans use the local javac helper first; heuristic symbol isolation only remains as a fallback when parsing fails." if parser_backed_files.any? { |path| File.extname(path) == ".java" }
     notes << "Some files still use heuristic changed-line symbol isolation." if fallback_files.any?
     notes.join(" ")
   end
@@ -1229,6 +1670,16 @@ module CodexLocalContextGateway
         stack << {
           type: "java-type",
           symbol: name,
+          file: path,
+          lineStart: line_number,
+          braceDepth: net_brace_change(line)
+        }
+      elsif stripped.match?(/\A(?:public|protected|private)?\s*(?:static\s+)?[A-Z][A-Za-z0-9_<>, ?\[\]]*\s+([A-Z][A-Za-z0-9_]*)\s*\(/) && !stripped.include?(" class ")
+        owner = stack.reverse.find { |entry| entry[:type] == "java-type" }&.fetch(:symbol, nil)
+        name = stripped[/([A-Z][A-Za-z0-9_]*)\s*\(/, 1]
+        stack << {
+          type: "java-constructor",
+          symbol: owner.nil? || owner.empty? ? name : "#{owner}.constructor",
           file: path,
           lineStart: line_number,
           braceDepth: net_brace_change(line)

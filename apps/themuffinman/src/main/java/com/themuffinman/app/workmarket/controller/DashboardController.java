@@ -2,6 +2,7 @@ package com.themuffinman.app.workmarket.controller;
 
 import com.themuffinman.app.workmarket.dto.DashboardResponseDTO;
 import com.themuffinman.app.workmarket.dto.DashboardSummaryDTO;
+import com.themuffinman.app.workmarket.dto.DashboardVoiceConfigDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.service.DashboardService;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,10 @@ public class DashboardController {
     @GetMapping("/me/summary")
     public DashboardSummaryDTO getMySummary(@AuthenticationPrincipal AppUser currentUser) {
         return dashboardService.getMySummary(currentUser);
+    }
+
+    @GetMapping("/me/voice-config")
+    public DashboardVoiceConfigDTO getMyVoiceConfig(@AuthenticationPrincipal AppUser currentUser) {
+        return dashboardService.getMyVoiceConfig(currentUser);
     }
 }

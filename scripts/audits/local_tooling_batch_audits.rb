@@ -826,7 +826,7 @@ module LocalToolingBatchAudits
       if value.is_a?(Array)
         lines << "## `#{key}`"
         lines << ""
-        value.first(20).each do |entry|
+        value.first(12).each do |entry|
           cleaned_entry = LocalToolingCommon.clean_text_output(entry.to_s, max_lines: 1, aggressive: true)
           next if cleaned_entry.empty?
 

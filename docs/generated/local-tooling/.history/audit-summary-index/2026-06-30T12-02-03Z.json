@@ -1,0 +1,1347 @@
+{
+  "generated_at": "2026-06-30T12:01:27Z",
+  "registry": [
+    {
+      "target": "audit-change-impact-preflight",
+      "script": "scripts/audits/audit-change-impact-preflight.rb",
+      "output": "docs/generated/local-tooling/change-impact-preflight-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "changeset-risk",
+      "script": "scripts/audits/score-changeset-risk.rb",
+      "output": "docs/generated/local-tooling/changeset-risk-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-router",
+      "script": "scripts/audits/audit-router.rb",
+      "output": "docs/generated/local-tooling/audit-router-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "codex-context",
+      "script": "scripts/audits/codex-context.rb",
+      "output": "docs/generated/local-tooling/codex-context/latest.human.md",
+      "output_exists": true
+    },
+    {
+      "target": "codex-context-explain",
+      "script": "scripts/audits/codex-context.rb",
+      "output": "docs/generated/local-tooling/codex-context/latest.explain.md",
+      "output_exists": true
+    },
+    {
+      "target": "codex-context-clean",
+      "script": "scripts/audits/codex-context.rb",
+      "output": "docs/generated/local-tooling/codex-context/",
+      "output_exists": true
+    },
+    {
+      "target": "clean-text-noise",
+      "script": "scripts/audits/clean-text-noise.rb",
+      "output": "docs/generated/local-tooling/clean-text-noise-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "context-pack",
+      "script": "scripts/audits/generate-context-pack.rb",
+      "output": "docs/generated/local-tooling/context-packs",
+      "output_exists": true
+    },
+    {
+      "target": "recommend-feature-slices",
+      "script": "scripts/audits/recommend-feature-slices.rb",
+      "output": "docs/generated/local-tooling/feature-slices/<topic>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "recommend-targeted-tests",
+      "script": "scripts/audits/recommend-targeted-tests.rb",
+      "output": "docs/generated/local-tooling/targeted-tests-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "repo-map",
+      "script": "scripts/audits/generate-repo-map.rb",
+      "output": "docs/generated/local-tooling/repo-map-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "symbol-index",
+      "script": "scripts/audits/generate-symbol-index.rb",
+      "output": "docs/generated/local-tooling/symbol-index-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "endpoint-contract-packs",
+      "script": "scripts/audits/generate-endpoint-contract-packs.rb",
+      "output": "docs/generated/local-tooling/endpoint-contract-packs",
+      "output_exists": true
+    },
+    {
+      "target": "validation-matrix",
+      "script": "scripts/audits/generate-validation-matrix.rb",
+      "output": "docs/generated/local-tooling/validation-matrix-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "changeset-playbook",
+      "script": "scripts/audits/generate-changeset-playbook.rb",
+      "output": "docs/generated/local-tooling/changeset-playbook-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "resolve-manifest-path",
+      "script": "scripts/audits/resolve-manifest-path.rb",
+      "output": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "link-symbol-to-tests",
+      "script": "scripts/audits/link-symbol-to-tests.rb",
+      "output": "docs/generated/local-tooling/symbol-test-links/<symbol-name>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "dto-usage-pack",
+      "script": "scripts/audits/generate-dto-usage-pack.rb",
+      "output": "docs/generated/local-tooling/dto-usage-packs/<dto-name>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "workflow-slice-pack",
+      "script": "scripts/audits/generate-workflow-slice-pack.rb",
+      "output": "docs/generated/local-tooling/workflow-slices/<workflow-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "plan-code-map",
+      "script": "scripts/audits/generate-plan-code-map.rb",
+      "output": "docs/generated/local-tooling/plan-code-maps/<plan-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "rank-changeset-hotspots",
+      "script": "scripts/audits/rank-changeset-hotspots.rb",
+      "output": "docs/generated/local-tooling/hotspots-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "domain-pack",
+      "script": "scripts/audits/generate-domain-pack.rb",
+      "output": "docs/generated/local-tooling/domain-packs/<domain-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-doc-sync-preflight",
+      "script": "scripts/audits/audit-doc-sync-preflight.rb",
+      "output": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-doc-sync-required-surfaces",
+      "script": "scripts/audits/audit-doc-sync-required-surfaces.rb",
+      "output": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-doc-template-coverage",
+      "script": "scripts/audits/audit-doc-template-coverage.rb",
+      "output": "docs/generated/local-tooling/doc-template-coverage-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-doc-sync-duplicates",
+      "script": "scripts/audits/audit-doc-sync-duplicates.rb",
+      "output": "docs/generated/local-tooling/doc-sync-duplicates-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-manifest-decision",
+      "script": "scripts/audits/audit-manifest-decision.rb",
+      "output": "docs/generated/local-tooling/manifest-decision-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "recommend-validation-preset",
+      "script": "scripts/audits/recommend-validation-preset.rb",
+      "output": "docs/generated/local-tooling/validation-preset-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-doc-staleness-scoring",
+      "script": "scripts/audits/audit-doc-staleness-scoring.rb",
+      "output": "docs/generated/local-tooling/doc-staleness-scoring-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-architecture-drift",
+      "script": "scripts/audits/audit-architecture-drift.rb",
+      "output": "docs/generated/local-tooling/architecture-drift-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "architecture-decision-index",
+      "script": "scripts/audits/generate-architecture-decision-index.rb",
+      "output": "docs/generated/local-tooling/architecture-decision-index-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-generated-commit-scope",
+      "script": "scripts/audits/audit-generated-commit-scope.rb",
+      "output": "docs/generated/local-tooling/generated-commit-scope-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-migration-entity-drift",
+      "script": "scripts/audits/audit-migration-entity-drift.rb",
+      "output": "docs/generated/local-tooling/migration-entity-drift-audit-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-test-gap-recommendations",
+      "script": "scripts/audits/audit-test-gap-recommendations.rb",
+      "output": "docs/generated/local-tooling/test-gap-recommendations-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-contract-test-gaps",
+      "script": "scripts/audits/audit-contract-test-gaps.rb",
+      "output": "docs/generated/local-tooling/contract-test-gaps-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-mutation-safety",
+      "script": "scripts/audits/audit-mutation-safety.rb",
+      "output": "docs/generated/local-tooling/mutation-safety-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-docs-as-tests",
+      "script": "scripts/audits/audit-docs-as-tests.rb",
+      "output": "docs/generated/local-tooling/docs-as-tests-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-frontend-usage-graph",
+      "script": "scripts/audits/audit-frontend-usage-graph.rb",
+      "output": "docs/generated/local-tooling/frontend-usage-graph-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-backend-dependency-graph",
+      "script": "scripts/audits/audit-backend-dependency-graph.rb",
+      "output": "docs/generated/local-tooling/backend-dependency-graph-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-test-fixture-duplication",
+      "script": "scripts/audits/audit-test-fixture-duplication.rb",
+      "output": "docs/generated/local-tooling/test-fixture-duplication-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "diff-summary",
+      "script": "scripts/audits/generate-diff-summary.rb",
+      "output": "docs/generated/local-tooling/diff-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "session-handoff",
+      "script": "scripts/audits/generate-session-handoff.rb",
+      "output": "docs/generated/local-tooling/session-handoffs",
+      "output_exists": true
+    },
+    {
+      "target": "plan-scaffold-discovery",
+      "script": "scripts/audits/generate-plan-scaffold-discovery.rb",
+      "output": ".agents/<topic>-plan.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-summary-index",
+      "script": "scripts/audits/generate-audit-summary-index.rb",
+      "output": "docs/generated/local-tooling/audit-summary-index.md",
+      "output_exists": true
+    },
+    {
+      "target": "generate-audit-registry-artifacts",
+      "script": "scripts/audits/generate-audit-registry-artifacts.rb",
+      "output": "docs/tooling/codex-local-audits.yml",
+      "output_exists": true
+    },
+    {
+      "target": "fast-check",
+      "script": "scripts/audits/generate-fast-check-report.rb",
+      "output": "docs/generated/local-tooling/fast-check-report-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "diagnose-backend-test",
+      "script": "scripts/audits/diagnose-backend-test.rb",
+      "output": "docs/generated/local-tooling/diagnostics/backend-test-latest-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "diagnose-frontend-type-check",
+      "script": "scripts/audits/diagnose-frontend-type-check.rb",
+      "output": "docs/generated/local-tooling/diagnostics/frontend-type-check-latest-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "diagnose-frontend-build",
+      "script": "scripts/audits/diagnose-frontend-build.rb",
+      "output": "docs/generated/local-tooling/diagnostics/frontend-build-latest-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "test-history-summary",
+      "script": "scripts/audits/generate-test-history-summary.rb",
+      "output": "docs/generated/local-tooling/test-history-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "failure-knowledge-base",
+      "script": "scripts/audits/update-failure-knowledge-base.rb",
+      "output": "docs/generated/local-tooling/failure-knowledge-base-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "codebase-capsule",
+      "script": "scripts/audits/generate-codebase-capsule.rb",
+      "output": "docs/generated/local-tooling/codebase-capsule.md",
+      "output_exists": true
+    },
+    {
+      "target": "record-validation",
+      "script": "scripts/audits/record-validation-evidence.rb",
+      "output": "docs/generated/local-tooling/validation-evidence/<feature-id>.json",
+      "output_exists": false
+    },
+    {
+      "target": "api-contract-snapshot",
+      "script": "scripts/audits/generate-api-contract-snapshot.rb",
+      "output": "docs/generated/local-tooling/api-contract-snapshot-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-doc-canonical-phrases",
+      "script": "scripts/audits/audit-doc-canonical-phrases.rb",
+      "output": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-sandbox-data-coverage-pack",
+      "script": "scripts/audits/audit-sandbox-data-coverage-pack.rb",
+      "output": "docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "smoke-local-authenticated",
+      "script": "scripts/audits/smoke-local-authenticated.rb",
+      "output": "docs/generated/local-tooling/smoke/local-authenticated-latest.json",
+      "output_exists": false
+    },
+    {
+      "target": "smoke-local-dashboard",
+      "script": "scripts/audits/smoke-local-dashboard.rb",
+      "output": "docs/generated/local-tooling/smoke/local-dashboard-latest.json",
+      "output_exists": false
+    },
+    {
+      "target": "closeout-bundle",
+      "script": "scripts/audits/generate-closeout-bundle.rb",
+      "output": "docs/generated/local-tooling/closeout-bundle-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "closeout-report",
+      "script": "scripts/audits/generate-closeout-report.rb",
+      "output": "docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "autofill-feature-closeout",
+      "script": "scripts/audits/autofill-feature-closeout.rb",
+      "output": "docs/generated/local-tooling/closeout-autofill/<feature-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "enforce-feature-closeout",
+      "script": "scripts/audits/enforce-feature-closeout.rb",
+      "output": "docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "post-merge-retrospective",
+      "script": "scripts/audits/generate-post-merge-retrospective.rb",
+      "output": "docs/generated/local-tooling/post-merge-retrospectives/latest-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-plan-completion",
+      "script": "scripts/audits/audit-plan-completion.rb",
+      "output": "docs/generated/local-tooling/plan-completion/<plan-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-delta-report",
+      "script": "scripts/audits/audit-delta-report.rb",
+      "output": "docs/generated/local-tooling/audit-deltas/<audit-id>-summary.md",
+      "output_exists": false
+    }
+  ],
+  "summaries": [
+    {
+      "path": "docs/generated/dead-code-audit/backend-unused-summary.md",
+      "mtime": "2026-06-29T19:54:50Z",
+      "bytes": 1279
+    },
+    {
+      "path": "docs/generated/dead-code-audit/dead-code-summary-summary.md",
+      "mtime": "2026-06-29T19:54:50Z",
+      "bytes": 2290
+    },
+    {
+      "path": "docs/generated/dead-code-audit/frontend-unused-summary.md",
+      "mtime": "2026-06-29T19:54:46Z",
+      "bytes": 3181
+    },
+    {
+      "path": "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md",
+      "mtime": "2026-06-29T19:54:52Z",
+      "bytes": 1134
+    },
+    {
+      "path": "docs/generated/local-tooling/api-contract-drift-summary.md",
+      "mtime": "2026-06-30T11:19:54Z",
+      "bytes": 1684
+    },
+    {
+      "path": "docs/generated/local-tooling/api-contract-snapshot-summary.md",
+      "mtime": "2026-06-29T19:55:22Z",
+      "bytes": 6252
+    },
+    {
+      "path": "docs/generated/local-tooling/architecture-decision-index-summary.md",
+      "mtime": "2026-06-30T11:19:54Z",
+      "bytes": 834
+    },
+    {
+      "path": "docs/generated/local-tooling/architecture-drift-summary.md",
+      "mtime": "2026-06-30T06:36:39Z",
+      "bytes": 5813
+    },
+    {
+      "path": "docs/generated/local-tooling/async-mutation-flow-audit-summary.md",
+      "mtime": "2026-06-29T19:55:03Z",
+      "bytes": 4713
+    },
+    {
+      "path": "docs/generated/local-tooling/audit-deltas/audit-router-summary.md",
+      "mtime": "2026-06-29T12:08:39Z",
+      "bytes": 1373
+    },
+    {
+      "path": "docs/generated/local-tooling/audit-deltas/diff-summary-summary.md",
+      "mtime": "2026-06-29T19:55:21Z",
+      "bytes": 3577
+    },
+    {
+      "path": "docs/generated/local-tooling/audit-documentation-summary.md",
+      "mtime": "2026-06-30T12:01:27Z",
+      "bytes": 143
+    },
+    {
+      "path": "docs/generated/local-tooling/audit-registry-artifacts-summary.md",
+      "mtime": "2026-06-29T17:51:25Z",
+      "bytes": 142
+    },
+    {
+      "path": "docs/generated/local-tooling/audit-router-summary.md",
+      "mtime": "2026-06-30T10:49:50Z",
+      "bytes": 753
+    },
+    {
+      "path": "docs/generated/local-tooling/automation-readiness-gap-audit-summary.md",
+      "mtime": "2026-06-29T19:54:52Z",
+      "bytes": 3501
+    },
+    {
+      "path": "docs/generated/local-tooling/backend-dependency-graph-summary.md",
+      "mtime": "2026-06-29T19:55:19Z",
+      "bytes": 9830
+    },
+    {
+      "path": "docs/generated/local-tooling/change-impact-preflight-summary.md",
+      "mtime": "2026-06-30T10:07:29Z",
+      "bytes": 593
+    },
+    {
+      "path": "docs/generated/local-tooling/changeset-playbook-summary.md",
+      "mtime": "2026-06-30T11:07:29Z",
+      "bytes": 230
+    },
+    {
+      "path": "docs/generated/local-tooling/changeset-risk-summary.md",
+      "mtime": "2026-06-30T11:00:37Z",
+      "bytes": 349
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-autofill/codex_context_optimization-summary.md",
+      "mtime": "2026-06-29T15:56:58Z",
+      "bytes": 1980
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow-summary.md",
+      "mtime": "2026-06-29T17:09:37Z",
+      "bytes": 2670
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-bundle-summary.md",
+      "mtime": "2026-06-30T11:21:17Z",
+      "bytes": 219
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-enforcement/agent_control_phase_two-summary.md",
+      "mtime": "2026-06-29T11:34:33Z",
+      "bytes": 175
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-reports/backend_audit_tiering-summary.md",
+      "mtime": "2026-06-29T10:36:26Z",
+      "bytes": 806
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-reports/codex_context_optimization-summary.md",
+      "mtime": "2026-06-29T15:59:22Z",
+      "bytes": 1402
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-reports/codex_tiered_workflow-summary.md",
+      "mtime": "2026-06-29T17:09:44Z",
+      "bytes": 1496
+    },
+    {
+      "path": "docs/generated/local-tooling/config-sprawl-audit-summary.md",
+      "mtime": "2026-06-29T19:54:59Z",
+      "bytes": 658
+    },
+    {
+      "path": "docs/generated/local-tooling/context-packs/todo-master-plan-summary.md",
+      "mtime": "2026-06-30T11:20:21Z",
+      "bytes": 321
+    },
+    {
+      "path": "docs/generated/local-tooling/contract-test-gaps-summary.md",
+      "mtime": "2026-06-29T19:55:19Z",
+      "bytes": 130
+    },
+    {
+      "path": "docs/generated/local-tooling/diagnostics/frontend-build-latest-summary.md",
+      "mtime": "2026-06-30T11:21:36Z",
+      "bytes": 526
+    },
+    {
+      "path": "docs/generated/local-tooling/diagnostics/frontend-type-check-latest-summary.md",
+      "mtime": "2026-06-30T11:21:38Z",
+      "bytes": 531
+    },
+    {
+      "path": "docs/generated/local-tooling/diff-summary.md",
+      "mtime": "2026-06-30T11:20:21Z",
+      "bytes": 962
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
+      "mtime": "2026-06-30T07:26:17Z",
+      "bytes": 3764
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-coverage-gap-audit-summary.md",
+      "mtime": "2026-06-29T19:54:52Z",
+      "bytes": 3364
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-staleness-scoring-summary.md",
+      "mtime": "2026-06-30T11:54:49Z",
+      "bytes": 2796
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-sync-duplicates-summary.md",
+      "mtime": "2026-06-30T11:00:37Z",
+      "bytes": 445
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+      "mtime": "2026-06-30T11:21:17Z",
+      "bytes": 897
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+      "mtime": "2026-06-30T11:21:35Z",
+      "bytes": 1824
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-template-coverage-summary.md",
+      "mtime": "2026-06-29T19:55:16Z",
+      "bytes": 764
+    },
+    {
+      "path": "docs/generated/local-tooling/docs-as-tests-summary.md",
+      "mtime": "2026-06-29T19:55:02Z",
+      "bytes": 247
+    },
+    {
+      "path": "docs/generated/local-tooling/docs-to-code-drift-audit-summary.md",
+      "mtime": "2026-06-29T19:54:51Z",
+      "bytes": 607
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-ownership-inventory-summary.md",
+      "mtime": "2026-06-29T19:54:59Z",
+      "bytes": 1660
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-packs/agent-summary.md",
+      "mtime": "2026-06-29T15:47:48Z",
+      "bytes": 5338
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-packs/workmarket-summary.md",
+      "mtime": "2026-06-29T19:55:12Z",
+      "bytes": 15303
+    },
+    {
+      "path": "docs/generated/local-tooling/dormant-code-audit-summary.md",
+      "mtime": "2026-06-29T19:55:00Z",
+      "bytes": 9647
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/dashboardsectionsdto-summary.md",
+      "mtime": "2026-06-29T19:55:08Z",
+      "bytes": 2983
+    },
+    {
+      "path": "docs/generated/local-tooling/duplicate-logic-audit-summary.md",
+      "mtime": "2026-06-30T10:07:29Z",
+      "bytes": 798
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-callsite-linker-summary.md",
+      "mtime": "2026-06-30T10:54:35Z",
+      "bytes": 2813
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/admin-summary.md",
+      "mtime": "2026-06-30T10:53:31Z",
+      "bytes": 757
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/agent-summary.md",
+      "mtime": "2026-06-30T10:53:31Z",
+      "bytes": 578
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/app_users-summary.md",
+      "mtime": "2026-06-30T10:53:31Z",
+      "bytes": 1083
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/applications-summary.md",
+      "mtime": "2026-06-30T10:53:31Z",
+      "bytes": 305
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/auth-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 626
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/business-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 1052
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/chat-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 1247
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/circles-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 1141
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/dashboard-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 468
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/index-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 283
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/location-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 754
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/news-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 815
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/quests-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 1161
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/rides-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 697
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/things-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 1042
+    },
+    {
+      "path": "docs/generated/local-tooling/error-pattern-audit-summary.md",
+      "mtime": "2026-06-29T19:55:02Z",
+      "bytes": 4555
+    },
+    {
+      "path": "docs/generated/local-tooling/failure-knowledge-base-summary.md",
+      "mtime": "2026-06-30T11:44:34Z",
+      "bytes": 340
+    },
+    {
+      "path": "docs/generated/local-tooling/fast-check-report-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 302
+    },
+    {
+      "path": "docs/generated/local-tooling/feature-intro-check-summary.md",
+      "mtime": "2026-06-29T19:55:03Z",
+      "bytes": 86
+    },
+    {
+      "path": "docs/generated/local-tooling/feature-slices/todo-master-plan-summary.md",
+      "mtime": "2026-06-30T11:20:21Z",
+      "bytes": 1725
+    },
+    {
+      "path": "docs/generated/local-tooling/file-relation-graph-summary.md",
+      "mtime": "2026-06-29T19:55:00Z",
+      "bytes": 3891
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-route-surface-inventory-summary.md",
+      "mtime": "2026-06-30T10:54:36Z",
+      "bytes": 2584
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-stale-surface-audit-summary.md",
+      "mtime": "2026-06-30T11:21:16Z",
+      "bytes": 3257
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-state-logic-duplication-audit-summary.md",
+      "mtime": "2026-06-30T10:07:29Z",
+      "bytes": 498
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-usage-graph-summary.md",
+      "mtime": "2026-06-29T19:55:19Z",
+      "bytes": 5529
+    },
+    {
+      "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
+      "mtime": "2026-06-30T11:22:51Z",
+      "bytes": 722
+    },
+    {
+      "path": "docs/generated/local-tooling/generated-commit-scope-summary.md",
+      "mtime": "2026-06-30T10:54:36Z",
+      "bytes": 696
+    },
+    {
+      "path": "docs/generated/local-tooling/hotspots-summary.md",
+      "mtime": "2026-06-29T19:55:12Z",
+      "bytes": 46987
+    },
+    {
+      "path": "docs/generated/local-tooling/make-target-index-summary.md",
+      "mtime": "2026-06-30T12:01:27Z",
+      "bytes": 815
+    },
+    {
+      "path": "docs/generated/local-tooling/manifest-decision-summary.md",
+      "mtime": "2026-06-29T19:55:17Z",
+      "bytes": 1153
+    },
+    {
+      "path": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
+      "mtime": "2026-06-29T19:55:07Z",
+      "bytes": 7987
+    },
+    {
+      "path": "docs/generated/local-tooling/manual-cleanup-candidate-report-summary.md",
+      "mtime": "2026-06-29T19:55:00Z",
+      "bytes": 1806
+    },
+    {
+      "path": "docs/generated/local-tooling/mapper-usage-audit-summary.md",
+      "mtime": "2026-06-30T11:19:54Z",
+      "bytes": 4962
+    },
+    {
+      "path": "docs/generated/local-tooling/migration-entity-drift-audit-summary.md",
+      "mtime": "2026-06-29T19:55:17Z",
+      "bytes": 4796
+    },
+    {
+      "path": "docs/generated/local-tooling/mutation-safety-summary.md",
+      "mtime": "2026-06-29T19:55:01Z",
+      "bytes": 290
+    },
+    {
+      "path": "docs/generated/local-tooling/naming-consistency-audit-summary.md",
+      "mtime": "2026-06-29T19:54:59Z",
+      "bytes": 763
+    },
+    {
+      "path": "docs/generated/local-tooling/permission-rule-duplication-audit-summary.md",
+      "mtime": "2026-06-30T10:07:29Z",
+      "bytes": 298
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-code-maps/86-codex-local-manifest-path-resolver-summary.md",
+      "mtime": "2026-06-29T19:55:10Z",
+      "bytes": 12096
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-code-maps/codex-local-context-gateway-master-plan-summary.md",
+      "mtime": "2026-06-29T15:10:38Z",
+      "bytes": 11859
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/109-codex-summary-read-first-compaction-summary.md",
+      "mtime": "2026-06-30T10:55:25Z",
+      "bytes": 231
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/110-codex-summary-validation-compaction-summary.md",
+      "mtime": "2026-06-30T10:55:25Z",
+      "bytes": 231
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/111-codex-summary-history-compaction-summary.md",
+      "mtime": "2026-06-30T10:55:25Z",
+      "bytes": 225
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/112-codex-summary-changeset-risk-compaction-summary.md",
+      "mtime": "2026-06-30T11:01:18Z",
+      "bytes": 239
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/113-codex-summary-doc-sync-duplicates-compaction-summary.md",
+      "mtime": "2026-06-30T11:01:18Z",
+      "bytes": 249
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/114-codex-summary-codebase-capsule-compaction-summary.md",
+      "mtime": "2026-06-30T11:01:18Z",
+      "bytes": 243
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/115-codex-summary-freshness-refresh-summary.md",
+      "mtime": "2026-06-30T11:01:18Z",
+      "bytes": 223
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/116-codex-summary-changeset-playbook-compaction-summary.md",
+      "mtime": "2026-06-30T11:08:09Z",
+      "bytes": 247
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/117-codex-summary-audit-summary-index-compaction-summary.md",
+      "mtime": "2026-06-30T11:08:09Z",
+      "bytes": 249
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/118-codex-summary-endpoint-contract-packs-compaction-summary.md",
+      "mtime": "2026-06-30T11:08:09Z",
+      "bytes": 257
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/119-codex-summary-inventory-maps-compaction-summary.md",
+      "mtime": "2026-06-30T11:23:51Z",
+      "bytes": 239
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/120-codex-summary-session-context-compaction-summary.md",
+      "mtime": "2026-06-30T11:23:51Z",
+      "bytes": 241
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/121-codex-summary-validation-closeout-compaction-summary.md",
+      "mtime": "2026-06-30T11:23:51Z",
+      "bytes": 249
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/122-codex-summary-diagnostics-references-compaction-summary.md",
+      "mtime": "2026-06-30T11:23:51Z",
+      "bytes": 255
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/123-memory-active-backlog-cleanup-summary.md",
+      "mtime": "2026-06-30T11:41:34Z",
+      "bytes": 219
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/124-memory-canonical-lesson-store-summary.md",
+      "mtime": "2026-06-30T11:53:13Z",
+      "bytes": 219
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/125-memory-her-vision-model-summary.md",
+      "mtime": "2026-06-30T11:54:48Z",
+      "bytes": 207
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/59-agent-plan-completion-enforcement-summary.md",
+      "mtime": "2026-06-29T10:35:05Z",
+      "bytes": 225
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/60-agent-closeout-report-generation-summary.md",
+      "mtime": "2026-06-29T10:40:20Z",
+      "bytes": 223
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/61-codex-local-generated-noise-filter-summary.md",
+      "mtime": "2026-06-29T10:45:29Z",
+      "bytes": 227
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/62-codex-local-task-context-budgets-summary.md",
+      "mtime": "2026-06-29T10:47:07Z",
+      "bytes": 223
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/63-codex-local-selective-generated-artifact-commit-guide-summary.md",
+      "mtime": "2026-06-29T10:49:49Z",
+      "bytes": 265
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/64-codex-local-feature-slice-recommender-summary.md",
+      "mtime": "2026-06-29T10:51:59Z",
+      "bytes": 233
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/65-codex-local-architecture-decision-index-summary.md",
+      "mtime": "2026-06-29T10:54:00Z",
+      "bytes": 237
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/66-codex-local-changeset-risk-scorer-summary.md",
+      "mtime": "2026-06-29T10:57:26Z",
+      "bytes": 225
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/67-codex-local-failure-knowledge-base-summary.md",
+      "mtime": "2026-06-29T11:00:42Z",
+      "bytes": 227
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/68-codex-local-promptable-codebase-capsule-summary.md",
+      "mtime": "2026-06-29T11:03:04Z",
+      "bytes": 237
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/69-codex-local-targeted-test-minimizer-summary.md",
+      "mtime": "2026-06-29T11:06:13Z",
+      "bytes": 229
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/70-codex-local-test-flakiness-and-duration-tracker-summary.md",
+      "mtime": "2026-06-29T11:08:48Z",
+      "bytes": 253
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/71-codex-local-fixture-duplication-audit-summary.md",
+      "mtime": "2026-06-29T11:13:06Z",
+      "bytes": 233
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/73-codex-local-doc-template-coverage-audit-summary.md",
+      "mtime": "2026-06-29T11:16:36Z",
+      "bytes": 237
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/74-codex-local-contract-test-gap-audit-summary.md",
+      "mtime": "2026-06-29T11:20:04Z",
+      "bytes": 229
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/75-codex-local-mutation-safety-audit-summary.md",
+      "mtime": "2026-06-29T11:27:26Z",
+      "bytes": 225
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/76-codex-local-docs-as-tests-audit-summary.md",
+      "mtime": "2026-06-29T11:30:49Z",
+      "bytes": 221
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/77-codex-local-feature-closeout-enforcer-summary.md",
+      "mtime": "2026-06-29T11:36:30Z",
+      "bytes": 233
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/78-codex-local-validation-evidence-recorder-summary.md",
+      "mtime": "2026-06-29T11:40:36Z",
+      "bytes": 239
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/79-codex-local-manifest-decision-audit-summary.md",
+      "mtime": "2026-06-29T11:43:56Z",
+      "bytes": 229
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/80-codex-local-plan-completion-audit-summary.md",
+      "mtime": "2026-06-29T10:34:36Z",
+      "bytes": 225
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/81-codex-local-doc-sync-duplicate-cleanup-audit-summary.md",
+      "mtime": "2026-06-29T11:46:57Z",
+      "bytes": 247
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/82-codex-local-closeout-report-generator-summary.md",
+      "mtime": "2026-06-29T10:39:57Z",
+      "bytes": 233
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/83-codex-local-changeset-playbook-summary.md",
+      "mtime": "2026-06-29T12:08:00Z",
+      "bytes": 219
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/84-codex-local-audit-delta-report-summary.md",
+      "mtime": "2026-06-29T12:08:00Z",
+      "bytes": 219
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/85-codex-local-validation-preset-recommender-summary.md",
+      "mtime": "2026-06-29T12:08:00Z",
+      "bytes": 241
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/86-codex-local-manifest-path-resolver-summary.md",
+      "mtime": "2026-06-29T12:28:12Z",
+      "bytes": 227
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/87-codex-local-symbol-to-test-linker-summary.md",
+      "mtime": "2026-06-29T12:31:49Z",
+      "bytes": 225
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/88-codex-local-dto-to-endpoint-to-frontend-pack-summary.md",
+      "mtime": "2026-06-29T12:36:43Z",
+      "bytes": 247
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/89-codex-local-workflow-slice-pack-summary.md",
+      "mtime": "2026-06-29T12:36:43Z",
+      "bytes": 221
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/90-codex-local-plan-to-code-map-summary.md",
+      "mtime": "2026-06-29T12:44:01Z",
+      "bytes": 215
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/91-codex-local-hotspot-ranker-summary.md",
+      "mtime": "2026-06-29T12:44:01Z",
+      "bytes": 211
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/92-codex-local-compact-domain-packs-summary.md",
+      "mtime": "2026-06-29T12:47:03Z",
+      "bytes": 223
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/93-backend-drift-backlog-execution-summary.md",
+      "mtime": "2026-06-30T06:40:06Z",
+      "bytes": 221
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/94-backend-hotspot-reduction-workmarket-social-summary.md",
+      "mtime": "2026-06-30T06:40:06Z",
+      "bytes": 245
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/95-codex-local-context-pack-chain-summary.md",
+      "mtime": "2026-06-30T07:27:28Z",
+      "bytes": 219
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/96-codex-local-context-cache-invalidation-summary.md",
+      "mtime": "2026-06-30T07:27:28Z",
+      "bytes": 235
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/97-codex-local-workflow-doc-dedup-summary.md",
+      "mtime": "2026-06-30T07:27:28Z",
+      "bytes": 219
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/98-codex-local-java-ast-context-tightening-summary.md",
+      "mtime": "2026-06-30T07:27:28Z",
+      "bytes": 237
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/99-codex-local-noise-filter-tightening-summary.md",
+      "mtime": "2026-06-30T07:27:28Z",
+      "bytes": 229
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/backend-audit-tiering-plan-summary.md",
+      "mtime": "2026-06-29T10:33:28Z",
+      "bytes": 251
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/backend-drift-remediation-master-plan-summary.md",
+      "mtime": "2026-06-30T06:40:06Z",
+      "bytes": 216
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/backend-model-standardization-master-plan-summary.md",
+      "mtime": "2026-06-30T06:59:28Z",
+      "bytes": 224
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/backend-service-boundary-cleanup-plan-summary.md",
+      "mtime": "2026-06-30T06:58:53Z",
+      "bytes": 216
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/backend-social-location-dto-standardization-plan-summary.md",
+      "mtime": "2026-06-30T06:58:53Z",
+      "bytes": 238
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-context-manifest-standardization-master-plan-summary.md",
+      "mtime": "2026-06-30T10:33:00Z",
+      "bytes": 242
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-context-optimization-master-plan-summary.md",
+      "mtime": "2026-06-29T15:57:32Z",
+      "bytes": 280
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-context-orchestration-v2-master-plan-summary.md",
+      "mtime": "2026-06-30T10:09:57Z",
+      "bytes": 226
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-lean-context-master-plan-summary.md",
+      "mtime": "2026-06-29T17:52:18Z",
+      "bytes": 256
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-local-context-gateway-master-plan-summary.md",
+      "mtime": "2026-06-29T15:22:21Z",
+      "bytes": 220
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-local-context-orchestrator-master-plan-summary.md",
+      "mtime": "2026-06-30T10:10:32Z",
+      "bytes": 230
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-summary-compactification-master-plan-summary.md",
+      "mtime": "2026-06-30T10:55:25Z",
+      "bytes": 226
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-summary-compactification-phase2-master-plan-summary.md",
+      "mtime": "2026-06-30T11:01:51Z",
+      "bytes": 240
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-summary-compactification-phase3-master-plan-summary.md",
+      "mtime": "2026-06-30T11:08:09Z",
+      "bytes": 240
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-summary-compactification-phase4-master-plan-summary.md",
+      "mtime": "2026-06-30T11:23:51Z",
+      "bytes": 240
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-tiered-workflow-plan-summary.md",
+      "mtime": "2026-06-29T16:38:17Z",
+      "bytes": 251
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/local-context-batch-two-plan-summary.md",
+      "mtime": "2026-06-29T12:47:09Z",
+      "bytes": 198
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/local-tooling-parallel-followup-plan-summary.md",
+      "mtime": "2026-06-29T12:08:00Z",
+      "bytes": 214
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/product-memory-and-vision-master-plan-summary.md",
+      "mtime": "2026-06-30T11:54:57Z",
+      "bytes": 216
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/product-vision-entrypoints-plan-summary.md",
+      "mtime": "2026-06-30T12:01:26Z",
+      "bytes": 204
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/system-standardization-audit-plan-summary.md",
+      "mtime": "2026-06-30T06:59:28Z",
+      "bytes": 208
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/system-standardization-master-plan-summary.md",
+      "mtime": "2026-06-30T06:59:28Z",
+      "bytes": 210
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/todo-master-plan-summary.md",
+      "mtime": "2026-06-29T11:49:43Z",
+      "bytes": 174
+    },
+    {
+      "path": "docs/generated/local-tooling/post-merge-retrospectives/latest-summary.md",
+      "mtime": "2026-06-30T11:27:44Z",
+      "bytes": 688
+    },
+    {
+      "path": "docs/generated/local-tooling/post-merge-retrospectives/master-plan-summary.md",
+      "mtime": "2026-06-30T11:27:44Z",
+      "bytes": 698
+    },
+    {
+      "path": "docs/generated/local-tooling/read-surface-inventory-summary.md",
+      "mtime": "2026-06-30T10:54:35Z",
+      "bytes": 4548
+    },
+    {
+      "path": "docs/generated/local-tooling/repo-map-summary.md",
+      "mtime": "2026-06-29T19:55:03Z",
+      "bytes": 8200
+    },
+    {
+      "path": "docs/generated/local-tooling/repository-fetch-audit-summary.md",
+      "mtime": "2026-06-30T10:54:35Z",
+      "bytes": 1756
+    },
+    {
+      "path": "docs/generated/local-tooling/rich-text-safety-audit-summary.md",
+      "mtime": "2026-06-30T11:28:35Z",
+      "bytes": 4394
+    },
+    {
+      "path": "docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md",
+      "mtime": "2026-06-29T19:55:22Z",
+      "bytes": 2442
+    },
+    {
+      "path": "docs/generated/local-tooling/sandbox-generation-coverage-audit-summary.md",
+      "mtime": "2026-06-29T19:54:59Z",
+      "bytes": 1694
+    },
+    {
+      "path": "docs/generated/local-tooling/session-handoffs/current-change-summary.md",
+      "mtime": "2026-06-29T15:05:35Z",
+      "bytes": 1009
+    },
+    {
+      "path": "docs/generated/local-tooling/session-handoffs/gitignore-summary.md",
+      "mtime": "2026-06-29T15:10:34Z",
+      "bytes": 4257
+    },
+    {
+      "path": "docs/generated/local-tooling/session-handoffs/todo-master-plan-summary.md",
+      "mtime": "2026-06-30T11:20:21Z",
+      "bytes": 581
+    },
+    {
+      "path": "docs/generated/local-tooling/state-transition-coverage-audit-summary.md",
+      "mtime": "2026-06-29T19:54:50Z",
+      "bytes": 7569
+    },
+    {
+      "path": "docs/generated/local-tooling/style-token-usage-audit-summary.md",
+      "mtime": "2026-06-29T19:55:03Z",
+      "bytes": 2456
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-index-summary.md",
+      "mtime": "2026-06-29T19:55:04Z",
+      "bytes": 7290
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/questservice-summary.md",
+      "mtime": "2026-06-29T19:55:07Z",
+      "bytes": 3954
+    },
+    {
+      "path": "docs/generated/local-tooling/targeted-tests-summary.md",
+      "mtime": "2026-06-30T11:21:17Z",
+      "bytes": 2601
+    },
+    {
+      "path": "docs/generated/local-tooling/test-fixture-duplication-summary.md",
+      "mtime": "2026-06-29T19:55:00Z",
+      "bytes": 2577
+    },
+    {
+      "path": "docs/generated/local-tooling/test-gap-recommendations-summary.md",
+      "mtime": "2026-06-30T06:38:28Z",
+      "bytes": 22710
+    },
+    {
+      "path": "docs/generated/local-tooling/test-history-summary.md",
+      "mtime": "2026-06-30T11:21:38Z",
+      "bytes": 404
+    },
+    {
+      "path": "docs/generated/local-tooling/test-surface-inventory-summary.md",
+      "mtime": "2026-06-30T11:28:35Z",
+      "bytes": 8591
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-matrix-summary.md",
+      "mtime": "2026-06-29T19:55:04Z",
+      "bytes": 1413
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-preset-summary.md",
+      "mtime": "2026-06-30T10:53:32Z",
+      "bytes": 361
+    },
+    {
+      "path": "docs/generated/local-tooling/workflow-slices/quest-application-summary.md",
+      "mtime": "2026-06-29T20:14:27Z",
+      "bytes": 1982
+    }
+  ]
+}

@@ -1,10 +1,9 @@
 # Permission Rule Duplication Audit
 
-- Generated at: `2026-06-29T19:54:44Z`
-- Backend permission sources: `13`
-- Backend presentation flags: `4`
-- Frontend passthrough gates: `61`
-- Frontend local gates: `11`
+- Decision: `review`
+- Why: backend sources=13, frontend local gates=11
+- Next action: review the overlap shortlist below
+- Evidence: passthrough=61, presentation=4
 
 ## Overlap shortlist
 

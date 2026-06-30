@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-30T07:01:02Z",
-  "artifact_count": 5,
+  "generated_at": "2026-06-30T11:22:51Z",
+  "artifact_count": 6,
   "stale_count": 0,
   "artifacts": [
     {
@@ -57,6 +57,17 @@
       "newest_source_mtime": "2026-06-30T05:51:13Z",
       "source_count": 461,
       "regenerate_command": "node apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs"
+    },
+    {
+      "label": "codex_context_execution_manifest",
+      "artifact": "docs/generated/local-tooling/codex-context/latest.execution.json",
+      "status": "fresh",
+      "artifact_exists": true,
+      "artifact_mtime": "2026-06-30T11:22:12Z",
+      "newest_source": "scripts/audits/local_tooling_extended_tools.rb",
+      "newest_source_mtime": "2026-06-30T11:17:09Z",
+      "source_count": 13,
+      "regenerate_command": "make codex-context topic=<topic> intent='<intent>'"
     }
   ]
 }

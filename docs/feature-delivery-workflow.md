@@ -64,16 +64,17 @@ Default flow:
 
 1. Read `AGENTS.md`.
 2. Read `docs/codex-fast-path.md`.
-3. Create a short plan, usually through `make bootstrap-feature-work topic=<short-topic> mode=normal`.
-4. Run compact context and routing:
+3. If the work is manifest-backed or validator-sensitive, read `docs/validation-memory.md` and `docs/validation-memory.json`.
+4. Create a short plan, usually through `make bootstrap-feature-work topic=<short-topic> mode=normal`.
+5. Run compact context and routing:
    - `make codex-context topic=<topic> intent='<intent>'`
    - `make audit-router files=<csv>`
    - `make audit-doc-sync-required-surfaces files=<csv>`
    - `make audit-manifest-decision files=<csv>`
    - `make recommend-validation-preset files=<csv>`
-5. Update only the docs and generated artifacts that the resolver surface requires.
-6. Run targeted validation first and broaden only if risk or profile requires it.
-7. Run `make audit-todo` and `make audit-plan-completion plan=<plan-file>`.
+6. Update only the docs and generated artifacts that the resolver surface requires.
+7. Run targeted validation first and broaden only if risk or profile requires it.
+8. Run `make audit-todo` and `make audit-plan-completion plan=<plan-file>`.
 
 Manifest:
 
@@ -96,7 +97,7 @@ Use for:
 
 Full flow is mandatory:
 
-1. Read `AGENTS.md`, `docs/codex-fast-path.md`, and this document.
+1. Read `AGENTS.md`, `docs/codex-fast-path.md`, this document, and `docs/validation-memory.md`.
 2. Create a plan, and a master plan when the batch is broad.
 3. Create or resolve the manifest path.
 4. Run compact context and routing:
@@ -129,6 +130,7 @@ Required closeout:
 - `make audit-todo`
 - `make audit-plan-completion plan=<plan-file> manifest=<manifest-file>`
 - `make audit-validation-evidence-quality`
+- `make validation-memory-closeout-card`
 - `make feature-closeout-audit manifest=<manifest-file>`
 - `make closeout-report manifest=<manifest-file>`
 
@@ -168,8 +170,12 @@ This tier is intentionally strict:
 
 - `make diff-summary`
 - `make audit-summary-index`
-- `make context-pack topic=<topic>`
-- `make codex-context budget=<tokens> mode=<mode> topic=<topic> intent='<intent>'`
+- `make codex-context topic=<topic> intent='<intent>'`
+- `make context-pack topic=<topic>` only when you need a broader topic slice beyond the one-shot context chain
+- `make codex-context budget=<tokens> mode=<mode> topic=<topic> intent='<intent>'` keeps the same chain but lets you tune the budget
+- `make codex-context` also writes `docs/generated/local-tooling/codex-context/latest.execution.json`, the canonical machine-readable batch manifest for read order, evidence, and next actions, with schema `docs/codex-context-execution-manifest.schema.json`.
+- When the resolver shape is manifest-backed or closeout-sensitive, `make codex-context` should also surface validation memory so command and evidence expectations are present before the first closeout pass.
+- For product-direction, UX, interaction design, or Social Useful Network vision work, start by reading `docs/product-memory.md` and `docs/product-vision.md` before broadening into implementation docs.
 
 3. Focused routing and required-surface resolution
 
@@ -206,14 +212,22 @@ Use resolver outputs instead of guessing propagation scope from memory.
 
 - validation should be targeted first and broaden only when the tier, risk, or profile requires it
 - record exact commands, scope, and skipped-check reasons when manifests or validation evidence are in scope
+- when a validator expects canonical command strings such as `npm run validate:contracts` or `make audit-agent-safety`, record those exact strings in the manifest evidence instead of only path-prefixed equivalents
+- the validation-memory JSON overlay should only add canonical command reminders; it must not weaken existing preset or closeout requirements
 
 7. Final closeout
 
 - tiny changes: `make audit-todo`
 - normal features: `make audit-todo` and `make audit-plan-completion`
-- manifest-backed work: run the full closeout bundle
+- manifest-backed work: run the full closeout bundle, including `make validation-memory-closeout-card` and the validation-memory drift sub-check inside `make feature-closeout-audit`
 
-8. Final response
+8. Post-plan memory update
+
+- If the plan produced a stable lesson, append it to `docs/product-memory.md`.
+- If the plan exposed a repeatable failure pattern, refresh `failure-knowledge-base`.
+- Run `make post-plan-memory-update plan=<plan-file> [manifest=<manifest-file>] [source=<diagnostic-report>]` to trigger the standard memory and control loop after closeout.
+
+9. Final response
 
 The final response must state:
 
@@ -245,8 +259,11 @@ Closeout and evidence:
 - `make autofill-feature-closeout manifest=<manifest-file>`
 - `make audit-validation-evidence-quality`
 - `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]`
+- `make validation-memory-closeout-card`
 - `make feature-closeout-audit manifest=<manifest-file>`
 - `make closeout-report manifest=<manifest-file>`
+- `docs/validation-memory.md`
+- `docs/validation-memory.json`
 
 ## Maintenance Rule
 

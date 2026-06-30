@@ -1,25 +1,18 @@
 # Change Impact Preflight
 
-- Generated at: `2026-06-29T19:54:42Z`
-- Changed files: `108`
-- Unique docs to review: `7`
-- Unique tests to consider: `28`
-- Generated artifacts to check: `5`
-- Scope guardrail warnings: `5`
+- Decision: `review`
+- Why: guardrail warnings=2 files=51
+- Next action: `./mvnw`, `generate-agent-artifacts`, `make`
+- Evidence: docs=1, tests=0, generated=4
 
 ## Scope Guardrails
 
-- `mixed_product_domains`: `warn`
-- `runtime_plus_tooling_or_infrastructure`: `warn`
+- `mixed_product_domains`: `ok`
+- `runtime_plus_tooling_or_infrastructure`: `ok`
 - `large_generated_report_churn`: `warn`
-- `unexpected_generated_reports`: `warn`
-- `source_and_generated_only_review`: `warn`
 
-- `.agents/backend-model-standardization-master-plan.md` `other` `unknown`
-- `.agents/templates/feature-completion-manifest.template.yaml` `other` `unknown`
-- `.agents/templates/feature-implementation-plan.template.md` `other` `unknown`
-- `AGENTS.md` `other` `unknown`
-- `apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts` `frontend_contract` `unknown`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java` `backend_controller` `identity`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java` `backend_mapper` `identity`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java` `backend_mapper` `identity`
+- `docs/agent-improvement-backlog.md` `docs` `unknown`
+- `docs/agent-operating-model.md` `docs` `unknown`
+- `docs/change-completion-checklist.md` `docs` `unknown`
+- `docs/codex-fast-path.md` `docs` `unknown`
+- `docs/documentation-sync-policy.md` `docs` `unknown`

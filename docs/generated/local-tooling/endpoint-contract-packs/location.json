@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:55:04Z",
+  "generated_at": "2026-06-30T13:19:36Z",
   "endpoint_family": "location",
   "endpoints": [
     {
@@ -119,6 +119,12 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue",
       "matched_paths": [
         "status"
       ]
@@ -249,12 +255,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
-      "matched_paths": [
-        "status"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
       "matched_paths": [
         "status"
       ]

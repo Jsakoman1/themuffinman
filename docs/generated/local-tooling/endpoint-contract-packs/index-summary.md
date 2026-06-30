@@ -1,21 +1,8 @@
 # Endpoint Contract Packs
 
-- Generated At: `2026-06-29T19:55:04Z`
-- Pack Count: `14`
-## `packs`
 
-- `docs/generated/local-tooling/endpoint-contract-packs/agent.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/admin.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/app_users.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/applications.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/auth.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/business.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/chat.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/circles.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/dashboard.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/location.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/news.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/quests.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/rides.json`
-- `docs/generated/local-tooling/endpoint-contract-packs/things.json`
+## Details
 
+- Pack Count: 14
+- Packs: docs/generated/local-tooling/endpoint-contract-packs/agent.json | docs/generated/local-tooling/endpoint-contract-packs/admin.json | docs/generated/local-tooling/endpoint-contract-packs/app_users.json
+- Packs more: 11

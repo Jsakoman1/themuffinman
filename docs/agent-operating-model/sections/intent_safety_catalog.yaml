@@ -21,6 +21,7 @@ intent_safety_catalog:
     - search_nearby_users
     - open_dashboard
     - open_dashboard_summary
+    - open_dashboard_voice_config
     - open_news_feed
     - open_news_unread_count
     - open_quest_feed

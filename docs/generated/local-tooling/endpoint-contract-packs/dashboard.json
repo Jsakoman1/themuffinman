@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:55:04Z",
+  "generated_at": "2026-06-30T13:19:36Z",
   "endpoint_family": "dashboard",
   "endpoints": [
     {
@@ -8,7 +8,8 @@
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
       "dtos": [
         "DashboardResponseDTO",
-        "DashboardSummaryDTO"
+        "DashboardSummaryDTO",
+        "DashboardVoiceConfigDTO"
       ]
     },
     {
@@ -17,13 +18,25 @@
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
       "dtos": [
         "DashboardResponseDTO",
-        "DashboardSummaryDTO"
+        "DashboardSummaryDTO",
+        "DashboardVoiceConfigDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/dashboard/me/voice-config",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
+      "dtos": [
+        "DashboardResponseDTO",
+        "DashboardSummaryDTO",
+        "DashboardVoiceConfigDTO"
       ]
     }
   ],
   "dto_files": [
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java"
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceConfigDTO.java"
   ],
   "frontend_callsites": [
     {
@@ -144,12 +157,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
       "matched_paths": [
         "me"
@@ -187,12 +194,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/components/ui/UiListItem.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiMetricPills.vue",
       "matched_paths": [
         "me"
       ]
@@ -455,6 +456,20 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "matched_paths": [
+        "me",
+        "summary"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue",
+      "matched_paths": [
+        "me",
+        "summary"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
       "matched_paths": [
         "me",
@@ -486,7 +501,9 @@
         "/dashboard/me",
         "me",
         "/dashboard/me/summary",
-        "summary"
+        "summary",
+        "/dashboard/me/voice-config",
+        "voice-config"
       ]
     },
     {
@@ -710,12 +727,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailEditForm.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
       "matched_paths": [
         "me"
       ]

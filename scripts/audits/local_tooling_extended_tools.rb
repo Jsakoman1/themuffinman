@@ -71,6 +71,8 @@ module LocalToolingExtendedTools
     ["record-validation", "scripts/audits/record-validation-evidence.rb", "docs/generated/local-tooling/validation-evidence/<feature-id>.json"],
     ["api-contract-snapshot", "scripts/audits/generate-api-contract-snapshot.rb", "docs/generated/local-tooling/api-contract-snapshot-summary.md"],
     ["audit-doc-canonical-phrases", "scripts/audits/audit-doc-canonical-phrases.rb", "docs/generated/local-tooling/doc-canonical-phrases-summary.md"],
+    ["audit-validation-memory-drift", "scripts/audits/audit-validation-memory-drift.rb", "docs/generated/local-tooling/validation-memory-drift-summary.md"],
+    ["validation-memory-closeout-card", "scripts/audits/generate-validation-memory-closeout-card.rb", "docs/generated/local-tooling/validation-memory-closeout-card-summary.md"],
     ["audit-sandbox-data-coverage-pack", "scripts/audits/audit-sandbox-data-coverage-pack.rb", "docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md"],
     ["smoke-local-authenticated", "scripts/audits/smoke-local-authenticated.rb", "docs/generated/local-tooling/smoke/local-authenticated-latest.json"],
     ["smoke-local-dashboard", "scripts/audits/smoke-local-dashboard.rb", "docs/generated/local-tooling/smoke/local-dashboard-latest.json"],
@@ -880,17 +882,12 @@ module LocalToolingExtendedTools
       preferred_first_commands: [
         "ruby scripts/todo-audit.rb",
         "make diff-summary",
-        "make audit-summary-index",
-        "make context-pack topic=<topic>",
-        "make audit-router files=<csv>",
-        "make changeset-risk"
+        "make audit-summary-index"
       ],
       read_next: [
         "AGENTS.md",
         "docs/codex-local-tooling-todo.md",
-        "docs/domain-technical.md",
-        "docs/business-logic.md",
-        "docs/generated/local-tooling/audit-summary-index.md"
+        "docs/domain-technical.md"
       ]
     }
     LocalToolingCommon.write_json("#{OUT}/codebase-capsule.json", report)
@@ -939,7 +936,11 @@ module LocalToolingExtendedTools
       files: files,
       audits: router_audits_for(files),
       commands: files.flat_map { |path| validation_rules.fetch(category_for(path), []) }.uniq,
-      final_checks: ["make audit-summary-index", options["manifest"] ? "make feature-closeout-audit manifest=#{options['manifest']}" : nil].compact
+      final_checks: ["make audit-summary-index", "make validation-memory-closeout-card", options["manifest"] ? "make feature-closeout-audit manifest=#{options['manifest']}" : nil].compact,
+      compact_memory: {
+        closeout_card: "docs/generated/local-tooling/validation-memory-closeout-card-summary.md",
+        drift_audit: "docs/generated/local-tooling/validation-memory-drift-summary.md"
+      }
     }
     write_report("closeout-bundle", "Closeout Bundle", report)
   end
@@ -1121,13 +1122,12 @@ module LocalToolingExtendedTools
 
   def write_retrospective_report(topic, payload)
     base = "#{OUT}/post-merge-retrospectives/#{topic}"
-    latest = "#{OUT}/post-merge-retrospectives/latest"
-    LocalToolingCommon.write_json("#{base}.json", payload)
-    LocalToolingCommon.write_text("#{base}-summary.md", retrospective_markdown(payload))
-    LocalToolingCommon.write_json("#{latest}.json", payload)
-    LocalToolingCommon.write_text("#{latest}-summary.md", retrospective_markdown(payload))
-    update_audit_cache("post-merge-retrospective", "#{latest}.json", payload)
-    puts terminal_line("Post Merge Retrospective", {changed_file_count: payload[:changed_file_count]}, "#{latest}.json", "#{latest}-summary.md")
+    json_path = "#{base}.json"
+    summary_path = "#{base}-summary.md"
+    LocalToolingCommon.write_json(json_path, payload)
+    LocalToolingCommon.write_text(summary_path, retrospective_markdown(payload))
+    update_audit_cache("post-merge-retrospective/#{topic}", json_path, payload)
+    puts terminal_line("Post Merge Retrospective", {changed_file_count: payload[:changed_file_count]}, json_path, summary_path)
   end
 
   def retrospective_failure_points(audit_data)
@@ -1281,24 +1281,18 @@ module LocalToolingExtendedTools
 
   def test_history_markdown(report)
     lines = ["# Test History", ""]
-    lines << "- Generated at: `#{report[:generated_at]}`"
-    lines << "- Runs tracked: `#{report[:run_count]}`"
-    lines << "- Successes: `#{report[:success_count]}`"
-    lines << "- Failures: `#{report[:failure_count]}`"
+    lines << "- Decision: `#{report[:failure_count].to_i.zero? ? "healthy" : "investigate"}`"
+    lines << "- Why: failures=#{report[:failure_count]}, successes=#{report[:success_count]}"
+    lines << "- Next action: `make audit-validation-evidence-quality`" if report[:failure_count].to_i.positive?
+    lines << "- Evidence: runs=#{report[:run_count]}"
     lines << ""
     lines << "## Slowest Runs"
     lines << ""
-    report[:slowest_runs].first(5).each { |run| lines << "- `#{run['diagnostic']}` #{run['duration_seconds']}s success=#{run['success']}" }
-    lines << ""
-    lines << "## Repeated Failures"
-    lines << ""
-    values = report[:repeated_failures]
-    lines << "- None" if values.empty?
-    values.first(5).each { |row| lines << "- #{row[:count]}x `#{row[:value]}`" }
+    report[:slowest_runs].first(3).each { |run| lines << "- `#{run['diagnostic']}` #{run['duration_seconds']}s success=#{run['success']}" }
     lines << ""
     lines << "## Recent Runs"
     lines << ""
-    report[:runs].last(5).reverse.each { |run| lines << "- `#{run['diagnostic']}` success=#{run['success']} duration=#{run['duration_seconds']}s" }
+    report[:runs].last(3).reverse.each { |run| lines << "- `#{run['diagnostic']}` success=#{run['success']} duration=#{run['duration_seconds']}s" }
     lines.join("\n") + "\n"
   end
 
@@ -1319,20 +1313,14 @@ module LocalToolingExtendedTools
 
   def codebase_capsule_markdown(report)
     lines = ["# Codebase Capsule", ""]
-    lines << "- Purpose: #{report[:purpose]}"
-    {
-      "Repo Layout" => report[:repo_layout].first(5),
-      "Active Conventions" => report[:active_conventions].first(4),
-      "Open Backlog IDs" => report[:open_backlog_ids].empty? ? ["None"] : report[:open_backlog_ids].first(8),
-      "Open Master Plan Items" => report[:open_master_plan_items].empty? ? ["None"] : report[:open_master_plan_items].first(8),
-      "Preferred First Commands" => report[:preferred_first_commands].first(4),
-      "Read Next" => report[:read_next].first(4)
-    }.each do |heading, values|
-      lines << ""
-      lines << "## #{heading}"
-      lines << ""
-      values.each { |value| lines << "- #{value}" }
-    end
+    lines << "- Decision: use this capsule before broad repo discovery"
+    lines << "- Why: #{report[:open_backlog_ids].empty? ? "no open backlog ids" : "#{report[:open_backlog_ids].size} open backlog ids"}"
+    lines << "- Next action: #{report[:preferred_first_commands].first(3).map { |command| "`#{command}`" }.join(", ")}"
+    lines << "- Evidence: repo_layout=#{report[:repo_layout].size}, conventions=#{report[:active_conventions].size}, backlog=#{report[:open_backlog_ids].size}"
+    lines << ""
+    lines << "## Read Next"
+    lines << ""
+    report[:read_next].first(4).each { |value| lines << "- #{value}" }
     lines.join("\n") + "\n"
   end
 
@@ -1414,6 +1402,11 @@ module LocalToolingExtendedTools
   def write_report(base_name, title, payload, terminal: true, summary_path: nil)
     json_path = "#{OUT}/#{base_name}.json"
     md_path = summary_path || "#{OUT}/#{base_name}-summary.md"
+    if report_cache_hit?(base_name, json_path, md_path, payload)
+      puts terminal_line(title, payload, json_path, md_path) if terminal
+      return
+    end
+
     archive_previous_report(base_name, json_path, payload)
     LocalToolingCommon.write_json(json_path, payload)
     LocalToolingCommon.write_text(md_path, summary_markdown(title, payload))
@@ -1436,32 +1429,112 @@ module LocalToolingExtendedTools
   end
 
   def update_audit_cache(base_name, json_path, payload)
-    cache_path = "#{OUT}/.cache/audit-inputs.json"
-    cache = File.exist?(abs(cache_path)) ? JSON.parse(File.read(abs(cache_path))) : {}
-    cache[base_name] = {
-      "updated_at" => now,
-      "output" => json_path,
-      "cache_status" => "refreshed",
-      "payload_checksum" => Digest::SHA256.hexdigest(JSON.generate(payload))
-    }
-    LocalToolingCommon.write_json(cache_path, cache)
+    @audit_cache_mutex ||= Mutex.new
+    @audit_cache_mutex.synchronize do
+      cache_path = "#{OUT}/.cache/audit-inputs.json"
+      cache = File.exist?(abs(cache_path)) ? JSON.parse(File.read(abs(cache_path))) : {}
+      cache[base_name] = {
+        "updated_at" => now,
+        "output" => json_path,
+        "cache_status" => "refreshed",
+        "payload_checksum" => Digest::SHA256.hexdigest(JSON.generate(payload)),
+        "semantic_checksum" => semantic_payload_checksum(payload)
+      }
+      LocalToolingCommon.write_json(cache_path, cache)
+    end
   rescue StandardError
     nil
   end
 
+  def report_cache_hit?(base_name, json_path, md_path, payload)
+    absolute_json = abs(json_path)
+    absolute_md = abs(md_path)
+    return false unless File.exist?(absolute_json) && File.exist?(absolute_md)
+
+    cache = read_audit_cache(base_name)
+    return false unless cache
+
+    semantic_checksum = semantic_payload_checksum(payload)
+    cache["semantic_checksum"] == semantic_checksum && semantic_json_checksum(absolute_json) == semantic_checksum
+  rescue StandardError
+    false
+  end
+
+  def read_audit_cache(base_name)
+    cache_path = "#{OUT}/.cache/audit-inputs.json"
+    return nil unless File.exist?(abs(cache_path))
+
+    JSON.parse(File.read(abs(cache_path)))[base_name]
+  rescue StandardError
+    nil
+  end
+
+  def semantic_json_checksum(path)
+    semantic_payload_checksum(JSON.parse(File.read(path)))
+  rescue StandardError
+    nil
+  end
+
+  def semantic_payload_checksum(payload)
+    Digest::SHA256.hexdigest(JSON.generate(normalize_cache_payload(payload)))
+  end
+
+  def normalize_cache_payload(value)
+    case value
+    when Hash
+      value.each_with_object({}) do |(key, child), result|
+        next if cache_metadata_key?(key.to_s)
+
+        result[key.to_s] = normalize_cache_payload(child)
+      end.sort_by { |key, _| key }.to_h
+    when Array
+      value.map { |entry| normalize_cache_payload(entry) }
+    else
+      value
+    end
+  end
+
+  def cache_metadata_key?(key)
+    key.match?(/\A(?:generated_at|generatedAt|updated_at|updatedAt|timestamp|checked_at|cached_at)\z/)
+  end
+
   def summary_markdown(title, payload)
+    return generic_summary_markdown(title, payload) unless compact_summary_payload?(payload)
+
+    lines = ["# #{title}", ""]
+    lines << "- Decision: `#{summary_decision(payload)}`" if summary_decision(payload)
+    why = summary_why(payload)
+    lines << "- Why: #{why}" if why
+    next_action = summary_next_action(payload)
+    lines << "- Next action: #{next_action}" if next_action
+    evidence = summary_evidence(payload)
+    lines << "- Evidence: #{evidence}" if evidence
+    details = summary_details(payload)
+    unless details.empty?
+      lines << ""
+      lines << "## Details"
+      lines << ""
+      details.each { |line| lines << "- #{line}" }
+    end
+    lines.join("\n") + "\n"
+  end
+
+  def generic_summary_markdown(title, payload)
     lines = ["# #{title}", ""]
     payload.each do |key, value|
       case value
       when Array
         lines << "## `#{key}`"
         lines << ""
-        value.first(25).each do |entry|
+        sample = value.first(8)
+        sample.each do |entry|
           cleaned_entry = LocalToolingCommon.clean_text_output(entry.to_s, max_lines: 1, aggressive: true)
           next if cleaned_entry.empty?
 
           lines << "- `#{cleaned_entry}`".gsub("=>", ": ")
         end
+        remaining = value.length - sample.length
+        lines << "- `... #{remaining} more`" if remaining.positive?
         lines << ""
       when Hash
         lines << "- `#{key}`: `#{value.size}` entries"
@@ -1471,6 +1544,206 @@ module LocalToolingExtendedTools
       end
     end
     lines.join("\n") + "\n"
+  end
+
+  def compact_summary_payload?(payload)
+    keys = payload.keys.map(&:to_s)
+    (keys & %w[decision risk_tier stale_count status score summary recommended_commands regenerate_command commands next_commands suggested_commands read_first read_surfaces repository_methods endpoints routes artifacts required_docs required_generated_artifacts required_validation_commands recommended_audits candidates hotspots repeated_failures slowest_runs groups packs files items issues warnings notes registry summaries dto_groups edges nodes mapped_files related_audits related_generated_artifacts related_manifests backend_refs controller_methods docs_refs frontend_refs generated_contract_refs direct_tests nearby_tests scenario_hits missing_direct_tests mapper_usages]).any?
+  end
+
+  def summary_decision(payload)
+    return payload["decision"] || payload[:decision] if payload.key?("decision") || payload.key?(:decision)
+    return payload["risk_tier"] || payload[:risk_tier] if payload.key?("risk_tier") || payload.key?(:risk_tier)
+    return "stale" if payload.key?("stale_count") && payload["stale_count"].to_i.positive?
+    return "fresh" if payload.key?("stale_count")
+    return payload["status"] || payload[:status] if payload.key?("status") || payload.key?(:status)
+    return payload["score"].to_s if payload.key?("score") || payload.key?(:score)
+
+    nil
+  end
+
+  def summary_why(payload)
+    reasons = []
+    reasons += Array(payload["notes"] || payload[:notes])
+    reasons += Array(payload["reason"] || payload[:reason])
+    reasons += Array(payload["summary"] || payload[:summary]).map { |value| value.is_a?(Hash) ? "#{value[:status] || value['status']}: #{value[:count] || value['count']}" : value }
+    reasons += Array(payload["factors"] || payload[:factors]).first(3).map do |factor|
+      if factor.is_a?(Hash)
+        "#{factor[:id] || factor['id']} +#{factor[:weight] || factor['weight']}"
+      else
+        factor.to_s
+      end
+    end
+    reasons += Array(payload["scope_guardrails"] || payload[:scope_guardrails]).select { |entry| entry.is_a?(Hash) && (entry[:status].to_s == "warn" || entry["status"].to_s == "warn") }.first(3).map do |guardrail|
+      "#{guardrail[:id] || guardrail['id']}: #{guardrail[:message] || guardrail['message']}"
+    end
+    reasons = reasons.map { |value| LocalToolingCommon.clean_text_output(value.to_s, max_lines: 1, aggressive: true) }.reject(&:empty?)
+    return nil if reasons.empty?
+
+    reasons.first(3).join("; ")
+  end
+
+  def summary_next_action(payload)
+    commands = Array(payload["recommended_commands"] || payload[:recommended_commands])
+    commands += Array(payload["commands"] || payload[:commands])
+    commands += Array(payload["next_commands"] || payload[:next_commands])
+    commands += Array(payload["suggested_commands"] || payload[:suggested_commands])
+    commands << payload["regenerate_command"] if payload["regenerate_command"]
+    commands << payload[:regenerate_command] if payload[:regenerate_command]
+    commands = commands.compact.map do |value|
+      if value.is_a?(Hash)
+        value[:command] || value["command"] || value[:regenerate_command] || value["regenerate_command"] || value[:summary] || value["summary"]
+      else
+        value.to_s
+      end
+    end.map(&:to_s).map(&:strip).reject(&:empty?).uniq
+    return nil if commands.empty?
+
+    commands.first(3).map { |command| "`#{command}`" }.join(", ")
+  end
+
+  def summary_evidence(payload)
+    evidence = []
+    evidence << "artifacts=#{payload["artifact_count"]}" if payload["artifact_count"]
+    evidence << "stale=#{payload["stale_count"]}" if payload["stale_count"]
+    evidence << "runs=#{payload["run_count"]}" if payload["run_count"]
+    evidence << "files=#{payload["changed_file_count"]}" if payload["changed_file_count"]
+    evidence << "generated=#{payload["generated_changes"]&.size}" if payload["generated_changes"].is_a?(Array)
+    evidence << "source=#{payload["source_changes"]&.size}" if payload["source_changes"].is_a?(Array)
+    evidence << "packs=#{payload["pack_count"] || payload["includedPackCount"]}" if payload["pack_count"] || payload["includedPackCount"]
+    evidence << "rows=#{payload["rows"]&.size}" if payload["rows"].is_a?(Array)
+    evidence << "entries=#{payload["entries"]&.size}" if payload["entries"].is_a?(Array)
+    evidence << "phrases=#{payload["phrase_count"]}" if payload["phrase_count"]
+    evidence = evidence.compact.reject(&:empty?)
+    return nil if evidence.empty?
+
+    evidence.join(", ")
+  end
+
+  def summary_details(payload)
+    details = []
+    summary_scalar_detail(details, payload, "read_surface_count")
+    summary_scalar_detail(details, payload, "service_count")
+    summary_scalar_detail(details, payload, "missing_read_only_transaction_count")
+    summary_scalar_detail(details, payload, "repository_count")
+    summary_scalar_detail(details, payload, "repository_method_count")
+    summary_scalar_detail(details, payload, "high_risk_count")
+    summary_scalar_detail(details, payload, "medium_risk_count")
+    summary_scalar_detail(details, payload, "endpoint_count")
+    summary_scalar_detail(details, payload, "frontend_client_method_count")
+    summary_scalar_detail(details, payload, "linked_endpoint_count")
+    summary_scalar_detail(details, payload, "unlinked_endpoint_count")
+    summary_scalar_detail(details, payload, "route_count")
+    summary_scalar_detail(details, payload, "surface_route_count")
+    summary_scalar_detail(details, payload, "placeholder_route_count")
+    summary_scalar_detail(details, payload, "redirect_route_count")
+    summary_scalar_detail(details, payload, "artifact_count")
+    summary_scalar_detail(details, payload, "stale_count")
+    summary_scalar_detail(details, payload, "changed_file_count")
+    summary_scalar_detail(details, payload, "original_file_count")
+    summary_scalar_detail(details, payload, "filtered_file_count")
+    summary_scalar_detail(details, payload, "excluded_file_count")
+    summary_scalar_detail(details, payload, "pack_count")
+    summary_scalar_detail(details, payload, "run_count")
+    summary_scalar_detail(details, payload, "success_count")
+    summary_scalar_detail(details, payload, "failure_count")
+    summary_scalar_detail(details, payload, "decision_count")
+    summary_scalar_detail(details, payload, "score")
+    summary_scalar_detail(details, payload, "count")
+    summary_scalar_detail(details, payload, "status")
+    summary_array_detail(details, payload, "summary", "Summary")
+    summary_array_detail(details, payload, "artifacts", "Artifacts")
+    summary_array_detail(details, payload, "generated_changes", "Generated changes")
+    summary_array_detail(details, payload, "scope_guardrails", "Scope guardrails", limit: 3)
+    summary_array_detail(details, payload, "read_first", "Read first", limit: 5)
+    summary_array_detail(details, payload, "read_surfaces", "Read surfaces", limit: 5)
+    summary_array_detail(details, payload, "repository_methods", "Repository methods", limit: 5)
+    summary_array_detail(details, payload, "endpoints", "Endpoints", limit: 5)
+    summary_array_detail(details, payload, "routes", "Routes", limit: 5)
+    summary_array_detail(details, payload, "required_docs", "Required docs", limit: 5)
+    summary_array_detail(details, payload, "required_generated_artifacts", "Required generated artifacts", limit: 5)
+    summary_array_detail(details, payload, "required_validation_commands", "Required validation commands", limit: 5)
+    summary_array_detail(details, payload, "recommended_audits", "Recommended audits", limit: 5)
+    summary_array_detail(details, payload, "recommended_commands", "Recommended commands", limit: 5)
+    summary_array_detail(details, payload, "candidates", "Candidates", limit: 3)
+    summary_array_detail(details, payload, "hotspots", "Hotspots", limit: 3)
+    summary_array_detail(details, payload, "repeated_failures", "Repeated failures", limit: 3)
+    summary_array_detail(details, payload, "slowest_runs", "Slowest runs", limit: 3)
+    summary_array_detail(details, payload, "groups", "Groups", limit: 3)
+    summary_array_detail(details, payload, "packs", "Packs", limit: 3)
+    summary_array_detail(details, payload, "dto_groups", "DTO groups", limit: 3)
+    summary_array_detail(details, payload, "edges", "Edges", limit: 3)
+    summary_array_detail(details, payload, "nodes", "Nodes", limit: 3)
+    summary_array_detail(details, payload, "mapped_files", "Mapped files", limit: 3)
+    summary_array_detail(details, payload, "related_audits", "Related audits", limit: 3)
+    summary_array_detail(details, payload, "related_generated_artifacts", "Related generated artifacts", limit: 3)
+    summary_array_detail(details, payload, "related_manifests", "Related manifests", limit: 3)
+    summary_array_detail(details, payload, "backend_refs", "Backend refs", limit: 3)
+    summary_array_detail(details, payload, "controller_methods", "Controller methods", limit: 3)
+    summary_array_detail(details, payload, "docs_refs", "Docs refs", limit: 3)
+    summary_array_detail(details, payload, "frontend_refs", "Frontend refs", limit: 3)
+    summary_array_detail(details, payload, "generated_contract_refs", "Generated contract refs", limit: 3)
+    summary_array_detail(details, payload, "direct_tests", "Direct tests", limit: 3)
+    summary_array_detail(details, payload, "nearby_tests", "Nearby tests", limit: 3)
+    summary_array_detail(details, payload, "scenario_hits", "Scenario hits", limit: 3)
+    summary_array_detail(details, payload, "missing_direct_tests", "Missing direct tests", limit: 3)
+    summary_array_detail(details, payload, "mapper_usages", "Mapper usages", limit: 3)
+    summary_array_detail(details, payload, "files", "Files", limit: 2)
+    summary_array_detail(details, payload, "items", "Items", limit: 2)
+    summary_array_detail(details, payload, "issues", "Issues", limit: 5)
+    summary_array_detail(details, payload, "warnings", "Warnings", limit: 5)
+    summary_array_detail(details, payload, "notes", "Notes", limit: 5)
+    summary_array_detail(details, payload, "registry", "Registry", limit: 3)
+    summary_array_detail(details, payload, "summaries", "Summaries", limit: 3)
+    Array(payload["generated_changes"] || payload[:generated_changes]).first(3).each do |entry|
+      details << entry_summary(entry)
+    end
+    Array(payload["scope_guardrails"] || payload[:scope_guardrails]).select { |entry| entry_is_warn?(entry) }.first(3).each do |entry|
+      details << entry_summary(entry)
+    end
+    details.compact.reject(&:empty?)
+  end
+
+  def summary_scalar_detail(details, payload, key)
+    value = payload[key] || payload[key.to_sym]
+    return if value.nil? || (value.respond_to?(:empty?) && value.empty?)
+
+    details << "#{LocalToolingCommon.titleize_slug(key.to_s)}: #{value}"
+  end
+
+  def summary_array_detail(details, payload, key, label, limit: 5)
+    value = payload[key] || payload[key.to_sym]
+    return unless value.is_a?(Array) && value.any?
+
+    sample = value.first(limit).map do |entry|
+      cleaned = entry_summary(entry) || entry.to_s
+      LocalToolingCommon.clean_text_output(cleaned.to_s, max_lines: 1, aggressive: true)
+    end.reject(&:empty?)
+    return if sample.empty?
+
+    details << "#{label}: #{sample.join(' | ')}"
+    remaining = value.length - sample.length
+    details << "#{label} more: #{remaining}" if remaining.positive?
+  end
+
+  def entry_summary(entry)
+    case entry
+    when Hash
+      values = entry.each_with_object([]) do |(key, value), parts|
+        next if %w[generated_at updated_at recordedAt].include?(key.to_s)
+        next if value.nil? || (value.respond_to?(:empty?) && value.empty?)
+        parts << "#{key}: #{value.is_a?(Array) ? value.first(3).join(", ") : value}"
+      end
+      values.empty? ? nil : values.join(" | ")
+    else
+      entry.to_s
+    end
+  end
+
+  def entry_is_warn?(entry)
+    return false unless entry.is_a?(Hash)
+
+    entry[:status].to_s == "warn" || entry["status"].to_s == "warn"
   end
 
   def terminal_line(title, payload, json_path, md_path)
@@ -1527,10 +1800,13 @@ module LocalToolingExtendedTools
         "fast"
       end
 
+    base_commands = validation_preset_commands(preset, files, categories, manifest_resolution)
+    canonical_commands = validation_memory_overlay_commands(files, categories, manifest)
+
     {
       preset: preset,
       reasons: validation_preset_reasons(preset, files, categories, domains, manifest),
-      commands: validation_preset_commands(preset, files, categories, manifest_resolution),
+      commands: (base_commands + canonical_commands).uniq,
       supporting_reports: validation_preset_supporting_reports(preset),
       manifest_decision: manifest[:decision],
       manifest_resolution: manifest_resolution,
@@ -1538,6 +1814,48 @@ module LocalToolingExtendedTools
       domains: domains,
       changed_file_count: files.size
     }
+  end
+
+  def validation_memory_overlay_commands(files, categories, manifest)
+    memory = validation_memory_config
+    return [] if memory.empty?
+
+    commands = []
+    commands += Array(memory.dig("canonicalCommands", "frontendContract")) if categories.any? { |category| category.start_with?("frontend_") }
+    commands += Array(memory.dig("canonicalCommands", "backendLogic")) if categories.any? { |category| category.start_with?("backend_") }
+    commands += Array(memory.dig("canonicalCommands", "agentContract")) if files.any? { |path| agent_contract_path?(path) }
+    commands += Array(memory.dig("canonicalCommands", "workflowExpansion")) if workflow_expansion_files?(files)
+    commands += Array(memory.dig("canonicalCommands", "closeout")) if manifest && manifest[:manifest_required]
+    commands.uniq
+  end
+
+  def validation_memory_config
+    @validation_memory_config ||= begin
+      path = File.join(REPO_ROOT, "docs/validation-memory.json")
+      File.exist?(path) ? JSON.parse(File.read(path)) : {}
+    rescue JSON::ParserError
+      {}
+    end
+  end
+
+  def agent_contract_path?(path)
+    path == "AGENTS.md" ||
+      path == "docs/codex-fast-path.md" ||
+      path == "docs/feature-delivery-workflow.md" ||
+      path == "docs/documentation-sync-policy.md" ||
+      path == "docs/change-completion-checklist.md" ||
+      path.start_with?("docs/agent-operating-model") ||
+      path.start_with?("scripts/") ||
+      path == "Makefile" ||
+      path.include?("agent/")
+  end
+
+  def workflow_expansion_files?(files)
+    files.any? do |path|
+      read(path).match?(/\b(workflow|transition|state machine|ScenarioTest|UseCaseContractTest)\b/i)
+    rescue StandardError
+      false
+    end
   end
 
   def router_audits_for(files)

@@ -1,17 +1,7 @@
 # Mapper Usage Audit
 
-- Generated at: `2026-06-29T19:54:42Z`
+- Generated at: `2026-06-30T11:19:54Z`
 - Mappers scanned: `10`
-
-## `AppUserMgr`
-
-- Risk flags: `navigation_logic`, `relation_dereference`, `rich_text_sanitization`, `service_backed`
-- Usage count: `5`
-- `AppUserController.getAppUser` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java` -> `withProfileStats` (`controller_facing`)
-- `AdminUserDetailService.getDetail` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java` -> `toDto` (`read_oriented`)
-- `AdminUserDetailService.getDetail` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java` -> `withProfileStats` (`read_oriented`)
-- `UserProfileViewService.getProfileView` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java` -> `toDto` (`read_oriented`)
-- `UserProfileViewService.getProfileView` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java` -> `withProfileStats` (`read_oriented`)
 
 ## `QuestApplicationMgr`
 
@@ -30,6 +20,14 @@
 - `ThingSharingService.getMyListings` in `apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java` -> `toListingDto` (`read_oriented`)
 - `ThingSharingService.requestBorrow` in `apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java` -> `toBorrowRequestDto` (`supporting`)
 - `ThingSharingService.saveMyListing` in `apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java` -> `toListingDto` (`supporting`)
+
+## `AppUserMgr`
+
+- Risk flags: `navigation_logic`, `relation_dereference`, `rich_text_sanitization`, `service_backed`
+- Usage count: `3`
+- `AppUserController.getAppUser` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java` -> `withProfileStats` (`controller_facing`)
+- `IdentityUserSummaryAssembler.buildProfileSummary` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java` -> `toDto` (`read_oriented`)
+- `IdentityUserSummaryAssembler.buildProfileSummary` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java` -> `withProfileStats` (`read_oriented`)
 
 ## `AuthMgr`
 
@@ -68,13 +66,4 @@
 - Usage count: `1`
 - `RideOfferService.createOffer` in `apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java` -> `toDto` (`mutating`)
 
-## `UserReviewMgr`
-
-- Risk flags: `navigation_logic`, `relation_dereference`
-- Usage count: `1`
-- `UserReviewService.createOrUpdateReview` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java` -> `toDto` (`mutating`)
-
-## `QuestNewsMgr`
-
-- Risk flags: `navigation_logic`
-- Usage count: `0`
+- ... 2 more mappers

@@ -247,15 +247,14 @@ module PermissionRuleDuplicationAudit
     lines = []
     lines << "# Permission Rule Duplication Audit"
     lines << ""
-    lines << "- Generated at: `#{report[:generated_at]}`"
-    lines << "- Backend permission sources: `#{report[:backend_permission_source_count]}`"
-    lines << "- Backend presentation flags: `#{report[:backend_presentation_flag_count]}`"
-    lines << "- Frontend passthrough gates: `#{report[:frontend_passthrough_gate_count]}`"
-    lines << "- Frontend local gates: `#{report[:frontend_local_gate_count]}`"
+    lines << "- Decision: `#{report[:cross_layer_overlap_shortlist].empty? ? "clear" : "review"}`"
+    lines << "- Why: backend sources=#{report[:backend_permission_source_count]}, frontend local gates=#{report[:frontend_local_gate_count]}"
+    lines << "- Next action: review the overlap shortlist below"
+    lines << "- Evidence: passthrough=#{report[:frontend_passthrough_gate_count]}, presentation=#{report[:backend_presentation_flag_count]}"
     lines << ""
     lines << "## Overlap shortlist"
     lines << ""
-    report[:cross_layer_overlap_shortlist].first(8).each do |entry|
+    report[:cross_layer_overlap_shortlist].first(5).each do |entry|
       lines << "- `#{entry[:action_key]}` backend=`#{entry[:backend_source_count] + entry[:backend_presentation_count]}` frontend=`#{entry[:frontend_local_count] + entry[:frontend_passthrough_count]}`"
     end
     lines.join("\n") + "\n"
@@ -268,7 +267,7 @@ module PermissionRuleDuplicationAudit
     lines << "  backend presentation flags: #{report[:backend_presentation_flag_count]}"
     lines << "  frontend passthrough gates: #{report[:frontend_passthrough_gate_count]}"
     lines << "  frontend local gates: #{report[:frontend_local_gate_count]}"
-    report[:cross_layer_overlap_shortlist].first(5).each do |entry|
+    report[:cross_layer_overlap_shortlist].first(3).each do |entry|
       lines << "  - #{entry[:action_key]} local=#{entry[:frontend_local_count]} backend=#{entry[:backend_source_count] + entry[:backend_presentation_count]}"
     end
     lines.join("\n")

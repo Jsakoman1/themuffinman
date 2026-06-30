@@ -32,6 +32,7 @@ export type {
   DashboardResponse,
   DashboardSections,
   DashboardSummary,
+  DashboardVoiceConfigDTO,
   ExactLocationVisibilityScopeOptionDTO,
   LocationDebugStatusDTO,
   LocationLookupCandidate,
@@ -77,6 +78,7 @@ export {
 
 export type ActionResult = import("../../../contracts/index.ts").ActionResultDTO
 export type AdminUserDetail = import("../../../contracts/index.ts").AdminUserDetailDTO
+export type DashboardVoiceConfig = import("../../../contracts/index.ts").DashboardVoiceConfigDTO
 export type AdminAgentPlaygroundRequest = import("../../../contracts/index.ts").AdminAgentPlaygroundRequest
 export type AdminAgentPlaygroundResponse = import("../../../contracts/index.ts").AdminAgentPlaygroundResponse
 export type AdminAgentSimulationRequest = import("../../../contracts/index.ts").AdminAgentSimulationRequest

@@ -21,6 +21,12 @@ Domain capsules:
 - Frontend module roots under `apps/themuffinman/frontend/src/modules/*/README.md` provide the same first-read capsule for route and UI work.
 - `docs/cross-domain-glossary.md` defines shared terms such as users, actors, circles, visibility, consent, messaging, quests, applications, reviews, bookings, and synthetic data before deeper domain-specific rules.
 
+Frontend vision surface note:
+- `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue` is the experimental authenticated route for the long-term adaptive canvas direction.
+- The `/vision` route is intentionally additive; legacy module routes remain the production baseline while the adaptive shell language evolves in parallel.
+- The first real-data integration for `/vision` reuses `dashboardApi.getDashboard()` and curated `availableQuests` mapping instead of inventing a separate frontend-only read model.
+- Browser-native STT/TTS on `/vision` is backend-first through `GET /dashboard/me/voice-config`, which maps typed `app.voice.*` config into one authenticated DTO contract before the frontend decides what speech features can run.
+
 Test fixture standard:
 - `apps/themuffinman/src/test/java/com/themuffinman/app/testing/TestFixtures.java` is the shared backend fixture builder for common users, admin users, profile-location users, circles, quests, quest applications, and chat conversations.
 - New backend tests should use `TestFixtures` for common entities unless the test is explicitly verifying unusual field defaults.
@@ -256,6 +262,8 @@ Technical notes:
 - Architecture decision indexing is available through `make architecture-decision-index`, producing a compact source-linked list of stable repository decisions Codex should read before editing backend, frontend, docs, generated artifacts, migrations, sandbox, git, config, or closeout workflows.
 - Changeset risk scoring is available through `make changeset-risk [files=<csv>]`, using transparent weighted factors for controller contracts, DTO/model/schema changes, workflow or permission services, frontend contracts, agent/docs contracts, generated churn, mixed domains, and tooling changes.
 - Failure knowledge-base generation is available through `make failure-knowledge-base [source=<diagnostic-report>]`, producing a compact troubleshooting index from diagnostic failure lines without storing raw validation logs.
+- Product memory lives in `docs/product-memory.md` and records stable lessons, repeated patterns, and durable product rules without turning them back into active backlog items.
+- The standard post-plan control loop is available through `make post-plan-memory-update plan=<plan-file> [manifest=<manifest-file>] [source=<diagnostic-report>]`, which refreshes plan completion, failure knowledge, documentation indexes, and staleness checks after a plan closes.
 - Codebase capsule generation is available through `make codebase-capsule`, producing a short read-first Markdown and JSON summary with repository layout, active conventions, open backlog/master-plan context, and preferred first commands.
 - Targeted test recommendations are available through `make recommend-targeted-tests [files=<csv>]`, producing a report-only command set with direct backend tests, frontend type/build checks, docs validation, generated-artifact checks, scenario catalog matches, and residual risk notes.
 - Test history tracking is available through the diagnostic validation wrappers and `make test-history-summary`, storing compact command metadata, duration, pass/fail state, failing test names, and top error patterns without raw validation logs.

@@ -2,6 +2,7 @@ package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.workmarket.dto.DashboardSummaryDTO;
 import com.themuffinman.app.workmarket.dto.DashboardResponseDTO;
+import com.themuffinman.app.workmarket.dto.DashboardVoiceConfigDTO;
 import com.themuffinman.app.workmarket.dto.DashboardNotificationDestinationTypeDTO;
 import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
@@ -19,6 +20,7 @@ import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.workmarket.repository.QuestApplicationRepository;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
+import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.workmarket.mapper.QuestNewsMgr;
 import org.junit.jupiter.api.Test;
@@ -67,6 +69,9 @@ class DashboardServiceTest {
 
     @Mock
     private WorkmarketOptionsService workmarketOptionsService;
+
+    @Spy
+    private VoiceProperties voiceProperties = new VoiceProperties();
 
     @Spy
     private DashboardSummaryAssembler dashboardSummaryAssembler = new DashboardSummaryAssembler();
@@ -317,5 +322,47 @@ class DashboardServiceTest {
         assertEquals(1, result.getSections().getNotifications().getRecentItems().size());
         assertEquals(DashboardNotificationDestinationTypeDTO.APPLICATION, result.getSections().getNotifications().getRecentItems().getFirst().getDestinationType());
         assertEquals(21L, result.getSections().getNotifications().getRecentItems().getFirst().getDestinationId());
+    }
+
+    @Test
+    void getMyVoiceConfigReturnsConfiguredBackendDefaultsForAuthenticatedUser() {
+        AppUser currentUser = new AppUser();
+        currentUser.setId(5L);
+
+        voiceProperties.setEnabled(true);
+        voiceProperties.setSpeechToTextEnabled(true);
+        voiceProperties.setTextToSpeechEnabled(true);
+        voiceProperties.setRecognitionProvider("browser");
+        voiceProperties.setSynthesisProvider("browser");
+        voiceProperties.setPreferredLocale("en-US");
+        voiceProperties.setInterimResults(true);
+        voiceProperties.setContinuousRecognition(false);
+        voiceProperties.setMaxAlternatives(2);
+        voiceProperties.setAutoSpeakResponses(true);
+
+        DashboardVoiceConfigDTO config = dashboardService.getMyVoiceConfig(currentUser);
+
+        assertTrue(config.isEnabled());
+        assertTrue(config.isSpeechToTextEnabled());
+        assertTrue(config.isTextToSpeechEnabled());
+        assertEquals("browser", config.getRecognitionProvider());
+        assertEquals("browser", config.getSynthesisProvider());
+        assertEquals("en-US", config.getPreferredLocale());
+        assertTrue(config.isInterimResults());
+        assertEquals(2, config.getMaxAlternatives());
+        assertTrue(config.isAutoSpeakResponses());
+    }
+
+    @Test
+    void getMyVoiceConfigFailsClosedForAnonymousUser() {
+        voiceProperties.setEnabled(true);
+        voiceProperties.setSpeechToTextEnabled(true);
+        voiceProperties.setTextToSpeechEnabled(true);
+
+        DashboardVoiceConfigDTO config = dashboardService.getMyVoiceConfig(null);
+
+        assertEquals(false, config.isEnabled());
+        assertEquals(false, config.isSpeechToTextEnabled());
+        assertEquals(false, config.isTextToSpeechEnabled());
     }
 }

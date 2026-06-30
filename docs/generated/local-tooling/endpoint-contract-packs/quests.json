@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:55:04Z",
+  "generated_at": "2026-06-30T13:19:37Z",
   "endpoint_family": "quests",
   "endpoints": [
     {
@@ -346,12 +346,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
       "matched_paths": [
         "me"
@@ -396,12 +390,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/components/ui/UiListItem.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiMetricPills.vue",
       "matched_paths": [
         "me"
       ]
@@ -711,6 +699,22 @@
       "matched_paths": [
         "me",
         "detail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "matched_paths": [
+        "me",
+        "start"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue",
+      "matched_paths": [
+        "me",
+        "detail",
+        "start",
+        "confirm"
       ]
     },
     {
@@ -1084,14 +1088,6 @@
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailHero.vue",
       "matched_paths": [
         "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "matched_paths": [
-        "me",
-        "start",
-        "view"
       ]
     },
     {

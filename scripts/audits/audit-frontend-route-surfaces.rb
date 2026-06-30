@@ -255,16 +255,14 @@ module FrontendRouteSurfaceInventory
     lines << "- Redirect routes: `#{report[:redirect_route_count]}`"
     lines << "- Placeholder module routes: `#{report[:placeholder_route_count]}`"
     lines << ""
-    report[:routes].each do |entry|
-      lines << "## `#{entry[:route_path]}`"
-      lines << ""
-      lines << "- Surface: #{entry[:surface_file] ? "`#{entry[:surface_file]}`" : "_none_"}"
-      lines << "- Redirect: #{entry[:redirect] ? "`#{entry[:redirect]}`" : "_none_"}"
-      lines << "- Primary composables: #{format_inline(entry[:primary_composables])}"
-      lines << "- API clients: #{format_inline(entry[:api_clients])}"
-      lines << "- Backend endpoints: #{format_inline(entry[:backend_endpoints])}"
-      lines << ""
+    lines << "## Route sample"
+    lines << ""
+    report[:routes].first(12).each do |entry|
+      lines << "- `#{entry[:route_path]}` | surface=#{entry[:surface_file] ? "`#{entry[:surface_file]}`" : "_none_"} | redirect=#{entry[:redirect] ? "`#{entry[:redirect]}`" : "_none_"} | apis=#{entry[:api_clients].size} | endpoints=#{entry[:backend_endpoints].size}"
+      lines << "  - composables=#{format_inline(entry[:primary_composables])}" if entry[:primary_composables].any?
     end
+    remaining = report[:routes].size - 12
+    lines << "- ... #{remaining} more routes" if remaining.positive?
     lines.join("\n")
   end
 

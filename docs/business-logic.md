@@ -3,6 +3,7 @@
 This document explains the product in user-facing terms. It is meant to stay aligned with the code and serve as a future FAQ source for humans and chatbots.
 
 For stable cross-module terminology, start with `docs/cross-domain-glossary.md`.
+For long-term product direction and interaction principles, see `docs/product-vision.md`.
 
 ## Scope
 
@@ -15,6 +16,15 @@ Current covered modules:
 - circles and relationships
 - chat between circle contacts
 - location-aware quest flows
+
+## Product Interaction Direction
+
+- The long-term interface direction is an adaptive Social Useful Network surface rather than a fixed collection of forms and menus.
+- Voice should be supported with parallel visual feedback so users can confirm what was heard, what is happening, and what data is being discussed.
+- Large result sets should be summarized and filtered by default, then expanded only when the user asks for more detail.
+- Complex information should be shown visually when that is clearer than explaining it only through audio.
+- The authenticated frontend now also includes an experimental `/vision` screen that demonstrates this direction with real workmarket read data, without replacing the current legacy module screens.
+- `/vision` now reads backend voice capability defaults before enabling browser-native speech recognition or text-to-speech, so speech behavior stays backend-governed instead of frontend-guessed.
 
 ## Identity
 
