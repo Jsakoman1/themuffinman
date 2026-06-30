@@ -36,11 +36,11 @@ const emit = defineEmits<{
 
 .vision-choice-chip {
   appearance: none;
-  border: 1px solid rgba(24, 36, 47, 0.08);
+  border: 1px solid var(--vision-surface-chip-border);
   border-radius: 999px;
   padding: 0.65rem 0.95rem;
-  background: rgba(255, 255, 255, 0.92);
-  color: #18242f;
+  background: var(--vision-surface-chip-bg);
+  color: var(--vision-surface-chip-text);
   font: inherit;
   cursor: pointer;
   transition: transform 180ms ease, box-shadow 180ms ease;
@@ -48,6 +48,6 @@ const emit = defineEmits<{
 
 .vision-choice-chip:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(24, 36, 47, 0.08);
+  box-shadow: var(--vision-surface-chip-shadow);
 }
 </style>

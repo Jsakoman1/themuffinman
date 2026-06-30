@@ -138,9 +138,9 @@ const updateInputText = (event: Event) => {
   transform: translateX(-50%);
   border-radius: 2rem;
   padding: 1.1rem;
-  background: rgba(255, 255, 255, 0.86);
-  border: 1px solid rgba(24, 36, 47, 0.08);
-  box-shadow: 0 28px 80px rgba(24, 36, 47, 0.12);
+  background: var(--vision-surface-panel-bg);
+  border: 1px solid var(--vision-surface-panel-border);
+  box-shadow: var(--vision-surface-panel-shadow);
   backdrop-filter: blur(24px);
 }
 
@@ -156,6 +156,7 @@ const updateInputText = (event: Event) => {
   margin: 0;
   font-size: 1.05rem;
   letter-spacing: -0.02em;
+  color: var(--vision-surface-ink);
 }
 
 .vision-surface__eyebrow {
@@ -163,7 +164,7 @@ const updateInputText = (event: Event) => {
   font-size: 0.78rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(24, 36, 47, 0.46);
+  color: var(--vision-surface-ink-muted);
 }
 
 .vision-composer__header-actions {
@@ -185,12 +186,12 @@ const updateInputText = (event: Event) => {
 
 .vision-composer__ghost,
 .vision-composer__action {
-  background: rgba(24, 36, 47, 0.06);
-  color: #18242f;
+  background: var(--vision-surface-chip-bg-soft);
+  color: var(--vision-surface-ink);
 }
 
 .vision-composer__action--primary {
-  background: linear-gradient(135deg, #ff9d73 0%, #7fcbff 100%);
+  background: var(--vision-surface-accent-gradient);
   color: #10202c;
 }
 
@@ -214,9 +215,9 @@ const updateInputText = (event: Event) => {
   outline: none;
   border-radius: 1.4rem;
   padding: 1rem 1.1rem;
-  background: rgba(248, 250, 252, 0.92);
-  color: #18242f;
-  box-shadow: inset 0 0 0 1px rgba(24, 36, 47, 0.06);
+  background: var(--vision-surface-input-bg);
+  color: var(--vision-surface-ink);
+  box-shadow: var(--vision-surface-input-shadow);
 }
 
 .vision-composer__actions {
@@ -229,7 +230,7 @@ const updateInputText = (event: Event) => {
 .vision-surface__status-text {
   margin: 0.9rem 0 0;
   font-size: 0.92rem;
-  color: rgba(24, 36, 47, 0.58);
+  color: var(--vision-surface-ink-soft);
 }
 
 .vision-composer-launcher {
@@ -238,9 +239,9 @@ const updateInputText = (event: Event) => {
   bottom: 1.25rem;
   z-index: 2;
   transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.9);
-  color: #18242f;
-  box-shadow: 0 22px 64px rgba(24, 36, 47, 0.1);
+  background: var(--vision-surface-card-strong);
+  color: var(--vision-surface-ink);
+  box-shadow: var(--vision-surface-shadow-float);
 }
 
 .vision-composer-fade-enter-active,

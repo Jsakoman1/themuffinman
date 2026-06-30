@@ -139,6 +139,29 @@ const showSurfaceControls = computed(() => !!response.value
   || contextPinned.value
   || autoContextVisible.value)
 
+const surfaceToneClass = computed(() => {
+  const canvasMode = response.value?.canvasMode
+  if (canvasMode === "review") {
+    return "vision-surface--review"
+  }
+  if (canvasMode === "blocked") {
+    return "vision-surface--blocked"
+  }
+  if (canvasMode === "complete") {
+    return "vision-surface--complete"
+  }
+  if (voiceState.value === "processing") {
+    return "vision-surface--processing"
+  }
+  if (voiceState.value === "listening") {
+    return "vision-surface--listening"
+  }
+  if (voiceState.value === "speaking") {
+    return "vision-surface--speaking"
+  }
+  return "vision-surface--calm"
+})
+
 const recentConversationGroups = computed(() => {
   const groups = [
     {
@@ -176,7 +199,7 @@ useMountedAsync(init)
 </script>
 
 <template>
-  <section class="vision-surface">
+  <section class="vision-surface" :class="surfaceToneClass">
     <div class="vision-surface__wash vision-surface__wash--one" aria-hidden="true"></div>
     <div class="vision-surface__wash vision-surface__wash--two" aria-hidden="true"></div>
     <div class="vision-surface__grain" aria-hidden="true"></div>
@@ -295,11 +318,135 @@ useMountedAsync(init)
   position: relative;
   min-height: 100vh;
   overflow: hidden;
+  --vision-surface-ink: #18242f;
+  --vision-surface-ink-soft: rgba(24, 36, 47, 0.72);
+  --vision-surface-ink-muted: rgba(24, 36, 47, 0.46);
+  --vision-surface-border: rgba(24, 36, 47, 0.08);
+  --vision-surface-border-soft: rgba(24, 36, 47, 0.05);
+  --vision-surface-card: rgba(255, 255, 255, 0.82);
+  --vision-surface-card-strong: rgba(255, 255, 255, 0.92);
+  --vision-surface-card-soft: rgba(248, 250, 252, 0.9);
+  --vision-surface-card-muted: rgba(255, 255, 255, 0.7);
+  --vision-surface-shadow-soft: 0 18px 40px rgba(24, 36, 47, 0.06);
+  --vision-surface-shadow: 0 30px 80px rgba(24, 36, 47, 0.1);
+  --vision-surface-shadow-strong: 0 32px 80px rgba(24, 36, 47, 0.08);
+  --vision-surface-shadow-float: 0 18px 50px rgba(24, 36, 47, 0.08);
+  --vision-surface-accent-gradient: linear-gradient(135deg, #ff9d73 0%, #7fcbff 100%);
+  --vision-surface-accent-gradient-soft: linear-gradient(135deg, rgba(255, 157, 115, 0.86) 0%, rgba(127, 203, 255, 0.86) 100%);
+  --vision-surface-accent-start: rgba(255, 157, 115, 1);
+  --vision-surface-accent-end: rgba(127, 203, 255, 1);
+  --vision-surface-accent-wash: rgba(255, 157, 115, 0.18);
+  --vision-surface-panel-bg: rgba(255, 255, 255, 0.82);
+  --vision-surface-panel-border: rgba(24, 36, 47, 0.08);
+  --vision-surface-panel-shadow: 0 30px 80px rgba(24, 36, 47, 0.1);
+  --vision-surface-panel-shadow-soft: 0 18px 40px rgba(24, 36, 47, 0.06);
+  --vision-surface-chip-bg: rgba(255, 255, 255, 0.92);
+  --vision-surface-chip-bg-soft: rgba(248, 250, 252, 0.9);
+  --vision-surface-chip-text: #18242f;
+  --vision-surface-chip-border: rgba(24, 36, 47, 0.08);
+  --vision-surface-chip-shadow: 0 10px 24px rgba(24, 36, 47, 0.08);
+  --vision-surface-input-bg: rgba(248, 250, 252, 0.92);
+  --vision-surface-input-border: rgba(24, 36, 47, 0.06);
+  --vision-surface-input-shadow: inset 0 0 0 1px rgba(24, 36, 47, 0.06);
+  --vision-surface-section-warning-bg: rgba(255, 244, 229, 0.9);
+  --vision-surface-section-info-bg: rgba(240, 247, 255, 0.9);
+  --vision-surface-section-field-bg: rgba(244, 249, 255, 0.88);
+  --vision-surface-section-success-bg: rgba(237, 250, 241, 0.95);
+  --vision-surface-orb-core-start: #fff4ed;
+  --vision-surface-orb-core-end: #e6f5ff;
+  --vision-surface-orb-core-shadow: rgba(77, 130, 168, 0.2);
+  --vision-surface-orb-core-shadow-listening: rgba(255, 160, 122, 0.26);
+  --vision-surface-orb-field-start: rgba(255, 162, 121, 0.15);
+  --vision-surface-orb-field-mid: rgba(120, 195, 255, 0.12);
+  --vision-surface-orb-field-end: rgba(255, 216, 175, 0.08);
+  --vision-surface-base-top: #fffdf8;
+  --vision-surface-base-mid: #fbfbf8;
+  --vision-surface-base-bottom: #f4f6f8;
+  --vision-surface-wash-one: rgba(255, 173, 141, 0.18);
+  --vision-surface-wash-two: rgba(116, 197, 255, 0.18);
+  --vision-surface-wash-three: rgba(255, 255, 255, 0.08);
   background:
-    radial-gradient(circle at top, rgba(255, 208, 173, 0.35), transparent 32%),
-    radial-gradient(circle at 80% 18%, rgba(157, 214, 255, 0.28), transparent 28%),
-    linear-gradient(180deg, #fffdf8 0%, #fbfbf8 45%, #f4f6f8 100%);
-  color: #18242f;
+    radial-gradient(circle at top, var(--vision-surface-wash-one), transparent 32%),
+    radial-gradient(circle at 80% 18%, var(--vision-surface-wash-two), transparent 28%),
+    radial-gradient(circle at 48% 84%, var(--vision-surface-wash-three), transparent 24%),
+    linear-gradient(180deg, var(--vision-surface-base-top) 0%, var(--vision-surface-base-mid) 45%, var(--vision-surface-base-bottom) 100%);
+  color: var(--vision-surface-ink);
+}
+
+.vision-surface--review {
+  --vision-surface-accent-gradient: linear-gradient(135deg, #ff9f73 0%, #8fb7ff 100%);
+  --vision-surface-accent-gradient-soft: linear-gradient(135deg, rgba(255, 159, 115, 0.84) 0%, rgba(143, 183, 255, 0.84) 100%);
+  --vision-surface-accent-wash: rgba(255, 167, 120, 0.2);
+  --vision-surface-orb-core-start: #fff7f0;
+  --vision-surface-orb-core-end: #eef7ff;
+  --vision-surface-orb-core-shadow: rgba(109, 155, 200, 0.2);
+  --vision-surface-base-top: #fffaf6;
+  --vision-surface-base-mid: #fcfbf9;
+  --vision-surface-base-bottom: #f6f2f0;
+  --vision-surface-wash-one: rgba(255, 167, 120, 0.2);
+  --vision-surface-wash-two: rgba(143, 201, 255, 0.16);
+  --vision-surface-wash-three: rgba(255, 245, 232, 0.16);
+}
+
+.vision-surface--blocked {
+  --vision-surface-accent-gradient: linear-gradient(135deg, #ff8f7e 0%, #ffc6ad 100%);
+  --vision-surface-accent-gradient-soft: linear-gradient(135deg, rgba(255, 143, 126, 0.86) 0%, rgba(255, 198, 173, 0.86) 100%);
+  --vision-surface-accent-wash: rgba(255, 149, 131, 0.22);
+  --vision-surface-orb-core-start: #fff2f0;
+  --vision-surface-orb-core-end: #fff8f7;
+  --vision-surface-orb-core-shadow: rgba(178, 105, 105, 0.22);
+  --vision-surface-base-top: #fff9f8;
+  --vision-surface-base-mid: #fbf8f8;
+  --vision-surface-base-bottom: #f6f0ef;
+  --vision-surface-wash-one: rgba(255, 149, 131, 0.22);
+  --vision-surface-wash-two: rgba(255, 194, 173, 0.14);
+  --vision-surface-wash-three: rgba(255, 255, 255, 0.12);
+}
+
+.vision-surface--complete {
+  --vision-surface-accent-gradient: linear-gradient(135deg, #9edab0 0%, #7abfff 100%);
+  --vision-surface-accent-gradient-soft: linear-gradient(135deg, rgba(158, 218, 176, 0.84) 0%, rgba(122, 191, 255, 0.84) 100%);
+  --vision-surface-accent-wash: rgba(160, 220, 176, 0.2);
+  --vision-surface-orb-core-start: #f3fbf4;
+  --vision-surface-orb-core-end: #ecf7ff;
+  --vision-surface-orb-core-shadow: rgba(98, 160, 136, 0.2);
+  --vision-surface-base-top: #f9fbf7;
+  --vision-surface-base-mid: #fafcf8;
+  --vision-surface-base-bottom: #f2f6f1;
+  --vision-surface-wash-one: rgba(160, 220, 176, 0.2);
+  --vision-surface-wash-two: rgba(120, 189, 255, 0.12);
+  --vision-surface-wash-three: rgba(246, 255, 248, 0.18);
+}
+
+.vision-surface--processing,
+.vision-surface--speaking {
+  --vision-surface-accent-gradient: linear-gradient(135deg, #79baff 0%, #ffae89 100%);
+  --vision-surface-accent-gradient-soft: linear-gradient(135deg, rgba(121, 186, 255, 0.84) 0%, rgba(255, 174, 137, 0.84) 100%);
+  --vision-surface-accent-wash: rgba(121, 186, 255, 0.22);
+  --vision-surface-orb-core-start: #f5fbff;
+  --vision-surface-orb-core-end: #edf4f9;
+  --vision-surface-orb-core-shadow: rgba(77, 130, 168, 0.22);
+  --vision-surface-base-top: #f8fbff;
+  --vision-surface-base-mid: #f7f9fc;
+  --vision-surface-base-bottom: #eef4f9;
+  --vision-surface-wash-one: rgba(121, 186, 255, 0.22);
+  --vision-surface-wash-two: rgba(255, 174, 137, 0.16);
+  --vision-surface-wash-three: rgba(245, 251, 255, 0.16);
+}
+
+.vision-surface--listening {
+  --vision-surface-accent-gradient: linear-gradient(135deg, #ffaa84 0%, #78c5ff 100%);
+  --vision-surface-accent-gradient-soft: linear-gradient(135deg, rgba(255, 170, 132, 0.84) 0%, rgba(120, 197, 255, 0.84) 100%);
+  --vision-surface-accent-wash: rgba(255, 170, 132, 0.22);
+  --vision-surface-orb-core-start: #fff6f2;
+  --vision-surface-orb-core-end: #eef8ff;
+  --vision-surface-orb-core-shadow: rgba(255, 160, 122, 0.26);
+  --vision-surface-base-top: #fffaf8;
+  --vision-surface-base-mid: #fcfbf9;
+  --vision-surface-base-bottom: #f7f1ee;
+  --vision-surface-wash-one: rgba(255, 170, 132, 0.22);
+  --vision-surface-wash-two: rgba(120, 197, 255, 0.15);
+  --vision-surface-wash-three: rgba(255, 252, 249, 0.14);
 }
 
 .vision-surface__wash,
@@ -310,11 +457,11 @@ useMountedAsync(init)
 }
 
 .vision-surface__wash--one {
-  background: radial-gradient(circle at 22% 60%, rgba(255, 173, 141, 0.18), transparent 30%);
+  background: radial-gradient(circle at 22% 60%, var(--vision-surface-wash-one), transparent 30%);
 }
 
 .vision-surface__wash--two {
-  background: radial-gradient(circle at 78% 34%, rgba(116, 197, 255, 0.18), transparent 26%);
+  background: radial-gradient(circle at 78% 34%, var(--vision-surface-wash-two), transparent 26%);
 }
 
 .vision-surface__grain {
@@ -337,13 +484,13 @@ useMountedAsync(init)
 
 .vision-surface__control {
   appearance: none;
-  border: 1px solid rgba(24, 36, 47, 0.08);
+  border: 1px solid var(--vision-surface-panel-border);
   border-radius: 1.4rem;
   padding: 0.7rem 0.9rem;
-  background: rgba(255, 255, 255, 0.62);
+  background: var(--vision-surface-card-muted);
   backdrop-filter: blur(18px);
-  box-shadow: 0 18px 40px rgba(24, 36, 47, 0.06);
-  color: #18242f;
+  box-shadow: var(--vision-surface-shadow-soft);
+  color: var(--vision-surface-ink);
   text-align: left;
   cursor: pointer;
   display: grid;
@@ -354,7 +501,7 @@ useMountedAsync(init)
 
 .vision-surface__control:hover {
   transform: translateY(-1px);
-  box-shadow: 0 24px 50px rgba(24, 36, 47, 0.08);
+  box-shadow: var(--vision-surface-shadow-float);
   background: rgba(255, 255, 255, 0.76);
 }
 
@@ -362,22 +509,22 @@ useMountedAsync(init)
   font-size: 0.68rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(24, 36, 47, 0.46);
+  color: var(--vision-surface-ink-muted);
 }
 
 .vision-surface__control-value {
   font-size: 0.92rem;
-  color: rgba(24, 36, 47, 0.82);
+  color: var(--vision-surface-ink-soft);
 }
 
 .vision-floating-card {
   position: absolute;
   z-index: 2;
-  border: 1px solid rgba(24, 36, 47, 0.08);
+  border: 1px solid var(--vision-surface-panel-border);
   border-radius: 1.8rem;
-  background: rgba(255, 255, 255, 0.82);
+  background: var(--vision-surface-panel-bg);
   backdrop-filter: blur(24px);
-  box-shadow: 0 30px 80px rgba(24, 36, 47, 0.1);
+  box-shadow: var(--vision-surface-panel-shadow);
 }
 
 .vision-floating-card--context {
@@ -392,20 +539,20 @@ useMountedAsync(init)
   font-size: 0.68rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(24, 36, 47, 0.44);
+  color: var(--vision-surface-ink-muted);
 }
 
 .vision-floating-card__title {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #18242f;
+  color: var(--vision-surface-ink);
 }
 
 .vision-floating-card__body {
   margin: 0.45rem 0 0;
   line-height: 1.5;
-  color: rgba(24, 36, 47, 0.7);
+  color: var(--vision-surface-ink-soft);
 }
 
 .vision-floating-card__meta {
@@ -418,9 +565,9 @@ useMountedAsync(init)
 .vision-floating-card__meta span {
   border-radius: 999px;
   padding: 0.38rem 0.72rem;
-  background: rgba(248, 250, 252, 0.92);
+  background: var(--vision-surface-card-soft);
   font-size: 0.76rem;
-  color: rgba(24, 36, 47, 0.72);
+  color: var(--vision-surface-ink-soft);
 }
 
 .vision-surface__stage {
@@ -444,7 +591,7 @@ useMountedAsync(init)
   font-size: 0.78rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(24, 36, 47, 0.46);
+  color: var(--vision-surface-ink-muted);
 }
 
 .vision-surface__intro h1 {
@@ -459,7 +606,7 @@ useMountedAsync(init)
   margin: 0;
   font-size: 1.02rem;
   line-height: 1.7;
-  color: rgba(24, 36, 47, 0.72);
+  color: var(--vision-surface-ink-soft);
 }
 
 .vision-surface__hint {
@@ -495,7 +642,7 @@ useMountedAsync(init)
   font-size: 0.72rem !important;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(24, 36, 47, 0.44) !important;
+  color: var(--vision-surface-ink-muted) !important;
 }
 
 .vision-choice-chip--recent {
@@ -504,11 +651,11 @@ useMountedAsync(init)
   gap: 0.4rem;
   justify-items: flex-start;
   width: 100%;
-  border: 1px solid rgba(24, 36, 47, 0.08);
+  border: 1px solid var(--vision-surface-chip-border);
   border-radius: 1.3rem;
   padding: 0.95rem 1rem;
-  background: rgba(255, 255, 255, 0.9);
-  color: #18242f;
+  background: var(--vision-surface-chip-bg);
+  color: var(--vision-surface-chip-text);
   text-align: left;
   cursor: pointer;
   transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
@@ -516,15 +663,15 @@ useMountedAsync(init)
 
 .vision-choice-chip--recent:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(24, 36, 47, 0.08);
+  box-shadow: var(--vision-surface-chip-shadow);
 }
 
 .vision-choice-chip--active {
-  background: rgba(255, 255, 255, 0.94);
+  background: var(--vision-surface-card-strong);
 }
 
 .vision-choice-chip--completed {
-  background: rgba(249, 250, 251, 0.9);
+  background: var(--vision-surface-chip-bg-soft);
 }
 
 .vision-choice-chip--stale {
@@ -542,13 +689,13 @@ useMountedAsync(init)
   font-size: 0.68rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(24, 36, 47, 0.46);
+  color: var(--vision-surface-ink-muted);
 }
 
 .vision-recent-task__title {
   font-size: 0.98rem;
   font-weight: 600;
-  color: #18242f;
+  color: var(--vision-surface-ink);
 }
 
 .vision-recent-task__progress {
@@ -565,9 +712,9 @@ useMountedAsync(init)
   z-index: 2;
   padding: 0.65rem 1rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.88);
-  color: rgba(24, 36, 47, 0.72);
-  box-shadow: 0 18px 50px rgba(24, 36, 47, 0.08);
+  background: var(--vision-surface-card-strong);
+  color: var(--vision-surface-ink-soft);
+  box-shadow: var(--vision-surface-shadow-float);
 }
 
 .vision-surface__loading--error {

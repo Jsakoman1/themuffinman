@@ -81,7 +81,7 @@ const emit = defineEmits<{
 
 .vision-review p {
   margin: 0;
-  color: rgba(24, 36, 47, 0.74);
+  color: var(--vision-surface-ink-soft);
 }
 
 .vision-review__grid {
@@ -95,12 +95,12 @@ const emit = defineEmits<{
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: rgba(24, 36, 47, 0.46);
+  color: var(--vision-surface-ink-muted);
 }
 
 .vision-review__grid dd {
   margin: 0.35rem 0 0;
-  color: #18242f;
+  color: var(--vision-surface-ink);
 }
 
 .vision-choice-list {
@@ -112,11 +112,11 @@ const emit = defineEmits<{
 .vision-choice-chip,
 .vision-review__primary {
   appearance: none;
-  border: 1px solid rgba(24, 36, 47, 0.08);
+  border: 1px solid var(--vision-surface-chip-border);
   border-radius: 999px;
   padding: 0.65rem 0.95rem;
-  background: rgba(255, 255, 255, 0.92);
-  color: #18242f;
+  background: var(--vision-surface-chip-bg);
+  color: var(--vision-surface-chip-text);
   font: inherit;
   cursor: pointer;
   transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
@@ -125,7 +125,7 @@ const emit = defineEmits<{
 .vision-choice-chip:hover,
 .vision-review__primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(24, 36, 47, 0.08);
+  box-shadow: var(--vision-surface-chip-shadow);
 }
 
 .vision-review__actions {
@@ -136,7 +136,7 @@ const emit = defineEmits<{
 
 .vision-review__primary {
   border: 0;
-  background: linear-gradient(135deg, #ff9d73 0%, #7fcbff 100%);
+  background: var(--vision-surface-accent-gradient);
   color: #10202c;
 }
 

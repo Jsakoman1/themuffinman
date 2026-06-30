@@ -28,8 +28,8 @@ defineProps<{
 .vision-slot-card {
   border-radius: 1.2rem;
   padding: 0.95rem 1rem;
-  background: rgba(248, 250, 252, 0.9);
-  border: 1px solid rgba(24, 36, 47, 0.05);
+  background: var(--vision-surface-card-soft);
+  border: 1px solid var(--vision-surface-border-soft);
 }
 
 .vision-slot-card__label {
@@ -38,11 +38,11 @@ defineProps<{
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: rgba(24, 36, 47, 0.46);
+  color: var(--vision-surface-ink-muted);
 }
 
 .vision-slot-card__value {
   margin: 0;
-  color: #18242f;
+  color: var(--vision-surface-ink);
 }
 </style>

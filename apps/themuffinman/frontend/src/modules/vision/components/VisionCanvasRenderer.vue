@@ -71,9 +71,9 @@ const choose = (value: string) => {
   gap: 1rem;
   padding: 1.2rem;
   border-radius: 2rem;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(24, 36, 47, 0.06);
-  box-shadow: 0 32px 80px rgba(24, 36, 47, 0.08);
+  background: var(--vision-surface-panel-bg);
+  border: 1px solid var(--vision-surface-border-soft);
+  box-shadow: var(--vision-surface-panel-shadow-soft);
   backdrop-filter: blur(20px);
   text-align: left;
 }

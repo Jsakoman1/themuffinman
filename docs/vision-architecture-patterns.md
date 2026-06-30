@@ -89,6 +89,16 @@ Surface controls should also stay sparse:
 - hide the compact context control while the surface is fully idle and context-free
 - show it again when a response, recent memory, or active voice interaction makes it useful
 
+Surface tone should be adaptive but restrained:
+- let CSS variables shift the wash and base background by canvas mode or voice state
+- keep mood changes subtle enough that the surface still reads as one white canvas
+- do not introduce extra panels just to express state
+
+Shared surface tokens should stay centralized:
+- route shell, prompt dock, canvas panel, and agent orb should consume the same surface palette variables
+- prefer changing the shared tokens in the shell over re-tuning each child component independently
+- keep tone shifts coordinated so the visual system reads as one surface with one mood
+
 ## Locked Preflight Decisions
 
 Treat these as the default architecture baseline for upcoming `/vision` implementation unless a later documented architecture change replaces them:

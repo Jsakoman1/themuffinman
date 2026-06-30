@@ -31,25 +31,25 @@ defineProps<{
 .vision-panel__section--warning {
   padding: 0.9rem 1rem;
   border-radius: 1.2rem;
-  background: rgba(255, 244, 229, 0.9);
+  background: var(--vision-surface-section-warning-bg);
 }
 
 .vision-panel__section--field {
   padding: 0.9rem 1rem;
   border-radius: 1.2rem;
-  background: rgba(244, 249, 255, 0.88);
+  background: var(--vision-surface-section-field-bg);
 }
 
 .vision-panel__section--info {
   padding: 0.9rem 1rem;
   border-radius: 1.2rem;
-  background: rgba(240, 247, 255, 0.9);
+  background: var(--vision-surface-section-info-bg);
 }
 
 .vision-panel__section--success {
   padding: 0.9rem 1rem;
   border-radius: 1.2rem;
-  background: rgba(237, 250, 241, 0.95);
+  background: var(--vision-surface-section-success-bg);
 }
 
 .vision-panel__label {
@@ -57,11 +57,11 @@ defineProps<{
   font-size: 0.72rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(24, 36, 47, 0.44);
+  color: var(--vision-surface-ink-muted);
 }
 
 .vision-panel__body {
   margin: 0;
-  color: rgba(24, 36, 47, 0.74);
+  color: var(--vision-surface-ink-soft);
 }
 </style>

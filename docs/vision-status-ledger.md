@@ -29,11 +29,12 @@ It should stay short, factual, and updated when a vision batch materially change
 - the prompt dock now starts collapsed on the blank canvas and opens through a small launcher instead of occupying the default idle state
 - the blank-canvas hero heading now steps aside once the backend has real response content so the canvas can dominate active states
 - the compact context rail stays hidden in a fully idle empty state and only appears when there is real context, a response, or an active interaction
+- the blank canvas now shifts subtle background tone by response mode or voice state so review, blocked, complete, listening, and processing feel distinct without adding new chrome
+- the route shell, prompt dock, canvas panel, and agent orb now share a centralized surface token set so blank-canvas tone shifts stay coordinated instead of being tuned per component
+- `VISION-BLANK-CANVAS-001` has been completed as the route-shell, prompt-dock, canvas, and orb blank-canvas pass
 
 ## In Progress
 
-- frontend blank-canvas rendering is still moving from the standardized component split into the final minimal adaptive surface and richer block vocabulary
-- `VISION-BLANK-CANVAS-001` is underway as iterative shell simplification and contextual reveal work rather than one oversized frontend rewrite
 - create-quest conversation hardening is still expanding around ambiguity wording, richer review editing, and executor confidence boundaries
 - vision memory and workflow standardization are being pushed into repo-persistent docs, checklists, and fixtures
 

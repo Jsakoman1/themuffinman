@@ -48,7 +48,13 @@ defineProps<{
   inset: 0;
   background:
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.42), transparent 36%),
-    conic-gradient(from 0deg, rgba(255, 162, 121, 0.15), rgba(120, 195, 255, 0.12), rgba(255, 216, 175, 0.08), rgba(255, 162, 121, 0.15));
+    conic-gradient(
+      from 0deg,
+      var(--vision-surface-orb-field-start),
+      var(--vision-surface-orb-field-mid),
+      var(--vision-surface-orb-field-end),
+      var(--vision-surface-orb-field-start)
+    );
   filter: blur(24px);
   opacity: 0.9;
   animation: field-drift 18s linear infinite;
@@ -74,7 +80,7 @@ defineProps<{
 
 .vision-agent__ring {
   inset: 12%;
-  border: 1px solid rgba(24, 36, 47, 0.08);
+  border: 1px solid var(--vision-surface-border);
 }
 
 .vision-agent__ring--outer {
@@ -89,30 +95,30 @@ defineProps<{
 
 .vision-agent__ring--inner {
   inset: 31%;
-  border-color: rgba(255, 153, 112, 0.24);
+  border-color: var(--vision-surface-accent-wash);
   animation: pulse-ring 7s ease-in-out infinite;
 }
 
 .vision-agent__pulse {
   inset: 28%;
-  background: radial-gradient(circle, rgba(255, 175, 132, 0.18), rgba(125, 195, 255, 0.08) 58%, transparent 76%);
+  background: radial-gradient(circle, var(--vision-surface-accent-wash), rgba(125, 195, 255, 0.08) 58%, transparent 76%);
   animation: pulse-core 5.5s ease-in-out infinite;
 }
 
 .vision-agent__core {
   inset: 38%;
-  background: linear-gradient(145deg, #fff4ed 0%, #e6f5ff 100%);
+  background: linear-gradient(145deg, var(--vision-surface-orb-core-start) 0%, var(--vision-surface-orb-core-end) 100%);
   box-shadow:
-    0 0 0 1px rgba(24, 36, 47, 0.06),
-    0 24px 60px rgba(77, 130, 168, 0.2),
+    0 0 0 1px var(--vision-surface-border-soft),
+    0 24px 60px var(--vision-surface-orb-core-shadow),
     inset 0 0 32px rgba(255, 255, 255, 0.9);
   animation: core-breathe 6.5s ease-in-out infinite;
 }
 
 .vision-agent--listening .vision-agent__core {
   box-shadow:
-    0 0 0 1px rgba(24, 36, 47, 0.06),
-    0 28px 72px rgba(255, 160, 122, 0.26),
+    0 0 0 1px var(--vision-surface-border-soft),
+    0 28px 72px var(--vision-surface-orb-core-shadow-listening),
     inset 0 0 38px rgba(255, 255, 255, 0.95);
 }
 
