@@ -10,10 +10,10 @@ import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionTurn;
 import com.themuffinman.app.vision.repository.VisionConversationRepository;
 import com.themuffinman.app.vision.repository.VisionTurnRepository;
+import com.themuffinman.app.workmarket.model.Quest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
@@ -41,14 +41,18 @@ class VisionConversationServiceTest {
     @Mock
     private AdminAgentPlaygroundService adminAgentPlaygroundService;
 
+    @Mock
+    private VisionCreateQuestExecutionAdapter visionCreateQuestExecutionAdapter;
+
     private VisionConversationService visionConversationService;
     private AtomicLong conversationIds;
     private AtomicLong turnIds;
     private AppUser currentUser;
+    private VisionProperties visionProperties;
 
     @BeforeEach
     void setUp() {
-        VisionProperties visionProperties = new VisionProperties();
+        visionProperties = new VisionProperties();
         VisionIntentRouter visionIntentRouter = new VisionIntentRouter(visionProperties);
         VisionSlotService visionSlotService = new VisionSlotService();
         VisionClarificationService visionClarificationService = new VisionClarificationService();
@@ -85,6 +89,7 @@ class VisionConversationServiceTest {
                 visionSlotService,
                 visionClarificationService,
                 visionCanvasAssembler,
+                visionCreateQuestExecutionAdapter,
                 adminAgentPlaygroundService,
                 visionProperties
         );
@@ -119,6 +124,8 @@ class VisionConversationServiceTest {
         assertEquals("ASK_FOR_SLOT", response.getNextAction());
         assertEquals("quest_title", response.getRequestedSlot());
         assertEquals("What should the quest be called?", response.getMessage());
+        assertEquals("clarification", response.getCanvasMode());
+        assertEquals("field_request", response.getBlocks().get(response.getBlocks().size() - 1).getType());
     }
 
     @Test
@@ -184,6 +191,8 @@ class VisionConversationServiceTest {
         assertEquals("Help move a sofa", reviewResponse.getReview().getTitle());
         assertEquals("20", reviewResponse.getReview().getRewardLabel());
         assertEquals("PUBLIC", reviewResponse.getReview().getVisibility());
+        assertEquals("review", reviewResponse.getCanvasMode());
+        assertEquals("review_summary", reviewResponse.getBlocks().get(reviewResponse.getBlocks().size() - 1).getType());
     }
 
     @Test
@@ -201,6 +210,44 @@ class VisionConversationServiceTest {
 
         assertEquals("UNSUPPORTED", response.getIntent());
         assertEquals("BLOCKED", response.getNextAction());
+    }
+
+    @Test
+    void confirmedReviewExecutesQuestWhenExecutionIsEnabled() {
+        visionProperties.setExecutionEnabled(true);
+
+        VisionConversation conversation = new VisionConversation();
+        conversation.setId(77L);
+        conversation.setOwner(currentUser);
+        conversation.setIntent(com.themuffinman.app.vision.model.VisionIntent.CREATE_QUEST);
+        conversation.setStatus(com.themuffinman.app.vision.model.VisionConversationStatus.REVIEW_READY);
+        conversation.setSlotData(new LinkedHashMap<>());
+        conversation.getSlotData().put("quest_title", "Help move a sofa");
+        conversation.getSlotData().put("quest_description", "I need someone to help carry a sofa.");
+        conversation.getSlotData().put("reward_amount", "20");
+        conversation.getSlotData().put("visibility", "PUBLIC");
+
+        Quest createdQuest = new Quest();
+        createdQuest.setId(501L);
+
+        when(adminAgentPlaygroundService.analyzePrompt("confirm"))
+                .thenReturn(agentResponse("confirm"));
+        when(visionConversationRepository.findByIdAndOwner(77L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(conversation)).thenReturn(4L, 4L);
+        when(visionCreateQuestExecutionAdapter.execute(conversation.getSlotData(), currentUser)).thenReturn(createdQuest);
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(77L)
+                        .prompt("confirm")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("COMPLETE", response.getAgentState());
+        assertEquals("COMPLETE", response.getNextAction());
+        assertEquals("complete", response.getCanvasMode());
+        assertEquals("success", response.getBlocks().get(response.getBlocks().size() - 1).getType());
     }
 
     private AdminAgentPlaygroundResponseDTO agentResponse(String translatedPrompt) {

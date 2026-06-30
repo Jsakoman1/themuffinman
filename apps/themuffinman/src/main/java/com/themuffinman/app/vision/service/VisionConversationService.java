@@ -16,11 +16,13 @@ import com.themuffinman.app.vision.model.VisionTurn;
 import com.themuffinman.app.vision.model.VisionTurnSource;
 import com.themuffinman.app.vision.repository.VisionConversationRepository;
 import com.themuffinman.app.vision.repository.VisionTurnRepository;
+import com.themuffinman.app.workmarket.model.Quest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -32,6 +34,7 @@ public class VisionConversationService {
     private final VisionSlotService visionSlotService;
     private final VisionClarificationService visionClarificationService;
     private final VisionCanvasAssembler visionCanvasAssembler;
+    private final VisionCreateQuestExecutionAdapter visionCreateQuestExecutionAdapter;
     private final AdminAgentPlaygroundService adminAgentPlaygroundService;
     private final VisionProperties visionProperties;
 
@@ -42,6 +45,7 @@ public class VisionConversationService {
             VisionSlotService visionSlotService,
             VisionClarificationService visionClarificationService,
             VisionCanvasAssembler visionCanvasAssembler,
+            VisionCreateQuestExecutionAdapter visionCreateQuestExecutionAdapter,
             AdminAgentPlaygroundService adminAgentPlaygroundService,
             VisionProperties visionProperties
     ) {
@@ -51,6 +55,7 @@ public class VisionConversationService {
         this.visionSlotService = visionSlotService;
         this.visionClarificationService = visionClarificationService;
         this.visionCanvasAssembler = visionCanvasAssembler;
+        this.visionCreateQuestExecutionAdapter = visionCreateQuestExecutionAdapter;
         this.adminAgentPlaygroundService = adminAgentPlaygroundService;
         this.visionProperties = visionProperties;
     }
@@ -100,6 +105,10 @@ public class VisionConversationService {
             AdminAgentPlaygroundResponseDTO analysis,
             String source
     ) {
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY) {
+            return handleCreateQuestReviewTurn(conversation, prompt, normalizedPrompt, analysis, source);
+        }
+
         Map<String, String> mergedSlots = visionSlotService.mergeCreateQuestSlots(conversation, normalizedPrompt);
         String missingSlot = visionClarificationService.nextMissingCreateQuestSlot(mergedSlots);
 
@@ -137,6 +146,62 @@ public class VisionConversationService {
         turn.setAgentState(agentState);
         turn.setNextAction(nextAction);
         turn.setRequestedSlot(missingSlot);
+        turn.setTranslationApplied(analysis.isPromptTranslationApplied());
+        turn.setTranslationReliable(analysis.isPromptTranslationReliable());
+        turn.setAssistantMessage(message);
+        return visionTurnRepository.save(turn);
+    }
+
+    private VisionTurn handleCreateQuestReviewTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            AdminAgentPlaygroundResponseDTO analysis,
+            String source
+    ) {
+        String message;
+        VisionAgentState agentState;
+        VisionNextAction nextAction;
+        VisionConversationStatus status;
+
+        if (isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) {
+                status = VisionConversationStatus.REVIEW_READY;
+                nextAction = VisionNextAction.SHOW_REVIEW;
+                agentState = VisionAgentState.REVIEW_READY;
+                message = "Execution is still disabled. The quest review stays ready until that flag is enabled.";
+            } else {
+                Quest createdQuest = visionCreateQuestExecutionAdapter.execute(conversation.getSlotData(), conversation.getOwner());
+                conversation.getSlotData().put("created_quest_id", createdQuest.getId().toString());
+                status = VisionConversationStatus.COMPLETED;
+                nextAction = VisionNextAction.COMPLETE;
+                agentState = VisionAgentState.COMPLETE;
+                message = "Quest created successfully. The first real `/vision` executor completed this task.";
+            }
+        } else {
+            status = VisionConversationStatus.REVIEW_READY;
+            nextAction = VisionNextAction.SHOW_REVIEW;
+            agentState = VisionAgentState.REVIEW_READY;
+            message = visionProperties.isExecutionEnabled()
+                    ? "The review is ready. Confirm to create the quest, or tell me what should change."
+                    : "The review is ready, but execution is still disabled. Tell me what should change if you want to revise it.";
+        }
+
+        conversation.setRequestedSlot(null);
+        conversation.setStatus(status);
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, analysis.isPromptTranslationReliable());
+        visionConversationRepository.save(conversation);
+
+        VisionTurn turn = new VisionTurn();
+        turn.setConversation(conversation);
+        turn.setTurnIndex((int) visionTurnRepository.countByConversation(conversation) + 1);
+        turn.setSource(VisionTurnSource.from(source));
+        turn.setPrompt(prompt);
+        turn.setNormalizedPrompt(normalizedPrompt);
+        turn.setDetectedIntent(VisionIntent.CREATE_QUEST);
+        turn.setAgentState(agentState);
+        turn.setNextAction(nextAction);
+        turn.setRequestedSlot(null);
         turn.setTranslationApplied(analysis.isPromptTranslationApplied());
         turn.setTranslationReliable(analysis.isPromptTranslationReliable());
         turn.setAssistantMessage(message);
@@ -217,5 +282,16 @@ public class VisionConversationService {
         if (currentUser == null) {
             throw ServiceErrors.forbidden("Authentication is required");
         }
+    }
+
+    private boolean isConfirmationPrompt(String prompt) {
+        String lower = prompt.toLowerCase(Locale.ROOT).trim();
+        return lower.equals("confirm")
+                || lower.equals("yes")
+                || lower.equals("yes confirm")
+                || lower.equals("go ahead")
+                || lower.equals("create it")
+                || lower.equals("create the quest")
+                || lower.equals("submit");
     }
 }

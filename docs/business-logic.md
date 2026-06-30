@@ -28,6 +28,8 @@ Current covered modules:
 - `/vision` now uses backend-managed OpenAI speech transcription, speech synthesis, prompt decoding, and agent planning so typed text and voice input can feed the same backend processing path.
 - `/vision` now also has a dedicated persisted conversation backend foundation at `POST /vision/conversations/turns`, so the system can ask one missing field at a time and keep the same task state across turns.
 - The active `/vision` surface should prefer that persisted conversation path for stepwise task guidance, while the older dashboard prompt endpoint remains a compatibility/planning path during transition.
+- The persisted `/vision` path now returns backend-prepared canvas blocks such as agent message, recognized input, field request, collected summary, review summary, and warnings, so the frontend can stay visually adaptive without deciding workflow rules itself.
+- When `app.vision.execution-enabled` is on, the same persisted `/vision` conversation may create the quest after the review state and an explicit confirmation from the user.
 - The long-term `/vision` goal is to replace the legacy frontend with one blank-canvas adaptive surface that reveals fields, prompts, results, and confirmations only when the current task needs them.
 
 ## Identity

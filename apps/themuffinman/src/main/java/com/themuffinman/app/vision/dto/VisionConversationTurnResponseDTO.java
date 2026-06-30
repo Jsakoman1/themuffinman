@@ -18,6 +18,7 @@ public class VisionConversationTurnResponseDTO {
     private Long turnId;
     private String intent;
     private String agentState;
+    private String canvasMode;
     private String nextAction;
     private String message;
     private String requestedSlot;
@@ -25,6 +26,7 @@ public class VisionConversationTurnResponseDTO {
     private boolean translationApplied;
     private boolean translationReliable;
     private boolean executionEnabled;
+    private List<VisionCanvasBlockDTO> blocks;
     private List<VisionSlotSummaryDTO> slotSummaries;
     private VisionQuestReviewDTO review;
 }

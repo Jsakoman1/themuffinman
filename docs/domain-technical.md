@@ -29,6 +29,8 @@ Frontend vision surface note:
 - Phase 1 `/vision` orchestration now also exposes `POST /vision/conversations/turns`, backed by persisted `vision_conversation` and `vision_turn` records, for stepwise backend-owned conversation state.
 - The first persisted `/vision` orchestration scope is read-only `create_quest` planning: collect title, description, reward/free, and visibility one slot at a time, then stop at review while execution stays behind `app.vision.execution-enabled`.
 - `VisionSurfaceModernView.vue` should use `POST /vision/conversations/turns` as the primary conversation path and keep the older dashboard prompt endpoint only as a temporary compatibility surface during rollout.
+- The `/vision` conversation response now includes backend-driven `canvasMode` plus ordered `blocks`, with the first vocabulary covering `agent_message`, `recognized_prompt`, `field_request`, `result_summary`, `review_summary`, and `warning`.
+- When `app.vision.execution-enabled` is true, a review-ready `create_quest` conversation may accept an explicit confirmation on the same turn endpoint and execute through `VisionCreateQuestExecutionAdapter`, which delegates to the existing quest creation boundary.
 - `docs/vision-architecture-patterns.md` is the durable implementation guide for future `/vision` backend orchestration, API contracts, frontend canvas rendering, and executor rollout.
 
 Test fixture standard:

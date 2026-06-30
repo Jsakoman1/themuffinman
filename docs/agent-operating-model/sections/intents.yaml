@@ -833,8 +833,8 @@ intents:
     - dashboard_vision_prompt_response_dto
     - service_errors
 - id: process_vision_conversation_turn
-  description: Advance one persisted `/vision` conversation turn through backend-owned stepwise orchestration.
-  mutating: false
+  description: Advance one persisted `/vision` conversation turn through backend-owned stepwise orchestration, including review-to-execution when the flag is enabled and the user explicitly confirms.
+  mutating: true
   required_inputs:
   - authenticated_user
   - prompt_text
@@ -853,6 +853,13 @@ intents:
     - vision_conversation_turn_response_dto
     - vision_slot_summary_dto
     - vision_quest_review_dto
+    - service_errors
+  - step: 2
+    action: Keep the turn read-only until the conversation reaches review-ready state; execute the first real quest creation only when the execution flag is enabled and the user explicitly confirms.
+    source_refs:
+    - vision_conversation_service
+    - vision_create_quest_execution_adapter
+    - create_quest_use_case
     - service_errors
 - id: transcribe_dashboard_voice
   description: Transcribe a recorded voice clip into text for the authenticated user's adaptive surface.

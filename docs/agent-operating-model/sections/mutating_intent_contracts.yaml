@@ -126,6 +126,13 @@ mutating_intent_contracts:
   notifications: [none]
   blocking_conditions: [invalid quest payload, unresolved creator, unsupported location state]
   source_refs: [create_quest_use_case, quest_execution_primitive_service]
+- intent_id: process_vision_conversation_turn
+  preconditions: [authenticated actor, persisted vision conversation, execution flag enabled, review-ready create quest conversation, explicit confirmation]
+  state_changes: [persist new quest through the vision conversation executor path]
+  side_effects: [store execution result in the conversation timeline, preserve backend-owned clarification and review flow]
+  notifications: [none]
+  blocking_conditions: [execution flag disabled, review not ready, confirmation missing, invalid collected quest slots, quest validation failure]
+  source_refs: [vision_conversation_service, vision_create_quest_execution_adapter, create_quest_use_case]
 - intent_id: update_quest
   preconditions: [exact quest identity, owner or admin authority, validated quest payload]
   state_changes: [persist quest field updates]

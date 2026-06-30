@@ -2,13 +2,19 @@ import {api, withAuth} from "../../../api/httpClient.ts"
 import {dashboardApi, type DashboardVoiceTranscription} from "../../workmarket/api/clients/dashboardApi.ts"
 import type {DashboardVoiceConfig} from "../../workmarket/api/contracts.ts"
 
-export type VisionAgentState = "ASKING" | "REVIEW_READY" | "BLOCKED"
-export type VisionNextAction = "ASK_FOR_SLOT" | "SHOW_REVIEW" | "BLOCKED"
+export type VisionAgentState = "ASKING" | "REVIEW_READY" | "COMPLETE" | "BLOCKED"
+export type VisionNextAction = "ASK_FOR_SLOT" | "SHOW_REVIEW" | "COMPLETE" | "BLOCKED"
+export type VisionCanvasMode = "clarification" | "review" | "complete" | "blocked"
 
 export type VisionSlotSummary = {
   slotId: string
   label: string
   value: string
+}
+
+export type VisionOption = {
+  id: string
+  label: string
 }
 
 export type VisionQuestReview = {
@@ -18,11 +24,26 @@ export type VisionQuestReview = {
   visibility: string
 }
 
+export type VisionCanvasBlock = {
+  type: "agent_message" | "recognized_prompt" | "field_request" | "result_summary" | "review_summary" | "warning" | "success"
+  title: string | null
+  body: string | null
+  fieldId: string | null
+  fieldKind: string | null
+  required: boolean
+  placeholder: string | null
+  options: VisionOption[]
+  items: VisionSlotSummary[]
+  review: VisionQuestReview | null
+  tone: string | null
+}
+
 export type VisionConversationTurnResponse = {
   conversationId: number
   turnId: number
   intent: string
   agentState: VisionAgentState
+  canvasMode: VisionCanvasMode
   nextAction: VisionNextAction
   message: string
   requestedSlot: string | null
@@ -30,6 +51,7 @@ export type VisionConversationTurnResponse = {
   translationApplied: boolean
   translationReliable: boolean
   executionEnabled: boolean
+  blocks: VisionCanvasBlock[]
   slotSummaries: VisionSlotSummary[]
   review: VisionQuestReview | null
 }

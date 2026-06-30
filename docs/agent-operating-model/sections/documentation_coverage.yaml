@@ -28,6 +28,7 @@ documentation_coverage:
     - app_user_lookup_service
     - dashboard_service
     - vision_conversation_service
+    - vision_create_quest_execution_adapter
     - quest_service
     - quest_application_service
     - quest_application_workflow_support
@@ -191,6 +192,8 @@ documentation_coverage:
     source_refs:
     - vision_conversation_turn_request_dto
     - vision_conversation_turn_response_dto
+    - vision_canvas_block_dto
+    - vision_option_dto
     - vision_slot_summary_dto
     - vision_quest_review_dto
   - id: workmarket_quest_detail_contract_dtos

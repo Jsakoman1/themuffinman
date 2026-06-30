@@ -15,6 +15,7 @@ const {
   speechRecognitionSupported,
   speechSynthesisSupported,
   promptComposerVisible,
+  displayBlocks,
   currentSlotLabel,
   currentPlaceholder,
   currentMessage,
@@ -24,8 +25,10 @@ const {
   voiceRuntimeError,
   lastTranscript,
   canSend,
+  canConfirm,
   init,
   processPrompt,
+  confirmReview,
   resetConversation,
   startListening,
   stopListening,
@@ -58,6 +61,9 @@ const nextActionLabel = computed(() => {
   }
   if (response.value.nextAction === "SHOW_REVIEW") {
     return "Review"
+  }
+  if (response.value.nextAction === "COMPLETE") {
+    return "Complete"
   }
   if (response.value.nextAction === "BLOCKED") {
     return "Blocked"
@@ -103,39 +109,67 @@ useMountedAsync(init)
 
       <transition name="vision-panel-fade">
         <section v-if="response" class="vision-panel">
-          <div class="vision-panel__section">
-            <p class="vision-panel__label">Agent response</p>
-            <p class="vision-panel__body">{{ response.message }}</p>
-          </div>
+          <div
+            v-for="(block, index) in displayBlocks"
+            :key="`${block.type}-${index}`"
+            class="vision-panel__section"
+            :class="{
+              'vision-review': block.type === 'review_summary',
+              'vision-panel__section--warning': block.type === 'warning',
+              'vision-panel__section--field': block.type === 'field_request',
+              'vision-panel__section--success': block.type === 'success'
+            }"
+          >
+            <p v-if="block.title" class="vision-panel__label">{{ block.title }}</p>
+            <p v-if="block.body" class="vision-panel__body">{{ block.body }}</p>
 
-          <div v-if="response.slotSummaries.length" class="vision-panel__section">
-            <p class="vision-panel__label">Collected so far</p>
-            <div class="vision-slot-list">
-              <article v-for="slot in response.slotSummaries" :key="slot.slotId" class="vision-slot-card">
+            <div v-if="block.type === 'result_summary' && block.items.length" class="vision-slot-list">
+              <article v-for="slot in block.items" :key="slot.slotId" class="vision-slot-card">
                 <span class="vision-slot-card__label">{{ slot.label }}</span>
                 <p class="vision-slot-card__value">{{ slot.value }}</p>
               </article>
             </div>
-          </div>
 
-          <div v-if="response.review" class="vision-panel__section vision-review">
-            <p class="vision-panel__label">Review</p>
-            <h2>{{ response.review.title }}</h2>
-            <p>{{ response.review.description }}</p>
-            <dl class="vision-review__grid">
-              <div>
-                <dt>Reward</dt>
-                <dd>{{ response.review.rewardLabel }}</dd>
+            <div v-if="block.type === 'field_request' && block.options.length" class="vision-choice-list">
+              <button
+                v-for="option in block.options"
+                :key="option.id"
+                type="button"
+                class="vision-choice-chip"
+                @click="inputText = option.label"
+              >
+                {{ option.label }}
+              </button>
+            </div>
+
+            <template v-if="block.type === 'review_summary' && block.review">
+              <h2>{{ block.review.title }}</h2>
+              <p>{{ block.review.description }}</p>
+              <dl class="vision-review__grid">
+                <div>
+                  <dt>Reward</dt>
+                  <dd>{{ block.review.rewardLabel }}</dd>
+                </div>
+                <div>
+                  <dt>Visibility</dt>
+                  <dd>{{ block.review.visibility }}</dd>
+                </div>
+                <div>
+                  <dt>Execution</dt>
+                  <dd>{{ response.executionEnabled ? "Enabled" : "Planning only" }}</dd>
+                </div>
+              </dl>
+              <div class="vision-review__actions">
+                <button
+                  type="button"
+                  class="vision-composer__action vision-composer__action--primary"
+                  :disabled="!canConfirm"
+                  @click="confirmReview"
+                >
+                  Confirm and create
+                </button>
               </div>
-              <div>
-                <dt>Visibility</dt>
-                <dd>{{ response.review.visibility }}</dd>
-              </div>
-              <div>
-                <dt>Execution</dt>
-                <dd>{{ response.executionEnabled ? "Enabled" : "Planning only" }}</dd>
-              </div>
-            </dl>
+            </template>
           </div>
 
           <div v-if="lastTranscript" class="vision-panel__section">
@@ -443,6 +477,24 @@ useMountedAsync(init)
   gap: 0.55rem;
 }
 
+.vision-panel__section--warning {
+  padding: 0.9rem 1rem;
+  border-radius: 1.2rem;
+  background: rgba(255, 244, 229, 0.9);
+}
+
+.vision-panel__section--field {
+  padding: 0.9rem 1rem;
+  border-radius: 1.2rem;
+  background: rgba(244, 249, 255, 0.88);
+}
+
+.vision-panel__section--success {
+  padding: 0.9rem 1rem;
+  border-radius: 1.2rem;
+  background: rgba(237, 250, 241, 0.95);
+}
+
 .vision-panel__label {
   margin: 0;
   font-size: 0.72rem;
@@ -460,6 +512,28 @@ useMountedAsync(init)
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: 0.8rem;
+}
+
+.vision-choice-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.vision-choice-chip {
+  appearance: none;
+  border: 1px solid rgba(24, 36, 47, 0.08);
+  border-radius: 999px;
+  padding: 0.65rem 0.95rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: #18242f;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.vision-choice-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(24, 36, 47, 0.08);
 }
 
 .vision-slot-card {
@@ -511,6 +585,12 @@ useMountedAsync(init)
 .vision-review__grid dd {
   margin: 0.35rem 0 0;
   color: #18242f;
+}
+
+.vision-review__actions {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 0.2rem;
 }
 
 .vision-composer {

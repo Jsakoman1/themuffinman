@@ -121,6 +121,23 @@ service_workflow_inventory:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java
+- id: vision_create_quest_executor_flow
+  service_class: com.themuffinman.app.vision.service.VisionConversationService
+  service_methods:
+  - processTurn
+  - handleCreateQuestReviewTurn
+  covered_intents:
+  - process_vision_conversation_turn
+  automation_relevant: true
+  source_refs:
+  - vision_conversation_service
+  - vision_create_quest_execution_adapter
+  - create_quest_use_case
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
 - id: quest_update_write_flow
   service_class: com.themuffinman.app.workmarket.service.UpdateQuestUseCase
   service_methods:

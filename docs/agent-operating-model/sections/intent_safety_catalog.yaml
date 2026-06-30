@@ -23,7 +23,6 @@ intent_safety_catalog:
     - open_dashboard_summary
     - open_dashboard_voice_config
     - process_dashboard_vision_prompt
-    - process_vision_conversation_turn
     - transcribe_dashboard_voice
     - speak_dashboard_voice
     - open_news_feed
@@ -64,6 +63,7 @@ intent_safety_catalog:
     - unblock_user
     - assign_circle_members
     - create_quest
+    - process_vision_conversation_turn
     - update_quest
     - apply_to_quest
     - update_my_application

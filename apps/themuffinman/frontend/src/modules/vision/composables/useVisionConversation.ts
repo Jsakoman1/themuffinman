@@ -1,9 +1,9 @@
 import {computed, onUnmounted, ref} from "vue"
-import {visionApi, type VisionConversationTurnResponse} from "../api/visionApi.ts"
+import {visionApi, type VisionCanvasBlock, type VisionConversationTurnResponse} from "../api/visionApi.ts"
 import type {DashboardVoiceConfig} from "../../workmarket/api/contracts.ts"
 
 export type VisionVoiceState = "idle" | "listening" | "processing" | "speaking"
-export type VisionAttentionState = "quiet" | "listening" | "processing" | "speaking" | "asking" | "review" | "blocked"
+export type VisionAttentionState = "quiet" | "listening" | "processing" | "speaking" | "asking" | "review" | "complete" | "blocked"
 
 const slotLabels: Record<string, string> = {
   quest_title: "Title",
@@ -47,20 +47,21 @@ export const useVisionConversation = () => {
     && typeof MediaRecorder !== "undefined")
   const speechSynthesisSupported = computed(() => typeof window !== "undefined" && typeof Audio !== "undefined")
 
+  const fieldRequestBlock = computed(() => response.value?.blocks.find((block) => block.type === "field_request") ?? null)
   const promptComposerVisible = computed(() => composerExpanded.value
     || voiceState.value !== "idle"
-    || !!response.value?.requestedSlot
-    || !!response.value?.review)
+    || !!fieldRequestBlock.value
+    || response.value?.canvasMode === "review")
 
   const currentSlotLabel = computed(() => {
-    const slotId = response.value?.requestedSlot
-    return slotId ? (slotLabels[slotId] ?? "Next field") : ""
+    const slotId = fieldRequestBlock.value?.fieldId
+    return slotId ? (slotLabels[slotId] ?? fieldRequestBlock.value?.title ?? "Next field") : ""
   })
 
   const currentPlaceholder = computed(() => {
-    const slotId = response.value?.requestedSlot
+    const slotId = fieldRequestBlock.value?.fieldId
     if (slotId) {
-      return slotPlaceholders[slotId] ?? "Type the next detail"
+      return fieldRequestBlock.value?.placeholder ?? slotPlaceholders[slotId] ?? "Type the next detail"
     }
     return "Tell the agent what you want to do"
   })
@@ -80,6 +81,9 @@ export const useVisionConversation = () => {
     if (response.value?.agentState === "BLOCKED") {
       return "blocked"
     }
+    if (response.value?.agentState === "COMPLETE") {
+      return "complete"
+    }
     if (response.value?.agentState === "REVIEW_READY") {
       return "review"
     }
@@ -93,16 +97,24 @@ export const useVisionConversation = () => {
     if (!response.value) {
       return ""
     }
-    if (!response.value.translationReliable) {
-      return "Translation was not fully reliable, so review the wording carefully."
-    }
-    if (response.value.translationApplied) {
-      return "The backend translated your prompt before orchestration."
+    const warningBlock = response.value.blocks.find((block) => block.type === "warning")
+    if (warningBlock?.body) {
+      return warningBlock.body
     }
     return ""
   })
 
+  const displayBlocks = computed<VisionCanvasBlock[]>(() => {
+    if (!response.value) {
+      return []
+    }
+    return response.value.blocks.filter((block) => block.type !== "agent_message")
+  })
+
   const canSend = computed(() => inputText.value.trim().length > 0 && voiceState.value !== "processing")
+  const canConfirm = computed(() => response.value?.canvasMode === "review"
+    && response.value.executionEnabled
+    && voiceState.value === "idle")
 
   const speechStatusLabel = computed(() => {
     if (!voiceEnabled.value) {
@@ -166,6 +178,10 @@ export const useVisionConversation = () => {
       voiceRuntimeError.value = "Vision conversation processing failed in the backend."
       voiceState.value = "idle"
     }
+  }
+
+  const confirmReview = async () => {
+    await processPrompt("confirm", "text")
   }
 
   const resetConversation = () => {
@@ -308,7 +324,7 @@ export const useVisionConversation = () => {
   }
 
   const closeComposer = () => {
-    if (voiceState.value !== "idle" || !!response.value?.requestedSlot || !!response.value?.review) {
+    if (voiceState.value !== "idle" || !!fieldRequestBlock.value || response.value?.canvasMode === "review") {
       return
     }
     composerExpanded.value = false
@@ -332,6 +348,7 @@ export const useVisionConversation = () => {
     speechRecognitionSupported,
     speechSynthesisSupported,
     promptComposerVisible,
+    displayBlocks,
     currentSlotLabel,
     currentPlaceholder,
     currentMessage,
@@ -341,8 +358,10 @@ export const useVisionConversation = () => {
     voiceRuntimeError,
     lastTranscript,
     canSend,
+    canConfirm,
     init,
     processPrompt,
+    confirmReview,
     resetConversation,
     startListening,
     stopListening,

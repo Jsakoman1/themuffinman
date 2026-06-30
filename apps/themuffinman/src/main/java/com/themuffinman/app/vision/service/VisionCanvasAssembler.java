@@ -2,6 +2,8 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
+import com.themuffinman.app.vision.dto.VisionCanvasBlockDTO;
+import com.themuffinman.app.vision.dto.VisionOptionDTO;
 import com.themuffinman.app.vision.dto.VisionQuestReviewDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
@@ -27,6 +29,7 @@ public class VisionCanvasAssembler {
                 .turnId(turn.getId())
                 .intent(conversation.getIntent().name())
                 .agentState(turn.getAgentState().name())
+                .canvasMode(toCanvasMode(turn))
                 .nextAction(turn.getNextAction().name())
                 .message(turn.getAssistantMessage())
                 .requestedSlot(turn.getRequestedSlot())
@@ -34,9 +37,93 @@ public class VisionCanvasAssembler {
                 .translationApplied(turn.isTranslationApplied())
                 .translationReliable(turn.isTranslationReliable())
                 .executionEnabled(visionProperties.isExecutionEnabled())
+                .blocks(toBlocks(conversation, turn))
                 .slotSummaries(toSlotSummaries(conversation.getSlotData()))
                 .review(toReview(conversation.getSlotData(), turn))
                 .build();
+    }
+
+    private String toCanvasMode(VisionTurn turn) {
+        return switch (turn.getNextAction()) {
+            case ASK_FOR_SLOT -> "clarification";
+            case SHOW_REVIEW -> "review";
+            case COMPLETE -> "complete";
+            case BLOCKED -> "blocked";
+        };
+    }
+
+    private List<VisionCanvasBlockDTO> toBlocks(VisionConversation conversation, VisionTurn turn) {
+        List<VisionCanvasBlockDTO> blocks = new ArrayList<>();
+        blocks.add(VisionCanvasBlockDTO.builder()
+                .type("agent_message")
+                .body(turn.getAssistantMessage())
+                .tone(turn.getAgentState() == com.themuffinman.app.vision.model.VisionAgentState.BLOCKED ? "warning" : "neutral")
+                .build());
+
+        blocks.add(VisionCanvasBlockDTO.builder()
+                .type("recognized_prompt")
+                .title("Recognized input")
+                .body(turn.getNormalizedPrompt())
+                .build());
+
+        if (!turn.isTranslationReliable()) {
+            blocks.add(VisionCanvasBlockDTO.builder()
+                    .type("warning")
+                    .title("Translation check")
+                    .body("Translation reliability dropped for this turn, so review the wording carefully.")
+                    .tone("warning")
+                    .build());
+        }
+
+        List<VisionSlotSummaryDTO> summaries = toSlotSummaries(conversation.getSlotData());
+        if (!summaries.isEmpty()) {
+            blocks.add(VisionCanvasBlockDTO.builder()
+                    .type("result_summary")
+                    .title("Collected so far")
+                    .items(summaries)
+                    .build());
+        }
+
+        if (turn.getRequestedSlot() != null && turn.getNextAction() == com.themuffinman.app.vision.model.VisionNextAction.ASK_FOR_SLOT) {
+            blocks.add(VisionCanvasBlockDTO.builder()
+                    .type("field_request")
+                    .title(labelForSlot(turn.getRequestedSlot()))
+                    .body(turn.getAssistantMessage())
+                    .fieldId(turn.getRequestedSlot())
+                    .fieldKind(kindForSlot(turn.getRequestedSlot()))
+                    .required(true)
+                    .placeholder(placeholderForSlot(turn.getRequestedSlot()))
+                    .options(optionsForSlot(turn.getRequestedSlot()))
+                    .build());
+        }
+
+        VisionQuestReviewDTO review = toReview(conversation.getSlotData(), turn);
+        if (review != null) {
+            blocks.add(VisionCanvasBlockDTO.builder()
+                    .type("review_summary")
+                    .title("Quest review")
+                    .body(visionProperties.isExecutionEnabled()
+                            ? "Review the collected quest data before confirmation."
+                            : "Execution is still disabled, so this phase stops at review.")
+                    .review(review)
+                    .tone(visionProperties.isExecutionEnabled() ? "neutral" : "info")
+                    .build());
+        }
+
+        if (turn.getNextAction() == com.themuffinman.app.vision.model.VisionNextAction.COMPLETE) {
+            String createdQuestId = conversation.getSlotData().get("created_quest_id");
+            String createdQuestTitle = conversation.getSlotData().get("quest_title");
+            blocks.add(VisionCanvasBlockDTO.builder()
+                    .type("success")
+                    .title("Quest created")
+                    .body(createdQuestId == null
+                            ? "The quest was created successfully."
+                            : "Created quest #" + createdQuestId + " for " + createdQuestTitle + ".")
+                    .tone("success")
+                    .build());
+        }
+
+        return blocks;
     }
 
     private List<VisionSlotSummaryDTO> toSlotSummaries(Map<String, String> slotData) {
@@ -76,5 +163,44 @@ public class VisionCanvasAssembler {
                 .label(label)
                 .value(value)
                 .build());
+    }
+
+    private String labelForSlot(String slotId) {
+        return switch (slotId) {
+            case "quest_title" -> "Title";
+            case "quest_description" -> "Description";
+            case "reward_amount" -> "Reward";
+            case "visibility" -> "Visibility";
+            default -> "Next field";
+        };
+    }
+
+    private String kindForSlot(String slotId) {
+        return switch (slotId) {
+            case "quest_description" -> "long_text";
+            case "reward_amount" -> "money";
+            case "visibility" -> "single_choice";
+            default -> "short_text";
+        };
+    }
+
+    private String placeholderForSlot(String slotId) {
+        return switch (slotId) {
+            case "quest_title" -> "Name the quest in a few words";
+            case "quest_description" -> "Describe the task clearly";
+            case "reward_amount" -> "Example: 20 euros or free";
+            case "visibility" -> "Choose who should see the quest";
+            default -> "Type the next detail";
+        };
+    }
+
+    private List<VisionOptionDTO> optionsForSlot(String slotId) {
+        if (!"visibility".equals(slotId)) {
+            return List.of();
+        }
+        return List.of(
+                VisionOptionDTO.builder().id("PUBLIC").label("Public").build(),
+                VisionOptionDTO.builder().id("CIRCLES").label("Circles only").build()
+        );
     }
 }

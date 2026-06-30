@@ -73,16 +73,16 @@ export type Type = typeof TYPE_VALUES[number]
 export const USER_LOCATION_MODE_VALUES = ["OFF", "APPROXIMATE", "EXACT"] as const
 export type UserLocationMode = typeof USER_LOCATION_MODE_VALUES[number]
 
-export const VISION_AGENT_STATE_VALUES = ["ASKING", "REVIEW_READY", "BLOCKED"] as const
+export const VISION_AGENT_STATE_VALUES = ["ASKING", "REVIEW_READY", "COMPLETE", "BLOCKED"] as const
 export type VisionAgentState = typeof VISION_AGENT_STATE_VALUES[number]
 
-export const VISION_CONVERSATION_STATUS_VALUES = ["ACTIVE", "REVIEW_READY", "BLOCKED"] as const
+export const VISION_CONVERSATION_STATUS_VALUES = ["ACTIVE", "REVIEW_READY", "COMPLETED", "BLOCKED"] as const
 export type VisionConversationStatus = typeof VISION_CONVERSATION_STATUS_VALUES[number]
 
 export const VISION_INTENT_VALUES = ["CREATE_QUEST", "UNSUPPORTED"] as const
 export type VisionIntent = typeof VISION_INTENT_VALUES[number]
 
-export const VISION_NEXT_ACTION_VALUES = ["ASK_FOR_SLOT", "SHOW_REVIEW", "BLOCKED"] as const
+export const VISION_NEXT_ACTION_VALUES = ["ASK_FOR_SLOT", "SHOW_REVIEW", "COMPLETE", "BLOCKED"] as const
 export type VisionNextAction = typeof VISION_NEXT_ACTION_VALUES[number]
 
 export const VISION_TURN_SOURCE_VALUES = ["TEXT", "VOICE"] as const
@@ -1371,6 +1371,20 @@ export interface UserReviewResponseDTO {
   updatedAt: string
 }
 
+export interface VisionCanvasBlockDTO {
+  type: string
+  title: string
+  body: string
+  fieldId: string
+  fieldKind: string
+  required: boolean
+  placeholder: string
+  options: VisionOptionDTO[]
+  items: VisionSlotSummaryDTO[]
+  review: VisionQuestReviewDTO
+  tone: string
+}
+
 export interface VisionConversationTurnRequestDTO {
   conversationId: number
   prompt: string
@@ -1382,6 +1396,7 @@ export interface VisionConversationTurnResponseDTO {
   turnId: number
   intent: string
   agentState: string
+  canvasMode: string
   nextAction: string
   message: string
   requestedSlot: string
@@ -1389,8 +1404,14 @@ export interface VisionConversationTurnResponseDTO {
   translationApplied: boolean
   translationReliable: boolean
   executionEnabled: boolean
+  blocks: VisionCanvasBlockDTO[]
   slotSummaries: VisionSlotSummaryDTO[]
   review: VisionQuestReviewDTO
+}
+
+export interface VisionOptionDTO {
+  id: string
+  label: string
 }
 
 export interface VisionQuestReviewDTO {

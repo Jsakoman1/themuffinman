@@ -161,6 +161,7 @@ Related admin tooling:
 - when configured, the same admin endpoint may request a backend-managed OpenAI planning summary and still fall back to deterministic backend rules
 - planner responses should keep deterministic matched signals and unresolved inputs separate from provider-authored summary text
 - the dedicated `/vision/conversations/turns` backend is the persisted conversation path for stepwise adaptive orchestration, while dashboard prompt decoding remains a lighter planning surface
+- when the execution flag is enabled, that same persisted conversation path may cross from review into the first real `create_quest` executor only after explicit confirmation
 
 Initial machine policies:
 - `uniqueness_policy`
