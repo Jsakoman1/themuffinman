@@ -67,7 +67,7 @@ Do not let one Vue file absorb the entire block vocabulary once the backend resp
 
 Route-shell behavior should also stay blank-canvas oriented:
 - avoid persistent page headers and module chrome when the task does not need them
-- reveal status, memory, and support context only when useful
+- reveal status, memory, and support context through one compact contextual control only when useful
 - keep the animated agent and prompt dock as the dominant anchors in the default state
 - auto-reveal state context when the backend enters review, blocked, or complete modes, because those are the moments when the user needs summary context most
 

@@ -47,7 +47,6 @@ const {
 } = useVisionConversation()
 
 const contextPinned = ref(false)
-const memoryVisible = ref(false)
 
 const agentCaption = computed(() => {
   if (voiceState.value === "listening") {
@@ -175,27 +174,16 @@ useMountedAsync(init)
     <div class="vision-surface__grain" aria-hidden="true"></div>
 
     <div class="vision-surface__controls">
-      <button
-        type="button"
-        class="vision-surface__control vision-surface__control--status"
-        @click="contextPinned = !contextPinned"
-      >
-        <span class="vision-surface__control-label">State</span>
-        <span class="vision-surface__control-value">{{ surfaceStatusLabel }}</span>
-      </button>
-      <button
-        v-if="recentConversations.length"
-        type="button"
-        class="vision-surface__control"
-        @click="memoryVisible = !memoryVisible"
-      >
-        <span class="vision-surface__control-label">Memory</span>
-        <span class="vision-surface__control-value">{{ recentConversations.length }} tasks</span>
+      <button type="button" class="vision-surface__control vision-surface__control--context" @click="contextPinned = !contextPinned">
+        <span class="vision-surface__control-label">Context</span>
+        <span class="vision-surface__control-value">
+          {{ surfaceStatusLabel }}<span v-if="recentConversations.length"> · {{ recentConversations.length }} tasks</span>
+        </span>
       </button>
     </div>
 
     <transition name="vision-float-fade">
-      <aside v-if="contextVisible" class="vision-floating-card vision-floating-card--status">
+      <aside v-if="contextVisible" class="vision-floating-card vision-floating-card--context">
         <p class="vision-floating-card__eyebrow">Current state</p>
         <p class="vision-floating-card__title">{{ surfaceStatusLabel }}</p>
         <p class="vision-floating-card__body">{{ surfaceStatusDetail }}</p>
@@ -203,39 +191,36 @@ useMountedAsync(init)
           <span v-if="response?.intent">{{ response.intent }}</span>
           <span v-if="currentSlotLabel">{{ currentSlotLabel }}</span>
         </div>
-      </aside>
-    </transition>
-
-    <transition name="vision-float-fade">
-      <aside v-if="memoryVisible && recentConversations.length" class="vision-floating-card vision-floating-card--memory">
-        <p class="vision-floating-card__eyebrow">Recent tasks</p>
-        <section
-          v-for="group in recentConversationGroups"
-          :key="group.key"
-          class="vision-recent-group"
-        >
-          <p class="vision-recent-group__title">{{ group.title }}</p>
-          <div class="vision-choice-list vision-choice-list--recent">
-            <button
-              v-for="conversation in group.items"
-              :key="conversation.conversationId"
-              type="button"
-              class="vision-choice-chip vision-choice-chip--recent"
-              :class="{
-                'vision-choice-chip--completed': conversation.completed,
-                'vision-choice-chip--active': conversation.resumable,
-                'vision-choice-chip--stale': conversation.stale
-              }"
-              :disabled="!conversation.resumable"
-              @click="openRecentConversation(conversation.conversationId, conversation.resumable)"
-            >
-              <span class="vision-recent-task__stage">
-                {{ conversation.stageLabel }}<span v-if="conversation.stale"> · Stale</span>
-              </span>
-              <span class="vision-recent-task__title">{{ conversation.title }}</span>
-              <span class="vision-recent-task__progress">{{ conversation.progressLabel }}</span>
-            </button>
-          </div>
+        <section v-if="recentConversations.length" class="vision-recent-group vision-recent-group--drawer">
+          <p class="vision-floating-card__eyebrow">Recent tasks</p>
+          <section
+            v-for="group in recentConversationGroups"
+            :key="group.key"
+            class="vision-recent-group"
+          >
+            <p class="vision-recent-group__title">{{ group.title }}</p>
+            <div class="vision-choice-list vision-choice-list--recent">
+              <button
+                v-for="conversation in group.items"
+                :key="conversation.conversationId"
+                type="button"
+                class="vision-choice-chip vision-choice-chip--recent"
+                :class="{
+                  'vision-choice-chip--completed': conversation.completed,
+                  'vision-choice-chip--active': conversation.resumable,
+                  'vision-choice-chip--stale': conversation.stale
+                }"
+                :disabled="!conversation.resumable"
+                @click="openRecentConversation(conversation.conversationId, conversation.resumable)"
+              >
+                <span class="vision-recent-task__stage">
+                  {{ conversation.stageLabel }}<span v-if="conversation.stale"> · Stale</span>
+                </span>
+                <span class="vision-recent-task__title">{{ conversation.title }}</span>
+                <span class="vision-recent-task__progress">{{ conversation.progressLabel }}</span>
+              </button>
+            </div>
+          </section>
         </section>
       </aside>
     </transition>
@@ -365,10 +350,6 @@ useMountedAsync(init)
   background: rgba(255, 255, 255, 0.76);
 }
 
-.vision-surface__control--status {
-  margin-right: auto;
-}
-
 .vision-surface__control-label {
   font-size: 0.68rem;
   letter-spacing: 0.14em;
@@ -391,19 +372,10 @@ useMountedAsync(init)
   box-shadow: 0 30px 80px rgba(24, 36, 47, 0.1);
 }
 
-.vision-floating-card--status {
+.vision-floating-card--context {
   top: 5.4rem;
   left: 1.25rem;
   width: min(24rem, calc(100vw - 2.5rem));
-  padding: 1rem 1.1rem;
-}
-
-.vision-floating-card--memory {
-  top: 5.4rem;
-  right: 1.25rem;
-  width: min(32rem, calc(100vw - 2.5rem));
-  max-height: min(70vh, 42rem);
-  overflow: auto;
   padding: 1rem 1.1rem;
 }
 
@@ -497,6 +469,10 @@ useMountedAsync(init)
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: 0.7rem;
   width: 100%;
+  margin-top: 1rem;
+}
+
+.vision-recent-group--drawer {
   margin-top: 1rem;
 }
 
@@ -622,8 +598,7 @@ useMountedAsync(init)
     flex: 1 1 0;
   }
 
-  .vision-floating-card--status,
-  .vision-floating-card--memory {
+  .vision-floating-card--context {
     left: 1rem;
     right: 1rem;
     width: auto;
