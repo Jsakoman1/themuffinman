@@ -26,6 +26,7 @@ It should stay short, factual, and updated when a vision batch materially change
 - the `/vision` route shell now behaves more like a blank canvas by hiding state and recent-task context behind secondary reveal controls instead of keeping header chrome and task lists always open
 - the route shell now auto-reveals state context for review, blocked, and complete modes while staying quiet in routine clarification mode
 - the animated agent surface now uses layered drift, halo, and spark motion to read as a living presence instead of a flat indicator
+- the prompt dock now starts collapsed on the blank canvas and opens through a small launcher instead of occupying the default idle state
 
 ## In Progress
 

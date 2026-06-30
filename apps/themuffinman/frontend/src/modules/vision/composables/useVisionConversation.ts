@@ -45,7 +45,7 @@ export const useVisionConversation = () => {
   const voiceConfig = ref<DashboardVoiceConfig | null>(null)
   const voiceRuntimeError = ref("")
   const voiceState = ref<VisionVoiceState>("idle")
-  const composerExpanded = ref(true)
+  const composerExpanded = ref(false)
   const lastTranscript = ref("")
 
   const mediaRecorder = ref<MediaRecorder | null>(null)

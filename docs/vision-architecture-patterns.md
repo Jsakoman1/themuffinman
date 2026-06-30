@@ -76,6 +76,11 @@ Animated agent motion should feel layered and ambient:
 - increase motion slightly when the backend is listening or processing
 - keep the center readable and calm, not noisy or gimmicky
 
+Prompt composer behavior should also stay blank-canvas oriented:
+- start collapsed when the surface is idle
+- expose a compact launcher for opening the dock
+- expand automatically only when the backend asks for input, the user is composing, or the flow needs review context
+
 ## Locked Preflight Decisions
 
 Treat these as the default architecture baseline for upcoming `/vision` implementation unless a later documented architecture change replaces them:
