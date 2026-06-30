@@ -2,6 +2,7 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.location.dto.LocationLookupCandidateDTO;
 import com.themuffinman.app.location.service.LocationLookupService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -15,6 +16,7 @@ public class VisionLocationResolutionService {
     private final VisionLocationParserService visionLocationParserService;
     private final LocationLookupService locationLookupService;
 
+    @Autowired
     public VisionLocationResolutionService(
             VisionLocationParserService visionLocationParserService,
             LocationLookupService locationLookupService

@@ -10,6 +10,8 @@ import {clearSession, currentUser, saveSession, token} from "./services/sessionS
 const route = useRoute()
 const currentYear = computed(() => new Date().getFullYear())
 const isAdminRoute = computed(() => route.path.startsWith("/admin"))
+const isVisionRoute = computed(() => route.path.startsWith("/vision"))
+const showLegacyChrome = computed(() => !isAdminRoute.value && !isVisionRoute.value)
 
 onMounted(() => {
   if (!token.value) {
@@ -34,16 +36,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="['app-shell', { 'app-shell--with-chat': !!currentUser }]">
-    <AppTopbar v-if="!isAdminRoute" />
+  <div :class="['app-shell', { 'app-shell--with-chat': !!currentUser && showLegacyChrome, 'app-shell--vision': isVisionRoute }]">
+    <AppTopbar v-if="showLegacyChrome" />
 
     <main class="app-main">
       <router-view/>
     </main>
 
-    <AppChatTray v-if="!isAdminRoute" />
+    <AppChatTray v-if="showLegacyChrome" />
 
-    <footer v-if="!isAdminRoute" class="site-footer">
+    <footer v-if="showLegacyChrome" class="site-footer">
       <span class="site-footer__flag" aria-hidden="true">🇨🇭</span>
       <span>© {{ currentYear }} Sakoman. Made in Switzerland.</span>
     </footer>

@@ -132,7 +132,7 @@ const updateInputText = (event: Event) => {
 .vision-composer {
   position: fixed;
   left: 50%;
-  bottom: 1.2rem;
+  bottom: calc(6.75rem + env(safe-area-inset-bottom));
   z-index: 2;
   width: min(56rem, calc(100vw - 1.4rem));
   transform: translateX(-50%);
@@ -236,12 +236,15 @@ const updateInputText = (event: Event) => {
 .vision-composer-launcher {
   position: fixed;
   left: 50%;
-  bottom: 1.25rem;
-  z-index: 2;
+  bottom: calc(6.75rem + env(safe-area-inset-bottom));
+  z-index: 4;
   transform: translateX(-50%);
-  background: var(--vision-surface-card-strong);
-  color: var(--vision-surface-ink);
-  box-shadow: var(--vision-surface-shadow-float);
+  background: var(--vision-surface-accent-gradient);
+  color: #10202c;
+  border: 1px solid var(--vision-surface-panel-border);
+  box-shadow: 0 24px 60px rgba(24, 36, 47, 0.16);
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .vision-composer-fade-enter-active,
@@ -267,7 +270,7 @@ const updateInputText = (event: Event) => {
   }
 
   .vision-composer {
-    bottom: 0.75rem;
+    bottom: calc(6.5rem + env(safe-area-inset-bottom));
     width: calc(100vw - 0.9rem);
     border-radius: 1.5rem;
   }
