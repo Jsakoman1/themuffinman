@@ -114,6 +114,11 @@ const surfaceStatusDetail = computed(() => {
   return agentCaption.value
 })
 
+const showIntroDetail = computed(() => !!response.value
+  || voiceState.value !== "idle"
+  || !!translationWarning.value
+  || !!voiceRuntimeError.value)
+
 const autoContextVisible = computed(() => {
   if (!response.value) {
     return false
@@ -241,7 +246,7 @@ useMountedAsync(init)
       <div class="vision-surface__intro">
         <p class="vision-surface__eyebrow">Blank canvas</p>
         <h1>One surface that waits until it matters.</h1>
-        <p>{{ agentCaption }}</p>
+        <p v-if="showIntroDetail">{{ agentCaption }}</p>
         <p v-if="translationWarning && !contextVisible" class="vision-surface__hint">{{ translationWarning }}</p>
         <p v-if="voiceRuntimeError && !contextVisible" class="vision-surface__error">{{ voiceRuntimeError }}</p>
       </div>
