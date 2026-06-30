@@ -27,6 +27,8 @@ It should stay short, factual, and updated when a vision batch materially change
 - the route shell now auto-reveals state context for review, blocked, and complete modes while staying quiet in routine clarification mode
 - the animated agent surface now uses layered drift, halo, and spark motion to read as a living presence instead of a flat indicator
 - the prompt dock now starts collapsed on the blank canvas and opens through a small launcher instead of occupying the default idle state
+- the blank-canvas hero heading now steps aside once the backend has real response content so the canvas can dominate active states
+- the compact context rail stays hidden in a fully idle empty state and only appears when there is real context, a response, or an active interaction
 
 ## In Progress
 

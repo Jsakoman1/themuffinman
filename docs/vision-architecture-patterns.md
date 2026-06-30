@@ -81,6 +81,14 @@ Prompt composer behavior should also stay blank-canvas oriented:
 - expose a compact launcher for opening the dock
 - expand automatically only when the backend asks for input, the user is composing, or the flow needs review context
 
+Idle hero text should not compete with active backend content:
+- show the large intro only while the canvas is actually blank
+- once response blocks exist, let the canvas and orb carry the visual focus
+
+Surface controls should also stay sparse:
+- hide the compact context control while the surface is fully idle and context-free
+- show it again when a response, recent memory, or active voice interaction makes it useful
+
 ## Locked Preflight Decisions
 
 Treat these as the default architecture baseline for upcoming `/vision` implementation unless a later documented architecture change replaces them:

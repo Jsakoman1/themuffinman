@@ -118,6 +118,8 @@ const showIntroDetail = computed(() => !!response.value
   || !!translationWarning.value
   || !!voiceRuntimeError.value)
 
+const showIntroHeading = computed(() => !response.value && voiceState.value === "idle")
+
 const autoContextVisible = computed(() => {
   if (!response.value) {
     return false
@@ -130,6 +132,12 @@ const autoContextVisible = computed(() => {
 })
 
 const contextVisible = computed(() => contextPinned.value || autoContextVisible.value)
+
+const showSurfaceControls = computed(() => !!response.value
+  || recentConversations.value.length > 0
+  || voiceState.value !== "idle"
+  || contextPinned.value
+  || autoContextVisible.value)
 
 const recentConversationGroups = computed(() => {
   const groups = [
@@ -173,7 +181,7 @@ useMountedAsync(init)
     <div class="vision-surface__wash vision-surface__wash--two" aria-hidden="true"></div>
     <div class="vision-surface__grain" aria-hidden="true"></div>
 
-    <div class="vision-surface__controls">
+    <div v-if="showSurfaceControls" class="vision-surface__controls">
       <button type="button" class="vision-surface__control vision-surface__control--context" @click="contextPinned = !contextPinned">
         <span class="vision-surface__control-label">Context</span>
         <span class="vision-surface__control-value">
@@ -229,8 +237,8 @@ useMountedAsync(init)
       <VisionAgentOrb :voice-state="voiceState" :attention-state="attentionState" />
 
       <div class="vision-surface__intro">
-        <p class="vision-surface__eyebrow">Blank canvas</p>
-        <h1>One surface that waits until it matters.</h1>
+        <p v-if="showIntroHeading" class="vision-surface__eyebrow">Blank canvas</p>
+        <h1 v-if="showIntroHeading">One surface that waits until it matters.</h1>
         <p v-if="showIntroDetail">{{ agentCaption }}</p>
         <p v-if="translationWarning && !contextVisible" class="vision-surface__hint">{{ translationWarning }}</p>
         <p v-if="voiceRuntimeError && !contextVisible" class="vision-surface__error">{{ voiceRuntimeError }}</p>
