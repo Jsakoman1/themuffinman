@@ -116,6 +116,11 @@ api:
     path: "/dashboard/me/vision/prompt"
     controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: processVisionPrompt
+  - id: process_vision_conversation_turn
+    method: POST
+    path: "/vision/conversations/turns"
+    controller_class: com.themuffinman.app.vision.controller.VisionConversationController
+    handler_method: processTurn
   - id: transcribe_dashboard_voice
     method: POST
     path: "/dashboard/me/voice/transcribe"

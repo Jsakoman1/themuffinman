@@ -67,12 +67,16 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java
   - id: dashboard_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java
+  - id: vision_conversation_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java
   - id: dashboard_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java
   - id: dashboard_vision_prompt_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardVisionPromptService.java
   - id: dashboard_voice_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardVoiceService.java
+  - id: vision_conversation_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
   - id: openai_voice_client
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/OpenAiVoiceClient.java
   - id: dashboard_application_group_dto
@@ -103,6 +107,14 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVisionPromptRequestDTO.java
   - id: dashboard_vision_prompt_response_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVisionPromptResponseDTO.java
+  - id: vision_conversation_turn_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java
+  - id: vision_conversation_turn_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+  - id: vision_slot_summary_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionSlotSummaryDTO.java
+  - id: vision_quest_review_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestReviewDTO.java
   - id: dashboard_response_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardResponseDTO.java
   - id: dashboard_sections_dto
@@ -453,6 +465,8 @@ source_of_truth:
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java
   - id: admin_agent_golden_prompt_matrix_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
+  - id: vision_conversation_service_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
   - id: admin_agent_capability_boundary_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
   - id: sandbox_generation_planner_test
@@ -2420,6 +2434,7 @@ intent_safety_catalog:
     - open_dashboard_summary
     - open_dashboard_voice_config
     - process_dashboard_vision_prompt
+    - process_vision_conversation_turn
     - transcribe_dashboard_voice
     - speak_dashboard_voice
     - open_news_feed
@@ -2639,6 +2654,7 @@ documentation_coverage:
     - app_user_service
     - app_user_lookup_service
     - dashboard_service
+    - vision_conversation_service
     - quest_service
     - quest_application_service
     - quest_application_workflow_support
@@ -2798,6 +2814,12 @@ documentation_coverage:
     - dashboard_response_dto
     - dashboard_sections_dto
     - dashboard_summary_dto
+  - id: vision_contract_dtos
+    source_refs:
+    - vision_conversation_turn_request_dto
+    - vision_conversation_turn_response_dto
+    - vision_slot_summary_dto
+    - vision_quest_review_dto
   - id: workmarket_quest_detail_contract_dtos
     source_refs:
     - quest_allowed_action
@@ -2870,6 +2892,7 @@ documentation_coverage:
     - admin_agent_playground_service_test
     - admin_agent_golden_prompt_matrix_test
     - admin_agent_capability_boundary_test
+    - vision_conversation_service_test
     - sandbox_generation_planner_test
 documentation_ownership:
   documentation_templates:
@@ -4962,6 +4985,11 @@ api:
     path: "/dashboard/me/vision/prompt"
     controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: processVisionPrompt
+  - id: process_vision_conversation_turn
+    method: POST
+    path: "/vision/conversations/turns"
+    controller_class: com.themuffinman.app.vision.controller.VisionConversationController
+    handler_method: processTurn
   - id: transcribe_dashboard_voice
     method: POST
     path: "/dashboard/me/voice/transcribe"
@@ -6146,6 +6174,28 @@ intents:
     - dashboard_vision_prompt_service
     - dashboard_vision_prompt_request_dto
     - dashboard_vision_prompt_response_dto
+    - service_errors
+- id: process_vision_conversation_turn
+  description: Advance one persisted `/vision` conversation turn through backend-owned stepwise orchestration.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - prompt_text
+  optional_inputs:
+  - conversation_id
+  - source
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require authenticated context and load or create one persisted vision conversation.
+    endpoint_id: process_vision_conversation_turn
+    source_refs:
+    - vision_conversation_controller
+    - vision_conversation_service
+    - vision_conversation_turn_request_dto
+    - vision_conversation_turn_response_dto
+    - vision_slot_summary_dto
+    - vision_quest_review_dto
     - service_errors
 - id: transcribe_dashboard_voice
   description: Transcribe a recorded voice clip into text for the authenticated user's adaptive surface.

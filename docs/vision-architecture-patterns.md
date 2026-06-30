@@ -12,6 +12,26 @@ The target experience is a white, visually quiet, Her-like blank canvas that bec
 
 Legacy module screens may remain during transition, but new `/vision` architecture should not copy their form/page/dialog assumptions.
 
+## Implementation Start Pattern
+
+Broad `/vision` implementation should not start directly with UI polish or executor code.
+
+Use an adapted preflight baseline first:
+
+1. verify that the product, technical, and agent-operating docs do not contradict each other
+2. isolate the git changeset so new orchestration work is not mixed into unrelated drift
+3. lock the first executor scope explicitly
+4. choose persisted conversation versus client state token before introducing conversation logic
+5. gate real execution behind typed backend feature flags
+
+Preferred order:
+
+1. cleanup or baseline commit
+2. short architecture preflight plan
+3. backend conversation/orchestration foundation
+4. API contract and frontend canvas work
+5. first execution adapter under flag
+
 ## Core Principle
 
 Backend decides meaning. Frontend renders state.

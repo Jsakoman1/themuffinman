@@ -1,0 +1,30 @@
+package com.themuffinman.app.vision.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class VisionConversationTurnResponseDTO {
+    private Long conversationId;
+    private Long turnId;
+    private String intent;
+    private String agentState;
+    private String nextAction;
+    private String message;
+    private String requestedSlot;
+    private String normalizedPrompt;
+    private boolean translationApplied;
+    private boolean translationReliable;
+    private boolean executionEnabled;
+    private List<VisionSlotSummaryDTO> slotSummaries;
+    private VisionQuestReviewDTO review;
+}

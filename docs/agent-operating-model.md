@@ -128,6 +128,7 @@ Initial agent-safe workflows:
 - `open_dashboard`
 - `open_dashboard_summary`
 - `open_dashboard_voice_config`
+- `process_vision_conversation_turn`
 - `open_quest_feed`
 - `open_quest_preset`
 - `open_quest_record`
@@ -159,6 +160,7 @@ Related admin tooling:
 - that playground is a planning surface only and never executes mutations directly
 - when configured, the same admin endpoint may request a backend-managed OpenAI planning summary and still fall back to deterministic backend rules
 - planner responses should keep deterministic matched signals and unresolved inputs separate from provider-authored summary text
+- the dedicated `/vision/conversations/turns` backend is the persisted conversation path for stepwise adaptive orchestration, while dashboard prompt decoding remains a lighter planning surface
 
 Initial machine policies:
 - `uniqueness_policy`

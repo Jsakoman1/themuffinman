@@ -26,6 +26,7 @@ Current covered modules:
 - Complex information should be shown visually when that is clearer than explaining it only through audio.
 - The authenticated frontend now also includes an experimental `/vision` screen that demonstrates this direction with a centered animated agent and a bottom prompt composer.
 - `/vision` now uses backend-managed OpenAI speech transcription, speech synthesis, prompt decoding, and agent planning so typed text and voice input can feed the same backend processing path.
+- `/vision` now also has a dedicated persisted conversation backend foundation at `POST /vision/conversations/turns`, so the system can ask one missing field at a time and keep the same task state across turns.
 - The long-term `/vision` goal is to replace the legacy frontend with one blank-canvas adaptive surface that reveals fields, prompts, results, and confirmations only when the current task needs them.
 
 ## Identity

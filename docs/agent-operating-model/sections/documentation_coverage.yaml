@@ -27,6 +27,7 @@ documentation_coverage:
     - app_user_service
     - app_user_lookup_service
     - dashboard_service
+    - vision_conversation_service
     - quest_service
     - quest_application_service
     - quest_application_workflow_support
@@ -186,6 +187,12 @@ documentation_coverage:
     - dashboard_response_dto
     - dashboard_sections_dto
     - dashboard_summary_dto
+  - id: vision_contract_dtos
+    source_refs:
+    - vision_conversation_turn_request_dto
+    - vision_conversation_turn_response_dto
+    - vision_slot_summary_dto
+    - vision_quest_review_dto
   - id: workmarket_quest_detail_contract_dtos
     source_refs:
     - quest_allowed_action
@@ -258,4 +265,5 @@ documentation_coverage:
     - admin_agent_playground_service_test
     - admin_agent_golden_prompt_matrix_test
     - admin_agent_capability_boundary_test
+    - vision_conversation_service_test
     - sandbox_generation_planner_test

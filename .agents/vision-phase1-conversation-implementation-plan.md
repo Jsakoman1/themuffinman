@@ -1,0 +1,78 @@
+# Vision Phase 1 Conversation Implementation Plan
+
+## Scope
+
+Implement the first backend-only `/vision` orchestration foundation with persisted conversations and turns.
+
+## Goals
+
+- Introduce a dedicated `vision` backend package.
+- Persist conversation and turn state in backend tables.
+- Expose a new `POST /vision/conversations/turns` endpoint.
+- Support a read-only stepwise `create_quest` conversation flow.
+- Return the next useful clarification or a compact review state.
+- Keep mutation execution disabled in this phase.
+
+## Out Of Scope
+
+- Real quest creation execution.
+- Frontend canvas renderer integration.
+- Multi-intent executor routing.
+- Cross-session personalization beyond conversation persistence.
+
+## Initial Design
+
+### Intent Scope
+
+Only `create_quest` is supported as a structured orchestration intent in this phase.
+
+Unknown prompts should remain fail-closed and return a clear unsupported/planning-only state.
+
+### Persistence
+
+Create two tables:
+- `vision_conversation`
+- `vision_turn`
+
+Persist minimal generalized slot state as serialized text so Phase 1 stays generic enough for later intents without over-designing a full slot schema now.
+
+### API Shape
+
+`POST /vision/conversations/turns`
+
+Request:
+- optional `conversationId`
+- `prompt`
+- `source`
+
+Response:
+- `conversationId`
+- `turnId`
+- `intent`
+- `agentState`
+- `nextAction`
+- `message`
+- `requestedSlot`
+- `slotSummaries`
+- `review`
+- `executionEnabled`
+
+### Clarification Order For `create_quest`
+
+1. `quest_title`
+2. `quest_description`
+3. `reward_amount` or `free_quest`
+4. `visibility`
+5. review
+
+Schedule and location stay deferred for the first Phase 1 pass so the conversation layer lands quickly without binding to half-finished execution semantics.
+
+## Validation
+
+- unit tests for new conversation service
+- controller/service tests for authenticated access and one-slot-at-a-time flow
+- migration compiles through normal test startup
+
+## Documentation
+
+If the endpoint, phase scope, or conversation semantics change, update the `/vision` docs in the same change.

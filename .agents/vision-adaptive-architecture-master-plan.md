@@ -10,6 +10,28 @@ Build the future `/vision` architecture as the primary long-term product surface
 
 The long-term direction is to remove the legacy frontend over time and leave one adaptive surface that can become work marketplace, sharing, rides, business, booking, chat, or account flows without looking like a classic windows/forms application.
 
+## Mandatory Preflight Pattern
+
+Before starting runtime implementation from this master plan, run an adapted preflight pass for the current scope instead of jumping directly into code.
+
+This is the preferred implementation-start pattern for broad `/vision` work because it reduces contradictions, keeps changesets legible, and forces the first executor and rollout boundaries to be explicit before orchestration code starts to spread.
+
+The preflight pass should always cover:
+
+1. lock the documentation baseline across `docs/product-vision.md`, `docs/vision-architecture-patterns.md`, `docs/business-logic.md`, `docs/domain-technical.md`, `docs/agent-operating-model.md`, and the active plans
+2. clean or logically isolate the git changeset before new orchestration work begins
+3. define the first executor scope explicitly instead of aiming for a general agent that can do everything
+4. decide persisted conversation versus client state token before conversation code is introduced
+5. introduce or confirm backend feature flags that separate planning/clarification from real mutation execution
+
+Recommended implementation-start order:
+
+1. cleanup or baseline commit
+2. short architecture preflight plan
+3. backend conversation/orchestration foundation
+4. API contract and frontend canvas renderer
+5. first real executor behind feature flag
+
 ## Current Reality
 
 What exists today:

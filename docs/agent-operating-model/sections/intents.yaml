@@ -832,6 +832,28 @@ intents:
     - dashboard_vision_prompt_request_dto
     - dashboard_vision_prompt_response_dto
     - service_errors
+- id: process_vision_conversation_turn
+  description: Advance one persisted `/vision` conversation turn through backend-owned stepwise orchestration.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - prompt_text
+  optional_inputs:
+  - conversation_id
+  - source
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require authenticated context and load or create one persisted vision conversation.
+    endpoint_id: process_vision_conversation_turn
+    source_refs:
+    - vision_conversation_controller
+    - vision_conversation_service
+    - vision_conversation_turn_request_dto
+    - vision_conversation_turn_response_dto
+    - vision_slot_summary_dto
+    - vision_quest_review_dto
+    - service_errors
 - id: transcribe_dashboard_voice
   description: Transcribe a recorded voice clip into text for the authenticated user's adaptive surface.
   mutating: false
