@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-30T13:19:35Z",
-  "total_files": 886,
+  "generated_at": "2026-06-30T16:08:26Z",
+  "total_files": 901,
   "groups": [
     {
       "domain": "agent",
@@ -28,12 +28,13 @@
     {
       "domain": "agent",
       "category": "backend_service",
-      "count": 6,
+      "count": 7,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslation.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslator.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTextProvider.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AgentModelProfile.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java"
       ]
@@ -497,7 +498,7 @@
     {
       "domain": "shared",
       "category": "docs",
-      "count": 208,
+      "count": 213,
       "sample_paths": [
         "docs/business-logic.md",
         "docs/change-completion-checklist.md",
@@ -538,7 +539,7 @@
       "category": "frontend_view",
       "count": 2,
       "sample_paths": [
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue",
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
         "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue"
       ]
     },
@@ -560,7 +561,7 @@
     {
       "domain": "shared",
       "category": "script",
-      "count": 105,
+      "count": 107,
       "sample_paths": [
         "scripts/audits/audit-api-contract-drift.rb",
         "scripts/audits/audit-architecture-drift.rb",
@@ -772,7 +773,7 @@
     {
       "domain": "workmarket",
       "category": "backend_dto",
-      "count": 58,
+      "count": 62,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminApplicationsQueryDTO.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java",
@@ -824,7 +825,7 @@
     {
       "domain": "workmarket",
       "category": "backend_service",
-      "count": 42,
+      "count": 45,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApproveApplicationUseCase.java",

@@ -95,8 +95,15 @@ public class AdminAgentPlaygroundService {
     public AdminAgentPlaygroundResponseDTO runPrompt(AdminAgentPlaygroundRequestDTO dto, AppUser currentUser) {
         validateAdmin(currentUser);
         validateRequest(dto);
+        return analyzePrompt(dto.getPrompt());
+    }
 
-        String prompt = dto.getPrompt().trim();
+    public AdminAgentPlaygroundResponseDTO analyzePrompt(String rawPrompt) {
+        if (rawPrompt == null || rawPrompt.isBlank()) {
+            throw ServiceErrors.badRequest("Prompt is required");
+        }
+
+        String prompt = rawPrompt.trim();
         AdminAgentPromptTranslation translation = translatePrompt(prompt);
         String normalizedPrompt = translation.getTranslatedPrompt().trim().toLowerCase(Locale.ROOT);
 
@@ -382,6 +389,13 @@ public class AdminAgentPlaygroundService {
         boolean externalLlmConfigured = adminAgentTextProvider.isConfigured();
         String provider = externalLlmConfigured ? adminAgentTextProvider.providerName() : "mock";
         String summary = buildSummary(prompt, translation.getTranslatedPrompt(), suggestedWorkflows);
+        AgentModelProfile summaryModelProfile = selectSummaryModelProfile(
+                sandboxGenerationPlan,
+                matchedSignals,
+                suggestedWorkflows,
+                unresolvedInputs,
+                resolutionRequirements
+        );
 
         if (externalLlmConfigured) {
             try {
@@ -390,7 +404,8 @@ public class AdminAgentPlaygroundService {
                         List.copyOf(suggestedWorkflows),
                         List.copyOf(matchedSignals),
                         List.copyOf(unresolvedInputs),
-                        List.copyOf(warnings)
+                        List.copyOf(warnings),
+                        summaryModelProfile
                 );
             } catch (RuntimeException exception) {
                 warnings.add("OpenAI provider failed, so the playground fell back to the deterministic local planner.");
@@ -501,6 +516,31 @@ public class AdminAgentPlaygroundService {
                         || mentionsConnectionAcceptance(normalizedPrompt)
                         || mentionsChatIntent(normalizedPrompt))
                 .build();
+    }
+
+    private AgentModelProfile selectSummaryModelProfile(
+            SandboxGenerationPlan sandboxGenerationPlan,
+            Set<String> matchedSignals,
+            Set<String> suggestedWorkflows,
+            Set<String> unresolvedInputs,
+            List<AgentResolutionRequirementDTO> resolutionRequirements
+    ) {
+        boolean creativeSummaryNeeded = !sandboxGenerationPlan.isEmpty()
+                || matchedSignals.contains("application_approval")
+                || matchedSignals.contains("quest_deletion")
+                || matchedSignals.contains("circle_deletion")
+                || matchedSignals.contains("admin_application_deletion")
+                || matchedSignals.contains("admin_user_deletion")
+                || matchedSignals.contains("circle_only_flow")
+                || matchedSignals.contains("chat_intent")
+                || matchedSignals.contains("current_location_update")
+                || matchedSignals.contains("admin_user_update")
+                || matchedSignals.size() >= 4
+                || suggestedWorkflows.size() >= 5
+                || unresolvedInputs.size() >= 4
+                || resolutionRequirements.size() >= 2;
+
+        return creativeSummaryNeeded ? AgentModelProfile.CREATIVE : AgentModelProfile.DEFAULT;
     }
 
     private AgentResolutionRequirementDTO resolutionRequirement(

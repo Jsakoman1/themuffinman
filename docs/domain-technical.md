@@ -22,10 +22,11 @@ Domain capsules:
 - `docs/cross-domain-glossary.md` defines shared terms such as users, actors, circles, visibility, consent, messaging, quests, applications, reviews, bookings, and synthetic data before deeper domain-specific rules.
 
 Frontend vision surface note:
-- `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue` is the experimental authenticated route for the long-term adaptive canvas direction.
-- The `/vision` route is intentionally additive; legacy module routes remain the production baseline while the adaptive shell language evolves in parallel.
-- The first real-data integration for `/vision` reuses `dashboardApi.getDashboard()` and curated `availableQuests` mapping instead of inventing a separate frontend-only read model.
-- Browser-native STT/TTS on `/vision` is backend-first through `GET /dashboard/me/voice-config`, which maps typed `app.voice.*` config into one authenticated DTO contract before the frontend decides what speech features can run.
+- `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue` is the experimental authenticated route for the long-term adaptive canvas direction.
+- The `/vision` route is the focused adaptive surface for text and voice prompt intake, and the older vision shell has been removed from the app.
+- The surface stays centered on the agent and prompt composer instead of a separate frontend-only read model.
+- `/vision` uses backend-managed OpenAI prompt decoding, transcription, speech synthesis, and agent planning through `POST /dashboard/me/vision/prompt`, `GET /dashboard/me/voice-config`, `POST /dashboard/me/voice/transcribe`, and `POST /dashboard/me/voice/speak`, while typed `app.voice.*` config still controls whether the frontend may record or play voice.
+- `docs/vision-architecture-patterns.md` is the durable implementation guide for future `/vision` backend orchestration, API contracts, frontend canvas rendering, and executor rollout.
 
 Test fixture standard:
 - `apps/themuffinman/src/test/java/com/themuffinman/app/testing/TestFixtures.java` is the shared backend fixture builder for common users, admin users, profile-location users, circles, quests, quest applications, and chat conversations.
@@ -569,6 +570,8 @@ Technical notes:
 - It accepts free-form prompts and returns structured warnings, suggested workflows, and next steps from deterministic backend classification.
 - The deterministic payload should keep structured planner fields separate from provider-written summary text, including matched signals and unresolved required inputs.
 - Provider-written summary text should be constrained to the deterministic workflow ids, signals, and unresolved inputs already classified by the backend.
+- The OpenAI-backed summary path now uses `gpt-5.4-mini` by default and escalates to `gpt-5.4-medium` only for the heaviest or most creative planning slices.
+- `AgentProperties` now carries separate default and creative model settings plus a shared reasoning-effort default for the Responses API payload.
 - It does not execute mutations.
 - If `app.agent.provider=openai` and a backend API key is configured, the service also requests a concise planning summary from OpenAI through the Responses API.
 - If the provider is missing or the external call fails, the service falls back to the deterministic local planner and keeps the same response contract.
@@ -673,6 +676,8 @@ Primary files:
 - `workmarket/service/QuestQueryService.java`
 - `workmarket/service/QuestNewsService.java`
 - `workmarket/service/DashboardService.java`
+- `workmarket/service/DashboardVoiceService.java`
+- `workmarket/service/OpenAiVoiceClient.java`
 - `workmarket/service/QuestAccessPolicyService.java`
 - `workmarket/service/QuestWorkflowNotificationService.java`
 - `workmarket/service/QuestViewAssembler.java`

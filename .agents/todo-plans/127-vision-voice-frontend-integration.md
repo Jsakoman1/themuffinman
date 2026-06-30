@@ -11,7 +11,7 @@ Add browser-native speech recognition and text-to-speech to `/vision`, gated by 
 - `apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts`
 - `apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts`
 - `apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts`
-- `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue`
+- `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue`
 - `apps/themuffinman/frontend/src/styles/vision-surface.css`
 
 ## Checklist

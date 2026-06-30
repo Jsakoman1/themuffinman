@@ -166,6 +166,7 @@ For logical product changes, continue reviewing the normal living docs as needed
 - `docs/business-logic.md`
 - `docs/domain-technical.md`
 - `docs/product-vision.md` when long-term product direction or interaction principles change
+- `docs/vision-architecture-patterns.md` when `/vision` backend orchestration, API contract, frontend canvas, prompt-handling, or executor patterns change
 - `docs/product-memory.md` when product-direction sessions discover a durable lesson, recurring pattern, or stable product principle
 - `docs/implementation-backlog.md`
 - `docs/agent-improvement-backlog.md` when deferred control-system work changes

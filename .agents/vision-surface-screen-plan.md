@@ -1,6 +1,6 @@
 # Vision Surface Screen Plan
 
-Purpose: add one experimental long-term screen that applies the product vision principles while keeping the current legacy routes active.
+Purpose: add one experimental long-term screen that applies the product vision principles while keeping the current production routes active.
 
 ## Goal
 
@@ -10,7 +10,7 @@ Create a full-screen adaptive canvas route with parallel audio and visual feedba
 
 - `apps/themuffinman/frontend/src/router.ts`
 - `apps/themuffinman/frontend/src/modules/moduleRegistry.ts`
-- `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue`
+- `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue`
 - `apps/themuffinman/frontend/src/styles/vision-surface.css`
 - `apps/themuffinman/frontend/src/style.css`
 - `docs/business-logic.md`
@@ -20,7 +20,7 @@ Create a full-screen adaptive canvas route with parallel audio and visual feedba
 
 - [x] Add a new authenticated route for the experimental vision surface.
 - [x] Build one adaptive full-screen surface that demonstrates voice states, filters, and curated result presentation.
-- [x] Keep legacy module routes active alongside the new screen.
+- [x] Keep production module routes active alongside the new screen.
 - [x] Update living docs to reflect the experimental screen.
 
 ## Validation

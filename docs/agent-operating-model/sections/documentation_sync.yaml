@@ -5,6 +5,7 @@ documentation_sync:
   - docs/business-logic.md
   - docs/codex-fast-path.md
   - docs/domain-technical.md
+  - docs/vision-architecture-patterns.md
   - docs/agent-operating-model.md
   - docs/agent-operating-model.yaml
   - docs/feature-delivery-workflow.md

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T13:19:37Z",
+  "generated_at": "2026-06-30T16:08:01Z",
   "endpoint_family": "quests",
   "endpoints": [
     {
@@ -709,12 +709,10 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
       "matched_paths": [
         "me",
-        "detail",
-        "start",
-        "confirm"
+        "start"
       ]
     },
     {

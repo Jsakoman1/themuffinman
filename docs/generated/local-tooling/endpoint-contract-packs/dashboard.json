@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T13:19:36Z",
+  "generated_at": "2026-06-30T16:08:01Z",
   "endpoint_family": "dashboard",
   "endpoints": [
     {
@@ -9,7 +9,9 @@
       "dtos": [
         "DashboardResponseDTO",
         "DashboardSummaryDTO",
-        "DashboardVoiceConfigDTO"
+        "DashboardVoiceConfigDTO",
+        "DashboardVisionPromptResponseDTO",
+        "DashboardVisionPromptRequestDTO"
       ]
     },
     {
@@ -19,7 +21,20 @@
       "dtos": [
         "DashboardResponseDTO",
         "DashboardSummaryDTO",
-        "DashboardVoiceConfigDTO"
+        "DashboardVoiceConfigDTO",
+        "DashboardVisionPromptResponseDTO",
+        "DashboardVisionPromptRequestDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/dashboard/me/vision/prompt",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
+      "dtos": [
+        "DashboardVisionPromptResponseDTO",
+        "DashboardVisionPromptRequestDTO",
+        "DashboardVoiceTranscriptionDTO",
+        "DashboardVoiceSpeechRequestDTO"
       ]
     },
     {
@@ -29,14 +44,42 @@
       "dtos": [
         "DashboardResponseDTO",
         "DashboardSummaryDTO",
-        "DashboardVoiceConfigDTO"
+        "DashboardVoiceConfigDTO",
+        "DashboardVisionPromptResponseDTO",
+        "DashboardVisionPromptRequestDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/dashboard/me/voice/speak",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
+      "dtos": [
+        "DashboardVisionPromptResponseDTO",
+        "DashboardVisionPromptRequestDTO",
+        "DashboardVoiceTranscriptionDTO",
+        "DashboardVoiceSpeechRequestDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/dashboard/me/voice/transcribe",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
+      "dtos": [
+        "DashboardVisionPromptResponseDTO",
+        "DashboardVisionPromptRequestDTO",
+        "DashboardVoiceTranscriptionDTO",
+        "DashboardVoiceSpeechRequestDTO"
       ]
     }
   ],
   "dto_files": [
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceConfigDTO.java"
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVisionPromptRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVisionPromptResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceConfigDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceSpeechRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceTranscriptionDTO.java"
   ],
   "frontend_callsites": [
     {
@@ -110,7 +153,8 @@
     {
       "file": "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue",
       "matched_paths": [
-        "me"
+        "me",
+        "prompt"
       ]
     },
     {
@@ -269,7 +313,10 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "matched_paths": [
         "me",
-        "summary"
+        "summary",
+        "prompt",
+        "speak",
+        "transcribe"
       ]
     },
     {
@@ -459,28 +506,34 @@
       "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
       "matched_paths": [
         "me",
-        "summary"
+        "summary",
+        "prompt",
+        "speak",
+        "transcribe"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
       "matched_paths": [
         "me",
-        "summary"
+        "prompt",
+        "speak"
       ]
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
       "matched_paths": [
         "me",
-        "summary"
+        "summary",
+        "prompt"
       ]
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
       "matched_paths": [
         "me",
-        "summary"
+        "summary",
+        "prompt"
       ]
     },
     {
@@ -502,6 +555,8 @@
         "me",
         "/dashboard/me/summary",
         "summary",
+        "/dashboard/me/vision/prompt",
+        "prompt",
         "/dashboard/me/voice-config",
         "voice-config"
       ]
@@ -947,7 +1002,8 @@
       "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
       "matched_paths": [
         "me",
-        "summary"
+        "summary",
+        "prompt"
       ]
     },
     {

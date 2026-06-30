@@ -814,6 +814,60 @@ intents:
     - dashboard_service
     - dashboard_voice_config_dto
     - service_errors
+- id: process_dashboard_vision_prompt
+  description: Decode a typed or transcribed prompt into backend-driven adaptive surface state.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - prompt_text
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require authenticated context and submit the prompt to the backend vision prompt service.
+    endpoint_id: process_dashboard_vision_prompt
+    source_refs:
+    - dashboard_controller
+    - dashboard_vision_prompt_service
+    - dashboard_vision_prompt_request_dto
+    - dashboard_vision_prompt_response_dto
+    - service_errors
+- id: transcribe_dashboard_voice
+  description: Transcribe a recorded voice clip into text for the authenticated user's adaptive surface.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - audio_clip
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require authenticated context and submit the recorded audio to the backend voice transcription service.
+    endpoint_id: transcribe_dashboard_voice
+    source_refs:
+    - dashboard_controller
+    - dashboard_voice_service
+    - openai_voice_client
+    - dashboard_voice_transcription_dto
+    - service_errors
+- id: speak_dashboard_voice
+  description: Generate spoken audio for the authenticated user's adaptive surface summary.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - text_prompt
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require authenticated context and submit text to the backend voice synthesis service.
+    endpoint_id: speak_dashboard_voice
+    source_refs:
+    - dashboard_controller
+    - dashboard_voice_service
+    - openai_voice_client
+    - dashboard_voice_speech_request_dto
+    - service_errors
 - id: open_news_feed
   description: Open the authenticated user's current news feed.
   mutating: false

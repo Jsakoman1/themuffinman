@@ -117,6 +117,7 @@ Default path:
 4. Business meaning
 - Update `docs/business-logic.md` if user-facing behavior, permissions, or workflow meaning changed.
 - Update `docs/product-vision.md` if the change clarifies the long-term interaction model, app feel, or Social Useful Network direction.
+- Update `docs/vision-architecture-patterns.md` if the change alters `/vision` backend orchestration, API contracts, frontend canvas rendering, prompt handling, or executor patterns.
 
 5. Technical meaning
 - Update `docs/domain-technical.md` if entities, DTOs, relations, validations, permissions, workflows, or invariants changed.
@@ -155,6 +156,7 @@ Default path:
   `make closeout-report manifest=<manifest-file>` when a compact final review summary helps
 - After each completed plan or master plan, run `make post-plan-memory-update plan=<plan-file> [manifest=<manifest-file>] [source=<diagnostic-report>]` to refresh durable lessons, failure memory, and the standard control loop.
 - For product-direction work, confirm that `docs/product-memory.md` and `docs/product-vision.md` were the first canonical reference points before broader business or technical docs were expanded.
+- For `/vision` implementation work, confirm that `docs/vision-architecture-patterns.md` was read before implementation decisions were made.
 
 11. Final response
 - State what changed.

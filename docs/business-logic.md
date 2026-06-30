@@ -4,6 +4,7 @@ This document explains the product in user-facing terms. It is meant to stay ali
 
 For stable cross-module terminology, start with `docs/cross-domain-glossary.md`.
 For long-term product direction and interaction principles, see `docs/product-vision.md`.
+For future `/vision` implementation patterns, see `docs/vision-architecture-patterns.md`.
 
 ## Scope
 
@@ -23,8 +24,9 @@ Current covered modules:
 - Voice should be supported with parallel visual feedback so users can confirm what was heard, what is happening, and what data is being discussed.
 - Large result sets should be summarized and filtered by default, then expanded only when the user asks for more detail.
 - Complex information should be shown visually when that is clearer than explaining it only through audio.
-- The authenticated frontend now also includes an experimental `/vision` screen that demonstrates this direction with real workmarket read data, without replacing the current legacy module screens.
-- `/vision` now reads backend voice capability defaults before enabling browser-native speech recognition or text-to-speech, so speech behavior stays backend-governed instead of frontend-guessed.
+- The authenticated frontend now also includes an experimental `/vision` screen that demonstrates this direction with a centered animated agent and a bottom prompt composer.
+- `/vision` now uses backend-managed OpenAI speech transcription, speech synthesis, prompt decoding, and agent planning so typed text and voice input can feed the same backend processing path.
+- The long-term `/vision` goal is to replace the legacy frontend with one blank-canvas adaptive surface that reveals fields, prompts, results, and confirmations only when the current task needs them.
 
 ## Identity
 
@@ -230,6 +232,7 @@ Current covered modules:
 - The same agent-safe pattern now also covers profile self-update, notification read actions, and admin-side application correction or deletion.
 - The operating model now also explicitly covers common read surfaces such as dashboard, circle overview, quest detail, application detail, chat history, and admin debug status instead of leaving them implicit.
 - When configured, the same admin endpoint can ask a backend-managed OpenAI provider for a concise planning summary.
+- Routine planning summary calls default to `gpt-5.4-mini`, while only the heaviest or most creative planning slices escalate to `gpt-5.4-medium`.
 - If OpenAI is not configured or fails, the playground falls back to the deterministic local planner instead of blocking the admin UI.
 - The response should separate the free-form summary from deterministic planner output such as matched signals, unresolved inputs, warnings, and suggested workflows.
 - The provider-written summary should stay bounded by the deterministic planner output instead of inventing new workflow ids or missing-input requirements.

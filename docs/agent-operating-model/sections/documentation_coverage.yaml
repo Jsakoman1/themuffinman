@@ -21,6 +21,7 @@ documentation_coverage:
     - sandbox_generation_planner
     - local_admin_agent_prompt_translator
     - openai_admin_agent_client
+    - agent_model_profile
     - auth_service
     - auth_mgr
     - app_user_service
@@ -63,6 +64,7 @@ documentation_coverage:
     - business_logic_doc
     - codex_fast_path_doc
     - domain_technical_doc
+    - vision_architecture_patterns_doc
     - feature_delivery_workflow_doc
     - change_completion_checklist_doc
     - agent_operating_model_doc

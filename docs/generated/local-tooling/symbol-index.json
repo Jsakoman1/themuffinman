@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-30T13:19:36Z",
-  "symbol_count": 927,
+  "generated_at": "2026-06-30T16:08:26Z",
+  "symbol_count": 943,
   "symbols": [
     {
       "symbol": "AdminAgentController",
@@ -34,7 +34,7 @@
       "methods": [
 
       ],
-      "refs": 11
+      "refs": 14
     },
     {
       "symbol": "AdminAgentPlaygroundService",
@@ -44,9 +44,11 @@
       "domain": "agent",
       "methods": [
         "runPrompt",
+        "analyzePrompt",
         "simulatePrompt",
         "buildClarificationContract",
         "buildExecutionReadiness",
+        "selectSummaryModelProfile",
         "resolutionRequirement",
         "translatePrompt",
         "validateAdmin",
@@ -80,11 +82,9 @@
         "mentionsRelativeTime",
         "mentionsConnectionAcceptance",
         "buildSummary",
-        "selectPrimaryIntent",
-        "buildResolutionConfidence",
-        "buildCapabilityAssessments"
+        "selectPrimaryIntent"
       ],
-      "refs": 4
+      "refs": 7
     },
     {
       "symbol": "AdminAgentPromptTranslation",
@@ -197,6 +197,17 @@
       "refs": 7
     },
     {
+      "symbol": "AgentModelProfile",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AgentModelProfile.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "methods": [
+
+      ],
+      "refs": 11
+    },
+    {
       "symbol": "AgentResolutionConfidenceDTO",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionConfidenceDTO.java",
@@ -216,7 +227,7 @@
       "methods": [
 
       ],
-      "refs": 8
+      "refs": 9
     },
     {
       "symbol": "LocalAdminAgentPromptTranslator",
@@ -243,6 +254,7 @@
         "isConfigured",
         "generatePlanningSummary",
         "translatePromptToEnglish",
+        "resolveModel",
         "buildInput",
         "parseResponseBody",
         "extractOutputText"
@@ -259,7 +271,7 @@
         "empty",
         "isEmpty"
       ],
-      "refs": 8
+      "refs": 9
     },
     {
       "symbol": "SandboxGenerationPlanner",
@@ -1054,7 +1066,7 @@
         "forbidden",
         "unauthorized"
       ],
-      "refs": 206
+      "refs": 222
     },
     {
       "symbol": "SpringDomainEventPublisher",
@@ -1085,9 +1097,9 @@
       "category": "other",
       "domain": "common",
       "methods": [
-
+        "isConfigured"
       ],
-      "refs": 4
+      "refs": 7
     },
     {
       "symbol": "WebSocketConfig",
@@ -1143,7 +1155,7 @@
       "methods": [
 
       ],
-      "refs": 596
+      "refs": 606
     },
     {
       "symbol": "AppUserController",
@@ -2021,6 +2033,14 @@
       "refs": 7
     },
     {
+      "symbol": "AGENT_MODEL_PROFILE_VALUES",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 2
+    },
+    {
       "symbol": "AGENT_REQUIRED_UNRESOLVED_INPUTS",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
@@ -2090,7 +2110,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 11
+      "refs": 14
     },
     {
       "symbol": "AdminAgentSafetyFlagIdGenerated",
@@ -2261,6 +2281,14 @@
       "refs": 7
     },
     {
+      "symbol": "AgentModelProfile",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 11
+    },
+    {
       "symbol": "AgentRequiredUnresolvedInput",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
@@ -2282,7 +2310,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 8
+      "refs": 9
     },
     {
       "symbol": "ApiErrorResponseDTO",
@@ -2384,7 +2412,7 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "refs": 596
+      "refs": 606
     },
     {
       "symbol": "AppUserRequest",
@@ -3075,12 +3103,44 @@
       "refs": 15
     },
     {
+      "symbol": "DashboardVisionPromptRequestDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 6
+    },
+    {
+      "symbol": "DashboardVisionPromptResponseDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 7
+    },
+    {
       "symbol": "DashboardVoiceConfigDTO",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
       "refs": 9
+    },
+    {
+      "symbol": "DashboardVoiceSpeechRequestDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 4
+    },
+    {
+      "symbol": "DashboardVoiceTranscriptionDTO",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "refs": 7
     },
     {
       "symbol": "DatabaseTableStatusViewDTO",
@@ -4571,12 +4631,12 @@
       "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
       "category": "frontend_composable",
       "domain": "shared",
-      "refs": 4
+      "refs": 2
     },
     {
-      "symbol": "VisionSurfaceView",
+      "symbol": "VisionSurfaceModernView",
       "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
       "category": "frontend_view",
       "domain": "shared",
       "refs": 3
@@ -4587,7 +4647,7 @@
       "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
       "category": "frontend_composable",
       "domain": "shared",
-      "refs": 4
+      "refs": 2
     },
     {
       "symbol": "WorkmarketOptions",
@@ -4611,7 +4671,7 @@
       "file": "apps/themuffinman/frontend/src/api/httpClient.ts",
       "category": "other",
       "domain": "shared",
-      "refs": 245
+      "refs": 249
     },
     {
       "symbol": "buildRequestDebugInfo",
@@ -4683,7 +4743,7 @@
       "file": "apps/themuffinman/frontend/src/services/sessionService.ts",
       "category": "other",
       "domain": "shared",
-      "refs": 863
+      "refs": 879
     },
     {
       "symbol": "endOfMonth",
@@ -5019,7 +5079,7 @@
       "file": "apps/themuffinman/frontend/src/api/httpClient.ts",
       "category": "other",
       "domain": "shared",
-      "refs": 108
+      "refs": 111
     },
     {
       "symbol": "AdminCircleGroupResponseDTO",
@@ -5781,6 +5841,14 @@
     },
     {
       "symbol": "ThingBorrowRequest",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "category": "frontend_api",
+      "domain": "things",
+      "refs": 17
+    },
+    {
+      "symbol": "ThingBorrowRequest",
       "kind": "java",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequest.java",
       "category": "backend_model",
@@ -5788,14 +5856,6 @@
       "methods": [
 
       ],
-      "refs": 17
-    },
-    {
-      "symbol": "ThingBorrowRequest",
-      "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
-      "category": "frontend_api",
-      "domain": "things",
       "refs": 17
     },
     {
@@ -6389,7 +6449,10 @@
       "methods": [
         "getMyDashboard",
         "getMySummary",
-        "getMyVoiceConfig"
+        "getMyVoiceConfig",
+        "processVisionPrompt",
+        "transcribeVoice",
+        "speakVoice"
       ],
       "refs": 1
     },
@@ -6796,6 +6859,52 @@
       "refs": 11
     },
     {
+      "symbol": "DashboardVisionPromptRequestDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVisionPromptRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "methods": [
+
+      ],
+      "refs": 6
+    },
+    {
+      "symbol": "DashboardVisionPromptResponse",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
+      "category": "frontend_api",
+      "domain": "workmarket",
+      "refs": 5
+    },
+    {
+      "symbol": "DashboardVisionPromptResponseDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVisionPromptResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "methods": [
+
+      ],
+      "refs": 7
+    },
+    {
+      "symbol": "DashboardVisionPromptService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardVisionPromptService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "process",
+        "deriveActiveFilter",
+        "deriveSurfaceMode",
+        "buildAssistantNote",
+        "containsAny",
+        "validateAccess"
+      ],
+      "refs": 6
+    },
+    {
       "symbol": "DashboardVoiceConfig",
       "kind": "frontend",
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
@@ -6813,6 +6922,49 @@
 
       ],
       "refs": 9
+    },
+    {
+      "symbol": "DashboardVoiceService",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardVoiceService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "transcribe",
+        "synthesize",
+        "validateVoiceAccess"
+      ],
+      "refs": 5
+    },
+    {
+      "symbol": "DashboardVoiceSpeechRequestDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceSpeechRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "methods": [
+
+      ],
+      "refs": 4
+    },
+    {
+      "symbol": "DashboardVoiceTranscription",
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
+      "category": "frontend_api",
+      "domain": "workmarket",
+      "refs": 5
+    },
+    {
+      "symbol": "DashboardVoiceTranscriptionDTO",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceTranscriptionDTO.java",
+      "category": "backend_dto",
+      "domain": "workmarket",
+      "methods": [
+
+      ],
+      "refs": 7
     },
     {
       "symbol": "DashboardWorkPlanner",
@@ -6899,6 +7051,23 @@
       "category": "frontend_api",
       "domain": "workmarket",
       "refs": 10
+    },
+    {
+      "symbol": "OpenAiVoiceClient",
+      "kind": "java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/OpenAiVoiceClient.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "methods": [
+        "isConfigured",
+        "transcribe",
+        "synthesize",
+        "parseResponse",
+        "extractText",
+        "getFilename",
+        "readBytes"
+      ],
+      "refs": 5
     },
     {
       "symbol": "PageQuery",
@@ -8614,7 +8783,7 @@
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
       "category": "frontend_api",
       "domain": "workmarket",
-      "refs": 8
+      "refs": 11
     },
     {
       "symbol": "dashboardTabs",

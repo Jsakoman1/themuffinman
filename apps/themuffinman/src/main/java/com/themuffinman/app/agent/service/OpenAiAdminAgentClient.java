@@ -46,14 +46,26 @@ public class OpenAiAdminAgentClient implements AdminAgentTextProvider {
             List<String> unresolvedInputs,
             List<String> warnings
     ) {
+        return generatePlanningSummary(prompt, suggestedWorkflows, matchedSignals, unresolvedInputs, warnings, AgentModelProfile.DEFAULT);
+    }
+
+    @Override
+    public String generatePlanningSummary(
+            String prompt,
+            List<String> suggestedWorkflows,
+            List<String> matchedSignals,
+            List<String> unresolvedInputs,
+            List<String> warnings,
+            AgentModelProfile modelProfile
+    ) {
         if (!isConfigured()) {
             throw ServiceErrors.badRequest("OpenAI provider is not configured");
         }
 
         Map<String, Object> payload = new LinkedHashMap<>();
-        payload.put("model", agentProperties.getModel());
+        payload.put("model", resolveModel(modelProfile));
         payload.put("input", buildInput(prompt, suggestedWorkflows, matchedSignals, unresolvedInputs, warnings));
-        payload.put("reasoning", Map.of("effort", "low"));
+        payload.put("reasoning", Map.of("effort", agentProperties.getReasoningEffort()));
         payload.put("text", Map.of("verbosity", "low"));
 
         String responseBody;
@@ -131,6 +143,16 @@ public class OpenAiAdminAgentClient implements AdminAgentTextProvider {
         } catch (Exception exception) {
             throw ServiceErrors.badRequest("OpenAI translation parsing failed: " + exception.getMessage());
         }
+    }
+
+    private String resolveModel(AgentModelProfile modelProfile) {
+        if (modelProfile == AgentModelProfile.CREATIVE
+                && agentProperties.getCreativeModel() != null
+                && !agentProperties.getCreativeModel().isBlank()) {
+            return agentProperties.getCreativeModel();
+        }
+
+        return agentProperties.getModel();
     }
 
     private String buildInput(

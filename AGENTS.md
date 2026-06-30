@@ -76,6 +76,7 @@ Planned modules:
   `.agents/`, without per-file confirmation.
 - Ask only when a command needs sandbox escalation, external side effects, or some other higher-risk approval outside
   normal workspace editing.
+- If the user asks for a push/merge workflow in the style of "napravi push i merge na main" or "create branch push and merge on main", treat it as a known shortcut: gather the current relevant changes, commit if needed, push to `origin`, and merge to `main` when that is the active release path, without extra questions unless there is a real blocker, conflict, or approval need.
 - When the user explicitly assigns a broad autonomous work session, says they will be away, or asks Codex to work through
   a large TODO/backlog batch, front-load any required approval requests that can be identified safely, then continue
   through all safe implementation, documentation, generated-artifact, and validation phases without waiting for
@@ -115,6 +116,8 @@ Planned modules:
 - For product-direction, UX, interaction-design, or Social Useful Network vision work, treat `docs/product-memory.md`
   and `docs/product-vision.md` as the first canonical reference points before expanding into broader business or
   technical docs.
+- For `/vision` implementation work, also read `docs/vision-architecture-patterns.md` before changing backend
+  orchestration, API contracts, frontend canvas rendering, prompt handling, or execution behavior.
 - For multi-file, multi-layer, or high-risk logical changes, create a temporary implementation plan in `.agents/` before
   substantial edits.
 - Read `AGENTS.md` first for every task.

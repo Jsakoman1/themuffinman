@@ -22,6 +22,9 @@ intent_safety_catalog:
     - open_dashboard
     - open_dashboard_summary
     - open_dashboard_voice_config
+    - process_dashboard_vision_prompt
+    - transcribe_dashboard_voice
+    - speak_dashboard_voice
     - open_news_feed
     - open_news_unread_count
     - open_quest_feed

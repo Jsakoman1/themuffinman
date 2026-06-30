@@ -110,6 +110,42 @@ class AdminAgentPlaygroundServiceTest {
     }
 
     @Test
+    void usesDefaultModelProfileForSimplePlanningSummary() {
+        AppUser admin = new AppUser();
+        admin.setRole(AppUserRole.ADMIN);
+        agentProperties.setProvider("openai");
+        provider.configured = true;
+        provider.summary = "Simple summary";
+
+        service.runPrompt(
+                AdminAgentPlaygroundRequestDTO.builder()
+                        .prompt("Hello")
+                        .build(),
+                admin
+        );
+
+        assertEquals(AgentModelProfile.DEFAULT, provider.lastModelProfile);
+    }
+
+    @Test
+    void usesCreativeModelProfileForComplexPlanningSummary() {
+        AppUser admin = new AppUser();
+        admin.setRole(AppUserRole.ADMIN);
+        agentProperties.setProvider("openai");
+        provider.configured = true;
+        provider.summary = "Creative summary";
+
+        service.runPrompt(
+                AdminAgentPlaygroundRequestDTO.builder()
+                        .prompt("Generate 20 unique quests for user Josip tomorrow")
+                        .build(),
+                admin
+        );
+
+        assertEquals(AgentModelProfile.CREATIVE, provider.lastModelProfile);
+    }
+
+    @Test
     void classifiesCroatianAdminPromptForUserQuestAndConnectionFlows() {
         AppUser admin = new AppUser();
         admin.setRole(AppUserRole.ADMIN);
@@ -524,6 +560,7 @@ class AdminAgentPlaygroundServiceTest {
         private String summary = "stub";
         private String failureMessage;
         private AdminAgentPromptTranslation translation = null;
+        private AgentModelProfile lastModelProfile = AgentModelProfile.DEFAULT;
 
         private StubAdminAgentTextProvider() {
             super(new AgentProperties());
@@ -569,6 +606,19 @@ class AdminAgentPlaygroundServiceTest {
                 throw new IllegalStateException(failureMessage);
             }
             return summary;
+        }
+
+        @Override
+        public String generatePlanningSummary(
+                String prompt,
+                java.util.List<String> suggestedWorkflows,
+                java.util.List<String> matchedSignals,
+                java.util.List<String> unresolvedInputs,
+                java.util.List<String> warnings,
+                AgentModelProfile modelProfile
+        ) {
+            lastModelProfile = modelProfile;
+            return generatePlanningSummary(prompt, suggestedWorkflows, matchedSignals, unresolvedInputs, warnings);
         }
     }
 }

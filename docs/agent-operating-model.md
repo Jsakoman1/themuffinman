@@ -23,6 +23,7 @@ The machine-readable source of truth is:
 - Treat `docs/codex-fast-path.md` as the compact execution entrypoint for most feature work.
 - `docs/codex-fast-path.md` is the compact execution entrypoint for most feature work.
 - For product-direction, UX, adaptive-surface, or Social Useful Network sessions, read `docs/product-memory.md` and `docs/product-vision.md` first so future reasoning starts from durable lessons and the canonical product direction instead of from backlog noise.
+- For `/vision` implementation work, read `docs/vision-architecture-patterns.md` before backend orchestration, API, frontend canvas, prompt-handling, or executor decisions.
 - Treat `agent-operating-model.yaml` as the machine-operational contract for high-impact workflows.
 - Treat `docs/feature-delivery-workflow.md` as the canonical human-readable source for the end-to-end feature delivery process around plans, context, validation evidence, and closeout.
 - Treat `docs/validation-memory.md` and `docs/validation-memory.json` as the compact durable memory for canonical validator-facing commands, manifest evidence shape, and repeat closeout pitfalls.
@@ -226,6 +227,7 @@ Context-first session workflow:
 - generate or read a topic context pack with `make codex-context topic=<topic> intent='<intent>'` when the task has a clear feature, domain, or changed-file focus; it now chains the diff summary, audit summary index, the most relevant audit, targeted tests, and a concise evidence bundle
 - treat `docs/generated/local-tooling/codex-context/latest.execution.json` as the canonical machine-readable manifest for the current context batch and `docs/codex-context-execution-manifest.schema.json` as its contract
 - for product-direction sessions, prepend `docs/product-memory.md` and `docs/product-vision.md` before broader business or technical docs so stable lessons and vision anchor the rest of the search
+- for `/vision` implementation sessions, include `docs/vision-architecture-patterns.md` before deciding backend orchestration, API, frontend canvas, prompt-handling, or executor patterns
 - use `docs/generated/local-tooling/repo-map-summary.md` and `docs/generated/local-tooling/symbol-index-summary.md` only after the compact diff, audit index, and context pack do not identify the needed files
 - fall back to broad `rg` exploration only after the compact context path is insufficient
 

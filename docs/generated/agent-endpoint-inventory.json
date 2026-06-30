@@ -366,6 +366,24 @@
     "path": "/dashboard/me/voice-config"
   },
   {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
+    "handlerMethod": "processVisionPrompt",
+    "httpMethod": "POST",
+    "path": "/dashboard/me/vision/prompt"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
+    "handlerMethod": "transcribeVoice",
+    "httpMethod": "POST",
+    "path": "/dashboard/me/voice/transcribe"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
+    "handlerMethod": "speakVoice",
+    "httpMethod": "POST",
+    "path": "/dashboard/me/voice/speak"
+  },
+  {
     "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
     "handlerMethod": "applyForQuest",
     "httpMethod": "POST",

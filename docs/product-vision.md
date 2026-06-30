@@ -241,3 +241,5 @@ If a future design choice makes the product more expressive but less clear, clar
 The app should always feel like it is adapting around a real task, not like the user is filling out a generic software form.
 
 Future product-direction sessions should start from `docs/product-memory.md` for durable lessons and `docs/product-vision.md` for long-term direction, then expand outward into the living business and technical docs only when the task needs implementation detail.
+
+Future `/vision` implementation sessions should also read `docs/vision-architecture-patterns.md` before making backend orchestration, API, frontend canvas, prompt-handling, or executor decisions.

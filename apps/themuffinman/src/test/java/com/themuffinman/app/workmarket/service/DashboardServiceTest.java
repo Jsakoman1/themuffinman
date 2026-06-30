@@ -332,8 +332,10 @@ class DashboardServiceTest {
         voiceProperties.setEnabled(true);
         voiceProperties.setSpeechToTextEnabled(true);
         voiceProperties.setTextToSpeechEnabled(true);
-        voiceProperties.setRecognitionProvider("browser");
-        voiceProperties.setSynthesisProvider("browser");
+        voiceProperties.setProvider("openai");
+        voiceProperties.setRecognitionProvider("openai");
+        voiceProperties.setSynthesisProvider("openai");
+        voiceProperties.setApiKey("test-openai-key");
         voiceProperties.setPreferredLocale("en-US");
         voiceProperties.setInterimResults(true);
         voiceProperties.setContinuousRecognition(false);
@@ -345,8 +347,8 @@ class DashboardServiceTest {
         assertTrue(config.isEnabled());
         assertTrue(config.isSpeechToTextEnabled());
         assertTrue(config.isTextToSpeechEnabled());
-        assertEquals("browser", config.getRecognitionProvider());
-        assertEquals("browser", config.getSynthesisProvider());
+        assertEquals("openai", config.getRecognitionProvider());
+        assertEquals("openai", config.getSynthesisProvider());
         assertEquals("en-US", config.getPreferredLocale());
         assertTrue(config.isInterimResults());
         assertEquals(2, config.getMaxAlternatives());

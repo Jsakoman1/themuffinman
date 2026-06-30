@@ -1,17 +1,17 @@
 {
   "repo-map": {
-    "updated_at": "2026-06-30T13:19:35Z",
+    "updated_at": "2026-06-30T16:08:26Z",
     "output": "docs/generated/local-tooling/repo-map.json",
     "cache_status": "refreshed",
-    "payload_checksum": "341277fd518e43983d909a8623a10b22311dc9eaf30d7d467fe247fd663233d0",
-    "semantic_checksum": "8a412839e0c4dbb424f7cda1d3381ddc6960d0c7f4a054b9bdad0597132a8ced"
+    "payload_checksum": "ed82a6dae3cf3ca40009fa01264a831d0ae82cfafd8e13f8f12e158dd8d67fe3",
+    "semantic_checksum": "96bc7c2033e4d8bb00efbefd05ce4a457f3afde40ab67ad0b6fb00bf4b73979c"
   },
   "symbol-index": {
-    "updated_at": "2026-06-30T13:19:36Z",
+    "updated_at": "2026-06-30T16:08:26Z",
     "output": "docs/generated/local-tooling/symbol-index.json",
     "cache_status": "refreshed",
-    "payload_checksum": "3fb30384c0728ad9ef82f1a6527dac253f9013f57af055a0b8c337dae2171a3c",
-    "semantic_checksum": "cce20ae0c520af489ed41dad590a2689e911dc6c7fb9e69845670ef83021a515"
+    "payload_checksum": "6ac3121951df349850535991adb50c95eda20a30c9f15e8d9481913407bb9647",
+    "semantic_checksum": "a3d4bc398373d848d6ec358ee2499d62ff5ed691a834bd3c87771db97f544e13"
   },
   "endpoint-contract-packs/agent": {
     "updated_at": "2026-06-30T10:53:31Z",
@@ -28,88 +28,88 @@
     "semantic_checksum": "d20ece0a75078ed69205f8f30147b1ebac7c3a6eefdd36314b1b13d06316297d"
   },
   "endpoint-contract-packs/app_users": {
-    "updated_at": "2026-06-30T13:19:36Z",
+    "updated_at": "2026-06-30T16:08:01Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/app_users.json",
     "cache_status": "refreshed",
-    "payload_checksum": "ad08aa5924b2e1c079143a14af6edb9665e28293a0821751693978d60596b423",
-    "semantic_checksum": "c6026538ad2d156a9873c2142ad37b2102b0bca63e960e469c41ab14dd8d2e9a"
+    "payload_checksum": "fda5f34d6c54527e886d7824ecac44048ad3a3242bdd44ae7e7371209ac932d9",
+    "semantic_checksum": "a02bb770faa12b9b458fe422115d0a80554627ab5d34f626bf71f50fb9516c00"
   },
   "endpoint-contract-packs/applications": {
-    "updated_at": "2026-06-30T13:19:36Z",
+    "updated_at": "2026-06-30T16:08:01Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/applications.json",
     "cache_status": "refreshed",
-    "payload_checksum": "7a47ee4b124ead15392df5b1aadf1378c11e5805a874661a876271ebe6a81eaa",
-    "semantic_checksum": "69c2ecdcf999b27abd94072a0a3ed4e54fb470b61586730d5ac64365424d4fbb"
+    "payload_checksum": "641843ccbb0d1518fd0f54d7b7a18003a3c468d81dae456e318388f7cac7cfe4",
+    "semantic_checksum": "a8747898e3deca66b0602ab993c3c369c41b6cd3613c257ad54b02ddba45f176"
   },
   "endpoint-contract-packs/auth": {
-    "updated_at": "2026-06-30T13:19:36Z",
+    "updated_at": "2026-06-30T16:08:01Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/auth.json",
     "cache_status": "refreshed",
-    "payload_checksum": "743115e9db5b1c66056e95dd73aaacb11ede9a5a4a10291dbfea92dac8521648",
-    "semantic_checksum": "b2533b53e3bc026e4a3391ddca720544a3d986e342c9a214ef03b20037261835"
+    "payload_checksum": "0f299b5d0d1eb7c78e521e4142cad2aa1e536e0f20001398e027de14a2e141ce",
+    "semantic_checksum": "b5abac5456f2a4a7163e0417549acc03ef2708819dceb20505750c4768e4b4cd"
   },
   "endpoint-contract-packs/business": {
-    "updated_at": "2026-06-30T13:19:36Z",
+    "updated_at": "2026-06-30T16:08:01Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/business.json",
     "cache_status": "refreshed",
-    "payload_checksum": "c5da6b14429904cad0bfa0ff579d85d4e41c4594efa64fe4af0d6deb33ca6859",
-    "semantic_checksum": "632b11447202ae65dc27f8e77f9091cf0e4d356f1baa35cd436c31850402b432"
+    "payload_checksum": "02bf23af8f4c7d32d86bd8e014d6ffeca8f9ec97bd433f2dd33be7fadea5e2fe",
+    "semantic_checksum": "a56e008e774540eda3a7ea2192ece523ea06605ebd642de764ddb14689f4203b"
   },
   "endpoint-contract-packs/chat": {
-    "updated_at": "2026-06-30T13:19:36Z",
+    "updated_at": "2026-06-30T16:08:01Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/chat.json",
     "cache_status": "refreshed",
-    "payload_checksum": "5994b788f076ba68c7aac0a1a7a239052708478151f0fbb15fb765fd77fce8f1",
-    "semantic_checksum": "fefa7aae6bec16cf70f7b27a94035b0a581c8755d86230f85880420d08ccd3e7"
+    "payload_checksum": "d134c84ec72fdb2d6112b03d52bd62cf439e32db858dfc128f9629824252af8d",
+    "semantic_checksum": "a65f37d6519723e501d34db7c1e57a77a555723d4a9902df27724f7c3107b535"
   },
   "endpoint-contract-packs/circles": {
-    "updated_at": "2026-06-30T13:19:36Z",
+    "updated_at": "2026-06-30T16:08:01Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/circles.json",
     "cache_status": "refreshed",
-    "payload_checksum": "df00f4b67603b5ab4e2584591dc661b55dc405b16c871bb41bc27018814cb387",
-    "semantic_checksum": "d05ee93539135b57e2b7703e4e3d3c52cb1b28915443dda38125d40ec555a33c"
+    "payload_checksum": "4a2a2a59670f79cfa2615ac136aa2d6aca3e53b356b5804b58cdab75f4b7a036",
+    "semantic_checksum": "bbcf7758780da394a888bba6592ac4e7353dfc222b11b016a59a4190172838b3"
   },
   "endpoint-contract-packs/dashboard": {
-    "updated_at": "2026-06-30T13:19:36Z",
+    "updated_at": "2026-06-30T16:08:01Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/dashboard.json",
     "cache_status": "refreshed",
-    "payload_checksum": "168aeaed27ae6adfb2df07d4c5b6ca4ccd244c862f516da7e6e8157b8e1f844f",
-    "semantic_checksum": "2e039c189638fe2a6eab4a979f1175129ecf188ae34999cca492ab6fbf07c6a3"
+    "payload_checksum": "e9597aca0ae1102ea10cb3e90190f20cb9e260e316808c75a0383387ef3f781c",
+    "semantic_checksum": "4cfddc5ebc22e28670911f54573595a5dc6ee7e58b6a58b5dd8c7cf48b407a46"
   },
   "endpoint-contract-packs/location": {
-    "updated_at": "2026-06-30T13:19:37Z",
+    "updated_at": "2026-06-30T16:08:01Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/location.json",
     "cache_status": "refreshed",
-    "payload_checksum": "2a30dcc415657d02e2f210bee4f28f7c0555bf28e9c23718445a306cf93b432c",
-    "semantic_checksum": "9c4db1ce7d1d2b512e02f8fe3153d24e75d6047079f5fd1c67673f08217e1fab"
+    "payload_checksum": "aa2043b7a5e7e1a6df4f94bedb1aab5ce0a00e42ad539e478157963cf5b0b069",
+    "semantic_checksum": "76c952cd94eeda1f52f024ebd93af14aaee3c649b10a9af9a5db25db4b332de9"
   },
   "endpoint-contract-packs/news": {
-    "updated_at": "2026-06-30T13:19:37Z",
+    "updated_at": "2026-06-30T16:08:01Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/news.json",
     "cache_status": "refreshed",
-    "payload_checksum": "be9671b73e27938e1f78401f3aa57937d73917e88d2493c8b48cf813fe402988",
-    "semantic_checksum": "b8a7b5b4ffc32081cc8494cf7a2a5e61022ed4cb9d4b77f9cb762a4c9cfad8ef"
+    "payload_checksum": "4c8d65655e36275ed48871514d25da0a2d8b26001772a789361130512a18f2da",
+    "semantic_checksum": "43fd459e66ab95e3dc76bca59bc16951eb3303f0636026b6e796aab81fe3d82a"
   },
   "endpoint-contract-packs/quests": {
-    "updated_at": "2026-06-30T13:19:37Z",
+    "updated_at": "2026-06-30T16:08:01Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/quests.json",
     "cache_status": "refreshed",
-    "payload_checksum": "3bf197f6f19d9a47ac4fd5c43024003899e43221f71ff40d408b3af39adc305b",
-    "semantic_checksum": "f0abb1456c95fad03a4b6d070e3cbd92f64d96313e5423faa72b116c550f471d"
+    "payload_checksum": "ec8190e7bfc633ac834dba6e103fa7c54706226dc9ddb0b3d972f22077f00061",
+    "semantic_checksum": "3f42260970f3f8998df3ecaecb29afdc00603b3cc9332d594b1d5f041f854c52"
   },
   "endpoint-contract-packs/rides": {
-    "updated_at": "2026-06-30T13:19:37Z",
+    "updated_at": "2026-06-30T16:08:01Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/rides.json",
     "cache_status": "refreshed",
-    "payload_checksum": "72f5029d11183b846bd6c04c875d769f1fd81381262861d8327446e24608d522",
-    "semantic_checksum": "8f3d34888dfd92066a95df2530b4bfa5cecc31f9f2d503312062c7ad82a1e4f4"
+    "payload_checksum": "13458358513154a76f6844168d5e4da0e3b6b0eb649d981994884cbad34f0551",
+    "semantic_checksum": "62fe46ee953630009c0a6882c1392407b2df17da0d5b0c3bce6c2840e4e88fd0"
   },
   "endpoint-contract-packs/things": {
-    "updated_at": "2026-06-30T13:19:37Z",
+    "updated_at": "2026-06-30T16:08:01Z",
     "output": "docs/generated/local-tooling/endpoint-contract-packs/things.json",
     "cache_status": "refreshed",
-    "payload_checksum": "30018023408596c5aec181d03318ce42d86cf507a751f963a50e2280b95706c0",
-    "semantic_checksum": "c2f1ebc97b577217336279eb21e09f8047c0b3c756f6016dac47bed6d5c48e2c"
+    "payload_checksum": "75cd034f0de5ef455ffc9894f779a0a1af56b79f093327f05e715b0d307da8db",
+    "semantic_checksum": "917a3a1c9448f0bf79a972663177555b923ac8ecd37f9720aa7fd2ec4af796dc"
   },
   "endpoint-contract-packs/index": {
     "updated_at": "2026-06-30T10:53:32Z",

@@ -176,6 +176,7 @@ This tier is intentionally strict:
 - `make codex-context` also writes `docs/generated/local-tooling/codex-context/latest.execution.json`, the canonical machine-readable batch manifest for read order, evidence, and next actions, with schema `docs/codex-context-execution-manifest.schema.json`.
 - When the resolver shape is manifest-backed or closeout-sensitive, `make codex-context` should also surface validation memory so command and evidence expectations are present before the first closeout pass.
 - For product-direction, UX, interaction design, or Social Useful Network vision work, start by reading `docs/product-memory.md` and `docs/product-vision.md` before broadening into implementation docs.
+- For `/vision` implementation work, read `docs/vision-architecture-patterns.md` before backend orchestration, API, frontend canvas, prompt-handling, or executor decisions.
 
 3. Focused routing and required-surface resolution
 

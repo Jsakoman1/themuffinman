@@ -94,6 +94,7 @@ class AdminAgentGoldenPromptMatrixTest {
     private static class StubAdminAgentTextProvider extends OpenAiAdminAgentClient {
         private boolean configured;
         private AdminAgentPromptTranslation translation;
+        private String summary = "stub";
 
         private StubAdminAgentTextProvider() {
             super(new AgentProperties());
@@ -112,6 +113,18 @@ class AdminAgentGoldenPromptMatrixTest {
         @Override
         public AdminAgentPromptTranslation translatePromptToEnglish(String prompt) {
             return translation != null ? translation : super.translatePromptToEnglish(prompt);
+        }
+
+        @Override
+        public String generatePlanningSummary(
+                String prompt,
+                java.util.List<String> suggestedWorkflows,
+                java.util.List<String> matchedSignals,
+                java.util.List<String> unresolvedInputs,
+                java.util.List<String> warnings,
+                AgentModelProfile modelProfile
+        ) {
+            return summary;
         }
     }
 

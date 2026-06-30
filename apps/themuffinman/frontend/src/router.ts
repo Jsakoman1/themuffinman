@@ -19,7 +19,7 @@ const BusinessHubView = () => import("./modules/business/views/BusinessHubView.v
 const ThingSharingView = () => import("./modules/things/views/ThingSharingView.vue");
 const RideSharingView = () => import("./modules/rides/views/RideSharingView.vue");
 const ChatWorkspaceView = () => import("./modules/chat/views/ChatWorkspaceView.vue");
-const VisionSurfaceView = () => import("./modules/vision/views/VisionSurfaceView.vue");
+const VisionSurfaceModernView = () => import("./modules/vision/views/VisionSurfaceModernView.vue");
 
 
 const routes = [
@@ -135,7 +135,7 @@ const routes = [
     },
     {
         path: '/vision',
-        component: VisionSurfaceView,
+        component: VisionSurfaceModernView,
         meta: {requiresAuth: true}
     }
 ];

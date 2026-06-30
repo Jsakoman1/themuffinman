@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T13:19:36Z",
+  "generated_at": "2026-06-30T16:08:01Z",
   "endpoint_family": "location",
   "endpoints": [
     {
@@ -124,7 +124,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
       "matched_paths": [
         "status"
       ]

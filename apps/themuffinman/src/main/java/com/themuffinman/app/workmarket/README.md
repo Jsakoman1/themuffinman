@@ -7,7 +7,7 @@ Owns quests, applications, quest workflow transitions, reviews, dashboard read m
 ## Main Entry Points
 
 - Controllers: `controller/`
-- Query/read services: `service/QuestService.java`, `service/DashboardService.java`, `service/DashboardSummaryAssembler.java`, `service/QuestViewAssembler.java`, `service/QuestApplicationViewAssembler.java`
+- Query/read services: `service/QuestService.java`, `service/DashboardService.java`, `service/DashboardVisionPromptService.java`, `service/DashboardSummaryAssembler.java`, `service/QuestViewAssembler.java`, `service/QuestApplicationViewAssembler.java`
 - Mutation use cases: `service/*UseCase.java`
 - Domain events and side-effect handlers: `event/`
 - Policies and workflow support: `service/QuestAccessPolicyService.java`, `service/QuestStateTransitionService.java`, `service/QuestApplicationWorkflowSupport.java`
@@ -28,7 +28,8 @@ Owns quests, applications, quest workflow transitions, reviews, dashboard read m
 ## Forbidden Shortcuts
 
 - Do not put workflow rules or permission decisions in controllers or frontend-only code.
-- Do not hardcode adaptive voice defaults in the frontend when `DashboardService` or typed config can provide the source-of-truth contract instead.
+- Do not hardcode adaptive voice defaults in the frontend when `DashboardService`, `DashboardVoiceService`, or typed config can provide the source-of-truth contract instead.
+- Do not bypass `DashboardVisionPromptService` or the shared admin-agent planning core when the vision screen needs to decode typed or voice-derived prompts.
 - Do not duplicate quest owner, admin, application detail, execution, or term-decision checks outside `QuestAccessPolicyService`.
 - Do not map application or quest DTOs from lazy entities without using fetch-safe repository paths.
 - Do not add a new quest/application state transition without updating tests and living docs.

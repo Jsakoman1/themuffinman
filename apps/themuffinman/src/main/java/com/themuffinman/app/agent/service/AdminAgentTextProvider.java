@@ -16,6 +16,17 @@ public interface AdminAgentTextProvider {
             List<String> warnings
     );
 
+    default String generatePlanningSummary(
+            String prompt,
+            List<String> suggestedWorkflows,
+            List<String> matchedSignals,
+            List<String> unresolvedInputs,
+            List<String> warnings,
+            AgentModelProfile modelProfile
+    ) {
+        return generatePlanningSummary(prompt, suggestedWorkflows, matchedSignals, unresolvedInputs, warnings);
+    }
+
     default AdminAgentPromptTranslation translatePromptToEnglish(String prompt) {
         return AdminAgentPromptTranslation.builder()
                 .sourceLanguage("unknown")

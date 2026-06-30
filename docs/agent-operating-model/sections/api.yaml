@@ -111,6 +111,21 @@ api:
     path: "/dashboard/me/voice-config"
     controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: getMyVoiceConfig
+  - id: process_dashboard_vision_prompt
+    method: POST
+    path: "/dashboard/me/vision/prompt"
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
+    handler_method: processVisionPrompt
+  - id: transcribe_dashboard_voice
+    method: POST
+    path: "/dashboard/me/voice/transcribe"
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
+    handler_method: transcribeVoice
+  - id: speak_dashboard_voice
+    method: POST
+    path: "/dashboard/me/voice/speak"
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
+    handler_method: speakVoice
   - id: create_quest
     method: POST
     path: "/quests"

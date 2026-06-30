@@ -144,11 +144,12 @@ public class DashboardService {
 
     public DashboardVoiceConfigDTO getMyVoiceConfig(AppUser currentUser) {
         boolean authenticated = currentUser != null;
+        boolean configured = authenticated && voiceProperties.isEnabled() && voiceProperties.isConfigured();
 
         return DashboardVoiceConfigDTO.builder()
-                .enabled(authenticated && voiceProperties.isEnabled())
-                .speechToTextEnabled(authenticated && voiceProperties.isEnabled() && voiceProperties.isSpeechToTextEnabled())
-                .textToSpeechEnabled(authenticated && voiceProperties.isEnabled() && voiceProperties.isTextToSpeechEnabled())
+                .enabled(configured)
+                .speechToTextEnabled(configured && voiceProperties.isSpeechToTextEnabled())
+                .textToSpeechEnabled(configured && voiceProperties.isTextToSpeechEnabled())
                 .recognitionProvider(voiceProperties.getRecognitionProvider())
                 .synthesisProvider(voiceProperties.getSynthesisProvider())
                 .preferredLocale(voiceProperties.getPreferredLocale())

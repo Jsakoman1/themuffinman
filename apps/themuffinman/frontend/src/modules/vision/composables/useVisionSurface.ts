@@ -1,6 +1,6 @@
 import {computed, onUnmounted, ref} from "vue"
 import {useRouter} from "vue-router"
-import {dashboardApi} from "../../workmarket/api/clients/dashboardApi.ts"
+import {dashboardApi, type DashboardVisionPromptResponse, type DashboardVoiceTranscription} from "../../workmarket/api/clients/dashboardApi.ts"
 import type {DashboardResponse, DashboardVoiceConfig, Quest} from "../../workmarket/api/contracts.ts"
 import {formatQuestReward} from "../../workmarket/shared/pricing.ts"
 import {formatQuestTermForDisplay} from "../../../shared/questSchedule.ts"
@@ -20,31 +20,6 @@ export type VisionQuestCard = {
   tags: string[]
   tone: "coral" | "sky" | "mint"
   quest: Quest
-}
-
-type BrowserSpeechRecognition = {
-  continuous: boolean
-  interimResults: boolean
-  lang: string
-  maxAlternatives: number
-  onstart: (() => void) | null
-  onend: (() => void) | null
-  onerror: ((event: {error?: string}) => void) | null
-  onresult: ((event: {
-    resultIndex: number
-    results: ArrayLike<ArrayLike<{transcript: string}> & {isFinal?: boolean}>
-  }) => void) | null
-  start: () => void
-  stop: () => void
-}
-
-type BrowserSpeechRecognitionConstructor = new () => BrowserSpeechRecognition
-
-declare global {
-  interface Window {
-    webkitSpeechRecognition?: BrowserSpeechRecognitionConstructor
-    SpeechRecognition?: BrowserSpeechRecognitionConstructor
-  }
 }
 
 const tones: VisionQuestCard["tone"][] = ["coral", "sky", "mint"]
@@ -121,18 +96,46 @@ export const useVisionSurface = () => {
   const recognizedPrompt = ref("Find me a calm side job for today, close to home, no late-night shifts.")
   const speechSummary = ref("")
 
-  const recognition = ref<BrowserSpeechRecognition | null>(null)
-  const activeSpeechUtterance = ref<SpeechSynthesisUtterance | null>(null)
+  const mediaRecorder = ref<MediaRecorder | null>(null)
+  const activeMediaStream = ref<MediaStream | null>(null)
+  const activeSpeechAudio = ref<HTMLAudioElement | null>(null)
+  const activeSpeechAudioUrl = ref("")
+  const recordedChunks = ref<Blob[]>([])
+  const discardPendingRecording = ref(false)
+  const composerExpanded = ref(true)
 
   const voiceEnabled = computed(() => voiceConfig.value?.enabled ?? false)
   const speechToTextEnabled = computed(() => voiceConfig.value?.speechToTextEnabled ?? false)
   const textToSpeechEnabled = computed(() => voiceConfig.value?.textToSpeechEnabled ?? false)
-  const speechLocale = computed(() => voiceConfig.value?.preferredLocale || navigator.language || "en-US")
   const speechRecognitionSupported = computed(() => typeof window !== "undefined"
-    && !!(window.SpeechRecognition || window.webkitSpeechRecognition))
+    && typeof navigator !== "undefined"
+    && typeof navigator.mediaDevices?.getUserMedia === "function"
+    && typeof MediaRecorder !== "undefined")
   const speechSynthesisSupported = computed(() => typeof window !== "undefined"
-    && "speechSynthesis" in window
-    && typeof SpeechSynthesisUtterance !== "undefined")
+    && typeof Audio !== "undefined")
+  const promptComposerVisible = computed(() => composerExpanded.value
+    || voiceState.value !== "idle"
+    || recognizedPrompt.value.trim().length > 0
+    || speechSummary.value.trim().length > 0)
+  const agentAttentionLevel = computed(() => {
+    if (voiceState.value === "processing") {
+      return "processing"
+    }
+
+    if (voiceState.value === "listening") {
+      return "listening"
+    }
+
+    if (voiceState.value === "speaking") {
+      return "speaking"
+    }
+
+    if (speechSummary.value.trim().length > 0) {
+      return "ready"
+    }
+
+    return "quiet"
+  })
 
   const cards = computed(() => {
     if (!dashboard.value) {
@@ -168,7 +171,7 @@ export const useVisionSurface = () => {
     }
 
     if (!speechRecognitionSupported.value && !speechSynthesisSupported.value) {
-      return "This browser does not expose speech recognition or synthesis."
+      return "This browser does not expose microphone input or audio playback."
     }
 
     if (voiceRuntimeError.value) {
@@ -176,15 +179,15 @@ export const useVisionSurface = () => {
     }
 
     if (voiceState.value === "listening") {
-      return "Listening through browser speech recognition."
+      return "Recording audio for backend transcription."
     }
 
     if (voiceState.value === "processing") {
-      return "Turning speech into a useful visual summary."
+      return "Sending voice to the backend."
     }
 
     if (voiceState.value === "speaking") {
-      return "Reading the current result summary aloud."
+      return "Playing backend-generated speech."
     }
 
     return "Voice is ready when you choose to start."
@@ -203,126 +206,253 @@ export const useVisionSurface = () => {
     speechSummary.value = `I found ${visibleCards.length} visible job options. ${leadCards.join(". ")}.`
   }
 
-  const stopListening = () => {
-    recognition.value?.stop()
-    if (voiceState.value === "listening") {
+  const applyVisionPromptResponse = (response: DashboardVisionPromptResponse) => {
+    recognizedPrompt.value = response.normalizedPrompt
+    activeFilter.value = response.activeFilter
+    surfaceMode.value = response.surfaceMode
+    speechSummary.value = response.assistantNote
+    composerExpanded.value = true
+  }
+
+  const processPrompt = async (prompt: string, source = "text") => {
+    const trimmedPrompt = prompt.trim()
+    if (!trimmedPrompt) {
+      return
+    }
+
+    voiceRuntimeError.value = ""
+
+    try {
+      voiceState.value = "processing"
+      const response = await dashboardApi.processVisionPrompt(trimmedPrompt, source)
+      applyVisionPromptResponse(response)
+
+      if (voiceConfig.value?.autoSpeakResponses && voiceEnabled.value && textToSpeechEnabled.value) {
+        await speakVoiceText(response.assistantNote)
+      } else {
+        voiceState.value = "idle"
+      }
+    } catch (caught) {
+      console.error(caught)
+      voiceRuntimeError.value = "Prompt processing failed in the backend."
       voiceState.value = "idle"
     }
   }
 
-  const stopSpeaking = () => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel()
+  const resetRecordingState = () => {
+    if (activeMediaStream.value) {
+      activeMediaStream.value.getTracks().forEach((track) => track.stop())
+      activeMediaStream.value = null
     }
-    activeSpeechUtterance.value = null
+    mediaRecorder.value = null
+    recordedChunks.value = []
+    discardPendingRecording.value = false
+  }
+
+  const openComposer = () => {
+    composerExpanded.value = true
+  }
+
+  const closeComposer = () => {
+    if (voiceState.value !== "idle" || recognizedPrompt.value.trim().length > 0 || speechSummary.value.trim().length > 0) {
+      return
+    }
+
+    composerExpanded.value = false
+  }
+
+  const speakVoiceText = async (text: string) => {
+    const trimmedText = text.trim()
+    if (!trimmedText) {
+      return
+    }
+
+    try {
+      voiceState.value = "processing"
+      const audioBuffer = await dashboardApi.speakVoiceText(trimmedText)
+      const audioBlob = new Blob([audioBuffer], {type: "audio/mpeg"})
+      const audioUrl = URL.createObjectURL(audioBlob)
+      activeSpeechAudioUrl.value = audioUrl
+      const audio = new Audio(audioUrl)
+      activeSpeechAudio.value = audio
+      audio.onended = () => {
+        if (activeSpeechAudioUrl.value === audioUrl) {
+          URL.revokeObjectURL(audioUrl)
+          activeSpeechAudioUrl.value = ""
+        }
+        activeSpeechAudio.value = null
+        if (voiceState.value === "speaking") {
+          voiceState.value = "idle"
+        }
+      }
+      audio.onerror = () => {
+        if (activeSpeechAudioUrl.value === audioUrl) {
+          URL.revokeObjectURL(audioUrl)
+          activeSpeechAudioUrl.value = ""
+        }
+        voiceRuntimeError.value = "Speech playback failed in the backend."
+        activeSpeechAudio.value = null
+        voiceState.value = "idle"
+      }
+      audio.oncanplaythrough = () => {
+        voiceState.value = "speaking"
+        void audio.play().catch((caught) => {
+          console.error(caught)
+          voiceRuntimeError.value = "Speech playback could not start."
+          activeSpeechAudio.value = null
+          voiceState.value = "idle"
+          if (activeSpeechAudioUrl.value === audioUrl) {
+            URL.revokeObjectURL(audioUrl)
+            activeSpeechAudioUrl.value = ""
+          }
+        })
+      }
+    } catch (caught) {
+      console.error(caught)
+      voiceRuntimeError.value = "Speech synthesis failed in the backend."
+      voiceState.value = "idle"
+    }
+  }
+
+  const stopListening = (discard = false) => {
+    if (discard) {
+      discardPendingRecording.value = true
+    }
+
+    if (mediaRecorder.value && mediaRecorder.value.state !== "inactive") {
+      mediaRecorder.value.stop()
+      return
+    }
+
+    if (discard) {
+      resetRecordingState()
+      if (voiceState.value === "listening") {
+        voiceState.value = "idle"
+      }
+    }
+  }
+
+  const stopSpeaking = () => {
+    if (activeSpeechAudio.value) {
+      activeSpeechAudio.value.pause()
+      activeSpeechAudio.value.currentTime = 0
+    }
+    if (activeSpeechAudioUrl.value) {
+      URL.revokeObjectURL(activeSpeechAudioUrl.value)
+      activeSpeechAudioUrl.value = ""
+    }
+    activeSpeechAudio.value = null
     if (voiceState.value === "speaking") {
       voiceState.value = "idle"
     }
   }
 
-  const startListening = () => {
+  const transcribeRecordedAudio = async (audioBlob: Blob) => {
+    try {
+      const transcription: DashboardVoiceTranscription = await dashboardApi.transcribeVoiceAudio(audioBlob)
+      recognizedPrompt.value = transcription.text
+      await processPrompt(transcription.text, "voice")
+    } catch (caught) {
+      console.error(caught)
+      voiceRuntimeError.value = "Speech transcription failed in the backend."
+      voiceState.value = "idle"
+    } finally {
+      resetRecordingState()
+    }
+  }
+
+  const startListening = async () => {
     voiceRuntimeError.value = ""
 
     if (!voiceEnabled.value || !speechToTextEnabled.value) {
-      voiceRuntimeError.value = "Speech recognition is disabled by backend config."
+      voiceRuntimeError.value = "Speech transcription is disabled by backend config."
       return
     }
 
     if (!speechRecognitionSupported.value) {
-      voiceRuntimeError.value = "Speech recognition is not available in this browser."
+      voiceRuntimeError.value = "Microphone input is not available in this browser."
       return
     }
 
     stopSpeaking()
+    stopListening(true)
 
-    if (!recognition.value) {
-      const RecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition
-      if (!RecognitionCtor) {
-        voiceRuntimeError.value = "Speech recognition is not available in this browser."
-        return
-      }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({audio: true})
+      activeMediaStream.value = stream
+      recordedChunks.value = []
 
-      const instance = new RecognitionCtor()
-      instance.continuous = voiceConfig.value?.continuousRecognition ?? false
-      instance.interimResults = voiceConfig.value?.interimResults ?? true
-      instance.lang = speechLocale.value
-      instance.maxAlternatives = voiceConfig.value?.maxAlternatives ?? 1
-      instance.onstart = () => {
-        voiceState.value = "listening"
-      }
-      instance.onend = () => {
-        if (voiceState.value === "listening") {
-          voiceState.value = "idle"
+      const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+        ? "audio/webm;codecs=opus"
+        : MediaRecorder.isTypeSupported("audio/webm")
+          ? "audio/webm"
+          : ""
+
+      const recorder = mimeType
+        ? new MediaRecorder(stream, {mimeType})
+        : new MediaRecorder(stream)
+
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunks.value.push(event.data)
         }
       }
-      instance.onerror = (event) => {
-        voiceRuntimeError.value = `Speech recognition error: ${event.error ?? "unknown_error"}`
+      recorder.onerror = (event) => {
+        voiceRuntimeError.value = `Speech transcription error: ${event.error?.name ?? "unknown_error"}`
         voiceState.value = "idle"
       }
-      instance.onresult = (event) => {
-        const transcript = Array.from(event.results)
-          .slice(event.resultIndex)
-          .flatMap((result) => Array.from(result))
-          .map((alternative) => alternative.transcript)
-          .join(" ")
-          .trim()
-
-        if (transcript) {
-          recognizedPrompt.value = transcript
-        }
-        voiceState.value = "processing"
-        window.setTimeout(() => {
-          if (voiceState.value === "processing") {
+      recorder.onstart = () => {
+        voiceState.value = "listening"
+      }
+      recorder.onstop = () => {
+        if (discardPendingRecording.value) {
+          resetRecordingState()
+          if (voiceState.value === "listening") {
             voiceState.value = "idle"
           }
-        }, 450)
-      }
-      recognition.value = instance
-    }
+          return
+        }
 
-    recognition.value.lang = speechLocale.value
-    recognition.value.interimResults = voiceConfig.value?.interimResults ?? true
-    recognition.value.continuous = voiceConfig.value?.continuousRecognition ?? false
-    recognition.value.maxAlternatives = voiceConfig.value?.maxAlternatives ?? 1
-    recognition.value.start()
+        const audioBlob = new Blob(recordedChunks.value, {type: recorder.mimeType || "audio/webm"})
+        voiceState.value = "processing"
+        void transcribeRecordedAudio(audioBlob)
+      }
+
+      mediaRecorder.value = recorder
+      recorder.start()
+    } catch (caught) {
+      console.error(caught)
+      voiceRuntimeError.value = "Microphone access failed."
+      voiceState.value = "idle"
+      if (activeMediaStream.value) {
+        activeMediaStream.value.getTracks().forEach((track) => track.stop())
+        activeMediaStream.value = null
+      }
+      mediaRecorder.value = null
+      recordedChunks.value = []
+    }
   }
 
-  const speakSummary = () => {
+  const speakSummary = async () => {
     voiceRuntimeError.value = ""
 
     if (!voiceEnabled.value || !textToSpeechEnabled.value) {
-      voiceRuntimeError.value = "Speech synthesis is disabled by backend config."
+      voiceRuntimeError.value = "Speech playback is disabled by backend config."
       return
     }
 
     if (!speechSynthesisSupported.value) {
-      voiceRuntimeError.value = "Speech synthesis is not available in this browser."
+      voiceRuntimeError.value = "Audio playback is not available in this browser."
       return
     }
 
     stopListening()
     stopSpeaking()
-    updateSpeechSummary()
-
-    const utterance = new SpeechSynthesisUtterance(speechSummary.value)
-    utterance.lang = speechLocale.value
-    utterance.onstart = () => {
-      voiceState.value = "speaking"
-    }
-    utterance.onend = () => {
-      activeSpeechUtterance.value = null
-      if (voiceState.value === "speaking") {
-        voiceState.value = "idle"
-      }
-    }
-    utterance.onerror = () => {
-      voiceRuntimeError.value = "Speech synthesis failed in this browser."
-      activeSpeechUtterance.value = null
-      voiceState.value = "idle"
+    if (!speechSummary.value.trim().length) {
+      updateSpeechSummary()
     }
 
-    activeSpeechUtterance.value = utterance
-    window.speechSynthesis.speak(utterance)
+    await speakVoiceText(speechSummary.value)
   }
 
   const openQuest = async (card: VisionQuestCard) => {
@@ -357,7 +487,7 @@ export const useVisionSurface = () => {
   }
 
   onUnmounted(() => {
-    stopListening()
+    stopListening(true)
     stopSpeaking()
   })
 
@@ -378,14 +508,19 @@ export const useVisionSurface = () => {
     textToSpeechEnabled,
     speechRecognitionSupported,
     speechSynthesisSupported,
+    promptComposerVisible,
+    agentAttentionLevel,
     speechStatusLabel,
     voiceRuntimeError,
     speechSummary,
     init,
     openQuest,
+    processPrompt,
     startListening,
     stopListening,
     speakSummary,
-    stopSpeaking
+    stopSpeaking,
+    openComposer,
+    closeComposer
   }
 }

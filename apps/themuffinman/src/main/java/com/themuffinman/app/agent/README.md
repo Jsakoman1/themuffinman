@@ -15,6 +15,7 @@ Owns admin-facing agent playground and dry-run surfaces used to inspect planner/
 
 - Add focused controller/service tests when agent response contracts or safety fields change.
 - Keep agent-operating-model validation tests passing when automation contracts change.
+- Keep the OpenAI-backed summary path aligned with the default-mini / creative-medium model split when model-routing rules change.
 
 ## Living Docs
 

@@ -122,7 +122,7 @@ stateMachines:
     owner: CircleRelationService
     stateSource:
       type: derived
-      javaClass: com.themuffinman.app.social.dto.CircleRelationStatus
+      javaClass: com.themuffinman.app.social.dto.CircleRelationStatusDTO
     states:
       - NONE
       - CIRCLE
