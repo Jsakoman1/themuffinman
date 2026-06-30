@@ -1,140 +1,169 @@
 <script setup lang="ts">
 import {computed} from "vue"
 import {useMountedAsync} from "../../../composables/useMountedAsync.ts"
-import {useVisionSurface} from "../composables/useVisionSurface.ts"
+import {useVisionConversation} from "../composables/useVisionConversation.ts"
 
 const {
   isLoading,
   error,
+  inputText,
+  response,
   voiceState,
-  surfaceMode,
-  activeFilter,
-  recognizedPrompt,
-  visibleJobsLabel,
   voiceEnabled,
   speechToTextEnabled,
   textToSpeechEnabled,
   speechRecognitionSupported,
   speechSynthesisSupported,
   promptComposerVisible,
-  agentAttentionLevel,
+  currentSlotLabel,
+  currentPlaceholder,
+  currentMessage,
+  attentionState,
+  translationWarning,
   speechStatusLabel,
   voiceRuntimeError,
-  speechSummary,
+  lastTranscript,
+  canSend,
   init,
+  processPrompt,
+  resetConversation,
   startListening,
   stopListening,
   speakSummary,
   stopSpeaking,
-  processPrompt,
   openComposer,
   closeComposer
-} = useVisionSurface()
-
-const surfaceModeLabel = computed(() => {
-  if (surfaceMode.value === "compare") {
-    return "Compare"
-  }
-
-  if (surfaceMode.value === "focus") {
-    return "Focus"
-  }
-
-  return "Browse"
-})
-
-const activeFilterLabel = computed(() => {
-  if (activeFilter.value === "today") {
-    return "Today"
-  }
-
-  if (activeFilter.value === "nearby") {
-    return "Nearby"
-  }
-
-  return "Best match"
-})
+} = useVisionConversation()
 
 const agentCaption = computed(() => {
   if (voiceState.value === "listening") {
-    return "Listening for intent."
+    return "Listening for the next turn."
   }
-
   if (voiceState.value === "processing") {
-    return "Decoding prompt with backend agent planning and OpenAI."
+    return "Updating the persisted backend conversation."
   }
-
   if (voiceState.value === "speaking") {
-    return "Speaking the agent response."
+    return "Speaking the current backend response."
   }
-
-  if (speechSummary.value.trim().length > 0) {
-    return speechSummary.value
-  }
-
-  return "The agent is waiting for a prompt."
+  return currentMessage.value
 })
 
 const submitPrompt = async () => {
-  await processPrompt(recognizedPrompt.value, "text")
+  await processPrompt(inputText.value, "text")
 }
 
-const clearPrompt = () => {
-  recognizedPrompt.value = ""
-  speechSummary.value = ""
-  closeComposer()
-}
+const nextActionLabel = computed(() => {
+  if (!response.value) {
+    return "Blank"
+  }
+  if (response.value.nextAction === "SHOW_REVIEW") {
+    return "Review"
+  }
+  if (response.value.nextAction === "BLOCKED") {
+    return "Blocked"
+  }
+  return "Clarify"
+})
 
 useMountedAsync(init)
 </script>
 
 <template>
-  <section class="vision-surface vision-surface--modern">
-    <div class="vision-surface__backdrop vision-surface__backdrop--left" aria-hidden="true"></div>
-    <div class="vision-surface__backdrop vision-surface__backdrop--right" aria-hidden="true"></div>
-    <div class="vision-surface__mesh" aria-hidden="true"></div>
+  <section class="vision-surface">
+    <div class="vision-surface__wash vision-surface__wash--one" aria-hidden="true"></div>
+    <div class="vision-surface__wash vision-surface__wash--two" aria-hidden="true"></div>
+    <div class="vision-surface__grain" aria-hidden="true"></div>
 
-    <header class="vision-surface__topline">
-      <span class="vision-surface__brand">Vision Agent</span>
-      <div class="vision-surface__status-chips">
-        <span class="vision-surface__chip vision-surface__chip--soft">{{ visibleJobsLabel }} jobs</span>
-        <span class="vision-surface__chip vision-surface__chip--soft">{{ surfaceModeLabel }}</span>
-        <span class="vision-surface__chip vision-surface__chip--soft">{{ activeFilterLabel }}</span>
+    <header class="vision-surface__header">
+      <span class="vision-surface__brand">Vision Surface</span>
+      <div class="vision-surface__chips">
+        <span class="vision-surface__chip">{{ nextActionLabel }}</span>
+        <span v-if="response?.intent" class="vision-surface__chip">{{ response.intent }}</span>
+        <span v-if="currentSlotLabel" class="vision-surface__chip">{{ currentSlotLabel }}</span>
       </div>
     </header>
 
     <main class="vision-surface__stage">
-      <div class="vision-agent" :class="[`vision-agent--${voiceState}`, `vision-agent--${agentAttentionLevel}`]">
+      <div class="vision-agent" :class="[`vision-agent--${voiceState}`, `vision-agent--${attentionState}`]">
         <span class="vision-agent__halo"></span>
-        <span class="vision-agent__orbit vision-agent__orbit--one"></span>
-        <span class="vision-agent__orbit vision-agent__orbit--two"></span>
+        <span class="vision-agent__ring vision-agent__ring--outer"></span>
+        <span class="vision-agent__ring vision-agent__ring--middle"></span>
+        <span class="vision-agent__ring vision-agent__ring--inner"></span>
         <span class="vision-agent__pulse"></span>
         <span class="vision-agent__core"></span>
       </div>
 
-      <div class="vision-surface__caption">
-        <p class="vision-surface__eyebrow">Adaptive agent</p>
-        <h1>The screen stays calm until intent arrives.</h1>
+      <div class="vision-surface__intro">
+        <p class="vision-surface__eyebrow">Adaptive conversation</p>
+        <h1>One quiet surface. One next step.</h1>
         <p>{{ agentCaption }}</p>
-        <p v-if="voiceRuntimeError" class="vision-surface__inline-error">{{ voiceRuntimeError }}</p>
+        <p v-if="translationWarning" class="vision-surface__hint">{{ translationWarning }}</p>
+        <p v-if="voiceRuntimeError" class="vision-surface__error">{{ voiceRuntimeError }}</p>
       </div>
+
+      <transition name="vision-panel-fade">
+        <section v-if="response" class="vision-panel">
+          <div class="vision-panel__section">
+            <p class="vision-panel__label">Agent response</p>
+            <p class="vision-panel__body">{{ response.message }}</p>
+          </div>
+
+          <div v-if="response.slotSummaries.length" class="vision-panel__section">
+            <p class="vision-panel__label">Collected so far</p>
+            <div class="vision-slot-list">
+              <article v-for="slot in response.slotSummaries" :key="slot.slotId" class="vision-slot-card">
+                <span class="vision-slot-card__label">{{ slot.label }}</span>
+                <p class="vision-slot-card__value">{{ slot.value }}</p>
+              </article>
+            </div>
+          </div>
+
+          <div v-if="response.review" class="vision-panel__section vision-review">
+            <p class="vision-panel__label">Review</p>
+            <h2>{{ response.review.title }}</h2>
+            <p>{{ response.review.description }}</p>
+            <dl class="vision-review__grid">
+              <div>
+                <dt>Reward</dt>
+                <dd>{{ response.review.rewardLabel }}</dd>
+              </div>
+              <div>
+                <dt>Visibility</dt>
+                <dd>{{ response.review.visibility }}</dd>
+              </div>
+              <div>
+                <dt>Execution</dt>
+                <dd>{{ response.executionEnabled ? "Enabled" : "Planning only" }}</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div v-if="lastTranscript" class="vision-panel__section">
+            <p class="vision-panel__label">Last transcript</p>
+            <p class="vision-panel__body">{{ lastTranscript }}</p>
+          </div>
+        </section>
+      </transition>
     </main>
 
     <transition name="vision-composer-fade">
       <section v-if="promptComposerVisible" class="vision-composer">
         <div class="vision-composer__header">
           <div>
-            <p class="vision-surface__eyebrow">Prompt field</p>
-            <h2>Ask in text or speak first, the backend uses one ingest path.</h2>
+            <p class="vision-surface__eyebrow">Prompt dock</p>
+            <h2>{{ currentSlotLabel || "Speak or type the next turn" }}</h2>
           </div>
-          <button type="button" class="vision-composer__ghost" @click="closeComposer">Hide</button>
+          <div class="vision-composer__header-actions">
+            <button type="button" class="vision-composer__ghost" @click="resetConversation">New task</button>
+            <button type="button" class="vision-composer__ghost" @click="closeComposer">Hide</button>
+          </div>
         </div>
 
         <textarea
-          v-model="recognizedPrompt"
+          v-model="inputText"
           class="vision-composer__input"
           rows="3"
-          placeholder="Describe what you want the agent to do"
+          :placeholder="currentPlaceholder"
           @focus="openComposer"
         ></textarea>
 
@@ -150,28 +179,35 @@ useMountedAsync(init)
           <button
             type="button"
             class="vision-composer__action"
-            :disabled="!voiceEnabled || !textToSpeechEnabled || !speechSynthesisSupported"
+            :disabled="!response || !voiceEnabled || !textToSpeechEnabled || !speechSynthesisSupported"
             @click="speakSummary"
           >
             Speak
           </button>
-          <button type="button" class="vision-composer__action vision-composer__action--primary" @click="submitPrompt">
+          <button
+            type="button"
+            class="vision-composer__action vision-composer__action--primary"
+            :disabled="!canSend"
+            @click="submitPrompt"
+          >
             Send
           </button>
-          <button type="button" class="vision-composer__action" @click="clearPrompt">
-            Clear
-          </button>
-          <button type="button" class="vision-composer__action" :disabled="voiceState !== 'listening'" @click="() => stopListening()">
+          <button
+            type="button"
+            class="vision-composer__action"
+            :disabled="voiceState !== 'listening'"
+            @click="() => stopListening()"
+          >
             Stop mic
           </button>
-          <button type="button" class="vision-composer__action" :disabled="voiceState !== 'speaking'" @click="stopSpeaking">
+          <button
+            type="button"
+            class="vision-composer__action"
+            :disabled="voiceState !== 'speaking'"
+            @click="stopSpeaking"
+          >
             Stop audio
           </button>
-        </div>
-
-        <div class="vision-composer__result">
-          <span class="vision-composer__result-label">Decoded result</span>
-          <p>{{ speechSummary || "The backend response will appear here after processing." }}</p>
         </div>
 
         <p class="vision-surface__status-text">{{ speechStatusLabel }}</p>
@@ -193,230 +229,303 @@ useMountedAsync(init)
 </template>
 
 <style scoped>
-.vision-surface--modern {
-  min-height: 100vh;
+.vision-surface {
   position: relative;
+  min-height: 100vh;
   overflow: hidden;
   background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.18), transparent 32%),
-    linear-gradient(180deg, #08111f 0%, #0b1526 48%, #07101b 100%);
-  color: #f3f7ff;
+    radial-gradient(circle at top, rgba(255, 208, 173, 0.35), transparent 32%),
+    radial-gradient(circle at 80% 18%, rgba(157, 214, 255, 0.28), transparent 28%),
+    linear-gradient(180deg, #fffdf8 0%, #fbfbf8 45%, #f4f6f8 100%);
+  color: #18242f;
 }
 
-.vision-surface__backdrop {
-  position: absolute;
-  border-radius: 999px;
-  filter: blur(8px);
-  opacity: 0.75;
-  pointer-events: none;
-}
-
-.vision-surface__backdrop--left {
-  inset: 12% auto auto -10%;
-  width: 22rem;
-  height: 22rem;
-  background: radial-gradient(circle, rgba(99, 179, 237, 0.32), transparent 68%);
-  animation: float-left 14s ease-in-out infinite;
-}
-
-.vision-surface__backdrop--right {
-  inset: auto -8% 15% auto;
-  width: 26rem;
-  height: 26rem;
-  background: radial-gradient(circle, rgba(255, 154, 120, 0.24), transparent 68%);
-  animation: float-right 16s ease-in-out infinite;
-}
-
-.vision-surface__mesh {
+.vision-surface__wash,
+.vision-surface__grain {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 88px 88px;
-  mask-image: radial-gradient(circle at center, black 28%, transparent 82%);
-  opacity: 0.55;
   pointer-events: none;
 }
 
-.vision-surface__topline {
+.vision-surface__wash--one {
+  background: radial-gradient(circle at 22% 60%, rgba(255, 173, 141, 0.18), transparent 30%);
+}
+
+.vision-surface__wash--two {
+  background: radial-gradient(circle at 78% 34%, rgba(116, 197, 255, 0.18), transparent 26%);
+}
+
+.vision-surface__grain {
+  opacity: 0.4;
+  background-image: linear-gradient(rgba(24, 36, 47, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 36, 47, 0.025) 1px, transparent 1px);
+  background-size: 84px 84px;
+  mask-image: radial-gradient(circle at center, black 35%, transparent 90%);
+}
+
+.vision-surface__header {
   position: relative;
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1.2rem 1.4rem 0;
+  padding: 1.4rem 1.4rem 0;
 }
 
 .vision-surface__brand {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(220, 232, 255, 0.72);
+  color: rgba(24, 36, 47, 0.58);
 }
 
-.vision-surface__status-chips {
+.vision-surface__chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.55rem;
   justify-content: flex-end;
 }
 
 .vision-surface__chip {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(172, 196, 255, 0.18);
+  border: 1px solid rgba(24, 36, 47, 0.08);
   border-radius: 999px;
-  padding: 0.45rem 0.8rem;
-  background: rgba(8, 16, 30, 0.6);
-  color: #f3f7ff;
-}
-
-.vision-surface__chip--soft {
-  font-size: 0.8rem;
-  color: rgba(235, 242, 255, 0.9);
+  padding: 0.42rem 0.8rem;
+  background: rgba(255, 255, 255, 0.78);
+  font-size: 0.78rem;
+  color: rgba(24, 36, 47, 0.78);
+  box-shadow: 0 12px 32px rgba(24, 36, 47, 0.06);
 }
 
 .vision-surface__stage {
   position: relative;
   z-index: 1;
-  min-height: 72vh;
+  min-height: 78vh;
   display: grid;
-  place-items: center;
+  align-content: center;
+  justify-items: center;
+  gap: 1.6rem;
+  padding: 2rem 1.2rem 14rem;
   text-align: center;
-  padding: 3rem 1.2rem 12rem;
 }
 
 .vision-agent {
   position: relative;
-  width: min(28rem, 82vw);
+  width: min(25rem, 76vw);
   aspect-ratio: 1;
   display: grid;
   place-items: center;
-  margin-bottom: 1.5rem;
 }
 
 .vision-agent__halo,
-.vision-agent__orbit,
+.vision-agent__ring,
 .vision-agent__pulse,
 .vision-agent__core {
   position: absolute;
-  inset: 0;
   border-radius: 50%;
 }
 
 .vision-agent__halo {
   inset: 8%;
-  background: radial-gradient(circle, rgba(85, 174, 255, 0.22), rgba(85, 174, 255, 0.04) 46%, transparent 70%);
-  filter: blur(8px);
-  animation: halo 8s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(118, 190, 255, 0.32), rgba(118, 190, 255, 0.06) 48%, transparent 70%);
+  filter: blur(10px);
+  animation: halo-breathe 9s ease-in-out infinite;
 }
 
-.vision-agent__orbit {
+.vision-agent__ring {
   inset: 12%;
-  border: 1px solid rgba(180, 207, 255, 0.12);
-  box-shadow: inset 0 0 42px rgba(111, 176, 255, 0.06);
+  border: 1px solid rgba(24, 36, 47, 0.08);
 }
 
-.vision-agent__orbit--one {
-  animation: spin 18s linear infinite;
+.vision-agent__ring--outer {
+  animation: rotate-slow 18s linear infinite;
 }
 
-.vision-agent__orbit--two {
-  inset: 20%;
-  animation: spin-reverse 26s linear infinite;
+.vision-agent__ring--middle {
+  inset: 21%;
+  border-style: dashed;
+  animation: rotate-reverse 14s linear infinite;
+}
+
+.vision-agent__ring--inner {
+  inset: 31%;
+  border-color: rgba(255, 153, 112, 0.24);
+  animation: pulse-ring 7s ease-in-out infinite;
 }
 
 .vision-agent__pulse {
-  inset: 26%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(111, 176, 255, 0.72) 22%, rgba(43, 84, 148, 0.1) 58%, transparent 74%);
-  box-shadow:
-    0 0 48px rgba(95, 168, 255, 0.55),
-    inset 0 0 60px rgba(255, 255, 255, 0.26);
-  animation: pulse 5s ease-in-out infinite;
+  inset: 28%;
+  background: radial-gradient(circle, rgba(255, 175, 132, 0.18), rgba(125, 195, 255, 0.08) 58%, transparent 76%);
+  animation: pulse-core 5.5s ease-in-out infinite;
 }
 
 .vision-agent__core {
-  inset: 36%;
-  background:
-    radial-gradient(circle at 35% 35%, #ffffff 0%, #d8e7ff 24%, #7bc5ff 58%, #37518e 100%);
+  inset: 38%;
+  background: linear-gradient(145deg, #fff4ed 0%, #e6f5ff 100%);
   box-shadow:
-    0 0 30px rgba(106, 184, 255, 0.8),
-    0 0 90px rgba(106, 184, 255, 0.22);
-  animation: core-breathe 4s ease-in-out infinite;
+    0 0 0 1px rgba(24, 36, 47, 0.06),
+    0 24px 60px rgba(77, 130, 168, 0.2),
+    inset 0 0 32px rgba(255, 255, 255, 0.9);
 }
 
-.vision-agent--listening .vision-agent__pulse {
-  animation-duration: 2.8s;
+.vision-agent--listening .vision-agent__core {
   box-shadow:
-    0 0 58px rgba(103, 209, 255, 0.72),
-    inset 0 0 60px rgba(255, 255, 255, 0.3);
+    0 0 0 1px rgba(24, 36, 47, 0.06),
+    0 28px 72px rgba(255, 160, 122, 0.26),
+    inset 0 0 38px rgba(255, 255, 255, 0.95);
 }
 
-.vision-agent--processing .vision-agent__core {
-  background:
-    radial-gradient(circle at 35% 35%, #fff8f0 0%, #ffd3b6 26%, #ff985f 60%, #8a3f1b 100%);
+.vision-agent--processing .vision-agent__ring--outer,
+.vision-agent--processing .vision-agent__ring--middle {
+  animation-duration: 7s;
 }
 
-.vision-agent--speaking .vision-agent__pulse {
-  box-shadow:
-    0 0 72px rgba(255, 152, 111, 0.7),
-    inset 0 0 60px rgba(255, 255, 255, 0.32);
+.vision-agent--review .vision-agent__core {
+  background: linear-gradient(145deg, #fff8f0 0%, #f3fbff 100%);
 }
 
-.vision-agent--ready .vision-agent__halo {
-  animation-duration: 10s;
+.vision-agent--blocked .vision-agent__core {
+  background: linear-gradient(145deg, #fff0ef 0%, #fff8f7 100%);
 }
 
-.vision-agent--quiet .vision-agent__pulse {
-  opacity: 0.85;
-}
-
-.vision-surface__caption {
-  position: relative;
+.vision-surface__intro {
   max-width: 42rem;
-  display: grid;
-  gap: 0.6rem;
 }
 
 .vision-surface__eyebrow {
-  margin: 0;
+  margin: 0 0 0.55rem;
   font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(24, 36, 47, 0.46);
+}
+
+.vision-surface__intro h1 {
+  margin: 0 0 0.8rem;
+  font-size: clamp(2.2rem, 6vw, 4.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  font-weight: 650;
+}
+
+.vision-surface__intro p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(24, 36, 47, 0.72);
+}
+
+.vision-surface__hint {
+  margin-top: 0.8rem !important;
+  color: #945d2d !important;
+}
+
+.vision-surface__error {
+  margin-top: 0.8rem !important;
+  color: #b24747 !important;
+}
+
+.vision-panel {
+  width: min(60rem, 100%);
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem;
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(24, 36, 47, 0.06);
+  box-shadow: 0 32px 80px rgba(24, 36, 47, 0.08);
+  backdrop-filter: blur(20px);
+  text-align: left;
+}
+
+.vision-panel__section {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.vision-panel__label {
+  margin: 0;
+  font-size: 0.72rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(201, 218, 255, 0.68);
+  color: rgba(24, 36, 47, 0.44);
 }
 
-.vision-surface__caption h1 {
+.vision-panel__body {
   margin: 0;
-  font-size: clamp(2rem, 4vw, 3.9rem);
-  line-height: 0.96;
-  letter-spacing: -0.05em;
+  color: rgba(24, 36, 47, 0.74);
 }
 
-.vision-surface__caption p {
+.vision-slot-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.8rem;
+}
+
+.vision-slot-card {
+  border-radius: 1.2rem;
+  padding: 0.95rem 1rem;
+  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid rgba(24, 36, 47, 0.05);
+}
+
+.vision-slot-card__label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(24, 36, 47, 0.46);
+}
+
+.vision-slot-card__value {
   margin: 0;
-  color: rgba(226, 234, 247, 0.78);
+  color: #18242f;
 }
 
-.vision-surface__inline-error {
-  color: #ffb7b7;
+.vision-review h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  letter-spacing: -0.03em;
+}
+
+.vision-review p {
+  margin: 0;
+  color: rgba(24, 36, 47, 0.74);
+}
+
+.vision-review__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.8rem;
+  margin: 0;
+}
+
+.vision-review__grid dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(24, 36, 47, 0.46);
+}
+
+.vision-review__grid dd {
+  margin: 0.35rem 0 0;
+  color: #18242f;
 }
 
 .vision-composer {
   position: fixed;
-  inset: auto 1rem 1rem;
+  left: 50%;
+  bottom: 1.2rem;
   z-index: 2;
-  margin: 0 auto;
-  max-width: min(52rem, calc(100vw - 2rem));
-  border: 1px solid rgba(173, 196, 255, 0.2);
-  border-radius: 1.5rem;
-  background: rgba(9, 16, 29, 0.84);
-  backdrop-filter: blur(22px);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
-  padding: 1rem;
+  width: min(56rem, calc(100vw - 1.4rem));
+  transform: translateX(-50%);
+  border-radius: 2rem;
+  padding: 1.1rem;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(24, 36, 47, 0.08);
+  box-shadow: 0 28px 80px rgba(24, 36, 47, 0.12);
+  backdrop-filter: blur(24px);
 }
 
 .vision-composer__header {
@@ -428,178 +537,166 @@ useMountedAsync(init)
 }
 
 .vision-composer__header h2 {
-  margin: 0.2rem 0 0;
+  margin: 0;
   font-size: 1.05rem;
-  line-height: 1.25;
+  letter-spacing: -0.02em;
 }
 
-.vision-composer__ghost {
-  border: 1px solid rgba(173, 196, 255, 0.2);
+.vision-composer__header-actions {
+  display: flex;
+  gap: 0.55rem;
+}
+
+.vision-composer__ghost,
+.vision-composer__action,
+.vision-composer-launcher {
+  appearance: none;
+  border: 0;
   border-radius: 999px;
-  padding: 0.5rem 0.8rem;
-  background: transparent;
-  color: #f3f7ff;
+  padding: 0.72rem 1rem;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+}
+
+.vision-composer__ghost,
+.vision-composer__action {
+  background: rgba(24, 36, 47, 0.06);
+  color: #18242f;
+}
+
+.vision-composer__action--primary {
+  background: linear-gradient(135deg, #ff9d73 0%, #7fcbff 100%);
+  color: #10202c;
+}
+
+.vision-composer__ghost:hover,
+.vision-composer__action:hover,
+.vision-composer-launcher:hover {
+  transform: translateY(-1px);
+}
+
+.vision-composer__action:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
 }
 
 .vision-composer__input {
   width: 100%;
-  min-height: 6.5rem;
-  border: 1px solid rgba(173, 196, 255, 0.16);
-  border-radius: 1.1rem;
-  background: rgba(5, 10, 18, 0.8);
-  color: #f3f7ff;
-  padding: 0.9rem 1rem;
-  resize: none;
+  min-height: 7.5rem;
+  resize: vertical;
+  border: 0;
   outline: none;
-  font: inherit;
-}
-
-.vision-composer__input:focus {
-  border-color: rgba(117, 184, 255, 0.8);
-  box-shadow: 0 0 0 3px rgba(117, 184, 255, 0.12);
+  border-radius: 1.4rem;
+  padding: 1rem 1.1rem;
+  background: rgba(248, 250, 252, 0.92);
+  color: #18242f;
+  box-shadow: inset 0 0 0 1px rgba(24, 36, 47, 0.06);
 }
 
 .vision-composer__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.65rem;
   margin-top: 0.9rem;
 }
 
-.vision-composer__action {
-  border: 1px solid rgba(173, 196, 255, 0.18);
-  border-radius: 999px;
-  padding: 0.6rem 0.95rem;
-  background: rgba(255, 255, 255, 0.04);
-  color: #f3f7ff;
-}
-
-.vision-composer__action--primary {
-  background: linear-gradient(135deg, #84c8ff 0%, #6f96ff 100%);
-  color: #07101b;
-  font-weight: 600;
-}
-
-.vision-composer__result {
-  margin-top: 1rem;
-  border: 1px solid rgba(173, 196, 255, 0.12);
-  border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 0.85rem 1rem;
-}
-
-.vision-composer__result-label {
-  display: block;
-  margin-bottom: 0.3rem;
-  font-size: 0.76rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(201, 218, 255, 0.7);
-}
-
-.vision-composer__result p {
-  margin: 0;
-  color: rgba(236, 243, 255, 0.88);
-}
-
 .vision-surface__status-text {
-  margin: 0.8rem 0 0;
-  font-size: 0.9rem;
-  color: rgba(201, 218, 255, 0.76);
+  margin: 0.9rem 0 0;
+  font-size: 0.92rem;
+  color: rgba(24, 36, 47, 0.58);
 }
 
 .vision-composer-launcher {
   position: fixed;
   left: 50%;
-  bottom: 1rem;
-  transform: translateX(-50%);
+  bottom: 1.25rem;
   z-index: 2;
-  border: 1px solid rgba(173, 196, 255, 0.22);
-  border-radius: 999px;
-  padding: 0.8rem 1.1rem;
-  background: rgba(9, 16, 29, 0.86);
-  color: #f3f7ff;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  color: #18242f;
+  box-shadow: 0 22px 64px rgba(24, 36, 47, 0.1);
 }
 
 .vision-surface__loading {
   position: fixed;
-  top: 1rem;
   left: 50%;
+  bottom: 7.8rem;
   transform: translateX(-50%);
   z-index: 2;
-  border-radius: 999px;
   padding: 0.65rem 1rem;
-  background: rgba(9, 16, 29, 0.86);
-  color: rgba(243, 247, 255, 0.92);
-  border: 1px solid rgba(173, 196, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: rgba(24, 36, 47, 0.72);
+  box-shadow: 0 18px 50px rgba(24, 36, 47, 0.08);
 }
 
 .vision-surface__loading--error {
-  color: #ffb7b7;
+  color: #a34040;
 }
 
+.vision-panel-fade-enter-active,
+.vision-panel-fade-leave-active,
 .vision-composer-fade-enter-active,
 .vision-composer-fade-leave-active {
-  transition: opacity 180ms ease, transform 180ms ease;
+  transition: opacity 220ms ease, transform 220ms ease;
 }
 
+.vision-panel-fade-enter-from,
+.vision-panel-fade-leave-to,
 .vision-composer-fade-enter-from,
 .vision-composer-fade-leave-to {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(10px);
 }
 
-@keyframes spin {
+@keyframes rotate-slow {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-@keyframes spin-reverse {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
+@keyframes rotate-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(0.97); }
-  50% { transform: scale(1.04); }
+@keyframes halo-breathe {
+  0%, 100% { transform: scale(0.96); opacity: 0.72; }
+  50% { transform: scale(1.04); opacity: 1; }
 }
 
-@keyframes core-breathe {
-  0%, 100% { transform: scale(0.98); }
-  50% { transform: scale(1.08); }
+@keyframes pulse-ring {
+  0%, 100% { transform: scale(0.96); opacity: 0.45; }
+  50% { transform: scale(1.04); opacity: 0.9; }
 }
 
-@keyframes halo {
-  0%, 100% { transform: scale(1); opacity: 0.72; }
-  50% { transform: scale(1.05); opacity: 0.92; }
+@keyframes pulse-core {
+  0%, 100% { transform: scale(0.95); opacity: 0.72; }
+  50% { transform: scale(1.03); opacity: 1; }
 }
 
-@keyframes float-left {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(2rem, 2rem, 0); }
-}
-
-@keyframes float-right {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(-2rem, -1.5rem, 0); }
-}
-
-@media (max-width: 820px) {
-  .vision-surface__topline {
+@media (max-width: 720px) {
+  .vision-surface__header,
+  .vision-composer__header {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .vision-surface__stage {
-    min-height: 64vh;
-    padding-bottom: 14rem;
+  .vision-surface__chips,
+  .vision-composer__header-actions,
+  .vision-composer__actions {
+    width: 100%;
   }
 
   .vision-composer {
-    inset-inline: 0.75rem;
-    max-width: none;
+    bottom: 0.75rem;
+    width: calc(100vw - 0.9rem);
+    border-radius: 1.5rem;
+  }
+
+  .vision-surface__stage {
+    padding-bottom: 17rem;
   }
 }
 </style>
