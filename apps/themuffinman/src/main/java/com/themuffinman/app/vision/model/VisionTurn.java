@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -66,6 +67,9 @@ public class VisionTurn {
 
     @Column(name = "assistant_message", nullable = false)
     private String assistantMessage;
+
+    @jakarta.persistence.Transient
+    private List<String> appliedSlotIds = List.of();
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();

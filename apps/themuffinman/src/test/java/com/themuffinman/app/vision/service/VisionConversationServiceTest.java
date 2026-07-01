@@ -1,7 +1,5 @@
 package com.themuffinman.app.vision.service;
 
-import com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO;
-import com.themuffinman.app.agent.service.AdminAgentPlaygroundService;
 import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.location.service.LocationLookupService;
@@ -24,13 +22,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -40,6 +42,7 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class VisionConversationServiceTest {
 
     @Mock
@@ -49,7 +52,7 @@ class VisionConversationServiceTest {
     private VisionTurnRepository visionTurnRepository;
 
     @Mock
-    private AdminAgentPlaygroundService adminAgentPlaygroundService;
+    private VisionPromptUnderstandingService visionPromptUnderstandingService;
 
     @Mock
     private VisionCreateQuestExecutionAdapter visionCreateQuestExecutionAdapter;
@@ -62,6 +65,8 @@ class VisionConversationServiceTest {
     private AtomicLong turnIds;
     private AppUser currentUser;
     private VisionProperties visionProperties;
+    private final java.util.Map<Long, VisionTurn> lastSavedTurns = new HashMap<>();
+    private final java.util.Map<Long, VisionConversation> savedConversations = new HashMap<>();
 
     @BeforeEach
     void setUp() {
@@ -73,7 +78,8 @@ class VisionConversationServiceTest {
                 visionLocationParserService,
                 locationLookupService
         );
-        VisionSlotService visionSlotService = new VisionSlotService(visionScheduleParserService, visionLocationResolutionService);
+        VisionSemanticMapper visionSemanticMapper = new VisionSemanticMapper();
+        VisionSlotService visionSlotService = new VisionSlotService(visionScheduleParserService, visionLocationResolutionService, visionSemanticMapper);
         VisionClarificationService visionClarificationService = new VisionClarificationService();
         VisionCanvasAssembler visionCanvasAssembler = new VisionCanvasAssembler(visionProperties);
         currentUser = TestFixtures.user(7L, "vision-user");
@@ -89,18 +95,39 @@ class VisionConversationServiceTest {
             if (conversation.getSlotData() == null) {
                 conversation.setSlotData(new LinkedHashMap<>());
             }
+            savedConversations.put(conversation.getId(), conversation);
             return conversation;
         });
 
-        lenient().when(visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(currentUser)).thenReturn(List.of());
+        lenient().when(visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(currentUser))
+                .thenAnswer(invocation -> savedConversations.values().stream()
+                        .sorted((left, right) -> {
+                            if (left.getUpdatedAt() == null && right.getUpdatedAt() == null) {
+                                return 0;
+                            }
+                            if (left.getUpdatedAt() == null) {
+                                return 1;
+                            }
+                            if (right.getUpdatedAt() == null) {
+                                return -1;
+                            }
+                            return right.getUpdatedAt().compareTo(left.getUpdatedAt());
+                        })
+                        .toList());
 
         lenient().when(visionTurnRepository.save(any(VisionTurn.class))).thenAnswer(invocation -> {
             VisionTurn turn = invocation.getArgument(0);
             if (turn.getId() == null) {
                 turn.setId(turnIds.incrementAndGet());
             }
+            if (turn.getConversation() != null && turn.getConversation().getId() != null) {
+                lastSavedTurns.put(turn.getConversation().getId(), turn);
+            }
             return turn;
         });
+
+        lenient().when(visionTurnRepository.findTopByConversationOrderByTurnIndexDesc(any(VisionConversation.class)))
+                .thenAnswer(invocation -> Optional.ofNullable(lastSavedTurns.get(((VisionConversation) invocation.getArgument(0)).getId())));
 
         visionConversationService = new VisionConversationService(
                 visionConversationRepository,
@@ -110,9 +137,13 @@ class VisionConversationServiceTest {
                 visionClarificationService,
                 visionCanvasAssembler,
                 visionCreateQuestExecutionAdapter,
-                adminAgentPlaygroundService,
+                visionPromptUnderstandingService,
+                visionSemanticMapper,
                 visionProperties
         );
+
+        lenient().when(visionPromptUnderstandingService.understandPrompt(any(), any()))
+                .thenAnswer(invocation -> understanding(invocation.getArgument(0), invocation.getArgument(1)));
     }
 
     @Test
@@ -126,9 +157,54 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void semanticExtractionCanPopulateMultipleQuestFieldsInOneTurn() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L);
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("Create a structured quest")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("CREATE_QUEST", response.getIntent());
+        assertEquals("SHOW_REVIEW", response.getNextAction());
+        assertEquals("review", response.getCanvasMode());
+        assertEquals("Move a sofa", response.getReview().getTitle());
+        assertEquals("25", response.getReview().getRewardLabel());
+        assertEquals("PUBLIC", response.getReview().getVisibility());
+        assertNotNull(response.getReview().getSchedule());
+        assertTrue(response.getReview().getSchedule().contains("2026"));
+        assertEquals("Use profile location", response.getReview().getLocation());
+        assertFalse(response.getAppliedSlotSummaries().isEmpty());
+        assertTrue(response.getAppliedSlotSummaries().stream().anyMatch(slot -> "quest_title".equals(slot.getSlotId())));
+        assertTrue(response.getBlocks().stream().anyMatch(block -> "review_summary".equals(block.getType())));
+    }
+
+    @Test
+    void recentConversationSummariesIncludeAppliedSlotBadges() {
+        VisionConversation conversation = createQuestConversation(
+                61L,
+                "location_mode",
+                VisionSlotStatePresets.createQuestReviewReadyProfileLocation()
+        );
+        when(visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(currentUser)).thenReturn(List.of(conversation));
+
+        VisionTurn turn = new VisionTurn();
+        turn.setConversation(conversation);
+        turn.setTurnIndex(1);
+        turn.setAppliedSlotIds(List.of("location_mode"));
+        when(visionTurnRepository.findTopByConversationOrderByTurnIndexDesc(conversation)).thenReturn(Optional.of(turn));
+
+        VisionConversationListResponseDTO response = visionConversationService.listRecentConversations(currentUser);
+
+        assertEquals(1, response.getItems().size());
+        assertFalse(response.getItems().get(0).getAppliedSlotSummaries().isEmpty());
+        assertTrue(response.getItems().get(0).getAppliedSlotSummaries().stream().anyMatch(slot -> "location_mode".equals(slot.getSlotId())));
+    }
+
+    @Test
     void startsCreateQuestConversationAndAsksForMissingSlot() {
-        when(adminAgentPlaygroundService.analyzePrompt("Create a quest"))
-                .thenReturn(agentResponse("Create a quest"));
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L);
 
         VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
@@ -151,9 +227,6 @@ class VisionConversationServiceTest {
     @Test
     void continuesConversationStepByStepUntilReview() {
         VisionConversation conversation = createQuestConversation(42L, "quest_title");
-
-        when(adminAgentPlaygroundService.analyzePrompt("Help move a sofa"))
-                .thenReturn(agentResponse("Help move a sofa"));
         when(visionConversationRepository.findByIdAndOwner(42L, currentUser)).thenReturn(Optional.of(conversation));
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(
                 1L, 1L,
@@ -173,9 +246,9 @@ class VisionConversationServiceTest {
         );
 
         assertEquals("quest_description", titleResponse.getRequestedSlot());
+        assertFalse(titleResponse.getAppliedSlotSummaries().isEmpty());
+        assertTrue(titleResponse.getAppliedSlotSummaries().stream().anyMatch(slot -> "quest_title".equals(slot.getSlotId())));
 
-        when(adminAgentPlaygroundService.analyzePrompt("I need someone to help carry a sofa to a third-floor flat"))
-                .thenReturn(agentResponse("I need someone to help carry a sofa to a third-floor flat"));
         VisionConversationTurnResponseDTO descriptionResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
                         .conversationId(42L)
@@ -186,8 +259,6 @@ class VisionConversationServiceTest {
 
         assertEquals("reward_amount", descriptionResponse.getRequestedSlot());
 
-        when(adminAgentPlaygroundService.analyzePrompt("20 euros"))
-                .thenReturn(agentResponse("20 euros"));
         VisionConversationTurnResponseDTO rewardResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
                         .conversationId(42L)
@@ -198,8 +269,6 @@ class VisionConversationServiceTest {
 
         assertEquals("visibility", rewardResponse.getRequestedSlot());
 
-        when(adminAgentPlaygroundService.analyzePrompt("public"))
-                .thenReturn(agentResponse("public"));
         VisionConversationTurnResponseDTO visibilityResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
                         .conversationId(42L)
@@ -210,8 +279,6 @@ class VisionConversationServiceTest {
 
         assertEquals("schedule_mode", visibilityResponse.getRequestedSlot());
 
-        when(adminAgentPlaygroundService.analyzePrompt("by agreement"))
-                .thenReturn(agentResponse("by agreement"));
         VisionConversationTurnResponseDTO scheduleResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
                         .conversationId(42L)
@@ -222,8 +289,6 @@ class VisionConversationServiceTest {
 
         assertEquals("location_mode", scheduleResponse.getRequestedSlot());
 
-        when(adminAgentPlaygroundService.analyzePrompt("use profile location"))
-                .thenReturn(agentResponse("use profile location"));
         VisionConversationTurnResponseDTO reviewResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
                         .conversationId(42L)
@@ -234,6 +299,7 @@ class VisionConversationServiceTest {
 
         assertEquals("SHOW_REVIEW", reviewResponse.getNextAction());
         assertNotNull(reviewResponse.getReview());
+        assertFalse(reviewResponse.getAppliedSlotSummaries().isEmpty());
         assertEquals("Help move a sofa", reviewResponse.getReview().getTitle());
         assertEquals("20", reviewResponse.getReview().getRewardLabel());
         assertEquals("PUBLIC", reviewResponse.getReview().getVisibility());
@@ -253,9 +319,6 @@ class VisionConversationServiceTest {
 
         when(visionConversationRepository.findByIdAndOwner(52L, currentUser)).thenReturn(Optional.of(conversation));
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(4L, 4L, 5L, 5L, 6L, 6L);
-
-        when(adminAgentPlaygroundService.analyzePrompt("fixed time"))
-                .thenReturn(agentResponse("fixed time"));
         VisionConversationTurnResponseDTO fixedModeResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
                         .conversationId(52L)
@@ -266,8 +329,6 @@ class VisionConversationServiceTest {
 
         assertEquals("scheduled_at", fixedModeResponse.getRequestedSlot());
 
-        when(adminAgentPlaygroundService.analyzePrompt(VisionSchedulePhrasePresets.ISO_DATE_TIME))
-                .thenReturn(agentResponse(VisionSchedulePhrasePresets.ISO_DATE_TIME));
         VisionConversationTurnResponseDTO fixedTimeResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
                         .conversationId(52L)
@@ -278,8 +339,6 @@ class VisionConversationServiceTest {
 
         assertEquals("location_mode", fixedTimeResponse.getRequestedSlot());
 
-        when(adminAgentPlaygroundService.analyzePrompt("custom place"))
-                .thenReturn(agentResponse("custom place"));
         VisionConversationTurnResponseDTO customLocationResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
                         .conversationId(52L)
@@ -290,8 +349,6 @@ class VisionConversationServiceTest {
 
         assertEquals("location_label", customLocationResponse.getRequestedSlot());
 
-        when(adminAgentPlaygroundService.analyzePrompt(VisionLocationCandidatePresets.BAN_JELACIC))
-                .thenReturn(agentResponse(VisionLocationCandidatePresets.BAN_JELACIC));
         VisionConversationTurnResponseDTO reviewResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
                         .conversationId(52L)
@@ -314,8 +371,6 @@ class VisionConversationServiceTest {
 
         when(visionConversationRepository.findByIdAndOwner(53L, currentUser)).thenReturn(Optional.of(conversation));
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(6L, 6L);
-        when(adminAgentPlaygroundService.analyzePrompt(VisionLocationCandidatePresets.ILICA_RESOLVED))
-                .thenReturn(agentResponse(VisionLocationCandidatePresets.ILICA_RESOLVED));
 
         VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -339,8 +394,6 @@ class VisionConversationServiceTest {
 
         when(visionConversationRepository.findByIdAndOwner(54L, currentUser)).thenReturn(Optional.of(conversation));
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(6L, 6L);
-        when(adminAgentPlaygroundService.analyzePrompt(VisionLocationCandidatePresets.BAN_JELACIC))
-                .thenReturn(agentResponse(VisionLocationCandidatePresets.BAN_JELACIC));
 
         VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -366,10 +419,6 @@ class VisionConversationServiceTest {
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(6L, 6L, 7L, 7L);
         when(locationLookupService.lookupTopCandidates(VisionLocationCandidatePresets.ILICA_TYPED, "vision:user:7", 3))
                 .thenReturn(List.of(VisionLocationCandidatePresets.ilicaResolvedCandidate()));
-        when(adminAgentPlaygroundService.analyzePrompt(VisionLocationCandidatePresets.ILICA_TYPED))
-                .thenReturn(agentResponse(VisionLocationCandidatePresets.ILICA_TYPED));
-        when(adminAgentPlaygroundService.analyzePrompt("yes"))
-                .thenReturn(agentResponse("yes"));
 
         VisionConversationTurnResponseDTO candidateResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -407,10 +456,6 @@ class VisionConversationServiceTest {
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(6L, 6L, 7L, 7L);
         when(locationLookupService.lookupTopCandidates(VisionLocationCandidatePresets.ILICA_TYPED, "vision:user:7", 3))
                 .thenReturn(VisionLocationCandidatePresets.dualIlicaCandidates());
-        when(adminAgentPlaygroundService.analyzePrompt(VisionLocationCandidatePresets.ILICA_TYPED))
-                .thenReturn(agentResponse(VisionLocationCandidatePresets.ILICA_TYPED));
-        when(adminAgentPlaygroundService.analyzePrompt("candidate 2"))
-                .thenReturn(agentResponse("candidate 2"));
 
         VisionConversationTurnResponseDTO candidateResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -459,8 +504,6 @@ class VisionConversationServiceTest {
 
         when(visionConversationRepository.findByIdAndOwner(57L, currentUser)).thenReturn(Optional.of(conversation));
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(7L, 7L);
-        when(adminAgentPlaygroundService.analyzePrompt("maybe"))
-                .thenReturn(agentResponse("maybe"));
 
         VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -487,10 +530,6 @@ class VisionConversationServiceTest {
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(6L, 6L, 7L, 7L);
         when(locationLookupService.lookupTopCandidates(VisionLocationCandidatePresets.ILICA_TYPED, "vision:user:7", 3))
                 .thenReturn(List.of(VisionLocationCandidatePresets.ilicaResolvedCandidate()));
-        when(adminAgentPlaygroundService.analyzePrompt(VisionLocationCandidatePresets.ILICA_TYPED))
-                .thenReturn(agentResponse(VisionLocationCandidatePresets.ILICA_TYPED));
-        when(adminAgentPlaygroundService.analyzePrompt("keep typed location"))
-                .thenReturn(agentResponse("keep typed location"));
 
         VisionConversationTurnResponseDTO candidateResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -524,8 +563,6 @@ class VisionConversationServiceTest {
 
         when(visionConversationRepository.findByIdAndOwner(58L, currentUser)).thenReturn(Optional.of(conversation));
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(5L, 5L);
-        when(adminAgentPlaygroundService.analyzePrompt(VisionSchedulePhrasePresets.TOMORROW_2_PM))
-                .thenReturn(agentResponse(VisionSchedulePhrasePresets.TOMORROW_2_PM));
 
         VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -561,8 +598,6 @@ class VisionConversationServiceTest {
         assertEquals("ASK_FOR_SLOT", editRequestResponse.getNextAction());
         assertEquals("reward_amount", editRequestResponse.getRequestedSlot());
 
-        when(adminAgentPlaygroundService.analyzePrompt("35 euros"))
-                .thenReturn(agentResponse("35 euros"));
         VisionConversationTurnResponseDTO reviewResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
                         .conversationId(61L)
@@ -584,8 +619,6 @@ class VisionConversationServiceTest {
 
         when(visionConversationRepository.findByIdAndOwner(62L, currentUser)).thenReturn(Optional.of(conversation));
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(6L, 6L);
-        when(adminAgentPlaygroundService.analyzePrompt("change schedule"))
-                .thenReturn(agentResponse("change schedule"));
 
         VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -610,8 +643,6 @@ class VisionConversationServiceTest {
 
         when(visionConversationRepository.findByIdAndOwner(71L, currentUser)).thenReturn(Optional.of(conversation));
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(5L, 5L);
-        when(adminAgentPlaygroundService.analyzePrompt("sometime later"))
-                .thenReturn(agentResponse("sometime later"));
 
         VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -636,8 +667,6 @@ class VisionConversationServiceTest {
 
         when(visionConversationRepository.findByIdAndOwner(72L, currentUser)).thenReturn(Optional.of(conversation));
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(6L, 6L);
-        when(adminAgentPlaygroundService.analyzePrompt("custom place"))
-                .thenReturn(agentResponse("custom place"));
 
         VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -654,8 +683,6 @@ class VisionConversationServiceTest {
 
     @Test
     void unsupportedPromptReturnsBlockedState() {
-        when(adminAgentPlaygroundService.analyzePrompt("What is the weather today?"))
-                .thenReturn(agentResponse("What is the weather today?"));
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L);
 
         VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
@@ -808,12 +835,86 @@ class VisionConversationServiceTest {
         assertEquals("active", response.getItems().getFirst().getGroupKey());
     }
 
-    private AdminAgentPlaygroundResponseDTO agentResponse(String translatedPrompt) {
-        return AdminAgentPlaygroundResponseDTO.builder()
-                .translatedPrompt(translatedPrompt)
-                .promptTranslationApplied(false)
-                .promptTranslationReliable(true)
+    @Test
+    void lowConfidenceExtractedFieldsAreIgnoredBeforeMerge() {
+        VisionPromptUnderstandingResult result = VisionPromptUnderstandingResult.builder()
+                .sourceLanguage("en")
+                .originalPrompt("Move a sofa")
+                .normalizedPrompt("Move a sofa")
+                .translationProvider("mock")
+                .translationApplied(false)
+                .translationReliable(true)
+                .slots(VisionPromptUnderstandingSlots.builder()
+                        .questTitle("Move a sofa")
+                        .questTitleConfidence(0.6)
+                        .questDescription("Need help moving a sofa")
+                        .questDescriptionConfidence(0.92)
+                        .reward(VisionPromptUnderstandingRewardSlots.builder()
+                                .freeQuest(false)
+                                .freeQuestConfidence(0.4)
+                                .amount("25")
+                                .amountConfidence(0.9)
+                                .build())
+                        .location(VisionPromptUnderstandingLocationSlots.builder()
+                                .mode("custom")
+                                .modeConfidence(0.9)
+                                .label("Ban Jelacic Square")
+                                .labelConfidence(0.95)
+                                .build())
+                        .build())
                 .build();
+
+        var extracted = result.toExtractedSlotMap();
+
+        assertFalse(extracted.containsKey("quest_title"));
+        assertTrue(extracted.containsKey("quest_description"));
+        assertFalse(extracted.containsKey("free_quest"));
+        assertTrue(extracted.containsKey("reward_amount"));
+        assertTrue(extracted.containsKey("location_mode"));
+        assertTrue(extracted.containsKey("location_label"));
+    }
+
+    private VisionPromptUnderstandingResult understanding(String prompt, VisionConversation conversation) {
+        String normalizedPrompt = prompt == null ? "" : prompt.trim();
+        return VisionPromptUnderstandingResult.builder()
+                .sourceLanguage("en")
+                .originalPrompt(normalizedPrompt)
+                .normalizedPrompt(normalizedPrompt)
+                .translationProvider("mock")
+                .translationApplied(false)
+                .translationReliable(true)
+                .slots(extractedSlotsFor(normalizedPrompt, conversation))
+                .build();
+    }
+
+    private VisionPromptUnderstandingSlots extractedSlotsFor(String prompt, VisionConversation conversation) {
+        if ("Create a structured quest".equals(prompt)) {
+            return VisionPromptUnderstandingSlots.builder()
+                    .questTitle("Move a sofa")
+                    .questTitleConfidence(1.0)
+                    .questDescription("Need help moving a sofa")
+                    .questDescriptionConfidence(1.0)
+                    .visibility("PUBLIC")
+                    .visibilityConfidence(1.0)
+                    .reward(VisionPromptUnderstandingRewardSlots.builder()
+                            .freeQuest(false)
+                            .freeQuestConfidence(1.0)
+                            .amount("25")
+                            .amountConfidence(1.0)
+                            .build())
+                    .schedule(VisionPromptUnderstandingScheduleSlots.builder()
+                            .mode("fixed")
+                            .modeConfidence(1.0)
+                            .scheduledAt("2026-07-03T14:30:00Z")
+                            .scheduledAtConfidence(1.0)
+                            .build())
+                    .location(VisionPromptUnderstandingLocationSlots.builder()
+                            .mode("profile")
+                            .modeConfidence(1.0)
+                            .build())
+                    .build();
+        }
+        return new VisionPromptUnderstandingSlots();
     }
 
     private VisionConversation createQuestConversation(Long id, String requestedSlot) {

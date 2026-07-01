@@ -157,6 +157,9 @@ public class DashboardService {
                 .continuousRecognition(voiceProperties.isContinuousRecognition())
                 .maxAlternatives(voiceProperties.getMaxAlternatives())
                 .autoSpeakResponses(voiceProperties.isAutoSpeakResponses())
+                .maxRecordingMillis(voiceProperties.getMaxRecordingMillis())
+                .maxAudioBytes(voiceProperties.getMaxAudioBytes())
+                .maxSpeechTextLength(voiceProperties.getMaxSpeechTextLength())
                 .build();
     }
 

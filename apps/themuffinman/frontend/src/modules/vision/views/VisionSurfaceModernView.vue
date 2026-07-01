@@ -3,7 +3,6 @@ import {computed, ref} from "vue"
 import {useMountedAsync} from "../../../composables/useMountedAsync.ts"
 import VisionAgentOrb from "../components/VisionAgentOrb.vue"
 import VisionCanvasRenderer from "../components/VisionCanvasRenderer.vue"
-import VisionPromptDock from "../components/VisionPromptDock.vue"
 import {useVisionConversation} from "../composables/useVisionConversation.ts"
 
 const {
@@ -20,6 +19,9 @@ const {
   promptComposerVisible,
   displayBlocks,
   currentSlotLabel,
+  currentSlotValue,
+  transcriptTargetLabel,
+  transcriptTargetDetail,
   currentPlaceholder,
   currentFieldKind,
   currentMessage,
@@ -213,17 +215,31 @@ useMountedAsync(init)
       </button>
     </div>
 
-    <transition name="vision-float-fade">
-      <aside v-if="contextVisible" class="vision-floating-card vision-floating-card--context">
-        <p class="vision-floating-card__eyebrow">Current state</p>
-        <p class="vision-floating-card__title">{{ surfaceStatusLabel }}</p>
-        <p class="vision-floating-card__body">{{ surfaceStatusDetail }}</p>
-        <div class="vision-floating-card__meta">
-          <span v-if="response?.intent">{{ response.intent }}</span>
-          <span v-if="currentSlotLabel">{{ currentSlotLabel }}</span>
+    <main class="vision-surface__stage">
+      <VisionAgentOrb :voice-state="voiceState" :attention-state="attentionState" />
+
+      <div v-if="isLoading" class="vision-surface__loading">Loading adaptive canvas...</div>
+      <div v-else-if="error" class="vision-surface__loading vision-surface__loading--error">{{ error }}</div>
+
+      <div class="vision-surface__intro">
+        <p v-if="showIntroHeading" class="vision-surface__eyebrow">Blank canvas</p>
+        <h1 v-if="showIntroHeading">One surface that waits until it matters.</h1>
+        <p v-if="showIntroDetail">{{ agentCaption }}</p>
+        <p v-if="translationWarning && !contextVisible" class="vision-surface__hint">{{ translationWarning }}</p>
+        <p v-if="voiceRuntimeError && !contextVisible" class="vision-surface__error">{{ voiceRuntimeError }}</p>
+      </div>
+
+      <section v-if="contextVisible" class="vision-surface__context-strip">
+        <div class="vision-surface__context-summary">
+          <p class="vision-surface__eyebrow">Current state</p>
+          <p class="vision-surface__context-title">{{ surfaceStatusLabel }}</p>
+          <p class="vision-surface__context-body">{{ surfaceStatusDetail }}</p>
+          <div class="vision-surface__context-meta">
+            <span v-if="response?.intent">{{ response.intent }}</span>
+            <span v-if="currentSlotLabel">{{ currentSlotLabel }}</span>
+          </div>
         </div>
-        <section v-if="recentConversations.length" class="vision-recent-group vision-recent-group--drawer">
-          <p class="vision-floating-card__eyebrow">Recent tasks</p>
+        <section v-if="recentConversations.length" class="vision-surface__recent-inline">
           <section
             v-for="group in recentConversationGroups"
             :key="group.key"
@@ -249,67 +265,60 @@ useMountedAsync(init)
                 </span>
                 <span class="vision-recent-task__title">{{ conversation.title }}</span>
                 <span class="vision-recent-task__progress">{{ conversation.progressLabel }}</span>
+                <span v-if="conversation.appliedSlotSummaries.length" class="vision-recent-task__applied">
+                  <span
+                    v-for="slot in conversation.appliedSlotSummaries.slice(0, 2)"
+                    :key="slot.slotId"
+                    class="vision-recent-task__applied-pill"
+                  >
+                    {{ slot.label }} · {{ slot.value }}
+                  </span>
+                </span>
               </button>
             </div>
           </section>
         </section>
-      </aside>
-    </transition>
-
-    <main class="vision-surface__stage">
-      <VisionAgentOrb :voice-state="voiceState" :attention-state="attentionState" />
-
-      <div class="vision-surface__intro">
-        <p v-if="showIntroHeading" class="vision-surface__eyebrow">Blank canvas</p>
-        <h1 v-if="showIntroHeading">One surface that waits until it matters.</h1>
-        <p v-if="showIntroDetail">{{ agentCaption }}</p>
-        <p v-if="translationWarning && !contextVisible" class="vision-surface__hint">{{ translationWarning }}</p>
-        <p v-if="voiceRuntimeError && !contextVisible" class="vision-surface__error">{{ voiceRuntimeError }}</p>
-      </div>
+      </section>
 
       <transition name="vision-panel-fade">
         <VisionCanvasRenderer
-          v-if="response"
           :response="response"
           :display-blocks="displayBlocks"
           :last-transcript="lastTranscript"
           :can-confirm="canConfirm"
+          :prompt-composer-visible="promptComposerVisible"
+          :current-slot-label="currentSlotLabel"
+          :current-slot-value="currentSlotValue"
+          :transcript-target-label="transcriptTargetLabel"
+          :transcript-target-detail="transcriptTargetDetail"
+          :current-field-kind="currentFieldKind"
+          :current-placeholder="currentPlaceholder"
+          :input-text="inputText"
+          :voice-enabled="voiceEnabled"
+          :speech-to-text-enabled="speechToTextEnabled"
+          :text-to-speech-enabled="textToSpeechEnabled"
+          :speech-recognition-supported="speechRecognitionSupported"
+          :speech-synthesis-supported="speechSynthesisSupported"
+          :speech-status-label="speechStatusLabel"
+          :can-send="canSend"
+          :voice-state="voiceState"
           @choice="submitChoice"
           @review-change="requestReviewChange"
           @confirm-review="confirmReview"
+          @update:input-text="updateInputText"
+          @submit="submitPrompt"
+          @start-listening="startListening"
+          @stop-listening="stopListening"
+          @speak-summary="speakSummary"
+          @stop-speaking="stopSpeaking"
+          @reset="resetConversation"
+          @cancel="cancelConversation"
+          @open="openComposer"
+          @close="closeComposer"
         />
       </transition>
     </main>
 
-    <VisionPromptDock
-      :visible="promptComposerVisible"
-      :current-slot-label="currentSlotLabel"
-      :current-field-kind="currentFieldKind"
-      :current-placeholder="currentPlaceholder"
-      :input-text="inputText"
-      :voice-enabled="voiceEnabled"
-      :speech-to-text-enabled="speechToTextEnabled"
-      :text-to-speech-enabled="textToSpeechEnabled"
-      :speech-recognition-supported="speechRecognitionSupported"
-      :speech-synthesis-supported="speechSynthesisSupported"
-      :has-response="!!response"
-      :speech-status-label="speechStatusLabel"
-      :can-send="canSend"
-      :voice-state="voiceState"
-      @update:input-text="updateInputText"
-      @submit="submitPrompt"
-      @start-listening="startListening"
-      @stop-listening="stopListening"
-      @speak-summary="speakSummary"
-      @stop-speaking="stopSpeaking"
-      @reset="resetConversation"
-      @cancel="cancelConversation"
-      @open="openComposer"
-      @close="closeComposer"
-    />
-
-    <div v-if="isLoading" class="vision-surface__loading">Loading adaptive canvas...</div>
-    <div v-else-if="error" class="vision-surface__loading vision-surface__loading--error">{{ error }}</div>
   </section>
 </template>
 
@@ -573,17 +582,68 @@ useMountedAsync(init)
 .vision-surface__stage {
   position: relative;
   z-index: 1;
+  width: min(72rem, calc(100vw - 2.4rem));
   min-height: 82vh;
   display: grid;
   align-content: center;
   justify-items: center;
   gap: 1.2rem;
-  padding: 2rem 1.2rem 14rem;
+  padding: 2rem 0 4rem;
   text-align: center;
 }
 
 .vision-surface__intro {
   max-width: 38rem;
+}
+
+.vision-surface__context-strip {
+  width: 100%;
+  display: grid;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: 1.8rem;
+  background: var(--vision-surface-panel-bg);
+  border: 1px solid var(--vision-surface-panel-border);
+  box-shadow: var(--vision-surface-panel-shadow-soft);
+  backdrop-filter: blur(20px);
+  text-align: left;
+}
+
+.vision-surface__context-summary {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.vision-surface__context-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--vision-surface-ink);
+}
+
+.vision-surface__context-body {
+  margin: 0;
+  color: var(--vision-surface-ink-soft);
+  line-height: 1.5;
+}
+
+.vision-surface__context-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.vision-surface__context-meta span {
+  border-radius: 999px;
+  padding: 0.38rem 0.72rem;
+  background: var(--vision-surface-card-soft);
+  font-size: 0.76rem;
+  color: var(--vision-surface-ink-soft);
+}
+
+.vision-surface__recent-inline {
+  display: grid;
+  gap: 1rem;
 }
 
 .vision-surface__eyebrow {
@@ -704,12 +764,30 @@ useMountedAsync(init)
   color: rgba(24, 36, 47, 0.66);
 }
 
+.vision-recent-task__applied {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.05rem;
+}
+
+.vision-recent-task__applied-pill {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  border-radius: 999px;
+  padding: 0.28rem 0.55rem;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(24, 36, 47, 0.08);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--vision-surface-ink-soft);
+}
+
 .vision-surface__loading {
-  position: fixed;
-  left: 50%;
-  bottom: 7.8rem;
-  transform: translateX(-50%);
-  z-index: 2;
+  position: relative;
+  z-index: 1;
+  width: fit-content;
   padding: 0.65rem 1rem;
   border-radius: 999px;
   background: var(--vision-surface-card-strong);
@@ -757,10 +835,6 @@ useMountedAsync(init)
     left: 1rem;
     right: 1rem;
     width: auto;
-  }
-
-  .vision-surface__stage {
-    padding-bottom: 17rem;
   }
 }
 </style>

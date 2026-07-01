@@ -24,6 +24,22 @@ export type VisionQuestCard = {
 
 const tones: VisionQuestCard["tone"][] = ["coral", "sky", "mint"]
 
+const supportedRecordingMimeTypes = [
+  "audio/webm;codecs=opus",
+  "audio/webm",
+  "audio/mp4;codecs=mp4a.40.2",
+  "audio/mp4",
+  "audio/aac"
+]
+
+const chooseRecordingMimeType = () => {
+  if (typeof MediaRecorder === "undefined") {
+    return ""
+  }
+
+  return supportedRecordingMimeTypes.find((mimeType) => MediaRecorder.isTypeSupported(mimeType)) ?? ""
+}
+
 const buildQuestTags = (quest: Quest) => {
   const tags: string[] = []
 
@@ -101,6 +117,8 @@ export const useVisionSurface = () => {
   const activeSpeechAudio = ref<HTMLAudioElement | null>(null)
   const activeSpeechAudioUrl = ref("")
   const recordedChunks = ref<Blob[]>([])
+  const recordedAudioBytes = ref(0)
+  const recordingTimeoutId = ref<number | null>(null)
   const discardPendingRecording = ref(false)
   const composerExpanded = ref(true)
 
@@ -113,6 +131,9 @@ export const useVisionSurface = () => {
     && typeof MediaRecorder !== "undefined")
   const speechSynthesisSupported = computed(() => typeof window !== "undefined"
     && typeof Audio !== "undefined")
+  const maxRecordingMillis = computed(() => voiceConfig.value?.maxRecordingMillis ?? 20_000)
+  const maxAudioBytes = computed(() => voiceConfig.value?.maxAudioBytes ?? 2_000_000)
+  const maxSpeechTextLength = computed(() => voiceConfig.value?.maxSpeechTextLength ?? 1_000)
   const promptComposerVisible = computed(() => composerExpanded.value
     || voiceState.value !== "idle"
     || recognizedPrompt.value.trim().length > 0
@@ -240,12 +261,17 @@ export const useVisionSurface = () => {
   }
 
   const resetRecordingState = () => {
+    if (recordingTimeoutId.value !== null) {
+      window.clearTimeout(recordingTimeoutId.value)
+      recordingTimeoutId.value = null
+    }
     if (activeMediaStream.value) {
       activeMediaStream.value.getTracks().forEach((track) => track.stop())
       activeMediaStream.value = null
     }
     mediaRecorder.value = null
     recordedChunks.value = []
+    recordedAudioBytes.value = 0
     discardPendingRecording.value = false
   }
 
@@ -269,7 +295,8 @@ export const useVisionSurface = () => {
 
     try {
       voiceState.value = "processing"
-      const audioBuffer = await dashboardApi.speakVoiceText(trimmedText)
+      const safeText = trimmedText.slice(0, maxSpeechTextLength.value)
+      const audioBuffer = await dashboardApi.speakVoiceText(safeText)
       const audioBlob = new Blob([audioBuffer], {type: "audio/mpeg"})
       const audioUrl = URL.createObjectURL(audioBlob)
       activeSpeechAudioUrl.value = audioUrl
@@ -348,6 +375,13 @@ export const useVisionSurface = () => {
   }
 
   const transcribeRecordedAudio = async (audioBlob: Blob) => {
+    if (maxAudioBytes.value > 0 && audioBlob.size > maxAudioBytes.value) {
+      voiceRuntimeError.value = "Recording is too large. Try a shorter voice prompt."
+      voiceState.value = "idle"
+      resetRecordingState()
+      return
+    }
+
     try {
       const transcription: DashboardVoiceTranscription = await dashboardApi.transcribeVoiceAudio(audioBlob)
       recognizedPrompt.value = transcription.text
@@ -381,12 +415,9 @@ export const useVisionSurface = () => {
       const stream = await navigator.mediaDevices.getUserMedia({audio: true})
       activeMediaStream.value = stream
       recordedChunks.value = []
+      recordedAudioBytes.value = 0
 
-      const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
-        ? "audio/webm;codecs=opus"
-        : MediaRecorder.isTypeSupported("audio/webm")
-          ? "audio/webm"
-          : ""
+      const mimeType = chooseRecordingMimeType()
 
       const recorder = mimeType
         ? new MediaRecorder(stream, {mimeType})
@@ -394,6 +425,12 @@ export const useVisionSurface = () => {
 
       recorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
+          recordedAudioBytes.value += event.data.size
+          if (maxAudioBytes.value > 0 && recordedAudioBytes.value > maxAudioBytes.value) {
+            voiceRuntimeError.value = "Recording is too large. Try a shorter voice prompt."
+            stopListening(true)
+            return
+          }
           recordedChunks.value.push(event.data)
         }
       }
@@ -413,13 +450,20 @@ export const useVisionSurface = () => {
           return
         }
 
-        const audioBlob = new Blob(recordedChunks.value, {type: recorder.mimeType || "audio/webm"})
+        const audioBlob = new Blob(recordedChunks.value, {type: recorder.mimeType || mimeType || "audio/webm"})
         voiceState.value = "processing"
         void transcribeRecordedAudio(audioBlob)
       }
 
       mediaRecorder.value = recorder
-      recorder.start()
+      recorder.start(1000)
+      if (maxRecordingMillis.value > 0) {
+        recordingTimeoutId.value = window.setTimeout(() => {
+          if (voiceState.value === "listening") {
+            stopListening()
+          }
+        }, maxRecordingMillis.value)
+      }
     } catch (caught) {
       console.error(caught)
       voiceRuntimeError.value = "Microphone access failed."

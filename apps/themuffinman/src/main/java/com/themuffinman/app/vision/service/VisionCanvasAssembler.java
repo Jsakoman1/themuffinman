@@ -47,6 +47,7 @@ public class VisionCanvasAssembler {
                 .translationReliable(turn.isTranslationReliable())
                 .executionEnabled(visionProperties.isExecutionEnabled())
                 .blocks(toBlocks(conversation, turn))
+                .appliedSlotSummaries(toAppliedSlotSummaries(conversation.getSlotData(), turn.getAppliedSlotIds()))
                 .slotSummaries(toSlotSummaries(conversation.getSlotData()))
                 .review(toReview(conversation.getSlotData(), turn))
                 .recentConversations(recentConversations)
@@ -165,6 +166,27 @@ public class VisionCanvasAssembler {
         return summaries;
     }
 
+    private List<VisionSlotSummaryDTO> toAppliedSlotSummaries(Map<String, String> slotData, List<String> appliedSlotIds) {
+        List<VisionSlotSummaryDTO> summaries = new ArrayList<>();
+        if (appliedSlotIds == null || appliedSlotIds.isEmpty()) {
+            return summaries;
+        }
+
+        for (String slotId : appliedSlotIds) {
+            String label = labelForSlot(slotId);
+            String value = valueForSlot(slotData, slotId);
+            if (label == null || value == null || value.isBlank()) {
+                continue;
+            }
+            summaries.add(VisionSlotSummaryDTO.builder()
+                    .slotId(slotId)
+                    .label(label)
+                    .value(value)
+                    .build());
+        }
+        return summaries;
+    }
+
     private VisionCanvasBlockDTO toLocationResolutionBlock(Map<String, String> slotData) {
         if (!"custom".equals(slotData.get("location_mode"))) {
             return null;
@@ -245,6 +267,15 @@ public class VisionCanvasAssembler {
                 .label(label)
                 .value(value)
                 .build());
+    }
+
+    private String valueForSlot(Map<String, String> slotData, String slotId) {
+        return switch (slotId) {
+            case "reward_amount" -> "true".equals(slotData.get("free_quest")) ? "Free" : slotData.get("reward_amount");
+            case "schedule_mode" -> formatScheduleSummary(slotData);
+            case "location_mode" -> formatLocationSummary(slotData);
+            default -> slotData.get(slotId);
+        };
     }
 
     private String labelForSlot(String slotId) {

@@ -16,6 +16,8 @@ For broad, long-running, or high-complexity work, prefer a master plan that coor
 
 Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
 
+For work that spans several master plans, use `docs/program-planning-model.md` and keep the relevant `.agents/god-plans/*.yaml` file aligned with the active Master Plans, Plans, pros, cons, decisions, and risks.
+
 ## Pick The Tier First
 
 ### Tier 1: Tiny change
@@ -106,6 +108,8 @@ Default path:
 2. Plan
 - Tier 2, Tier 3, and Tier 4 work has a current plan in `.agents/`.
 - Broad work uses a master plan plus child plans when that keeps the batch auditable.
+- Program-level work that spans several master plans has a God Plan under `.agents/god-plans/`.
+- Temporary machine-readable work products under `.agents/tmp/` name their owning plan and have a closeout deletion, promotion, or archive decision.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 - Use `make codex-context topic=<topic> intent='<intent>'` before broad discovery so the plan starts from the diff summary, audit summary index, and the most relevant audit.
 - If a manifest is in scope, read `docs/validation-memory.md` and `docs/validation-memory.json` before finalizing evidence so canonical command strings and manifest bucket rules are explicit.

@@ -1,0 +1,38 @@
+id: example-god-plan
+title: Example God Plan
+status: draft
+objective: Coordinate several master plans under one durable program direction.
+scope:
+  included:
+    - TBD
+  excluded:
+    - TBD
+masterPlans:
+  - id: example-master-plan
+    path: .agents/example-master-plan.md
+    status: draft
+    role: Coordinates one major workstream.
+    pros:
+      - TBD
+    cons:
+      - TBD
+implementationState:
+  currentPhase: TBD
+  nextPhase: TBD
+pros:
+  - TBD
+cons:
+  - TBD
+risks:
+  - id: RISK-001
+    description: TBD
+    mitigation: TBD
+decisions:
+  - id: DEC-001
+    decision: TBD
+    status: proposed
+validation:
+  requiredChecks:
+    - Validate against docs/god-plan.schema.json when the schema is available to local tooling.
+  closeoutRule: Child master plans must be complete or explicitly deferred before this God Plan closes.
+

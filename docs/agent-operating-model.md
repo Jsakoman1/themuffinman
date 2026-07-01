@@ -32,10 +32,13 @@ The machine-readable source of truth is:
 - Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
 - Treat the section files under `docs/agent-operating-model/sections/` as the editable source for that machine contract and regenerate the combined YAML after changes.
 - Treat `docs/implementation-backlog.md` and `docs/agent-improvement-backlog.md` as the persistent open-work registries for deferred implementation and deferred control-system work.
+- Treat `docs/program-planning-model.md` as the hierarchy contract for God Plans, Master Plans, Plans, and temporary machine-readable work products.
 - For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file.
 - Keep workflows procedural, explicit, and dependency-ordered.
 - For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
 - Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
+- For work that spans several master plans, use a God Plan under `.agents/god-plans/` to coordinate implementation state, pros, cons, risks, decisions, and child Master Plans.
+- Temporary machine-readable work products belong under `.agents/tmp/`, must name their owning plan, and must be deleted, promoted into durable docs, or explicitly archived when the owning plan closes.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 - When `AGENTS.md` records the standing follow-up capture preference, record discovered safe improvements and repeated failure patterns in the appropriate follow-up or backlog surface during the active slice and continue with the best sequenced follow-up slice after the current slice closes.
 - Prefer hard failure over implicit fallback when the spec does not define a safe next step.
@@ -240,6 +243,7 @@ Context-first session workflow:
 
 Broad implementation checkpoints:
 - use these checkpoints for broad, long-running, high-complexity, multi-layer, high-risk, or master-plan-driven changes
+- if the work spans several master plans, update the relevant God Plan before changing child plan status
 - plan checkpoint: create the temporary plan or master child plan, list scope, risk, affected surfaces, expected validation, and any up-front approval needs before substantial edits
 - first backend slice checkpoint: when backend is in scope, complete the smallest meaningful backend behavior, contract, or generated-artifact edit and record a targeted backend check or not-applicable reason before broadening backend edits
 - first frontend slice checkpoint: when frontend is in scope, complete the smallest meaningful frontend contract, state, route, or component edit and record type-check, build, contract validation, or a not-applicable reason before broadening frontend edits

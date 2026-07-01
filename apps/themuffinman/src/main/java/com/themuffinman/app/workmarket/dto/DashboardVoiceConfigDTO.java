@@ -22,4 +22,7 @@ public class DashboardVoiceConfigDTO {
     private boolean continuousRecognition;
     private int maxAlternatives;
     private boolean autoSpeakResponses;
+    private long maxRecordingMillis;
+    private long maxAudioBytes;
+    private int maxSpeechTextLength;
 }

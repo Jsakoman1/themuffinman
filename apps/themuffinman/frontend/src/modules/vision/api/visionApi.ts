@@ -29,6 +29,7 @@ export type VisionConversationSummary = {
   progressLabel: string
   groupKey: string
   requestedSlot: string | null
+  appliedSlotSummaries: VisionSlotSummary[]
   resumable: boolean
   completed: boolean
   stale: boolean
@@ -72,6 +73,7 @@ export type VisionConversationTurnResponse = {
   translationReliable: boolean
   executionEnabled: boolean
   blocks: VisionCanvasBlock[]
+  appliedSlotSummaries: VisionSlotSummary[]
   slotSummaries: VisionSlotSummary[]
   review: VisionQuestReview | null
   recentConversations: VisionConversationSummary[]

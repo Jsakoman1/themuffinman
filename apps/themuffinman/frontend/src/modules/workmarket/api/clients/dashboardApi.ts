@@ -35,7 +35,12 @@ export const dashboardApi = {
 
   async transcribeVoiceAudio(audio: Blob): Promise<DashboardVoiceTranscription> {
     const formData = new FormData()
-    formData.append("audio", audio, "voice.webm")
+    const filename = audio.type.includes("mp4")
+      ? "voice.mp4"
+      : audio.type.includes("aac")
+        ? "voice.aac"
+        : "voice.webm"
+    formData.append("audio", audio, filename)
 
     const auth = withAuth()
     return (await api.post<DashboardVoiceTranscription>("/dashboard/me/voice/transcribe", formData, {

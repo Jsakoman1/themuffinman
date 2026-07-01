@@ -37,6 +37,8 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 
 For `/vision` work, the compact context should usually be opened after the vision memory set so the repo search starts from the right backend, API, frontend, test, and doc surfaces.
 
+When the task spans several existing master plans or long-running program directions, read `docs/program-planning-model.md` and the relevant `.agents/god-plans/*.yaml` file before creating or modifying child master plans.
+
 When `AGENTS.md` records a standing autonomous continuation preference, do not stop to ask the user which safe offered follow-up slice to pick; choose the best sequenced next slice and continue until scope is narrowed, approval is needed, or a real blocker appears.
 
 When `AGENTS.md` records the standing follow-up capture preference, record safe discovered improvements or repeated failure patterns in the appropriate follow-up or backlog surface during the active slice, then continue with the best sequenced follow-up slice after the current slice closes.
@@ -152,6 +154,7 @@ Use it for:
 Expected flow:
 
 - master plan if broad
+- God Plan update if the work changes a program spanning several master plans
 - manifest required
 - docs sync required
 - generated artifacts and validation test required when machine-operational rules change
@@ -198,6 +201,7 @@ Do not claim completion while validation, required docs, or required closeout ga
 ## Deeper References
 
 - `docs/feature-delivery-workflow.md`: complete human-readable process
+- `docs/program-planning-model.md`: God Plan, Master Plan, Plan, and temporary work product hierarchy
 - `docs/validation-memory.md`: canonical validator-facing commands, manifest heuristics, and closeout evidence patterns
 - `docs/validation-memory.json`: machine-readable validation and closeout cheat sheet for local tools
 - `docs/generated/local-tooling/validation-memory-closeout-card-summary.md`: ultra-short closeout command card derived from validation memory

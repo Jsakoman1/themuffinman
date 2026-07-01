@@ -63,6 +63,8 @@ Frontend renderer shape should stay split into:
 - one canvas router
 - focused block components for review, field requests, result summaries, and shared status framing
 
+The prompt composer should stay inside the adaptive canvas flow as an inline surface, not as a fixed floating dock that competes with the canvas contents.
+
 Do not let one Vue file absorb the entire block vocabulary once the backend response shape expands.
 
 Route-shell behavior should also stay blank-canvas oriented:
@@ -192,6 +194,10 @@ Common slot IDs:
 - `confirmation`
 
 Slot extraction may use an LLM, but slot validation must use deterministic backend logic and domain services.
+The LLM layer should stay separate from slot validation as a semantic understanding step that can return normalized prompt text, a focus slot, and extracted slot candidates, while deterministic backend services still decide which values are accepted.
+Do not let fallback heuristics treat every prompt as description, reward, or location text just because the user spoke in one sentence.
+When the conversation already has a requested slot, the backend should use that slot as the fallback semantic focus if the model response does not name one explicitly.
+Prefer one shared semantic-mapping service for prompt understanding, fallback focus, and review-edit follow-up routing so the same turn-level rules do not drift across services.
 
 ## Clarification Pattern
 

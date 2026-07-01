@@ -1021,6 +1021,23 @@ policies:
     completion_rule: A plan-backed change is not ready for closeout while its referenced
       plan has incomplete task checkboxes, missing completion evidence, or an incomplete
       child plan without an explicit deferred backlog ID.
+  program_planning_hierarchy:
+    applies_to: Broad work that spans several master plans, durable product directions,
+      or long-running agent/control-system programs.
+    source_doc: docs/program-planning-model.md
+    hierarchy:
+    - God Plan
+    - Master Plan
+    - Plan
+    - Temporary work product
+    rules:
+    - God Plans live under `.agents/god-plans/` and coordinate related Master Plans.
+    - Master Plans coordinate ordered child Plans and final closeout evidence.
+    - Plans execute concrete implementation or analysis slices.
+    - Temporary machine-readable work products live under `.agents/tmp/` only while
+      their owning Plan needs them.
+    closeout_rule: Temporary machine-readable work products must be deleted, promoted
+      into durable docs, or explicitly archived when the owning plan closes.
   implementation_checkpoints:
     broad_change_trigger: Use these checkpoints for broad, long-running, high-complexity,
       multi-layer, high-risk, or master-plan-driven changes.

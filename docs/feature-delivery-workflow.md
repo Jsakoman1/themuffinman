@@ -156,6 +156,7 @@ Use for:
 This tier is intentionally strict:
 
 - master plan required when broad
+- God Plan required or updated when the workflow spans several master plans
 - manifest required
 - docs sync required
 - generated artifacts required when machine-operational rules change
@@ -181,6 +182,7 @@ This tier is intentionally strict:
 - When the resolver shape is manifest-backed or closeout-sensitive, `make codex-context` should also surface validation memory so command and evidence expectations are present before the first closeout pass.
 - For product-direction, UX, interaction design, or Social Useful Network vision work, start by reading `docs/product-memory.md` and `docs/product-vision.md` before broadening into implementation docs.
 - For `/vision` implementation work, read `docs/vision-architecture-patterns.md` before backend orchestration, API, frontend canvas, prompt-handling, or executor decisions.
+- For work that spans several master plans, read `docs/program-planning-model.md` and update or create the relevant `.agents/god-plans/*.yaml` file before changing child master plans.
 
 3. Focused routing and required-surface resolution
 
@@ -206,6 +208,7 @@ These resolvers answer:
 - keep backend rules in services and use cases
 - use forward-only migrations
 - validate the first meaningful slice before widening scope
+- temporary machine-readable work products may live under `.agents/tmp/` only while their owning plan needs them, and must be deleted, promoted, or explicitly archived at plan closeout
 
 5. Documentation synchronization
 

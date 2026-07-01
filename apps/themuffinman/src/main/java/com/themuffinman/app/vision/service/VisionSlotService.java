@@ -18,42 +18,65 @@ public class VisionSlotService {
     private static final Pattern AMOUNT_PATTERN = Pattern.compile("(?<!\\d)(\\d{1,5}(?:[.,]\\d{1,2})?)(?!\\d)");
     private final VisionScheduleParserService visionScheduleParserService;
     private final VisionLocationResolutionService visionLocationResolutionService;
+    private final VisionSemanticMapper visionSemanticMapper;
 
     public VisionSlotService(
             VisionScheduleParserService visionScheduleParserService,
-            VisionLocationResolutionService visionLocationResolutionService
+            VisionLocationResolutionService visionLocationResolutionService,
+            VisionSemanticMapper visionSemanticMapper
     ) {
         this.visionScheduleParserService = visionScheduleParserService;
         this.visionLocationResolutionService = visionLocationResolutionService;
+        this.visionSemanticMapper = visionSemanticMapper;
     }
 
     public Map<String, String> mergeCreateQuestSlots(VisionConversation conversation, String normalizedPrompt) {
+        return mergeCreateQuestSlots(conversation, normalizedPrompt, VisionPromptUnderstandingResult.empty(normalizedPrompt));
+    }
+
+    public Map<String, String> mergeCreateQuestSlots(
+            VisionConversation conversation,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding
+    ) {
         Map<String, String> merged = new LinkedHashMap<>(conversation.getSlotData());
         String requestedSlot = conversation.getRequestedSlot();
+        String focusSlotId = visionSemanticMapper.focusSlotId(understanding);
+        applySemanticSlots(merged, understanding, normalizedPrompt, actorKeyForConversation(conversation));
 
-        if ("quest_title".equals(requestedSlot)) {
+        if ("quest_title".equals(requestedSlot) && !merged.containsKey("quest_title")) {
             merged.put("quest_title", normalizeTitleAnswer(normalizedPrompt));
-        } else if ("quest_description".equals(requestedSlot)) {
+        } else if ("quest_description".equals(requestedSlot) && !merged.containsKey("quest_description")) {
             merged.put("quest_description", normalizedPrompt.trim());
-        } else if ("reward_amount".equals(requestedSlot)) {
+        } else if ("reward_amount".equals(requestedSlot) && !merged.containsKey("reward_amount") && !merged.containsKey("free_quest")) {
             applyRewardAnswer(merged, normalizedPrompt);
-        } else if ("visibility".equals(requestedSlot)) {
+        } else if ("visibility".equals(requestedSlot) && !merged.containsKey("visibility")) {
             String visibility = extractVisibility(normalizedPrompt);
             if (visibility != null) {
                 merged.put("visibility", visibility);
             }
         } else if ("schedule_mode".equals(requestedSlot)) {
-            applyScheduleModeAnswer(merged, normalizedPrompt);
-        } else if ("scheduled_at".equals(requestedSlot)) {
+            if (!merged.containsKey("schedule_mode")) {
+                applyScheduleModeAnswer(merged, normalizedPrompt);
+            }
+            if ("fixed".equals(merged.get("schedule_mode")) && !merged.containsKey("scheduled_at")) {
+                applyScheduledAtAnswer(merged, normalizedPrompt);
+            }
+        } else if ("scheduled_at".equals(requestedSlot) && !merged.containsKey("scheduled_at")) {
             applyScheduledAtAnswer(merged, normalizedPrompt);
         } else if ("location_mode".equals(requestedSlot)) {
-            applyLocationModeAnswer(merged, normalizedPrompt, actorKeyForConversation(conversation));
-        } else if ("location_label".equals(requestedSlot)) {
+            if (!merged.containsKey("location_mode")) {
+                applyLocationModeAnswer(merged, normalizedPrompt, actorKeyForConversation(conversation));
+            }
+            if ("custom".equals(merged.get("location_mode")) && !merged.containsKey("location_label")) {
+                applyLocationLabelAnswer(merged, normalizedPrompt, actorKeyForConversation(conversation));
+            }
+        } else if ("location_label".equals(requestedSlot) && !merged.containsKey("location_label")) {
             applyLocationLabelAnswer(merged, normalizedPrompt, actorKeyForConversation(conversation));
-        } else if ("location_candidate_confirmation".equals(requestedSlot)) {
+        } else if ("location_candidate_confirmation".equals(requestedSlot) && !merged.containsKey("location_candidate_confirmation")) {
             applyLocationCandidateConfirmation(merged, normalizedPrompt);
         } else {
-            autoFillCreateQuestSlots(merged, normalizedPrompt, actorKeyForConversation(conversation));
+            autoFillCreateQuestSlots(merged, normalizedPrompt, actorKeyForConversation(conversation), requestedSlot, focusSlotId);
         }
 
         cleanupEmptyValues(merged);
@@ -88,12 +111,18 @@ public class VisionSlotService {
         }
     }
 
-    private void autoFillCreateQuestSlots(Map<String, String> merged, String normalizedPrompt, String actorKey) {
+    private void autoFillCreateQuestSlots(
+            Map<String, String> merged,
+            String normalizedPrompt,
+            String actorKey,
+            String requestedSlot,
+            String focusSlotId
+    ) {
         String prompt = normalizedPrompt.trim();
         if (isGenericCreateQuestCommand(prompt)) {
             return;
         }
-        if (!prompt.isBlank() && !merged.containsKey("quest_description")) {
+        if (!merged.containsKey("quest_description") && shouldAutoFillDescription(prompt, requestedSlot, focusSlotId)) {
             merged.put("quest_description", prompt);
         }
 
@@ -104,7 +133,7 @@ public class VisionSlotService {
             }
         }
 
-        if (!merged.containsKey("reward_amount") && !merged.containsKey("free_quest")) {
+        if (!merged.containsKey("reward_amount") && !merged.containsKey("free_quest") && shouldAutoFillReward(prompt, requestedSlot, focusSlotId)) {
             applyRewardAnswer(merged, prompt);
         }
 
@@ -123,13 +152,180 @@ public class VisionSlotService {
             applyScheduledAtAnswer(merged, prompt);
         }
 
-        if (!merged.containsKey("location_mode")) {
+        if (!merged.containsKey("location_mode") && shouldAutoFillLocation(prompt, focusSlotId)) {
             applyLocationModeAnswer(merged, prompt, actorKey);
         }
 
         if ("custom".equals(merged.get("location_mode")) && !merged.containsKey("location_label")) {
             applyLocationLabelAnswer(merged, prompt, actorKey);
         }
+    }
+
+    private void applySemanticSlots(
+            Map<String, String> merged,
+            VisionPromptUnderstandingResult understanding,
+            String normalizedPrompt,
+            String actorKey
+    ) {
+        if (understanding == null) {
+            return;
+        }
+
+        Map<String, String> extractedSlots = visionSemanticMapper.extractedSlots(understanding);
+        String focusSlotId = visionSemanticMapper.focusSlotId(understanding);
+        applySemanticTitle(merged, extractedSlots.get("quest_title"));
+        applySemanticDescription(merged, extractedSlots.get("quest_description"), normalizedPrompt, focusSlotId);
+        applySemanticReward(merged, extractedSlots, normalizedPrompt, focusSlotId);
+        applySemanticVisibility(merged, extractedSlots.get("visibility"), normalizedPrompt, focusSlotId);
+        applySemanticSchedule(merged, extractedSlots, normalizedPrompt, focusSlotId);
+        applySemanticLocation(merged, extractedSlots, normalizedPrompt, focusSlotId, actorKey);
+    }
+
+    private void applySemanticTitle(Map<String, String> merged, String title) {
+        if (title == null || title.isBlank()) {
+            return;
+        }
+        merged.put("quest_title", normalizeTitleAnswer(title));
+    }
+
+    private void applySemanticDescription(Map<String, String> merged, String description, String normalizedPrompt, String focusSlotId) {
+        if (description == null || description.isBlank()) {
+            return;
+        }
+        merged.put("quest_description", description.trim());
+    }
+
+    private void applySemanticReward(Map<String, String> merged, Map<String, String> extractedSlots, String normalizedPrompt, String focusSlotId) {
+        String freeQuest = extractedSlots.get("free_quest");
+        if (freeQuest != null && Boolean.parseBoolean(freeQuest)) {
+            merged.put("free_quest", "true");
+            merged.put("reward_amount", "0");
+            return;
+        }
+
+        String rewardAmount = extractedSlots.get("reward_amount");
+        if (rewardAmount == null || rewardAmount.isBlank()) {
+            return;
+        }
+
+        try {
+            BigDecimal amount = new BigDecimal(rewardAmount.trim().replace(',', '.'));
+            merged.put("free_quest", "false");
+            merged.put("reward_amount", amount.stripTrailingZeros().toPlainString());
+        } catch (NumberFormatException ignored) {
+            // Keep deterministic fallback if the extracted value is malformed.
+        }
+    }
+
+    private void applySemanticVisibility(Map<String, String> merged, String visibility, String normalizedPrompt, String focusSlotId) {
+        if (visibility == null || visibility.isBlank()) {
+            return;
+        }
+        String normalized = visibility.trim().toUpperCase(Locale.ROOT);
+        if ("PUBLIC".equals(normalized) || "CIRCLES".equals(normalized)) {
+            merged.put("visibility", normalized);
+        }
+    }
+
+    private void applySemanticSchedule(Map<String, String> merged, Map<String, String> extractedSlots, String normalizedPrompt, String focusSlotId) {
+        String scheduleMode = extractedSlots.get("schedule_mode");
+        if (scheduleMode != null && !scheduleMode.isBlank()) {
+            String normalized = scheduleMode.trim().toLowerCase(Locale.ROOT);
+            if ("agreement".equals(normalized) || "fixed".equals(normalized)) {
+                merged.put("schedule_mode", normalized);
+            }
+        }
+
+        String scheduledAt = extractedSlots.get("scheduled_at");
+        if (scheduledAt != null && !scheduledAt.isBlank()) {
+            merged.put("scheduled_at", scheduledAt.trim());
+        }
+    }
+
+    private void applySemanticLocation(
+            Map<String, String> merged,
+            Map<String, String> extractedSlots,
+            String normalizedPrompt,
+            String focusSlotId,
+            String actorKey
+    ) {
+        String locationMode = extractedSlots.get("location_mode");
+        if (locationMode != null && !locationMode.isBlank()) {
+            String normalized = locationMode.trim().toLowerCase(Locale.ROOT);
+            if ("off".equals(normalized) || "profile".equals(normalized) || "custom".equals(normalized)) {
+                merged.put("location_mode", normalized);
+                if (!"custom".equals(normalized)) {
+                    merged.remove("location_label");
+                    merged.remove("location_resolution_status");
+                    merged.remove("location_resolution_provider");
+                    merged.remove("location_candidate_confirmation");
+                    clearPendingLocationCandidate(merged);
+                }
+            }
+        }
+
+        String locationLabel = extractedSlots.get("location_label");
+        if (locationLabel != null && !locationLabel.isBlank()) {
+            String mode = merged.get("location_mode");
+            if (!"off".equals(mode) && !"profile".equals(mode)) {
+                applyLocationLabelAnswer(merged, locationLabel, actorKey);
+            }
+        }
+
+        String locationCandidateConfirmation = extractedSlots.get("location_candidate_confirmation");
+        if (locationCandidateConfirmation != null && !locationCandidateConfirmation.isBlank()) {
+            merged.put("location_candidate_confirmation", locationCandidateConfirmation.trim().toLowerCase(Locale.ROOT));
+        }
+    }
+
+    private boolean shouldAutoFillDescription(String normalizedPrompt, String requestedSlot, String focusSlotId) {
+        if (focusSlotId != null && "quest_description".equals(focusSlotId)) {
+            return true;
+        }
+        if ("quest_description".equals(requestedSlot)) {
+            return true;
+        }
+        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        return containsAny(lower, "need", "looking for", "help", "task", "description", "quest", "i want", "i need");
+    }
+
+    private boolean shouldAutoFillReward(String normalizedPrompt, String requestedSlot, String focusSlotId) {
+        if (focusSlotId != null && "reward_amount".equals(focusSlotId)) {
+            return true;
+        }
+        if ("reward_amount".equals(requestedSlot)) {
+            return true;
+        }
+        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        return containsAny(lower, "free", "no pay", "without pay", "unpaid", "reward", "euros", "euro", "eur", "kn", "pay", "compensation", "amount", "price");
+    }
+
+    private boolean shouldAutoFillVisibility(String normalizedPrompt, String focusSlotId) {
+        if (focusSlotId != null && "visibility".equals(focusSlotId)) {
+            return true;
+        }
+        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        return containsAny(lower, "public", "circles", "friends only", "everyone", "private");
+    }
+
+    private boolean shouldAutoFillSchedule(String normalizedPrompt, String focusSlotId) {
+        if (focusSlotId != null && ("schedule_mode".equals(focusSlotId) || "scheduled_at".equals(focusSlotId))) {
+            return true;
+        }
+        return visionScheduleParserService.suggestsFixedSchedule(normalizedPrompt)
+                || containsAny(normalizedPrompt.toLowerCase(Locale.ROOT), "agreement", "arrange", "flexible", "any time", "anytime", "by agreement");
+    }
+
+    private boolean shouldAutoFillLocation(String normalizedPrompt, String focusSlotId) {
+        if (focusSlotId != null && (
+                "location_mode".equals(focusSlotId)
+                        || "location_label".equals(focusSlotId)
+                        || "location_candidate_confirmation".equals(focusSlotId)
+        )) {
+            return true;
+        }
+        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        return containsAny(lower, "location", "address", "current location", "my location", "profile", "hide location", "hide", "place", "street", "square", "near", "at ");
     }
 
     private void applyRewardAnswer(Map<String, String> merged, String normalizedPrompt) {

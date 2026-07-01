@@ -1,0 +1,130 @@
+featureId: god_plan_hierarchy
+title: God Plan hierarchy for broad agent planning
+workflowTier: tier4-agent-tooling-workflow
+manifestDecision: required
+status: complete
+riskTier: medium
+changeMode: major-change
+changeImpact: contract-neutral-refactor
+changeProfiles:
+  - agent-contract
+planFile: .agents/god-plan-hierarchy-plan.md
+summary:
+  - Introduce a durable God Plan hierarchy above existing Master Plans and Plans.
+  - Add templates and a first machine-readable vision God Plan.
+validationEvidence:
+  commands:
+    - command: make generate-agent-operating-model
+      scope: generated-artifact
+      result: passed
+      summary: Regenerated docs/agent-operating-model.yaml from section sources after adding the program planning hierarchy policy.
+    - command: make audit-agent-safety
+      scope: agent-safety
+      result: passed
+      summary: Ran the required agent-safety suite, frontend type-check, admin-agent UI validation, frontend contract validation, frontend build, validation evidence audit, validation-memory drift audit, and todo audit through the Make target.
+    - command: >-
+        ruby -ryaml -rjson -e 'YAML.safe_load(File.read(".agents/god-plans/vision-god-plan.yaml"), permitted_classes: [], aliases: true); JSON.parse(File.read("docs/god-plan.schema.json")); puts "god plan yaml and schema parse"'
+      scope: docs
+      result: passed
+      summary: Parsed the first vision God Plan YAML and the God Plan JSON schema.
+    - command: make audit-todo
+      scope: local-tooling
+      result: passed
+      summary: Todo audit passed with zero open plan tasks after completing the God Plan hierarchy plan.
+    - command: npm run validate:contracts
+      scope: frontend
+      result: passed
+      summary: Frontend contract validation passed as part of make audit-agent-safety.
+    - command: npm run type-check
+      scope: frontend
+      result: passed
+      summary: Frontend type-check passed as part of make audit-agent-safety.
+    - command: npm run build
+      scope: frontend
+      result: passed
+      summary: Frontend build passed as part of make audit-agent-safety.
+    - command: make audit-plan-completion plan=.agents/god-plan-hierarchy-plan.md manifest=.agents/feature-manifests/god-plan-hierarchy-manifest.yaml
+      scope: manifest
+      result: passed
+      summary: Plan completion audit passed with completion evidence, zero open tasks, and zero issues.
+    - command: make feature-closeout-audit manifest=.agents/feature-manifests/god-plan-hierarchy-manifest.yaml
+      scope: manifest
+      result: passed
+      summary: Feature closeout audit passed for the God Plan hierarchy manifest.
+    - command: make audit-validation-evidence-quality
+      scope: manifest
+      result: passed
+      summary: Validation evidence quality audit passed with zero vague evidence issues.
+generatedArtifacts:
+  refreshedPaths:
+    - docs/agent-operating-model.yaml
+    - docs/generated/local-tooling/validation-memory-drift.json
+    - docs/generated/local-tooling/plan-completion/god-plan-hierarchy-plan-summary.md
+    - docs/generated/local-tooling/plan-completion/god-plan-hierarchy-plan.json
+  notApplicableReason: Generated artifact refreshed.
+planCompletion:
+  reviewed: true
+  openTasks: 0
+  summary: All planned slices completed and completion evidence was added to the plan.
+closeoutDecision:
+  status: ready
+  reason: Required generator, agent-safety, frontend, evidence, drift, and todo checks passed through make audit-agent-safety.
+docDelta:
+  behaviorChanged:
+    - Future broad work can use God Plan > Master Plan > Plan > temporary work product as a formal planning hierarchy.
+    - Temporary machine-readable work products now have a documented lifecycle under .agents/tmp/.
+  docsUpdated:
+    - AGENTS.md
+    - docs/program-planning-model.md
+    - docs/god-plan.schema.json
+    - docs/codex-fast-path.md
+    - docs/feature-delivery-workflow.md
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+  intentionallyUnchanged:
+    - Runtime backend and frontend behavior were not changed.
+    - Existing historical plans were not migrated into the new hierarchy.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: true
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths: []
+  docPaths:
+    - AGENTS.md
+    - docs/program-planning-model.md
+    - docs/god-plan.schema.json
+    - docs/codex-fast-path.md
+    - docs/feature-delivery-workflow.md
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model/sections/policies.yaml
+    - docs/agent-operating-model.yaml
+    - .agents/god-plans/vision-god-plan.yaml
+    - .agents/god-plans/vision-god-plan.md
+    - .agents/templates/god-plan.template.yaml
+    - .agents/templates/master-plan.template.md
+    - .agents/templates/temp-work-product.template.yaml
+    - .agents/tmp/README.md
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  generatorCommands:
+    - make generate-agent-operating-model
+  auditCommands:
+    - make audit-agent-safety
+    - make audit-plan-completion plan=.agents/god-plan-hierarchy-plan.md manifest=.agents/feature-manifests/god-plan-hierarchy-manifest.yaml
+    - make feature-closeout-audit manifest=.agents/feature-manifests/god-plan-hierarchy-manifest.yaml
+    - make audit-validation-evidence-quality
+    - make audit-todo

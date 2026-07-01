@@ -29,6 +29,7 @@ Owns quests, applications, quest workflow transitions, reviews, dashboard read m
 
 - Do not put workflow rules or permission decisions in controllers or frontend-only code.
 - Do not hardcode adaptive voice defaults in the frontend when `DashboardService`, `DashboardVoiceService`, or typed config can provide the source-of-truth contract instead.
+- Do not send adaptive voice recordings or speech synthesis text to OpenAI before applying backend-configured recording duration, audio-size, and speech-text limits.
 - Do not bypass `DashboardVisionPromptService` or the shared admin-agent planning core when the vision screen needs to decode typed or voice-derived prompts.
 - Do not duplicate quest owner, admin, application detail, execution, or term-decision checks outside `QuestAccessPolicyService`.
 - Do not map application or quest DTOs from lazy entities without using fetch-safe repository paths.

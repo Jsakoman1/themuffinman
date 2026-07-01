@@ -1,0 +1,93 @@
+id: vision-god-plan
+title: Vision Adaptive Surface Program
+status: active
+objective: Coordinate the long-running move from legacy module screens toward one backend-governed adaptive vision surface.
+scope:
+  included:
+    - Vision backend orchestration and conversation state
+    - Vision API and canvas response contract
+    - Vision frontend adaptive canvas rendering
+    - Voice, prompt understanding, and semantic mapping
+    - Execution rollout behind backend feature flags
+    - Vision validation, documentation, and agent-operating alignment
+  excluded:
+    - Broad legacy frontend rewrite outside vision
+    - Ungated destructive or multi-actor execution
+    - Production execution that bypasses existing domain services
+masterPlans:
+  - id: vision-adaptive-architecture
+    path: .agents/vision-adaptive-architecture-master-plan.md
+    status: active
+    role: Primary architecture and phased rollout plan for the adaptive vision surface.
+    pros:
+      - Defines locked decisions for create_quest, persisted conversation state, and feature-flagged execution.
+      - Splits backend, API, frontend, executor, and validation work into child plans.
+    cons:
+      - Some current reality notes are now stale because phase 1 conversation and create_quest execution have advanced.
+  - id: vision-modern-prompt
+    path: .agents/vision-modern-prompt-master-plan.md
+    status: active
+    role: Coordinates prompt, voice, and modern blank-canvas interaction work.
+    pros:
+      - Captures the user-facing direction away from fixed form windows.
+    cons:
+      - Needs reconciliation with the current semantic mapping and shared canvas work.
+  - id: vision-memory-context
+    path: .agents/vision-memory-and-context-master-plan.md
+    status: active
+    role: Coordinates memory, resume, and context continuity for the vision surface.
+    pros:
+      - Keeps persisted conversation and recent-session recovery visible.
+    cons:
+      - Needs tighter links to current `recentConversations` and applied-slot badge behavior.
+  - id: vision-voice
+    path: .agents/vision-voice-master-plan.md
+    status: active
+    role: Coordinates voice input, transcription, speech output, and visual feedback.
+    pros:
+      - Keeps speech-to-text and text-to-speech concerns separate from orchestration.
+    cons:
+      - Needs an explicit memory-pressure and local-device safety note after observed development machine pressure.
+implementationState:
+  currentPhase: Phase 1 create_quest conversation and review flow is partially implemented.
+  nextPhase: Generalize semantic planning and reduce frontend panel stacking into one adaptive surface.
+  backend: Persisted conversation, turn state, create_quest slot collection, review edit actions, and execution adapter exist.
+  api: Conversation turn, resume, recent, reset, cancel, blocks, slot summaries, and review DTOs exist.
+  frontend: Modern vision route, canvas renderer, prompt composer, voice controls, transcript feedback, recent conversations, and review summary exist.
+  semanticMapping: Shared focus-slot mapper exists, but the understanding prompt remains create_quest-centric.
+pros:
+  - Backend state and review gating already match key vision decision records.
+  - Frontend receives backend-prepared blocks instead of inventing workflow decisions locally.
+  - Voice feedback exposes transcript and current semantic target.
+  - Recent conversations and applied-slot summaries support resume-oriented UX.
+cons:
+  - Vision currently supports create_quest and unsupported intents only.
+  - No generic VisionExecutionPlanner or VisionExecutionService exists yet.
+  - The UI still reads as multiple stacked panels during active work.
+  - Historical master plans need reconciliation with the current implementation state.
+risks:
+  - id: VISION-RISK-001
+    description: The plan stack can become stale because implementation is moving quickly.
+    mitigation: Update this God Plan after each completed vision master plan or broad implementation batch.
+  - id: VISION-RISK-002
+    description: The frontend can continue drifting toward a dashboard of panels instead of one adaptive canvas.
+    mitigation: Require each frontend vision plan to state how it reduces or justifies visible surface fragmentation.
+  - id: VISION-RISK-003
+    description: Semantic extraction can remain create_quest-specific and block capability expansion.
+    mitigation: Add a master-plan slice for generic intent and planning contracts before expanding executors.
+decisions:
+  - id: VISION-DEC-001
+    decision: Use God Plan > Master Plan > Plan > temporary work product as the coordination hierarchy for broad vision work.
+    status: accepted
+  - id: VISION-DEC-002
+    decision: Keep God Plans durable and machine-readable under `.agents/god-plans/`.
+    status: accepted
+  - id: VISION-DEC-003
+    decision: Keep temporary plan support files under `.agents/tmp/` and remove or promote them at plan closeout.
+    status: accepted
+validation:
+  requiredChecks:
+    - ruby scripts/generate-agent-operating-model.rb
+    - ./mvnw test -Dtest=AgentOperatingModelValidationTest
+  closeoutRule: Child master plans must be complete, updated, or explicitly deferred before the vision God Plan can close.
+

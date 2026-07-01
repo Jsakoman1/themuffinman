@@ -24,5 +24,5 @@ Owns typed operational configuration for security, bootstrap, retention, locatio
 - Do not hide operational defaults in unrelated services or controllers.
 - Do not change operational defaults without updating the matching documentation.
 - Admin agent model defaults now include a routine summary model, a creative fallback model, and a shared reasoning-effort setting.
-- Voice defaults now include OpenAI transcription and speech synthesis models plus the shared API endpoint and key mapping.
+- Voice defaults now include OpenAI transcription and speech synthesis models, local recording and payload limits, plus the shared API endpoint and key mapping.
 - `OPENAI_API_KEY` is the shared credential for both the admin agent summary path and the adaptive voice path.

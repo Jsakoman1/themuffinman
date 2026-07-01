@@ -1,7 +1,5 @@
 package com.themuffinman.app.vision.service;
 
-import com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO;
-import com.themuffinman.app.agent.service.AdminAgentPlaygroundService;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.identity.model.AppUser;
@@ -9,6 +7,7 @@ import com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO;
 import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
 import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
+import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import com.themuffinman.app.vision.model.VisionAgentState;
 import com.themuffinman.app.vision.model.VisionConversationAction;
 import com.themuffinman.app.vision.model.VisionConversation;
@@ -41,7 +40,8 @@ public class VisionConversationService {
     private final VisionClarificationService visionClarificationService;
     private final VisionCanvasAssembler visionCanvasAssembler;
     private final VisionCreateQuestExecutionAdapter visionCreateQuestExecutionAdapter;
-    private final AdminAgentPlaygroundService adminAgentPlaygroundService;
+    private final VisionPromptUnderstandingService visionPromptUnderstandingService;
+    private final VisionSemanticMapper visionSemanticMapper;
     private final VisionProperties visionProperties;
 
     public VisionConversationService(
@@ -52,7 +52,8 @@ public class VisionConversationService {
             VisionClarificationService visionClarificationService,
             VisionCanvasAssembler visionCanvasAssembler,
             VisionCreateQuestExecutionAdapter visionCreateQuestExecutionAdapter,
-            AdminAgentPlaygroundService adminAgentPlaygroundService,
+            VisionPromptUnderstandingService visionPromptUnderstandingService,
+            VisionSemanticMapper visionSemanticMapper,
             VisionProperties visionProperties
     ) {
         this.visionConversationRepository = visionConversationRepository;
@@ -62,7 +63,8 @@ public class VisionConversationService {
         this.visionClarificationService = visionClarificationService;
         this.visionCanvasAssembler = visionCanvasAssembler;
         this.visionCreateQuestExecutionAdapter = visionCreateQuestExecutionAdapter;
-        this.adminAgentPlaygroundService = adminAgentPlaygroundService;
+        this.visionPromptUnderstandingService = visionPromptUnderstandingService;
+        this.visionSemanticMapper = visionSemanticMapper;
         this.visionProperties = visionProperties;
     }
 
@@ -75,22 +77,22 @@ public class VisionConversationService {
 
         VisionConversationAction action = VisionConversationAction.from(dto == null ? null : dto.getAction());
         String prompt = action == VisionConversationAction.SUBMIT_PROMPT ? requirePrompt(dto) : "";
-        AdminAgentPlaygroundResponseDTO analysis = action == VisionConversationAction.SUBMIT_PROMPT
-                ? adminAgentPlaygroundService.analyzePrompt(prompt)
-                : emptyAnalysis();
+        VisionPromptUnderstandingResult understanding = action == VisionConversationAction.SUBMIT_PROMPT
+                ? visionPromptUnderstandingService.understandPrompt(prompt, null)
+                : VisionPromptUnderstandingResult.empty("");
         String normalizedPrompt = action == VisionConversationAction.SUBMIT_PROMPT
-                ? normalizePrompt(prompt, analysis)
+                ? normalizePrompt(prompt, understanding)
                 : "";
 
         VisionConversation conversation = loadOrCreateConversation(dto == null ? null : dto.getConversationId(), currentUser, normalizedPrompt, action);
         ensureTurnCapacity(conversation);
 
         VisionTurn turn = switch (action) {
-            case CONFIRM_REVIEW -> handleConfirmReviewAction(conversation, analysis, dto == null ? null : dto.getSource());
-            case REQUEST_REVIEW_EDIT -> handleReviewEditAction(conversation, analysis, dto == null ? null : dto.getSource(), dto);
+            case CONFIRM_REVIEW -> handleConfirmReviewAction(conversation, understanding, dto == null ? null : dto.getSource());
+            case REQUEST_REVIEW_EDIT -> handleReviewEditAction(conversation, understanding, dto == null ? null : dto.getSource(), dto);
             case SUBMIT_PROMPT -> switch (conversation.getIntent()) {
-                case CREATE_QUEST -> handleCreateQuestTurn(conversation, prompt, normalizedPrompt, analysis, dto.getSource());
-                case UNSUPPORTED -> handleUnsupportedTurn(conversation, prompt, normalizedPrompt, analysis, dto.getSource());
+                case CREATE_QUEST -> handleCreateQuestTurn(conversation, prompt, normalizedPrompt, understanding, dto.getSource());
+                case UNSUPPORTED -> handleUnsupportedTurn(conversation, prompt, normalizedPrompt, understanding, dto.getSource());
             };
         };
 
@@ -180,6 +182,9 @@ public class VisionConversationService {
         boolean completed = conversation.getStatus() == VisionConversationStatus.COMPLETED;
         boolean resumable = conversation.getStatus() != VisionConversationStatus.COMPLETED;
         boolean stale = isStale(conversation);
+        List<VisionSlotSummaryDTO> appliedSlotSummaries = visionTurnRepository.findTopByConversationOrderByTurnIndexDesc(conversation)
+                .map(this::appliedSlotSummariesForTurn)
+                .orElseGet(List::of);
         return VisionConversationSummaryDTO.builder()
                 .conversationId(conversation.getId())
                 .intent(conversation.getIntent().name())
@@ -190,6 +195,7 @@ public class VisionConversationService {
                 .progressLabel(progressLabel(conversation))
                 .groupKey(groupKey(conversation))
                 .requestedSlot(conversation.getRequestedSlot())
+                .appliedSlotSummaries(appliedSlotSummaries)
                 .resumable(resumable)
                 .completed(completed)
                 .stale(stale)
@@ -223,6 +229,72 @@ public class VisionConversationService {
             case REVIEW_READY -> "review_ready";
             case BLOCKED -> "blocked";
             case COMPLETED -> "completed";
+        };
+    }
+
+    private List<VisionSlotSummaryDTO> appliedSlotSummariesForTurn(VisionTurn turn) {
+        if (turn == null || turn.getAppliedSlotIds() == null || turn.getAppliedSlotIds().isEmpty()) {
+            return List.of();
+        }
+
+        Map<String, String> slotData = turn.getConversation().getSlotData();
+        return turn.getAppliedSlotIds().stream()
+                .map(slotId -> VisionSlotSummaryDTO.builder()
+                        .slotId(slotId)
+                        .label(labelForSlot(slotId))
+                        .value(valueForSlot(slotData, slotId))
+                        .build())
+                .filter(summary -> summary.getLabel() != null && summary.getValue() != null && !summary.getValue().isBlank())
+                .toList();
+    }
+
+    private String labelForSlot(String slotId) {
+        return switch (slotId) {
+            case "quest_title" -> "Title";
+            case "quest_description" -> "Description";
+            case "reward_amount" -> "Reward";
+            case "visibility" -> "Visibility";
+            case "schedule_mode" -> "Schedule";
+            case "scheduled_at" -> "Date and time";
+            case "location_mode" -> "Location";
+            case "location_label" -> "Custom place";
+            case "location_candidate_confirmation" -> "Location confirmation";
+            default -> slotId;
+        };
+    }
+
+    private String valueForSlot(Map<String, String> slotData, String slotId) {
+        if (slotData == null) {
+            return "";
+        }
+
+        return switch (slotId) {
+            case "reward_amount" -> "true".equals(slotData.get("free_quest")) ? "Free" : slotData.get("reward_amount");
+            case "schedule_mode" -> {
+                String mode = slotData.get("schedule_mode");
+                if ("fixed".equals(mode)) {
+                    yield "Fixed time";
+                }
+                if ("agreement".equals(mode)) {
+                    yield "By agreement";
+                }
+                yield mode;
+            }
+            case "location_mode" -> {
+                String mode = slotData.get("location_mode");
+                if ("profile".equals(mode)) {
+                    yield "Use profile location";
+                }
+                if ("off".equals(mode)) {
+                    yield "Hide location";
+                }
+                if ("custom".equals(mode)) {
+                    String label = slotData.get("location_label");
+                    yield label == null || label.isBlank() ? "Custom place" : label;
+                }
+                yield mode;
+            }
+            default -> slotData.get(slotId);
         };
     }
 
@@ -264,18 +336,18 @@ public class VisionConversationService {
 
     private VisionTurn handleConfirmReviewAction(
             VisionConversation conversation,
-            AdminAgentPlaygroundResponseDTO analysis,
+            VisionPromptUnderstandingResult understanding,
             String source
     ) {
         if (conversation.getIntent() != VisionIntent.CREATE_QUEST) {
             throw ServiceErrors.conflict("Review confirmation is only supported for create quest conversations");
         }
-        return handleCreateQuestReviewTurnInternal(conversation, "", "", analysis, source, VisionConversationAction.CONFIRM_REVIEW);
+        return handleCreateQuestReviewTurnInternal(conversation, "", "", understanding, source, VisionConversationAction.CONFIRM_REVIEW);
     }
 
     private VisionTurn handleReviewEditAction(
             VisionConversation conversation,
-            AdminAgentPlaygroundResponseDTO analysis,
+            VisionPromptUnderstandingResult understanding,
             String source,
             VisionConversationTurnRequestDTO dto
     ) {
@@ -283,7 +355,7 @@ public class VisionConversationService {
             throw ServiceErrors.conflict("Typed review editing is only supported for create quest conversations");
         }
         VisionReviewTarget reviewTarget = VisionReviewTarget.from(dto == null ? null : dto.getReviewTarget());
-        return handleCreateQuestReviewEditAction(conversation, analysis, source, reviewTarget);
+        return handleCreateQuestReviewEditAction(conversation, understanding, source, reviewTarget);
     }
 
     private VisionTurn handleResetConversationAction(VisionConversation conversation, String source) {
@@ -335,14 +407,16 @@ public class VisionConversationService {
             VisionConversation conversation,
             String prompt,
             String normalizedPrompt,
-            AdminAgentPlaygroundResponseDTO analysis,
+            VisionPromptUnderstandingResult understanding,
             String source
     ) {
         if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY) {
-            return handleCreateQuestReviewTurn(conversation, prompt, normalizedPrompt, analysis, source);
+            return handleCreateQuestReviewTurn(conversation, prompt, normalizedPrompt, understanding, source);
         }
 
-        Map<String, String> mergedSlots = visionSlotService.mergeCreateQuestSlots(conversation, normalizedPrompt);
+        Map<String, String> beforeSlots = new LinkedHashMap<>(conversation.getSlotData());
+        Map<String, String> mergedSlots = visionSlotService.mergeCreateQuestSlots(conversation, normalizedPrompt, understanding);
+        List<String> appliedSlotIds = appliedSlotIds(beforeSlots, mergedSlots);
         String missingSlot = visionClarificationService.nextMissingCreateQuestSlot(mergedSlots);
 
         String message;
@@ -368,7 +442,7 @@ public class VisionConversationService {
         conversation.setSlotData(mergedSlots);
         conversation.setRequestedSlot(missingSlot);
         conversation.setStatus(status);
-        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, analysis.isPromptTranslationReliable());
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
         visionConversationRepository.save(conversation);
 
         VisionTurn turn = new VisionTurn();
@@ -381,9 +455,10 @@ public class VisionConversationService {
         turn.setAgentState(agentState);
         turn.setNextAction(nextAction);
         turn.setRequestedSlot(missingSlot);
-        turn.setTranslationApplied(analysis.isPromptTranslationApplied());
-        turn.setTranslationReliable(analysis.isPromptTranslationReliable());
+        turn.setTranslationApplied(understanding.isTranslationApplied());
+        turn.setTranslationReliable(understanding.isTranslationReliable());
         turn.setAssistantMessage(message);
+        turn.setAppliedSlotIds(appliedSlotIds);
         return visionTurnRepository.save(turn);
     }
 
@@ -391,7 +466,7 @@ public class VisionConversationService {
             VisionConversation conversation,
             String prompt,
             String normalizedPrompt,
-            AdminAgentPlaygroundResponseDTO analysis,
+            VisionPromptUnderstandingResult understanding,
             String source,
             VisionConversationAction action
     ) {
@@ -427,7 +502,7 @@ public class VisionConversationService {
             conversation.setRequestedSlot(null);
         }
         conversation.setStatus(status);
-        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, analysis.isPromptTranslationReliable());
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
         visionConversationRepository.save(conversation);
 
         return createTurn(
@@ -439,8 +514,8 @@ public class VisionConversationService {
                 agentState,
                 nextAction,
                 conversation.getRequestedSlot(),
-                analysis.isPromptTranslationApplied(),
-                analysis.isPromptTranslationReliable(),
+                understanding.isTranslationApplied(),
+                understanding.isTranslationReliable(),
                 message
         );
     }
@@ -449,15 +524,15 @@ public class VisionConversationService {
             VisionConversation conversation,
             String prompt,
             String normalizedPrompt,
-            AdminAgentPlaygroundResponseDTO analysis,
+            VisionPromptUnderstandingResult understanding,
             String source
     ) {
-        return handleCreateQuestReviewTurnInternal(conversation, prompt, normalizedPrompt, analysis, source, VisionConversationAction.SUBMIT_PROMPT);
+        return handleCreateQuestReviewTurnInternal(conversation, prompt, normalizedPrompt, understanding, source, VisionConversationAction.SUBMIT_PROMPT);
     }
 
     private VisionTurn handleCreateQuestReviewEditAction(
             VisionConversation conversation,
-            AdminAgentPlaygroundResponseDTO analysis,
+            VisionPromptUnderstandingResult understanding,
             String source,
             VisionReviewTarget reviewTarget
     ) {
@@ -469,12 +544,12 @@ public class VisionConversationService {
             throw ServiceErrors.badRequest("Review target is required for typed review editing");
         }
 
-        String editSlot = reviewTarget.getSlotId();
+        String editSlot = visionSemanticMapper.reviewTargetSlotId(reviewTarget);
         visionSlotService.prepareForReviewEdit(conversation.getSlotData(), reviewTarget);
         conversation.setRequestedSlot(editSlot);
         conversation.setStatus(VisionConversationStatus.ACTIVE);
         String message = visionClarificationService.buildQuestion(editSlot);
-        updateConversationMetadata(conversation, "", "", message, analysis.isPromptTranslationReliable());
+        updateConversationMetadata(conversation, "", "", message, understanding.isTranslationReliable());
         visionConversationRepository.save(conversation);
 
         return createTurn(
@@ -487,7 +562,7 @@ public class VisionConversationService {
                 VisionNextAction.ASK_FOR_SLOT,
                 editSlot,
                 false,
-                analysis.isPromptTranslationReliable(),
+                understanding.isTranslationReliable(),
                 message
         );
     }
@@ -496,13 +571,13 @@ public class VisionConversationService {
             VisionConversation conversation,
             String prompt,
             String normalizedPrompt,
-            AdminAgentPlaygroundResponseDTO analysis,
+            VisionPromptUnderstandingResult understanding,
             String source
     ) {
         String message = "This Phase 1 vision backend only supports stepwise create_quest planning for now.";
         conversation.setStatus(VisionConversationStatus.BLOCKED);
         conversation.setRequestedSlot(null);
-        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, analysis.isPromptTranslationReliable());
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
         visionConversationRepository.save(conversation);
 
         VisionTurn turn = new VisionTurn();
@@ -515,8 +590,8 @@ public class VisionConversationService {
         turn.setAgentState(VisionAgentState.BLOCKED);
         turn.setNextAction(VisionNextAction.BLOCKED);
         turn.setRequestedSlot(null);
-        turn.setTranslationApplied(analysis.isPromptTranslationApplied());
-        turn.setTranslationReliable(analysis.isPromptTranslationReliable());
+        turn.setTranslationApplied(understanding.isTranslationApplied());
+        turn.setTranslationReliable(understanding.isTranslationReliable());
         turn.setAssistantMessage(message);
         return visionTurnRepository.save(turn);
     }
@@ -566,6 +641,27 @@ public class VisionConversationService {
         conversation.setLastTurnAt(now);
     }
 
+    private List<String> appliedSlotIds(Map<String, String> beforeSlots, Map<String, String> afterSlots) {
+        List<String> applied = new java.util.ArrayList<>();
+        if (afterSlots == null || afterSlots.isEmpty()) {
+            return applied;
+        }
+
+        for (Map.Entry<String, String> entry : afterSlots.entrySet()) {
+            String key = entry.getKey();
+            String afterValue = entry.getValue();
+            String beforeValue = beforeSlots == null ? null : beforeSlots.get(key);
+            if (afterValue == null || afterValue.isBlank()) {
+                continue;
+            }
+            if (!java.util.Objects.equals(beforeValue, afterValue)) {
+                applied.add(key);
+            }
+        }
+
+        return applied;
+    }
+
     private void ensureTurnCapacity(VisionConversation conversation) {
         long turnCount = visionTurnRepository.countByConversation(conversation);
         if (turnCount >= visionProperties.getMaxTurnsPerConversation()) {
@@ -573,9 +669,9 @@ public class VisionConversationService {
         }
     }
 
-    private String normalizePrompt(String prompt, AdminAgentPlaygroundResponseDTO analysis) {
-        if (analysis.getTranslatedPrompt() != null && !analysis.getTranslatedPrompt().isBlank()) {
-            return analysis.getTranslatedPrompt().trim();
+    private String normalizePrompt(String prompt, VisionPromptUnderstandingResult understanding) {
+        if (understanding.getNormalizedPrompt() != null && !understanding.getNormalizedPrompt().isBlank()) {
+            return understanding.getNormalizedPrompt().trim();
         }
         return prompt;
     }
@@ -589,14 +685,6 @@ public class VisionConversationService {
             throw ServiceErrors.badRequest("Prompt is too long");
         }
         return prompt;
-    }
-
-    private AdminAgentPlaygroundResponseDTO emptyAnalysis() {
-        return AdminAgentPlaygroundResponseDTO.builder()
-                .translatedPrompt(null)
-                .promptTranslationApplied(false)
-                .promptTranslationReliable(true)
-                .build();
     }
 
     private void validateAccess(AppUser currentUser) {

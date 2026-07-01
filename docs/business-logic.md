@@ -24,8 +24,10 @@ Current covered modules:
 - Voice should be supported with parallel visual feedback so users can confirm what was heard, what is happening, and what data is being discussed.
 - Large result sets should be summarized and filtered by default, then expanded only when the user asks for more detail.
 - Complex information should be shown visually when that is clearer than explaining it only through audio.
-- The authenticated frontend now also includes an experimental `/vision` screen that demonstrates this direction with a centered animated agent and a bottom prompt composer.
+- The authenticated frontend now also includes an experimental `/vision` screen that demonstrates this direction with a centered animated agent and an inline prompt surface inside the same adaptive canvas.
 - `/vision` now uses backend-managed OpenAI speech transcription, speech synthesis, prompt decoding, and agent planning so typed text and voice input can feed the same backend processing path.
+- `/vision` now inserts a dedicated semantic understanding step between speech transcription and slot merging so one prompt can fill multiple explicit quest fields without dumping everything into description or location by default.
+- Voice recording and speech playback use backend-provided limits so long recordings, oversized audio uploads, and overly long speech synthesis text fail early instead of exhausting local memory.
 - `/vision` now also has a dedicated persisted conversation backend foundation at `POST /vision/conversations/turns`, so the system can ask one missing field at a time and keep the same task state across turns.
 - The active `/vision` surface should prefer that persisted conversation path for stepwise task guidance, use dedicated reset and cancel lifecycle endpoints for conversation control, expose recent task resume behavior, and keep the older dashboard prompt endpoint as a compatibility/planning path during transition.
 - The persisted `/vision` path now returns backend-prepared canvas blocks such as agent message, recognized input, field request, collected summary, review summary, and warnings, so the frontend can stay visually adaptive without deciding workflow rules itself.

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.time.Instant;
 
 @Getter
@@ -23,6 +24,7 @@ public class VisionConversationSummaryDTO {
     private String progressLabel;
     private String groupKey;
     private String requestedSlot;
+    private List<VisionSlotSummaryDTO> appliedSlotSummaries;
     private boolean resumable;
     private boolean completed;
     private boolean stale;

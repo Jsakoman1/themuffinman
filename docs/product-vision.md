@@ -41,6 +41,9 @@ The default visual idea is an abstract white canvas with motion, strong contrast
 - Relationship or negotiation screens should make the social context visible without overwhelming the task.
 - Completion screens should compress the outcome into a clear next step instead of leaving the user at a dead end.
 - High-volume result screens should summarize and filter aggressively by default, then expand only when the user asks for more detail.
+- Review surfaces should compress the decision into a compact confirmation strip with inline field-revision chips instead of opening another window.
+- Suggestion chips should react to the current slot and the last heard transcript so the user gets useful next-step transforms instead of generic command buttons.
+- When a slot already has a value, the composer should surface that value inline and offer keep/replace choices instead of forcing the user to rediscover state.
 
 The rule is that each screen should optimize for the user's current intent, not for a generic component library habit.
 
@@ -96,6 +99,11 @@ The key rule is that the surface should match the user's current need rather tha
 ### Blank Canvas Behavior
 
 - The default state should be visually quiet, white, and spacious.
+- The first prompt composer should live inside the blank canvas itself so the user can act immediately without opening a separate dock or modal.
+- The prompt surface should autofocus when the task becomes active and should grow more visibly as content or structure accumulates.
+- Actions should appear contextually, so the surface does not show voice or review controls before the task needs them.
+- Voice input should echo the recognized transcript inline so the user can verify the last heard phrase inside the same surface.
+- Lightweight suggestion chips should appear only when they help the current slot or blank state, not as a permanent command palette.
 - Primary content should appear only when the user has an intent or when the system has something meaningful to show.
 - Empty states should feel intentional, not broken.
 - The canvas should be able to hold a single dominant task, then expand into supporting panels only when needed.
@@ -122,6 +130,14 @@ The key rule is that the surface should match the user's current need rather tha
 - Pure audio should not be the primary model because background noise, low concentration, and recognition ambiguity still make voice-only interaction too fragile.
 - Parallel audio and visual feedback is the preferred mode because the user can hear the response, verify what was recognized, and understand complex structures that are easier to show than to narrate.
 - The system should explicitly show what it heard from the user so recognition errors can be caught immediately.
+- The system should also show which active slot the transcript is being mapped into, so the user can see the semantic target instead of only the raw text.
+- The semantic mapping layer should expose one focus slot for the turn, so a spoken or typed utterance does not collapse into the wrong field by default.
+- When the user is already inside a requested slot, the backend should keep that slot as the fallback semantic focus if the model does not choose one explicitly.
+- Shared semantic mapping should cover prompt intake and review-edit follow-ups, so the same focus rule applies across the whole conversation turn.
+- The backend should expose which slots were actually applied on the current turn, so the UI can confirm real state changes instead of inferring them.
+- Review confirmations should be present but visually restrained, so the summary reads as a decision surface rather than a modal approval prompt.
+- Review surfaces should show the slots applied in the current turn as a compact inline strip, so users can verify the immediate change before confirming the larger summary.
+- Recent conversation entries should surface the latest applied slot badges inline, so resume feels like re-entering a live surface instead of a dead history list.
 - Complex information should be drawn, listed, summarized, or highlighted visually instead of being explained only through speech.
 - While the speech runtime may start browser-native, the product should still prefer backend-governed capability and default-setting contracts instead of letting each client invent its own voice behavior.
 

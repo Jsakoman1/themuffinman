@@ -22,6 +22,9 @@ public class VoiceProperties {
     private boolean continuousRecognition = false;
     private int maxAlternatives = 1;
     private boolean autoSpeakResponses = false;
+    private long maxRecordingMillis = 20_000;
+    private long maxAudioBytes = 2_000_000;
+    private int maxSpeechTextLength = 1_000;
     private String apiKey;
     private String baseUrl = "https://api.openai.com/v1";
 

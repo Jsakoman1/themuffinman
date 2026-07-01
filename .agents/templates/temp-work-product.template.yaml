@@ -1,0 +1,12 @@
+id: example-temp-work-product
+ownerPlan: .agents/example-plan.md
+purpose: Temporary machine-readable support for one implementation or analysis slice.
+createdAt: 2026-07-01
+deleteWhen: Owning plan closes, unless promoted into durable docs or explicitly archived.
+status: draft
+sourceFiles:
+  - TBD
+data:
+  notes:
+    - TBD
+

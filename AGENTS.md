@@ -135,6 +135,8 @@ Planned modules:
 - Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
 - A master plan should name the child plans explicitly, define execution order, and include a final closeout pass that
   verifies implementation, documentation, and validation status across the whole batch.
+- For work that spans several master plans, use the God Plan hierarchy from `docs/program-planning-model.md`: God Plans live under `.agents/god-plans/`, Master Plans coordinate child plans, Plans execute concrete slices, and temporary machine-readable work products live under `.agents/tmp/` only while their owning plan needs them.
+- Temporary machine-readable work products must name their owning plan and must be deleted, promoted into durable docs, or explicitly archived when the owning plan closes.
 - Reusable templates for temporary plans and feature completion manifests live under `.agents/templates/`.
 - When business rules, domain models, permissions, validations, workflows, endpoint contracts, or automation assumptions
   change, update all affected living docs in the same change unless the edit is purely cosmetic.

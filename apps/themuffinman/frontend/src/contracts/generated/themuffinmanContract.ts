@@ -722,6 +722,9 @@ export interface DashboardVoiceConfigDTO {
   continuousRecognition: boolean
   maxAlternatives: number
   autoSpeakResponses: boolean
+  maxRecordingMillis: number
+  maxAudioBytes: number
+  maxSpeechTextLength: number
 }
 
 export interface DashboardVoiceSpeechRequestDTO {
@@ -1405,6 +1408,7 @@ export interface VisionConversationSummaryDTO {
   progressLabel: string
   groupKey: string
   requestedSlot: string
+  appliedSlotSummaries: VisionSlotSummaryDTO[]
   resumable: boolean
   completed: boolean
   stale: boolean
@@ -1433,6 +1437,7 @@ export interface VisionConversationTurnResponseDTO {
   translationReliable: boolean
   executionEnabled: boolean
   blocks: VisionCanvasBlockDTO[]
+  appliedSlotSummaries: VisionSlotSummaryDTO[]
   slotSummaries: VisionSlotSummaryDTO[]
   review: VisionQuestReviewDTO
   recentConversations: VisionConversationSummaryDTO[]

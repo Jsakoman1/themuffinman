@@ -70,3 +70,19 @@ After every completed plan or master plan:
 - Future `/vision` work should keep a compact repo-persistent memory layer for context, decision records, failure classes, generated-artifact policy, and current delivery status so sessions do not rediscover the same architecture and closeout rules from scratch.
 - Reusable vision test fixtures should stay named around conversation builders, slot presets, location candidate presets, and schedule phrase presets, because that keeps conversation-flow tests focused on behavior instead of boilerplate setup.
 - When a `/vision` review loop becomes part of the execution path, review corrections should stay on typed backend actions and explicit review targets instead of relying on client-generated natural-language prompts, because that reduces ambiguity and makes future executors reusable.
+- `/vision` prompt intake should separate speech transcription from semantic field extraction, because one LLM understanding step can map a single utterance onto multiple explicit slots before deterministic validation decides what sticks.
+- `/vision` semantic extraction should carry a focus-slot signal, because broad utterances need a primary target and should not fall back into description or reward by default.
+- `/vision` should inherit the current requested slot as the fallback focus when the model does not choose one, because active clarification turns and review edits still need a stable semantic target.
+- `/vision` semantic focus should live in a shared mapper, because prompt intake and review-edit follow-ups should use one backend path instead of each service inventing its own fallback rules.
+- The blank `/vision` canvas should expose the first prompt composer inline and by default, because hiding the only input behind a launcher makes the empty state feel like a dead screen instead of an adaptive surface.
+- The inline `/vision` composer should autofocus and expand with content, because a static prompt box makes the surface feel dead even when the backend is ready for the next turn.
+- `/vision` action chips should appear contextually instead of as a fixed toolbar, because the surface should only show controls that matter in the current state.
+- `/vision` should echo the latest voice transcript inline and offer slot-aware suggestion chips, because verification and next-step seeding work better when they live in the same surface as the current turn.
+- `/vision` review state should stay compact and decision-first, with one confirm action and a small set of explicit field-edit chips, because nested windows make the review phase feel heavier than the task.
+- `/vision` transcript feedback should show the active slot target next to the heard text, because users need to see where the backend mapped a spoken turn, not just the raw transcription.
+- `/vision` suggestion chips should adapt to the current slot and the latest transcript, because the best follow-up is often a transform of what the user already said rather than a fresh generic command.
+- `/vision` review confirmation should stay visually restrained, because the summary should read like a calm decision surface rather than a dominant approval dialog.
+- `/vision` composers should show the current slot value when one already exists, because keep/replace decisions are faster when the existing state is visible inline.
+- `/vision` responses should expose an explicit applied-slot signal for the current turn, because frontend feedback should reflect actual backend changes rather than reconstructed guesses.
+- `/vision` review surfaces should render the current turn's applied slots inline, because the immediate state change is easier to trust than the final summary alone.
+- `/vision` recent conversation entries should show the latest applied slot badges inline, because resume affordances work better when they mirror the current turn's evidence.

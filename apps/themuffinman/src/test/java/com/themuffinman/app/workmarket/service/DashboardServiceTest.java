@@ -341,6 +341,9 @@ class DashboardServiceTest {
         voiceProperties.setContinuousRecognition(false);
         voiceProperties.setMaxAlternatives(2);
         voiceProperties.setAutoSpeakResponses(true);
+        voiceProperties.setMaxRecordingMillis(15_000);
+        voiceProperties.setMaxAudioBytes(1_500_000);
+        voiceProperties.setMaxSpeechTextLength(800);
 
         DashboardVoiceConfigDTO config = dashboardService.getMyVoiceConfig(currentUser);
 
@@ -353,6 +356,9 @@ class DashboardServiceTest {
         assertTrue(config.isInterimResults());
         assertEquals(2, config.getMaxAlternatives());
         assertTrue(config.isAutoSpeakResponses());
+        assertEquals(15_000, config.getMaxRecordingMillis());
+        assertEquals(1_500_000, config.getMaxAudioBytes());
+        assertEquals(800, config.getMaxSpeechTextLength());
     }
 
     @Test

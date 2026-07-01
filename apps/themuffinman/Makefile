@@ -10,13 +10,19 @@ dev:
 	export SPRING_PROFILES_ACTIVE="$${SPRING_PROFILES_ACTIVE:-dev}"; \
 	export SIDEQUEST_JWT_SECRET="$${SIDEQUEST_JWT_SECRET:-sidequest-dev-secret-sidequest-dev-secret-123456}"; \
 	export SIDEQUEST_CORS_ALLOWED_ORIGINS="$${SIDEQUEST_CORS_ALLOWED_ORIGINS:-http://localhost:5173}"; \
-	trap 'kill 0' INT TERM EXIT; \
+	backend_pid=""; \
+	frontend_pid=""; \
+	cleanup() { \
+		[[ -n "$$backend_pid" ]] && kill "$$backend_pid" >/dev/null 2>&1 || true; \
+		[[ -n "$$frontend_pid" ]] && kill "$$frontend_pid" >/dev/null 2>&1 || true; \
+	}; \
+	trap cleanup INT TERM EXIT; \
 	if lsof -nP -iTCP:8080 -sTCP:LISTEN >/dev/null 2>&1; then \
 		echo "[backend] port 8080 is already in use, skipping local backend start"; \
 	else \
-		( ./mvnw spring-boot:run ) & \
+		( ./mvnw spring-boot:run ) & backend_pid="$$!"; \
 	fi; \
-	( cd frontend && npm run dev ) & \
+	( cd frontend && npm run dev ) & frontend_pid="$$!"; \
 	wait
 
 backend-dev:

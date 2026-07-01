@@ -35,6 +35,22 @@ const slotPlaceholders: Record<string, string> = {
   location_candidate_confirmation: "Choose resolved place or keep typed location"
 }
 
+const supportedRecordingMimeTypes = [
+  "audio/webm;codecs=opus",
+  "audio/webm",
+  "audio/mp4;codecs=mp4a.40.2",
+  "audio/mp4",
+  "audio/aac"
+]
+
+const chooseRecordingMimeType = () => {
+  if (typeof MediaRecorder === "undefined") {
+    return ""
+  }
+
+  return supportedRecordingMimeTypes.find((mimeType) => MediaRecorder.isTypeSupported(mimeType)) ?? ""
+}
+
 export const useVisionConversation = () => {
   const isLoading = ref(true)
   const error = ref("")
@@ -45,7 +61,7 @@ export const useVisionConversation = () => {
   const voiceConfig = ref<DashboardVoiceConfig | null>(null)
   const voiceRuntimeError = ref("")
   const voiceState = ref<VisionVoiceState>("idle")
-  const composerExpanded = ref(false)
+  const composerExpanded = ref(true)
   const lastTranscript = ref("")
 
   const mediaRecorder = ref<MediaRecorder | null>(null)
@@ -53,6 +69,8 @@ export const useVisionConversation = () => {
   const activeSpeechAudio = ref<HTMLAudioElement | null>(null)
   const activeSpeechAudioUrl = ref("")
   const recordedChunks = ref<Blob[]>([])
+  const recordedAudioBytes = ref(0)
+  const recordingTimeoutId = ref<number | null>(null)
   const discardPendingRecording = ref(false)
 
   const voiceEnabled = computed(() => voiceConfig.value?.enabled ?? false)
@@ -63,15 +81,21 @@ export const useVisionConversation = () => {
     && typeof navigator.mediaDevices?.getUserMedia === "function"
     && typeof MediaRecorder !== "undefined")
   const speechSynthesisSupported = computed(() => typeof window !== "undefined" && typeof Audio !== "undefined")
+  const maxRecordingMillis = computed(() => voiceConfig.value?.maxRecordingMillis ?? 20_000)
+  const maxAudioBytes = computed(() => voiceConfig.value?.maxAudioBytes ?? 2_000_000)
+  const maxSpeechTextLength = computed(() => voiceConfig.value?.maxSpeechTextLength ?? 1_000)
 
   const fieldRequestBlock = computed(() => response.value?.blocks.find((block) => block.type === "field_request") ?? null)
-  const promptComposerVisible = computed(() => composerExpanded.value
+  const promptComposerVisible = computed(() => !response.value
+    || composerExpanded.value
     || voiceState.value !== "idle"
     || !!fieldRequestBlock.value
     || response.value?.canvasMode === "review")
 
+  const currentSlotId = computed(() => fieldRequestBlock.value?.fieldId ?? "")
+
   const currentSlotLabel = computed(() => {
-    const slotId = fieldRequestBlock.value?.fieldId
+    const slotId = currentSlotId.value
     return slotId ? (slotLabels[slotId] ?? fieldRequestBlock.value?.title ?? "Next field") : ""
   })
 
@@ -84,6 +108,46 @@ export const useVisionConversation = () => {
   })
 
   const currentFieldKind = computed(() => fieldRequestBlock.value?.fieldKind ?? "short_text")
+
+  const slotSummaries = computed(() => response.value?.slotSummaries ?? [])
+
+  const transcriptTargetLabel = computed(() => currentSlotLabel.value || "the current prompt")
+
+  const currentSlotSummary = computed(() => {
+    const slotId = currentSlotId.value
+    if (!slotId) {
+      return null
+    }
+    const appliedSummary = response.value?.appliedSlotSummaries.find((slot) => slot.slotId === slotId)
+    if (appliedSummary) {
+      return appliedSummary
+    }
+    return slotSummaries.value.find((slot) => slot.slotId === slotId) ?? null
+  })
+
+  const currentSlotValue = computed(() => currentSlotSummary.value?.value ?? "")
+
+  const transcriptTargetDetail = computed(() => {
+    if (!response.value) {
+      return "The backend will map speech and text to the active task as soon as you start."
+    }
+
+    if (currentSlotSummary.value?.value) {
+      return `Current value: ${currentSlotSummary.value.value}`
+    }
+
+    if (response.value.translationApplied) {
+      return response.value.normalizedPrompt && response.value.normalizedPrompt !== lastTranscript.value
+        ? `Normalized to: ${response.value.normalizedPrompt}`
+        : "The backend normalized the turn before slot extraction."
+    }
+
+    if (currentFieldKind.value === "date_time") {
+      return "This slot expects a structured date and time value."
+    }
+
+    return "The current turn is being routed into the active slot."
+  })
 
   const currentMessage = computed(() => response.value?.message ?? "The agent is waiting for a prompt.")
 
@@ -192,6 +256,9 @@ export const useVisionConversation = () => {
       conversationId.value = next.conversationId
       recentConversations.value = next.recentConversations
       inputText.value = ""
+      if (source !== "voice") {
+        lastTranscript.value = ""
+      }
       composerExpanded.value = true
 
       if (voiceConfig.value?.autoSpeakResponses && voiceEnabled.value && textToSpeechEnabled.value) {
@@ -223,6 +290,7 @@ export const useVisionConversation = () => {
         conversationId.value = next.conversationId
         recentConversations.value = next.recentConversations
         inputText.value = ""
+        lastTranscript.value = ""
         composerExpanded.value = true
         voiceState.value = "idle"
       } catch (caught) {
@@ -254,6 +322,7 @@ export const useVisionConversation = () => {
       conversationId.value = next.conversationId
       recentConversations.value = next.recentConversations
       inputText.value = ""
+      lastTranscript.value = ""
       composerExpanded.value = true
       voiceState.value = "idle"
     } catch (caught) {
@@ -270,6 +339,7 @@ export const useVisionConversation = () => {
       response.value = next
       conversationId.value = next.conversationId
       recentConversations.value = next.recentConversations
+      lastTranscript.value = ""
       composerExpanded.value = true
       voiceState.value = "idle"
     } catch (caught) {
@@ -280,12 +350,17 @@ export const useVisionConversation = () => {
   }
 
   const resetRecordingState = () => {
+    if (recordingTimeoutId.value !== null) {
+      window.clearTimeout(recordingTimeoutId.value)
+      recordingTimeoutId.value = null
+    }
     if (activeMediaStream.value) {
       activeMediaStream.value.getTracks().forEach((track) => track.stop())
       activeMediaStream.value = null
     }
     mediaRecorder.value = null
     recordedChunks.value = []
+    recordedAudioBytes.value = 0
     discardPendingRecording.value = false
   }
 
@@ -311,7 +386,7 @@ export const useVisionConversation = () => {
     try {
       stopSpeaking()
       voiceState.value = "speaking"
-      const audioBytes = await visionApi.speakVoiceText(text)
+      const audioBytes = await visionApi.speakVoiceText(text.trim().slice(0, maxSpeechTextLength.value))
       const audioBlob = new Blob([audioBytes], {type: "audio/mpeg"})
       const audioUrl = URL.createObjectURL(audioBlob)
       const audio = new Audio(audioUrl)
@@ -351,7 +426,13 @@ export const useVisionConversation = () => {
       return
     }
 
-    const audioBlob = new Blob(recordedChunks.value, {type: "audio/webm"})
+    const audioBlob = new Blob(recordedChunks.value, {type: mediaRecorder.value?.mimeType || chooseRecordingMimeType() || "audio/webm"})
+    if (maxAudioBytes.value > 0 && audioBlob.size > maxAudioBytes.value) {
+      voiceRuntimeError.value = "Recording is too large. Try a shorter voice prompt."
+      voiceState.value = "idle"
+      resetRecordingState()
+      return
+    }
 
     try {
       voiceState.value = "processing"
@@ -378,13 +459,23 @@ export const useVisionConversation = () => {
       const stream = await navigator.mediaDevices.getUserMedia({audio: true})
       activeMediaStream.value = stream
       recordedChunks.value = []
+      recordedAudioBytes.value = 0
       discardPendingRecording.value = false
 
-      const recorder = new MediaRecorder(stream)
+      const mimeType = chooseRecordingMimeType()
+      const recorder = mimeType
+        ? new MediaRecorder(stream, {mimeType})
+        : new MediaRecorder(stream)
       mediaRecorder.value = recorder
 
       recorder.addEventListener("dataavailable", (event) => {
         if (event.data.size > 0) {
+          recordedAudioBytes.value += event.data.size
+          if (maxAudioBytes.value > 0 && recordedAudioBytes.value > maxAudioBytes.value) {
+            voiceRuntimeError.value = "Recording is too large. Try a shorter voice prompt."
+            stopListening(true)
+            return
+          }
           recordedChunks.value.push(event.data)
         }
       })
@@ -393,7 +484,14 @@ export const useVisionConversation = () => {
         void finalizeRecording()
       })
 
-      recorder.start()
+      recorder.start(1000)
+      if (maxRecordingMillis.value > 0) {
+        recordingTimeoutId.value = window.setTimeout(() => {
+          if (voiceState.value === "listening") {
+            stopListening()
+          }
+        }, maxRecordingMillis.value)
+      }
       voiceState.value = "listening"
       composerExpanded.value = true
     } catch (caught) {
@@ -409,7 +507,10 @@ export const useVisionConversation = () => {
   }
 
   const closeComposer = () => {
-    if (voiceState.value !== "idle" || !!fieldRequestBlock.value || response.value?.canvasMode === "review") {
+    if (!response.value
+      || voiceState.value !== "idle"
+      || !!fieldRequestBlock.value
+      || response.value?.canvasMode === "review") {
       return
     }
     composerExpanded.value = false
@@ -434,9 +535,15 @@ export const useVisionConversation = () => {
     speechSynthesisSupported,
     promptComposerVisible,
     displayBlocks,
+    slotSummaries,
     currentSlotLabel,
+    currentSlotId,
+    currentSlotSummary,
+    currentSlotValue,
     currentPlaceholder,
     currentFieldKind,
+    transcriptTargetLabel,
+    transcriptTargetDetail,
     currentMessage,
     attentionState,
     translationWarning,
