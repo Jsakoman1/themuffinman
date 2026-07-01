@@ -1,11 +1,6 @@
 {
-  "generated_at": "2026-06-29T19:55:03Z",
+  "generated_at": "2026-07-01T14:49:44Z",
   "files": [
-    {
-      "file": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
-      "token_refs": 4,
-      "inline_style_refs": 1
-    },
     {
       "file": "apps/themuffinman/frontend/src/components/profile/ProfileAvatar.vue",
       "token_refs": 0,
@@ -27,23 +22,8 @@
       "inline_style_refs": 0
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
-      "token_refs": 3,
-      "inline_style_refs": 0
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiChoiceChips.vue",
       "token_refs": 2,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiEventPill.vue",
-      "token_refs": 3,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiFilterBar.vue",
-      "token_refs": 1,
       "inline_style_refs": 0
     },
     {
@@ -57,28 +37,13 @@
       "inline_style_refs": 0
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiLaunchCard.vue",
-      "token_refs": 4,
-      "inline_style_refs": 0
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiListItem.vue",
       "token_refs": 7,
       "inline_style_refs": 0
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiMetricPills.vue",
-      "token_refs": 4,
-      "inline_style_refs": 0
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiSearchableMultiSelect.vue",
       "token_refs": 6,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiSplitLayout.vue",
-      "token_refs": 1,
       "inline_style_refs": 0
     },
     {
@@ -112,49 +77,69 @@
       "inline_style_refs": 0
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue",
+      "token_refs": 6,
+      "inline_style_refs": 0
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasSection.vue",
+      "token_refs": 6,
+      "inline_style_refs": 0
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionDetailSurface.vue",
+      "token_refs": 4,
+      "inline_style_refs": 0
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionExecutionCandidateBlock.vue",
+      "token_refs": 4,
+      "inline_style_refs": 0
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionFieldRequestBlock.vue",
+      "token_refs": 4,
+      "inline_style_refs": 0
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionPromptDock.vue",
+      "token_refs": 3,
+      "inline_style_refs": 0
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionQuestDiscoveryBlock.vue",
+      "token_refs": 6,
+      "inline_style_refs": 0
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionResultSummaryBlock.vue",
+      "token_refs": 4,
+      "inline_style_refs": 0
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionReviewSummaryBlock.vue",
+      "token_refs": 14,
+      "inline_style_refs": 0
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
       "token_refs": 1,
       "inline_style_refs": 0
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "token_refs": 9,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "token_refs": 2,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
       "token_refs": 1,
       "inline_style_refs": 0
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "token_refs": 1,
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "token_refs": 20,
       "inline_style_refs": 0
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardEditSheet.vue",
       "token_refs": 7,
       "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "token_refs": 1,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "token_refs": 3,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
-      "token_refs": 1,
-      "inline_style_refs": 10
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue",
@@ -169,11 +154,6 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationManagementCard.vue",
       "token_refs": 3,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DashboardSummaryListButton.vue",
-      "token_refs": 1,
       "inline_style_refs": 0
     },
     {
@@ -217,38 +197,8 @@
       "inline_style_refs": 0
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "token_refs": 31,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "token_refs": 1,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "token_refs": 1,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "token_refs": 1,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "token_refs": 1,
-      "inline_style_refs": 0
-    },
-    {
       "file": "apps/themuffinman/frontend/src/styles/base.css",
       "token_refs": 121,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/styles/business.css",
-      "token_refs": 7,
       "inline_style_refs": 0
     },
     {
@@ -309,16 +259,6 @@
     {
       "file": "apps/themuffinman/frontend/src/styles/profile.css",
       "token_refs": 4,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/styles/rides.css",
-      "token_refs": 1,
-      "inline_style_refs": 0
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/styles/things.css",
-      "token_refs": 1,
       "inline_style_refs": 0
     },
     {

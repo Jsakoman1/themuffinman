@@ -74,15 +74,15 @@ artifacts:
     - apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java
     - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java
     - apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java
-    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java
-    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java
-    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java
-    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UpdateQuestUseCase.java
-    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DeleteQuestUseCase.java
-    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/StartQuestUseCase.java
-    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CompleteQuestUseCase.java
-    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ConfirmQuestTermChangeUseCase.java
-    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/RejectQuestTermChangeUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CreateQuestUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UpdateQuestUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DeleteQuestUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/StartQuestUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CompleteQuestUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ConfirmQuestTermChangeUseCase.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/RejectQuestTermChangeUseCase.java
     - scripts/generate-agent-operating-model.rb
     - scripts/generate-agent-endpoint-inventory.rb
     - scripts/generate-automation-read-model-inventory.rb
@@ -99,9 +99,9 @@ artifacts:
     - apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java
     - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
     - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
-    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
     - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
-    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   generatorCommands:
     - make generate-agent-operating-model
     - make generate-agent-artifacts

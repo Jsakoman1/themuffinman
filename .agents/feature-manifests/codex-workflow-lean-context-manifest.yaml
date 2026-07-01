@@ -122,7 +122,7 @@ artifacts:
   testPaths:
     - scripts/audits/clean-text-noise.rb
     - scripts/audits/record-validation-evidence.rb
-    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   generatorCommands:
     - make generate-agent-operating-model
     - make generate-agent-artifacts

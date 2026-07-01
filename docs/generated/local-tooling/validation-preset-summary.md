@@ -1,10 +1,10 @@
 # Validation Preset
 
-- Next action: `make recommend-targeted-tests`, `make closeout-bundle manifest=.agents/feature-manifests/vision-voice-surface-manifest.yaml`, `make feature-closeout-audit manifest=.agents/feature-manifests/vision-voice-surface-manifest.yaml`
+- Next action: `make recommend-targeted-tests`, `make closeout-bundle manifest=.agents/feature-manifests/<feature-id>-manifest.yaml`, `make feature-closeout-audit manifest=.agents/feature-manifests/<feature-id>-manifest.yaml`
 
 ## Details
 
-- Changed File Count: 4
-- Original File Count: 4
+- Changed File Count: 19
+- Original File Count: 19
 - Filtered File Count: 0
 - Excluded File Count: 0

@@ -41,7 +41,7 @@ class ServiceLayeringConventionTest {
                 .replace(".java", "")
                 .replace("/", ".")
                 .replace("\\", ".");
-        return "com.themuffinman.app.workmarket.service." + relative;
+        return "com.themuffinman.app.vision.service." + relative;
     }
 
     private static Class<?> loadClass(String className) {

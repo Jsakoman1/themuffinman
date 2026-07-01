@@ -1,9 +1,9 @@
 # Read Surface Inventory
 
-- Generated at: `2026-06-30T10:54:35Z`
-- Read surfaces: `148`
-- Transaction-relevant read surfaces: `86`
-- Missing explicit or inherited read-only coverage: `2`
+- Generated at: `2026-07-01T14:49:21Z`
+- Read surfaces: `160`
+- Transaction-relevant read surfaces: `90`
+- Missing explicit or inherited read-only coverage: `4`
 
 ## Top services
 
@@ -39,10 +39,11 @@
   - `toResponse` -> `QuestResponseDTO` | tx=`class` | repos=QuestApplicationRepository | dto=QuestResponseDTO
   - `buildQuestDetailReviewSection` -> `QuestDetailReviewSectionDTO` | tx=`class` | repos=UserReviewRepository | dto=QuestDetailReviewSectionDTO
   - `buildQuestDetailExecutionSection` -> `QuestDetailExecutionSectionDTO` | tx=`class` | repos=none | dto=QuestDetailExecutionSectionDTO
-- ... 36 more services
+- ... 44 more services
 
 ## Read surface sample
 
+- `AdminAgentTargetUserResolver.resolveExactUser` -> `AppUser` | tx=`none` | relevant=`true`
 - `BusinessProfileService.getDirectory` -> `BusinessProfileListResponseDTO` | tx=`class` | relevant=`true`
 - `BusinessProfileService.getProfileBySlug` -> `BusinessProfileResponseDTO` | tx=`class` | relevant=`true`
 - `BusinessProfileService.getMyProfile` -> `BusinessProfileResponseDTO` | tx=`class` | relevant=`true`
@@ -52,4 +53,3 @@
 - `AppUserService.getAllAppUsers` -> `List<AppUser>` | tx=`method` | relevant=`true`
 - `AppUserService.getAppUser` -> `AppUser` | tx=`method` | relevant=`false`
 - `IdentityUserSummaryAssembler.buildProfileSummary` -> `AppUserResponseDTO` | tx=`none` | relevant=`false`
-- `UserProfileViewService.getProfileView` -> `UserProfileViewDTO` | tx=`class` | relevant=`true`

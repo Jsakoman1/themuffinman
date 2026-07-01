@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-29T19:55:19Z",
-  "node_count": 239,
-  "edge_count": 868,
+  "generated_at": "2026-07-01T14:49:51Z",
+  "node_count": 148,
+  "edge_count": 448,
   "nodes": [
     {
       "file": "apps/themuffinman/frontend/src/App.vue",
@@ -29,21 +29,6 @@
       "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/app/AppModuleNav.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
       "category": "other",
       "domain": "shared"
@@ -54,17 +39,7 @@
       "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
       "category": "other",
       "domain": "shared"
     },
@@ -119,31 +94,6 @@
       "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAdminPageSection.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAdminTableSection.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAdminTableShell.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiAuthCard.vue",
       "category": "other",
       "domain": "shared"
@@ -159,27 +109,12 @@
       "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiDialog.vue",
       "category": "other",
       "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiEventPill.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiFieldGroup.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiFilterBar.vue",
       "category": "other",
       "domain": "shared"
     },
@@ -199,27 +134,12 @@
       "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiLaunchCard.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiListItem.vue",
       "category": "other",
       "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiMetricPills.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiPagination.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiReadonlyField.vue",
       "category": "other",
       "domain": "shared"
     },
@@ -230,16 +150,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/components/ui/UiSearchableMultiSelect.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiSectionHeader.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiSplitLayout.vue",
       "category": "other",
       "domain": "shared"
     },
@@ -260,11 +170,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/components/ui/UiSurfaceSection.vue",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiToast.vue",
       "category": "other",
       "domain": "shared"
     },
@@ -329,11 +234,6 @@
       "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/lib/dashboardCalendar.ts",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/lib/dialogFlow.ts",
       "category": "other",
       "domain": "shared"
@@ -354,16 +254,6 @@
       "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
-      "category": "frontend_api",
-      "domain": "business"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
-      "category": "frontend_view",
-      "domain": "business"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
       "category": "frontend_api",
       "domain": "chat"
@@ -371,11 +261,6 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
       "category": "frontend_composable",
-      "domain": "chat"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
-      "category": "frontend_view",
       "domain": "chat"
     },
     {
@@ -399,21 +284,6 @@
       "domain": "identity"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
-      "category": "frontend_api",
-      "domain": "rides"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
-      "category": "frontend_view",
-      "domain": "rides"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
       "category": "other",
       "domain": "social"
@@ -430,16 +300,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
-      "category": "other",
-      "domain": "social"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "category": "other",
-      "domain": "social"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
       "category": "other",
       "domain": "social"
     },
@@ -489,59 +349,114 @@
       "domain": "social"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "category": "frontend_view",
-      "domain": "social"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts",
       "category": "other",
       "domain": "social"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+      "category": "frontend_api",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasSection.vue",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionDetailSurface.vue",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionExecutionCandidateBlock.vue",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionFieldRequestBlock.vue",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionPromptDock.vue",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionQuestDiscoveryBlock.vue",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionResultSummaryBlock.vue",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionReviewSummaryBlock.vue",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "category": "frontend_composable",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "category": "frontend_composable",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurfaceState.ts",
+      "category": "frontend_composable",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
       "category": "frontend_view",
-      "domain": "social"
+      "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/views/UserProfileView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
       "category": "frontend_view",
-      "domain": "social"
+      "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/views/UserSettingsView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
       "category": "frontend_view",
-      "domain": "social"
+      "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
-      "category": "frontend_api",
-      "domain": "things"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
       "category": "frontend_view",
-      "domain": "things"
+      "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
-      "category": "frontend_api",
-      "domain": "workmarket"
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "category": "frontend_view",
+      "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
-      "category": "frontend_api",
-      "domain": "workmarket"
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "category": "frontend_view",
+      "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
-      "category": "frontend_api",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
-      "category": "frontend_api",
-      "domain": "workmarket"
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "category": "frontend_view",
+      "domain": "shared"
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
@@ -594,102 +509,7 @@
       "domain": "workmarket"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersCreateForm.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersList.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardEditSheet.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardPostWork.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestSummaryRow.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlannerFlexible.vue",
       "category": "other",
       "domain": "workmarket"
     },
@@ -710,16 +530,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationSummaryCard.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DashboardSummaryListButton.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DashboardSummaryListSection.vue",
       "category": "other",
       "domain": "workmarket"
     },
@@ -784,11 +594,6 @@
       "domain": "workmarket"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersDataState.ts",
       "category": "frontend_composable",
       "domain": "workmarket"
@@ -805,176 +610,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersUiState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersMutationActions.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/applyDashboardResponse.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createApplicationDialogViewState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardDataState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardErrorState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardMutationRunner.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardOpenWorkState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardOptionState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardProfileState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestListState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardTabState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardWorkPlannerState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/dashboardFacades.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questDraftState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questMutationTypes.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardPostWorkState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardMutationActions.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestLifecycleMutations.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDialogUiActions.ts",
       "category": "frontend_composable",
       "domain": "workmarket"
     },
@@ -1029,41 +664,6 @@
       "domain": "workmarket"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPage.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageActions.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboard.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardActions.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardState.ts",
-      "category": "frontend_composable",
-      "domain": "workmarket"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPage.ts",
       "category": "frontend_composable",
       "domain": "workmarket"
@@ -1094,42 +694,7 @@
       "domain": "workmarket"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "category": "frontend_view",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "category": "frontend_view",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "category": "frontend_view",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "category": "frontend_view",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "category": "frontend_view",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
-      "category": "frontend_view",
-      "domain": "workmarket"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/filterValues.ts",
       "category": "other",
       "domain": "workmarket"
     },
@@ -1141,16 +706,6 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/pricing.ts",
       "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "category": "frontend_view",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "category": "frontend_view",
       "domain": "workmarket"
     },
     {
@@ -1179,11 +734,6 @@
       "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/frontend/src/shared/questNews.ts",
-      "category": "other",
-      "domain": "shared"
-    },
-    {
       "file": "apps/themuffinman/frontend/src/shared/questSchedule.ts",
       "category": "other",
       "domain": "shared"
@@ -1191,11 +741,6 @@
     {
       "file": "apps/themuffinman/frontend/src/shared/richText.ts",
       "category": "other",
-      "domain": "shared"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
-      "category": "frontend_view",
       "domain": "shared"
     }
   ],
@@ -1211,10 +756,6 @@
     {
       "from": "apps/themuffinman/frontend/src/App.vue",
       "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/App.vue",
-      "to": "./components/app/AppChatTray.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/App.vue",
@@ -1253,38 +794,6 @@
       "to": "./modules/identity/auth.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
-      "to": "../profile/ProfileAvatar.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
-      "to": "../../modules/chat/composables/useAppChat.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
-      "to": "../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/AppModuleNav.vue",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
-      "to": "../../modules/workmarket/api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
-      "to": "../../shared/questSchedule.ts"
-    },
-    {
       "from": "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
       "to": "../../auth.ts"
     },
@@ -1298,71 +807,15 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
-      "to": "./AppModuleNav.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
-      "to": "./AppNotificationsPanel.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
       "to": "./useAppTopbarState.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
-      "to": "../../../auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
-      "to": "../../../modules/moduleRegistry.ts"
-    },
-    {
       "from": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
       "to": "vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts",
       "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
-      "to": "../../../auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
-      "to": "../../../services/sessionService.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
-      "to": "../../../api/httpClient.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
-      "to": "../../../modules/workmarket/api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
-      "to": "../../../modules/workmarket/api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
-      "to": "../../../modules/workmarket/shared/navigationTargets.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
@@ -1378,15 +831,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
-      "to": "./topbar/createTopbarNavState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
       "to": "./topbar/useTopbarMenus.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
-      "to": "./topbar/useTopbarNotifications.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/components/editor/AsyncRichTextEditor.vue",
@@ -1493,40 +938,12 @@
       "to": "../ui/UiSurfaceSection.vue"
     },
     {
-      "from": "apps/themuffinman/frontend/src/components/ui/UiAdminPageSection.vue",
-      "to": "../app/AppPageHeader.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/ui/UiAdminPageSection.vue",
-      "to": "./UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/ui/UiAdminTableSection.vue",
-      "to": "./UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/ui/UiAdminTableShell.vue",
-      "to": "./UiPagination.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
-      "to": "./UiFieldGroup.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
-      "to": "../app/AppPageHeader.vue"
-    },
-    {
       "from": "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue",
       "to": "./UiDialog.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue",
       "to": "./UiFormActions.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue",
-      "to": "./UiAppShellPage.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/components/ui/UiDialog.vue",
@@ -1601,38 +1018,6 @@
       "to": "./router"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
-      "to": "../../../api/httpClient.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
-      "to": "../../../components/ui/UiAppShellPage.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
-      "to": "../../../components/ui/UiRequestError.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
-      "to": "../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
-      "to": "../../../components/ui/UiWorkspace.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
-      "to": "../api/businessApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
-      "to": "../../../api/apiErrors.ts"
-    },
-    {
       "from": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
       "to": "../../../api/httpClient.ts"
     },
@@ -1669,42 +1054,6 @@
       "to": "../../../shared/imageCompression.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
-      "to": "../../../components/profile/ProfileAvatar.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
-      "to": "../../../components/ui/UiAppShellPage.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
-      "to": "../../../components/ui/UiRequestError.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
-      "to": "../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
-      "to": "../../../components/ui/UiWorkspace.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
-      "to": "../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
-      "to": "../api/chatApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
-      "to": "../../../contracts/index.ts"
-    },
-    {
       "from": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
       "to": "../../../api/httpClient.ts"
     },
@@ -1779,42 +1128,10 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
       "to": "../auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
-      "to": "../../../api/httpClient.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
-      "to": "../../../components/ui/UiAppShellPage.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
-      "to": "../../../components/ui/UiRequestError.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
-      "to": "../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
-      "to": "../../../components/ui/UiWorkspace.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
-      "to": "../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
-      "to": "../api/ridesApi.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
-      "to": "../../../workmarket/api/workmarketApi.ts"
+      "to": "../../../../contracts/index.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
@@ -1838,7 +1155,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
-      "to": "../../../workmarket/api/workmarketApi.ts"
+      "to": "../../../../contracts/index.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesDirectoryPanel.vue",
@@ -1846,7 +1163,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesDirectoryPanel.vue",
-      "to": "../../../workmarket/api/workmarketApi.ts"
+      "to": "../../../../contracts/index.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
@@ -1866,171 +1183,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
-      "to": "../../../workmarket/api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../components/profile/ProfileOpenQuestItem.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../components/profile/ProfileReviewItem.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../components/profile/ProfileSummaryCard.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../components/ui/UiInfoGrid.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../components/ui/UiStatCard.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../components/ui/UiStatusBanner.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../services/sessionService.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../workmarket/components/shared/DetailDialogFrame.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../workmarket/components/shared/DetailUtilitySection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../workmarket/components/shared/ProfileDescriptionEditor.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../shared/imageCompression.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../shared/clientMessages.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../workmarket/api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../shared/profileFormatting.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../workmarket/shared/navigationTargets.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../workmarket/shared/pricing.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../../workmarket/api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../shared/socialActions.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "to": "../../composables/useUserProfileView.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../../auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../../composables/useDebouncedWatch.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../../services/sessionService.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../workmarket/api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../workmarket/api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../workmarket/components/shared/DetailDialogFrame.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../workmarket/components/shared/DetailUtilitySection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../workmarket/components/shared/ProfileIdentityEditor.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../composables/useUserProfileView.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../../components/ui/UiStatusBanner.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "to": "../../../../components/ui/UiSearchableMultiSelect.vue"
+      "to": "../../../../contracts/index.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/circles/circlePagination.ts",
@@ -2042,7 +1195,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/circles/circleSelection.ts",
-      "to": "../../../workmarket/api/workmarketApi.ts"
+      "to": "../../../../contracts/index.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
@@ -2050,7 +1203,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
-      "to": "../../../workmarket/api/workmarketApi.ts"
+      "to": "../../../../contracts/index.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
@@ -2066,7 +1219,7 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
-      "to": "../../../workmarket/api/workmarketApi.ts"
+      "to": "../../../../contracts/index.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
@@ -2075,6 +1228,10 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
       "to": "../../../workmarket/api/workmarketApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
+      "to": "../../../../contracts/index.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
@@ -2089,6 +1246,10 @@
       "to": "../../../workmarket/api/workmarketApi.ts"
     },
     {
+      "from": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
+      "to": "../../../../contracts/index.ts"
+    },
+    {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesPagination.ts",
       "to": "vue"
     },
@@ -2099,10 +1260,6 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
       "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
-      "to": "../../workmarket/composables/useQuestDashboard.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
@@ -2146,6 +1303,10 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
+      "to": "../../../contracts/index.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
       "to": "../../../composables/createFeedbackMutationRunner.ts"
     },
     {
@@ -2157,208 +1318,548 @@
       "to": "../../../api/apiErrors.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../workmarket/components/admin/AdminShellHeader.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../../components/ui/UiAdminPageSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../../components/ui/UiAdminTableShell.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../../components/ui/UiAdminTableSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../../components/ui/UiAppShellPage.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../../components/ui/UiFieldGroup.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../../components/ui/UiFilterBar.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../../components/ui/UiToast.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../../composables/useAutoDismissFeedback.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../../composables/useDebouncedWatch.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../../composables/createFeedbackMutationRunner.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../workmarket/api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "to": "../../../api/apiErrors.ts"
-    },
-    {
       "from": "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts",
       "to": "vue-router"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts",
-      "to": "../../workmarket/api/workmarketApi.ts"
+      "to": "../../../contracts/index.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts",
       "to": "../../workmarket/shared/navigationTargets.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../../../components/app/AppPageHeader.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../components/circles/CircleCandidateCard.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../components/circles/CirclesConnectionsPanel.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../components/circles/CirclesDirectoryPanel.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../components/circles/CirclesInboxPanel.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../components/profile/UserProfileDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../../../components/ui/UiAppShellPage.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../../../components/ui/UiPagination.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../../../components/ui/UiStatusBanner.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../../../components/ui/UiWorkspace.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "to": "../composables/useCirclesView.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/UserProfileView.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/UserProfileView.vue",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/UserProfileView.vue",
-      "to": "../components/profile/UserProfileDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/UserSettingsView.vue",
-      "to": "../../../auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/UserSettingsView.vue",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/social/views/UserSettingsView.vue",
-      "to": "../components/profile/UserSettingsDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "from": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
       "to": "../../../api/httpClient.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "from": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+      "to": "../../workmarket/api/clients/dashboardApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+      "to": "../../workmarket/api/contracts.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue",
+      "to": "../composables/useVisionConversation.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
       "to": "vue"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
-      "to": "../../../components/ui/UiAppShellPage.vue"
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "to": "../api/visionApi.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "to": "./VisionCanvasSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "to": "./VisionExecutionCandidateBlock.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "to": "./VisionFieldRequestBlock.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "to": "./VisionQuestDiscoveryBlock.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "to": "./VisionResultSummaryBlock.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "to": "./VisionReviewSummaryBlock.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "to": "./VisionPromptDock.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionDetailSurface.vue",
+      "to": "./VisionAgentOrb.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionExecutionCandidateBlock.vue",
+      "to": "../api/visionApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionExecutionCandidateBlock.vue",
+      "to": "./VisionCanvasSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionFieldRequestBlock.vue",
+      "to": "../api/visionApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionFieldRequestBlock.vue",
+      "to": "./VisionCanvasSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionPromptDock.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionPromptDock.vue",
+      "to": "../composables/useVisionConversation.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionQuestDiscoveryBlock.vue",
+      "to": "../api/visionApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionQuestDiscoveryBlock.vue",
+      "to": "./VisionCanvasSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionResultSummaryBlock.vue",
+      "to": "../api/visionApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionResultSummaryBlock.vue",
+      "to": "./VisionCanvasSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionReviewSummaryBlock.vue",
+      "to": "../api/visionApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionReviewSummaryBlock.vue",
+      "to": "../api/visionApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionReviewSummaryBlock.vue",
+      "to": "./VisionCanvasSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "to": "../api/visionApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "to": "../../workmarket/api/contracts.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "to": "../../workmarket/api/clients/dashboardApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "to": "../../workmarket/api/contracts.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "to": "../../workmarket/shared/pricing.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "to": "../../../shared/questSchedule.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "to": "../../workmarket/shared/navigationTargets.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurfaceState.ts",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurfaceState.ts",
+      "to": "../api/visionApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurfaceState.ts",
+      "to": "./useVisionConversation.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
       "to": "../../../components/ui/UiRequestError.vue"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
-      "to": "../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
-      "to": "../../../components/ui/UiWorkspace.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
       "to": "../../../api/apiErrors.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
-      "to": "../api/thingsApi.ts"
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "to": "../../../shared/clientMessages.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
-      "to": "./contracts.ts"
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "to": "../../workmarket/api/workmarketApi.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
-      "to": "./contracts.ts"
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "to": "../components/VisionDetailSurface.vue"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
-      "to": "./contracts.ts"
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "to": "../../workmarket/components/shared/ApplicationDetailSections.vue"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
-      "to": "./contracts.ts"
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "to": "../../workmarket/components/shared/ApplicationSummaryCard.vue"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/api/agentWorkflowGuards.ts",
-      "to": "./contracts.ts"
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "to": "../../workmarket/components/shared/DetailUtilitySection.vue"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
-      "to": "../../../../api/httpClient.ts"
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "to": "../../workmarket/shared/navigationTargets.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
-      "to": "../contracts.ts"
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "to": "vue"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
-      "to": "../shared/queryParams.ts"
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "to": "../../../components/profile/ProfileAvatar.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "to": "../../../components/ui/UiRequestError.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "to": "../../../components/ui/UiSurfaceSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "to": "../../../components/ui/UiWorkspace.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "to": "../../../api/apiErrors.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "to": "../../chat/api/chatApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "to": "../../../contracts/index.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "to": "../components/VisionDetailSurface.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "to": "../../../components/app/AppPageHeader.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "to": "../../social/components/circles/CircleCandidateCard.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "to": "../../social/components/circles/CirclesConnectionsPanel.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "to": "../../social/components/circles/CirclesDirectoryPanel.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "to": "../../social/components/circles/CirclesInboxPanel.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "to": "../../../components/ui/UiPagination.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "to": "../../../components/ui/UiSurfaceSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "to": "../../../components/ui/UiStatusBanner.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "to": "../../../components/ui/UiWorkspace.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "to": "../components/VisionDetailSurface.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "to": "../../social/composables/useCirclesView.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../../workmarket/composables/useQuestDetailView.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../../../components/ui/UiConfirmDialog.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../../../components/ui/UiStatusBanner.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../../../components/ui/UiRequestError.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../../../components/profile/ProfileBio.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../../../shared/richText.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../../workmarket/components/shared/QuestApplyForm.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../../workmarket/components/shared/QuestDetailContent.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../../workmarket/components/shared/QuestDetailEditForm.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../../workmarket/components/shared/ApplicationManagementCard.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../../workmarket/shared/navigationTargets.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../../workmarket/shared/pricing.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "to": "../components/VisionDetailSurface.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "to": "../../../composables/useMountedAsync.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "to": "../components/VisionAgentOrb.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "to": "../components/VisionCanvasRenderer.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "to": "../composables/useVisionConversation.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "to": "../composables/useVisionSurfaceState.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../auth.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../api/apiErrors.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../services/sessionService.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../workmarket/api/workmarketApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../workmarket/shared/navigationTargets.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../workmarket/shared/pricing.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../shared/questSchedule.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../shared/profileFormatting.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../shared/imageCompression.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../shared/clientMessages.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../contracts/index.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../social/shared/socialActions.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../social/composables/useUserProfileView.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../components/profile/ProfileOpenQuestItem.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../components/profile/ProfileReviewItem.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../components/profile/ProfileSummaryCard.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../components/ui/UiInfoGrid.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../components/ui/UiStatCard.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../components/ui/UiStatusBanner.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../../components/ui/UiSurfaceSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../components/VisionDetailSurface.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "to": "../../workmarket/components/shared/ProfileDescriptionEditor.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../../auth.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../../api/apiErrors.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../../services/sessionService.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../../contracts/index.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../workmarket/api/workmarketApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../../composables/useDebouncedWatch.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../social/composables/useUserProfileView.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../workmarket/components/shared/ProfileIdentityEditor.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../workmarket/components/shared/ProfileLocationEditor.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../../components/ui/UiInfoGrid.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../../components/ui/UiStatCard.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../../components/ui/UiStatusBanner.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../../../components/ui/UiSurfaceSection.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "to": "../components/VisionDetailSurface.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
@@ -2442,10 +1943,6 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
-      "to": "./clients/adminApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
       "to": "./clients/applicationsApi.ts"
     },
     {
@@ -2475,518 +1972,6 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
       "to": "./contracts.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
-      "to": "../../../../components/app/AppPageHeader.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
-      "to": "../../../identity/auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../../../../components/profile/ProfileOpenQuestItem.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../../../../components/ui/UiStatusBanner.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../../../../shared/imageCompression.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../../../../shared/clientMessages.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../../../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../shared/DetailDialogFrame.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../shared/DetailUtilitySection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../shared/ProfileDescriptionEditor.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../shared/ProfileIdentityEditor.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../shared/ProfileLocationEditor.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../../shared/navigationTargets.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../../shared/pricing.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersCreateForm.vue",
-      "to": "../../../../components/ui/UiFieldGroup.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersCreateForm.vue",
-      "to": "../../../../components/ui/UiFormActions.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersCreateForm.vue",
-      "to": "../../domain/workmarketDomain.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersCreateForm.vue",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersList.vue",
-      "to": "../../../../components/ui/UiFormActions.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersList.vue",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
-      "to": "../../../../components/ui/UiAdminTableShell.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
-      "to": "../../../../components/ui/UiFieldGroup.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
-      "to": "../../../../components/ui/UiFilterBar.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
-      "to": "../../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
-      "to": "../../../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
-      "to": "../../composables/dashboard/useDashboardAdminQuestBrowser.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
-      "to": "../../shared/pricing.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "to": "../../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "to": "./DashboardEditSheet.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "to": "../../../../components/ui/UiStatusBanner.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "to": "../shared/ApplicationEditFields.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "to": "../shared/DetailDialogFrame.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "to": "../shared/DetailUtilitySection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "to": "../../composables/dashboard/createApplicationDialogViewState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "to": "../../composables/dashboard/useApplicationDialogUiActions.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "to": "../shared/ApplicationDetailSections.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "to": "../shared/ApplicationSummaryCard.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
-      "to": "../../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
-      "to": "./DashboardMyApplications.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
-      "to": "../shared/DetailDialogFrame.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
-      "to": "../shared/DetailUtilitySection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "to": "../../../../components/ui/UiChoiceChips.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "to": "../../../../components/ui/UiFieldGroup.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "to": "../../../../components/ui/UiListItem.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "to": "../../../../components/ui/UiPagination.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "to": "../../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "to": "../shared/DetailDialogFrame.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "to": "../shared/DetailUtilitySection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "to": "../../composables/dashboard/useDashboardFindQuestsBrowser.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "to": "../../../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "to": "../../shared/pricing.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
-      "to": "../../composables/dashboard/createDashboardQuestListState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
-      "to": "../shared/DashboardSummaryListButton.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
-      "to": "../shared/DashboardSummaryListSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
-      "to": "../../../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
-      "to": "../../composables/dashboard/createDashboardQuestListState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
-      "to": "../../shared/navigationTargets.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
-      "to": "../../../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
-      "to": "../shared/DashboardSummaryListButton.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
-      "to": "../shared/DashboardSummaryListSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
-      "to": "../../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
-      "to": "./DashboardMyQuests.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
-      "to": "../shared/DetailDialogFrame.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
-      "to": "../shared/DetailUtilitySection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
-      "to": "../../composables/dashboard/createDashboardOpenWorkState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardPostWork.vue",
-      "to": "../shared/QuestComposerForm.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardPostWork.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardPostWork.vue",
-      "to": "../../composables/dashboard/useDashboardPostWorkState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
-      "to": "../shared/ApplicationManagementCard.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
-      "to": "../../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
-      "to": "../shared/QuestApplyForm.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "../../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "../../../../components/ui/UiConfirmDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "../../../../components/ui/UiStatusBanner.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "../../../../components/profile/ProfileBio.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "../../../../shared/richText.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "./DashboardQuestApplications.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "./DashboardQuestApplyForm.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "./DashboardQuestEditForm.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "../shared/QuestDetailContent.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "../../composables/dashboard/createQuestDialogViewState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "../../composables/dashboard/useQuestDialogUiActions.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "to": "../../shared/pricing.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue",
-      "to": "../shared/QuestComposerForm.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue",
-      "to": "../../../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestSummaryRow.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestSummaryRow.vue",
-      "to": "../../../../shared/richText.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
-      "to": "../../../../components/ui/UiEventPill.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
-      "to": "../../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
-      "to": "../../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
-      "to": "../../composables/dashboard/createDashboardWorkPlannerState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
-      "to": "../shared/DetailDialogFrame.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
-      "to": "../shared/DetailUtilitySection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlannerFlexible.vue",
-      "to": "../../../../components/ui/UiEventPill.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlannerFlexible.vue",
-      "to": "../../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlannerFlexible.vue",
-      "to": "../../composables/dashboard/createDashboardWorkPlannerState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlannerFlexible.vue",
-      "to": "../../composables/dashboard/dashboardFacades.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue",
@@ -3067,18 +2052,6 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationSummaryCard.vue",
       "to": "../../shared/pricing.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DashboardSummaryListButton.vue",
-      "to": "../dashboard/DashboardQuestSummaryRow.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DashboardSummaryListSection.vue",
-      "to": "../../../../components/ui/UiSectionHeader.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DashboardSummaryListSection.vue",
-      "to": "../../../../components/ui/UiSurfaceSection.vue"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DetailDialogFrame.vue",
@@ -3273,42 +2246,6 @@
       "to": "../../api/workmarketApi.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "to": "../../../../components/editor/AsyncRichTextEditor.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "to": "../../../../components/profile/ProfileBio.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "to": "../../../../components/ui/UiChoiceChips.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "to": "../../domain/workmarketDomain.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "to": "../../../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "to": "./InlineEditableField.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "to": "../../shared/pricing.ts"
-    },
-    {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersDataState.ts",
       "to": "vue"
     },
@@ -3339,550 +2276,6 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersUiState.ts",
       "to": "../../../../composables/useTimedBanner.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts",
-      "to": "../../../../api/httpClient.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts",
-      "to": "../../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts",
-      "to": "../../../../httpDebug.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersDataActions.ts",
-      "to": "../useAppUsersPageState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersMutationActions.ts",
-      "to": "../../../../composables/createFeedbackMutationRunner.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersMutationActions.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersMutationActions.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersMutationActions.ts",
-      "to": "../useAppUsersPageState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/applyDashboardResponse.ts",
-      "to": "../../../../auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/applyDashboardResponse.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/applyDashboardResponse.ts",
-      "to": "../useQuestDashboardState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createApplicationDialogViewState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createApplicationDialogViewState.ts",
-      "to": "../../../../composables/useDialogActionState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createApplicationDialogViewState.ts",
-      "to": "./dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardDataState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardDataState.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardErrorState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
-      "to": "../../../../httpDebug.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
-      "to": "../../domain/workmarketDomain.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
-      "to": "./questDraftState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardMutationRunner.ts",
-      "to": "../../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardOpenWorkState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardOpenWorkState.ts",
-      "to": "./dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardOptionState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardOptionState.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardProfileState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardProfileState.ts",
-      "to": "../../../../auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardProfileState.ts",
-      "to": "../../../../composables/useAutoDismissFeedback.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardProfileState.ts",
-      "to": "../../../../composables/useTimedBanner.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestListState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestListState.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestListState.ts",
-      "to": "./dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestState.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestState.ts",
-      "to": "../../domain/workmarketDomain.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
-      "to": "../../domain/workmarketDomain.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardTabState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardTabState.ts",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardTabState.ts",
-      "to": "../../domain/workmarketDomain.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardWorkPlannerState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardWorkPlannerState.ts",
-      "to": "../../../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardWorkPlannerState.ts",
-      "to": "./dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardWorkPlannerState.ts",
-      "to": "../../../../lib/dashboardCalendar.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "to": "../../../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "to": "../../domain/workmarketDomain.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "to": "./createDashboardDataState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "to": "./createDashboardErrorState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "to": "./createDashboardInteractions.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "to": "./createDashboardOptionState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "to": "./createDashboardProfileState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "to": "./createDashboardQuestState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "to": "./createDashboardSelectors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "to": "./createDashboardTabState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "to": "../../../../composables/useDialogActionState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "to": "./dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "to": "../../shared/applicationDraft.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/dashboardFacades.ts",
-      "to": "../useQuestDashboard.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questDraftState.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questDraftState.ts",
-      "to": "../../../../auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questDraftState.ts",
-      "to": "../../../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questDraftState.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questMutationTypes.ts",
-      "to": "../useQuestDashboardState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questMutationTypes.ts",
-      "to": "./createDashboardMutationRunner.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts",
-      "to": "../../../../lib/dialogFlow.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts",
-      "to": "./dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts",
-      "to": "./createApplicationDialogViewState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts",
-      "to": "../../shared/navigationTargets.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
-      "to": "../../domain/workmarketDomain.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
-      "to": "../../../../lib/searchQuery.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
-      "to": "../useQuestSearchResults.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
-      "to": "../../shared/navigationTargets.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
-      "to": "../../shared/filterValues.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
-      "to": "./dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
-      "to": "../../domain/workmarketDomain.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
-      "to": "../../../../lib/searchQuery.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
-      "to": "../useQuestSearchResults.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
-      "to": "../../shared/navigationTargets.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
-      "to": "../../shared/filterValues.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
-      "to": "./dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardPostWorkState.ts",
-      "to": "./dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
-      "to": "../../../../auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
-      "to": "../../shared/pricing.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
-      "to": "../useQuestDashboardState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
-      "to": "./createDashboardMutationRunner.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
-      "to": "../../../../api/httpClient.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
-      "to": "../../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
-      "to": "../../../../httpDebug.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
-      "to": "../useQuestDashboardState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
-      "to": "./applyDashboardResponse.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-      "to": "../useQuestDashboardState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardMutationActions.ts",
-      "to": "../useQuestDashboardState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardMutationActions.ts",
-      "to": "./useQuestDashboardApplicationMutations.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardMutationActions.ts",
-      "to": "./useQuestDashboardDialogActions.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardMutationActions.ts",
-      "to": "./useQuestDashboardQuestMutations.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
-      "to": "../../../../auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
-      "to": "../../../../shared/imageCompression.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
-      "to": "../../../../shared/clientMessages.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
-      "to": "../../shared/pricing.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
-      "to": "./questDraftState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
-      "to": "./questMutationTypes.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
-      "to": "../../../../shared/clientMessages.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
-      "to": "../../../../shared/imageCompression.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
-      "to": "../../shared/pricing.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
-      "to": "./questMutationTypes.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestLifecycleMutations.ts",
-      "to": "../../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestLifecycleMutations.ts",
-      "to": "./questMutationTypes.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts",
-      "to": "../useQuestDashboardState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts",
-      "to": "./createDashboardMutationRunner.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts",
-      "to": "./useQuestDashboardQuestDraftMutations.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts",
-      "to": "./useQuestDashboardQuestEditMutations.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts",
-      "to": "./useQuestDashboardQuestLifecycleMutations.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestMutations.ts",
-      "to": "./questMutationTypes.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDialogUiActions.ts",
-      "to": "../../../../lib/dialogFlow.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDialogUiActions.ts",
-      "to": "./dashboardFacades.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDialogUiActions.ts",
-      "to": "./createQuestDialogViewState.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/applyQuestDetailState.ts",
@@ -4037,130 +2430,6 @@
       "to": "../../shared/navigationTargets.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "to": "../../../composables/useAutoDismissFeedback.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "to": "../../../composables/createFeedbackMutationRunner.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "to": "../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "to": "../../../lib/searchQuery.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "to": "../../../composables/useMountedAsync.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "to": "../../../composables/usePaginatedResults.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "to": "../shared/navigationTargets.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "to": "../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "to": "../domain/workmarketDomain.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPage.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPage.ts",
-      "to": "./useAppUsersPageState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPage.ts",
-      "to": "./useAppUsersPageActions.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageActions.ts",
-      "to": "./useAppUsersPageState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageActions.ts",
-      "to": "../../../composables/useDebouncedWatch.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageActions.ts",
-      "to": "./app-users/useAppUsersDataActions.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageActions.ts",
-      "to": "./app-users/useAppUsersMutationActions.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageState.ts",
-      "to": "./app-users/createAppUsersDataState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageState.ts",
-      "to": "./app-users/createAppUsersFormState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageState.ts",
-      "to": "./app-users/createAppUsersSearchState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageState.ts",
-      "to": "./app-users/createAppUsersUiState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboard.ts",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboard.ts",
-      "to": "./useQuestDashboardState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboard.ts",
-      "to": "./useQuestDashboardActions.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardActions.ts",
-      "to": "./useQuestDashboardState.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardActions.ts",
-      "to": "./dashboard/useQuestDashboardDataActions.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardActions.ts",
-      "to": "./dashboard/useQuestDashboardMutationActions.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardState.ts",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardState.ts",
-      "to": "../../../auth.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDashboardState.ts",
-      "to": "./dashboard/createQuestDashboardStateModules.ts"
-    },
-    {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPage.ts",
       "to": "./useQuestDetailPageState.ts"
     },
@@ -4233,290 +2502,6 @@
       "to": "../../../contracts/index.ts"
     },
     {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "to": "../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "to": "../../../components/ui/UiAppShellPage.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "to": "../../../components/ui/UiFieldGroup.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "to": "../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "to": "../components/admin/AdminShellHeader.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "to": "../api/adminAgentSafetyViewModel.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "to": "../api/agentWorkflowGuards.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "to": "../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../components/admin/AdminShellHeader.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../../../components/ui/UiAdminPageSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../../../components/ui/UiAdminTableShell.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../../../components/ui/UiAdminTableSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../../../components/ui/UiAppShellPage.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../../../components/ui/UiFieldGroup.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../../../components/ui/UiFilterBar.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../../../components/ui/UiToast.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../components/shared/DetailDialogFrame.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../components/shared/DetailUtilitySection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../components/shared/ApplicationEditFields.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../../../shared/questSchedule.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../domain/workmarketDomain.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../composables/useAdminApplicationsPage.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "to": "../shared/pricing.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "to": "../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "to": "../../../components/ui/UiAppShellPage.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "to": "../../../components/ui/UiInfoGrid.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "to": "../../../components/ui/UiStatCard.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "to": "../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "to": "../../../components/ui/UiAdminTableShell.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "to": "../components/admin/AdminShellHeader.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "to": "../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "to": "../components/admin/AdminShellHeader.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "to": "../components/dashboard/DashboardAdmin.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "to": "../components/dashboard/DashboardApplicationDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "to": "../components/dashboard/DashboardQuestDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "to": "../../../components/ui/UiAppShellPage.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "to": "../../../composables/useMountedAsync.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "to": "../../../components/ui/UiRequestError.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "to": "../../../components/ui/UiToast.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "to": "../composables/useQuestDashboard.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../components/app-users/AppUsersCreateForm.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../components/app-users/AppUsersList.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../components/admin/AdminUserDetailDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../components/admin/AdminShellHeader.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../../../composables/useMountedAsync.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../../../components/ui/UiAdminPageSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../../../components/ui/UiFieldGroup.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../../../components/ui/UiFilterBar.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../../../components/ui/UiConfirmDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../../../components/ui/UiAppShellPage.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../../../components/ui/UiRequestError.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../../../components/ui/UiToast.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../components/shared/DetailDialogFrame.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../components/shared/DetailUtilitySection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "to": "../composables/useAppUsersPage.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
-      "to": "../../../components/ui/UiAppShellPage.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
-      "to": "../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
-      "to": "../../../components/ui/UiRequestError.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
-      "to": "../../../components/ui/UiSurfaceSection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
-      "to": "../../../components/ui/UiToast.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
-      "to": "../../../components/ui/UiWorkspace.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
-      "to": "../composables/useQuestDashboard.ts"
-    },
-    {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
       "to": "../../../shared/richText.ts"
     },
@@ -4527,110 +2512,6 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/workmarket/shared/navigationTargets.ts",
       "to": "../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "to": "../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "to": "../../../components/ui/UiRequestError.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "to": "../../../api/apiErrors.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "to": "../../../shared/clientMessages.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "to": "../api/workmarketApi.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "to": "../components/shared/DetailDialogFrame.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "to": "../components/shared/DetailUtilitySection.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "to": "../shared/navigationTargets.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "to": "../components/shared/ApplicationDetailSections.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "to": "../components/shared/ApplicationSummaryCard.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../composables/useQuestDetailView.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../../../components/ui/UiDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../../../components/ui/UiConfirmDialog.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../../../components/ui/UiStatusBanner.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../../../components/ui/UiRequestError.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../../../components/profile/ProfileBio.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../../../shared/richText.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../components/shared/QuestApplyForm.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../components/shared/QuestDetailContent.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../components/shared/QuestDetailEditForm.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../components/shared/ApplicationManagementCard.vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../shared/navigationTargets.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "to": "../shared/pricing.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/router.ts",
@@ -4655,22 +2536,6 @@
     {
       "from": "apps/themuffinman/frontend/src/shared/profileFormatting.ts",
       "to": "./richText.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/shared/questNews.ts",
-      "to": "../modules/workmarket/domain/workmarketDomain.ts"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
-      "to": "vue"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
-      "to": "vue-router"
-    },
-    {
-      "from": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
-      "to": "../modules/moduleRegistry.ts"
     }
   ]
 }

@@ -2,8 +2,8 @@ package com.themuffinman.app.docs;
 
 import com.themuffinman.app.things.repository.ThingBorrowRequestRepository;
 import com.themuffinman.app.things.repository.ThingListingRepository;
-import com.themuffinman.app.workmarket.repository.QuestApplicationRepository;
-import com.themuffinman.app.workmarket.repository.QuestRepository;
+import com.themuffinman.app.vision.repository.QuestApplicationRepository;
+import com.themuffinman.app.vision.repository.QuestRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.jpa.repository.Query;
 

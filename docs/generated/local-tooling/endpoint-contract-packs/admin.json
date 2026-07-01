@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-30T10:53:31Z",
+  "generated_at": "2026-07-01T14:47:52Z",
   "endpoint_family": "admin",
   "endpoints": [
     {
       "method": "GET",
       "path": "/admin/applications",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "dtos": [
         "QuestApplicationResponseDTO",
         "QuestApplicationsViewDTO"
@@ -14,7 +14,7 @@
     {
       "method": "DELETE",
       "path": "/admin/applications/{applicationId}",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "dtos": [
         "ActionResultDTO",
         "QuestApplicationRequestDTO"
@@ -23,7 +23,7 @@
     {
       "method": "PUT",
       "path": "/admin/applications/{applicationId}",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "dtos": [
         "ActionResultDTO",
         "AdminQuestApplicationUpdateRequestDTO"
@@ -32,18 +32,12 @@
   ],
   "dto_files": [
     "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationsViewDTO.java"
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminQuestApplicationUpdateRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationsViewDTO.java"
   ],
   "frontend_callsites": [
-    {
-      "file": "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
     {
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "matched_paths": [
@@ -51,15 +45,8 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
       "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
-      "matched_paths": [
-        "/admin/applications",
         "applications"
       ]
     },
@@ -78,37 +65,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
-      "matched_paths": [
-        "/admin/applications",
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
       "matched_paths": [
         "applications"
@@ -116,66 +72,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/applyDashboardResponse.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardDataState.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardErrorState.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestListState.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/dashboardFacades.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
-      "matched_paths": [
-        "{applicationId}"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
       "matched_paths": [
         "applications"
       ]
@@ -205,12 +101,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
       "matched_paths": [
         "applications"
@@ -223,37 +113,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/navigationTargets.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
       "matched_paths": [
         "applications"
       ]
@@ -261,7 +121,6 @@
     {
       "file": "apps/themuffinman/frontend/src/router.ts",
       "matched_paths": [
-        "/admin/applications",
         "applications"
       ]
     }

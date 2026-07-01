@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-30T06:38:28Z",
+  "generated_at": "2026-07-01T14:47:58Z",
   "files": [
     {
-      "file": ".agents/feature-manifests/codex-workflow-lean-context-manifest.yaml",
+      "file": ".agents/god-plans/vision-god-plan.yaml",
       "category": "other",
       "domain": "shared",
       "nearest_tests": [
@@ -13,131 +13,30 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs",
-      "category": "frontend_script",
-      "domain": "workmarket",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java"
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/contracts/index.ts",
-      "category": "frontend_contract",
+      "file": "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+      "category": "other",
       "domain": "shared",
       "nearest_tests": [
 
       ],
       "suggested_commands": [
-        "npm run type-check",
-        "npm run build"
+
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
+      "file": "apps/themuffinman/frontend/src/modules/chat/README.md",
       "category": "other",
-      "domain": "social",
+      "domain": "chat",
       "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java"
       ],
       "suggested_commands": [
 
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
-      "category": "other",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesDirectoryPanel.vue",
-      "category": "other",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
-      "category": "other",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "category": "other",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "category": "other",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/circleSelection.ts",
+      "file": "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
       "category": "frontend_composable",
       "domain": "social",
       "nearest_tests": [
@@ -154,564 +53,60 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
-      "category": "frontend_composable",
-      "domain": "social",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
+      "category": "frontend_api",
+      "domain": "workmarket",
       "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardSummaryAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVoiceServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java"
       ],
       "suggested_commands": [
         "npm run type-check",
         "npm run build",
-        "make audit-async-mutation-flow"
+        "make audit-api-contract-drift"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
-      "category": "frontend_composable",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-        "npm run type-check",
-        "npm run build",
-        "make audit-async-mutation-flow"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
-      "category": "frontend_composable",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-        "npm run type-check",
-        "npm run build",
-        "make audit-async-mutation-flow"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
-      "category": "frontend_composable",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-        "npm run type-check",
-        "npm run build",
-        "make audit-async-mutation-flow"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
-      "category": "frontend_composable",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-        "npm run type-check",
-        "npm run build",
-        "make audit-async-mutation-flow"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "category": "frontend_view",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-        "npm run type-check",
-        "npm run build",
-        "make audit-frontend-route-surfaces"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/navigationTargets.ts",
       "category": "other",
-      "domain": "social",
+      "domain": "workmarket",
       "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestNewsMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardSummaryAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVoiceServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java"
       ],
       "suggested_commands": [
 
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "category": "frontend_view",
-      "domain": "workmarket",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java"
-      ],
-      "suggested_commands": [
-        "npm run type-check",
-        "npm run build",
-        "make audit-frontend-route-surfaces"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "category": "frontend_view",
-      "domain": "workmarket",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java"
-      ],
-      "suggested_commands": [
-        "npm run type-check",
-        "npm run build",
-        "make audit-frontend-route-surfaces"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "category": "frontend_view",
-      "domain": "workmarket",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java"
-      ],
-      "suggested_commands": [
-        "npm run type-check",
-        "npm run build",
-        "make audit-frontend-route-surfaces"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/README.md",
+      "file": "apps/themuffinman/frontend/src/router.ts",
       "category": "other",
-      "domain": "identity",
+      "domain": "shared",
       "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentRouterTest.java"
       ],
       "suggested_commands": [
 
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
-      "category": "backend_service",
-      "domain": "identity",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
-      "category": "backend_service",
-      "domain": "identity",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/README.md",
-      "category": "other",
-      "domain": "location",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationDebugStatusAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
-      "category": "backend_service",
-      "domain": "location",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationDebugStatusAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/README.md",
-      "category": "other",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
-      "category": "backend_service",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-      "category": "backend_service",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/README.md",
-      "category": "other",
-      "domain": "workmarket",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java"
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
-      "category": "backend_service",
-      "domain": "workmarket",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
-      "category": "backend_service",
-      "domain": "identity",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java",
-      "category": "backend_service",
-      "domain": "identity",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java",
-      "category": "backend_service",
-      "domain": "location",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationDebugStatusAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
-      "category": "backend_service",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-      "category": "backend_service",
-      "domain": "workmarket",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "docs/agent-operating-model.yaml",
-      "category": "docs",
-      "domain": "agent",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-documentation",
-        "make audit-doc-canonical-phrases"
-      ]
-    },
-    {
-      "file": "docs/agent-operating-model/sections/automation_read_models.yaml",
-      "category": "docs",
-      "domain": "agent",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-documentation",
-        "make audit-doc-canonical-phrases"
-      ]
-    },
-    {
-      "file": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-      "category": "docs",
-      "domain": "agent",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-documentation",
-        "make audit-doc-canonical-phrases"
-      ]
-    },
-    {
-      "file": "docs/agent-operating-model/sections/request_validation_gate.yaml",
-      "category": "docs",
-      "domain": "agent",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-documentation",
-        "make audit-doc-canonical-phrases"
-      ]
-    },
-    {
-      "file": "docs/agent-operating-model/sections/source_of_truth.yaml",
-      "category": "docs",
-      "domain": "agent",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-documentation",
-        "make audit-doc-canonical-phrases"
       ]
     },
     {
@@ -728,7 +123,7 @@
       ]
     },
     {
-      "file": "docs/implementation-backlog.md",
+      "file": "docs/product-memory.md",
       "category": "docs",
       "domain": "shared",
       "nearest_tests": [
@@ -754,7 +149,20 @@
       ]
     },
     {
-      "file": ".agents/backend-drift-remediation-findings.md",
+      "file": "docs/vision-status-ledger.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": ".agents/vision-legacy-migration-candidate-map.md",
       "category": "other",
       "domain": "shared",
       "nearest_tests": [
@@ -765,7 +173,7 @@
       ]
     },
     {
-      "file": ".agents/system-standardization-audit-findings.md",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionDetailSurface.vue",
       "category": "other",
       "domain": "shared",
       "nearest_tests": [
@@ -776,176 +184,87 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/README.md",
-      "category": "other",
-      "domain": "common",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
       "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/common/concepts/CoreConceptsTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/common/validation/RichTextInputValidatorTest.java"
-      ],
-      "suggested_commands": [
 
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java",
-      "category": "backend_service",
-      "domain": "identity",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
       "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+
       ],
       "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationDebugStatusAssembler.java",
-      "category": "backend_service",
-      "domain": "location",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
       "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationDebugStatusAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"
+
       ],
       "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleAdminOverviewAssembler.java",
-      "category": "backend_service",
-      "domain": "social",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
       "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
+
       ],
       "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssembler.java",
-      "category": "backend_service",
-      "domain": "workmarket",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
       "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java"
+
       ],
       "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
       ]
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssemblerTest.java",
-      "category": "backend_service",
-      "domain": "identity",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
       "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+
       ],
       "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationDebugStatusAssemblerTest.java",
-      "category": "backend_service",
-      "domain": "location",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationDebugStatusAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-      "category": "backend_service",
-      "domain": "social",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssemblerTest.java",
-      "category": "backend_service",
-      "domain": "workmarket",
-      "nearest_tests": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java"
-      ],
-      "suggested_commands": [
-        "./mvnw test",
-        "make audit-read-surface-inventory",
-        "make audit-repository-fetch"
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
       ]
     }
   ],
   "missing_direct_tests": [
     {
-      "file": ".agents/feature-manifests/codex-workflow-lean-context-manifest.yaml",
+      "file": ".agents/god-plans/vision-god-plan.yaml",
       "category": "other",
       "domain": "shared",
       "nearest_tests": [
@@ -956,15 +275,14 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/contracts/index.ts",
-      "category": "frontend_contract",
+      "file": "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+      "category": "other",
       "domain": "shared",
       "nearest_tests": [
 
       ],
       "suggested_commands": [
-        "npm run type-check",
-        "npm run build"
+
       ]
     },
     {
@@ -981,7 +299,7 @@
       ]
     },
     {
-      "file": "docs/implementation-backlog.md",
+      "file": "docs/product-memory.md",
       "category": "docs",
       "domain": "shared",
       "nearest_tests": [
@@ -1007,7 +325,20 @@
       ]
     },
     {
-      "file": ".agents/backend-drift-remediation-findings.md",
+      "file": "docs/vision-status-ledger.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": ".agents/vision-legacy-migration-candidate-map.md",
       "category": "other",
       "domain": "shared",
       "nearest_tests": [
@@ -1018,7 +349,7 @@
       ]
     },
     {
-      "file": ".agents/system-standardization-audit-findings.md",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionDetailSurface.vue",
       "category": "other",
       "domain": "shared",
       "nearest_tests": [
@@ -1026,6 +357,84 @@
       ],
       "suggested_commands": [
 
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
       ]
     }
   ]

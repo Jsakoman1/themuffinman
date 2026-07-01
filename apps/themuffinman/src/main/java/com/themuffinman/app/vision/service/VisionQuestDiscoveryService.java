@@ -5,10 +5,10 @@ import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryItemDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionIntent;
-import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
-import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
-import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
-import com.themuffinman.app.workmarket.service.QuestReadService;
+import com.themuffinman.app.vision.dto.QuestListPresetDTO;
+import com.themuffinman.app.vision.dto.QuestListResponseDTO;
+import com.themuffinman.app.vision.dto.QuestResponseDTO;
+import com.themuffinman.app.vision.service.QuestReadService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

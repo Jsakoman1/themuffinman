@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:54:52Z",
+  "generated_at": "2026-07-01T14:49:32Z",
   "features": [
     {
       "feature": "AdminAgent",
@@ -68,6 +68,11 @@
     },
     {
       "feature": "UserReview",
+      "in_agent_model": true,
+      "in_simulation": true
+    },
+    {
+      "feature": "VisionConversation",
       "in_agent_model": true,
       "in_simulation": true
     }

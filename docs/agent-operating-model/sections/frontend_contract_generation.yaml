@@ -1,6 +1,6 @@
 ---
 frontend_contract_generation:
-  script: apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs
+  script: apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs
   check_command: npm --prefix apps/themuffinman/frontend run validate:contracts
   generated_contract_file: apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
   required_aliases:

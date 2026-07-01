@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {VisionCanvasBlock} from "../api/visionApi.ts"
+import type {VisionCanvasBlock} from "../api/visionConversationApi.ts"
 import VisionCanvasSection from "./VisionCanvasSection.vue"
 
 defineProps<{
@@ -21,15 +21,16 @@ defineProps<{
 <style scoped>
 .vision-slot-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.65rem;
 }
 
 .vision-slot-card {
-  border-radius: 1.2rem;
+  border-radius: 1.25rem;
   padding: 0.95rem 1rem;
-  background: var(--vision-surface-card-soft);
-  border: 1px solid var(--vision-surface-border-soft);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(24, 36, 47, 0.07);
+  box-shadow: 0 12px 24px rgba(24, 36, 47, 0.04);
 }
 
 .vision-slot-card__label {

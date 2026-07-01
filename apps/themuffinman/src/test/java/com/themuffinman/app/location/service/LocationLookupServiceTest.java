@@ -9,7 +9,7 @@ import com.themuffinman.app.location.dto.LocationLookupResponseDTO;
 import com.themuffinman.app.location.model.LocationLookupEvent;
 import com.themuffinman.app.location.model.LocationLookupEventType;
 import com.themuffinman.app.location.repository.LocationLookupEventRepository;
-import com.themuffinman.app.workmarket.repository.QuestRepository;
+import com.themuffinman.app.vision.repository.QuestRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

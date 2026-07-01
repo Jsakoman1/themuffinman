@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-29T19:54:50Z",
-  "java_files_scanned": 319,
+  "generated_at": "2026-07-01T14:49:30Z",
+  "java_files_scanned": 391,
   "high_confidence": [
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java",
@@ -27,7 +27,7 @@
       "confidence": "high_confidence"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsRetentionService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsRetentionService.java",
       "class_name": "QuestNewsRetentionService",
       "refs": 1,
       "confidence": "high_confidence"
@@ -38,6 +38,32 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/SpringDomainEventPublisher.java",
       "class_name": "SpringDomainEventPublisher",
       "refs": 2,
+      "confidence": "review_needed"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionSlotDataConverter.java",
+      "class_name": "VisionSlotDataConverter",
+      "refs": 2,
+      "confidence": "review_needed"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "method": "formatScheduledAt",
+      "confidence": "review_needed"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionScheduleParserService.java",
+      "method": "containsTimeSignal",
+      "confidence": "review_needed"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "method": "shouldAutoFillVisibility",
+      "confidence": "review_needed"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "method": "shouldAutoFillSchedule",
       "confidence": "review_needed"
     }
   ]

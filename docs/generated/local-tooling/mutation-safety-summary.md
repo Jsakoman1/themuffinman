@@ -1,9 +1,9 @@
 # Mutation Safety
 
-- Generated at: `2026-06-29T19:55:01Z`
-- Mutation surfaces scanned: `107`
-- Endpoints: `46`
-- Service methods: `61`
+- Generated at: `2026-07-01T14:49:42Z`
+- Mutation surfaces scanned: `124`
+- Endpoints: `53`
+- Service methods: `71`
 - Review needed: `0`
 - High priority: `0`
 - Medium priority: `0`

@@ -30,32 +30,40 @@ defineProps<{
 }
 
 .vision-panel__section--default {
-  padding: 0.25rem 0;
-  border-top: 1px solid rgba(24, 36, 47, 0.06);
+  padding: 0.9rem 1rem;
+  border-radius: 1.35rem;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(24, 36, 47, 0.07);
+  box-shadow: 0 18px 44px rgba(24, 36, 47, 0.05);
+  backdrop-filter: blur(18px);
 }
 
 .vision-panel__section--warning {
   padding: 0.9rem 1rem;
-  border-radius: 1.2rem;
+  border-radius: 1.35rem;
   background: var(--vision-surface-section-warning-bg);
+  border: 1px solid rgba(191, 92, 36, 0.12);
 }
 
 .vision-panel__section--field {
   padding: 0.9rem 1rem;
-  border-radius: 1.2rem;
+  border-radius: 1.35rem;
   background: var(--vision-surface-section-field-bg);
+  border: 1px solid rgba(24, 36, 47, 0.07);
 }
 
 .vision-panel__section--info {
   padding: 0.9rem 1rem;
-  border-radius: 1.2rem;
+  border-radius: 1.35rem;
   background: var(--vision-surface-section-info-bg);
+  border: 1px solid rgba(24, 36, 47, 0.07);
 }
 
 .vision-panel__section--success {
   padding: 0.9rem 1rem;
-  border-radius: 1.2rem;
+  border-radius: 1.35rem;
   background: var(--vision-surface-section-success-bg);
+  border: 1px solid rgba(24, 36, 47, 0.07);
 }
 
 .vision-panel__label {

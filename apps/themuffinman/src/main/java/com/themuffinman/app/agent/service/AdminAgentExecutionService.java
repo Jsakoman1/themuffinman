@@ -8,10 +8,10 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.location.model.QuestLocationSource;
 import com.themuffinman.app.location.model.QuestLocationVisibility;
-import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
-import com.themuffinman.app.workmarket.model.Quest;
-import com.themuffinman.app.workmarket.model.QuestAudience;
-import com.themuffinman.app.workmarket.service.QuestService;
+import com.themuffinman.app.vision.dto.QuestRequestDTO;
+import com.themuffinman.app.vision.model.Quest;
+import com.themuffinman.app.vision.model.QuestAudience;
+import com.themuffinman.app.vision.service.QuestService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

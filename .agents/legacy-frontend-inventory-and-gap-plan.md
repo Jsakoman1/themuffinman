@@ -126,10 +126,6 @@ Source router: [router.ts](/Users/jsakoman/Desktop/themuffinman/apps/themuffinma
   - module: `modules/social/pages/AdminCirclesPage.vue`
   - class: preserve temporarily
 
-- `/admin/agent`
-  - module: `modules/workmarket/pages/AdminAgentPage.vue`
-  - class: preserve temporarily and likely keep longest
-
 ### Vision Route
 
 - `/vision`

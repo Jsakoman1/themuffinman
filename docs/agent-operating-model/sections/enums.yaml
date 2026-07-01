@@ -6,7 +6,7 @@ enums:
   - USER
   - ADMIN
 - id: quest_status
-  java_class: com.themuffinman.app.workmarket.model.QuestStatus
+  java_class: com.themuffinman.app.vision.model.QuestStatus
   values:
   - OPEN
   - ASSIGNED
@@ -15,7 +15,7 @@ enums:
   - COMPLETED
   - CANCELLED
 - id: quest_audience
-  java_class: com.themuffinman.app.workmarket.model.QuestAudience
+  java_class: com.themuffinman.app.vision.model.QuestAudience
   values:
   - CIRCLES
   - EVERYONE

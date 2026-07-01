@@ -73,7 +73,7 @@ artifacts:
     - Makefile
     - apps/themuffinman/Makefile
     - apps/themuffinman/frontend/package.json
-    - apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+    - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
   docPaths:
     - AGENTS.md
     - docs/agent-operating-model.md

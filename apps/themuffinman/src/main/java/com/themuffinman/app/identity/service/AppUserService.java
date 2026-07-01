@@ -1,18 +1,18 @@
 package com.themuffinman.app.identity.service;
 
 import com.themuffinman.app.identity.dto.AppUserRequestDTO;
-import com.themuffinman.app.workmarket.mapper.QuestMgr;
+import com.themuffinman.app.vision.mapper.QuestMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.location.service.LocationSettingsService;
 import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
-import com.themuffinman.app.workmarket.model.QuestStatus;
+import com.themuffinman.app.vision.model.QuestStatus;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.common.normalization.ProfileValueNormalizer;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.common.normalization.UserInputNormalizer;
-import com.themuffinman.app.workmarket.repository.QuestRepository;
+import com.themuffinman.app.vision.repository.QuestRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +67,7 @@ public class AppUserService {
     }
 
     @Transactional(readOnly = true)
-    public List<com.themuffinman.app.workmarket.dto.QuestResponseDTO> getOpenQuestsByCreatorId(Long creatorId) {
+    public List<com.themuffinman.app.vision.dto.QuestResponseDTO> getOpenQuestsByCreatorId(Long creatorId) {
         return questRepository.findByCreatorIdAndStatusOrderByIdDesc(creatorId, QuestStatus.OPEN)
                 .stream()
                 .limit(6)

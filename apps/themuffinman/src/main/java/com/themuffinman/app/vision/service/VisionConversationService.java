@@ -88,6 +88,14 @@ public class VisionConversationService {
         }
 
         VisionConversationAction action = VisionConversationAction.from(dto == null ? null : dto.getAction());
+        String rawPrompt = dto == null ? null : dto.getPrompt();
+        if (action == VisionConversationAction.SUBMIT_PROMPT && isCancelCommand(rawPrompt)) {
+            Long conversationId = dto == null ? null : dto.getConversationId();
+            if (conversationId == null) {
+                throw ServiceErrors.badRequest("Conversation id is required to cancel an active vision task");
+            }
+            return cancelConversation(conversationId, currentUser);
+        }
         VisionConversation existingConversation = dto != null && dto.getConversationId() != null
                 ? loadExistingConversation(dto.getConversationId(), currentUser)
                 : null;
@@ -127,6 +135,26 @@ public class VisionConversationService {
                 visionExecutionPlanner.plan(conversation, understanding),
                 visionQuestDiscoveryService.discover(conversation, understanding, currentUser)
         );
+    }
+
+    private boolean isCancelCommand(String prompt) {
+        if (prompt == null) {
+            return false;
+        }
+
+        String normalizedPrompt = prompt.trim().toLowerCase(java.util.Locale.ROOT)
+                .replaceAll("[.!?]+$", "");
+        return normalizedPrompt.equals("cancel")
+                || normalizedPrompt.equals("cancel quest")
+                || normalizedPrompt.equals("cancel conversation")
+                || normalizedPrompt.equals("stop")
+                || normalizedPrompt.equals("stop task")
+                || normalizedPrompt.equals("odustani")
+                || normalizedPrompt.equals("prekini")
+                || normalizedPrompt.equals("ponisti")
+                || normalizedPrompt.equals("poništi")
+                || normalizedPrompt.equals("reset")
+                || normalizedPrompt.equals("reset conversation");
     }
 
     @Transactional

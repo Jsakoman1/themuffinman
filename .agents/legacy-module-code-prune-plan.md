@@ -122,7 +122,6 @@ Likely delete or shrink heavily:
 
 Likely temporary survivors:
 
-- [adminApi.ts](/Users/jsakoman/Desktop/themuffinman/apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts)
 - detail-related clients still backing bridge routes
 
 Reason:

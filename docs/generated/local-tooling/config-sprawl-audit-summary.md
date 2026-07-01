@@ -1,6 +1,6 @@
 # Config Sprawl Audit
 
-- Generated At: `2026-06-29T19:54:59Z`
+- Generated At: `2026-07-01T14:49:39Z`
 ## `at_value_usages`
 
 
@@ -12,4 +12,6 @@
 - `apps/themuffinman/src/main/java/com/themuffinman/app/config/LocationProviderProperties.java`
 - `apps/themuffinman/src/main/java/com/themuffinman/app/config/RetentionProperties.java`
 - `apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityProperties.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/config/VisionProperties.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/config/VoiceProperties.java`
 

@@ -1045,7 +1045,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.AdminApplicationsQueryDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.AdminApplicationsQueryDTO",
     "fields": [
       "q",
       "status",
@@ -1054,7 +1054,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.AdminQuestApplicationUpdateRequestDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.AdminQuestApplicationUpdateRequestDTO",
     "fields": [
       "message",
       "proposedPrice",
@@ -1062,14 +1062,14 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.AppUserRoleOptionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.AppUserRoleOptionDTO",
     "fields": [
       "value",
       "label"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardApplicationGroupDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardApplicationGroupDTO",
     "fields": [
       "key",
       "label",
@@ -1079,7 +1079,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardNavigationItemDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardNavigationItemDTO",
     "fields": [
       "id",
       "title",
@@ -1087,13 +1087,13 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardNavigationSectionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardNavigationSectionDTO",
     "fields": [
       "tabs"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardNotificationItemDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardNotificationItemDTO",
     "fields": [
       "id",
       "type",
@@ -1118,21 +1118,21 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardNotificationsSectionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardNotificationsSectionDTO",
     "fields": [
       "unreadItems",
       "recentItems"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardOpenWorkSectionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardOpenWorkSectionDTO",
     "fields": [
       "waitingQuests",
       "openQuests"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardPlannerItemDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardPlannerItemDTO",
     "fields": [
       "id",
       "questId",
@@ -1147,14 +1147,14 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardPlannerSectionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardPlannerSectionDTO",
     "fields": [
       "scheduledItems",
       "flexibleItems"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardQuestGroupDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardQuestGroupDTO",
     "fields": [
       "key",
       "label",
@@ -1164,7 +1164,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardResponseDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardResponseDTO",
     "fields": [
       "options",
       "summary",
@@ -1180,7 +1180,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardSectionsDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardSectionsDTO",
     "fields": [
       "navigation",
       "recentMyQuests",
@@ -1199,7 +1199,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardSummaryDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardSummaryDTO",
     "fields": [
       "adminModeEnabled",
       "questCount",
@@ -1218,14 +1218,14 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardVisionPromptRequestDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardVisionPromptRequestDTO",
     "fields": [
       "prompt",
       "source"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardVisionPromptResponseDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardVisionPromptResponseDTO",
     "fields": [
       "prompt",
       "normalizedPrompt",
@@ -1240,7 +1240,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardVoiceConfigDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardVoiceConfigDTO",
     "fields": [
       "enabled",
       "speechToTextEnabled",
@@ -1258,13 +1258,13 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardVoiceSpeechRequestDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardVoiceSpeechRequestDTO",
     "fields": [
       "text"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.DashboardVoiceTranscriptionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.DashboardVoiceTranscriptionDTO",
     "fields": [
       "text",
       "provider",
@@ -1272,7 +1272,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDetailContextSectionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestApplicationDetailContextSectionDTO",
     "fields": [
       "questLabel",
       "postedByLabel",
@@ -1282,7 +1282,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDetailNavigationSectionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestApplicationDetailNavigationSectionDTO",
     "fields": [
       "canOpenQuest",
       "canOpenPostedBy",
@@ -1292,7 +1292,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDetailResponseDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestApplicationDetailResponseDTO",
     "fields": [
       "summary",
       "sections",
@@ -1301,7 +1301,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDetailSectionsDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestApplicationDetailSectionsDTO",
     "fields": [
       "quest",
       "navigation",
@@ -1309,7 +1309,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationDraftRulesViewDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestApplicationDraftRulesViewDTO",
     "fields": [
       "messageRequired",
       "proposedPriceRequired",
@@ -1318,7 +1318,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestApplicationListResponseDTO",
     "fields": [
       "items",
       "page",
@@ -1328,7 +1328,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationPresentationDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestApplicationPresentationDTO",
     "fields": [
       "statusLabel",
       "statusBadgeClass",
@@ -1346,7 +1346,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestApplicationResponseDTO",
     "fields": [
       "id",
       "questId",
@@ -1376,14 +1376,14 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationStatusFilterOptionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestApplicationStatusFilterOptionDTO",
     "fields": [
       "value",
       "label"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestApplicationsViewDTO",
     "fields": [
       "featuredApplication",
       "approvedApplications",
@@ -1398,14 +1398,14 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestAudienceFilterOptionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestAudienceFilterOptionDTO",
     "fields": [
       "value",
       "label"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestAudienceOptionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestAudienceOptionDTO",
     "fields": [
       "value",
       "label",
@@ -1413,7 +1413,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailExecutionSectionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestDetailExecutionSectionDTO",
     "fields": [
       "visible",
       "primaryAction",
@@ -1422,7 +1422,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailManagementSectionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestDetailManagementSectionDTO",
     "fields": [
       "editVisible",
       "deleteVisible",
@@ -1432,13 +1432,13 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailNavigationSectionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestDetailNavigationSectionDTO",
     "fields": [
       "listNavigation"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailResponseDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestDetailResponseDTO",
     "fields": [
       "summary",
       "sections",
@@ -1448,7 +1448,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailReviewSectionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestDetailReviewSectionDTO",
     "fields": [
       "visible",
       "canSubmit",
@@ -1462,7 +1462,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailReviewTargetDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestDetailReviewTargetDTO",
     "fields": [
       "userId",
       "username",
@@ -1470,7 +1470,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailSectionsDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestDetailSectionsDTO",
     "fields": [
       "navigation",
       "myApplication",
@@ -1482,7 +1482,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestDetailTermChangeSectionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestDetailTermChangeSectionDTO",
     "fields": [
       "visible",
       "actionable",
@@ -1498,7 +1498,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestListResponseDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestListResponseDTO",
     "fields": [
       "items",
       "page",
@@ -1508,7 +1508,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO",
     "fields": [
       "id",
       "type",
@@ -1536,7 +1536,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestPresentationDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestPresentationDTO",
     "fields": [
       "statusLabel",
       "statusBadgeClass",
@@ -1580,7 +1580,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestRequestDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestRequestDTO",
     "fields": [
       "assigneeTarget",
       "showApprovedApplicants",
@@ -1603,7 +1603,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestResponseDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestResponseDTO",
     "fields": [
       "id",
       "creatorId",
@@ -1650,7 +1650,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestSearchDefaultsDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestSearchDefaultsDTO",
     "fields": [
       "defaultSort",
       "defaultRadiusKm",
@@ -1660,7 +1660,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestSearchRequestDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestSearchRequestDTO",
     "fields": [
       "q",
       "status",
@@ -1679,35 +1679,35 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestSortOptionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestSortOptionDTO",
     "fields": [
       "value",
       "label"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestStatusFilterOptionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestStatusFilterOptionDTO",
     "fields": [
       "value",
       "label"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.QuestStatusOptionDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.QuestStatusOptionDTO",
     "fields": [
       "value",
       "label"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.UserRatingSummaryDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.UserRatingSummaryDTO",
     "fields": [
       "averageStars",
       "reviewCount"
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.UserReviewRequestDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.UserReviewRequestDTO",
     "fields": [
       "reviewedUserId",
       "stars",
@@ -1715,7 +1715,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.UserReviewResponseDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.UserReviewResponseDTO",
     "fields": [
       "id",
       "questId",
@@ -1732,7 +1732,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.WorkmarketOptionsDTO",
     "fields": [
       "appUserRoles",
       "questStatusFilters",

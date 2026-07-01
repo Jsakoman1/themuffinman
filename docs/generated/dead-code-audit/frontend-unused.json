@@ -1,66 +1,24 @@
 {
-  "generated_at": "2026-06-29T19:54:46Z",
-  "files_scanned": 233,
+  "generated_at": "2026-07-01T14:49:24Z",
+  "files_scanned": 146,
   "likely_unused_files": [
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
-      "basename": "UiAmountField",
-      "refs": 0,
+      "file": "apps/themuffinman/frontend/src/composables/useDialogActionState.ts",
+      "basename": "useDialogActionState",
+      "refs": 1,
       "route_refs": 0,
       "status": "likely_unused"
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue",
-      "basename": "UiDashboardPage",
-      "refs": 0,
+      "file": "apps/themuffinman/frontend/src/httpDebug.ts",
+      "basename": "httpDebug",
+      "refs": 1,
       "route_refs": 0,
       "status": "likely_unused"
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiLaunchCard.vue",
-      "basename": "UiLaunchCard",
-      "refs": 0,
-      "route_refs": 0,
-      "status": "likely_unused"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiMetricPills.vue",
-      "basename": "UiMetricPills",
-      "refs": 0,
-      "route_refs": 0,
-      "status": "likely_unused"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiReadonlyField.vue",
-      "basename": "UiReadonlyField",
-      "refs": 0,
-      "route_refs": 0,
-      "status": "likely_unused"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiSplitLayout.vue",
-      "basename": "UiSplitLayout",
-      "refs": 0,
-      "route_refs": 0,
-      "status": "likely_unused"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "basename": "QuestEditFields",
-      "refs": 0,
-      "route_refs": 0,
-      "status": "likely_unused"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/shared/questNews.ts",
-      "basename": "questNews",
-      "refs": 0,
-      "route_refs": 0,
-      "status": "likely_unused"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/lib/dashboardCalendar.ts",
-      "basename": "dashboardCalendar",
+      "file": "apps/themuffinman/frontend/src/lib/dialogFlow.ts",
+      "basename": "dialogFlow",
       "refs": 1,
       "route_refs": 0,
       "status": "likely_unused"
@@ -94,8 +52,50 @@
       "status": "likely_unused"
     },
     {
-      "file": "apps/themuffinman/frontend/src/styles/base.css",
-      "basename": "base",
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "basename": "useVisionSurface",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersDataState.ts",
+      "basename": "createAppUsersDataState",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersFormState.ts",
+      "basename": "createAppUsersFormState",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersSearchState.ts",
+      "basename": "createAppUsersSearchState",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersUiState.ts",
+      "basename": "createAppUsersUiState",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestSearchResults.ts",
+      "basename": "useQuestSearchResults",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
+      "basename": "applicationDraft",
       "refs": 1,
       "route_refs": 0,
       "status": "likely_unused"

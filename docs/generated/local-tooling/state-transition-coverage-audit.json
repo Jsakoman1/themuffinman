@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:54:50Z",
+  "generated_at": "2026-07-01T14:49:30Z",
   "transitions": [
     {
       "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java",
@@ -12,7 +12,83 @@
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "action": "detectedIntent == VisionIntent.UNSUPPORTED\n                        ? VisionConversationStatus.BLOCKED\n                        : VisionConversationStatus.ACTIVE",
+      "target": "detectedIntent == VisionIntent.UNSUPPORTED\n                        ? VisionConversationStatus.BLOCKED\n                        : VisionConversationStatus.ACTIVE",
+      "scenario_test": false,
+      "contract_test": false,
+      "unit_refs": [
+
+      ]
+    },
+    {
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "action": "conversation.getIntent(",
+      "target": "conversation.getIntent(",
+      "scenario_test": false,
+      "contract_test": false,
+      "unit_refs": [
+
+      ]
+    },
+    {
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "action": "VisionConversationStatus.ACTIVE",
+      "target": "VisionConversationStatus.ACTIVE",
+      "scenario_test": false,
+      "contract_test": false,
+      "unit_refs": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionConversationTestBuilder.java"
+      ]
+    },
+    {
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "action": "completeQuest",
+      "target": "VisionConversationStatus.COMPLETED",
+      "scenario_test": true,
+      "contract_test": true,
+      "unit_refs": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java"
+      ]
+    },
+    {
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "action": "status",
+      "target": "status",
+      "scenario_test": false,
+      "contract_test": false,
+      "unit_refs": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/WorkflowStateMachineCatalogTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationDebugStatusAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/testing/TestFixtures.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationResolutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionConversationTestBuilder.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java"
+      ]
+    },
+    {
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "action": "VisionConversationStatus.BLOCKED",
+      "target": "VisionConversationStatus.BLOCKED",
+      "scenario_test": false,
+      "contract_test": false,
+      "unit_refs": [
+
+      ]
+    },
+    {
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminService.java",
       "action": "reopenQuest",
       "target": "QuestStatus.OPEN",
       "scenario_test": false,
@@ -22,18 +98,18 @@
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminService.java",
       "action": "withdrawMyApplication",
       "target": "QuestApplicationStatus.WITHDRAWN",
       "scenario_test": false,
       "contract_test": true,
       "unit_refs": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java"
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "action": "newStatus",
       "target": "newStatus",
       "scenario_test": false,
@@ -43,21 +119,22 @@
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "action": "QuestStatus.ASSIGNED",
       "target": "QuestStatus.ASSIGNED",
       "scenario_test": true,
       "contract_test": true,
       "unit_refs": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardSummaryAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java"
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "action": "reopenQuest",
       "target": "QuestStatus.OPEN",
       "scenario_test": false,
@@ -67,42 +144,44 @@
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "action": "QuestStatus.WAITING_CONFIRMATION",
       "target": "QuestStatus.WAITING_CONFIRMATION",
       "scenario_test": true,
       "contract_test": true,
       "unit_refs": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardSummaryAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java"
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "action": "quest.getTermChangePreviousStatus(",
       "target": "quest.getTermChangePreviousStatus(",
       "scenario_test": false,
       "contract_test": false,
       "unit_refs": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java"
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "action": "QuestApplicationStatus.PENDING",
       "target": "QuestApplicationStatus.PENDING",
       "scenario_test": false,
       "contract_test": true,
       "unit_refs": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardSummaryAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java"
       ]
     }
   ],
@@ -118,7 +197,71 @@
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "action": "detectedIntent == VisionIntent.UNSUPPORTED\n                        ? VisionConversationStatus.BLOCKED\n                        : VisionConversationStatus.ACTIVE",
+      "target": "detectedIntent == VisionIntent.UNSUPPORTED\n                        ? VisionConversationStatus.BLOCKED\n                        : VisionConversationStatus.ACTIVE",
+      "scenario_test": false,
+      "contract_test": false,
+      "unit_refs": [
+
+      ]
+    },
+    {
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "action": "conversation.getIntent(",
+      "target": "conversation.getIntent(",
+      "scenario_test": false,
+      "contract_test": false,
+      "unit_refs": [
+
+      ]
+    },
+    {
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "action": "VisionConversationStatus.ACTIVE",
+      "target": "VisionConversationStatus.ACTIVE",
+      "scenario_test": false,
+      "contract_test": false,
+      "unit_refs": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionConversationTestBuilder.java"
+      ]
+    },
+    {
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "action": "status",
+      "target": "status",
+      "scenario_test": false,
+      "contract_test": false,
+      "unit_refs": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/WorkflowStateMachineCatalogTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationDebugStatusAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/testing/TestFixtures.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationResolutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionConversationTestBuilder.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java"
+      ]
+    },
+    {
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "action": "VisionConversationStatus.BLOCKED",
+      "target": "VisionConversationStatus.BLOCKED",
+      "scenario_test": false,
+      "contract_test": false,
+      "unit_refs": [
+
+      ]
+    },
+    {
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminService.java",
       "action": "reopenQuest",
       "target": "QuestStatus.OPEN",
       "scenario_test": false,
@@ -128,18 +271,18 @@
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminService.java",
       "action": "withdrawMyApplication",
       "target": "QuestApplicationStatus.WITHDRAWN",
       "scenario_test": false,
       "contract_test": true,
       "unit_refs": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java"
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "action": "newStatus",
       "target": "newStatus",
       "scenario_test": false,
@@ -149,7 +292,7 @@
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "action": "reopenQuest",
       "target": "QuestStatus.OPEN",
       "scenario_test": false,
@@ -159,29 +302,30 @@
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "action": "quest.getTermChangePreviousStatus(",
       "target": "quest.getTermChangePreviousStatus(",
       "scenario_test": false,
       "contract_test": false,
       "unit_refs": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java"
       ]
     },
     {
-      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "service_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "action": "QuestApplicationStatus.PENDING",
       "target": "QuestApplicationStatus.PENDING",
       "scenario_test": false,
       "contract_test": true,
       "unit_refs": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardSummaryAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestAccessPolicyServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java"
       ]
     }
   ]

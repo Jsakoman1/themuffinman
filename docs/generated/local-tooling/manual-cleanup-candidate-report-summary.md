@@ -1,21 +1,18 @@
 # Manual Cleanup Candidate Report
 
-- Generated At: `2026-06-29T19:55:00Z`
+- Generated At: `2026-07-01T14:49:40Z`
 ## `shortlist`
 
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/components/ui/UiLaunchCard.vue"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/components/ui/UiMetricPills.vue"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/components/ui/UiReadonlyField.vue"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/components/ui/UiSplitLayout.vue"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/shared/questNews.ts"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/lib/dashboardCalendar.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/composables/useDialogActionState.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/httpDebug.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/lib/dialogFlow.ts"}`
 - `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/lib/questListPagination.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/social/composables/circles/circlePagination.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/social/composables/circles/circleSelection.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersDataState.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersFormState.ts"}`
 - `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java"}`
 - `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java"}`
-- `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/security/RepositoryUserDetailsService.java"}`
-- `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleCandidateDTO.java"}`
-- `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsRetentionService.java"}`
 

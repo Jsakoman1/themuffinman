@@ -1,7 +1,20 @@
 {
-  "generated_at": "2026-06-30T10:53:31Z",
+  "generated_at": "2026-07-01T14:47:52Z",
   "endpoint_family": "agent",
   "endpoints": [
+    {
+      "method": "POST",
+      "path": "/admin/agent/execute",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java",
+      "dtos": [
+        "AdminAgentPlaygroundResponseDTO",
+        "AdminAgentPlaygroundRequestDTO",
+        "AdminAgentSimulationResponseDTO",
+        "AdminAgentSimulationRequestDTO",
+        "AdminAgentExecutionResponseDTO",
+        "AdminAgentExecutionRequestDTO"
+      ]
+    },
     {
       "method": "POST",
       "path": "/admin/agent/playground",
@@ -10,7 +23,9 @@
         "AdminAgentPlaygroundResponseDTO",
         "AdminAgentPlaygroundRequestDTO",
         "AdminAgentSimulationResponseDTO",
-        "AdminAgentSimulationRequestDTO"
+        "AdminAgentSimulationRequestDTO",
+        "AdminAgentExecutionResponseDTO",
+        "AdminAgentExecutionRequestDTO"
       ]
     },
     {
@@ -21,11 +36,15 @@
         "AdminAgentPlaygroundResponseDTO",
         "AdminAgentPlaygroundRequestDTO",
         "AdminAgentSimulationResponseDTO",
-        "AdminAgentSimulationRequestDTO"
+        "AdminAgentSimulationRequestDTO",
+        "AdminAgentExecutionResponseDTO",
+        "AdminAgentExecutionRequestDTO"
       ]
     }
   ],
   "dto_files": [
+    "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java",
@@ -35,29 +54,27 @@
     {
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "matched_paths": [
+        "execute",
         "playground",
         "simulate"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+      "file": "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts",
       "matched_paths": [
-        "playground"
+        "execute"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionReviewSummaryBlock.vue",
       "matched_paths": [
-        "/admin/agent/playground",
-        "playground",
-        "/admin/agent/simulate",
-        "simulate"
+        "execute"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
       "matched_paths": [
-        "playground"
+        "execute"
       ]
     }
   ],

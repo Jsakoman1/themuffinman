@@ -1,43 +1,19 @@
 {
-  "generated_at": "2026-06-29T19:54:50Z",
+  "generated_at": "2026-07-01T14:49:30Z",
   "frontend_likely_unused_count": 19,
   "backend_high_confidence_count": 5,
   "shortlist": [
     {
       "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue"
+      "file": "apps/themuffinman/frontend/src/composables/useDialogActionState.ts"
     },
     {
       "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue"
+      "file": "apps/themuffinman/frontend/src/httpDebug.ts"
     },
     {
       "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/components/ui/UiLaunchCard.vue"
-    },
-    {
-      "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/components/ui/UiMetricPills.vue"
-    },
-    {
-      "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/components/ui/UiReadonlyField.vue"
-    },
-    {
-      "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/components/ui/UiSplitLayout.vue"
-    },
-    {
-      "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue"
-    },
-    {
-      "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/shared/questNews.ts"
-    },
-    {
-      "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/lib/dashboardCalendar.ts"
+      "file": "apps/themuffinman/frontend/src/lib/dialogFlow.ts"
     },
     {
       "kind": "frontend",
@@ -57,7 +33,31 @@
     },
     {
       "kind": "frontend",
-      "file": "apps/themuffinman/frontend/src/styles/base.css"
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersDataState.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersFormState.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersSearchState.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersUiState.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestSearchResults.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts"
     },
     {
       "kind": "frontend",
@@ -81,7 +81,7 @@
     },
     {
       "kind": "backend",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsRetentionService.java"
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsRetentionService.java"
     }
   ]
 }

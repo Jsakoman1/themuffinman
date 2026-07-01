@@ -8,7 +8,7 @@ Owns chat API access, shared chat composable state, and the standalone chat work
 
 - API: `api/chatApi.ts`
 - Composable: `composables/useAppChat.ts`
-- View: `views/ChatWorkspaceView.vue`
+- Vision route: `modules/vision/views/VisionChatWorkspaceView.vue`
 
 ## Validation
 
@@ -24,4 +24,4 @@ Owns chat API access, shared chat composable state, and the standalone chat work
 
 - Do not fork chat state between multiple frontend entry surfaces.
 - Do not create frontend-only access rules for conversations.
-- Do not assume chat belongs only to workmarket routes.
+- Do not assume chat belongs only to one product route family.

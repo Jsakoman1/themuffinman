@@ -1,15 +1,15 @@
 package com.themuffinman.app.identity.service;
 
 import com.themuffinman.app.identity.dto.AppUserRequestDTO;
-import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.location.service.LocationSettingsService;
-import com.themuffinman.app.workmarket.model.Quest;
-import com.themuffinman.app.workmarket.model.QuestStatus;
+import com.themuffinman.app.vision.model.Quest;
+import com.themuffinman.app.vision.model.QuestStatus;
 import com.themuffinman.app.identity.repository.AppUserRepository;
-import com.themuffinman.app.workmarket.mapper.QuestMgr;
-import com.themuffinman.app.workmarket.repository.QuestRepository;
+import com.themuffinman.app.vision.mapper.QuestMgr;
+import com.themuffinman.app.vision.repository.QuestRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

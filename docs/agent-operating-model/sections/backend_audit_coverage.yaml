@@ -85,7 +85,7 @@ backend_audit_coverage:
     - id: workmarket
       owner_id: workmarket_domain
       path_prefixes:
-        - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/vision/
     - id: platform
       owner_id: platform_core
       file_names:
@@ -140,7 +140,7 @@ backend_audit_coverage:
         - apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/
         - apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/
         - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/
-        - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/
+        - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/
     - id: executor_mapper_surface
       tier: executor_critical
       path_contains_any:
@@ -294,7 +294,7 @@ backend_audit_coverage:
         - QuestSortOptionDTO.java
         - QuestStatusFilterOptionDTO.java
         - QuestStatusOptionDTO.java
-        - WorkmarketOptionsDTO.java
+        - VisionOptionsDTO.java
     - id: workmarket_news_read_model_dto_surface
       tier: automation_relevant
       file_names:

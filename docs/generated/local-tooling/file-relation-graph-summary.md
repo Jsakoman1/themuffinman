@@ -1,27 +1,19 @@
 # File Relation Graph
 
-- Generated At: `2026-06-29T19:55:00Z`
-- Edge Count: `1625`
+- Generated At: `2026-07-01T14:49:41Z`
+- Edge Count: `1365`
 ## `edges`
 
 - `{:from: "AdminAgentController", :to: "AdminAgentPlaygroundRequestDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"}`
 - `{:from: "AdminAgentController", :to: "AdminAgentPlaygroundResponseDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"}`
+- `{:from: "AdminAgentController", :to: "AdminAgentExecutionRequestDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"}`
+- `{:from: "AdminAgentController", :to: "AdminAgentExecutionResponseDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"}`
 - `{:from: "AdminAgentController", :to: "AdminAgentSimulationRequestDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"}`
 - `{:from: "AdminAgentController", :to: "AdminAgentSimulationResponseDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"}`
+- `{:from: "AdminAgentController", :to: "AdminAgentExecutionService", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"}`
 - `{:from: "AdminAgentController", :to: "AdminAgentPlaygroundService", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"}`
+- `{:from: "AdminAgentExecutionRequestDTO", :to: "AdminAgentExecutionRequestDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionRequestDTO.java"}`
+- `{:from: "AdminAgentExecutionResponseDTO", :to: "AdminAgentExecutionResponseDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionResponseDTO.java"}`
 - `{:from: "AdminAgentPlaygroundRequestDTO", :to: "AdminAgentPlaygroundRequestDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java"}`
 - `{:from: "AdminAgentPlaygroundResponseDTO", :to: "AdminAgentPlaygroundResponseDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"}`
-- `{:from: "AdminAgentPlaygroundResponseDTO", :to: "AgentResolutionRequirementDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"}`
-- `{:from: "AdminAgentPlaygroundResponseDTO", :to: "AgentClarificationContractDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"}`
-- `{:from: "AdminAgentPlaygroundResponseDTO", :to: "AgentExecutionReadinessDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"}`
-- `{:from: "AdminAgentSimulationRequestDTO", :to: "AdminAgentSimulationRequestDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java"}`
-- `{:from: "AdminAgentSimulationResponseDTO", :to: "AdminAgentSimulationResponseDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"}`
-- `{:from: "AdminAgentSimulationResponseDTO", :to: "AgentResolutionConfidenceDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"}`
-- `{:from: "AdminAgentSimulationResponseDTO", :to: "AgentCapabilityAssessmentDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"}`
-- `{:from: "AdminAgentSimulationResponseDTO", :to: "AgentIntentLineageDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"}`
-- `{:from: "AdminAgentSimulationResponseDTO", :to: "AgentEndpointPlanDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"}`
-- `{:from: "AdminAgentSimulationResponseDTO", :to: "AgentClarificationContractDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"}`
-- `{:from: "AdminAgentSimulationResponseDTO", :to: "AgentExecutionReadinessDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"}`
-- `{:from: "AgentCapabilityAssessmentDTO", :to: "AgentCapabilityAssessmentDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentCapabilityAssessmentDTO.java"}`
-- `{:from: "AgentClarificationContractDTO", :to: "AgentClarificationContractDTO", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentClarificationContractDTO.java"}`
 

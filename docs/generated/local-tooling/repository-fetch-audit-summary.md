@@ -1,7 +1,7 @@
 # Repository Fetch Audit
 
-- Generated at: `2026-06-30T10:54:35Z`
-- Repository methods scanned: `100`
+- Generated at: `2026-07-01T14:49:22Z`
+- Repository methods scanned: `104`
 - High risk: `0`
 - Medium risk: `10`
 
@@ -19,6 +19,6 @@
 - `UserReviewRepository.findByQuestIdAndReviewerIdAndReviewedUserId` | risk=`medium` | query=`derived_query` | fetch=none | lazy=none
 - `AppUserRepository.countByLocationLatitudeIsNotNullAndLocationLongitudeIsNotNull` | risk=`low` | query=`derived_query` | fetch=none | lazy=none
 - `AppUserRepository.countByLocationProviderPlaceIdIsNotNull` | risk=`low` | query=`derived_query` | fetch=none | lazy=none
-- ... 88 more methods
+- ... 92 more methods
 
 ## High-risk sample

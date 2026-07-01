@@ -1,24 +1,34 @@
 {
-  "generated_at": "2026-06-30T11:28:35Z",
+  "generated_at": "2026-07-01T14:49:44Z",
   "backend_fields": [
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentExecutionService.java",
+      "line": 97,
+      "snippet": ".description(buildQuestDescription(plan.getTopic(), targetUser, index + 1, effectiveCount))"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentExecutionService.java",
+      "line": 175,
+      "snippet": "private String buildQuestDescription(String topic, AppUser targetUser, int itemIndex, int totalCount) {"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "line": 158,
+      "line": 182,
       "snippet": "warnings.add(\"Batch quest generation must keep titles and descriptions meaningfully unique.\");"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "line": 163,
+      "line": 189,
       "snippet": "unresolvedInputs.add(\"unique quest descriptions\");"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "line": 695,
+      "line": 760,
       "snippet": "|| normalizedPrompt.contains(\"change my bio\")"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "line": 700,
+      "line": 765,
       "snippet": "|| normalizedPrompt.contains(\"promijeni moj bio\")"
     },
     {
@@ -262,262 +272,427 @@
       "snippet": "listing.setDescription(RichTextInputValidator.sanitize(dto.getDescription()));"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java",
-      "line": 15,
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryItemDTO.java",
+      "line": 20,
       "snippet": "private String description;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java",
-      "line": 25,
-      "snippet": "private String questDescription;"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java",
-      "line": 38,
-      "snippet": "private String applicantProfileDescription;"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceOptionDTO.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestReviewDTO.java",
       "line": 16,
       "snippet": "private String description;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestRequestDTO.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionReviewTarget.java",
+      "line": 5,
+      "snippet": "DESCRIPTION(\"quest_description\"),"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "line": 174,
+      "snippet": "addSummary(summaries, \"quest_description\", \"Description\", slotData.get(\"quest_description\"));"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "line": 272,
+      "snippet": ".description(slotData.get(\"quest_description\"))"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "line": 305,
+      "snippet": "case \"quest_description\" -> \"Description\";"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "line": 320,
+      "snippet": "case \"quest_description\" -> \"long_text\";"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "line": 334,
+      "snippet": "case \"quest_description\" -> \"Describe the task clearly\";"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java",
+      "line": 13,
+      "snippet": "\"quest_description\","
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java",
+      "line": 57,
+      "snippet": "case \"quest_description\" -> \"Describe the task in one or two clear sentences.\";"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "line": 343,
+      "snippet": "case \"quest_description\" -> \"Description\";"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java",
+      "line": 30,
+      "snippet": "String description = required(slotData, \"quest_description\");"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java",
+      "line": 35,
+      "snippet": ".description(description)"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingResult.java",
+      "line": 57,
+      "snippet": "putIfExplicit(flattened, \"quest_description\", slots.getQuestDescription(), slots.getQuestDescriptionConfidence());"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingResult.java",
+      "line": 114,
+      "snippet": "private String questDescription;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingResult.java",
+      "line": 115,
+      "snippet": "private Double questDescriptionConfidence;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
+      "line": 164,
+      "snippet": "questTitle, questTitleConfidence, questDescription, questDescriptionConfidence, visibility, visibilityConfidence, reward.freeQuest, reward.freeQuestConfidence, reward.amount, reward.amountConfidence, schedule.mode, schedule.modeConfidence, schedule.scheduledDate, schedule.scheduledDateConfidence, schedule.scheduledTime, schedule.scheduledTimeConfidence, location.mode, location.modeConfidence, location.label, location.labelConfidence, location.candidateConfirmation, location.candidateConfirmationConfidence."
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
+      "line": 166,
+      "snippet": "Use these focus slot ids only: quest_title, quest_description, reward_amount, visibility, schedule_mode, scheduled_date, scheduled_time, location_mode, location_label, location_candidate_confirmation."
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
+      "line": 203,
+      "snippet": "\"questDescription\": \"Need help moving a sofa\","
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
+      "line": 204,
+      "snippet": "\"questDescriptionConfidence\": 1.0,"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java",
+      "line": 88,
+      "snippet": ".description(quest.getDescription())"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "line": 49,
+      "snippet": "} else if (\"quest_description\".equals(requestedSlot) && !merged.containsKey(\"quest_description\")) {"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "line": 50,
+      "snippet": "merged.put(\"quest_description\", normalizedPrompt.trim());"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "line": 139,
+      "snippet": "if (!merged.containsKey(\"quest_description\") && shouldAutoFillDescription(prompt, requestedSlot, focusSlotId)) {"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "line": 140,
+      "snippet": "merged.put(\"quest_description\", prompt);"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "line": 196,
+      "snippet": "applySemanticDescription(merged, extractedSlots.get(\"quest_description\"), normalizedPrompt, focusSlotId);"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "line": 210,
+      "snippet": "private void applySemanticDescription(Map<String, String> merged, String description, String normalizedPrompt, String focusSlotId) {"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "line": 211,
+      "snippet": "if (description == null || description.isBlank()) {"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "line": 214,
+      "snippet": "merged.put(\"quest_description\", description.trim());"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "line": 305,
+      "snippet": "private boolean shouldAutoFillDescription(String normalizedPrompt, String requestedSlot, String focusSlotId) {"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "line": 306,
+      "snippet": "if (focusSlotId != null && \"quest_description\".equals(focusSlotId)) {"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "line": 309,
+      "snippet": "if (\"quest_description\".equals(requestedSlot)) {"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "line": 313,
+      "snippet": "return containsAny(lower, \"need\", \"looking for\", \"help\", \"task\", \"description\", \"quest\", \"i want\", \"i need\");"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationItemDTO.java",
+      "line": 15,
+      "snippet": "private String description;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationResponseDTO.java",
+      "line": 25,
+      "snippet": "private String questDescription;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationResponseDTO.java",
+      "line": 38,
+      "snippet": "private String applicantProfileDescription;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAudienceOptionDTO.java",
+      "line": 16,
+      "snippet": "private String description;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestRequestDTO.java",
       "line": 33,
       "snippet": "private @NotBlank(message = \"Quest description is required\") @Size(max = 2000, message = \"Quest description must be 2000 characters or less\") String description;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestResponseDTO.java",
       "line": 27,
       "snippet": "private String creatorProfileDescription;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestResponseDTO.java",
       "line": 37,
       "snippet": "private String description;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewRequestDTO.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/UserReviewRequestDTO.java",
       "line": 15,
       "snippet": "private String comment;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewResponseDTO.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/UserReviewResponseDTO.java",
       "line": 28,
       "snippet": "private String comment;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestApplicationMgr.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestApplicationMgr.java",
       "line": 49,
       "snippet": ".questDescription(application.getQuest().getDescription())"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestApplicationMgr.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestApplicationMgr.java",
       "line": 57,
       "snippet": ".applicantProfileDescription(RichTextInputValidator.sanitize(application.getApplicant().getProfileDescription()))"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java",
       "line": 33,
       "snippet": ".creatorProfileDescription(RichTextInputValidator.sanitize(quest.getCreator().getProfileDescription()))"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java",
       "line": 47,
       "snippet": ".description(RichTextInputValidator.sanitize(quest.getDescription()))"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java",
       "line": 114,
       "snippet": "quest.setDescription(RichTextInputValidator.sanitize(dto.getDescription()));"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/UserReviewMgr.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/UserReviewMgr.java",
       "line": 30,
       "snippet": ".comment(review.getComment())"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/Quest.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java",
       "line": 37,
       "snippet": "private String description;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/UserReview.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/UserReview.java",
       "line": 48,
       "snippet": "private String comment;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionsFactory.java",
       "line": 118,
       "snippet": ".description(\"See scheduled work and open days\")"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionsFactory.java",
       "line": 123,
       "snippet": ".description(\"Offer jobs, track applications, and open the right flow when needed\")"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestQueryService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestQueryService.java",
       "line": 74,
       "snippet": "|| safeLower(quest.getDescription()).contains(query)"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestQueryService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestQueryService.java",
       "line": 221,
       "snippet": "String description = safeLower(quest.getDescription());"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestQueryService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestQueryService.java",
       "line": 233,
       "snippet": "if (description.contains(normalizedQuery)) {"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestUpdateService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestUpdateService.java",
       "line": 47,
       "snippet": "quest.setDescription(questValidationService.normalizeQuestRichText(dto.getDescription()));"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestValidationService.java",
       "line": 51,
       "snippet": "validateQuestDescription(dto.getDescription());"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestValidationService.java",
       "line": 145,
       "snippet": "private void validateQuestDescription(String description) {"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestValidationService.java",
       "line": 146,
       "snippet": "if (!RichTextInputValidator.hasContent(description)) {"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestValidationService.java",
       "line": 147,
       "snippet": "throw ServiceErrors.badRequest(\"Quest description is required\");"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
       "line": 81,
       "snippet": ".placeholder(\"Add a short comment.\")"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
       "line": 94,
       "snippet": ".placeholder(\"Add a short comment.\")"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
       "line": 113,
       "snippet": ".placeholder(\"Write a short comment about this \" + target.getRoleLabel() + \".\")"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "line": 30,
       "snippet": "private static final int MAX_COMMENT_LENGTH = 500;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "line": 64,
       "snippet": "review.setComment(normalizeComment(dto.getComment()));"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "line": 127,
       "snippet": "String normalizedComment = normalizeComment(dto.getComment());"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "line": 128,
       "snippet": "if (normalizedComment != null && normalizedComment.length() > MAX_COMMENT_LENGTH) {"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "line": 129,
       "snippet": "throw ServiceErrors.badRequest(\"Comment must be at most 500 characters\");"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "line": 133,
       "snippet": "private String normalizeComment(String comment) {"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "line": 134,
       "snippet": "String normalizedComment = RichTextInputValidator.extractPlainText(comment);"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "line": 135,
       "snippet": "if (normalizedComment.isBlank()) {"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "line": 139,
       "snippet": "return normalizedComment;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 74,
       "snippet": ".description(\"Visible to selected circles\")"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 79,
       "snippet": ".description(\"Visible to everyone on the platform\")"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 100,
       "snippet": "LocationModeOptionDTO.builder().value(UserLocationMode.OFF).label(\"Off\").description(\"Do not use my location\").build(),"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 101,
       "snippet": "LocationModeOptionDTO.builder().value(UserLocationMode.APPROXIMATE).label(\"Approximate area\").description(\"Use your area for nearby job search\").build(),"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 102,
       "snippet": "LocationModeOptionDTO.builder().value(UserLocationMode.EXACT).label(\"Exact address\").description(\"Use your exact address when you allow it\").build()"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 105,
       "snippet": "ExactLocationVisibilityScopeOptionDTO.builder().value(ExactLocationVisibilityScope.NOBODY).label(\"Nobody\").description(\"Keep exact address private\").build(),"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 106,
       "snippet": "ExactLocationVisibilityScopeOptionDTO.builder().value(ExactLocationVisibilityScope.EVERYONE).label(\"Everyone\").description(\"Anyone who can view your job can see the exact address\").build(),"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 107,
       "snippet": "ExactLocationVisibilityScopeOptionDTO.builder().value(ExactLocationVisibilityScope.CIRCLES).label(\"Selected circles\").description(\"Only people from selected circles can see the exact address\").build(),"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 108,
       "snippet": "ExactLocationVisibilityScopeOptionDTO.builder().value(ExactLocationVisibilityScope.USERS).label(\"Selected people\").description(\"Only selected people can see the exact address\").build()"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 111,
       "snippet": "QuestLocationVisibilityOptionDTO.builder().value(QuestLocationVisibility.INHERIT).label(\"Use profile default\").description(\"Follow your profile location setting\").build(),"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 112,
       "snippet": "QuestLocationVisibilityOptionDTO.builder().value(QuestLocationVisibility.OFF).label(\"Hide location\").description(\"Do not attach location to this quest\").build(),"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 113,
       "snippet": "QuestLocationVisibilityOptionDTO.builder().value(QuestLocationVisibility.APPROXIMATE).label(\"Approximate area\").description(\"Show only the wider quest area\").build(),"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "line": 114,
       "snippet": "QuestLocationVisibilityOptionDTO.builder().value(QuestLocationVisibility.EXACT).label(\"Exact address\").description(\"Show the exact quest address when allowed\").build()"
     }
@@ -604,34 +779,24 @@
       "snippet": "<ProfileBio :text=\"description\" :placeholder=\"descriptionPlaceholder\" />"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "line": 6,
-      "snippet": "import ProfileBio from \"../../../../components/profile/ProfileBio.vue\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
       "line": 7,
-      "snippet": "import {richTextHasContent} from \"../../../../shared/richText.ts\""
+      "snippet": "import ProfileBio from \"../../../components/profile/ProfileBio.vue\""
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "line": 201,
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "line": 8,
+      "snippet": "import {richTextHasContent} from \"../../../shared/richText.ts\""
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "line": 313,
       "snippet": "<ProfileBio"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "line": 202,
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "line": 314,
       "snippet": "v-if=\"richTextHasContent(myApplication.message)\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestSummaryRow.vue",
-      "line": 3,
-      "snippet": "import {richTextToPlainText} from \"../../../../shared/richText.ts\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestSummaryRow.vue",
-      "line": 33,
-      "snippet": "const descriptionText = computed(() => richTextToPlainText(props.description ?? \"\"))"
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue",
@@ -792,26 +957,6 @@
       "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
       "line": 14,
       "snippet": "if (rules?.messageRequired !== false && !richTextHasContent(message)) {"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 9,
-      "snippet": "import ProfileBio from \"../../../components/profile/ProfileBio.vue\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 10,
-      "snippet": "import {richTextHasContent} from \"../../../shared/richText.ts\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 317,
-      "snippet": "<ProfileBio"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 318,
-      "snippet": "v-if=\"richTextHasContent(myApplication.message)\""
     },
     {
       "file": "apps/themuffinman/frontend/src/shared/profileFormatting.ts",

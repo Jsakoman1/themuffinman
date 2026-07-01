@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T11:19:54Z",
+  "generated_at": "2026-07-01T14:49:21Z",
   "mapper_count": 10,
   "mapper_usages": [
     {
@@ -210,7 +210,7 @@
     },
     {
       "mapper": "QuestApplicationMgr",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestApplicationMgr.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestApplicationMgr.java",
       "domain": "workmarket",
       "methods": [
         "toDto",
@@ -224,28 +224,28 @@
       "usage_count": 4,
       "callers": [
         {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplyForQuestUseCase.java",
           "caller_class": "ApplyForQuestUseCase",
           "caller_method": "execute",
           "classification": "supporting",
           "mapper_method": "toEntity"
         },
         {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
           "caller_class": "QuestApplicationViewAssembler",
           "caller_method": "toApplicantResponse",
           "classification": "read_oriented",
           "mapper_method": "toDto"
         },
         {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
           "caller_class": "QuestApplicationViewAssembler",
           "caller_method": "toManagementResponse",
           "classification": "read_oriented",
           "mapper_method": "toDto"
         },
         {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
           "caller_class": "QuestApplicationViewAssembler",
           "caller_method": "toPublicResponse",
           "classification": "read_oriented",
@@ -255,7 +255,7 @@
     },
     {
       "mapper": "QuestMgr",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java",
       "domain": "workmarket",
       "methods": [
         "toDto",
@@ -270,21 +270,21 @@
       "usage_count": 3,
       "callers": [
         {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CreateQuestUseCase.java",
           "caller_class": "CreateQuestUseCase",
           "caller_method": "execute",
           "classification": "supporting",
           "mapper_method": "toEntity"
         },
         {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
           "caller_class": "QuestViewAssembler",
           "caller_method": "toResponse",
           "classification": "read_oriented",
           "mapper_method": "toDto"
         },
         {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
           "caller_class": "QuestViewAssembler",
           "caller_method": "toResponse",
           "classification": "read_oriented",
@@ -294,7 +294,7 @@
     },
     {
       "mapper": "QuestNewsMgr",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgr.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestNewsMgr.java",
       "domain": "workmarket",
       "methods": [
         "toDto"
@@ -309,7 +309,7 @@
     },
     {
       "mapper": "UserReviewMgr",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/UserReviewMgr.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/UserReviewMgr.java",
       "domain": "workmarket",
       "methods": [
         "toDto"
@@ -321,7 +321,7 @@
       "usage_count": 1,
       "callers": [
         {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
           "caller_class": "UserReviewService",
           "caller_method": "createOrUpdateReview",
           "classification": "mutating",

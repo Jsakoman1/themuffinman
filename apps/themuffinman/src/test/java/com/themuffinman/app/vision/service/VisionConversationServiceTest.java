@@ -19,9 +19,9 @@ import com.themuffinman.app.vision.testing.VisionConversationTestBuilder;
 import com.themuffinman.app.vision.testing.VisionLocationCandidatePresets;
 import com.themuffinman.app.vision.testing.VisionSchedulePhrasePresets;
 import com.themuffinman.app.vision.testing.VisionSlotStatePresets;
-import com.themuffinman.app.workmarket.model.Quest;
-import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
-import com.themuffinman.app.workmarket.service.QuestReadService;
+import com.themuffinman.app.vision.model.Quest;
+import com.themuffinman.app.vision.dto.QuestListResponseDTO;
+import com.themuffinman.app.vision.service.QuestReadService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,6 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -909,6 +910,27 @@ class VisionConversationServiceTest {
 
         assertEquals("COMPLETE", response.getNextAction());
         assertEquals("warning", response.getBlocks().get(response.getBlocks().size() - 1).getType());
+    }
+
+    @Test
+    void cancelPromptShortCircuitsActiveQuestConversation() {
+        VisionConversation conversation = createQuestConversation(90L, "visibility");
+
+        when(visionConversationRepository.findByIdAndOwner(90L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(conversation)).thenReturn(2L, 2L);
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(90L)
+                        .prompt("cancel")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("COMPLETE", response.getNextAction());
+        assertEquals("cancelled", savedConversations.get(response.getConversationId()).getSlotData().get("conversation_outcome"));
+        assertEquals("The current vision task was cancelled. Start a new task when you want to continue.", response.getMessage());
+        verify(visionPromptUnderstandingService, never()).understandPrompt(any(), any());
     }
 
     @Test

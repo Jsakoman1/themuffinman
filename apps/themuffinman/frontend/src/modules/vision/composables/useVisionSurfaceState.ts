@@ -1,5 +1,5 @@
 import {computed, type Ref} from "vue"
-import type {VisionConversationSummary, VisionConversationTurnResponse} from "../api/visionApi.ts"
+import type {VisionConversationSummary, VisionConversationTurnResponse} from "../api/visionConversationApi.ts"
 import type {VisionVoiceState} from "./useVisionConversation.ts"
 
 type RecentConversationGroup = {

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-30T10:53:32Z",
-  "pack_count": 14,
+  "generated_at": "2026-07-01T14:47:53Z",
+  "pack_count": 15,
   "packs": [
     "docs/generated/local-tooling/endpoint-contract-packs/agent.json",
     "docs/generated/local-tooling/endpoint-contract-packs/admin.json",
@@ -15,6 +15,7 @@
     "docs/generated/local-tooling/endpoint-contract-packs/news.json",
     "docs/generated/local-tooling/endpoint-contract-packs/quests.json",
     "docs/generated/local-tooling/endpoint-contract-packs/rides.json",
-    "docs/generated/local-tooling/endpoint-contract-packs/things.json"
+    "docs/generated/local-tooling/endpoint-contract-packs/things.json",
+    "docs/generated/local-tooling/endpoint-contract-packs/vision.json"
   ]
 }

@@ -3,7 +3,7 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionConversationStatus;
 import com.themuffinman.app.vision.model.VisionIntent;
-import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.vision.model.Quest;
 import org.springframework.stereotype.Service;
 
 @Service

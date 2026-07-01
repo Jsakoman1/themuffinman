@@ -1,70 +1,7 @@
 # Audit Delta diff-summary
 
-- Generated At: `2026-06-29T19:55:21Z`
-- Audit: `diff-summary`
-- Current Output: `docs/generated/local-tooling/diff-summary.json`
-- Current Exists: `true`
-- Previous Output: `docs/generated/local-tooling/.history/diff-summary/2026-06-29T19-55-21Z.json`
-- Previous Exists: `true`
-## `history_entries`
+- Why: History snapshots are created automatically when a report changes.
 
-- `docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-04-50Z.json`
-- `docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-06-49Z.json`
-- `docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-27-24Z.json`
-- `docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-31-11Z.json`
-- `docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-34-46Z.json`
-- `docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-44-26Z.json`
-- `docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-47-34Z.json`
-- `docs/generated/local-tooling/.history/diff-summary/2026-06-29T19-55-21Z.json`
+## Details
 
-- Changed: `true`
-- Current Generated At: `2026-06-29T19:55:21Z`
-- Previous Generated At: `2026-06-29T12:47:34Z`
-## `introduced_risks`
-
-
-## `fixed_risks`
-
-
-## `count_deltas`
-
-- `{:field: "changed_file_count", :previous: 197, :current: 86, :delta: -111}`
-- `{:field: "excluded_file_count", :previous: 216, :current: 200, :delta: -16}`
-- `{:field: "filtered_file_count", :previous: 216, :current: 200, :delta: -16}`
-- `{:field: "groups", :previous: 27, :current: 17, :delta: -10}`
-- `{:field: "groups.0.count", :previous: 7, :current: 4, :delta: -3}`
-- `{:field: "groups.0.files", :previous: 7, :current: 4, :delta: -3}`
-- `{:field: "groups.1.count", :previous: 33, :current: 2, :delta: -31}`
-- `{:field: "groups.1.files", :previous: 33, :current: 2, :delta: -31}`
-- `{:field: "groups.2.count", :previous: 1, :current: 3, :delta: 2}`
-- `{:field: "groups.2.files", :previous: 1, :current: 3, :delta: 2}`
-- `{:field: "groups.3.count", :previous: 1, :current: 4, :delta: 3}`
-- `{:field: "groups.3.files", :previous: 1, :current: 4, :delta: 3}`
-- `{:field: "groups.4.count", :previous: 2, :current: 1, :delta: -1}`
-- `{:field: "groups.4.files", :previous: 2, :current: 1, :delta: -1}`
-- `{:field: "groups.5.count", :previous: 4, :current: 7, :delta: 3}`
-- `{:field: "groups.5.files", :previous: 4, :current: 7, :delta: 3}`
-- `{:field: "groups.6.count", :previous: 7, :current: 5, :delta: -2}`
-- `{:field: "groups.6.files", :previous: 7, :current: 5, :delta: -2}`
-- `{:field: "groups.7.count", :previous: 4, :current: 8, :delta: 4}`
-- `{:field: "groups.7.files", :previous: 4, :current: 8, :delta: 4}`
-- `{:field: "groups.8.count", :previous: 3, :current: 1, :delta: -2}`
-- `{:field: "groups.8.files", :previous: 3, :current: 1, :delta: -2}`
-- `{:field: "groups.9.count", :previous: 3, :current: 14, :delta: 11}`
-- `{:field: "groups.9.files", :previous: 3, :current: 14, :delta: 11}`
-- `{:field: "original_file_count", :previous: 413, :current: 286, :delta: -127}`
-
-## `field_deltas`
-
-- `{:field: "generated_at", :previous: "2026-06-29T12:47:34Z", :current: "2026-06-29T19:55:21Z"}`
-- `{:field: "original_file_count", :previous: 413, :current: 286}`
-- `{:field: "filtered_file_count", :previous: 216, :current: 200}`
-- `{:field: "excluded_file_count", :previous: 216, :current: 200}`
-- `{:field: "changed_file_count", :previous: 197, :current: 86}`
-- `{:field: "groups", :previous: "array(size=27)", :current: "array(size=17)"}`
-- `{:field: "recommended_audits", :previous: "array(size=14)", :current: "array(size=12)"}`
-
-## `notes`
-
-- `History snapshots are created automatically when a report changes.`
-
+- Notes: History snapshots are created automatically when a report changes.

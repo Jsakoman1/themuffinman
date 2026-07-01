@@ -236,7 +236,7 @@ documentation_coverage:
     - quest_sort_option_dto
     - quest_status_filter_option_dto
     - quest_status_option_dto
-    - workmarket_options_dto
+    - vision_options_dto
   - id: workmarket_news_read_model_contract_dtos
     source_refs:
     - quest_news_destination_type

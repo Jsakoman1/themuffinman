@@ -81,15 +81,7 @@ Purpose: turn the current repo inventory into a stable standardisation backlog. 
   - Why: frontend state duplication audit shows repeated patterns for feedback, dialogs, and mutation runners. These should be standard helpers, not locally reimplemented variations.
 
 - `TODO-FRONTEND-STALE-ASSET-009`
-  - `apps/themuffinman/frontend/src/components/ui/UiAmountField.vue`
-  - `apps/themuffinman/frontend/src/components/ui/UiDashboardPage.vue`
-  - `apps/themuffinman/frontend/src/components/ui/UiLaunchCard.vue`
-  - `apps/themuffinman/frontend/src/components/ui/UiMetricPills.vue`
-  - `apps/themuffinman/frontend/src/components/ui/UiReadonlyField.vue`
-  - `apps/themuffinman/frontend/src/components/ui/UiSplitLayout.vue`
-  - `apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue`
-  - `apps/themuffinman/frontend/src/shared/questNews.ts`
-  - `apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts`
+  - legacy frontend UI helpers and detached shared assets flagged by the stale-surface audit
   - Why: stale surface audit identifies unused or detached assets that should be either removed, reconnected, or explicitly retained as shared primitives.
 
 ## Docs And Vocabulary Standardisation

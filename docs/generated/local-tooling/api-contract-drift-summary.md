@@ -1,56 +1,78 @@
 # API Contract Drift Audit
 
-- Generated at: `2026-06-30T11:19:54Z`
-- Backend DTOs scanned: `137`
+- Generated at: `2026-07-01T14:49:22Z`
+- Backend DTOs scanned: `155`
 - DTOs missing generated contracts: `9`
-- Zero-usage backend fields: `79`
+- Zero-usage backend fields: `301`
+
+## `AdminAgentExecutionRequestDTO`
+
+- Generated contract present: `true`
+- `confirmed` -> `unused_in_frontend` | usage=`0`
+
+## `AdminAgentExecutionResponseDTO`
+
+- Generated contract present: `true`
+- `blockingReasons` -> `unused_in_frontend` | usage=`0`
+- `createdQuestIds` -> `unused_in_frontend` | usage=`0`
+- `effectiveCount` -> `unused_in_frontend` | usage=`0`
+- `executed` -> `unused_in_frontend` | usage=`0`
+- `questTitles` -> `unused_in_frontend` | usage=`0`
+- `requestedCount` -> `unused_in_frontend` | usage=`0`
+- `targetUserId` -> `unused_in_frontend` | usage=`0`
+- `targetUserLabel` -> `unused_in_frontend` | usage=`0`
+- ... 2 more drift fields
 
 ## `AdminAgentPlaygroundResponseDTO`
 
 - Generated contract present: `true`
+- `clarificationContract` -> `unused_in_frontend` | usage=`0`
+- `directExecutionAvailable` -> `unused_in_frontend` | usage=`0`
+- `directExecutionCapabilityId` -> `unused_in_frontend` | usage=`0`
+- `directExecutionSummary` -> `unused_in_frontend` | usage=`0`
+- `executionReadiness` -> `unused_in_frontend` | usage=`0`
 - `externalLlmConfigured` -> `unused_in_frontend` | usage=`0`
 - `nextSteps` -> `unused_in_frontend` | usage=`0`
 - `originalPrompt` -> `unused_in_frontend` | usage=`0`
-- `promptTranslationApplied` -> `unused_in_frontend` | usage=`0`
-- `translatedPrompt` -> `unused_in_frontend` | usage=`0`
+- ... 9 more drift fields
 
 ## `AdminAgentSimulationResponseDTO`
 
 - Generated contract present: `true`
-- `translatedPrompt` -> `unused_in_frontend` | usage=`0`
+- `blockingReasons` -> `unused_in_frontend` | usage=`0`
+- `capabilityAssessments` -> `unused_in_frontend` | usage=`0`
+- `clarificationContract` -> `unused_in_frontend` | usage=`0`
+- `endpointPlan` -> `unused_in_frontend` | usage=`0`
+- `executionReadiness` -> `unused_in_frontend` | usage=`0`
+- `intentLineage` -> `unused_in_frontend` | usage=`0`
+- `planningOnly` -> `unused_in_frontend` | usage=`0`
+- `promptSourceLanguage` -> `unused_in_frontend` | usage=`0`
+- ... 6 more drift fields
 
 ## `AdminCircleGroupResponseDTO`
 
 - Generated contract present: `true`
+- `memberPreviewLabel` -> `unused_in_frontend` | usage=`0`
 - `members` -> `unused_in_frontend` | usage=`0`
+- `ownerId` -> `unused_in_frontend` | usage=`0`
+- `ownerUsername` -> `unused_in_frontend` | usage=`0`
 
-## `AgentClarificationContractDTO`
-
-- Generated contract present: `true`
-- `failClosedOnAmbiguity` -> `unused_in_frontend` | usage=`0`
-- `unresolvedFields` -> `unused_in_frontend` | usage=`0`
-
-## `AgentExecutionReadinessDTO`
+## `AdminCircleOverviewDTO`
 
 - Generated contract present: `true`
-- `requiresExternalTranslationProvider` -> `unused_in_frontend` | usage=`0`
+- `acceptedConnections` -> `unused_in_frontend` | usage=`0`
+- `blockedRelations` -> `unused_in_frontend` | usage=`0`
+- `pendingRequests` -> `unused_in_frontend` | usage=`0`
 
-## `AgentIntentLineageDTO`
-
-- Generated contract present: `true`
-- `expectedReadModels` -> `unused_in_frontend` | usage=`0`
-- `sourcePromptExamples` -> `unused_in_frontend` | usage=`0`
-
-## `AgentResolutionConfidenceDTO`
+## `AdminCircleRelationRowDTO`
 
 - Generated contract present: `true`
-- `reasons` -> `unused_in_frontend` | usage=`0`
+- `recipientUsername` -> `unused_in_frontend` | usage=`0`
+- `requesterUsername` -> `unused_in_frontend` | usage=`0`
 
-## `AgentResolutionRequirementDTO`
+## `AdminUserDetailDTO`
 
 - Generated contract present: `true`
-- `ambiguityPolicy` -> `unused_in_frontend` | usage=`0`
-- `endpointHint` -> `unused_in_frontend` | usage=`0`
-- `scope` -> `unused_in_frontend` | usage=`0`
+- `appUserRoles` -> `unused_in_frontend` | usage=`0`
 
-- ... 33 more DTOs
+- ... 58 more DTOs

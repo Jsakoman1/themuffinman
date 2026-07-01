@@ -1,6 +1,6 @@
 # Automation Readiness Gap Audit
 
-- Generated At: `2026-06-29T19:54:52Z`
+- Generated At: `2026-07-01T14:49:32Z`
 ## `features`
 
 - `{:feature: "AdminAgent", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: true}`
@@ -15,8 +15,6 @@
 - `{:feature: "QuestApplication", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: true}`
 - `{:feature: "QuestNews", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: false}`
 - `{:feature: "RideOffer", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: false}`
-- `{:feature: "ThingSharing", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: false}`
-- `{:feature: "UserReview", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: true}`
 
 ## `gaps`
 
@@ -32,5 +30,4 @@
 - `{:feature: "QuestNews", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: false}`
 - `{:feature: "RideOffer", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: false}`
 - `{:feature: "ThingSharing", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: false}`
-- `{:feature: "UserReview", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: true}`
 

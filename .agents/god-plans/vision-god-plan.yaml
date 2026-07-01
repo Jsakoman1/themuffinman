@@ -67,11 +67,11 @@ masterPlans:
     cons:
       - Requires careful capability triage so dev-only workflows are not deleted before Vision replacement exists.
 implementationState:
-  currentPhase: Phase 1 foundation is complete with create_quest conversation, open_chat conversation, review flow, voice input/output, adaptive canvas rendering, read-only quest discovery, shared prompt semantics, read-only execution planning, and a thinner reusable surface shell.
-  nextPhase: Continue capability expansion and rollout hardening while reusing the shared semantic and policy boundary across Vision and Admin Playground, keep the new split date/time scheduling contract intact, and implement the planned legacy route-based frontend contraction around a Vision-first runtime.
+  currentPhase: Phase 1 foundation is complete with create_quest conversation, open_chat conversation, review flow, voice input/output, adaptive canvas rendering, read-only quest discovery, shared prompt semantics, read-only execution planning, Vision-native quest/application detail bridging, and a thinner reusable surface shell.
+  nextPhase: Continue capability expansion and rollout hardening while reusing the shared semantic and policy boundary across Vision and Admin Playground, keep the new split date/time scheduling contract intact, and implement the planned legacy route-based frontend contraction around a Vision-first runtime, starting with the remaining user-scoped detail and account bridges.
   backend: Persisted conversation, turn state, create_quest slot collection, open_chat routing, review edit actions, execution boundary services, and execution adapters exist.
   api: Conversation turn, resume, recent, reset, cancel, blocks, slot summaries, and review DTOs exist.
-  frontend: Modern vision route, reusable surface-state composable, canvas renderer, inline prompt composer, voice controls, transcript feedback, recent conversations, mode-specific hero states, compact in-shell context reveal, review summary, and execution candidate surface exist.
+  frontend: Modern vision route, reusable surface-state composable, canvas renderer, inline prompt composer, voice controls, transcript feedback, recent conversations, mode-specific hero states, compact in-shell context reveal, review summary, execution candidate surface, and Vision detail route wrappers for quest/application continuity exist.
   api: Versioned `/vision/conversations/turns` request contract now carries input type, text, client capabilities, state version, and optional choice/confirmation fields.
   semanticMapping: Shared focus-slot mapper exists, shared prompt semantics support now covers both Vision and Admin Playground, and the understanding prompt also supports read-only discovery planning.
   activeChildPlan: .agents/vision-adaptive-architecture-master-plan.md

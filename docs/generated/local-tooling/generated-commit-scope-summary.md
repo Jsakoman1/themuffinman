@@ -1,16 +1,15 @@
 # Generated Commit Scope
 
 - Decision: `review`
-- Why: source=43, generated=115
+- Why: source=97, generated=197
 - Next action: review the generated files listed below
 - Evidence: policy=docs/generated/artifact-policy.yaml
 
-- supporting_context: `97`
-- do_not_commit_by_default: `17`
-- stale_or_unrelated: `1`
+- supporting_context: `196`
+- do_not_commit_by_default: `1`
 
-- `do_not_commit_by_default` docs/generated/local-tooling/.cache/audit-inputs.json
-- `supporting_context` docs/generated/local-tooling/architecture-decision-index-summary.md
-- `supporting_context` docs/generated/local-tooling/architecture-decision-index.json
-- `supporting_context` docs/generated/local-tooling/audit-documentation-summary.md
-- `supporting_context` docs/generated/local-tooling/audit-documentation.json
+- `supporting_context` docs/generated/dead-code-audit/backend-unused-summary.md
+- `supporting_context` docs/generated/dead-code-audit/backend-unused.json
+- `supporting_context` docs/generated/dead-code-audit/dead-code-summary-summary.md
+- `supporting_context` docs/generated/dead-code-audit/dead-code-summary.json
+- `supporting_context` docs/generated/dead-code-audit/frontend-unused-summary.md

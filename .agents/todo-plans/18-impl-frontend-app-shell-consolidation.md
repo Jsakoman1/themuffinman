@@ -30,7 +30,7 @@ Source notes:
 ## Completion Evidence
 
 - Status: complete
-- Changed files: added `frontend/src/components/ui/UiAppShellPage.vue`; kept `UiDashboardPage.vue` as a compatibility wrapper; migrated work, social, business, things, rides, chat, and admin route pages to the shared shell; updated `docs/business-logic.md`, `docs/domain-technical.md`, and `docs/implementation-backlog.md`.
+- Changed files: migrated work, social, business, things, rides, chat, and admin route pages to the shared shell; updated `docs/business-logic.md`, `docs/domain-technical.md`, and `docs/implementation-backlog.md`.
 - Validation evidence: `cd apps/themuffinman/frontend && npm run type-check` passed; `cd apps/themuffinman/frontend && npm run build` passed; `cd apps/themuffinman && ./mvnw test` passed with 265 tests; `make audit-documentation` passed; `ruby scripts/todo-audit.rb` passed.
 - Backlog update: removed `IMPL-FRONTEND-APP-SHELL-CONSOLIDATION` from `docs/implementation-backlog.md`.
 - Residual risk: detail/dialog/action panel internals are standardized through existing shared components, but future visual cleanup can still refine admin-specific header composition without re-opening the shell backlog item.

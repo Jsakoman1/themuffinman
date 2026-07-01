@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:55:10Z",
+  "generated_at": "2026-07-01T14:49:47Z",
   "plan": ".agents/todo-plans/86-codex-local-manifest-path-resolver.md",
   "plan_id": "86-codex-local-manifest-path-resolver",
   "categories": [
@@ -17,9 +17,9 @@
       "path": "docs/generated/local-tooling/changeset-playbook-summary.md",
       "category": "docs",
       "domain": "shared",
-      "lines": 89,
+      "lines": 11,
       "reasons": [
-        "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, CHANGESET.",
+        "Matched plan tokens: LOCAL, Plan, CHANGESET, PLAYBOOK, Changed, local-tooling.",
         "Plan references the file path directly.",
         "Plan mentions generated artifacts."
       ]
@@ -28,9 +28,9 @@
       "path": "docs/generated/local-tooling/changeset-playbook.json",
       "category": "docs",
       "domain": "shared",
-      "lines": 650,
+      "lines": 528,
       "reasons": [
-        "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Risk.",
+        "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, RESOLVER, Plan.",
         "Plan references the file path directly.",
         "Plan mentions generated artifacts."
       ]
@@ -39,9 +39,9 @@
       "path": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
       "category": "docs",
       "domain": "shared",
-      "lines": 62,
+      "lines": 11,
       "reasons": [
-        "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Master.",
+        "Matched plan tokens: LOCAL, MANIFEST, PATH, Plan, Master, Changed.",
         "Plan references the file path directly.",
         "Plan mentions generated artifacts."
       ]
@@ -50,9 +50,9 @@
       "path": "docs/generated/local-tooling/manifest-path-resolution.json",
       "category": "docs",
       "domain": "shared",
-      "lines": 219,
+      "lines": 149,
       "reasons": [
-        "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Master.",
+        "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Source.",
         "Plan references the file path directly.",
         "Plan mentions generated artifacts."
       ]
@@ -61,9 +61,9 @@
       "path": "docs/generated/local-tooling/validation-preset-summary.md",
       "category": "docs",
       "domain": "shared",
-      "lines": 117,
+      "lines": 10,
       "reasons": [
-        "Matched plan tokens: LOCAL, MANIFEST, PATH, Plan, Backlog, VALIDATION.",
+        "Matched plan tokens: LOCAL, MANIFEST, VALIDATION, PRESET, Validation, Changed.",
         "Plan references the file path directly.",
         "Plan mentions generated artifacts."
       ]
@@ -72,9 +72,9 @@
       "path": "docs/generated/local-tooling/validation-preset.json",
       "category": "docs",
       "domain": "shared",
-      "lines": 496,
+      "lines": 195,
       "reasons": [
-        "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Source.",
+        "Matched plan tokens: CODEX, LOCAL, MANIFEST, Plan, Source, Master.",
         "Plan references the file path directly.",
         "Plan mentions generated artifacts."
       ]
@@ -93,7 +93,7 @@
       "path": "Makefile",
       "category": "other",
       "domain": "shared",
-      "lines": 440,
+      "lines": 458,
       "reasons": [
         "Matched plan tokens: Makefile, CODEX, LOCAL, MANIFEST, PATH, RESOLVER.",
         "Plan references the file path directly."
@@ -103,7 +103,7 @@
       "path": "docs/codex-local-tooling-todo.md",
       "category": "docs",
       "domain": "shared",
-      "lines": 962,
+      "lines": 983,
       "reasons": [
         "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, RESOLVER, Plan.",
         "Plan references the file path directly."
@@ -113,7 +113,7 @@
       "path": "docs/domain-technical.md",
       "category": "docs",
       "domain": "shared",
-      "lines": 1594,
+      "lines": 1650,
       "reasons": [
         "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Source.",
         "Plan references the file path directly."
@@ -123,7 +123,7 @@
       "path": "scripts/audits/local_tooling_extended_tools.rb",
       "category": "script",
       "domain": "shared",
-      "lines": 2772,
+      "lines": 3090,
       "reasons": [
         "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, RESOLVER, Plan.",
         "Plan references the file path directly."
@@ -283,9 +283,9 @@
       "path": ".agents/feature-manifests/codex-workflow-lean-context-manifest.yaml",
       "category": "other",
       "domain": "shared",
-      "lines": 122,
+      "lines": 134,
       "reasons": [
-        "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Risk.",
+        "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Backlog.",
         "Plan mentions manifests and this file is a feature manifest."
       ]
     },
@@ -300,6 +300,16 @@
       ]
     },
     {
+      "path": ".agents/feature-manifests/god-plan-hierarchy-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "lines": 133,
+      "reasons": [
+        "Matched plan tokens: CODEX, LOCAL, MANIFEST, PATH, Plan, Master.",
+        "Plan mentions manifests and this file is a feature manifest."
+      ]
+    },
+    {
       "path": ".agents/feature-manifests/persistent-backlog-system-manifest.yaml",
       "category": "other",
       "domain": "shared",
@@ -310,12 +320,22 @@
       ]
     },
     {
+      "path": ".agents/feature-manifests/vision-voice-surface-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "lines": 177,
+      "reasons": [
+        "Matched plan tokens: LOCAL, MANIFEST, Plan, Source, Master, Backlog.",
+        "Plan mentions manifests and this file is a feature manifest."
+      ]
+    },
+    {
       "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "lines": 1408,
+      "lines": 1637,
       "reasons": [
-        "Matched plan tokens: PATH, PRESET, Remove, Status, themuffinmanContract.",
+        "Matched plan tokens: PATH, Source, PRESET, Remove, Status, themuffinmanContract.",
         "Plan mentions generated artifacts."
       ]
     },
@@ -333,7 +353,7 @@
       "path": "docs/generated/agent-endpoint-inventory.json",
       "category": "docs",
       "domain": "agent",
-      "lines": 536,
+      "lines": 596,
       "reasons": [
         "Matched plan tokens: PATH, PRESET, Read, Status, JSON, agent-endpoint-inventory.",
         "Plan mentions generated artifacts."
@@ -353,9 +373,9 @@
       "path": "docs/generated/automation-read-model-inventory.json",
       "category": "docs",
       "domain": "shared",
-      "lines": 1523,
+      "lines": 1750,
       "reasons": [
-        "Matched plan tokens: PATH, Read, Status, JSON, automation-read-model-inventory.",
+        "Matched plan tokens: PATH, Source, Read, Status, JSON, automation-read-model-inventory.",
         "Plan mentions generated artifacts."
       ]
     },
@@ -363,7 +383,7 @@
       "path": "docs/generated/backend-audit-inventory.json",
       "category": "docs",
       "domain": "shared",
-      "lines": 4071,
+      "lines": 4849,
       "reasons": [
         "Matched plan tokens: PATH, VALIDATION, Validation, JSON, backend-audit-inventory.",
         "Plan mentions generated artifacts."
@@ -373,9 +393,9 @@
       "path": "docs/generated/local-tooling/api-contract-drift.json",
       "category": "docs",
       "domain": "shared",
-      "lines": 6199,
+      "lines": 7201,
       "reasons": [
-        "Matched plan tokens: LOCAL, PATH, Status, JSON, local-tooling, api-contract-drift.",
+        "Matched plan tokens: LOCAL, PATH, Source, Status, JSON, local-tooling.",
         "Plan mentions generated artifacts."
       ]
     },
@@ -383,19 +403,9 @@
       "path": "docs/generated/local-tooling/api-contract-snapshot.json",
       "category": "docs",
       "domain": "shared",
-      "lines": 891,
+      "lines": 1004,
       "reasons": [
         "Matched plan tokens: LOCAL, PATH, PRESET, Read, Status, JSON.",
-        "Plan mentions generated artifacts."
-      ]
-    },
-    {
-      "path": "docs/generated/local-tooling/architecture-decision-index-summary.md",
-      "category": "docs",
-      "domain": "shared",
-      "lines": 54,
-      "reasons": [
-        "Matched plan tokens: LOCAL, Plan, Source, Risk, local-tooling, architecture-decision-index-summary.",
         "Plan mentions generated artifacts."
       ]
     },
@@ -406,16 +416,6 @@
       "lines": 151,
       "reasons": [
         "Matched plan tokens: LOCAL, MANIFEST, Plan, Source, Risk, Master.",
-        "Plan mentions generated artifacts."
-      ]
-    },
-    {
-      "path": "docs/generated/local-tooling/architecture-drift-summary.md",
-      "category": "docs",
-      "domain": "shared",
-      "lines": 37,
-      "reasons": [
-        "Matched plan tokens: LOCAL, Notes, local-tooling, architecture-drift-summary, domain-technical.",
         "Plan mentions generated artifacts."
       ]
     }
@@ -467,15 +467,23 @@
   ],
   "recommended_commands": [
     "make recommend-targeted-tests",
-    "make closeout-bundle manifest=.agents/feature-manifests/codex-workflow-lean-context-manifest.yaml",
-    "make feature-closeout-audit manifest=.agents/feature-manifests/codex-workflow-lean-context-manifest.yaml",
+    "make closeout-bundle manifest=.agents/feature-manifests/<feature-id>-manifest.yaml",
+    "make feature-closeout-audit manifest=.agents/feature-manifests/<feature-id>-manifest.yaml",
     "npm --prefix apps/themuffinman/frontend run type-check",
     "npm --prefix apps/themuffinman/frontend run build",
     "make audit-documentation",
     "make audit-doc-canonical-phrases",
     "make audit-generated-artifact-freshness",
     "make audit-generated-commit-scope",
-    "make audit-agent-safety"
+    "make audit-agent-safety",
+    "npm run validate:contracts",
+    "npm run type-check",
+    "npm run build",
+    "make generate-agent-operating-model",
+    "make generate-agent-artifacts",
+    "./mvnw test -Dtest=AgentOperatingScenarioTest",
+    "make audit-todo",
+    "make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"
   ],
   "related_manifests": [
     {
@@ -540,6 +548,6 @@
     }
   ],
   "residual_risk": [
-
+    "Manifest could not be resolved deterministically from the mapped files."
   ]
 }

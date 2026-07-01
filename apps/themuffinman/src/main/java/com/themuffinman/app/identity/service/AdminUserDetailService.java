@@ -6,8 +6,8 @@ import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.social.service.CircleService;
-import com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO;
-import com.themuffinman.app.workmarket.service.WorkmarketOptionsService;
+import com.themuffinman.app.vision.dto.VisionOptionsDTO;
+import com.themuffinman.app.vision.service.VisionOptionsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,7 @@ public class AdminUserDetailService {
     private final AppUserService appUserService;
     private final IdentityUserSummaryAssembler identityUserSummaryAssembler;
     private final CircleService circleService;
-    private final WorkmarketOptionsService workmarketOptionsService;
+    private final VisionOptionsService visionOptionsService;
 
     public AdminUserDetailDTO getDetail(Long userId, AppUser currentUser) {
         validateAdmin(currentUser);
@@ -31,7 +31,7 @@ public class AdminUserDetailService {
                 appUserService.countQuestsByCreatorId(targetUser.getId()),
                 appUserService.getOpenQuestsByCreatorId(targetUser.getId())
         );
-        WorkmarketOptionsDTO options = workmarketOptionsService.getOptions(targetUser);
+        VisionOptionsDTO options = visionOptionsService.getOptions(targetUser);
 
         return AdminUserDetailDTO.builder()
                 .user(user)

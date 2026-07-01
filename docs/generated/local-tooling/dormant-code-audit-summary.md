@@ -1,6 +1,6 @@
 # Dormant Code Audit
 
-- Generated At: `2026-06-29T19:55:00Z`
+- Generated At: `2026-07-01T14:49:40Z`
 ## `hits`
 
 - `{:file: "apps/themuffinman/README.md", :line: 171, :snippet: "- `SIDEQUEST_CHAT_EXPIRED_IMAGE_PLACEHOLDER`"}`
@@ -15,12 +15,4 @@
 - `{:file: "apps/themuffinman/frontend/node_modules/@babel/types/lib/index-legacy.d.ts", :line: 1188, :snippet: "export interface Placeholder extends BaseNode {"}`
 - `{:file: "apps/themuffinman/frontend/node_modules/@babel/types/lib/index-legacy.d.ts", :line: 1189, :snippet: "type: \"Placeholder\";"}`
 - `{:file: "apps/themuffinman/frontend/node_modules/@babel/types/lib/index-legacy.d.ts", :line: 1202, :snippet: "export interface ArgumentPlaceholder extends BaseNode {"}`
-- `{:file: "apps/themuffinman/frontend/node_modules/@babel/types/lib/index-legacy.d.ts", :line: 1203, :snippet: "type: \"ArgumentPlaceholder\";"}`
-- `{:file: "apps/themuffinman/frontend/node_modules/@babel/types/lib/index-legacy.d.ts", :line: 1753, :snippet: "export type Miscellaneous = Noop | Placeholder | V8IntrinsicIdentifier;"}`
-- `{:file: "apps/themuffinman/frontend/node_modules/@babel/types/lib/index-legacy.d.ts", :line: 1822, :snippet: "export function callExpression(callee: Expression | Super | V8IntrinsicIdentifier, _arguments: (Expression | SpreadElement | ArgumentPlaceholder)[]): CallExpression;"}`
-- `{:file: "apps/themuffinman/frontend/node_modules/@babel/types/lib/index-legacy.d.ts", :line: 1845, :snippet: "export function newExpression(callee: Expression | Super | V8IntrinsicIdentifier, _arguments: (Expression | SpreadElement | ArgumentPlaceholder)[]): NewExpression;"}`
-- `{:file: "apps/themuffinman/frontend/node_modules/@babel/types/lib/index-legacy.d.ts", :line: 1897, :snippet: "export function optionalCallExpression(callee: Expression, _arguments: (Expression | SpreadElement | ArgumentPlaceholder)[], optional: boolean): OptionalCallExpression;"}`
-- `{:file: "apps/themuffinman/frontend/node_modules/@babel/types/lib/index-legacy.d.ts", :line: 1986, :snippet: "export function placeholder(expectedNode: \"Identifier\" | \"StringLiteral\" | \"Expression\" | \"Statement\" | \"Declaration\" | \"BlockStatement\" | \"ClassBody\" | \"Pattern\", name: Identifier): Placeholder;"}`
-- `{:file: "apps/themuffinman/frontend/node_modules/@babel/types/lib/index-legacy.d.ts", :line: 1988, :snippet: "export function argumentPlaceholder(): ArgumentPlaceholder;"}`
-- `{:file: "apps/themuffinman/frontend/node_modules/@babel/types/lib/index-legacy.d.ts", :line: 2073, :snippet: "export function isArgumentPlaceholder(node: object | null | undefined, opts?: object | null): node is ArgumentPlaceholder;"}`
 

@@ -1,62 +1,11 @@
 # Manifest Path Resolution
 
-- Decision: `resolved`
-- Manifest Path: `.agents/feature-manifests/codex-workflow-lean-context-manifest.yaml`
-- Feature Id: `codex_workflow_lean_context`
-- Title: `Codex Workflow Lean Context`
-- Confidence: `high`
-## `reasons`
+- Decision: `review`
 
-- `Manifest file itself is in the current changeset.`
-- `Referenced plan file is in the current changeset.`
-- `Changed files overlap manifest artifact lists (scripts/bootstrap-feature-work.sh, .agents/templates/feature-implementation-plan.template.md, .agents/templates/feature-completion-manifest.template.yaml, .agents/codex-workflow-lean-context-plan.md).`
-- `Changed paths include feature/plan tokens: manifest, plan, codex, workflow, lean, context.`
+## Details
 
-## `candidates`
-
-- `{:manifest_path: ".agents/feature-manifests/codex-workflow-lean-context-manifest.yaml", :feature_id: "codex_workflow_lean_context", :title: "Codex Workflow Lean Context", :plan_file: ".agents/codex-workflow-lean-context-plan.md", :score: 28, :reasons: ["Manifest file itself is in the current changeset.", "Referenced plan file is in the current changeset.", "Changed files overlap manifest artifact lists (scripts/bootstrap-feature-work.sh, .agents/templates/feature-implementation-plan.template.md, .agents/templates/feature-completion-manifest.template.yaml, .agents/codex-workflow-lean-context-plan.md).", "Changed paths include feature/plan tokens: manifest, plan, codex, workflow, lean, context."]}`
-- `{:manifest_path: ".agents/feature-manifests/agent-operating-refactor-manifest.yaml", :feature_id: "agent_operating_refactor", :title: "Agent Operating Refactor", :plan_file: ".agents/agent-operating-refactor-plan.md", :score: 14, :reasons: ["Changed files overlap manifest artifact lists (apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java, apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java).", "Changed paths include feature/plan tokens: agent, manifest, plan."]}`
-- `{:manifest_path: ".agents/feature-manifests/codex-tiered-workflow-manifest.yaml", :feature_id: "codex_tiered_workflow", :title: "Codex Tiered Workflow", :plan_file: ".agents/codex-tiered-workflow-plan.md", :score: 10, :reasons: ["Changed files overlap manifest artifact lists (scripts/bootstrap-feature-work.sh, .agents/templates/feature-completion-manifest.template.yaml, .agents/templates/feature-implementation-plan.template.md, AGENTS.md).", "Changed paths include feature/plan tokens: manifest, plan, codex, workflow."]}`
-- `{:manifest_path: ".agents/feature-manifests/agent-control-phase-two-manifest.yaml", :feature_id: "agent_control_phase_two", :title: "Agent Control Phase Two", :plan_file: ".agents/agent-control-phase-two-plan.md", :score: 7, :reasons: ["Changed files overlap manifest artifact lists (scripts/bootstrap-feature-work.sh).", "Changed paths include feature/plan tokens: agent, manifest, plan, control."]}`
-- `{:manifest_path: ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml", :feature_id: "agent_safety_enforcement_round2", :title: "Agent safety enforcement round 2", :plan_file: ".agents/agent-safety-enforcement-round2-plan.md", :score: 7, :reasons: ["Changed files overlap manifest artifact lists (AGENTS.md).", "Changed paths include feature/plan tokens: agent, manifest, plan."]}`
-- `{:manifest_path: ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml", :feature_id: "agent_safety_upgrade", :title: "Agent safety upgrade", :plan_file: ".agents/agent-safety-upgrade-plan.md", :score: 7, :reasons: ["Changed files overlap manifest artifact lists (AGENTS.md).", "Changed paths include feature/plan tokens: agent, manifest, plan."]}`
-- `{:manifest_path: ".agents/feature-manifests/codex-context-optimization-manifest.yaml", :feature_id: "codex_context_optimization", :title: "Codex Context Optimization", :plan_file: ".agents/codex-context-optimization-master-plan.md", :score: 7, :reasons: ["Changed files overlap manifest artifact lists (AGENTS.md).", "Changed paths include feature/plan tokens: manifest, plan, codex, context, master."]}`
-- `{:manifest_path: ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml", :feature_id: "backend_audit_domain_tagging", :title: "Backend audit domain tagging", :plan_file: ".agents/backend-audit-domain-tagging-plan.md", :score: 6, :reasons: ["Changed paths include feature/plan tokens: manifest, plan, audit, backend."]}`
-- `{:manifest_path: ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml", :feature_id: "backend_audit_identity_dto_tightening", :title: "Backend audit identity dto tightening", :plan_file: ".agents/backend-audit-identity-dto-tightening-plan.md", :score: 6, :reasons: ["Changed paths include feature/plan tokens: manifest, plan, identity, dto, audit, backend."]}`
-- `{:manifest_path: ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml", :feature_id: "backend_audit_location_dto_tightening", :title: "Backend audit location dto tightening", :plan_file: ".agents/backend-audit-location-dto-tightening-plan.md", :score: 6, :reasons: ["Changed paths include feature/plan tokens: manifest, plan, location, dto, audit, backend."]}`
-
-- Generated At: `2026-06-29T19:55:07Z`
-- Original File Count: `86`
-- Filtered File Count: `0`
-- Excluded File Count: `0`
-## `excluded_files_sample`
-
-
-## `files_considered`
-
-- `.agents/templates/feature-completion-manifest.template.yaml`
-- `.agents/templates/feature-implementation-plan.template.md`
-- `AGENTS.md`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipUpdateDTO.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationDTO.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSearchResultDTO.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialPresentationHelper.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java`
-
+- Original File Count: 19
+- Filtered File Count: 0
+- Excluded File Count: 0
+- Candidates: manifest_path: .agents/feature-manifests/god-plan-hierarchy-manifest.yaml | feature_id: god_plan_hierarchy | title: God Plan hierarchy for broad agent planning | plan_file: .agents/god-plan-hierarchy-plan.md | score: 8 | reasons: Changed files overlap manifest artifact lists (.agents/god-plans/vision-god-plan.yaml, .agents/god-plans/vision-god-plan.md)., Changed paths include feature/plan tokens: god, plan, agent. | manifest_path: .agents/feature-manifests/vision-voice-surface-manifest.yaml | feature_id: vision_voice_surface | title: Vision voice surface backend-first STT/TTS | plan_file: .agents/vision-voice-master-plan.md | score: 8 | reasons: Changed files overlap manifest artifact lists (docs/domain-technical.md, docs/product-memory.md)., Changed paths include feature/plan tokens: vision, plan, surface. | manifest_path: .agents/feature-manifests/agent-control-phase-two-manifest.yaml | feature_id: agent_control_phase_two | title: Agent Control Phase Two | plan_file: .agents/agent-control-phase-two-plan.md | score: 7 | reasons: Changed files overlap manifest artifact lists (docs/domain-technical.md)., Changed paths include feature/plan tokens: agent, plan, two.
+- Candidates more: 7

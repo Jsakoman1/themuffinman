@@ -7,7 +7,7 @@ import org.springframework.lang.Nullable;
 
 import java.util.List;
 
-import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import java.time.Instant;
 
 @Getter

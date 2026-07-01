@@ -65,8 +65,8 @@ docs_as_contract_slices:
           - "### Execution and term negotiation"
     protected_claim: Quest creation, mutation, execution, completion, and term negotiation must resolve targets, enforce authority and state, persist changes, and notify affected actors.
     test_files:
-      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java
-      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
     commands:
       - cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest
   - id: workmarket-application-workflow-contract
@@ -80,8 +80,8 @@ docs_as_contract_slices:
           - "### Applications"
     protected_claim: Application apply, edit, withdraw, approve, decline, and admin correction flows must enforce applicant, owner, status, pricing, and notification rules.
     test_files:
-      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java
-      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
     commands:
       - cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest
   - id: sandbox-boundary-contract

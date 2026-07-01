@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T06:36:39Z",
+  "generated_at": "2026-07-01T14:49:32Z",
   "mode": "report_first",
   "thresholds": {
     "service_lines": 420,
@@ -13,8 +13,8 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
       "kind": "service",
-      "lines": 971,
-      "public_methods": 2,
+      "lines": 1036,
+      "public_methods": 3,
       "responsibility_markers": [
         "query",
         "mutation",
@@ -27,10 +27,66 @@
       ]
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "kind": "service",
+      "lines": 907,
+      "public_methods": 5,
+      "responsibility_markers": [
+        "query",
+        "mutation",
+        "policy"
+      ],
+      "flags": [
+        "oversized_service",
+        "mixed_responsibilities"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "kind": "service",
+      "lines": 703,
+      "public_methods": 3,
+      "responsibility_markers": [
+        "query",
+        "mutation",
+        "policy"
+      ],
+      "flags": [
+        "oversized_service",
+        "mixed_responsibilities"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionScheduleParserService.java",
+      "kind": "service",
+      "lines": 441,
+      "public_methods": 5,
+      "responsibility_markers": [
+        "query"
+      ],
+      "flags": [
+        "oversized_service"
+      ]
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
       "kind": "service",
       "lines": 403,
       "public_methods": 8,
+      "responsibility_markers": [
+        "query",
+        "mutation",
+        "policy"
+      ],
+      "flags": [
+        "mixed_responsibilities"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
+      "kind": "service",
+      "lines": 292,
+      "public_methods": 1,
       "responsibility_markers": [
         "query",
         "mutation",
@@ -72,7 +128,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "kind": "service",
       "lines": 257,
       "public_methods": 10,
@@ -88,8 +144,8 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
       "kind": "service",
-      "lines": 242,
-      "public_methods": 3,
+      "lines": 252,
+      "public_methods": 4,
       "responsibility_markers": [
         "query",
         "mutation",
@@ -100,7 +156,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsService.java",
       "kind": "service",
       "lines": 223,
       "public_methods": 14,
@@ -128,7 +184,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestValidationService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestValidationService.java",
       "kind": "service",
       "lines": 205,
       "public_methods": 10,
@@ -157,6 +213,34 @@
       ]
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
+      "kind": "service",
+      "lines": 193,
+      "public_methods": 3,
+      "responsibility_markers": [
+        "query",
+        "policy",
+        "mapping"
+      ],
+      "flags": [
+        "mixed_responsibilities"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentExecutionService.java",
+      "kind": "service",
+      "lines": 188,
+      "public_methods": 1,
+      "responsibility_markers": [
+        "query",
+        "mutation",
+        "policy"
+      ],
+      "flags": [
+        "mixed_responsibilities"
+      ]
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
       "kind": "service",
       "lines": 186,
@@ -172,21 +256,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
-      "kind": "service",
-      "lines": 169,
-      "public_methods": 2,
-      "responsibility_markers": [
-        "query",
-        "policy",
-        "mapping"
-      ],
-      "flags": [
-        "mixed_responsibilities"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "kind": "service",
       "lines": 168,
       "public_methods": 3,
@@ -201,7 +271,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "kind": "controller",
       "lines": 135,
       "public_methods": 12,
@@ -229,7 +299,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminService.java",
       "kind": "service",
       "lines": 118,
       "public_methods": 2,
@@ -243,7 +313,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
       "kind": "service",
       "lines": 113,
       "public_methods": 15,
@@ -256,7 +326,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
       "kind": "service",
       "lines": 106,
       "public_methods": 14,
@@ -328,7 +398,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java",
       "kind": "controller",
       "lines": 51,
       "public_methods": 4,
@@ -343,14 +413,40 @@
     }
   ],
   "frontend_entries": [
-
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "kind": "vue_view",
+      "lines": 729,
+      "product_logic_hits": 8,
+      "flags": [
+        "oversized_vue_view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "kind": "vue_view",
+      "lines": 579,
+      "product_logic_hits": 0,
+      "flags": [
+        "oversized_vue_view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "kind": "vue_view",
+      "lines": 407,
+      "product_logic_hits": 2,
+      "flags": [
+        "oversized_vue_view"
+      ]
+    }
   ],
   "doc_entries": [
     {
       "file": "docs/agent-operating-model.md",
       "section": "Current Scope",
       "level": 2,
-      "lines": 203,
+      "lines": 216,
       "flags": [
         "oversized_doc_section"
       ]
@@ -359,11 +455,11 @@
       "file": "docs/domain-technical.md",
       "section": "Control-System Technical Notes",
       "level": 2,
-      "lines": 139,
+      "lines": 141,
       "flags": [
         "oversized_doc_section"
       ]
     }
   ],
-  "total_findings": 25
+  "total_findings": 33
 }

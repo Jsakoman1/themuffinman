@@ -20,10 +20,10 @@
 - `apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts`
 - `apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts`
 - `apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestPresentationDTO.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java`
-- `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestPresentationDTO.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java`
+- `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java`
 - `docs/agent-operating-model.md`
 - `docs/agent-operating-model.yaml`
 - `docs/agent-operating-model/sections/documentation_coverage.yaml`

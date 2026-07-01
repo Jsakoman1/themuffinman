@@ -6,10 +6,10 @@ import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.location.model.ExactLocationVisibilityScope;
 import com.themuffinman.app.location.model.UserLocationMode;
 import com.themuffinman.app.social.model.CircleGroup;
-import com.themuffinman.app.workmarket.model.Quest;
-import com.themuffinman.app.workmarket.model.QuestApplication;
-import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
-import com.themuffinman.app.workmarket.model.QuestStatus;
+import com.themuffinman.app.vision.model.Quest;
+import com.themuffinman.app.vision.model.QuestApplication;
+import com.themuffinman.app.vision.model.QuestApplicationStatus;
+import com.themuffinman.app.vision.model.QuestStatus;
 
 import java.math.BigDecimal;
 import java.time.Instant;

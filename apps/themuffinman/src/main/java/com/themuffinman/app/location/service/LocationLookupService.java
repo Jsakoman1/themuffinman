@@ -23,7 +23,7 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
-import com.themuffinman.app.workmarket.repository.QuestRepository;
+import com.themuffinman.app.vision.repository.QuestRepository;
 
 @Service
 @RequiredArgsConstructor

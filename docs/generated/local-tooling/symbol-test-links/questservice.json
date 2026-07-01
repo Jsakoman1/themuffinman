@@ -1,35 +1,40 @@
 {
-  "generated_at": "2026-06-29T19:55:07Z",
+  "generated_at": "2026-07-01T14:47:54Z",
   "symbol": "QuestService",
   "symbol_files": [
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
       "category": "backend_service",
       "domain": "workmarket",
       "lines": 160
     }
   ],
   "direct_tests": [
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java"
+    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java"
   ],
   "nearby_tests": [
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java"
+    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/event/QuestApplicationNewsEventHandlerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestNewsMgrTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardSummaryAssemblerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVoiceServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestAccessPolicyServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssemblerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestNewsServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestPresentationAssemblerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestVisibilityServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/UserReviewServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/WorkmarketOptionsServiceTest.java"
   ],
   "scenario_hits": [
     {
@@ -38,8 +43,8 @@
       "risk": "high",
       "scenario": "Quest create, update, delete, start, complete, and term-change flows must resolve actors, validate state, persist changes, and publish expected notifications.",
       "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java"
       ],
       "commands": [
         "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest"
@@ -51,8 +56,8 @@
       "risk": "high",
       "scenario": "Application apply, applicant edit, withdraw, owner approve, owner decline, and admin mutation flows must enforce ownership, status, pricing, and notification rules.",
       "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java"
       ],
       "commands": [
         "cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest"
@@ -64,7 +69,7 @@
       "risk": "medium",
       "scenario": "Dashboard sections, applicant actions, open-work groups, and notification destinations must stay backend-prepared and role-aware.",
       "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java"
       ],
       "commands": [
         "cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest"
@@ -72,7 +77,7 @@
     }
   ],
   "recommended_commands": [
-    "cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest,QuestServiceTest,QuestWorkflowScenarioTest,RequestDtoValidationTest,QuestApplicationNewsEventHandlerTest,QuestMgrTest,QuestNewsMgrTest,QuestAccessPolicyServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=AdminAgentExecutionServiceTest,DashboardServiceTest,QuestServiceTest,QuestWorkflowScenarioTest,AdminSyntheticQuestExecutionPlannerTest,RequestDtoValidationTest,QuestApplicationNewsEventHandlerTest,QuestMgrTest",
     "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest",
     "cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest",
     "cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest"

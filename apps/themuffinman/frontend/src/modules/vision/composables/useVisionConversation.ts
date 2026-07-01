@@ -1,12 +1,12 @@
-import {computed, onUnmounted, ref} from "vue"
+import {computed, onMounted, onUnmounted, ref} from "vue"
 import {
-  visionApi,
+  visionConversationApi,
   type VisionCanvasBlock,
   type VisionConversationSummary,
   type VisionConversationTurnResponse,
   type VisionReviewTarget
-} from "../api/visionApi.ts"
-import type {DashboardVoiceConfig} from "../../workmarket/api/contracts.ts"
+} from "../api/visionConversationApi.ts"
+import type {DashboardVoiceConfig} from "../api/contracts.ts"
 
 export type VisionVoiceState = "idle" | "listening" | "processing" | "speaking"
 export type VisionAttentionState = "quiet" | "listening" | "processing" | "speaking" | "asking" | "discovering" | "review" | "complete" | "blocked"
@@ -51,6 +51,25 @@ const chooseRecordingMimeType = () => {
   }
 
   return supportedRecordingMimeTypes.find((mimeType) => MediaRecorder.isTypeSupported(mimeType)) ?? ""
+}
+
+const cancelPromptSignals = new Set([
+  "cancel",
+  "cancel quest",
+  "cancel conversation",
+  "stop",
+  "stop task",
+  "odustani",
+  "prekini",
+  "ponisti",
+  "poništi",
+  "reset",
+  "reset conversation"
+])
+
+const isCancelCommand = (prompt: string) => {
+  const normalized = prompt.trim().toLowerCase().replace(/[.!?]+$/g, "")
+  return cancelPromptSignals.has(normalized)
 }
 
 export const useVisionConversation = () => {
@@ -122,7 +141,7 @@ export const useVisionConversation = () => {
     if (slotId) {
       return fieldRequestBlock.value?.placeholder ?? slotPlaceholders[slotId] ?? "Type the next detail"
     }
-    return "Tell the agent what you want to do"
+    return `Tell "Create new job" or "I'm looking for a job"`
   })
 
   const currentFieldKind = computed(() => fieldRequestBlock.value?.fieldKind ?? "short_text")
@@ -251,8 +270,8 @@ export const useVisionConversation = () => {
     isLoading.value = true
 
     try {
-      voiceConfig.value = await visionApi.getVoiceConfig()
-      recentConversations.value = (await visionApi.getRecentConversations()).items
+      voiceConfig.value = await visionConversationApi.getVoiceConfig()
+      recentConversations.value = (await visionConversationApi.getRecentConversations()).items
     } catch (caught) {
       console.error(caught)
       error.value = "Vision bootstrap failed."
@@ -275,11 +294,16 @@ export const useVisionConversation = () => {
       return
     }
 
+    if (action === "SUBMIT_PROMPT" && isCancelCommand(trimmedPrompt)) {
+      await cancelConversation()
+      return
+    }
+
     voiceRuntimeError.value = ""
 
     try {
       voiceState.value = "processing"
-      const next = await visionApi.processConversationTurn({
+      const next = await visionConversationApi.processConversationTurn({
         conversationId: conversationId.value,
         inputType: source === "voice" ? "voice" : "text",
         text: trimmedPrompt,
@@ -324,7 +348,7 @@ export const useVisionConversation = () => {
     if (conversationId.value != null) {
       try {
         voiceState.value = "processing"
-        const next = await visionApi.resetConversation(conversationId.value)
+        const next = await visionConversationApi.resetConversation(conversationId.value)
         response.value = next
         conversationId.value = next.conversationId
         recentConversations.value = next.recentConversations
@@ -356,7 +380,7 @@ export const useVisionConversation = () => {
     }
     try {
       voiceState.value = "processing"
-      const next = await visionApi.cancelConversation(conversationId.value)
+      const next = await visionConversationApi.cancelConversation(conversationId.value)
       response.value = next
       conversationId.value = next.conversationId
       recentConversations.value = next.recentConversations
@@ -374,7 +398,7 @@ export const useVisionConversation = () => {
   const resumeConversation = async (nextConversationId: number) => {
     try {
       voiceState.value = "processing"
-      const next = await visionApi.getConversation(nextConversationId)
+      const next = await visionConversationApi.getConversation(nextConversationId)
       response.value = next
       conversationId.value = next.conversationId
       recentConversations.value = next.recentConversations
@@ -425,7 +449,7 @@ export const useVisionConversation = () => {
     try {
       stopSpeaking()
       voiceState.value = "speaking"
-      const audioBytes = await visionApi.speakVoiceText(text.trim().slice(0, maxSpeechTextLength.value))
+      const audioBytes = await visionConversationApi.speakVoiceText(text.trim().slice(0, maxSpeechTextLength.value))
       const audioBlob = new Blob([audioBytes], {type: "audio/mpeg"})
       const audioUrl = URL.createObjectURL(audioBlob)
       const audio = new Audio(audioUrl)
@@ -475,7 +499,7 @@ export const useVisionConversation = () => {
 
     try {
       voiceState.value = "processing"
-      const transcription = await visionApi.transcribeVoiceAudio(audioBlob)
+      const transcription = await visionConversationApi.transcribeVoiceAudio(audioBlob)
       lastTranscript.value = transcription.text
       await processPrompt(transcription.text, "voice")
     } catch (caught) {
@@ -555,7 +579,25 @@ export const useVisionConversation = () => {
     composerExpanded.value = false
   }
 
+  const handleGlobalKeydown = (event: KeyboardEvent) => {
+    if (event.key !== "Escape" || event.defaultPrevented || event.repeat) {
+      return
+    }
+
+    if (!response.value && conversationId.value == null && !inputText.value.trim()) {
+      return
+    }
+
+    event.preventDefault()
+    void cancelConversation()
+  }
+
+  onMounted(() => {
+    window.addEventListener("keydown", handleGlobalKeydown)
+  })
+
   onUnmounted(() => {
+    window.removeEventListener("keydown", handleGlobalKeydown)
     stopListening(true)
     stopSpeaking()
     resetRecordingState()

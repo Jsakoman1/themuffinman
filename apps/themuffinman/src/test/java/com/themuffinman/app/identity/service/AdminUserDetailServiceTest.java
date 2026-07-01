@@ -8,9 +8,9 @@ import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.social.dto.CircleContactDTO;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.service.CircleService;
-import com.themuffinman.app.workmarket.dto.AppUserRoleOptionDTO;
-import com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO;
-import com.themuffinman.app.workmarket.service.WorkmarketOptionsService;
+import com.themuffinman.app.vision.dto.AppUserRoleOptionDTO;
+import com.themuffinman.app.vision.dto.VisionOptionsDTO;
+import com.themuffinman.app.vision.service.VisionOptionsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -41,7 +41,7 @@ class AdminUserDetailServiceTest {
     private CircleService circleService;
 
     @Mock
-    private WorkmarketOptionsService workmarketOptionsService;
+    private VisionOptionsService visionOptionsService;
 
     @InjectMocks
     private AdminUserDetailService adminUserDetailService;
@@ -71,7 +71,7 @@ class AdminUserDetailServiceTest {
                 .id(7L)
                 .username("nina")
                 .build();
-        WorkmarketOptionsDTO options = WorkmarketOptionsDTO.builder()
+        VisionOptionsDTO options = VisionOptionsDTO.builder()
                 .appUserRoles(List.of(AppUserRoleOptionDTO.builder().value(AppUserRole.USER).label("User").build()))
                 .locationModes(List.of())
                 .exactLocationVisibilityScopes(List.of())
@@ -83,7 +83,7 @@ class AdminUserDetailServiceTest {
         when(appUserService.countQuestsByCreatorId(7L)).thenReturn(2L);
         when(appUserService.getOpenQuestsByCreatorId(7L)).thenReturn(List.of());
         when(identityUserSummaryAssembler.buildProfileSummary(target, 2L, List.of())).thenReturn(dto);
-        when(workmarketOptionsService.getOptions(target)).thenReturn(options);
+        when(visionOptionsService.getOptions(target)).thenReturn(options);
         when(circleService.getCirclesForUserAsAdmin(7L, admin)).thenReturn(circles);
         when(circleService.getConnectionsForUserAsAdmin(7L, admin)).thenReturn(contacts);
 

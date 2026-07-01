@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-30T10:07:29Z",
-  "scanned_file_count": 139,
-  "active_route_backed_file_count": 34,
-  "candidate_count": 6,
+  "generated_at": "2026-07-01T14:49:23Z",
+  "scanned_file_count": 77,
+  "active_route_backed_file_count": 16,
+  "candidate_count": 4,
   "frontend_status_mapping_candidates": [
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
@@ -11,25 +11,32 @@
       "line": 205,
       "snippet": "const statusLabel = computed(() =>",
       "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java"
       ]
     }
   ],
   "frontend_permission_gate_candidates": [
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
       "active_route_backed": false,
-      "module_key": "workmarket",
-      "line": 119,
-      "snippet": "<div v-if=\"quest.status !== 'CANCELLED' && !canApply && !applicationSentVisible && !myApplication\" class=\"surface-stack surface-stack--compact\">",
+      "module_key": "unknown",
+      "line": 62,
+      "snippet": "if (quest.audience === \"CIRCLES\") {",
       "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+      "active_route_backed": false,
+      "module_key": "unknown",
+      "line": 70,
+      "snippet": "if (quest.audience === \"CIRCLES\") {",
+      "canonical_backend_files": [
+
       ]
     },
     {
@@ -39,10 +46,10 @@
       "line": 102,
       "snippet": "props.audience === \"CIRCLES\" && props.selectedCircleIds.length === 0",
       "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java"
       ]
     },
     {
@@ -52,10 +59,10 @@
       "line": 751,
       "snippet": "v-if=\"inlineEditable && audience === 'CIRCLES'\"",
       "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java"
       ]
     },
     {
@@ -65,40 +72,14 @@
       "line": 799,
       "snippet": "<UiFieldGroup v-else-if=\"audience === 'CIRCLES'\" label=\"Visible to circles\">",
       "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardPostWorkState.ts",
-      "active_route_backed": false,
-      "module_key": "workmarket",
-      "line": 16,
-      "snippet": "if (audience === \"CIRCLES\") {",
-      "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java"
       ]
     }
   ],
   "frontend_transition_eligibility_candidates": [
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "active_route_backed": true,
-      "module_key": "workmarket",
-      "line": 68,
-      "snippet": "const canSubmitApplication = computed(() =>",
-      "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
-      ]
-    },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts",
       "active_route_backed": false,
@@ -106,10 +87,10 @@
       "line": 37,
       "snippet": "const canSubmitApplication = computed(() =>",
       "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java"
       ]
     },
     {
@@ -119,10 +100,10 @@
       "line": 9,
       "snippet": "export const canSubmitQuestApplicationDraft = (",
       "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java"
       ]
     }
   ],
@@ -150,73 +131,32 @@
         }
       ],
       "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "active_route_backed": true,
-      "module_key": "workmarket",
-      "score": 3,
-      "status_mapping_count": 0,
-      "permission_gate_count": 0,
-      "transition_eligibility_count": 1,
-      "example_findings": [
-        {
-          "line": 68,
-          "snippet": "const canSubmitApplication = computed(() =>"
-        }
-      ],
-      "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
       "active_route_backed": false,
-      "module_key": "workmarket",
-      "score": 2,
+      "module_key": "unknown",
+      "score": 4,
       "status_mapping_count": 0,
-      "permission_gate_count": 1,
+      "permission_gate_count": 2,
       "transition_eligibility_count": 0,
       "example_findings": [
         {
-          "line": 119,
-          "snippet": "<div v-if=\"quest.status !== 'CANCELLED' && !canApply && !applicationSentVisible && !myApplication\" class=\"surface-stack surface-stack--compact\">"
-        }
-      ],
-      "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardPostWorkState.ts",
-      "active_route_backed": false,
-      "module_key": "workmarket",
-      "score": 2,
-      "status_mapping_count": 0,
-      "permission_gate_count": 1,
-      "transition_eligibility_count": 0,
-      "example_findings": [
+          "line": 62,
+          "snippet": "if (quest.audience === \"CIRCLES\") {"
+        },
         {
-          "line": 16,
-          "snippet": "if (audience === \"CIRCLES\") {"
+          "line": 70,
+          "snippet": "if (quest.audience === \"CIRCLES\") {"
         }
       ],
       "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+
       ]
     },
     {
@@ -234,10 +174,10 @@
         }
       ],
       "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java"
       ]
     },
     {
@@ -255,10 +195,10 @@
         }
       ],
       "canonical_backend_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java"
       ]
     }
   ]

@@ -79,7 +79,7 @@ automation_read_models:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
 - id: quest_resolution_view
-  java_class: com.themuffinman.app.workmarket.dto.QuestResponseDTO
+  java_class: com.themuffinman.app.vision.dto.QuestResponseDTO
   required_fields:
   - resolutionKey
   - resolutionLabel
@@ -87,9 +87,9 @@ automation_read_models:
   producer_source_refs:
   - quest_mgr
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java
 - id: quest_application_resolution_view
-  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO
+  java_class: com.themuffinman.app.vision.dto.QuestApplicationResponseDTO
   required_fields:
   - resolutionKey
   - resolutionLabel
@@ -97,9 +97,9 @@ automation_read_models:
   producer_source_refs:
   - quest_application_mgr
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
 - id: quest_news_resolution_view
-  java_class: com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO
+  java_class: com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO
   required_fields:
   - resolutionKey
   - resolutionLabel
@@ -107,13 +107,13 @@ automation_read_models:
   producer_source_refs:
   - quest_news_mgr
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestNewsMgrTest.java
 - id: quest_applications_selection_view
-  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO
+  java_class: com.themuffinman.app.vision.dto.QuestApplicationsViewDTO
   required_fields:
   - pendingApplicationCount
   - oldestPendingApplicationId
   producer_source_refs:
   - quest_application_read_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java

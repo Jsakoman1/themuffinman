@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-30T10:07:29Z",
-  "active_route_backed_file_count": 34,
+  "generated_at": "2026-07-01T14:49:23Z",
+  "active_route_backed_file_count": 16,
   "backend_permission_source_count": 13,
   "backend_presentation_flag_count": 4,
-  "frontend_passthrough_gate_count": 61,
-  "frontend_local_gate_count": 11,
+  "frontend_passthrough_gate_count": 40,
+  "frontend_local_gate_count": 7,
   "backend_permission_sources": [
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
@@ -41,7 +41,7 @@
       "kind": "backend_source"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
       "line": 44,
       "snippet": "public List<QuestAllowedActionDTO> resolveAllowedActions(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {",
       "action_keys": [
@@ -57,7 +57,7 @@
       "kind": "backend_source"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
       "line": 49,
       "snippet": "allowedActions.add(QuestAllowedActionDTO.EDIT);",
       "action_keys": [
@@ -66,7 +66,7 @@
       "kind": "backend_source"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
       "line": 50,
       "snippet": "allowedActions.add(QuestAllowedActionDTO.VIEW_APPLICATIONS);",
       "action_keys": [
@@ -75,7 +75,7 @@
       "kind": "backend_source"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
       "line": 51,
       "snippet": "allowedActions.add(QuestAllowedActionDTO.DELETE);",
       "action_keys": [
@@ -84,7 +84,7 @@
       "kind": "backend_source"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
       "line": 55,
       "snippet": "allowedActions.add(QuestAllowedActionDTO.APPLY);",
       "action_keys": [
@@ -93,7 +93,7 @@
       "kind": "backend_source"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
       "line": 59,
       "snippet": "allowedActions.add(QuestAllowedActionDTO.START);",
       "action_keys": [
@@ -102,7 +102,7 @@
       "kind": "backend_source"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
       "line": 63,
       "snippet": "allowedActions.add(QuestAllowedActionDTO.COMPLETE);",
       "action_keys": [
@@ -111,7 +111,7 @@
       "kind": "backend_source"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
       "line": 67,
       "snippet": "allowedActions.add(QuestAllowedActionDTO.CONFIRM_TERM_CHANGE);",
       "action_keys": [
@@ -120,7 +120,7 @@
       "kind": "backend_source"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
       "line": 68,
       "snippet": "allowedActions.add(QuestAllowedActionDTO.REJECT_TERM_CHANGE);",
       "action_keys": [
@@ -129,7 +129,7 @@
       "kind": "backend_source"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
       "line": 49,
       "snippet": "var allowedActions = questAccessPolicyService.resolveAllowedActions(quest, currentUser, viewerApplication);",
       "action_keys": [
@@ -165,7 +165,7 @@
       "kind": "backend_presentation"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssembler.java",
       "line": 38,
       "snippet": ".canEdit(allowedActions.contains(ApplicationAllowedActionDTO.EDIT))",
       "action_keys": [
@@ -174,7 +174,7 @@
       "kind": "backend_presentation"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssembler.java",
       "line": 39,
       "snippet": ".canWithdraw(allowedActions.contains(ApplicationAllowedActionDTO.WITHDRAW))",
       "action_keys": [
@@ -425,67 +425,6 @@
       "active_route_backed": false
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "line": 52,
-      "snippet": "primaryAction,",
-      "action_keys": [
-        "PRIMARY_ACTION"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "line": 80,
-      "snippet": "const handlePrimaryAction = () => void executeSocialAction(router, primaryAction.value, {",
-      "action_keys": [
-        "PRIMARY_ACTION"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "line": 279,
-      "snippet": "<div v-if=\"!isOwnProfile && (primaryAction || showBlockAction)\" class=\"button-row mt-4\">",
-      "action_keys": [
-        "BLOCK",
-        "PRIMARY_ACTION"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "line": 281,
-      "snippet": "v-if=\"primaryAction\"",
-      "action_keys": [
-        "PRIMARY_ACTION"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "line": 284,
-      "snippet": ":disabled=\"isSaving || !primaryAction.enabled\"",
-      "action_keys": [
-        "PRIMARY_ACTION"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "line": 287,
-      "snippet": "{{ primaryAction.label }}",
-      "action_keys": [
-        "PRIMARY_ACTION"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": false
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
       "line": 24,
       "snippet": "const primaryAction = computed(() => profileView.value?.primaryAction ?? null)",
@@ -506,34 +445,74 @@
       "active_route_backed": true
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
-      "line": 60,
-      "snippet": "<template v-if=\"application.presentation.showManagementActions\" #actions>",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "line": 324,
+      "snippet": "v-if=\"myApplication.presentation.canWithdraw\"",
       "action_keys": [
-        "UNKNOWN"
+        "WITHDRAW"
       ],
       "kind": "frontend_passthrough",
-      "active_route_backed": false
+      "active_route_backed": true
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
-      "line": 61,
-      "snippet": "<button v-if=\"application.presentation.canApprove\" class=\"button button--secondary\" type=\"button\" @click=\"$emit('approve', application.id)\">Approve</button>",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "line": 47,
+      "snippet": "primaryAction,",
       "action_keys": [
-        "APPROVE"
+        "PRIMARY_ACTION"
       ],
       "kind": "frontend_passthrough",
-      "active_route_backed": false
+      "active_route_backed": true
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
-      "line": 62,
-      "snippet": "<button v-if=\"application.presentation.canDecline\" class=\"button button--danger\" type=\"button\" @click=\"$emit('decline', application.id)\">Decline</button>",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "line": 122,
+      "snippet": "const handleSocialAction = async (action = primaryAction.value) => {",
       "action_keys": [
-        "DECLINE"
+        "PRIMARY_ACTION"
       ],
       "kind": "frontend_passthrough",
-      "active_route_backed": false
+      "active_route_backed": true
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "line": 279,
+      "snippet": "v-if=\"primaryAction\"",
+      "action_keys": [
+        "PRIMARY_ACTION"
+      ],
+      "kind": "frontend_passthrough",
+      "active_route_backed": true
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "line": 282,
+      "snippet": ":disabled=\"isSaving || !primaryAction.enabled\"",
+      "action_keys": [
+        "PRIMARY_ACTION"
+      ],
+      "kind": "frontend_passthrough",
+      "active_route_backed": true
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "line": 283,
+      "snippet": "@click=\"handleSocialAction(primaryAction)\"",
+      "action_keys": [
+        "PRIMARY_ACTION"
+      ],
+      "kind": "frontend_passthrough",
+      "active_route_backed": true
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "line": 285,
+      "snippet": "{{ primaryAction.label }}",
+      "action_keys": [
+        "PRIMARY_ACTION"
+      ],
+      "kind": "frontend_passthrough",
+      "active_route_backed": true
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
@@ -576,166 +555,6 @@
       "active_route_backed": false
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createApplicationDialogViewState.ts",
-      "line": 17,
-      "snippet": "const canEdit = computed(() => application.value?.presentation.canEdit ?? false)",
-      "action_keys": [
-        "EDIT"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createApplicationDialogViewState.ts",
-      "line": 18,
-      "snippet": "const canWithdraw = computed(() => application.value?.presentation.canWithdraw ?? false)",
-      "action_keys": [
-        "WITHDRAW"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
-      "line": 336,
-      "snippet": "if (application.presentation.canEdit) {",
-      "action_keys": [
-        "EDIT"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "line": 52,
-      "snippet": "const canEdit = computed(() => quest.value?.presentation.canEdit ?? false)",
-      "action_keys": [
-        "EDIT"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "line": 53,
-      "snippet": "const canApply = computed(() => quest.value?.presentation.canApply ?? false)",
-      "action_keys": [
-        "APPLY"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "line": 77,
-      "snippet": "const canShowApplications = computed(() => quest.value?.presentation.canViewApplications ?? false)",
-      "action_keys": [
-        "VIEW_APPLICATIONS"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "line": 81,
-      "snippet": "const canOpenMyApplication = computed(() => quest.value?.presentation.canOpenMyApplication ?? false)",
-      "action_keys": [
-        "UNKNOWN"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "line": 82,
-      "snippet": "const deleteVisible = computed(() => quest.value?.presentation.deleteVisible ?? false)",
-      "action_keys": [
-        "DELETE"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "line": 85,
-      "snippet": "primaryAction: null,",
-      "action_keys": [
-        "PRIMARY_ACTION"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "line": 105,
-      "snippet": "postingSettingsVisible: quest.value?.presentation.postingSettingsVisible ?? canEdit.value,",
-      "action_keys": [
-        "EDIT"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "line": 109,
-      "snippet": "const executionPrimaryAction = computed(() => executionSection.value.primaryAction)",
-      "action_keys": [
-        "PRIMARY_ACTION"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-      "line": 23,
-      "snippet": "if (quest.presentation.canEdit) {",
-      "action_keys": [
-        "EDIT"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-      "line": 29,
-      "snippet": "if (quest.presentation.canViewApplications) {",
-      "action_keys": [
-        "VIEW_APPLICATIONS"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-      "line": 33,
-      "snippet": "if (quest.presentation.canApply) {",
-      "action_keys": [
-        "APPLY"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-      "line": 51,
-      "snippet": "if (application.presentation.canEdit) {",
-      "action_keys": [
-        "EDIT"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
-      "line": 56,
-      "snippet": "if (state.selectedQuestDialog.value?.presentation.canViewApplications) {",
-      "action_keys": [
-        "VIEW_APPLICATIONS"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": false
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts",
       "line": 35,
       "snippet": "const canApply = computed(() => state.quest.value?.presentation.canApply ?? false)",
@@ -764,78 +583,38 @@
       ],
       "kind": "frontend_passthrough",
       "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "line": 179,
-      "snippet": "<button v-if=\"application.presentation.canApprove\" class=\"button\" type=\"button\" @click=\"approveApplication(application)\">Approve</button>",
-      "action_keys": [
-        "APPROVE"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "line": 180,
-      "snippet": "<button v-if=\"application.presentation.canDecline\" class=\"button button--ghost\" type=\"button\" @click=\"declineApplication(application)\">Decline</button>",
-      "action_keys": [
-        "DECLINE"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 328,
-      "snippet": "v-if=\"myApplication.presentation.canWithdraw\"",
-      "action_keys": [
-        "WITHDRAW"
-      ],
-      "kind": "frontend_passthrough",
-      "active_route_backed": true
     }
   ],
   "frontend_local_gates": [
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "line": 119,
-      "snippet": "<div v-if=\"quest.status !== 'CANCELLED' && !canApply && !applicationSentVisible && !myApplication\" class=\"surface-stack surface-stack--compact\">",
-      "action_keys": [
-        "APPLY"
-      ],
-      "kind": "frontend_local",
-      "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "line": 175,
-      "snippet": "<div v-if=\"canApply || applicationSentVisible || myApplication\" class=\"surface-stack surface-stack--compact\">",
-      "action_keys": [
-        "APPLY"
-      ],
-      "kind": "frontend_local",
-      "active_route_backed": false
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "line": 197,
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "line": 309,
       "snippet": "<div v-if=\"myApplication.proposedPrice !== null && myApplication.proposedPrice !== undefined\" class=\"surface-price\">",
       "action_keys": [
         "UNKNOWN"
       ],
       "kind": "frontend_local",
-      "active_route_backed": false
+      "active_route_backed": true
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "line": 202,
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "line": 314,
       "snippet": "v-if=\"richTextHasContent(myApplication.message)\"",
       "action_keys": [
         "UNKNOWN"
       ],
       "kind": "frontend_local",
-      "active_route_backed": false
+      "active_route_backed": true
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "line": 324,
+      "snippet": "v-if=\"myApplication.presentation.canWithdraw\"",
+      "action_keys": [
+        "WITHDRAW"
+      ],
+      "kind": "frontend_local",
+      "active_route_backed": true
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
@@ -876,74 +655,23 @@
       ],
       "kind": "frontend_local",
       "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 313,
-      "snippet": "<div v-if=\"myApplication.proposedPrice !== null && myApplication.proposedPrice !== undefined\" class=\"surface-price\">",
-      "action_keys": [
-        "UNKNOWN"
-      ],
-      "kind": "frontend_local",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 318,
-      "snippet": "v-if=\"richTextHasContent(myApplication.message)\"",
-      "action_keys": [
-        "UNKNOWN"
-      ],
-      "kind": "frontend_local",
-      "active_route_backed": true
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 328,
-      "snippet": "v-if=\"myApplication.presentation.canWithdraw\"",
-      "action_keys": [
-        "WITHDRAW"
-      ],
-      "kind": "frontend_local",
-      "active_route_backed": true
     }
   ],
   "cross_layer_overlap_shortlist": [
     {
-      "action_key": "APPLY",
-      "backend_source_count": 2,
-      "backend_presentation_count": 0,
-      "frontend_passthrough_count": 4,
-      "frontend_local_count": 2,
-      "backend_source_files": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java"
-      ],
-      "frontend_local_files": [
-        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue"
-      ],
-      "frontend_passthrough_files": [
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/questDetailStateHelpers.ts"
-      ]
-    },
-    {
       "action_key": "WITHDRAW",
       "backend_source_count": 0,
       "backend_presentation_count": 1,
-      "frontend_passthrough_count": 2,
+      "frontend_passthrough_count": 1,
       "frontend_local_count": 1,
       "backend_source_files": [
 
       ],
       "frontend_local_files": [
-        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue"
       ],
       "frontend_passthrough_files": [
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createApplicationDialogViewState.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue"
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue"
       ]
     }
   ]

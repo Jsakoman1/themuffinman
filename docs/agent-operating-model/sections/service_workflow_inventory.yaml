@@ -46,7 +46,7 @@ service_workflow_inventory:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
 - id: quest_facade_write_flows
-  service_class: com.themuffinman.app.workmarket.service.QuestService
+  service_class: com.themuffinman.app.vision.service.QuestService
   service_methods:
   - createQuest
   - updateQuest
@@ -78,9 +78,9 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: circle_group_write_flows
   service_class: com.themuffinman.app.social.service.CircleService
   service_methods:
@@ -105,7 +105,7 @@ service_workflow_inventory:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
 - id: quest_create_write_flow
-  service_class: com.themuffinman.app.workmarket.service.CreateQuestUseCase
+  service_class: com.themuffinman.app.vision.service.CreateQuestUseCase
   service_methods:
   - execute
   covered_intents:
@@ -119,8 +119,8 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java
 - id: vision_create_quest_executor_flow
   service_class: com.themuffinman.app.vision.service.VisionConversationService
   service_methods:
@@ -169,7 +169,7 @@ service_workflow_inventory:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
 - id: quest_update_write_flow
-  service_class: com.themuffinman.app.workmarket.service.UpdateQuestUseCase
+  service_class: com.themuffinman.app.vision.service.UpdateQuestUseCase
   service_methods:
   - execute
   covered_intents:
@@ -185,10 +185,10 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java
 - id: quest_delete_write_flow
-  service_class: com.themuffinman.app.workmarket.service.DeleteQuestUseCase
+  service_class: com.themuffinman.app.vision.service.DeleteQuestUseCase
   service_methods:
   - execute
   covered_intents:
@@ -201,9 +201,9 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
 - id: quest_start_write_flow
-  service_class: com.themuffinman.app.workmarket.service.StartQuestUseCase
+  service_class: com.themuffinman.app.vision.service.StartQuestUseCase
   service_methods:
   - execute
   covered_intents:
@@ -217,10 +217,10 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
 - id: quest_complete_write_flow
-  service_class: com.themuffinman.app.workmarket.service.CompleteQuestUseCase
+  service_class: com.themuffinman.app.vision.service.CompleteQuestUseCase
   service_methods:
   - execute
   covered_intents:
@@ -234,10 +234,10 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
 - id: quest_confirm_term_change_write_flow
-  service_class: com.themuffinman.app.workmarket.service.ConfirmQuestTermChangeUseCase
+  service_class: com.themuffinman.app.vision.service.ConfirmQuestTermChangeUseCase
   service_methods:
   - execute
   covered_intents:
@@ -251,10 +251,10 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
 - id: quest_reject_term_change_write_flow
-  service_class: com.themuffinman.app.workmarket.service.RejectQuestTermChangeUseCase
+  service_class: com.themuffinman.app.vision.service.RejectQuestTermChangeUseCase
   service_methods:
   - execute
   covered_intents:
@@ -268,10 +268,10 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
 - id: quest_application_write_flows
-  service_class: com.themuffinman.app.workmarket.service.QuestApplicationService
+  service_class: com.themuffinman.app.vision.service.QuestApplicationService
   service_methods:
   - applyForQuest
   - updateMyApplication
@@ -300,9 +300,9 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java
 - id: business_profile_write_flows
   service_class: com.themuffinman.app.business.service.BusinessProfileService
   service_methods:
@@ -368,7 +368,7 @@ service_workflow_inventory:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
 - id: news_write_flows
-  service_class: com.themuffinman.app.workmarket.service.QuestNewsService
+  service_class: com.themuffinman.app.vision.service.QuestNewsService
   service_methods:
   - markMyNewsAsRead
   - markMyNewsItemAsRead
@@ -382,9 +382,9 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestNewsServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestNewsServiceTest.java
 - id: review_write_flows
-  service_class: com.themuffinman.app.workmarket.service.UserReviewService
+  service_class: com.themuffinman.app.vision.service.UserReviewService
   service_methods:
   - createOrUpdateReview
   covered_intents:
@@ -396,4 +396,4 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/UserReviewServiceTest.java

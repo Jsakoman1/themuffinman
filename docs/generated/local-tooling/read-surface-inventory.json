@@ -1,8 +1,33 @@
 {
-  "generated_at": "2026-06-30T10:54:35Z",
-  "service_count": 81,
-  "read_surface_count": 148,
+  "generated_at": "2026-07-01T14:49:21Z",
+  "service_count": 111,
+  "read_surface_count": 160,
   "read_surfaces": [
+    {
+      "service": "AdminAgentTargetUserResolver",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTargetUserResolver.java",
+      "domain": "agent",
+      "method": "resolveExactUser",
+      "return_type": "AppUser",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "AppUserRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public AppUser resolveExactUser(String rawQuery) {",
+        "String query = normalize(rawQuery);"
+      ]
+    },
     {
       "service": "BusinessProfileService",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java",
@@ -456,6 +481,31 @@
       ],
       "line_hints": [
         "public LocationLookupCandidateDTO lookupFirst(String query, String actorKey) {",
+        "LocationLookupResponseDTO response = lookup(query, actorKey);"
+      ]
+    },
+    {
+      "service": "LocationLookupService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
+      "domain": "location",
+      "method": "lookupTopCandidates",
+      "return_type": "List<LocationLookupCandidateDTO>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": true,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<LocationLookupCandidateDTO>"
+      ],
+      "line_hints": [
+        "public List<LocationLookupCandidateDTO> lookupTopCandidates(String query, String actorKey, int limit) {",
         "LocationLookupResponseDTO response = lookup(query, actorKey);"
       ]
     },
@@ -2212,8 +2262,208 @@
       ]
     },
     {
+      "service": "VisionChatExecutionService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java",
+      "domain": "vision",
+      "method": "openChat",
+      "return_type": "VisionChatExecutionResult",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "ChatOpenConversationRequestDTO"
+      ],
+      "line_hints": [
+        "public VisionChatExecutionResult openChat(AppUser currentUser, String prompt, VisionSemanticPlan semanticPlan) {",
+        "if (currentUser == null) {"
+      ]
+    },
+    {
+      "service": "VisionClarificationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java",
+      "domain": "vision",
+      "method": "buildQuestion",
+      "return_type": "String",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public String buildQuestion(String slotId) {",
+        "return switch (slotId) {"
+      ]
+    },
+    {
+      "service": "VisionClarificationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java",
+      "domain": "vision",
+      "method": "buildRetryQuestion",
+      "return_type": "String",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public String buildRetryQuestion(String slotId) {",
+        "return switch (slotId) {"
+      ]
+    },
+    {
+      "service": "VisionConversationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "domain": "vision",
+      "method": "loadConversation",
+      "return_type": "VisionConversationTurnResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "VisionTurnRepository"
+      ],
+      "helper_types": [
+        "VisionCanvasAssembler"
+      ],
+      "dto_types": [
+        "VisionConversationTurnResponseDTO"
+      ],
+      "line_hints": [
+        "public VisionConversationTurnResponseDTO loadConversation(Long conversationId, AppUser currentUser) {",
+        "validateAccess(currentUser);"
+      ]
+    },
+    {
+      "service": "VisionConversationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "domain": "vision",
+      "method": "listRecentConversations",
+      "return_type": "VisionConversationListResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "VisionConversationListResponseDTO"
+      ],
+      "line_hints": [
+        "public VisionConversationListResponseDTO listRecentConversations(AppUser currentUser) {",
+        "validateAccess(currentUser);"
+      ]
+    },
+    {
+      "service": "VisionLocationResolutionService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLocationResolutionService.java",
+      "domain": "vision",
+      "method": "resolveCustomLocation",
+      "return_type": "Map<String, String>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public Map<String, String> resolveCustomLocation(String rawInput, String actorKey) {",
+        "Map<String, String> resolved = new LinkedHashMap<>(visionLocationParserService.parseCustomLocation(rawInput));"
+      ]
+    },
+    {
+      "service": "VisionPromptUnderstandingResult",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingResult.java",
+      "domain": "vision",
+      "method": "toExtractedSlotMap",
+      "return_type": "Map<String, String>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public Map<String, String> toExtractedSlotMap() {",
+        "Map<String, String> flattened = new LinkedHashMap<>();"
+      ]
+    },
+    {
+      "service": "VisionSemanticPlan",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java",
+      "domain": "vision",
+      "method": "searchQueryOrEmpty",
+      "return_type": "String",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public String searchQueryOrEmpty() {",
+        "return searchQuery == null ? \"\" : searchQuery.trim();"
+      ]
+    },
+    {
       "service": "DashboardPlannerAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardPlannerAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardPlannerAssembler.java",
       "domain": "workmarket",
       "method": "buildPlannerSection",
       "return_type": "DashboardPlannerSectionDTO",
@@ -2238,7 +2488,7 @@
     },
     {
       "service": "DashboardSectionGrouper",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionGrouper.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java",
       "domain": "workmarket",
       "method": "buildQuestGroups",
       "return_type": "List<DashboardQuestGroupDTO>",
@@ -2263,7 +2513,7 @@
     },
     {
       "service": "DashboardSectionGrouper",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionGrouper.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java",
       "domain": "workmarket",
       "method": "buildApplicationGroups",
       "return_type": "List<DashboardApplicationGroupDTO>",
@@ -2288,7 +2538,7 @@
     },
     {
       "service": "DashboardService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
       "domain": "workmarket",
       "method": "getMyDashboard",
       "return_type": "DashboardResponseDTO",
@@ -2315,7 +2565,7 @@
     },
     {
       "service": "DashboardService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
       "domain": "workmarket",
       "method": "getMySummary",
       "return_type": "DashboardSummaryDTO",
@@ -2340,8 +2590,33 @@
       ]
     },
     {
+      "service": "DashboardService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
+      "domain": "workmarket",
+      "method": "getMyVoiceConfig",
+      "return_type": "DashboardVoiceConfigDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": true,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "DashboardVoiceConfigDTO"
+      ],
+      "line_hints": [
+        "public DashboardVoiceConfigDTO getMyVoiceConfig(AppUser currentUser) {",
+        "boolean authenticated = currentUser != null;"
+      ]
+    },
+    {
       "service": "DashboardSummaryAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSummaryAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSummaryAssembler.java",
       "domain": "workmarket",
       "method": "buildSummary",
       "return_type": "DashboardSummaryDTO",
@@ -2365,8 +2640,33 @@
       ]
     },
     {
+      "service": "OpenAiVoiceClient",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/OpenAiVoiceClient.java",
+      "domain": "workmarket",
+      "method": "getFilename",
+      "return_type": "String",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public String getFilename() {",
+        "return filename;"
+      ]
+    },
+    {
       "service": "QuestAccessPolicyService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
       "domain": "workmarket",
       "method": "resolveViewerRelation",
       "return_type": "QuestViewerRelationDTO",
@@ -2391,7 +2691,7 @@
     },
     {
       "service": "QuestAccessPolicyService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
       "domain": "workmarket",
       "method": "resolveAllowedActions",
       "return_type": "List<QuestAllowedActionDTO>",
@@ -2416,7 +2716,7 @@
     },
     {
       "service": "QuestApplicationAdminQueryService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminQueryService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminQueryService.java",
       "domain": "workmarket",
       "method": "getAllApplicationsForAdmin",
       "return_type": "List<QuestApplicationResponseDTO>",
@@ -2441,7 +2741,7 @@
     },
     {
       "service": "QuestApplicationAdminQueryService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminQueryService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminQueryService.java",
       "domain": "workmarket",
       "method": "searchApplicationsForAdmin",
       "return_type": "QuestApplicationListResponseDTO",
@@ -2466,7 +2766,7 @@
     },
     {
       "service": "QuestApplicationPresentationAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssembler.java",
       "domain": "workmarket",
       "method": "resolveApplicantActions",
       "return_type": "List<ApplicationAllowedActionDTO>",
@@ -2491,7 +2791,7 @@
     },
     {
       "service": "QuestApplicationPresentationAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssembler.java",
       "domain": "workmarket",
       "method": "resolveManagementActions",
       "return_type": "List<ApplicationAllowedActionDTO>",
@@ -2516,7 +2816,7 @@
     },
     {
       "service": "QuestApplicationReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
       "domain": "workmarket",
       "method": "getApplicationsForQuest",
       "return_type": "List<QuestApplicationResponseDTO>",
@@ -2541,7 +2841,7 @@
     },
     {
       "service": "QuestApplicationReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
       "domain": "workmarket",
       "method": "getApplicationsViewForQuest",
       "return_type": "QuestApplicationsViewDTO",
@@ -2566,7 +2866,7 @@
     },
     {
       "service": "QuestApplicationReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
       "domain": "workmarket",
       "method": "getPublicApprovedApplicationsViewForQuest",
       "return_type": "QuestApplicationsViewDTO",
@@ -2591,7 +2891,7 @@
     },
     {
       "service": "QuestApplicationReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
       "domain": "workmarket",
       "method": "getApplicationsForApplicant",
       "return_type": "List<QuestApplicationResponseDTO>",
@@ -2616,7 +2916,7 @@
     },
     {
       "service": "QuestApplicationReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
       "domain": "workmarket",
       "method": "toApplicantResponse",
       "return_type": "QuestApplicationResponseDTO",
@@ -2641,7 +2941,7 @@
     },
     {
       "service": "QuestApplicationReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
       "domain": "workmarket",
       "method": "toViewerResponse",
       "return_type": "QuestApplicationResponseDTO",
@@ -2666,7 +2966,7 @@
     },
     {
       "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
       "domain": "workmarket",
       "method": "getApplicationsForQuest",
       "return_type": "List<QuestApplicationResponseDTO>",
@@ -2691,7 +2991,7 @@
     },
     {
       "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
       "domain": "workmarket",
       "method": "getApplicationsViewForQuest",
       "return_type": "QuestApplicationsViewDTO",
@@ -2716,7 +3016,7 @@
     },
     {
       "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
       "domain": "workmarket",
       "method": "getPublicApprovedApplicationsViewForQuest",
       "return_type": "QuestApplicationsViewDTO",
@@ -2741,7 +3041,7 @@
     },
     {
       "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
       "domain": "workmarket",
       "method": "getApplicationsForApplicant",
       "return_type": "List<QuestApplicationResponseDTO>",
@@ -2766,7 +3066,7 @@
     },
     {
       "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
       "domain": "workmarket",
       "method": "toApplicantResponse",
       "return_type": "QuestApplicationResponseDTO",
@@ -2791,7 +3091,7 @@
     },
     {
       "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
       "domain": "workmarket",
       "method": "toViewerResponse",
       "return_type": "QuestApplicationResponseDTO",
@@ -2816,7 +3116,7 @@
     },
     {
       "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
       "domain": "workmarket",
       "method": "getAllApplicationsForAdmin",
       "return_type": "List<QuestApplicationResponseDTO>",
@@ -2841,7 +3141,7 @@
     },
     {
       "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
       "domain": "workmarket",
       "method": "searchApplicationsForAdmin",
       "return_type": "QuestApplicationListResponseDTO",
@@ -2866,7 +3166,7 @@
     },
     {
       "service": "QuestApplicationViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
       "domain": "workmarket",
       "method": "toApplicantResponse",
       "return_type": "QuestApplicationResponseDTO",
@@ -2892,7 +3192,7 @@
     },
     {
       "service": "QuestApplicationViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
       "domain": "workmarket",
       "method": "toManagementResponse",
       "return_type": "QuestApplicationResponseDTO",
@@ -2918,7 +3218,7 @@
     },
     {
       "service": "QuestApplicationViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
       "domain": "workmarket",
       "method": "toPublicResponse",
       "return_type": "QuestApplicationResponseDTO",
@@ -2944,7 +3244,7 @@
     },
     {
       "service": "QuestApplicationViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
       "domain": "workmarket",
       "method": "toViewerResponse",
       "return_type": "QuestApplicationResponseDTO",
@@ -2969,7 +3269,7 @@
     },
     {
       "service": "QuestExecutionPrimitiveService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
       "domain": "workmarket",
       "method": "resolveTarget",
       "return_type": "Quest",
@@ -2994,7 +3294,7 @@
     },
     {
       "service": "QuestExecutionPrimitiveService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
       "domain": "workmarket",
       "method": "resolveTargetForTermDecision",
       "return_type": "Quest",
@@ -3019,7 +3319,7 @@
     },
     {
       "service": "QuestExecutionPrimitiveService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
       "domain": "workmarket",
       "method": "resolveCreator",
       "return_type": "AppUser",
@@ -3044,7 +3344,7 @@
     },
     {
       "service": "QuestNewsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsService.java",
       "domain": "workmarket",
       "method": "getMyNews",
       "return_type": "List<QuestNewsItem>",
@@ -3069,7 +3369,7 @@
     },
     {
       "service": "QuestNewsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestNewsService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsService.java",
       "domain": "workmarket",
       "method": "getUnreadCount",
       "return_type": "long",
@@ -3094,7 +3394,7 @@
     },
     {
       "service": "QuestPresentationAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPresentationAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestPresentationAssembler.java",
       "domain": "workmarket",
       "method": "buildDefaultPresentation",
       "return_type": "QuestPresentationDTO",
@@ -3119,7 +3419,7 @@
     },
     {
       "service": "QuestPresentationAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPresentationAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestPresentationAssembler.java",
       "domain": "workmarket",
       "method": "buildPresentation",
       "return_type": "QuestPresentationDTO",
@@ -3144,7 +3444,7 @@
     },
     {
       "service": "QuestQueryService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestQueryService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestQueryService.java",
       "domain": "workmarket",
       "method": "buildQuestPage",
       "return_type": "PageWindow<Quest>",
@@ -3169,7 +3469,7 @@
     },
     {
       "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getAllQuests",
       "return_type": "List<Quest>",
@@ -3194,7 +3494,7 @@
     },
     {
       "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getAllQuestResponses",
       "return_type": "List<QuestResponseDTO>",
@@ -3219,7 +3519,7 @@
     },
     {
       "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "searchQuests",
       "return_type": "QuestListResponseDTO",
@@ -3244,7 +3544,7 @@
     },
     {
       "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getQuestListPreset",
       "return_type": "QuestListResponseDTO",
@@ -3269,7 +3569,7 @@
     },
     {
       "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getQuestById",
       "return_type": "Quest",
@@ -3294,7 +3594,7 @@
     },
     {
       "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getQuestResponseById",
       "return_type": "QuestResponseDTO",
@@ -3319,7 +3619,7 @@
     },
     {
       "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getQuestDetailResponseById",
       "return_type": "QuestDetailResponseDTO",
@@ -3347,7 +3647,7 @@
     },
     {
       "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "getApplicationDetailResponseById",
       "return_type": "QuestApplicationDetailResponseDTO",
@@ -3375,7 +3675,7 @@
     },
     {
       "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "toResponse",
       "return_type": "QuestResponseDTO",
@@ -3400,7 +3700,7 @@
     },
     {
       "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
       "domain": "workmarket",
       "method": "toResponses",
       "return_type": "List<QuestResponseDTO>",
@@ -3425,7 +3725,7 @@
     },
     {
       "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
       "domain": "workmarket",
       "method": "getQuestById",
       "return_type": "Quest",
@@ -3450,7 +3750,7 @@
     },
     {
       "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
       "domain": "workmarket",
       "method": "getQuestResponseById",
       "return_type": "QuestResponseDTO",
@@ -3475,7 +3775,7 @@
     },
     {
       "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
       "domain": "workmarket",
       "method": "toResponse",
       "return_type": "QuestResponseDTO",
@@ -3500,7 +3800,7 @@
     },
     {
       "service": "QuestViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
       "domain": "workmarket",
       "method": "toResponse",
       "return_type": "QuestResponseDTO",
@@ -3526,7 +3826,7 @@
     },
     {
       "service": "QuestViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
       "domain": "workmarket",
       "method": "buildQuestDetailReviewSection",
       "return_type": "QuestDetailReviewSectionDTO",
@@ -3551,7 +3851,7 @@
     },
     {
       "service": "QuestViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
       "domain": "workmarket",
       "method": "buildQuestDetailExecutionSection",
       "return_type": "QuestDetailExecutionSectionDTO",
@@ -3576,7 +3876,7 @@
     },
     {
       "service": "QuestViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
       "domain": "workmarket",
       "method": "buildQuestDetailTermChangeSection",
       "return_type": "QuestDetailTermChangeSectionDTO",
@@ -3601,7 +3901,7 @@
     },
     {
       "service": "QuestViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
       "domain": "workmarket",
       "method": "buildQuestDetailManagementSection",
       "return_type": "QuestDetailManagementSectionDTO",
@@ -3626,7 +3926,7 @@
     },
     {
       "service": "QuestVisibilityService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestVisibilityService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestVisibilityService.java",
       "domain": "workmarket",
       "method": "getVisibleCircles",
       "return_type": "List<CircleGroup>",
@@ -3651,7 +3951,7 @@
     },
     {
       "service": "UserReviewService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "domain": "workmarket",
       "method": "getRatingSummary",
       "return_type": "UserRatingSummaryDTO",
@@ -3676,7 +3976,7 @@
     },
     {
       "service": "UserReviewService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "domain": "workmarket",
       "method": "getRecentReviewsForProfile",
       "return_type": "List<UserReviewResponseDTO>",
@@ -3701,7 +4001,7 @@
     },
     {
       "service": "WorkmarketOptionsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
       "domain": "workmarket",
       "method": "getOptions",
       "return_type": "WorkmarketOptionsDTO",
@@ -3736,6 +4036,6 @@
       ]
     }
   ],
-  "transaction_relevant_read_surface_count": 86,
-  "missing_read_only_transaction_count": 2
+  "transaction_relevant_read_surface_count": 90,
+  "missing_read_only_transaction_count": 4
 }

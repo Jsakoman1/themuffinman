@@ -4,7 +4,7 @@ import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.location.service.LocationSettingsViewService;
-import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.common.validation.RichTextInputValidator;

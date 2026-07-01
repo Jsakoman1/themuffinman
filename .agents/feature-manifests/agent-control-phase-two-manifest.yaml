@@ -79,9 +79,9 @@ artifacts:
     - Makefile
     - apps/themuffinman/Makefile
     - apps/themuffinman/frontend/package.json
-    - apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs
-    - apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
-    - apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts
+    - apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs
+    - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+    - apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts
   docPaths:
     - docs/agent-operating-model.md
     - docs/agent-operating-model.yaml
@@ -96,8 +96,8 @@ artifacts:
     - docs/generated/automation-read-model-inventory.json
   testPaths:
     - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
-    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java
-    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
     - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java
   generatorCommands:
     - make generate-agent-operating-model

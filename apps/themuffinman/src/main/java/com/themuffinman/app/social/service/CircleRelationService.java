@@ -9,7 +9,7 @@ import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.mapper.CircleRequestMgr;
 import com.themuffinman.app.social.model.CircleRequest;
 import com.themuffinman.app.social.repository.CircleRequestRepository;
-import com.themuffinman.app.workmarket.service.QuestNewsService;
+import com.themuffinman.app.vision.service.QuestNewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

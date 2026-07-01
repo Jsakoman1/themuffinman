@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-29T19:55:17Z",
-  "migration_count": 33,
+  "generated_at": "2026-07-01T14:47:58Z",
+  "migration_count": 34,
   "entities": [
     {
       "entity": "BusinessProfile",
@@ -112,8 +112,26 @@
       ]
     },
     {
+      "entity": "VisionConversation",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java",
+      "table": "vision_conversation",
+      "table_in_migration": true,
+      "fields_without_obvious_migration_match": [
+
+      ]
+    },
+    {
+      "entity": "VisionTurn",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java",
+      "table": "vision_turn",
+      "table_in_migration": true,
+      "fields_without_obvious_migration_match": [
+        "appliedSlotIds"
+      ]
+    },
+    {
       "entity": "Quest",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/Quest.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java",
       "table": "quest",
       "table_in_migration": true,
       "fields_without_obvious_migration_match": [
@@ -123,7 +141,7 @@
     },
     {
       "entity": "QuestApplication",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestApplication.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplication.java",
       "table": "quest_application",
       "table_in_migration": true,
       "fields_without_obvious_migration_match": [
@@ -132,7 +150,7 @@
     },
     {
       "entity": "QuestNewsItem",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestNewsItem.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestNewsItem.java",
       "table": "quest_news_item",
       "table_in_migration": true,
       "fields_without_obvious_migration_match": [
@@ -141,7 +159,7 @@
     },
     {
       "entity": "UserReview",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/UserReview.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/UserReview.java",
       "table": "user_review",
       "table_in_migration": true,
       "fields_without_obvious_migration_match": [
@@ -179,8 +197,17 @@
       ]
     },
     {
+      "entity": "VisionTurn",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java",
+      "table": "vision_turn",
+      "table_in_migration": true,
+      "fields_without_obvious_migration_match": [
+        "appliedSlotIds"
+      ]
+    },
+    {
       "entity": "Quest",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/Quest.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java",
       "table": "quest",
       "table_in_migration": true,
       "fields_without_obvious_migration_match": [

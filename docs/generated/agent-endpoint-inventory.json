@@ -384,211 +384,211 @@
     "path": "/vision/conversations/{conversationId}"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
+    "controllerClass": "com.themuffinman.app.vision.controller.DashboardController",
     "handlerMethod": "getMyDashboard",
     "httpMethod": "GET",
     "path": "/dashboard/me"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
+    "controllerClass": "com.themuffinman.app.vision.controller.DashboardController",
     "handlerMethod": "getMySummary",
     "httpMethod": "GET",
     "path": "/dashboard/me/summary"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
+    "controllerClass": "com.themuffinman.app.vision.controller.DashboardController",
     "handlerMethod": "getMyVoiceConfig",
     "httpMethod": "GET",
     "path": "/dashboard/me/voice-config"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
+    "controllerClass": "com.themuffinman.app.vision.controller.DashboardController",
     "handlerMethod": "processVisionPrompt",
     "httpMethod": "POST",
     "path": "/dashboard/me/vision/prompt"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
+    "controllerClass": "com.themuffinman.app.vision.controller.DashboardController",
     "handlerMethod": "transcribeVoice",
     "httpMethod": "POST",
     "path": "/dashboard/me/voice/transcribe"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.DashboardController",
+    "controllerClass": "com.themuffinman.app.vision.controller.DashboardController",
     "handlerMethod": "speakVoice",
     "httpMethod": "POST",
     "path": "/dashboard/me/voice/speak"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestApplicationController",
     "handlerMethod": "applyForQuest",
     "httpMethod": "POST",
     "path": "/quests/{questId}/applications"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestApplicationController",
     "handlerMethod": "getApplicationsForQuest",
     "httpMethod": "GET",
     "path": "/quests/{questId}/applications"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestApplicationController",
     "handlerMethod": "getApplicationsViewForQuest",
     "httpMethod": "GET",
     "path": "/quests/{questId}/applications/view"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestApplicationController",
     "handlerMethod": "getMyApplications",
     "httpMethod": "GET",
     "path": "/quests/applications/me"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestApplicationController",
     "handlerMethod": "getApplicationDetail",
     "httpMethod": "GET",
     "path": "/applications/{applicationId}/detail"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestApplicationController",
     "handlerMethod": "getAllApplicationsForAdmin",
     "httpMethod": "GET",
     "path": "/admin/applications"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestApplicationController",
     "handlerMethod": "updateApplicationForAdmin",
     "httpMethod": "PUT",
     "path": "/admin/applications/{applicationId}"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestApplicationController",
     "handlerMethod": "deleteApplicationForAdmin",
     "httpMethod": "DELETE",
     "path": "/admin/applications/{applicationId}"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestApplicationController",
     "handlerMethod": "updateMyApplication",
     "httpMethod": "PUT",
     "path": "/quests/{questId}/applications/me"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestApplicationController",
     "handlerMethod": "withdrawMyApplication",
     "httpMethod": "PATCH",
     "path": "/quests/{questId}/applications/me/withdraw"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestApplicationController",
     "handlerMethod": "approveApplication",
     "httpMethod": "PATCH",
     "path": "/quests/{questId}/applications/{applicationId}/approve"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestApplicationController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestApplicationController",
     "handlerMethod": "declineApplication",
     "httpMethod": "PATCH",
     "path": "/quests/{questId}/applications/{applicationId}/decline"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestController",
     "handlerMethod": "createQuest",
     "httpMethod": "POST",
     "path": "/quests"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestController",
     "handlerMethod": "getAllQuests",
     "httpMethod": "GET",
     "path": "/quests"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestController",
     "handlerMethod": "searchQuests",
     "httpMethod": "GET",
     "path": "/quests/search"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestController",
     "handlerMethod": "getQuestPreset",
     "httpMethod": "GET",
     "path": "/quests/presets/{preset}"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestController",
     "handlerMethod": "getQuestById",
     "httpMethod": "GET",
     "path": "/quests/{id}"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestController",
     "handlerMethod": "getQuestDetailById",
     "httpMethod": "GET",
     "path": "/quests/{id}/detail"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestController",
     "handlerMethod": "deleteQuest",
     "httpMethod": "DELETE",
     "path": "/quests/{id}"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestController",
     "handlerMethod": "updateQuest",
     "httpMethod": "PUT",
     "path": "/quests/{id}"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestController",
     "handlerMethod": "startQuest",
     "httpMethod": "PATCH",
     "path": "/quests/{id}/start"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestController",
     "handlerMethod": "completeQuest",
     "httpMethod": "PATCH",
     "path": "/quests/{id}/complete"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestController",
     "handlerMethod": "confirmQuestTermChange",
     "httpMethod": "PATCH",
     "path": "/quests/{id}/term/confirm"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestController",
     "handlerMethod": "rejectQuestTermChange",
     "httpMethod": "PATCH",
     "path": "/quests/{id}/term/reject"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestNewsController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestNewsController",
     "handlerMethod": "getMyNews",
     "httpMethod": "GET",
     "path": "/news/me"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestNewsController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestNewsController",
     "handlerMethod": "getUnreadCount",
     "httpMethod": "GET",
     "path": "/news/me/unread-count"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestNewsController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestNewsController",
     "handlerMethod": "markMyNewsAsRead",
     "httpMethod": "PATCH",
     "path": "/news/me/read"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.QuestNewsController",
+    "controllerClass": "com.themuffinman.app.vision.controller.QuestNewsController",
     "handlerMethod": "markMyNewsItemAsRead",
     "httpMethod": "PATCH",
     "path": "/news/me/{id}/read"
   },
   {
-    "controllerClass": "com.themuffinman.app.workmarket.controller.UserReviewController",
+    "controllerClass": "com.themuffinman.app.vision.controller.UserReviewController",
     "handlerMethod": "createOrUpdateReview",
     "httpMethod": "POST",
     "path": "/quests/{questId}/reviews"

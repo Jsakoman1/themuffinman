@@ -1,8 +1,16 @@
 {
-  "generated_at": "2026-06-29T19:54:59Z",
+  "generated_at": "2026-07-01T14:49:39Z",
   "entities": [
     {
       "entity": "ActionResult",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AdminAgentExecutionRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "AdminAgentExecutionResponse",
       "sandbox_or_synthetic_mentioned": true
     },
     {
@@ -282,6 +290,26 @@
       "sandbox_or_synthetic_mentioned": true
     },
     {
+      "entity": "DashboardVisionPromptRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardVisionPromptResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardVoiceConfig",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardVoiceSpeechRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "DashboardVoiceTranscription",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
       "entity": "DatabaseTableStatusView",
       "sandbox_or_synthetic_mentioned": true
     },
@@ -543,6 +571,50 @@
     },
     {
       "entity": "UserReviewResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "VisionCanvasBlock",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "VisionConversationListResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "VisionConversationSummary",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "VisionConversationTurnRequest",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "VisionConversationTurnResponse",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "VisionExecutionCandidate",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "VisionOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "VisionQuestDiscovery",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "VisionQuestDiscoveryItem",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "VisionQuestReview",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "VisionSlotSummary",
       "sandbox_or_synthetic_mentioned": true
     },
     {

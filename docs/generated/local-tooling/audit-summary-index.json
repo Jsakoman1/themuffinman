@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T09:58:12Z",
+  "generated_at": "2026-07-01T14:49:53Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -407,48 +407,48 @@
   "summaries": [
     {
       "path": "docs/generated/dead-code-audit/backend-unused-summary.md",
-      "mtime": "2026-06-29T19:54:50Z",
-      "bytes": 1279
+      "mtime": "2026-07-01T14:49:30Z",
+      "bytes": 2160
     },
     {
       "path": "docs/generated/dead-code-audit/dead-code-summary-summary.md",
-      "mtime": "2026-06-29T19:54:50Z",
-      "bytes": 2290
+      "mtime": "2026-07-01T14:49:30Z",
+      "bytes": 1500
     },
     {
       "path": "docs/generated/dead-code-audit/frontend-unused-summary.md",
-      "mtime": "2026-06-29T19:54:46Z",
-      "bytes": 3181
+      "mtime": "2026-07-01T14:49:24Z",
+      "bytes": 2280
     },
     {
       "path": "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md",
-      "mtime": "2026-06-29T19:54:52Z",
-      "bytes": 1134
+      "mtime": "2026-07-01T14:49:32Z",
+      "bytes": 984
     },
     {
       "path": "docs/generated/local-tooling/api-contract-drift-summary.md",
-      "mtime": "2026-06-30T11:19:54Z",
-      "bytes": 1684
+      "mtime": "2026-07-01T14:49:22Z",
+      "bytes": 2819
     },
     {
       "path": "docs/generated/local-tooling/api-contract-snapshot-summary.md",
-      "mtime": "2026-06-29T19:55:22Z",
-      "bytes": 6252
+      "mtime": "2026-07-01T14:48:00Z",
+      "bytes": 1331
     },
     {
       "path": "docs/generated/local-tooling/architecture-decision-index-summary.md",
-      "mtime": "2026-06-30T11:19:54Z",
+      "mtime": "2026-07-01T14:49:32Z",
       "bytes": 834
     },
     {
       "path": "docs/generated/local-tooling/architecture-drift-summary.md",
-      "mtime": "2026-06-30T06:36:39Z",
-      "bytes": 5813
+      "mtime": "2026-07-01T14:49:32Z",
+      "bytes": 4227
     },
     {
       "path": "docs/generated/local-tooling/async-mutation-flow-audit-summary.md",
-      "mtime": "2026-06-29T19:55:03Z",
-      "bytes": 4713
+      "mtime": "2026-07-01T14:49:44Z",
+      "bytes": 3013
     },
     {
       "path": "docs/generated/local-tooling/audit-deltas/audit-router-summary.md",
@@ -457,12 +457,12 @@
     },
     {
       "path": "docs/generated/local-tooling/audit-deltas/diff-summary-summary.md",
-      "mtime": "2026-06-29T19:55:21Z",
-      "bytes": 3577
+      "mtime": "2026-07-01T14:49:52Z",
+      "bytes": 191
     },
     {
       "path": "docs/generated/local-tooling/audit-documentation-summary.md",
-      "mtime": "2026-07-01T09:58:12Z",
+      "mtime": "2026-07-01T14:49:44Z",
       "bytes": 143
     },
     {
@@ -477,28 +477,28 @@
     },
     {
       "path": "docs/generated/local-tooling/automation-readiness-gap-audit-summary.md",
-      "mtime": "2026-06-29T19:54:52Z",
-      "bytes": 3501
+      "mtime": "2026-07-01T14:49:32Z",
+      "bytes": 3120
     },
     {
       "path": "docs/generated/local-tooling/backend-dependency-graph-summary.md",
-      "mtime": "2026-06-29T19:55:19Z",
-      "bytes": 9830
+      "mtime": "2026-07-01T14:47:59Z",
+      "bytes": 1134
     },
     {
       "path": "docs/generated/local-tooling/change-impact-preflight-summary.md",
-      "mtime": "2026-06-30T10:07:29Z",
-      "bytes": 593
+      "mtime": "2026-07-01T14:49:21Z",
+      "bytes": 742
     },
     {
       "path": "docs/generated/local-tooling/changeset-playbook-summary.md",
-      "mtime": "2026-06-30T11:07:29Z",
-      "bytes": 230
+      "mtime": "2026-07-01T14:47:53Z",
+      "bytes": 270
     },
     {
       "path": "docs/generated/local-tooling/changeset-risk-summary.md",
-      "mtime": "2026-06-30T11:00:37Z",
-      "bytes": 349
+      "mtime": "2026-07-01T14:49:21Z",
+      "bytes": 313
     },
     {
       "path": "docs/generated/local-tooling/closeout-autofill/codex_context_optimization-summary.md",
@@ -537,8 +537,8 @@
     },
     {
       "path": "docs/generated/local-tooling/config-sprawl-audit-summary.md",
-      "mtime": "2026-06-29T19:54:59Z",
-      "bytes": 658
+      "mtime": "2026-07-01T14:49:39Z",
+      "bytes": 829
     },
     {
       "path": "docs/generated/local-tooling/context-packs/todo-master-plan-summary.md",
@@ -547,8 +547,8 @@
     },
     {
       "path": "docs/generated/local-tooling/contract-test-gaps-summary.md",
-      "mtime": "2026-06-29T19:55:19Z",
-      "bytes": 130
+      "mtime": "2026-07-01T14:49:51Z",
+      "bytes": 1218
     },
     {
       "path": "docs/generated/local-tooling/diagnostics/frontend-build-latest-summary.md",
@@ -562,8 +562,8 @@
     },
     {
       "path": "docs/generated/local-tooling/diff-summary.md",
-      "mtime": "2026-06-30T11:20:21Z",
-      "bytes": 962
+      "mtime": "2026-07-01T14:49:52Z",
+      "bytes": 961
     },
     {
       "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
@@ -572,23 +572,23 @@
     },
     {
       "path": "docs/generated/local-tooling/doc-coverage-gap-audit-summary.md",
-      "mtime": "2026-06-29T19:54:52Z",
-      "bytes": 3364
+      "mtime": "2026-07-01T14:49:32Z",
+      "bytes": 2128
     },
     {
       "path": "docs/generated/local-tooling/doc-staleness-scoring-summary.md",
-      "mtime": "2026-07-01T09:23:44Z",
-      "bytes": 4023
+      "mtime": "2026-07-01T14:49:32Z",
+      "bytes": 3524
     },
     {
       "path": "docs/generated/local-tooling/doc-sync-duplicates-summary.md",
-      "mtime": "2026-06-30T11:00:37Z",
+      "mtime": "2026-07-01T14:49:50Z",
       "bytes": 445
     },
     {
       "path": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
-      "mtime": "2026-06-30T11:21:17Z",
-      "bytes": 897
+      "mtime": "2026-07-01T14:47:57Z",
+      "bytes": 535
     },
     {
       "path": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
@@ -597,23 +597,23 @@
     },
     {
       "path": "docs/generated/local-tooling/doc-template-coverage-summary.md",
-      "mtime": "2026-06-29T19:55:16Z",
-      "bytes": 764
+      "mtime": "2026-07-01T14:49:50Z",
+      "bytes": 268
     },
     {
       "path": "docs/generated/local-tooling/docs-as-tests-summary.md",
-      "mtime": "2026-06-29T19:55:02Z",
+      "mtime": "2026-07-01T14:49:43Z",
       "bytes": 247
     },
     {
       "path": "docs/generated/local-tooling/docs-to-code-drift-audit-summary.md",
-      "mtime": "2026-06-29T19:54:51Z",
-      "bytes": 607
+      "mtime": "2026-07-01T14:49:32Z",
+      "bytes": 438
     },
     {
       "path": "docs/generated/local-tooling/domain-ownership-inventory-summary.md",
-      "mtime": "2026-06-29T19:54:59Z",
-      "bytes": 1660
+      "mtime": "2026-07-01T14:49:39Z",
+      "bytes": 1028
     },
     {
       "path": "docs/generated/local-tooling/domain-packs/agent-summary.md",
@@ -622,108 +622,113 @@
     },
     {
       "path": "docs/generated/local-tooling/domain-packs/workmarket-summary.md",
-      "mtime": "2026-06-29T19:55:12Z",
-      "bytes": 15303
+      "mtime": "2026-07-01T14:49:48Z",
+      "bytes": 1138
     },
     {
       "path": "docs/generated/local-tooling/dormant-code-audit-summary.md",
-      "mtime": "2026-06-29T19:55:00Z",
-      "bytes": 9647
+      "mtime": "2026-07-01T14:49:40Z",
+      "bytes": 7722
     },
     {
       "path": "docs/generated/local-tooling/dto-usage-packs/dashboardsectionsdto-summary.md",
-      "mtime": "2026-06-29T19:55:08Z",
-      "bytes": 2983
+      "mtime": "2026-07-01T14:47:54Z",
+      "bytes": 1289
     },
     {
       "path": "docs/generated/local-tooling/duplicate-logic-audit-summary.md",
-      "mtime": "2026-06-30T10:07:29Z",
-      "bytes": 798
+      "mtime": "2026-07-01T14:49:23Z",
+      "bytes": 630
     },
     {
       "path": "docs/generated/local-tooling/endpoint-callsite-linker-summary.md",
-      "mtime": "2026-06-30T10:54:35Z",
-      "bytes": 2813
+      "mtime": "2026-07-01T14:49:22Z",
+      "bytes": 2039
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/admin-summary.md",
-      "mtime": "2026-06-30T10:53:31Z",
+      "mtime": "2026-07-01T14:47:52Z",
       "bytes": 757
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/agent-summary.md",
-      "mtime": "2026-06-30T10:53:31Z",
-      "bytes": 578
+      "mtime": "2026-07-01T14:47:52Z",
+      "bytes": 837
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/app_users-summary.md",
-      "mtime": "2026-06-30T16:08:01Z",
+      "mtime": "2026-07-01T14:49:45Z",
       "bytes": 1083
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/applications-summary.md",
-      "mtime": "2026-06-30T16:08:01Z",
+      "mtime": "2026-07-01T14:47:52Z",
       "bytes": 305
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/auth-summary.md",
-      "mtime": "2026-06-30T16:08:01Z",
+      "mtime": "2026-07-01T14:49:45Z",
       "bytes": 626
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/business-summary.md",
-      "mtime": "2026-06-30T16:08:01Z",
+      "mtime": "2026-07-01T14:49:45Z",
       "bytes": 1052
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/chat-summary.md",
-      "mtime": "2026-06-30T16:08:01Z",
+      "mtime": "2026-07-01T14:47:52Z",
       "bytes": 1247
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/circles-summary.md",
-      "mtime": "2026-06-30T16:08:01Z",
+      "mtime": "2026-07-01T14:49:45Z",
       "bytes": 1141
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/dashboard-summary.md",
-      "mtime": "2026-06-30T16:08:01Z",
+      "mtime": "2026-07-01T14:49:45Z",
       "bytes": 1316
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/index-summary.md",
-      "mtime": "2026-06-30T10:53:32Z",
+      "mtime": "2026-07-01T14:47:53Z",
       "bytes": 283
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/location-summary.md",
-      "mtime": "2026-06-30T16:08:01Z",
+      "mtime": "2026-07-01T14:47:52Z",
       "bytes": 754
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/news-summary.md",
-      "mtime": "2026-06-30T16:08:01Z",
+      "mtime": "2026-07-01T14:49:45Z",
       "bytes": 815
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/quests-summary.md",
-      "mtime": "2026-06-30T16:08:01Z",
+      "mtime": "2026-07-01T14:49:45Z",
       "bytes": 1161
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/rides-summary.md",
-      "mtime": "2026-06-30T16:08:01Z",
+      "mtime": "2026-07-01T14:49:45Z",
       "bytes": 697
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/things-summary.md",
-      "mtime": "2026-06-30T16:08:01Z",
+      "mtime": "2026-07-01T14:49:45Z",
       "bytes": 1042
     },
     {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/vision-summary.md",
+      "mtime": "2026-07-01T14:47:53Z",
+      "bytes": 1334
+    },
+    {
       "path": "docs/generated/local-tooling/error-pattern-audit-summary.md",
-      "mtime": "2026-06-29T19:55:02Z",
-      "bytes": 4555
+      "mtime": "2026-07-01T14:49:43Z",
+      "bytes": 2877
     },
     {
       "path": "docs/generated/local-tooling/failure-knowledge-base-summary.md",
@@ -737,7 +742,7 @@
     },
     {
       "path": "docs/generated/local-tooling/feature-intro-check-summary.md",
-      "mtime": "2026-06-29T19:55:03Z",
+      "mtime": "2026-07-01T14:49:44Z",
       "bytes": 86
     },
     {
@@ -747,93 +752,93 @@
     },
     {
       "path": "docs/generated/local-tooling/file-relation-graph-summary.md",
-      "mtime": "2026-06-29T19:55:00Z",
-      "bytes": 3891
+      "mtime": "2026-07-01T14:49:41Z",
+      "bytes": 2314
     },
     {
       "path": "docs/generated/local-tooling/frontend-route-surface-inventory-summary.md",
-      "mtime": "2026-06-30T10:54:36Z",
-      "bytes": 2584
+      "mtime": "2026-07-01T14:49:22Z",
+      "bytes": 2937
     },
     {
       "path": "docs/generated/local-tooling/frontend-stale-surface-audit-summary.md",
-      "mtime": "2026-06-30T11:21:16Z",
-      "bytes": 3257
+      "mtime": "2026-07-01T14:49:23Z",
+      "bytes": 4077
     },
     {
       "path": "docs/generated/local-tooling/frontend-state-logic-duplication-audit-summary.md",
-      "mtime": "2026-06-30T10:07:29Z",
-      "bytes": 498
+      "mtime": "2026-07-01T14:49:23Z",
+      "bytes": 418
     },
     {
       "path": "docs/generated/local-tooling/frontend-usage-graph-summary.md",
-      "mtime": "2026-06-29T19:55:19Z",
-      "bytes": 5529
+      "mtime": "2026-07-01T14:49:51Z",
+      "bytes": 532
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-06-30T11:22:51Z",
-      "bytes": 722
+      "mtime": "2026-07-01T14:49:22Z",
+      "bytes": 888
     },
     {
       "path": "docs/generated/local-tooling/generated-commit-scope-summary.md",
-      "mtime": "2026-06-30T10:54:36Z",
-      "bytes": 696
+      "mtime": "2026-07-01T14:49:22Z",
+      "bytes": 646
     },
     {
       "path": "docs/generated/local-tooling/hotspots-summary.md",
-      "mtime": "2026-06-29T19:55:12Z",
-      "bytes": 46987
+      "mtime": "2026-07-01T14:49:48Z",
+      "bytes": 4165
     },
     {
       "path": "docs/generated/local-tooling/make-target-index-summary.md",
-      "mtime": "2026-07-01T09:58:12Z",
+      "mtime": "2026-07-01T14:49:44Z",
       "bytes": 815
     },
     {
       "path": "docs/generated/local-tooling/manifest-decision-summary.md",
-      "mtime": "2026-06-29T19:55:17Z",
-      "bytes": 1153
+      "mtime": "2026-07-01T14:49:50Z",
+      "bytes": 893
     },
     {
       "path": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
-      "mtime": "2026-06-29T19:55:07Z",
-      "bytes": 7987
+      "mtime": "2026-07-01T14:47:53Z",
+      "bytes": 1355
     },
     {
       "path": "docs/generated/local-tooling/manual-cleanup-candidate-report-summary.md",
-      "mtime": "2026-06-29T19:55:00Z",
-      "bytes": 1806
+      "mtime": "2026-07-01T14:49:40Z",
+      "bytes": 1491
     },
     {
       "path": "docs/generated/local-tooling/mapper-usage-audit-summary.md",
-      "mtime": "2026-06-30T11:19:54Z",
+      "mtime": "2026-07-01T14:49:21Z",
       "bytes": 4962
     },
     {
       "path": "docs/generated/local-tooling/migration-entity-drift-audit-summary.md",
-      "mtime": "2026-06-29T19:55:17Z",
-      "bytes": 4796
+      "mtime": "2026-07-01T14:47:58Z",
+      "bytes": 3209
     },
     {
       "path": "docs/generated/local-tooling/mutation-safety-summary.md",
-      "mtime": "2026-06-29T19:55:01Z",
+      "mtime": "2026-07-01T14:49:42Z",
       "bytes": 290
     },
     {
       "path": "docs/generated/local-tooling/naming-consistency-audit-summary.md",
-      "mtime": "2026-06-29T19:54:59Z",
-      "bytes": 763
+      "mtime": "2026-07-01T14:49:40Z",
+      "bytes": 761
     },
     {
       "path": "docs/generated/local-tooling/permission-rule-duplication-audit-summary.md",
-      "mtime": "2026-06-30T10:07:29Z",
-      "bytes": 298
+      "mtime": "2026-07-01T14:49:23Z",
+      "bytes": 262
     },
     {
       "path": "docs/generated/local-tooling/plan-code-maps/86-codex-local-manifest-path-resolver-summary.md",
-      "mtime": "2026-06-29T19:55:10Z",
-      "bytes": 12096
+      "mtime": "2026-07-01T14:49:48Z",
+      "bytes": 2452
     },
     {
       "path": "docs/generated/local-tooling/plan-code-maps/codex-local-context-gateway-master-plan-summary.md",
@@ -1281,6 +1286,11 @@
       "bytes": 200
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/vision-backend-orchestration-plan-summary.md",
+      "mtime": "2026-07-01T10:25:09Z",
+      "bytes": 208
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/vision-canvas-execution-surface-plan-summary.md",
       "mtime": "2026-07-01T07:35:30Z",
       "bytes": 214
@@ -1327,8 +1337,8 @@
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/vision-voice-master-plan-summary.md",
-      "mtime": "2026-06-30T13:07:07Z",
-      "bytes": 246
+      "mtime": "2026-07-01T10:04:25Z",
+      "bytes": 190
     },
     {
       "path": "docs/generated/local-tooling/post-merge-retrospectives/latest-summary.md",
@@ -1342,33 +1352,33 @@
     },
     {
       "path": "docs/generated/local-tooling/read-surface-inventory-summary.md",
-      "mtime": "2026-06-30T10:54:35Z",
-      "bytes": 4548
+      "mtime": "2026-07-01T14:49:21Z",
+      "bytes": 4544
     },
     {
       "path": "docs/generated/local-tooling/repo-map-summary.md",
-      "mtime": "2026-06-30T16:08:26Z",
-      "bytes": 961
+      "mtime": "2026-07-01T14:49:44Z",
+      "bytes": 967
     },
     {
       "path": "docs/generated/local-tooling/repository-fetch-audit-summary.md",
-      "mtime": "2026-06-30T10:54:35Z",
+      "mtime": "2026-07-01T14:49:22Z",
       "bytes": 1756
     },
     {
       "path": "docs/generated/local-tooling/rich-text-safety-audit-summary.md",
-      "mtime": "2026-06-30T11:28:35Z",
-      "bytes": 4394
+      "mtime": "2026-07-01T14:49:44Z",
+      "bytes": 4534
     },
     {
       "path": "docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md",
-      "mtime": "2026-06-29T19:55:22Z",
-      "bytes": 2442
+      "mtime": "2026-07-01T14:49:52Z",
+      "bytes": 895
     },
     {
       "path": "docs/generated/local-tooling/sandbox-generation-coverage-audit-summary.md",
-      "mtime": "2026-06-29T19:54:59Z",
-      "bytes": 1694
+      "mtime": "2026-07-01T14:49:39Z",
+      "bytes": 1087
     },
     {
       "path": "docs/generated/local-tooling/session-handoffs/current-change-summary.md",
@@ -1387,48 +1397,48 @@
     },
     {
       "path": "docs/generated/local-tooling/state-transition-coverage-audit-summary.md",
-      "mtime": "2026-06-29T19:54:50Z",
-      "bytes": 7569
+      "mtime": "2026-07-01T14:49:30Z",
+      "bytes": 12473
     },
     {
       "path": "docs/generated/local-tooling/style-token-usage-audit-summary.md",
-      "mtime": "2026-06-29T19:55:03Z",
-      "bytes": 2456
+      "mtime": "2026-07-01T14:49:44Z",
+      "bytes": 1528
     },
     {
       "path": "docs/generated/local-tooling/symbol-index-summary.md",
-      "mtime": "2026-06-30T16:08:26Z",
-      "bytes": 3087
+      "mtime": "2026-07-01T14:49:45Z",
+      "bytes": 3222
     },
     {
       "path": "docs/generated/local-tooling/symbol-test-links/questservice-summary.md",
-      "mtime": "2026-06-29T19:55:07Z",
-      "bytes": 3954
+      "mtime": "2026-07-01T14:47:54Z",
+      "bytes": 2813
     },
     {
       "path": "docs/generated/local-tooling/targeted-tests-summary.md",
-      "mtime": "2026-06-30T11:21:17Z",
-      "bytes": 2601
+      "mtime": "2026-07-01T14:47:57Z",
+      "bytes": 2979
     },
     {
       "path": "docs/generated/local-tooling/test-fixture-duplication-summary.md",
-      "mtime": "2026-06-29T19:55:00Z",
-      "bytes": 2577
+      "mtime": "2026-07-01T14:49:41Z",
+      "bytes": 2578
     },
     {
       "path": "docs/generated/local-tooling/test-gap-recommendations-summary.md",
-      "mtime": "2026-06-30T06:38:28Z",
-      "bytes": 22710
+      "mtime": "2026-07-01T14:47:58Z",
+      "bytes": 664
     },
     {
       "path": "docs/generated/local-tooling/test-history-summary.md",
-      "mtime": "2026-06-30T11:21:38Z",
+      "mtime": "2026-07-01T14:49:53Z",
       "bytes": 404
     },
     {
       "path": "docs/generated/local-tooling/test-surface-inventory-summary.md",
-      "mtime": "2026-06-30T11:28:35Z",
-      "bytes": 8591
+      "mtime": "2026-07-01T14:49:41Z",
+      "bytes": 8169
     },
     {
       "path": "docs/generated/local-tooling/validation-matrix-summary.md",
@@ -1447,13 +1457,13 @@
     },
     {
       "path": "docs/generated/local-tooling/validation-preset-summary.md",
-      "mtime": "2026-06-30T13:36:27Z",
-      "bytes": 375
+      "mtime": "2026-07-01T14:47:56Z",
+      "bytes": 361
     },
     {
       "path": "docs/generated/local-tooling/workflow-slices/quest-application-summary.md",
-      "mtime": "2026-06-29T20:14:27Z",
-      "bytes": 1982
+      "mtime": "2026-07-01T14:49:47Z",
+      "bytes": 696
     }
   ]
 }

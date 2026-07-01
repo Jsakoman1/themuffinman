@@ -1,9 +1,179 @@
 {
-  "generated_at": "2026-06-30T10:07:29Z",
-  "changed_file_count": 51,
+  "generated_at": "2026-07-01T14:49:21Z",
+  "changed_file_count": 220,
   "changed_files": [
     {
-      "path": "docs/agent-improvement-backlog.md",
+      "path": ".agents/god-plans/vision-god-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/god-plans/vision-god-plan.yaml",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+      "category": "other",
+      "domain": "useAppTopbarState.ts",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/chat/README.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+      "category": "frontend_composable",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "npm",
+        "run",
+        "type-check",
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
+      "category": "frontend_api",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "npm",
+        "run",
+        "type-check",
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/workmarket/shared/navigationTargets.ts",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/router.ts",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "docs/domain-technical.md",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -29,7 +199,7 @@
       ]
     },
     {
-      "path": "docs/agent-operating-model.md",
+      "path": "docs/generated/dead-code-audit/backend-unused-summary.md",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -55,7 +225,7 @@
       ]
     },
     {
-      "path": "docs/change-completion-checklist.md",
+      "path": "docs/generated/dead-code-audit/backend-unused.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -81,7 +251,7 @@
       ]
     },
     {
-      "path": "docs/codex-fast-path.md",
+      "path": "docs/generated/dead-code-audit/dead-code-summary-summary.md",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -107,7 +277,7 @@
       ]
     },
     {
-      "path": "docs/documentation-sync-policy.md",
+      "path": "docs/generated/dead-code-audit/dead-code-summary.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -133,7 +303,33 @@
       ]
     },
     {
-      "path": "docs/feature-delivery-workflow.md",
+      "path": "docs/generated/dead-code-audit/frontend-unused-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/dead-code-audit/frontend-unused.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -160,6 +356,370 @@
     },
     {
       "path": "docs/generated/local-tooling/.cache/audit-inputs.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/agent-model-feature-coverage-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/agent-model-feature-coverage-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/api-contract-drift-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/api-contract-drift.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/api-contract-snapshot-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/api-contract-snapshot.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/architecture-decision-index-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/architecture-decision-index.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/architecture-drift-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/architecture-drift.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/async-mutation-flow-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/async-mutation-flow-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/audit-deltas/diff-summary-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/audit-deltas/diff-summary.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -237,7 +797,7 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
+      "path": "docs/generated/local-tooling/audit-summary-index.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -263,7 +823,1931 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/doc-canonical-phrases.json",
+      "path": "docs/generated/local-tooling/audit-summary-index.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/automation-readiness-gap-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/automation-readiness-gap-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/backend-dependency-graph-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/backend-dependency-graph.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/change-impact-preflight-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/change-impact-preflight.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/changeset-playbook-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/changeset-playbook.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/changeset-risk-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/changeset-risk.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/codebase-capsule.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/config-sprawl-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/config-sprawl-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/contract-test-gaps-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/contract-test-gaps.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/diff-summary.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/diff-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-coverage-gap-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-coverage-gap-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-staleness-scoring-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-staleness-scoring.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-sync-duplicates-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-sync-duplicates.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-sync-preflight.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-template-coverage-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-template-coverage.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/docs-as-tests-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/docs-as-tests.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/docs-to-code-drift-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/docs-to-code-drift-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-ownership-inventory-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-ownership-inventory.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-packs/workmarket-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-packs/workmarket.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/dormant-code-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/dormant-code-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/dashboardsectionsdto-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/dashboardsectionsdto.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/duplicate-logic-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/duplicate-logic-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-callsite-linker-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-callsite-linker.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/admin.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/agent-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/agent.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/app_users.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/applications.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/auth.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/business.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/chat.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/circles.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/dashboard.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/index-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/index.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/location.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/news.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/quests.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/rides.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/things.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/error-pattern-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/error-pattern-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/feature-intro-check-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/feature-intro-check.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/file-relation-graph-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/file-relation-graph.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-route-surface-inventory-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-route-surface-inventory.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-stale-surface-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-stale-surface-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-state-logic-duplication-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-state-logic-duplication-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-usage-graph-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-usage-graph.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -341,507 +2825,7 @@
       ]
     },
     {
-      "path": "scripts/audits/CodexJavaAstContext.java",
-      "category": "script",
-      "domain": "unknown",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md"
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": "scripts/audits/audit-change-impact-preflight.rb",
-      "category": "script",
-      "domain": "unknown",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md"
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": "scripts/audits/audit-doc-sync-duplicates.rb",
-      "category": "script",
-      "domain": "unknown",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md"
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": "scripts/audits/audit-duplicate-logic.rb",
-      "category": "script",
-      "domain": "unknown",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md"
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": "scripts/audits/audit-frontend-state-logic-duplication.rb",
-      "category": "script",
-      "domain": "unknown",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md"
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": "scripts/audits/audit-generated-artifact-freshness.rb",
-      "category": "script",
-      "domain": "unknown",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md"
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": "scripts/audits/audit-generated-commit-scope.rb",
-      "category": "script",
-      "domain": "unknown",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md"
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": "scripts/audits/audit-permission-rule-duplication.rb",
-      "category": "script",
-      "domain": "unknown",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md"
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": "scripts/audits/codex_local_context_gateway.rb",
-      "category": "script",
-      "domain": "unknown",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md"
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": "scripts/audits/local_tooling_extended_tools.rb",
-      "category": "script",
-      "domain": "unknown",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md"
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": "scripts/audits/score-changeset-risk.rb",
-      "category": "script",
-      "domain": "unknown",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md"
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": "scripts/local_tooling_common.rb",
-      "category": "script",
-      "domain": "unknown",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md"
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/codex-context-orchestration-v2-master-plan.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/codex-local-context-orchestrator-master-plan.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/todo-plans/100-codex-context-cache-key.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/todo-plans/101-codex-context-early-filtering.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/todo-plans/102-codex-context-plan-aware-routing.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/todo-plans/103-codex-context-parallel-fanout.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/todo-plans/104-codex-context-summary-contract.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/todo-plans/105-codex-context-invalidation-hardening.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/todo-plans/95-codex-local-context-pack-chain.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/todo-plans/96-codex-local-context-cache-invalidation.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/todo-plans/97-codex-local-workflow-doc-dedup.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/todo-plans/98-codex-local-java-ast-context-tightening.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": ".agents/todo-plans/99-codex-local-noise-filter-tightening.md",
-      "category": "other",
-      "domain": "unknown",
-      "likely_docs": [
-
-      ],
-      "likely_tests": [
-
-      ],
-      "generated_artifacts": [
-
-      ],
-      "sibling_read_surfaces": [
-
-      ],
-      "suggested_commands": [
-
-      ]
-    },
-    {
-      "path": "docs/generated/local-tooling/.history/doc-canonical-phrases/2026-06-30T07-26-17Z.json",
+      "path": "docs/generated/local-tooling/generated-commit-scope-summary.md",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -867,7 +2851,7 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/plan-completion/95-codex-local-context-pack-chain-summary.md",
+      "path": "docs/generated/local-tooling/generated-commit-scope.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -893,7 +2877,7 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/plan-completion/95-codex-local-context-pack-chain.json",
+      "path": "docs/generated/local-tooling/hotspots-summary.md",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -919,7 +2903,7 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/plan-completion/96-codex-local-context-cache-invalidation-summary.md",
+      "path": "docs/generated/local-tooling/hotspots.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -945,7 +2929,7 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/plan-completion/96-codex-local-context-cache-invalidation.json",
+      "path": "docs/generated/local-tooling/make-target-index-summary.md",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -971,7 +2955,7 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/plan-completion/97-codex-local-workflow-doc-dedup-summary.md",
+      "path": "docs/generated/local-tooling/make-target-index.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -997,7 +2981,7 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/plan-completion/97-codex-local-workflow-doc-dedup.json",
+      "path": "docs/generated/local-tooling/manifest-decision-summary.md",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -1023,7 +3007,7 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/plan-completion/98-codex-local-java-ast-context-tightening-summary.md",
+      "path": "docs/generated/local-tooling/manifest-decision.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -1049,7 +3033,7 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/plan-completion/98-codex-local-java-ast-context-tightening.json",
+      "path": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -1075,7 +3059,7 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/plan-completion/99-codex-local-noise-filter-tightening-summary.md",
+      "path": "docs/generated/local-tooling/manifest-path-resolution.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -1101,7 +3085,7 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/plan-completion/99-codex-local-noise-filter-tightening.json",
+      "path": "docs/generated/local-tooling/manual-cleanup-candidate-report-summary.md",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -1127,7 +3111,7 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/plan-completion/codex-local-context-orchestrator-master-plan-summary.md",
+      "path": "docs/generated/local-tooling/manual-cleanup-candidate-report.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -1153,7 +3137,2493 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/plan-completion/codex-local-context-orchestrator-master-plan.json",
+      "path": "docs/generated/local-tooling/mapper-usage-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/mapper-usage-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/migration-entity-drift-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/migration-entity-drift-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/mutation-safety-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/mutation-safety.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/naming-consistency-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/naming-consistency-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/permission-rule-duplication-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/permission-rule-duplication-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-code-maps/86-codex-local-manifest-path-resolver-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-code-maps/86-codex-local-manifest-path-resolver.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/read-surface-inventory-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/read-surface-inventory.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/repo-map-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/repo-map.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/repository-fetch-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/repository-fetch-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/rich-text-safety-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/rich-text-safety-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/sandbox-data-coverage-pack.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/sandbox-generation-coverage-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/sandbox-generation-coverage-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/state-transition-coverage-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/state-transition-coverage-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/style-token-usage-audit-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/style-token-usage-audit.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-index-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-index.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/questservice-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/questservice.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/targeted-tests-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/targeted-tests.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/test-fixture-duplication-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/test-fixture-duplication.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/test-gap-recommendations-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/test-gap-recommendations.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/test-history.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/test-surface-inventory-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/test-surface-inventory.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-preset-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-preset.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/workflow-slices/quest-application-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/workflow-slices/quest-application.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/product-memory.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/source-of-truth-inventory.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/vision-status-ledger.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": ".agents/vision-detail-continuity-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/vision-legacy-cleanup-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/vision-legacy-migration-candidate-map.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": ".agents/vision-user-surface-continuity-plan.md",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/components/VisionDetailSurface.vue",
+      "category": "other",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "category": "frontend_view",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "npm",
+        "run",
+        "type-check",
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "category": "frontend_view",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "npm",
+        "run",
+        "type-check",
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "category": "frontend_view",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "npm",
+        "run",
+        "type-check",
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "category": "frontend_view",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "npm",
+        "run",
+        "type-check",
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "category": "frontend_view",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "npm",
+        "run",
+        "type-check",
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "category": "frontend_view",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "npm",
+        "run",
+        "type-check",
+        "npm",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/api-contract-snapshot/2026-07-01T14-48-00Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/audit-deltas/diff-summary/2026-07-01T14-47-59Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/audit-summary-index/2026-07-01T14-48-00Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/backend-dependency-graph/2026-07-01T14-47-59Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/changeset-playbook/2026-07-01T14-47-53Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/diff-summary/2026-07-01T14-47-59Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/doc-sync-preflight/2026-07-01T14-47-57Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/domain-packs/workmarket/2026-07-01T14-47-56Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/dto-usage-packs/dashboardsectionsdto/2026-07-01T14-47-54Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/admin/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/agent/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/app_users/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/applications/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/auth/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/business/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/chat/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/circles/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/dashboard/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/index/2026-07-01T14-47-53Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/location/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/news/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/quests/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/rides/2026-07-01T14-47-53Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/endpoint-contract-packs/things/2026-07-01T14-47-53Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/frontend-usage-graph/2026-07-01T14-47-59Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/hotspots/2026-07-01T14-47-56Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/manifest-path-resolution/2026-07-01T14-47-53Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/migration-entity-drift-audit/2026-07-01T14-47-58Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/plan-code-maps/86-codex-local-manifest-path-resolver/2026-07-01T14-47-55Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/repo-map/2026-07-01T14-47-51Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/sandbox-data-coverage-pack/2026-07-01T14-48-00Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/symbol-index/2026-07-01T14-47-52Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/symbol-test-links/questservice/2026-07-01T14-47-54Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/targeted-tests/2026-07-01T14-47-57Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/test-gap-recommendations/2026-07-01T14-47-58Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/validation-preset/2026-07-01T14-47-56Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/workflow-slices/quest-application/2026-07-01T14-47-54Z.json",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/vision-summary.md",
+      "category": "docs",
+      "domain": "unknown",
+      "likely_docs": [
+
+      ],
+      "likely_tests": [
+
+      ],
+      "generated_artifacts": [
+        "docs/generated/agent-endpoint-inventory.json",
+        "docs/generated/automation-read-model-inventory.json",
+        "docs/generated/source-of-truth-audit.json",
+        "docs/generated/backend-audit-inventory.json"
+      ],
+      "sibling_read_surfaces": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw",
+        "test",
+        "make",
+        "generate-agent-artifacts"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/vision.json",
       "category": "docs",
       "domain": "unknown",
       "likely_docs": [
@@ -1180,12 +5650,13 @@
     }
   ],
   "unique_docs": [
-    "docs/codex-local-tooling-todo.md"
+
   ],
   "unique_tests": [
 
   ],
   "unique_generated_artifacts": [
+    "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
     "docs/generated/agent-endpoint-inventory.json",
     "docs/generated/automation-read-model-inventory.json",
     "docs/generated/backend-audit-inventory.json",
@@ -1193,9 +5664,13 @@
   ],
   "suggested_commands": [
     "./mvnw",
+    "build",
     "generate-agent-artifacts",
     "make",
-    "test"
+    "npm",
+    "run",
+    "test",
+    "type-check"
   ],
   "scope_guardrails": [
     {
@@ -1203,7 +5678,7 @@
       "status": "ok",
       "message": "Changes touch multiple product domains in one scope.",
       "evidence": [
-
+        "useAppTopbarState.ts"
       ]
     },
     {
@@ -1211,14 +5686,14 @@
       "status": "ok",
       "message": "Runtime code and tooling/infrastructure files changed together.",
       "evidence": [
-        "scripts/audits/CodexJavaAstContext.java",
-        "scripts/audits/audit-change-impact-preflight.rb",
-        "scripts/audits/audit-doc-sync-duplicates.rb",
-        "scripts/audits/audit-duplicate-logic.rb",
-        "scripts/audits/audit-frontend-state-logic-duplication.rb",
-        "scripts/audits/audit-generated-artifact-freshness.rb",
-        "scripts/audits/audit-generated-commit-scope.rb",
-        "scripts/audits/audit-permission-rule-duplication.rb"
+        "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+        "apps/themuffinman/frontend/src/modules/chat/README.md",
+        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+        "apps/themuffinman/frontend/src/modules/vision/components/VisionDetailSurface.vue",
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue"
       ]
     },
     {
@@ -1226,26 +5701,26 @@
       "status": "warn",
       "message": "More than ten generated report files changed; review whether they are task-required.",
       "evidence": [
+        "docs/generated/dead-code-audit/backend-unused-summary.md",
+        "docs/generated/dead-code-audit/backend-unused.json",
+        "docs/generated/dead-code-audit/dead-code-summary-summary.md",
+        "docs/generated/dead-code-audit/dead-code-summary.json",
+        "docs/generated/dead-code-audit/frontend-unused-summary.md",
+        "docs/generated/dead-code-audit/frontend-unused.json",
         "docs/generated/local-tooling/.cache/audit-inputs.json",
-        "docs/generated/local-tooling/.history/doc-canonical-phrases/2026-06-30T07-26-17Z.json",
-        "docs/generated/local-tooling/audit-documentation-summary.md",
-        "docs/generated/local-tooling/audit-documentation.json",
-        "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
-        "docs/generated/local-tooling/doc-canonical-phrases.json",
-        "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-        "docs/generated/local-tooling/generated-artifact-freshness.json",
-        "docs/generated/local-tooling/plan-completion/95-codex-local-context-pack-chain-summary.md",
-        "docs/generated/local-tooling/plan-completion/95-codex-local-context-pack-chain.json",
-        "docs/generated/local-tooling/plan-completion/96-codex-local-context-cache-invalidation-summary.md",
-        "docs/generated/local-tooling/plan-completion/96-codex-local-context-cache-invalidation.json",
-        "docs/generated/local-tooling/plan-completion/97-codex-local-workflow-doc-dedup-summary.md",
-        "docs/generated/local-tooling/plan-completion/97-codex-local-workflow-doc-dedup.json",
-        "docs/generated/local-tooling/plan-completion/98-codex-local-java-ast-context-tightening-summary.md",
-        "docs/generated/local-tooling/plan-completion/98-codex-local-java-ast-context-tightening.json",
-        "docs/generated/local-tooling/plan-completion/99-codex-local-noise-filter-tightening-summary.md",
-        "docs/generated/local-tooling/plan-completion/99-codex-local-noise-filter-tightening.json",
-        "docs/generated/local-tooling/plan-completion/codex-local-context-orchestrator-master-plan-summary.md",
-        "docs/generated/local-tooling/plan-completion/codex-local-context-orchestrator-master-plan.json"
+        "docs/generated/local-tooling/.history/api-contract-snapshot/2026-07-01T14-48-00Z.json",
+        "docs/generated/local-tooling/.history/audit-deltas/diff-summary/2026-07-01T14-47-59Z.json",
+        "docs/generated/local-tooling/.history/audit-summary-index/2026-07-01T14-48-00Z.json",
+        "docs/generated/local-tooling/.history/backend-dependency-graph/2026-07-01T14-47-59Z.json",
+        "docs/generated/local-tooling/.history/changeset-playbook/2026-07-01T14-47-53Z.json",
+        "docs/generated/local-tooling/.history/diff-summary/2026-07-01T14-47-59Z.json",
+        "docs/generated/local-tooling/.history/doc-sync-preflight/2026-07-01T14-47-57Z.json",
+        "docs/generated/local-tooling/.history/domain-packs/workmarket/2026-07-01T14-47-56Z.json",
+        "docs/generated/local-tooling/.history/dto-usage-packs/dashboardsectionsdto/2026-07-01T14-47-54Z.json",
+        "docs/generated/local-tooling/.history/endpoint-contract-packs/admin/2026-07-01T14-47-52Z.json",
+        "docs/generated/local-tooling/.history/endpoint-contract-packs/agent/2026-07-01T14-47-52Z.json",
+        "docs/generated/local-tooling/.history/endpoint-contract-packs/app_users/2026-07-01T14-47-52Z.json",
+        "docs/generated/local-tooling/.history/endpoint-contract-packs/applications/2026-07-01T14-47-52Z.json"
       ]
     },
     {
@@ -1253,55 +5728,55 @@
       "status": "warn",
       "message": "Generated report changes include files not predicted by changed source files.",
       "evidence": [
+        "docs/generated/dead-code-audit/backend-unused-summary.md",
+        "docs/generated/dead-code-audit/backend-unused.json",
+        "docs/generated/dead-code-audit/dead-code-summary-summary.md",
+        "docs/generated/dead-code-audit/dead-code-summary.json",
+        "docs/generated/dead-code-audit/frontend-unused-summary.md",
+        "docs/generated/dead-code-audit/frontend-unused.json",
         "docs/generated/local-tooling/.cache/audit-inputs.json",
-        "docs/generated/local-tooling/.history/doc-canonical-phrases/2026-06-30T07-26-17Z.json",
-        "docs/generated/local-tooling/audit-documentation-summary.md",
-        "docs/generated/local-tooling/audit-documentation.json",
-        "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
-        "docs/generated/local-tooling/doc-canonical-phrases.json",
-        "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-        "docs/generated/local-tooling/generated-artifact-freshness.json",
-        "docs/generated/local-tooling/plan-completion/95-codex-local-context-pack-chain-summary.md",
-        "docs/generated/local-tooling/plan-completion/95-codex-local-context-pack-chain.json",
-        "docs/generated/local-tooling/plan-completion/96-codex-local-context-cache-invalidation-summary.md",
-        "docs/generated/local-tooling/plan-completion/96-codex-local-context-cache-invalidation.json",
-        "docs/generated/local-tooling/plan-completion/97-codex-local-workflow-doc-dedup-summary.md",
-        "docs/generated/local-tooling/plan-completion/97-codex-local-workflow-doc-dedup.json",
-        "docs/generated/local-tooling/plan-completion/98-codex-local-java-ast-context-tightening-summary.md",
-        "docs/generated/local-tooling/plan-completion/98-codex-local-java-ast-context-tightening.json",
-        "docs/generated/local-tooling/plan-completion/99-codex-local-noise-filter-tightening-summary.md",
-        "docs/generated/local-tooling/plan-completion/99-codex-local-noise-filter-tightening.json",
-        "docs/generated/local-tooling/plan-completion/codex-local-context-orchestrator-master-plan-summary.md",
-        "docs/generated/local-tooling/plan-completion/codex-local-context-orchestrator-master-plan.json"
+        "docs/generated/local-tooling/.history/api-contract-snapshot/2026-07-01T14-48-00Z.json",
+        "docs/generated/local-tooling/.history/audit-deltas/diff-summary/2026-07-01T14-47-59Z.json",
+        "docs/generated/local-tooling/.history/audit-summary-index/2026-07-01T14-48-00Z.json",
+        "docs/generated/local-tooling/.history/backend-dependency-graph/2026-07-01T14-47-59Z.json",
+        "docs/generated/local-tooling/.history/changeset-playbook/2026-07-01T14-47-53Z.json",
+        "docs/generated/local-tooling/.history/diff-summary/2026-07-01T14-47-59Z.json",
+        "docs/generated/local-tooling/.history/doc-sync-preflight/2026-07-01T14-47-57Z.json",
+        "docs/generated/local-tooling/.history/domain-packs/workmarket/2026-07-01T14-47-56Z.json",
+        "docs/generated/local-tooling/.history/dto-usage-packs/dashboardsectionsdto/2026-07-01T14-47-54Z.json",
+        "docs/generated/local-tooling/.history/endpoint-contract-packs/admin/2026-07-01T14-47-52Z.json",
+        "docs/generated/local-tooling/.history/endpoint-contract-packs/agent/2026-07-01T14-47-52Z.json",
+        "docs/generated/local-tooling/.history/endpoint-contract-packs/app_users/2026-07-01T14-47-52Z.json",
+        "docs/generated/local-tooling/.history/endpoint-contract-packs/applications/2026-07-01T14-47-52Z.json"
       ]
     },
     {
       "id": "source_and_generated_only_review",
-      "status": "ok",
+      "status": "warn",
       "message": "Source changes and generated artifacts changed together; keep only generated outputs required by the source delta.",
       "evidence": [
+        "docs/generated/dead-code-audit/backend-unused-summary.md",
+        "docs/generated/dead-code-audit/backend-unused.json",
+        "docs/generated/dead-code-audit/dead-code-summary-summary.md",
+        "docs/generated/dead-code-audit/dead-code-summary.json",
+        "docs/generated/dead-code-audit/frontend-unused-summary.md",
+        "docs/generated/dead-code-audit/frontend-unused.json",
         "docs/generated/local-tooling/.cache/audit-inputs.json",
-        "docs/generated/local-tooling/.history/doc-canonical-phrases/2026-06-30T07-26-17Z.json",
-        "docs/generated/local-tooling/audit-documentation-summary.md",
-        "docs/generated/local-tooling/audit-documentation.json",
-        "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
-        "docs/generated/local-tooling/doc-canonical-phrases.json",
-        "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-        "docs/generated/local-tooling/generated-artifact-freshness.json",
-        "docs/generated/local-tooling/plan-completion/95-codex-local-context-pack-chain-summary.md",
-        "docs/generated/local-tooling/plan-completion/95-codex-local-context-pack-chain.json",
-        "docs/generated/local-tooling/plan-completion/96-codex-local-context-cache-invalidation-summary.md",
-        "docs/generated/local-tooling/plan-completion/96-codex-local-context-cache-invalidation.json",
-        "docs/generated/local-tooling/plan-completion/97-codex-local-workflow-doc-dedup-summary.md",
-        "docs/generated/local-tooling/plan-completion/97-codex-local-workflow-doc-dedup.json",
-        "docs/generated/local-tooling/plan-completion/98-codex-local-java-ast-context-tightening-summary.md",
-        "docs/generated/local-tooling/plan-completion/98-codex-local-java-ast-context-tightening.json",
-        "docs/generated/local-tooling/plan-completion/99-codex-local-noise-filter-tightening-summary.md",
-        "docs/generated/local-tooling/plan-completion/99-codex-local-noise-filter-tightening.json",
-        "docs/generated/local-tooling/plan-completion/codex-local-context-orchestrator-master-plan-summary.md",
-        "docs/generated/local-tooling/plan-completion/codex-local-context-orchestrator-master-plan.json"
+        "docs/generated/local-tooling/.history/api-contract-snapshot/2026-07-01T14-48-00Z.json",
+        "docs/generated/local-tooling/.history/audit-deltas/diff-summary/2026-07-01T14-47-59Z.json",
+        "docs/generated/local-tooling/.history/audit-summary-index/2026-07-01T14-48-00Z.json",
+        "docs/generated/local-tooling/.history/backend-dependency-graph/2026-07-01T14-47-59Z.json",
+        "docs/generated/local-tooling/.history/changeset-playbook/2026-07-01T14-47-53Z.json",
+        "docs/generated/local-tooling/.history/diff-summary/2026-07-01T14-47-59Z.json",
+        "docs/generated/local-tooling/.history/doc-sync-preflight/2026-07-01T14-47-57Z.json",
+        "docs/generated/local-tooling/.history/domain-packs/workmarket/2026-07-01T14-47-56Z.json",
+        "docs/generated/local-tooling/.history/dto-usage-packs/dashboardsectionsdto/2026-07-01T14-47-54Z.json",
+        "docs/generated/local-tooling/.history/endpoint-contract-packs/admin/2026-07-01T14-47-52Z.json",
+        "docs/generated/local-tooling/.history/endpoint-contract-packs/agent/2026-07-01T14-47-52Z.json",
+        "docs/generated/local-tooling/.history/endpoint-contract-packs/app_users/2026-07-01T14-47-52Z.json",
+        "docs/generated/local-tooling/.history/endpoint-contract-packs/applications/2026-07-01T14-47-52Z.json"
       ]
     }
   ],
-  "scope_warning_count": 2
+  "scope_warning_count": 3
 }

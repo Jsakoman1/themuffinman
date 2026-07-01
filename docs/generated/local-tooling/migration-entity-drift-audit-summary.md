@@ -1,7 +1,7 @@
 # Migration Entity Drift Audit
 
-- Generated At: `2026-06-29T19:55:17Z`
-- Migration Count: `33`
+- Generated At: `2026-07-01T14:47:58Z`
+- Migration Count: `34`
 ## `entities`
 
 - `{:entity: "BusinessProfile", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java", :table: "business_profile", :table_in_migration: true, :fields_without_obvious_migration_match: []}`
@@ -12,19 +12,13 @@
 - `{:entity: "LocationLookupEvent", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/location/model/LocationLookupEvent.java", :table: "location_lookup_event", :table_in_migration: true, :fields_without_obvious_migration_match: []}`
 - `{:entity: "RideOffer", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java", :table: "ride_offer", :table_in_migration: true, :fields_without_obvious_migration_match: ["visibleCircles"]}`
 - `{:entity: "CircleGroup", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/model/CircleGroup.java", :table: "circle_group", :table_in_migration: true, :fields_without_obvious_migration_match: ["memberships"]}`
-- `{:entity: "CircleMembership", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/model/CircleMembership.java", :table: "circle_membership", :table_in_migration: true, :fields_without_obvious_migration_match: []}`
-- `{:entity: "CircleRequest", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/model/CircleRequest.java", :table: "circle_request", :table_in_migration: true, :fields_without_obvious_migration_match: []}`
-- `{:entity: "ThingBorrowRequest", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequest.java", :table: "thing_borrow_request", :table_in_migration: true, :fields_without_obvious_migration_match: []}`
-- `{:entity: "ThingListing", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingListing.java", :table: "thing_listing", :table_in_migration: true, :fields_without_obvious_migration_match: []}`
-- `{:entity: "Quest", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/Quest.java", :table: "quest", :table_in_migration: true, :fields_without_obvious_migration_match: ["images", "visibleToCircles"]}`
-- `{:entity: "QuestApplication", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestApplication.java", :table: "quest_application", :table_in_migration: true, :fields_without_obvious_migration_match: []}`
-- `{:entity: "QuestNewsItem", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestNewsItem.java", :table: "quest_news_item", :table_in_migration: true, :fields_without_obvious_migration_match: []}`
-- `{:entity: "UserReview", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/UserReview.java", :table: "user_review", :table_in_migration: true, :fields_without_obvious_migration_match: []}`
+- `... 10 more`
 
 ## `review_needed`
 
 - `{:entity: "AppUser", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/AppUser.java", :table: "app_user", :table_in_migration: true, :fields_without_obvious_migration_match: ["exactLocationVisibleToCircles", "exactLocationVisibleToUsers"]}`
 - `{:entity: "RideOffer", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java", :table: "ride_offer", :table_in_migration: true, :fields_without_obvious_migration_match: ["visibleCircles"]}`
 - `{:entity: "CircleGroup", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/model/CircleGroup.java", :table: "circle_group", :table_in_migration: true, :fields_without_obvious_migration_match: ["memberships"]}`
-- `{:entity: "Quest", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/Quest.java", :table: "quest", :table_in_migration: true, :fields_without_obvious_migration_match: ["images", "visibleToCircles"]}`
+- `{:entity: "VisionTurn", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java", :table: "vision_turn", :table_in_migration: true, :fields_without_obvious_migration_match: ["appliedSlotIds"]}`
+- `{:entity: "Quest", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java", :table: "quest", :table_in_migration: true, :fields_without_obvious_migration_match: ["images", "visibleToCircles"]}`
 

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:55:02Z",
+  "generated_at": "2026-07-01T14:49:43Z",
   "hits": [
     {
       "pattern": "response_status_exception",
@@ -84,6 +84,18 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/ServiceErrors.java",
       "line": 28,
       "snippet": "return new ResponseStatusException(HttpStatus.UNAUTHORIZED, message);"
+    },
+    {
+      "pattern": "response_status_exception",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLocationResolutionService.java",
+      "line": 7,
+      "snippet": "import org.springframework.web.server.ResponseStatusException;"
+    },
+    {
+      "pattern": "response_status_exception",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLocationResolutionService.java",
+      "line": 54,
+      "snippet": "} catch (ResponseStatusException exception) {"
     },
     {
       "pattern": "lazy_init_risk",
@@ -195,44 +207,62 @@
     },
     {
       "pattern": "lazy_init_risk",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/Quest.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java",
+      "line": 33,
+      "snippet": "@ManyToOne(fetch = FetchType.LAZY, optional = false)"
+    },
+    {
+      "pattern": "lazy_init_risk",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java",
+      "line": 30,
+      "snippet": "@ManyToOne(fetch = FetchType.LAZY, optional = false)"
+    },
+    {
+      "pattern": "lazy_init_risk",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java",
       "line": 29,
       "snippet": "@ManyToOne(fetch = FetchType.LAZY, optional = false)"
     },
     {
       "pattern": "lazy_init_risk",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestApplication.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplication.java",
       "line": 21,
       "snippet": "@ManyToOne(fetch = FetchType.LAZY, optional = false)"
     },
     {
       "pattern": "lazy_init_risk",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestApplication.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplication.java",
       "line": 25,
       "snippet": "@ManyToOne(fetch = FetchType.LAZY, optional = false)"
     },
     {
       "pattern": "lazy_init_risk",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/UserReview.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/UserReview.java",
       "line": 28,
       "snippet": "@ManyToOne(fetch = FetchType.LAZY, optional = false)"
     },
     {
       "pattern": "lazy_init_risk",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/UserReview.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/UserReview.java",
       "line": 32,
       "snippet": "@ManyToOne(fetch = FetchType.LAZY, optional = false)"
     },
     {
       "pattern": "lazy_init_risk",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/UserReview.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/UserReview.java",
       "line": 36,
       "snippet": "@ManyToOne(fetch = FetchType.LAZY, optional = false)"
     },
     {
       "pattern": "forbidden_message",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentExecutionService.java",
+      "line": 147,
+      "snippet": "throw ServiceErrors.forbidden(\"Admin access is required\");"
+    },
+    {
+      "pattern": "forbidden_message",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "line": 537,
+      "line": 602,
       "snippet": "throw ServiceErrors.forbidden(\"Admin access is required\");"
     },
     {
@@ -316,7 +346,7 @@
     {
       "pattern": "forbidden_message",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
-      "line": 49,
+      "line": 48,
       "snippet": "throw ServiceErrors.forbidden(\"Admin access is required\");"
     },
     {
@@ -340,7 +370,7 @@
     {
       "pattern": "forbidden_message",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
-      "line": 194,
+      "line": 195,
       "snippet": "throw ServiceErrors.forbidden(\"Admin access is required\");"
     },
     {
@@ -375,61 +405,85 @@
     },
     {
       "pattern": "forbidden_message",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "line": 87,
+      "snippet": "throw ServiceErrors.forbidden(\"Vision conversations are disabled\");"
+    },
+    {
+      "pattern": "forbidden_message",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "line": 893,
+      "snippet": "throw ServiceErrors.forbidden(\"Authentication is required\");"
+    },
+    {
+      "pattern": "forbidden_message",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVisionPromptService.java",
+      "line": 109,
+      "snippet": "throw ServiceErrors.forbidden(\"Authentication is required\");"
+    },
+    {
+      "pattern": "forbidden_message",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVoiceService.java",
+      "line": 47,
+      "snippet": "throw ServiceErrors.forbidden(\"Authentication is required\");"
+    },
+    {
+      "pattern": "forbidden_message",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationWorkflowSupport.java",
       "line": 113,
       "snippet": "throw ServiceErrors.forbidden(\"You are not allowed to view these applications\");"
     },
     {
       "pattern": "forbidden_message",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationWorkflowSupport.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationWorkflowSupport.java",
       "line": 119,
       "snippet": "throw ServiceErrors.forbidden(\"Admin access is required\");"
     },
     {
       "pattern": "forbidden_message",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
       "line": 65,
       "snippet": "throw ServiceErrors.forbidden(\"You are not allowed to modify this quest\");"
     },
     {
       "pattern": "forbidden_message",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestExecutionPrimitiveService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
       "line": 104,
       "snippet": "throw ServiceErrors.forbidden(\"You are not allowed to view this application\");"
     },
     {
       "pattern": "forbidden_message",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "line": 55,
       "snippet": "throw ServiceErrors.forbidden(\"You are not allowed to manage this quest\");"
     },
     {
       "pattern": "forbidden_message",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "line": 66,
       "snippet": "throw ServiceErrors.forbidden(\"You are not allowed to confirm this quest term change\");"
     },
     {
       "pattern": "forbidden_message",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestStateTransitionService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
       "line": 149,
       "snippet": "throw ServiceErrors.forbidden(\"Only the quest owner can change this quest status\");"
     },
     {
       "pattern": "forbidden_message",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "line": 104,
       "snippet": "throw ServiceErrors.unauthorized(\"Authentication is required\");"
     },
     {
       "pattern": "forbidden_message",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "line": 148,
       "snippet": ").orElseThrow(() -> ServiceErrors.forbidden(\"Only the approved worker can review the employer\"));"
     },
     {
       "pattern": "forbidden_message",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/UserReviewService.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
       "line": 154,
       "snippet": "throw ServiceErrors.forbidden(\"You are not allowed to review this user for the selected quest\");"
     }

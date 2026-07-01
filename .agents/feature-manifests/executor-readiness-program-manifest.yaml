@@ -82,15 +82,11 @@ artifacts:
     - apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentEndpointPlanDTO.java
     - apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentIntentLineageDTO.java
     - apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionConfidenceDTO.java
-    - apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs
+    - apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs
     - apps/themuffinman/frontend/scripts/validate-admin-agent-ui-scenarios.mjs
     - apps/themuffinman/frontend/scripts/fixtures/admin-agent-ui-scenarios.json
-    - apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
-    - apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts
-    - apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts
-    - apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
-    - apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts
-    - apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue
+    - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+    - apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts
   docPaths:
     - AGENTS.md
     - docs/feature-completion-manifest.schema.json

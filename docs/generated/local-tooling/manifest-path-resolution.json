@@ -1,49 +1,33 @@
 {
-  "decision": "resolved",
-  "manifest_path": ".agents/feature-manifests/codex-workflow-lean-context-manifest.yaml",
-  "feature_id": "codex_workflow_lean_context",
-  "title": "Codex Workflow Lean Context",
-  "confidence": "high",
+  "decision": "review",
+  "manifest_path": null,
+  "feature_id": null,
+  "title": null,
+  "confidence": "low",
   "reasons": [
-    "Manifest file itself is in the current changeset.",
-    "Referenced plan file is in the current changeset.",
-    "Changed files overlap manifest artifact lists (scripts/bootstrap-feature-work.sh, .agents/templates/feature-implementation-plan.template.md, .agents/templates/feature-completion-manifest.template.yaml, .agents/codex-workflow-lean-context-plan.md).",
-    "Changed paths include feature/plan tokens: manifest, plan, codex, workflow, lean, context."
+    "More than one manifest candidate matched the current files. Review the candidate list before closeout."
   ],
   "candidates": [
     {
-      "manifest_path": ".agents/feature-manifests/codex-workflow-lean-context-manifest.yaml",
-      "feature_id": "codex_workflow_lean_context",
-      "title": "Codex Workflow Lean Context",
-      "plan_file": ".agents/codex-workflow-lean-context-plan.md",
-      "score": 28,
+      "manifest_path": ".agents/feature-manifests/god-plan-hierarchy-manifest.yaml",
+      "feature_id": "god_plan_hierarchy",
+      "title": "God Plan hierarchy for broad agent planning",
+      "plan_file": ".agents/god-plan-hierarchy-plan.md",
+      "score": 8,
       "reasons": [
-        "Manifest file itself is in the current changeset.",
-        "Referenced plan file is in the current changeset.",
-        "Changed files overlap manifest artifact lists (scripts/bootstrap-feature-work.sh, .agents/templates/feature-implementation-plan.template.md, .agents/templates/feature-completion-manifest.template.yaml, .agents/codex-workflow-lean-context-plan.md).",
-        "Changed paths include feature/plan tokens: manifest, plan, codex, workflow, lean, context."
+        "Changed files overlap manifest artifact lists (.agents/god-plans/vision-god-plan.yaml, .agents/god-plans/vision-god-plan.md).",
+        "Changed paths include feature/plan tokens: god, plan, agent."
       ]
     },
     {
-      "manifest_path": ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
-      "feature_id": "agent_operating_refactor",
-      "title": "Agent Operating Refactor",
-      "plan_file": ".agents/agent-operating-refactor-plan.md",
-      "score": 14,
+      "manifest_path": ".agents/feature-manifests/vision-voice-surface-manifest.yaml",
+      "feature_id": "vision_voice_surface",
+      "title": "Vision voice surface backend-first STT/TTS",
+      "plan_file": ".agents/vision-voice-master-plan.md",
+      "score": 8,
       "reasons": [
-        "Changed files overlap manifest artifact lists (apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java, apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java).",
-        "Changed paths include feature/plan tokens: agent, manifest, plan."
-      ]
-    },
-    {
-      "manifest_path": ".agents/feature-manifests/codex-tiered-workflow-manifest.yaml",
-      "feature_id": "codex_tiered_workflow",
-      "title": "Codex Tiered Workflow",
-      "plan_file": ".agents/codex-tiered-workflow-plan.md",
-      "score": 10,
-      "reasons": [
-        "Changed files overlap manifest artifact lists (scripts/bootstrap-feature-work.sh, .agents/templates/feature-completion-manifest.template.yaml, .agents/templates/feature-implementation-plan.template.md, AGENTS.md).",
-        "Changed paths include feature/plan tokens: manifest, plan, codex, workflow."
+        "Changed files overlap manifest artifact lists (docs/domain-technical.md, docs/product-memory.md).",
+        "Changed paths include feature/plan tokens: vision, plan, surface."
       ]
     },
     {
@@ -53,8 +37,30 @@
       "plan_file": ".agents/agent-control-phase-two-plan.md",
       "score": 7,
       "reasons": [
-        "Changed files overlap manifest artifact lists (scripts/bootstrap-feature-work.sh).",
-        "Changed paths include feature/plan tokens: agent, manifest, plan, control."
+        "Changed files overlap manifest artifact lists (docs/domain-technical.md).",
+        "Changed paths include feature/plan tokens: agent, plan, two."
+      ]
+    },
+    {
+      "manifest_path": ".agents/feature-manifests/codex-lean-context-manifest.yaml",
+      "feature_id": "codex_lean_context",
+      "title": "Codex Lean Context and Noise Cleaner",
+      "plan_file": ".agents/codex-lean-context-master-plan.md",
+      "score": 7,
+      "reasons": [
+        "Changed files overlap manifest artifact lists (docs/domain-technical.md).",
+        "Changed paths include feature/plan tokens: plan, and, lean."
+      ]
+    },
+    {
+      "manifest_path": ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
+      "feature_id": "agent_operating_refactor",
+      "title": "Agent Operating Refactor",
+      "plan_file": ".agents/agent-operating-refactor-plan.md",
+      "score": 5,
+      "reasons": [
+        "Changed files overlap manifest artifact lists (docs/domain-technical.md).",
+        "Changed paths include feature/plan tokens: agent, plan."
       ]
     },
     {
@@ -62,10 +68,10 @@
       "feature_id": "agent_safety_enforcement_round2",
       "title": "Agent safety enforcement round 2",
       "plan_file": ".agents/agent-safety-enforcement-round2-plan.md",
-      "score": 7,
+      "score": 5,
       "reasons": [
-        "Changed files overlap manifest artifact lists (AGENTS.md).",
-        "Changed paths include feature/plan tokens: agent, manifest, plan."
+        "Changed files overlap manifest artifact lists (docs/domain-technical.md).",
+        "Changed paths include feature/plan tokens: agent, plan."
       ]
     },
     {
@@ -73,21 +79,10 @@
       "feature_id": "agent_safety_upgrade",
       "title": "Agent safety upgrade",
       "plan_file": ".agents/agent-safety-upgrade-plan.md",
-      "score": 7,
+      "score": 5,
       "reasons": [
-        "Changed files overlap manifest artifact lists (AGENTS.md).",
-        "Changed paths include feature/plan tokens: agent, manifest, plan."
-      ]
-    },
-    {
-      "manifest_path": ".agents/feature-manifests/codex-context-optimization-manifest.yaml",
-      "feature_id": "codex_context_optimization",
-      "title": "Codex Context Optimization",
-      "plan_file": ".agents/codex-context-optimization-master-plan.md",
-      "score": 7,
-      "reasons": [
-        "Changed files overlap manifest artifact lists (AGENTS.md).",
-        "Changed paths include feature/plan tokens: manifest, plan, codex, context, master."
+        "Changed files overlap manifest artifact lists (docs/domain-technical.md).",
+        "Changed paths include feature/plan tokens: agent, plan."
       ]
     },
     {
@@ -95,125 +90,60 @@
       "feature_id": "backend_audit_domain_tagging",
       "title": "Backend audit domain tagging",
       "plan_file": ".agents/backend-audit-domain-tagging-plan.md",
-      "score": 6,
+      "score": 5,
       "reasons": [
-        "Changed paths include feature/plan tokens: manifest, plan, audit, backend."
+        "Changed files overlap manifest artifact lists (docs/domain-technical.md).",
+        "Changed paths include feature/plan tokens: plan, domain."
       ]
     },
     {
-      "manifest_path": ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
-      "feature_id": "backend_audit_identity_dto_tightening",
-      "title": "Backend audit identity dto tightening",
-      "plan_file": ".agents/backend-audit-identity-dto-tightening-plan.md",
-      "score": 6,
+      "manifest_path": ".agents/feature-manifests/codex-workflow-lean-context-manifest.yaml",
+      "feature_id": "codex_workflow_lean_context",
+      "title": "Codex Workflow Lean Context",
+      "plan_file": ".agents/codex-workflow-lean-context-plan.md",
+      "score": 5,
       "reasons": [
-        "Changed paths include feature/plan tokens: manifest, plan, identity, dto, audit, backend."
+        "Changed files overlap manifest artifact lists (docs/domain-technical.md).",
+        "Changed paths include feature/plan tokens: plan, lean."
       ]
     },
     {
-      "manifest_path": ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
-      "feature_id": "backend_audit_location_dto_tightening",
-      "title": "Backend audit location dto tightening",
-      "plan_file": ".agents/backend-audit-location-dto-tightening-plan.md",
-      "score": 6,
+      "manifest_path": ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+      "feature_id": "backend_audit_manifest_cleanup",
+      "title": "Backend audit manifest cleanup",
+      "plan_file": ".agents/backend-audit-manifest-cleanup-plan.md",
+      "score": 4,
       "reasons": [
-        "Changed paths include feature/plan tokens: manifest, plan, location, dto, audit, backend."
+        "Changed paths include feature/plan tokens: plan, cleanup."
       ]
     }
   ],
-  "generated_at": "2026-06-29T19:55:07Z",
-  "original_file_count": 86,
+  "generated_at": "2026-07-01T14:47:53Z",
+  "original_file_count": 19,
   "filtered_file_count": 0,
   "excluded_file_count": 0,
   "excluded_files_sample": [
 
   ],
   "files_considered": [
-    ".agents/templates/feature-completion-manifest.template.yaml",
-    ".agents/templates/feature-implementation-plan.template.md",
-    "AGENTS.md",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipUpdateDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleSearchResultDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialPresentationHelper.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestPresentationDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestApplicationMgr.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestMgr.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgr.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionsFactory.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestQueryService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java",
-    "docs/tooling/codex-local-audits.md",
-    "scripts/bootstrap-feature-work.sh",
-    ".agents/feature-manifests/codex-workflow-lean-context-manifest.yaml",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusViewDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusViewDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationGeoService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipActionDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRelationStatusDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedActionDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationTypeDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedActionDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesViewDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionActionDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPresetDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationTypeDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelationDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardNotificationAssembler.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardPlannerAssembler.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardSectionGrouper.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminQueryService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationAdminService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssembler.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationReadService.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPresentationAssembler.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestReadService.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationPresentationAssemblerTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java"
+    ".agents/god-plans/vision-god-plan.yaml",
+    "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+    "apps/themuffinman/frontend/src/modules/chat/README.md",
+    "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+    "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
+    "apps/themuffinman/frontend/src/modules/workmarket/shared/navigationTargets.ts",
+    "apps/themuffinman/frontend/src/router.ts",
+    "docs/domain-technical.md",
+    "docs/product-memory.md",
+    "docs/source-of-truth-inventory.md",
+    "docs/vision-status-ledger.md",
+    ".agents/vision-legacy-migration-candidate-map.md",
+    "apps/themuffinman/frontend/src/modules/vision/components/VisionDetailSurface.vue",
+    "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+    "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+    "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+    "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+    "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+    "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
   ]
 }

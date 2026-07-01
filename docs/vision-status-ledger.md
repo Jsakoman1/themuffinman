@@ -49,6 +49,10 @@ It should stay short, factual, and updated when a vision batch materially change
 - read-only execution planning and the canvas execution candidate surface now exist above the create_quest review flow
 - the durable vision memory layer now has its own context gateway, decision record, failure memory, feature-slice checklist, generated-artifact policy, and status ledger
 - `OPEN_CHAT` is now a first-class routed vision capability and can open a chat with an explicit circle contact through the existing chat boundary
+- quest and application detail entry points now have Vision-native routes, with legacy detail paths redirected into the Vision surface
+- profile, settings, circles, and chat entry points now resolve through Vision-native routes, and the old legacy view files have been removed from the route graph
+- profile and settings are now direct Vision route surfaces instead of nested profile dialogs, keeping identity and location editing inside the same route-level mental model as the rest of Vision
+- the legacy admin frontend shell and its route-level entry pages have been removed from the active frontend tree
 - the `/vision/conversations/turns` request now carries a versioned client contract with input type, text, client capabilities, and client state version fields instead of relying only on legacy prompt semantics
 
 ## In Progress
@@ -64,7 +68,6 @@ It should stay short, factual, and updated when a vision batch materially change
 - typed slot-edit intent models beyond the current create-quest review loop
 - stronger locale-aware schedule parsing and broader location normalization
 - a full multi-capability execution service
-- full replacement of legacy frontend surfaces with vision-only navigation
 
 ## Blocked By Design
 

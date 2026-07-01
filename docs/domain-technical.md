@@ -36,7 +36,7 @@ Frontend vision surface note:
 - `VisionIntentRouter` now recognizes both `CREATE_QUEST` and `DISCOVER_QUESTS` so read-only browse/search prompts can be routed without depending on the create-quest flag.
 - `VisionConversationService` now switches to a new persisted conversation when the prompt clearly changes intent, so discovery and creation can coexist on the same adaptive surface without forcing one thread to masquerade as another.
 - `VisionIntentRouter` now also recognizes `OPEN_CHAT`, and `VisionChatExecutionService` resolves an explicit chat target before delegating to the existing chat opening boundary.
-- `VisionSurfaceModernView.vue` should use `POST /vision/conversations/turns` as the primary prompt-bearing conversation path, `GET /vision/conversations/recent` and `GET /vision/conversations/{conversationId}` for resume behavior, plus dedicated `POST /vision/conversations/{conversationId}/reset` and `POST /vision/conversations/{conversationId}/cancel` lifecycle endpoints instead of overloading the turn contract for everything.
+- `VisionSurfaceModernView.vue` should use `POST /vision/conversations/turns` as the primary prompt-bearing conversation path, `GET /vision/conversations/recent` and `GET /vision/conversations/{conversationId}` for resume behavior, plus dedicated `POST /vision/conversations/{conversationId}/reset` and `POST /vision/conversations/{conversationId}/cancel` lifecycle endpoints; the backend also short-circuits common free-text shortcut commands like `cancel`, `stop`, and `reset` to that lifecycle flow during an active conversation, and the frontend exposes `Escape` as a local composer cancel shortcut.
 - The `/vision` conversation response now includes backend-driven `canvasMode` plus ordered `blocks`, with the first vocabulary covering `agent_message`, `recognized_prompt`, `field_request`, `result_summary`, `quest_discovery`, `review_summary`, `info`, `success`, and `warning`.
 - `VisionConversationSummaryDTO` is the compact long-session continuity read model for `/vision`; the backend keeps stage, progress, stale, resumable, completed, and pending-slot context there so the frontend does not need to reconstruct resume state from raw turn history.
 - Review-ready quest conversations may now retarget one named field back into clarification mode, so reward, schedule, and location corrections stay inside the same persisted conversation timeline.
@@ -219,8 +219,8 @@ Technical notes:
 
 Primary files:
 - `apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java`
 - `scripts/local_tooling_common.rb`
@@ -264,7 +264,7 @@ Primary files:
 - `scripts/generate-agent-endpoint-inventory.rb`
 - `scripts/generate-automation-read-model-inventory.rb`
 - `scripts/generate-source-of-truth-audit.rb`
-- `apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs`
+- `apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs`
 
 Technical notes:
 - Feature manifests are now classified by `changeMode`, `changeImpact`, and `changeProfiles` so required docs, tests, generator commands, and close-out audits can be enforced in validation.
@@ -706,8 +706,8 @@ Primary files:
 - `workmarket/service/QuestAccessPolicyService.java`
 - `workmarket/service/QuestWorkflowNotificationService.java`
 - `workmarket/service/QuestViewAssembler.java`
-- `workmarket/service/WorkmarketOptionsService.java`
-- `workmarket/service/WorkmarketPresentationHelper.java`
+- `workmarket/service/VisionOptionsService.java`
+- `workmarket/service/VisionPresentationHelper.java`
 
 Primary migrations:
 - `V2__create_quest_tables.sql`
@@ -892,8 +892,8 @@ Primary files:
 ### Options and presentation contracts
 
 Primary files:
-- `workmarket/service/WorkmarketOptionsService.java`
-- `workmarket/service/WorkmarketPresentationHelper.java`
+- `workmarket/service/VisionOptionsService.java`
+- `workmarket/service/VisionPresentationHelper.java`
 - `workmarket/dto/QuestResponseDTO.java`
 - `workmarket/dto/QuestApplicationResponseDTO.java`
 - `workmarket/dto/WorkmarketOptionsDTO.java`
@@ -914,7 +914,6 @@ Primary files:
 - `frontend/src/router.ts`
 - `frontend/src/api/httpClient.ts`
 - `frontend/src/api/apiErrors.ts`
-- `frontend/src/components/ui/UiAppShellPage.vue`
 - `frontend/src/modules/identity/api/authApi.ts`
 - `frontend/src/modules/workmarket/api/workmarketApi.ts`
 - `frontend/src/modules/workmarket/api/contracts.ts`
@@ -930,24 +929,17 @@ Primary files:
 - `frontend/src/contracts/generated/themuffinmanContract.ts`
 
 Primary route entrypoints:
-- `frontend/src/modules/workmarket/pages/QuestsPage.vue`
-- `frontend/src/modules/workmarket/views/QuestDetailView.vue`
-- `frontend/src/modules/workmarket/views/ApplicationDetailView.vue`
-- `frontend/src/modules/workmarket/pages/AdminOverviewPage.vue`
-- `frontend/src/modules/workmarket/pages/AdminUsersPage.vue`
-- `frontend/src/modules/social/views/CirclesView.vue`
-- `frontend/src/modules/business/views/BusinessHubView.vue`
-- `frontend/src/modules/things/views/ThingSharingView.vue`
-- `frontend/src/modules/rides/views/RideSharingView.vue`
-- `frontend/src/modules/chat/views/ChatWorkspaceView.vue`
-- `frontend/src/modules/social/views/UserProfileView.vue`
-- `frontend/src/modules/social/views/UserSettingsView.vue`
+- `frontend/src/modules/vision/views/VisionQuestDetailView.vue`
+- `frontend/src/modules/vision/views/VisionApplicationDetailView.vue`
+- `frontend/src/modules/vision/views/VisionCirclesView.vue`
+- `frontend/src/modules/vision/views/VisionChatWorkspaceView.vue`
+- `frontend/src/modules/vision/views/VisionUserProfileView.vue`
+- `frontend/src/modules/vision/views/VisionUserSettingsView.vue`
 - `frontend/src/modules/identity/views/LoginView.vue`
 - `frontend/src/modules/identity/views/RegisterView.vue`
 
 Frontend state notes:
-- `UiAppShellPage.vue` is the shared authenticated page shell for normal module routes and admin routes.
-- `QuestDetailView.vue` and `ApplicationDetailView.vue` should stay thin rendering surfaces. Quest-detail section visibility, owner/application surface state, and edit dirty-state checks live in `useQuestDetailView` and `useQuestDetailEdit` so future workflow changes are made in composables or backend-prepared sections instead of the template file.
+- `VisionQuestDetailView.vue` and `VisionApplicationDetailView.vue` stay thin rendering surfaces. Quest-detail section visibility, owner/application surface state, and edit dirty-state checks still live in `useQuestDetailView` and related composables so future workflow changes are made in reusable logic instead of the template file.
 
 ## Key Entity Map
 

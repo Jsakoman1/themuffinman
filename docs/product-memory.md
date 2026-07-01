@@ -100,4 +100,7 @@ After every completed plan or master plan:
 - `/vision` recent conversation entries should show the latest applied slot badges inline, because resume affordances work better when they mirror the current turn's evidence.
 - `/vision` long-session continuity should come from compact backend summaries rather than raw transcript reconstruction, because the resume rail stays calmer when the surface reads state instead of replaying history.
 - `/vision` stale or completed continuation state should be marked explicitly and kept out of the active canvas by default, because unfinished and finished work should not compete for the same visual priority.
+- `/vision` detail continuity should be routed through Vision-native quest and application entry points before legacy detail pages are deleted, because preserving the read/action bridge in the new surface makes the decommission path safer.
 - Legacy frontend decommission should happen route-first, because removing redirects and non-essential module entries gives immediate simplification without risking admin or detail-bridge workflows.
+- Vision user-surface migration should happen route-first as well, because redirecting profile, settings, circles, and chat into Vision before deleting the old view files keeps the surface contract stable while the shell is still in transition.
+- Vision profile and settings should land as direct Vision routes rather than nested dialogs, because the blank-canvas surface should keep identity and location editing in the same route-level mental model as quests and circles.

@@ -1,6 +1,6 @@
 # Agent Model Feature Coverage Audit
 
-- Generated At: `2026-06-29T19:54:52Z`
+- Generated At: `2026-07-01T14:49:32Z`
 ## `features`
 
 - `{:feature: "AdminAgent", :in_agent_model: true, :in_simulation: true}`
@@ -15,8 +15,6 @@
 - `{:feature: "QuestApplication", :in_agent_model: true, :in_simulation: true}`
 - `{:feature: "QuestNews", :in_agent_model: true, :in_simulation: true}`
 - `{:feature: "RideOffer", :in_agent_model: true, :in_simulation: true}`
-- `{:feature: "ThingSharing", :in_agent_model: true, :in_simulation: true}`
-- `{:feature: "UserReview", :in_agent_model: true, :in_simulation: true}`
 
 ## `missing`
 

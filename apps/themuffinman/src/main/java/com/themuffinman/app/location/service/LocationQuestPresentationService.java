@@ -4,7 +4,7 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.location.model.QuestLocationSource;
 import com.themuffinman.app.location.model.QuestLocationVisibility;
 import com.themuffinman.app.location.model.UserLocationMode;
-import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.vision.model.Quest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

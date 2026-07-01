@@ -1,29 +1,143 @@
 {
-  "generated_at": "2026-06-30T11:21:17Z",
+  "generated_at": "2026-07-01T14:47:57Z",
   "files": [
     {
-      "file": "docs/agent-operating-model.md",
-      "category": "docs",
-      "domain": "agent",
+      "file": ".agents/god-plans/vision-god-plan.yaml",
+      "category": "other",
+      "domain": "shared",
       "likely_docs": [
+        "docs/feature-delivery-workflow.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/chat/README.md",
+      "category": "other",
+      "domain": "chat",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
         "docs/agent-operating-model.md",
-        "docs/agent-operating-model.yaml",
-        "docs/domain-technical.md"
+        "docs/agent-operating-model.yaml"
       ],
       "generated_artifacts": [
-        "docs/generated/local-tooling/manifest-path-resolution.json"
+
       ],
       "validation_commands": [
-        "./mvnw test",
-        "make audit-documentation",
-        "make audit-doc-canonical-phrases"
+
       ],
       "residual_risk": [
-        "Agent-facing logic changes may also require manifest and closeout updates."
+
       ]
     },
     {
-      "file": "docs/change-completion-checklist.md",
+      "file": "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
+      "category": "frontend_composable",
+      "domain": "social",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-async-mutation-flow"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
+      "category": "frontend_api",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-api-contract-drift"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/navigationTargets.ts",
+      "category": "other",
+      "domain": "workmarket",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/router.ts",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "docs/domain-technical.md",
       "category": "docs",
       "domain": "shared",
       "likely_docs": [
@@ -42,27 +156,7 @@
       ]
     },
     {
-      "file": "docs/codex-fast-path.md",
-      "category": "docs",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/feature-delivery-workflow.md",
-        "docs/agent-operating-model.yaml"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/manifest-path-resolution.json"
-      ],
-      "validation_commands": [
-        "./mvnw test",
-        "make audit-documentation",
-        "make audit-doc-canonical-phrases"
-      ],
-      "residual_risk": [
-        "Agent-facing logic changes may also require manifest and closeout updates."
-      ]
-    },
-    {
-      "file": "docs/documentation-sync-policy.md",
+      "file": "docs/product-memory.md",
       "category": "docs",
       "domain": "shared",
       "likely_docs": [
@@ -81,7 +175,7 @@
       ]
     },
     {
-      "file": "docs/feature-delivery-workflow.md",
+      "file": "docs/source-of-truth-inventory.md",
       "category": "docs",
       "domain": "shared",
       "likely_docs": [
@@ -100,415 +194,13 @@
       ]
     },
     {
-      "file": "scripts/audits/CodexJavaAstContext.java",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-api-contract-drift.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-change-impact-preflight.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-doc-sync-duplicates.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-duplicate-logic.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-endpoint-callsite-linker.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-frontend-route-surfaces.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-frontend-state-logic-duplication.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-generated-artifact-freshness.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-generated-commit-scope.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-mapper-usage.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-permission-rule-duplication.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-read-surface-inventory.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/audit-repository-fetch.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/codex_local_context_gateway.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/generate-architecture-decision-index.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/local_tooling_extended_tools.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/audits/score-changeset-risk.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "scripts/local_tooling_common.rb",
-      "category": "script",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/codex-local-tooling-todo.md",
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
-        "docs/tooling/codex-local-audits.yml"
-      ],
-      "validation_commands": [
-        "ruby -c <script>",
-        "make audit-summary-index"
-      ],
-      "residual_risk": [
-        "Script or Makefile changes can invalidate generated audit registry outputs."
-      ]
-    },
-    {
-      "file": "docs/codex-context-execution-manifest.schema.json",
+      "file": "docs/vision-status-ledger.md",
       "category": "docs",
       "domain": "shared",
       "likely_docs": [
-        "docs/feature-delivery-workflow.md",
         "docs/agent-operating-model.yaml"
       ],
       "generated_artifacts": [
-        "docs/generated/local-tooling/codex-context/latest.machine.json",
-        "docs/generated/local-tooling/codex-context/latest.human.md",
         "docs/generated/local-tooling/manifest-path-resolution.json"
       ],
       "validation_commands": [
@@ -518,13 +210,161 @@
       ],
       "residual_risk": [
         "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": ".agents/vision-legacy-migration-candidate-map.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/feature-delivery-workflow.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionDetailSurface.vue",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
       ]
     }
   ],
   "unique_docs": [
     "docs/agent-operating-model.md",
     "docs/agent-operating-model.yaml",
-    "docs/codex-local-tooling-todo.md",
+    "docs/business-logic.md",
     "docs/domain-technical.md",
     "docs/feature-delivery-workflow.md"
   ]

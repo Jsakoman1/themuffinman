@@ -141,7 +141,6 @@ generatedArtifacts:
   - docs/agent-operating-model.yaml
   - docs/generated/backend-audit-inventory.json
   - docs/generated/local-tooling/.cache/audit-inputs.json
-  - docs/generated/local-tooling/.history/closeout-autofill/codex_tiered_workflow/
   - docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow-summary.md
   - docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow.json
   - docs/generated/local-tooling/closeout-reports/codex_tiered_workflow-summary.md
@@ -199,7 +198,6 @@ docDelta:
   - docs/feature-delivery-workflow.md
   - docs/generated/backend-audit-inventory.json
   - docs/generated/local-tooling/.cache/audit-inputs.json
-  - docs/generated/local-tooling/.history/closeout-autofill/codex_tiered_workflow/
   - docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow-summary.md
   - docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow.json
   - docs/generated/local-tooling/closeout-reports/codex_tiered_workflow-summary.md
@@ -265,7 +263,6 @@ artifacts:
   - docs/feature-delivery-workflow.md
   - docs/generated/backend-audit-inventory.json
   - docs/generated/local-tooling/.cache/audit-inputs.json
-  - docs/generated/local-tooling/.history/closeout-autofill/codex_tiered_workflow/
   - docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow-summary.md
   - docs/generated/local-tooling/closeout-autofill/codex_tiered_workflow.json
   - docs/generated/local-tooling/closeout-reports/codex_tiered_workflow-summary.md

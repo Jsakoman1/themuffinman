@@ -1,11 +1,12 @@
 # Generated Artifact Freshness Audit
 
-- Decision: `fresh`
-- Why: stale artifacts=0
+- Decision: `stale`
+- Why: stale artifacts=6
+- Next action: `ruby scripts/generate-agent-endpoint-inventory.rb`, `ruby scripts/generate-automation-read-model-inventory.rb`, `ruby scripts/generate-source-of-truth-audit.rb`
 - Evidence: artifacts=6
 
-- `agent_endpoint_inventory` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java`
-- `automation_read_model_inventory` `fresh` source=`docs/agent-operating-model/sections/automation_read_models.yaml`
-- `source_of_truth_audit` `fresh` source=`docs/agent-operating-model/sections/source_of_truth.yaml`
-- `backend_audit_inventory` `fresh` source=`docs/agent-operating-model/sections/backend_audit_coverage.yaml`
-- `frontend_generated_contract` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java`
+- `agent_endpoint_inventory` `stale` source=`docs/agent-operating-model/sections/intents.yaml`
+- `automation_read_model_inventory` `stale` source=`apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java`
+- `source_of_truth_audit` `stale` source=`docs/source-of-truth-inventory.md`
+- `backend_audit_inventory` `stale` source=`apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java`
+- `frontend_generated_contract` `stale` source=`apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java`

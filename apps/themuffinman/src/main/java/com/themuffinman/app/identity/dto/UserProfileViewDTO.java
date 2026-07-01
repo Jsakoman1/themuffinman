@@ -1,8 +1,8 @@
 package com.themuffinman.app.identity.dto;
 
 import com.themuffinman.app.social.dto.CircleRelationDTO;
-import com.themuffinman.app.workmarket.dto.UserRatingSummaryDTO;
-import com.themuffinman.app.workmarket.dto.UserReviewResponseDTO;
+import com.themuffinman.app.vision.dto.UserRatingSummaryDTO;
+import com.themuffinman.app.vision.dto.UserReviewResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

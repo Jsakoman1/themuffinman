@@ -12,8 +12,8 @@ import com.themuffinman.app.location.model.UserLocationMode;
 import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import com.themuffinman.app.social.service.CircleMembershipService;
 import com.themuffinman.app.social.service.CircleService;
-import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
-import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.vision.dto.QuestRequestDTO;
+import com.themuffinman.app.vision.model.Quest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

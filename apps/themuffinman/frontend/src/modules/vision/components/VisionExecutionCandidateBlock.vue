@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {VisionExecutionCandidate} from "../api/visionApi.ts"
+import type {VisionExecutionCandidate} from "../api/visionConversationApi.ts"
 import VisionCanvasSection from "./VisionCanvasSection.vue"
 
 defineProps<{
@@ -34,7 +34,7 @@ defineProps<{
 <style scoped>
 .vision-execution-candidate {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.5rem;
 }
 
 .vision-execution-candidate__meta {
@@ -50,7 +50,7 @@ defineProps<{
   padding: 0.34rem 0.64rem;
   border-radius: 999px;
   border: 1px solid rgba(24, 36, 47, 0.08);
-  background: rgba(255, 255, 255, 0.84);
+  background: rgba(255, 255, 255, 0.88);
   color: var(--vision-surface-ink-soft);
   font-size: 0.72rem;
   letter-spacing: 0.08em;

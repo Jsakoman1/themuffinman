@@ -38,6 +38,7 @@ The vision program now has a completed Phase 1 foundation and a completed semant
 - durable memory/context continuity and recent-session recovery support
 - dedicated execution boundary service around the first `create_quest` executor
 - dedicated chat execution boundary for `open_chat`
+- Vision-native quest and application detail routes that can absorb the legacy detail bridges
 
 The program is not yet at the full master vision target:
 

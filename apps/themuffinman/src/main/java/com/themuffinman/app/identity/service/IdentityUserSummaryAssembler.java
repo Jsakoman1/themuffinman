@@ -3,7 +3,7 @@ package com.themuffinman.app.identity.service;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

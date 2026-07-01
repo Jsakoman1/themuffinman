@@ -1,16 +1,16 @@
 # Mapper Usage Audit
 
-- Generated at: `2026-06-30T11:19:54Z`
+- Generated at: `2026-07-01T14:49:21Z`
 - Mappers scanned: `10`
 
 ## `QuestApplicationMgr`
 
 - Risk flags: `navigation_logic`, `relation_dereference`, `rich_text_sanitization`
 - Usage count: `4`
-- `ApplyForQuestUseCase.execute` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/ApplyForQuestUseCase.java` -> `toEntity` (`supporting`)
-- `QuestApplicationViewAssembler.toApplicantResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java` -> `toDto` (`read_oriented`)
-- `QuestApplicationViewAssembler.toManagementResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java` -> `toDto` (`read_oriented`)
-- `QuestApplicationViewAssembler.toPublicResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestApplicationViewAssembler.java` -> `toDto` (`read_oriented`)
+- `ApplyForQuestUseCase.execute` in `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplyForQuestUseCase.java` -> `toEntity` (`supporting`)
+- `QuestApplicationViewAssembler.toApplicantResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java` -> `toDto` (`read_oriented`)
+- `QuestApplicationViewAssembler.toManagementResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java` -> `toDto` (`read_oriented`)
+- `QuestApplicationViewAssembler.toPublicResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java` -> `toDto` (`read_oriented`)
 
 ## `ThingSharingMgr`
 
@@ -49,9 +49,9 @@
 
 - Risk flags: `navigation_logic`, `relation_dereference`, `rich_text_sanitization`
 - Usage count: `3`
-- `CreateQuestUseCase.execute` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/CreateQuestUseCase.java` -> `toEntity` (`supporting`)
-- `QuestViewAssembler.toResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java` -> `toDto` (`read_oriented`)
-- `QuestViewAssembler.toResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java` -> `withViewerContext` (`read_oriented`)
+- `CreateQuestUseCase.execute` in `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CreateQuestUseCase.java` -> `toEntity` (`supporting`)
+- `QuestViewAssembler.toResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java` -> `toDto` (`read_oriented`)
+- `QuestViewAssembler.toResponse` in `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java` -> `withViewerContext` (`read_oriented`)
 
 ## `BusinessProfileMgr`
 

@@ -176,8 +176,8 @@ documentation_ownership:
     - docs/generated/automation-read-model-inventory.json
     - docs/generated/source-of-truth-audit.json
     validation_tests:
-    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java
-    - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   - id: platform
     required_living_docs:
     - docs/codex-fast-path.md

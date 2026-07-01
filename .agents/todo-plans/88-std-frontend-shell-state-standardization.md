@@ -14,7 +14,7 @@ Standardize frontend route shells, shared state helpers, and stale UI primitives
 - [`.agents/system-standardization-audit-findings.md`](/Users/jsakoman/Desktop/themuffinman/.agents/system-standardization-audit-findings.md)
 - Route surfaces: `router.ts`, `QuestsPage.vue`, `QuestDetailView.vue`, `ApplicationDetailView.vue`, `AdminOverviewPage.vue`, `AdminApplicationsPage.vue`, `AdminQuestsPage.vue`
 - State surfaces: `useQuestDashboard*`, `useQuestDetailView`, `useAdminApplicationsPage`, `useAppUsersPage`, `composables/dashboard/*`, `composables/quest-detail/*`
-- Stale surfaces: `UiAmountField.vue`, `UiDashboardPage.vue`, `UiLaunchCard.vue`, `UiMetricPills.vue`, `UiReadonlyField.vue`, `UiSplitLayout.vue`, `QuestEditFields.vue`, `questNews.ts`, `adminAgentContractGate.ts`
+- Stale surfaces: legacy frontend UI helpers and detached shared assets flagged by the audit
 
 ## Implementation Plan
 
@@ -33,8 +33,8 @@ Standardize frontend route shells, shared state helpers, and stale UI primitives
 ## Completion Evidence
 
 - Status: complete
-- Changed files: `apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue`, `apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue`, `apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue`, `docs/domain-technical.md`
+- Changed files: `apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue`, `apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue`, `docs/domain-technical.md`
 - Validation evidence: `npm run type-check` passed; `npm run build` passed; `ruby scripts/todo-audit.rb` passed
-- Doc delta summary: detail views now use the shared authenticated shell and domain technical notes no longer reference the deleted `UiDashboardPage` wrapper
+- Doc delta summary: detail views now use the shared authenticated shell and domain technical notes no longer reference deleted shell wrappers
 - Backlog update: removed from open backlog.
 - Residual risk: none known

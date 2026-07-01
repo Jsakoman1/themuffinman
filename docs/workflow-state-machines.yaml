@@ -5,7 +5,7 @@ stateMachines:
     owner: QuestStateTransitionService
     stateSource:
       type: enum
-      javaClass: com.themuffinman.app.workmarket.model.QuestStatus
+      javaClass: com.themuffinman.app.vision.model.QuestStatus
     states:
       - OPEN
       - ASSIGNED
@@ -75,7 +75,7 @@ stateMachines:
     owner: QuestApplicationWorkflowSupport
     stateSource:
       type: enum
-      javaClass: com.themuffinman.app.workmarket.model.QuestApplicationStatus
+      javaClass: com.themuffinman.app.vision.model.QuestApplicationStatus
     states:
       - PENDING
       - APPROVED

@@ -1,21 +1,15 @@
 import {createRouter, createWebHistory} from "vue-router";
-import {isAdmin, isLoggedIn} from "./auth.ts";
+import {isLoggedIn} from "./auth.ts";
 
-const AdminOverviewPage = () => import("./modules/workmarket/pages/AdminOverviewPage.vue");
-const AdminQuestsPage = () => import("./modules/workmarket/pages/AdminQuestsPage.vue");
-const AdminApplicationsPage = () => import("./modules/workmarket/pages/AdminApplicationsPage.vue");
-const AdminCirclesPage = () => import("./modules/social/pages/AdminCirclesPage.vue");
-const AdminAgentPage = () => import("./modules/workmarket/pages/AdminAgentPage.vue");
-const AdminUsersPage = () => import("./modules/workmarket/pages/AdminUsersPage.vue");
-const CirclesView = () => import("./modules/social/views/CirclesView.vue");
-const QuestDetailView = () => import("./modules/workmarket/views/QuestDetailView.vue");
-const ApplicationDetailView = () => import("./modules/workmarket/views/ApplicationDetailView.vue");
 const LoginView = () => import("./modules/identity/views/LoginView.vue");
 const RegisterView = () => import("./modules/identity/views/RegisterView.vue");
-const UserProfileView = () => import("./modules/social/views/UserProfileView.vue");
-const UserSettingsView = () => import("./modules/social/views/UserSettingsView.vue");
-const ChatWorkspaceView = () => import("./modules/chat/views/ChatWorkspaceView.vue");
 const VisionSurfaceModernView = () => import("./modules/vision/views/VisionSurfaceModernView.vue");
+const VisionQuestDetailView = () => import("./modules/vision/views/VisionQuestDetailView.vue");
+const VisionApplicationDetailView = () => import("./modules/vision/views/VisionApplicationDetailView.vue");
+const VisionUserProfileView = () => import("./modules/vision/views/VisionUserProfileView.vue");
+const VisionUserSettingsView = () => import("./modules/vision/views/VisionUserSettingsView.vue");
+const VisionCirclesView = () => import("./modules/vision/views/VisionCirclesView.vue");
+const VisionChatWorkspaceView = () => import("./modules/vision/views/VisionChatWorkspaceView.vue");
 
 
 const routes = [
@@ -32,83 +26,38 @@ const routes = [
         component: RegisterView
     },
     {
-        path: '/work',
-        redirect: () => (isAdmin() ? '/admin/work' : '/vision'),
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/circles',
-        component: CirclesView,
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/work/:id',
-        component: QuestDetailView,
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/quests/:id',
-        component: QuestDetailView,
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/applications/:id',
-        component: ApplicationDetailView,
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/users/:id',
-        component: UserProfileView,
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/settings',
-        component: UserSettingsView,
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/admin',
-        redirect: '/admin/work',
-        meta: {requiresAuth: true, requiresAdmin: true}
-    },
-    {
-        path: '/admin/work',
-        component: AdminOverviewPage,
-        meta: {requiresAuth: true, requiresAdmin: true}
-    },
-    {
-        path: '/admin/quests',
-        component: AdminQuestsPage,
-        meta: {requiresAuth: true, requiresAdmin: true}
-    },
-    {
-        path: '/admin/users',
-        component: AdminUsersPage,
-        meta: {requiresAuth: true, requiresAdmin: true}
-    },
-    {
-        path: '/admin/applications',
-        component: AdminApplicationsPage,
-        meta: {requiresAuth: true, requiresAdmin: true}
-    },
-    {
-        path: '/admin/circles',
-        component: AdminCirclesPage,
-        meta: {requiresAuth: true, requiresAdmin: true}
-    },
-    {
-        path: '/admin/agent',
-        component: AdminAgentPage,
-        meta: {requiresAuth: true, requiresAdmin: true}
-    },
-    {
-        path: '/chat',
-        component: ChatWorkspaceView,
-        meta: {requiresAuth: true}
-    },
-    {
         path: '/vision',
         component: VisionSurfaceModernView,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/vision/users/:id',
+        component: VisionUserProfileView,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/vision/settings',
+        component: VisionUserSettingsView,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/vision/circles',
+        component: VisionCirclesView,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/vision/chat',
+        component: VisionChatWorkspaceView,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/vision/quests/:id',
+        component: VisionQuestDetailView,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/vision/applications/:id',
+        component: VisionApplicationDetailView,
         meta: {requiresAuth: true}
     }
 ];
@@ -123,11 +72,7 @@ router.beforeEach((to) => {
         return '/login';
     }
 
-    if (to.meta.requiresAdmin && !isAdmin()) {
-        return '/vision';
-    }
-
     if (isLoggedIn() && (to.path === '/login' || to.path === '/register')) {
-        return isAdmin() ? '/admin/work' : '/vision';
+        return '/vision';
     }
 })

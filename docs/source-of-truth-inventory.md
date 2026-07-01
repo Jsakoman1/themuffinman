@@ -41,8 +41,8 @@ Core files:
 - `src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/QuestWorkflowNotificationService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java`
-- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java`
-- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/VisionOptionsService.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/VisionPresentationHelper.java`
 
 Primary schema migrations:
 - `V2__create_quest_tables.sql`
@@ -249,14 +249,12 @@ Primary frontend source-of-truth files:
 - `apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts`
 
 Important route and page entrypoints:
-- `apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue`
-- `apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue`
-- `apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue`
-- `apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue`
-- `apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue`
-- `apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue`
-- `apps/themuffinman/frontend/src/modules/social/views/UserProfileView.vue`
-- `apps/themuffinman/frontend/src/modules/social/views/UserSettingsView.vue`
+- `apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue`
+- `apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue`
+- `apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue`
+- `apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue`
+- `apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue`
+- `apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue`
 - `apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue`
 - `apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue`
 

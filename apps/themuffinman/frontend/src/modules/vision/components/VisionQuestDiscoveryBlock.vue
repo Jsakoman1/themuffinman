@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {VisionCanvasBlock} from "../api/visionApi.ts"
+import type {VisionCanvasBlock} from "../api/visionConversationApi.ts"
 import VisionCanvasSection from "./VisionCanvasSection.vue"
 
 defineProps<{

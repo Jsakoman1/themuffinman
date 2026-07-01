@@ -6,7 +6,7 @@ import com.themuffinman.app.testing.TestFixtures;
 import com.themuffinman.app.vision.model.VisionConversationStatus;
 import com.themuffinman.app.vision.testing.VisionConversationTestBuilder;
 import com.themuffinman.app.vision.testing.VisionSlotStatePresets;
-import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.vision.model.Quest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

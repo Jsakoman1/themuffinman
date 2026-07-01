@@ -1,0 +1,123 @@
+<script setup lang="ts">
+withDefaults(defineProps<{
+  eyebrow?: string | null
+  title: string
+  subtitle?: string | null
+}>(), {
+  eyebrow: "Vision detail",
+  subtitle: null
+})
+
+const emit = defineEmits<{
+  close: []
+}>()
+</script>
+
+<template>
+  <section class="vision-detail-surface">
+    <header class="vision-detail-surface__header">
+      <div class="vision-detail-surface__heading">
+        <p v-if="eyebrow" class="vision-detail-surface__eyebrow">{{ eyebrow }}</p>
+        <h1>{{ title }}</h1>
+        <p v-if="subtitle" class="vision-detail-surface__subtitle">{{ subtitle }}</p>
+      </div>
+
+      <button type="button" class="vision-detail-surface__close" @click="emit('close')">
+        Back to Vision
+      </button>
+    </header>
+
+    <div class="vision-detail-surface__body">
+      <slot />
+    </div>
+  </section>
+</template>
+
+<style scoped>
+.vision-detail-surface {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #ffffff;
+  color: var(--vision-surface-ink);
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  padding: clamp(1.25rem, 3vw, 2.25rem) 1.25rem 3rem;
+}
+
+.vision-detail-surface__header,
+.vision-detail-surface__body {
+  position: relative;
+  z-index: 1;
+}
+
+.vision-detail-surface__header {
+  width: min(72rem, 100%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.vision-detail-surface__heading {
+  display: grid;
+  gap: 0.3rem;
+  max-width: 44rem;
+}
+
+.vision-detail-surface__eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--vision-surface-ink-muted);
+}
+
+.vision-detail-surface__heading h1 {
+  margin: 0;
+  font-size: clamp(1.45rem, 2.4vw, 2.2rem);
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+
+.vision-detail-surface__subtitle {
+  margin: 0;
+  max-width: 42rem;
+  color: var(--vision-surface-ink-soft);
+  line-height: 1.5;
+}
+
+.vision-detail-surface__close {
+  appearance: none;
+  border: 1px solid rgba(24, 36, 47, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--vision-surface-ink);
+  border-radius: 999px;
+  padding: 0.7rem 0.95rem;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(24, 36, 47, 0.06);
+}
+
+.vision-detail-surface__body {
+  width: min(72rem, 100%);
+  display: grid;
+  gap: 1rem;
+}
+
+@media (max-width: 720px) {
+  .vision-detail-surface {
+    padding-inline: 0.8rem;
+  }
+
+  .vision-detail-surface__header {
+    flex-direction: column;
+  }
+
+  .vision-detail-surface__close {
+    width: 100%;
+  }
+}
+</style>

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T19:55:00Z",
+  "generated_at": "2026-07-01T14:49:40Z",
   "hits": [
     {
       "file": "apps/themuffinman/README.md",
@@ -2232,16 +2232,6 @@
       "snippet": "* and any parser in the {@link https://uvr.esm.is/TODO_ | params folder }. If"
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
-      "line": 132,
-      "snippet": "<input v-model=\"contactQuery\" class=\"input\" placeholder=\"Search people\" />"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
-      "line": 272,
-      "snippet": "placeholder=\"Write a message\""
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/editor/AsyncRichTextEditor.vue",
       "line": 7,
       "snippet": "placeholder?: string"
@@ -2327,21 +2317,6 @@
       "snippet": "<ProfileBio :text=\"description\" :placeholder=\"descriptionPlaceholder\" />"
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
-      "line": 8,
-      "snippet": "placeholder?: string"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
-      "line": 12,
-      "snippet": "placeholder: \"\","
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAmountField.vue",
-      "line": 29,
-      "snippet": ":placeholder=\"placeholder\""
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiSearchableMultiSelect.vue",
       "line": 13,
       "snippet": "placeholder?: string"
@@ -2358,18 +2333,18 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
-      "line": 923,
+      "line": 91,
+      "snippet": "export const VISION_INTENT_VALUES = [\"CREATE_QUEST\", \"DISCOVER_QUESTS\", \"OPEN_CHAT\", \"UNSUPPORTED\"] as const"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "line": 1022,
       "snippet": "placeholder: string"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
-      "line": 158,
-      "snippet": "<input v-model=\"form.slug\" class=\"input\" maxlength=\"140\" placeholder=\"auto-generated if blank\" />"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
-      "line": 86,
-      "snippet": "<input v-model=\"contactQuery\" class=\"input\" placeholder=\"Search contacts\" />"
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "line": 1421,
+      "snippet": "placeholder: string"
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
@@ -2382,99 +2357,84 @@
       "snippet": "placeholder=\"New circle name\""
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "line": 252,
-      "snippet": ":description-placeholder=\"isOwnProfile ? '' : 'This user has not added a profile description yet.'\""
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+      "line": 105,
+      "snippet": "placeholder: string | null"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "line": 542,
-      "snippet": "placeholder=\"Search circles\""
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "line": 21,
+      "snippet": "currentPlaceholder: string"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "line": 553,
-      "snippet": "placeholder=\"Search people\""
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "line": 63,
+      "snippet": ":current-placeholder=\"currentPlaceholder\""
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "line": 617,
-      "snippet": "placeholder=\"Search address or place\""
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionPromptDock.vue",
+      "line": 10,
+      "snippet": "currentPlaceholder: string"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "line": 659,
-      "snippet": "<input :value=\"profileLocationStreet\" class=\"input\" placeholder=\"Street\" @input=\"updateLocationStreet(($event.target as HTMLInputElement).value)\" />"
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionPromptDock.vue",
+      "line": 125,
+      "snippet": ":placeholder=\"currentPlaceholder || 'Type or speak'\""
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "line": 660,
-      "snippet": "<input :value=\"profileLocationHouseNumber\" class=\"input\" placeholder=\"House number\" @input=\"updateLocationHouseNumber(($event.target as HTMLInputElement).value)\" />"
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "line": 27,
+      "snippet": "const slotPlaceholders: Record<string, string> = {"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "line": 661,
-      "snippet": "<input :value=\"profileLocationPostalCode\" class=\"input\" placeholder=\"Postal code\" @input=\"updateLocationPostalCode(($event.target as HTMLInputElement).value)\" />"
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "line": 120,
+      "snippet": "const currentPlaceholder = computed(() => {"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "line": 662,
-      "snippet": "<input :value=\"profileLocationLocality\" class=\"input\" placeholder=\"City\" @input=\"updateLocationLocality(($event.target as HTMLInputElement).value)\" />"
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "line": 123,
+      "snippet": "return fieldRequestBlock.value?.placeholder ?? slotPlaceholders[slotId] ?? \"Type the next detail\""
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "line": 663,
-      "snippet": "<input :value=\"profileLocationCountry\" class=\"input settings-location-editor__country\" placeholder=\"Country\" @input=\"updateLocationCountry(($event.target as HTMLInputElement).value)\" />"
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "line": 582,
+      "snippet": "currentPlaceholder,"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
-      "line": 113,
-      "snippet": "<input v-model=\"searchQuery\" class=\"input\" placeholder=\"Circle, owner, member...\" />"
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "line": 96,
+      "snippet": "<input v-model=\"contactQuery\" class=\"input\" placeholder=\"Search contacts\" />"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "line": 100,
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "line": 111,
       "snippet": "placeholder=\"Search connections, requests, or blocked people\""
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
-      "line": 222,
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "line": 233,
       "snippet": "placeholder=\"Search by username or email\""
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "line": 445,
-      "snippet": "<input v-model=\"password\" class=\"input\" type=\"password\" placeholder=\"Leave blank to keep current password\" />"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
-      "line": 53,
-      "snippet": "<input v-model=\"questSearch\" class=\"input\" placeholder=\"Title, creator, status, award...\" />"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "line": 83,
-      "snippet": "price-placeholder=\"50\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "line": 146,
-      "snippet": "<input v-model=\"searchQuery\" class=\"input\" placeholder=\"Title or keyword\" />"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
-      "line": 17,
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "line": 291,
       "snippet": ":price-placeholder=\"String(quest.presentation.suggestedApplicationPrice ?? '')\""
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestSummaryRow.vue",
-      "line": 58,
-      "snippet": "{ 'quest-summary-row__pill--placeholder': secondaryValue === null || secondaryValue === '' },"
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "line": 24,
+      "snippet": "currentPlaceholder,"
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestSummaryRow.vue",
-      "line": 84,
-      "snippet": "{ 'quest-summary-row__description--placeholder': !descriptionText },"
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "line": 127,
+      "snippet": ":current-placeholder=\"currentPlaceholder\""
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "line": 250,
+      "snippet": ":description-placeholder=\"isOwnProfile ? '' : 'This user has not added a profile description yet.'\""
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationEditFields.vue",
@@ -2607,53 +2567,13 @@
       "snippet": ":placeholder=\"reviewSection.placeholder\""
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "line": 122,
-      "snippet": "placeholder=\"\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "line": 131,
-      "snippet": "placeholder=\"No description.\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestEditFields.vue",
-      "line": 151,
-      "snippet": "placeholder=\"50\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "line": 84,
-      "snippet": "placeholder=\"Describe the agent task you want to test...\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "line": 115,
-      "snippet": "<input v-model=\"searchQuery\" class=\"input\" placeholder=\"Quest, creator, applicant, status...\" />"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "line": 204,
-      "snippet": "price-placeholder=\"50\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "line": 50,
-      "snippet": "<input v-model=\"usersPage.userSearch\" class=\"input\" placeholder=\"Username, email, role...\" />"
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "line": 294,
-      "snippet": ":price-placeholder=\"String(quest.presentation.suggestedApplicationPrice ?? '')\""
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
-      "line": 15,
-      "snippet": "<div class=\"card stack module-placeholder\">"
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
+      "line": 132,
+      "snippet": "if (!semanticPlan.isUnsupported()) {"
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "line": 114,
+      "line": 138,
       "snippet": "warnings.add(\"Prompt translation is not yet reliable for this language without a configured external provider.\");"
     },
     {
@@ -2682,58 +2602,198 @@
       "snippet": "throw new IllegalArgumentException(\"Unsupported table name: \" + tableName);"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewSectionDTO.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/prompt/PromptSemanticPlan.java",
+      "line": 26,
+      "snippet": ".candidateIntent(\"UNSUPPORTED\")"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/prompt/PromptSemanticPlan.java",
+      "line": 28,
+      "snippet": ".capabilityId(\"unsupported\")"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/prompt/PromptSemanticPlan.java",
+      "line": 54,
+      "snippet": "public boolean isUnsupported() {"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/prompt/PromptSemanticPlan.java",
+      "line": 55,
+      "snippet": "return candidateIntent == null || candidateIntent.isBlank() || \"UNSUPPORTED\".equalsIgnoreCase(candidateIntent.trim());"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java",
+      "line": 23,
+      "snippet": "private String placeholder;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java",
+      "line": 7,
+      "snippet": "UNSUPPORTED"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "line": 128,
+      "snippet": ".placeholder(placeholderForSlot(turn.getRequestedSlot()))"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "line": 331,
+      "snippet": "private String placeholderForSlot(String slotId) {"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "line": 119,
+      "snippet": "case UNSUPPORTED -> handleUnsupportedTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "line": 196,
+      "snippet": "&& detectedIntent != VisionIntent.UNSUPPORTED"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "line": 201,
+      "snippet": "switchedConversation.setStatus(detectedIntent == VisionIntent.UNSUPPORTED"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "line": 219,
+      "snippet": "conversation.setStatus(conversation.getIntent() == VisionIntent.UNSUPPORTED"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "line": 677,
+      "snippet": "private VisionTurn handleUnsupportedTurn("
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "line": 696,
+      "snippet": "turn.setDetectedIntent(VisionIntent.UNSUPPORTED);"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java",
+      "line": 30,
+      "snippet": "? semanticPlan.candidateIntentOrUnsupported()"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java",
+      "line": 24,
+      "snippet": "? VisionIntent.UNSUPPORTED"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java",
+      "line": 25,
+      "snippet": ": understanding.semanticPlanOrEmpty().candidateIntentOrUnsupported();"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java",
+      "line": 40,
+      "snippet": "return VisionIntent.UNSUPPORTED;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java",
+      "line": 64,
+      "snippet": "return VisionIntent.UNSUPPORTED;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
+      "line": 156,
+      "snippet": "Supported candidateIntent values are CREATE_QUEST, DISCOVER_QUESTS, OPEN_CHAT, and UNSUPPORTED."
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
+      "line": 157,
+      "snippet": "Supported capabilityId values are create_quest, discover_quests, open_chat, and unsupported."
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java",
+      "line": 80,
+      "snippet": "return understanding.semanticPlanOrEmpty().candidateIntentOrUnsupported() == VisionIntent.DISCOVER_QUESTS;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java",
+      "line": 29,
+      "snippet": ".candidateIntent(VisionIntent.UNSUPPORTED.name())"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java",
+      "line": 31,
+      "snippet": ".capabilityId(\"unsupported\")"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java",
+      "line": 68,
+      "snippet": "public VisionIntent candidateIntentOrUnsupported() {"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java",
+      "line": 70,
+      "snippet": "return VisionIntent.UNSUPPORTED;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java",
+      "line": 75,
+      "snippet": "return VisionIntent.UNSUPPORTED;"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailReviewSectionDTO.java",
       "line": 19,
       "snippet": "private String placeholder;"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
       "line": 81,
       "snippet": ".placeholder(\"Add a short comment.\")"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
       "line": 94,
       "snippet": ".placeholder(\"Add a short comment.\")"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestViewAssembler.java",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
       "line": 113,
       "snippet": ".placeholder(\"Write a short comment about this \" + target.getRoleLabel() + \".\")"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-      "line": 31,
+      "line": 32,
       "snippet": "StubAdminAgentTextProvider provider = new StubAdminAgentTextProvider();"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-      "line": 94,
+      "line": 101,
       "snippet": "private static class StubAdminAgentTextProvider extends OpenAiAdminAgentClient {"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-      "line": 98,
+      "line": 104,
+      "snippet": "private String summary = \"stub\";"
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+      "line": 106,
       "snippet": "private StubAdminAgentTextProvider() {"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-      "line": 21,
+      "line": 22,
       "snippet": "private final StubAdminAgentTextProvider provider = new StubAdminAgentTextProvider();"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-      "line": 522,
+      "line": 589,
       "snippet": "private static class StubAdminAgentTextProvider extends OpenAiAdminAgentClient {"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-      "line": 524,
+      "line": 591,
       "snippet": "private String summary = \"stub\";"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-      "line": 528,
+      "line": 596,
       "snippet": "private StubAdminAgentTextProvider() {"
     },
     {
@@ -2743,37 +2803,37 @@
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-      "line": 996,
+      "line": 1021,
       "snippet": "Path todoAuditScriptPath = repoRoot.resolve(\"scripts/todo-audit.rb\");"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-      "line": 1004,
+      "line": 1029,
       "snippet": "assertTrue(Files.exists(todoAuditScriptPath), \"todo-audit.rb must exist\");"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-      "line": 1023,
+      "line": 1048,
       "snippet": "\"feature completion manifest template must include skipped-check reason placeholder\");"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-      "line": 1171,
+      "line": 1196,
       "snippet": "assertTrue(hasPassedEvidence(validationEvidenceCommands, \"make audit-todo\"),"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-      "line": 1172,
+      "line": 1197,
       "snippet": "() -> \"Completed manifest must include passed make audit-todo evidence: \" + manifestPath);"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-      "line": 1460,
+      "line": 1485,
       "snippet": "Path todoAuditScriptPath = repoRoot.resolve(\"scripts/todo-audit.rb\");"
     },
     {
       "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-      "line": 1464,
+      "line": 1489,
       "snippet": "assertTrue(Files.exists(todoAuditScriptPath), \"scripts/todo-audit.rb must exist\");"
     },
     {
@@ -2787,52 +2847,82 @@
       "snippet": "if (!PLACEHOLDER_INTENTS.contains(intentId)) {"
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+      "line": 809,
+      "snippet": "void unsupportedPromptReturnsBlockedState() {"
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+      "line": 819,
+      "snippet": "assertEquals(\"UNSUPPORTED\", response.getIntent());"
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentRouterTest.java",
+      "line": 24,
+      "snippet": "void fallsBackToPromptHeuristicsWhenSemanticPlanIsUnsupported() {"
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java",
+      "line": 70,
+      "snippet": "void defaultsSemanticPlanToUnsupportedWhenPromptHasNoSupportedIntent() {"
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java",
+      "line": 81,
+      "snippet": "assertEquals(\"UNSUPPORTED\", result.semanticPlanOrEmpty().getCandidateIntent());"
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java",
+      "line": 82,
+      "snippet": "assertEquals(\"unsupported\", result.semanticPlanOrEmpty().getCapabilityId());"
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
       "line": 198,
       "snippet": "private void stubQuestViewerContext() {"
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
       "line": 338,
       "snippet": "stubQuestViewerContext();"
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
       "line": 395,
       "snippet": "stubQuestViewerContext();"
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
       "line": 448,
       "snippet": "stubQuestViewerContext();"
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
       "line": 488,
       "snippet": "stubQuestViewerContext();"
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
       "line": 517,
       "snippet": "stubQuestViewerContext();"
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
       "line": 548,
       "snippet": "stubQuestViewerContext();"
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
       "line": 610,
       "snippet": "stubQuestViewerContext();"
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
       "line": 652,
       "snippet": "stubQuestViewerContext();"
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
       "line": 690,
       "snippet": "stubQuestViewerContext();"
     }

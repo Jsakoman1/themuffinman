@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-29T19:55:02Z",
-  "statement_count": 156,
+  "generated_at": "2026-07-01T14:49:43Z",
+  "statement_count": 168,
   "protected_phrase_count": 0,
   "review_needed_count": 0,
   "high_priority_count": 0,
@@ -13,7 +13,225 @@
   "entries": [
     {
       "source": "docs/business-logic.md",
-      "line": 61,
+      "line": 34,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "workmarket",
+      "statement": "`/vision/conversations/turns` now uses a versioned request shape with `inputType`, `text`, `clientCapabilities`, and `clientStateVersion`, so the frontend can declare what it can do instead of relying only on legacy prompt fields.",
+      "expected_evidence": [
+        "scenario_or_workflow_test",
+        "contract_or_dto_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 8
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/api.yaml",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "score": 5
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/business-logic.md",
+      "line": 35,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "chat",
+      "statement": "The active `/vision` surface should prefer that persisted conversation path for stepwise task guidance, use dedicated reset and cancel lifecycle endpoints for conversation control, expose recent task resume behavior, and keep the older dashboard prompt endpoint as a compatibility/planning path during transition.",
+      "expected_evidence": [
+        "scenario_or_workflow_test",
+        "contract_or_dto_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 13
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 12
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/service_workflow_inventory.yaml",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/api.yaml",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
+          "score": 6
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/business-logic.md",
+      "line": 36,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "The active `/vision` surface should treat compact backend summaries as the memory source for resume and recent-task continuity, rather than reconstructing the current state from older transcript text.",
+      "expected_evidence": [
+        "scenario_or_workflow_test"
+      ],
+      "evidence_matches": [
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 10
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 9
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/audit-mutation-safety.rb",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 7
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 4
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/business-logic.md",
+      "line": 40,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "workmarket",
+      "statement": "When the user gives a custom quest location on `/vision`, the backend may suggest one or more more precise matched places, but the surface must ask whether to use one of those resolved candidates or keep the typed location before the quest review continues.",
+      "expected_evidence": [
+
+      ],
+      "evidence_matches": [
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 10
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 9
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 9
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 7
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 7
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/frontend_contracts.yaml",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/audit-change-impact-preflight.rb",
+          "score": 7
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/business-logic.md",
+      "line": 88,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -24,11 +242,19 @@
       ],
       "evidence_matches": [
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 6
+        },
+        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 5
         },
         {
@@ -37,14 +263,6 @@
         },
         {
           "path": "docs/agent-operating-model/sections/intent_lineage.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 4
         },
         {
@@ -68,7 +286,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 114,
+      "line": 141,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "location",
@@ -82,15 +300,27 @@
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
-          "score": 5
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java",
+          "score": 6
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestPresentationAssemblerTest.java",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 5
         },
         {
@@ -104,25 +334,13 @@
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
           "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
-          "score": 4
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/business-logic.md",
-      "line": 116,
+      "line": 143,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "location",
@@ -133,7 +351,7 @@
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 5
+          "score": 6
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
@@ -152,7 +370,7 @@
           "score": 3
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
           "score": 3
         },
         {
@@ -176,7 +394,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 124,
+      "line": 151,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -190,6 +408,10 @@
           "score": 9
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 8
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 8
         },
@@ -198,11 +420,11 @@
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java",
-          "score": 6
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java",
           "score": 6
         },
         {
@@ -220,17 +442,13 @@
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 5
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-          "score": 5
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/business-logic.md",
-      "line": 125,
+      "line": 152,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -241,10 +459,14 @@
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 7
+          "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
           "score": 6
         },
         {
@@ -268,15 +490,11 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-          "score": 5
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestPresentationAssemblerTest.java",
           "score": 5
         }
       ],
@@ -284,7 +502,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 126,
+      "line": 153,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -306,6 +524,10 @@
           "score": 9
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 8
+        },
+        {
           "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
           "score": 8
         },
@@ -314,23 +536,19 @@
           "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java",
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestPresentationAssemblerTest.java",
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java",
           "score": 7
         },
         {
           "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
           "score": 7
         }
       ],
@@ -338,7 +556,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 138,
+      "line": 165,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "social",
@@ -392,7 +610,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 156,
+      "line": 183,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -402,6 +620,10 @@
       ],
       "evidence_matches": [
         {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 8
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 8
         },
@@ -410,15 +632,15 @@
           "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 7
-        },
-        {
           "path": "scripts/audits/audit-mutation-safety.rb",
           "score": 7
         },
         {
           "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 6
         },
         {
@@ -434,11 +656,7 @@
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
           "score": 5
         }
       ],
@@ -446,7 +664,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 190,
+      "line": 217,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -476,23 +694,23 @@
           "score": 5
         },
         {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/permission_matrix.yaml",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
+          "score": 5
+        },
+        {
           "path": "scripts/audits/audit-doc-sync-duplicates.rb",
           "score": 5
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-          "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
           "score": 4
         }
       ],
@@ -500,7 +718,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 196,
+      "line": 223,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -554,7 +772,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 197,
+      "line": 224,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -608,7 +826,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 198,
+      "line": 225,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -630,7 +848,7 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 4
         },
         {
@@ -654,7 +872,7 @@
           "score": 3
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
           "score": 3
         }
       ],
@@ -662,7 +880,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 200,
+      "line": 227,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -677,6 +895,10 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 5
         },
         {
@@ -696,10 +918,6 @@
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 4
-        },
-        {
           "path": "scripts/audits/audit-doc-sync-duplicates.rb",
           "score": 4
         },
@@ -716,7 +934,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 202,
+      "line": 229,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -744,6 +962,10 @@
           "score": 8
         },
         {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 8
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 7
         },
@@ -753,10 +975,6 @@
         },
         {
           "path": "docs/agent-operating-model/sections/frontend_contracts.yaml",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 7
         },
         {
@@ -772,61 +990,63 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 213,
+      "line": 241,
       "kind": "behavioral_statement",
       "rule_id": null,
-      "domain": "shared",
-      "statement": "The current playground is for safe prompt and workflow testing only.",
+      "domain": "workmarket",
+      "statement": "The direct execution slice is admin-only, target-user-specific, and limited to synthetic quest creation for sandbox/operator workflows.",
       "expected_evidence": [
-        "scenario_or_workflow_test"
+        "scenario_or_workflow_test",
+        "permission_or_policy_test",
+        "sandbox_or_generation_audit"
       ],
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 6
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/capability_registry.yaml",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/frontend_contracts.yaml",
-          "score": 5
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-          "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
-          "score": 4
+          "score": 10
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 4
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 8
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 7
         },
         {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 4
+          "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/intent_lineage.yaml",
-          "score": 4
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+          "score": 5
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/business-logic.md",
-      "line": 215,
+      "line": 243,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -846,6 +1066,10 @@
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 7
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
           "score": 6
         },
         {
@@ -857,7 +1081,7 @@
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
           "score": 5
         },
         {
@@ -871,17 +1095,13 @@
         {
           "path": "docs/agent-operating-model/sections/metadata.yaml",
           "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 5
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/business-logic.md",
-      "line": 216,
+      "line": 244,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -892,7 +1112,7 @@
       "evidence_matches": [
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 6
+          "score": 7
         },
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
@@ -927,7 +1147,7 @@
           "score": 4
         },
         {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
           "score": 4
         }
       ],
@@ -935,7 +1155,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 218,
+      "line": 246,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -945,6 +1165,10 @@
       ],
       "evidence_matches": [
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 7
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 6
         },
@@ -953,15 +1177,15 @@
           "score": 6
         },
         {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 6
+        },
+        {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
           "score": 6
         },
         {
           "path": "docs/agent-operating-model/sections/frontend_contracts.yaml",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 5
         },
         {
@@ -977,11 +1201,7 @@
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
           "score": 4
         }
       ],
@@ -989,7 +1209,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 224,
+      "line": 255,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -999,6 +1219,10 @@
       ],
       "evidence_matches": [
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+          "score": 11
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 11
         },
@@ -1019,31 +1243,27 @@
           "score": 9
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-          "score": 9
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 7
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 6
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 6
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 6
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-          "score": 5
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/business-logic.md",
-      "line": 225,
+      "line": 256,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -1053,11 +1273,11 @@
       ],
       "evidence_matches": [
         {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 6
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
           "score": 6
         },
         {
@@ -1081,15 +1301,15 @@
           "score": 4
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+          "score": 4
+        },
+        {
           "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
           "score": 4
         },
         {
           "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
           "score": 4
         }
       ],
@@ -1097,7 +1317,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 357,
+      "line": 388,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "location",
@@ -1119,6 +1339,10 @@
           "score": 5
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 5
+        },
+        {
           "path": "docs/agent-operating-model/sections/api.yaml",
           "score": 5
         },
@@ -1127,7 +1351,7 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 4
         },
         {
@@ -1141,17 +1365,13 @@
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 4
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 4
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/business-logic.md",
-      "line": 404,
+      "line": 435,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1161,7 +1381,7 @@
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
           "score": 9
         },
         {
@@ -1169,11 +1389,11 @@
           "score": 9
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 7
         },
         {
@@ -1205,7 +1425,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 417,
+      "line": 448,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1217,7 +1437,7 @@
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 6
+          "score": 7
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
@@ -1260,7 +1480,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 422,
+      "line": 453,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1286,7 +1506,11 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 5
         },
         {
@@ -1304,17 +1528,13 @@
         {
           "path": "docs/regression-scenario-catalog.yaml",
           "score": 5
-        },
-        {
-          "path": "scripts/audits/audit-mutation-safety.rb",
-          "score": 5
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/business-logic.md",
-      "line": 434,
+      "line": 465,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1324,11 +1544,11 @@
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-          "score": 8
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 9
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
           "score": 8
         },
         {
@@ -1348,19 +1568,19 @@
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/event/QuestApplicationNewsEventHandlerTest.java",
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardSummaryAssemblerTest.java",
           "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 7
         }
       ],
@@ -1368,7 +1588,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 437,
+      "line": 468,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1398,11 +1618,15 @@
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 7
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java",
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 6
         },
         {
@@ -1412,17 +1636,13 @@
         {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
           "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intent_safety_catalog.yaml",
-          "score": 6
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/business-logic.md",
-      "line": 438,
+      "line": 469,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -1433,7 +1653,7 @@
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 12
+          "score": 13
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
@@ -1444,12 +1664,12 @@
           "score": 11
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 9
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 8
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 9
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
@@ -1476,7 +1696,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 456,
+      "line": 487,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1490,11 +1710,11 @@
           "score": 12
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 10
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/WorkmarketOptionsServiceTest.java",
           "score": 8
         },
         {
@@ -1514,15 +1734,15 @@
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 7
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
           "score": 7
         },
         {
           "path": "scripts/audits/audit-mutation-safety.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 7
         }
       ],
@@ -1530,7 +1750,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 478,
+      "line": 509,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1544,11 +1764,15 @@
           "score": 10
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 9
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+          "score": 9
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
           "score": 9
         },
         {
@@ -1560,7 +1784,11 @@
           "score": 9
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 8
         },
         {
@@ -1570,21 +1798,13 @@
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 7
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
-          "score": 7
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-          "score": 7
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/business-logic.md",
-      "line": 481,
+      "line": 512,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1614,11 +1834,15 @@
           "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 7
         },
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/service_workflow_inventory.yaml",
           "score": 7
         },
         {
@@ -1628,17 +1852,13 @@
         {
           "path": "scripts/audits/audit-permission-rule-duplication.rb",
           "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 7
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/business-logic.md",
-      "line": 482,
+      "line": 513,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1650,6 +1870,10 @@
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 12
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 9
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
@@ -1676,15 +1900,11 @@
           "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 7
-        },
-        {
           "path": "docs/regression-scenario-catalog.yaml",
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 6
         }
       ],
@@ -1692,7 +1912,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 483,
+      "line": 514,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1718,12 +1938,16 @@
           "score": 10
         },
         {
-          "path": "docs/regression-scenario-catalog.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 9
         },
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 8
+          "score": 9
+        },
+        {
+          "path": "docs/regression-scenario-catalog.yaml",
+          "score": 9
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
@@ -1734,19 +1958,15 @@
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
           "score": 7
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-          "score": 6
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/business-logic.md",
-      "line": 487,
+      "line": 518,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "location",
@@ -1764,11 +1984,11 @@
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java",
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 4
         },
         {
@@ -1800,7 +2020,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 499,
+      "line": 530,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1810,11 +2030,11 @@
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
           "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 7
         },
         {
@@ -1838,15 +2058,15 @@
           "score": 6
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 5
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/RepositoryFetchProfileContractTest.java",
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
-          "score": 5
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 5
         }
       ],
@@ -1854,7 +2074,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 519,
+      "line": 550,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -1872,7 +2092,15 @@
           "score": 6
         },
         {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 5
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
           "score": 5
         },
         {
@@ -1888,19 +2116,11 @@
           "score": 5
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 4
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-          "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-          "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
           "score": 4
         }
       ],
@@ -1908,7 +2128,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 531,
+      "line": 562,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1930,7 +2150,7 @@
           "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 7
         },
         {
@@ -1942,11 +2162,11 @@
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/UserReviewServiceTest.java",
           "score": 6
         },
         {
@@ -1962,7 +2182,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 567,
+      "line": 598,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -1976,7 +2196,7 @@
           "score": 12
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 9
         },
         {
@@ -1984,7 +2204,7 @@
           "score": 9
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
           "score": 8
         },
         {
@@ -2016,7 +2236,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 570,
+      "line": 601,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -2036,6 +2256,10 @@
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 8
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 7
         },
         {
@@ -2061,17 +2285,13 @@
         {
           "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
           "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/service_workflow_inventory.yaml",
-          "score": 5
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/business-logic.md",
-      "line": 612,
+      "line": 643,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -2125,7 +2345,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 635,
+      "line": 666,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "social",
@@ -2179,7 +2399,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 645,
+      "line": 676,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -2193,6 +2413,10 @@
           "score": 12
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 11
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 10
         },
@@ -2201,11 +2425,11 @@
           "score": 10
         },
         {
-          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 9
         },
         {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 8
         },
         {
@@ -2214,10 +2438,6 @@
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 7
         },
         {
@@ -2233,7 +2453,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 710,
+      "line": 741,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -2251,15 +2471,19 @@
           "score": 5
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 5
+        },
+        {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java",
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
           "score": 4
         },
         {
@@ -2275,11 +2499,7 @@
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/request_validation_gate.yaml",
+          "path": "docs/agent-operating-model/sections/frontend_contracts.yaml",
           "score": 4
         }
       ],
@@ -2287,7 +2507,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 711,
+      "line": 742,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -2299,6 +2519,14 @@
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 10
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 7
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
@@ -2317,23 +2545,15 @@
           "score": 6
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 6
-        },
-        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java",
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
-          "score": 5
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestPresentationAssemblerTest.java",
           "score": 5
         }
       ],
@@ -2341,7 +2561,7 @@
     },
     {
       "source": "docs/business-logic.md",
-      "line": 722,
+      "line": 753,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -2353,6 +2573,10 @@
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 7
         },
         {
           "path": "scripts/audits/audit-mutation-safety.rb",
@@ -2367,11 +2591,15 @@
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 6
         },
         {
@@ -2379,15 +2607,7 @@
           "score": 6
         },
         {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/regression-scenario-catalog.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/workflow-state-machines.yaml",
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 6
         }
       ],
@@ -2429,6 +2649,10 @@
           "score": 5
         },
         {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 5
+        },
+        {
           "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 5
         },
@@ -2439,17 +2663,13 @@
         {
           "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
           "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 4
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 34,
+      "line": 38,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -2503,7 +2723,7 @@
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 51,
+      "line": 55,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -2557,7 +2777,7 @@
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 71,
+      "line": 75,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -2587,6 +2807,10 @@
           "score": 2
         },
         {
+          "path": "scripts/audits/audit-generated-artifact-freshness.rb",
+          "score": 2
+        },
+        {
           "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 2
         },
@@ -2601,17 +2825,13 @@
         {
           "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 2
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 2
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 73,
+      "line": 77,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -2665,7 +2885,7 @@
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 74,
+      "line": 78,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -2719,7 +2939,7 @@
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 93,
+      "line": 97,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -2749,6 +2969,10 @@
           "score": 2
         },
         {
+          "path": "scripts/audits/audit-generated-artifact-freshness.rb",
+          "score": 2
+        },
+        {
           "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 2
         },
@@ -2763,17 +2987,13 @@
         {
           "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 2
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 2
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 95,
+      "line": 99,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -2827,7 +3047,7 @@
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 96,
+      "line": 100,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -2881,7 +3101,62 @@
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 109,
+      "line": 115,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "If a manifest is in scope, read `docs/validation-memory.md` and `docs/validation-memory.json` before finalizing evidence so canonical command strings and manifest bucket rules are explicit.",
+      "expected_evidence": [
+        "documentation_sync_audit",
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 14
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 12
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 12
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 10
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 9
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 9
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/generate-validation-memory-closeout-card.rb",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 7
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/change-completion-checklist.md",
+      "line": 118,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -2937,7 +3212,7 @@
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 110,
+      "line": 119,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -2985,15 +3260,15 @@
           "score": 6
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 5
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 6
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 128,
+      "line": 139,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -3048,7 +3323,7 @@
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 133,
+      "line": 144,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -3102,7 +3377,7 @@
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 153,
+      "line": 170,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -3117,7 +3392,19 @@
           "score": 9
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 7
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
           "score": 7
         },
         {
@@ -3125,15 +3412,7 @@
           "score": 6
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 6
-        },
-        {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 6
         },
         {
@@ -3141,23 +3420,19 @@
           "score": 6
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
           "score": 6
         },
         {
           "path": "scripts/audits/record-validation-evidence.rb",
           "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 5
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 159,
+      "line": 176,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -3187,6 +3462,10 @@
           "score": 4
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 4
+        },
+        {
           "path": "docs/agent-operating-model/sections/enums.yaml",
           "score": 4
         },
@@ -3201,17 +3480,13 @@
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
-          "score": 4
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/change-completion-checklist.md",
-      "line": 160,
+      "line": 177,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -3276,6 +3551,10 @@
           "score": 5
         },
         {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 5
+        },
+        {
           "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 5
         },
@@ -3285,10 +3564,6 @@
         },
         {
           "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
           "score": 4
         }
       ],
@@ -3381,6 +3656,10 @@
           "score": 4
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 4
+        },
+        {
           "path": "docs/agent-operating-model/sections/enums.yaml",
           "score": 4
         },
@@ -3394,10 +3673,6 @@
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
           "score": 4
         }
       ],
@@ -3485,7 +3760,7 @@
         },
         {
           "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
-          "score": 4
+          "score": 5
         }
       ],
       "priority": "none"
@@ -3493,6 +3768,61 @@
     {
       "source": "docs/documentation-sync-policy.md",
       "line": 32,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "Use `docs/validation-memory.md` and `docs/validation-memory.json` when manifest-backed validation or closeout evidence is in scope so canonical command and evidence rules are applied consistently.",
+      "expected_evidence": [
+        "documentation_sync_audit",
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 11
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 11
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 10
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 9
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 9
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/generate-validation-memory-closeout-card.rb",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/record-validation-evidence.rb",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 7
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 35,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -3503,12 +3833,24 @@
       ],
       "evidence_matches": [
         {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 7
+        },
+        {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
           "score": 6
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 6
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 5
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 4
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
@@ -3519,35 +3861,23 @@
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 4
-        },
-        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 4
         },
         {
-          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
           "score": 4
         },
         {
           "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 3
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
-          "score": 3
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 43,
+      "line": 46,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -3601,7 +3931,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 46,
+      "line": 49,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -3631,6 +3961,10 @@
           "score": 2
         },
         {
+          "path": "scripts/audits/audit-validation-memory-drift.rb",
+          "score": 2
+        },
+        {
           "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 2
         },
@@ -3643,11 +3977,7 @@
           "score": 2
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 2
-        },
-        {
-          "path": "scripts/audits/record-validation-evidence.rb",
+          "path": "scripts/audits/generate-validation-memory-closeout-card.rb",
           "score": 2
         }
       ],
@@ -3655,7 +3985,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 57,
+      "line": 60,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -3709,7 +4039,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 58,
+      "line": 61,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -3763,7 +4093,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 60,
+      "line": 63,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -3793,6 +4123,10 @@
           "score": 2
         },
         {
+          "path": "scripts/audits/audit-validation-memory-drift.rb",
+          "score": 2
+        },
+        {
           "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 2
         },
@@ -3805,11 +4139,7 @@
           "score": 2
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 2
-        },
-        {
-          "path": "scripts/audits/record-validation-evidence.rb",
+          "path": "scripts/audits/generate-validation-memory-closeout-card.rb",
           "score": 2
         }
       ],
@@ -3817,7 +4147,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 70,
+      "line": 73,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -3847,6 +4177,10 @@
           "score": 2
         },
         {
+          "path": "scripts/audits/audit-generated-artifact-freshness.rb",
+          "score": 2
+        },
+        {
           "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 2
         },
@@ -3861,17 +4195,13 @@
         {
           "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 2
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 2
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 73,
+      "line": 76,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -3925,7 +4255,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 74,
+      "line": 77,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -3971,7 +4301,7 @@
           "score": 3
         },
         {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "path": "scripts/audits/audit-validation-memory-drift.rb",
           "score": 3
         }
       ],
@@ -3979,7 +4309,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 81,
+      "line": 84,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4009,6 +4339,10 @@
           "score": 2
         },
         {
+          "path": "scripts/audits/audit-generated-artifact-freshness.rb",
+          "score": 2
+        },
+        {
           "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 2
         },
@@ -4023,17 +4357,13 @@
         {
           "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 2
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 2
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 84,
+      "line": 87,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -4071,15 +4401,15 @@
           "score": 3
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 2
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java",
           "score": 2
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/common/validation/RichTextInputValidatorTest.java",
-          "score": 2
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 2
         }
       ],
@@ -4087,7 +4417,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 85,
+      "line": 88,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4133,7 +4463,7 @@
           "score": 3
         },
         {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "path": "scripts/audits/audit-validation-memory-drift.rb",
           "score": 3
         }
       ],
@@ -4141,7 +4471,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 89,
+      "line": 92,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4171,6 +4501,10 @@
           "score": 2
         },
         {
+          "path": "scripts/audits/audit-generated-artifact-freshness.rb",
+          "score": 2
+        },
+        {
           "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 2
         },
@@ -4185,17 +4519,13 @@
         {
           "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 2
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 2
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 99,
+      "line": 102,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4249,7 +4579,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 110,
+      "line": 113,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4287,15 +4617,15 @@
           "score": 7
         },
         {
+          "path": "scripts/audits/audit-doc-sync-duplicates.rb",
+          "score": 6
+        },
+        {
           "path": "scripts/audits/generate-architecture-decision-index.rb",
           "score": 6
         },
         {
           "path": "scripts/audits/generate-closeout-report.rb",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/record-validation-evidence.rb",
           "score": 6
         }
       ],
@@ -4303,7 +4633,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 128,
+      "line": 136,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4337,19 +4667,19 @@
           "score": 5
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 5
+        },
+        {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 4
         },
         {
+          "path": "scripts/audits/audit-generated-artifact-freshness.rb",
+          "score": 4
+        },
+        {
           "path": "scripts/audits/audit-plan-completion.rb",
-          "score": 4
-        },
-        {
-          "path": "scripts/audits/codex_local_context_gateway.rb",
-          "score": 4
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
           "score": 4
         }
       ],
@@ -4357,7 +4687,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 129,
+      "line": 137,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4387,6 +4717,14 @@
           "score": 10
         },
         {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 10
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 10
+        },
+        {
           "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 10
         },
@@ -4395,15 +4733,7 @@
           "score": 10
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 9
-        },
-        {
-          "path": "scripts/audits/audit-manifest-decision.rb",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 8
         }
       ],
@@ -4411,7 +4741,7 @@
     },
     {
       "source": "docs/documentation-sync-policy.md",
-      "line": 130,
+      "line": 138,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4449,16 +4779,70 @@
           "score": 7
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 7
+        },
+        {
           "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 7
         },
         {
           "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
           "score": 6
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/documentation-sync-policy.md",
+      "line": 139,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "agent",
+      "statement": "Manifest-backed closeout should refresh `make validation-memory-closeout-card`, and `make feature-closeout-audit` should also rerun the validation-memory drift sub-check.",
+      "expected_evidence": [
+        "validation_or_closeout_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 11
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 6
+        },
+        {
+          "path": "scripts/audits/audit-manifest-decision.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/audit-validation-memory-drift.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/generate-validation-memory-closeout-card.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 3
         }
       ],
       "priority": "none"
@@ -4536,7 +4920,7 @@
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 6
+          "score": 7
         },
         {
           "path": "scripts/audits/generate-architecture-decision-index.rb",
@@ -4544,6 +4928,14 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java",
+          "score": 4
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
+          "score": 4
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
           "score": 4
         },
         {
@@ -4561,13 +4953,60 @@
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 4
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/domain-technical.md",
+      "line": 27,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "The surface now keeps its prompt composer and canvas content in one inline flow instead of a separate floating dock, so the adaptive stage can expand or contract around the current state.",
+      "expected_evidence": [
+        "scenario_or_workflow_test",
+        "contract_or_dto_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/permission_matrix.yaml",
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 4
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
           "score": 4
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
           "score": 4
         }
       ],
@@ -4575,7 +5014,278 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 29,
+      "line": 28,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "shared",
+      "statement": "The `/vision` route shell should prefer contextual reveal controls for state and recent-task memory instead of permanent page-level chrome, so the blank-canvas default stays visually quiet.",
+      "expected_evidence": [
+        "scenario_or_workflow_test"
+      ],
+      "evidence_matches": [
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 5
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "score": 4
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 4
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 3
+        },
+        {
+          "path": "scripts/audits/audit-docs-as-tests.rb",
+          "score": 3
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/domain-technical.md",
+      "line": 39,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "chat",
+      "statement": "`VisionSurfaceModernView.vue` should use `POST /vision/conversations/turns` as the primary prompt-bearing conversation path, `GET /vision/conversations/recent` and `GET /vision/conversations/{conversationId}` for resume behavior, plus dedicated `POST /vision/conversations/{conversationId}/reset` and `POST /vision/conversations/{conversationId}/cancel` lifecycle endpoints instead of overloading the turn contract for everything.",
+      "expected_evidence": [
+        "scenario_or_workflow_test",
+        "contract_or_dto_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "docs/agent-operating-model/sections/api.yaml",
+          "score": 9
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 9
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
+          "score": 5
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/domain-technical.md",
+      "line": 45,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "workmarket",
+      "statement": "`VisionExecutionPlanner` now produces a read-only `VisionExecutionCandidateDTO` for create_quest review turns so the canvas can show readiness, blockers, and the next required field without crossing into mutation execution.",
+      "expected_evidence": [
+        "contract_or_dto_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 10
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 8
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 7
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionPlannerTest.java",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 7
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
+          "score": 6
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/domain-technical.md",
+      "line": 46,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "workmarket",
+      "statement": "`VisionQuestDiscoveryService` now produces a read-only `VisionQuestDiscoveryDTO` for `DISCOVER_QUESTS` turns so the canvas can show ranked available quests without crossing into mutation execution.",
+      "expected_evidence": [
+        "contract_or_dto_audit"
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 10
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 8
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 5
+        },
+        {
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 5
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 4
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java",
+          "score": 4
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentRouterTest.java",
+          "score": 4
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/domain-technical.md",
+      "line": 48,
+      "kind": "behavioral_statement",
+      "rule_id": null,
+      "domain": "workmarket",
+      "statement": "Custom `/vision` quest locations now pass through `VisionLocationParserService` first and may be enriched by `VisionLocationResolutionService`; when lookup finds one or more more precise candidates, the conversation must pause for an explicit user choice among those candidates or the originally typed location before review may continue.",
+      "expected_evidence": [
+
+      ],
+      "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 11
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 11
+        },
+        {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 8
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+          "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 6
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationResolutionServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+          "score": 5
+        }
+      ],
+      "priority": "none"
+    },
+    {
+      "source": "docs/domain-technical.md",
+      "line": 57,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4585,12 +5295,12 @@
       ],
       "evidence_matches": [
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 13
         },
         {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 12
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 13
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
@@ -4599,6 +5309,10 @@
         {
           "path": "scripts/audits/audit-validation-evidence-quality.rb",
           "score": 10
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 9
         },
         {
           "path": "scripts/audits/record-validation-evidence.rb",
@@ -4613,15 +5327,11 @@
           "score": 8
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 7
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 8
         },
         {
           "path": "docs/regression-scenario-catalog.yaml",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 7
         }
       ],
@@ -4629,7 +5339,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 51,
+      "line": 79,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -4643,6 +5353,10 @@
           "score": 13
         },
         {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 7
+        },
+        {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 7
         },
@@ -4651,15 +5365,11 @@
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 6
         },
         {
@@ -4667,7 +5377,7 @@
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
           "score": 5
         },
         {
@@ -4683,7 +5393,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 241,
+      "line": 270,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4738,7 +5448,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 242,
+      "line": 271,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4779,15 +5489,15 @@
           "score": 5
         },
         {
-          "path": "scripts/audits/audit-plan-completion.rb",
-          "score": 4
-        },
-        {
           "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 5
+        },
+        {
+          "path": "scripts/audits/audit-generated-artifact-freshness.rb",
           "score": 4
         },
         {
-          "path": "scripts/audits/record-validation-evidence.rb",
+          "path": "scripts/audits/audit-plan-completion.rb",
           "score": 4
         }
       ],
@@ -4795,7 +5505,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 243,
+      "line": 272,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4819,6 +5529,10 @@
           "score": 9
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 8
+        },
+        {
           "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 8
         },
@@ -4831,27 +5545,23 @@
           "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 7
-        },
-        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 6
         },
         {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "path": "scripts/audits/audit-change-impact-preflight.rb",
           "score": 6
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 5
+          "path": "scripts/audits/audit-generated-artifact-freshness.rb",
+          "score": 6
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 244,
+      "line": 273,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4905,7 +5615,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 246,
+      "line": 275,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4928,11 +5638,15 @@
           "score": 10
         },
         {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 8
+        },
+        {
           "path": "scripts/audits/generate-closeout-report.rb",
           "score": 8
         },
         {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 7
         },
         {
@@ -4948,10 +5662,6 @@
           "score": 6
         },
         {
-          "path": "scripts/audits/codex_local_context_gateway.rb",
-          "score": 6
-        },
-        {
           "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
           "score": 5
         }
@@ -4960,7 +5670,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 247,
+      "line": 276,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -4976,7 +5686,7 @@
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 10
+          "score": 11
         },
         {
           "path": "scripts/audits/enforce-feature-closeout.rb",
@@ -4988,7 +5698,7 @@
         },
         {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 6
+          "score": 7
         },
         {
           "path": "scripts/audits/codex_local_context_gateway.rb",
@@ -5003,11 +5713,11 @@
           "score": 5
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
           "score": 4
         }
       ],
@@ -5015,7 +5725,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 249,
+      "line": 278,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -5037,15 +5747,19 @@
           "score": 9
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 8
+        },
+        {
           "path": "scripts/audits/enforce-feature-closeout.rb",
           "score": 8
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
           "score": 7
         },
         {
@@ -5057,10 +5771,6 @@
           "score": 6
         },
         {
-          "path": "scripts/audits/codex_local_context_gateway.rb",
-          "score": 6
-        },
-        {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 6
         }
@@ -5069,7 +5779,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 255,
+      "line": 284,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -5087,16 +5797,20 @@
           "score": 10
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 7
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 7
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 7
         },
         {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 6
         },
         {
           "path": "scripts/audits/audit-manifest-decision.rb",
@@ -5115,11 +5829,7 @@
           "score": 5
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 5
         }
       ],
@@ -5127,7 +5837,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 259,
+      "line": 290,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -5159,6 +5869,10 @@
           "score": 8
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 7
+        },
+        {
           "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
           "score": 7
         },
@@ -5171,11 +5885,7 @@
           "score": 7
         },
         {
-          "path": "scripts/audits/audit-change-impact-preflight.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/enforce-feature-closeout.rb",
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 7
         }
       ],
@@ -5183,7 +5893,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 260,
+      "line": 291,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -5195,15 +5905,15 @@
       "evidence_matches": [
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 12
+          "score": 13
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 8
         },
         {
           "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 7
         },
         {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
@@ -5238,7 +5948,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 265,
+      "line": 296,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -5264,16 +5974,20 @@
           "score": 9
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 8
+        },
+        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 8
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 7
         },
         {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 7
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 5
         },
         {
           "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
@@ -5282,17 +5996,13 @@
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
-          "score": 5
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 272,
+      "line": 303,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -5315,6 +6025,10 @@
           "score": 8
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 7
+        },
+        {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 7
         },
@@ -5327,27 +6041,23 @@
           "score": 7
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 6
+        },
+        {
           "path": "docs/agent-operating-model/sections/api.yaml",
           "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 6
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 5
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 276,
+      "line": 307,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "location",
@@ -5371,6 +6081,10 @@
           "score": 6
         },
         {
+          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
+          "score": 6
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 6
         },
@@ -5387,10 +6101,6 @@
           "score": 5
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 5
-        },
-        {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 5
         },
@@ -5403,7 +6113,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 277,
+      "line": 308,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -5458,7 +6168,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 280,
+      "line": 311,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -5487,6 +6197,10 @@
           "score": 11
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 11
+        },
+        {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 11
         },
@@ -5505,17 +6219,13 @@
         {
           "path": "scripts/audits/audit-docs-as-tests.rb",
           "score": 10
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 10
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 282,
+      "line": 313,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -5539,7 +6249,11 @@
         },
         {
           "path": "scripts/audits/codex_local_context_gateway.rb",
-          "score": 10
+          "score": 11
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 7
         },
         {
           "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
@@ -5560,17 +6274,13 @@
         {
           "path": "scripts/audits/audit-manifest-decision.rb",
           "score": 6
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
-          "score": 6
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 285,
+      "line": 316,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -5626,7 +6336,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 286,
+      "line": 317,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -5681,7 +6391,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 288,
+      "line": 319,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -5737,7 +6447,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 289,
+      "line": 320,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -5792,7 +6502,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 290,
+      "line": 321,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -5805,7 +6515,7 @@
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 10
+          "score": 11
         },
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
@@ -5816,7 +6526,11 @@
           "score": 9
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
+          "score": 9
+        },
+        {
+          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
           "score": 9
         },
         {
@@ -5824,12 +6538,12 @@
           "score": 9
         },
         {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
           "score": 9
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
-          "score": 8
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 9
         },
         {
           "path": "docs/regression-scenario-catalog.yaml",
@@ -5838,17 +6552,13 @@
         {
           "path": "scripts/audits/audit-mutation-safety.rb",
           "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 7
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 291,
+      "line": 322,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -5903,7 +6613,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 294,
+      "line": 325,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -5931,27 +6641,27 @@
           "score": 10
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 10
+        },
+        {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 10
         },
         {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
-          "score": 8
+          "score": 9
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 8
+          "score": 9
         },
         {
           "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
           "score": 7
         },
         {
-          "path": "scripts/audits/codex_local_context_gateway.rb",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/generate-architecture-decision-index.rb",
+          "path": "scripts/audits/audit-generated-artifact-freshness.rb",
           "score": 7
         }
       ],
@@ -5959,7 +6669,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 308,
+      "line": 339,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -5979,7 +6689,15 @@
           "score": 9
         },
         {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 8
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+          "score": 7
+        },
+        {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 7
         },
         {
@@ -5989,14 +6707,6 @@
         {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
           "score": 6
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/codex_local_context_gateway.rb",
-          "score": 5
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
@@ -6015,7 +6725,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 314,
+      "line": 345,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -6034,12 +6744,12 @@
           "score": 12
         },
         {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
           "score": 10
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 9
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 10
         },
         {
           "path": "docs/agent-operating-model/sections/documentation_ownership.yaml",
@@ -6070,7 +6780,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 318,
+      "line": 349,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -6126,7 +6836,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 320,
+      "line": 351,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -6145,11 +6855,11 @@
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 5
+          "score": 6
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 5
+          "score": 6
         },
         {
           "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
@@ -6180,7 +6890,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 326,
+      "line": 357,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -6236,7 +6946,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 349,
+      "line": 382,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "location",
@@ -6274,23 +6984,23 @@
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 6
         },
         {
           "path": "docs/agent-operating-model/sections/documentation_sync.yaml",
           "score": 5
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-          "score": 4
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 518,
+      "line": 556,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -6344,7 +7054,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 519,
+      "line": 557,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -6374,23 +7084,23 @@
           "score": 5
         },
         {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/permission_matrix.yaml",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
+          "score": 5
+        },
+        {
           "path": "scripts/audits/audit-doc-sync-duplicates.rb",
           "score": 5
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-          "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
           "score": 4
         }
       ],
@@ -6398,7 +7108,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 520,
+      "line": 558,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -6452,7 +7162,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 521,
+      "line": 559,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -6507,7 +7217,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 522,
+      "line": 560,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -6553,7 +7263,7 @@
           "score": 3
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 2
         }
       ],
@@ -6561,11 +7271,11 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 546,
+      "line": 584,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
-      "statement": "`SandboxGenerationPlanner` contributes sandbox-only workflows, synthetic marker requirements, and warnings back into the admin playground response without executing mutations.",
+      "statement": "`SandboxGenerationPlanner` contributes sandbox-only workflows, synthetic marker requirements, and warnings back into the admin playground response.",
       "expected_evidence": [
         "scenario_or_workflow_test",
         "permission_or_policy_test",
@@ -6574,15 +7284,15 @@
       "evidence_matches": [
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 11
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 10
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 9
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+          "score": 8
         },
         {
           "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
@@ -6593,7 +7303,11 @@
           "score": 8
         },
         {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 8
+        },
+        {
+          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
           "score": 8
         },
         {
@@ -6605,11 +7319,7 @@
           "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
-          "score": 7
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 7
         }
       ],
@@ -6617,7 +7327,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 550,
+      "line": 593,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -6628,6 +7338,10 @@
       ],
       "evidence_matches": [
         {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 8
+        },
+        {
           "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
           "score": 7
         },
@@ -6636,7 +7350,7 @@
           "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 6
         },
         {
@@ -6648,7 +7362,7 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
           "score": 5
         },
         {
@@ -6662,17 +7376,13 @@
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
-          "score": 5
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 555,
+      "line": 598,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -6686,20 +7396,28 @@
           "score": 9
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 7
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 8
+        },
+        {
+          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "score": 8
         },
         {
           "path": "docs/agent-operating-model/sections/frontend_contracts.yaml",
           "score": 7
         },
         {
-          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 7
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+          "score": 6
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
@@ -6710,15 +7428,7 @@
           "score": 6
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 6
-        },
-        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 6
-        },
-        {
-          "path": "scripts/audits/audit-mutation-safety.rb",
           "score": 6
         }
       ],
@@ -6726,7 +7436,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 558,
+      "line": 602,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -6737,7 +7447,7 @@
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 11
+          "score": 12
         },
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
@@ -6748,7 +7458,15 @@
           "score": 9
         },
         {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 9
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
+          "score": 8
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 8
         },
         {
@@ -6764,15 +7482,7 @@
           "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 7
-        },
-        {
-          "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
           "score": 7
         }
       ],
@@ -6780,7 +7490,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 704,
+      "line": 755,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -6790,24 +7500,28 @@
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java",
           "score": 3
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 3
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
           "score": 3
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 3
         },
         {
           "path": "docs/agent-operating-model/sections/request_validation_gate.yaml",
           "score": 3
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+          "score": 2
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
@@ -6818,15 +7532,11 @@
           "score": 2
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 2
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-          "score": 2
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java",
           "score": 2
         }
       ],
@@ -6834,7 +7544,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 737,
+      "line": 788,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -6844,19 +7554,19 @@
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java",
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java",
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 4
         },
         {
@@ -6876,11 +7586,11 @@
           "score": 3
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/event/QuestApplicationNewsEventHandlerTest.java",
           "score": 3
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java",
           "score": 3
         }
       ],
@@ -6888,7 +7598,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 743,
+      "line": 794,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -6899,14 +7609,14 @@
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 10
+          "score": 11
         },
         {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 10
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
           "score": 9
         },
         {
@@ -6918,7 +7628,7 @@
           "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 8
         },
         {
@@ -6926,7 +7636,7 @@
           "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 7
         },
         {
@@ -6942,7 +7652,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 746,
+      "line": 797,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -6952,15 +7662,15 @@
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 10
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
-          "score": 9
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 10
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
           "score": 9
         },
         {
@@ -6968,11 +7678,11 @@
           "score": 9
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
           "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 8
         },
         {
@@ -6996,7 +7706,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 751,
+      "line": 802,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -7006,11 +7716,11 @@
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 6
         },
         {
@@ -7018,7 +7728,7 @@
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
           "score": 5
         },
         {
@@ -7034,15 +7744,15 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/event/QuestApplicationNewsEventHandlerTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/event/QuestApplicationNewsEventHandlerTest.java",
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardSummaryAssemblerTest.java",
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/automation_read_models.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 4
         }
       ],
@@ -7050,7 +7760,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 780,
+      "line": 831,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -7060,16 +7770,20 @@
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 6
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 6
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 5
         },
         {
           "path": "docs/workflow-state-machines.yaml",
@@ -7080,23 +7794,19 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/enums.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardSummaryAssemblerTest.java",
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 4
         }
       ],
@@ -7104,7 +7814,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 781,
+      "line": 832,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -7114,16 +7824,24 @@
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 6
         },
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 6
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 5
         },
         {
           "path": "docs/workflow-state-machines.yaml",
@@ -7134,23 +7852,15 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardSummaryAssemblerTest.java",
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/enums.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 4
         }
       ],
@@ -7158,7 +7868,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 782,
+      "line": 833,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -7169,7 +7879,7 @@
       ],
       "evidence_matches": [
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 11
         },
         {
@@ -7177,7 +7887,7 @@
           "score": 9
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 8
         },
         {
@@ -7213,7 +7923,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 790,
+      "line": 841,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -7243,23 +7953,23 @@
           "score": 8
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 8
+        },
+        {
           "path": "scripts/audits/codex_local_context_gateway.rb",
-          "score": 6
+          "score": 7
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 5
         }
       ],
@@ -7267,7 +7977,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 792,
+      "line": 843,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -7305,7 +8015,7 @@
           "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
           "score": 7
         },
         {
@@ -7321,7 +8031,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 794,
+      "line": 845,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -7343,7 +8053,7 @@
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 6
         },
         {
@@ -7359,15 +8069,15 @@
           "score": 6
         },
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 6
+        },
+        {
           "path": "scripts/audits/local_tooling_batch_audits.rb",
           "score": 6
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 5
-        },
-        {
-          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
           "score": 5
         }
       ],
@@ -7375,7 +8085,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 797,
+      "line": 848,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -7393,7 +8103,7 @@
           "score": 9
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 8
         },
         {
@@ -7405,11 +8115,11 @@
           "score": 8
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestWorkflowScenarioTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/UserReviewServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/UserReviewServiceTest.java",
           "score": 7
         },
         {
@@ -7417,11 +8127,11 @@
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestUseCaseContractTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
           "score": 6
         }
       ],
@@ -7429,7 +8139,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 825,
+      "line": 878,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -7439,11 +8149,15 @@
       ],
       "evidence_matches": [
         {
+          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "score": 7
+        },
+        {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
           "score": 7
         },
         {
-          "path": "scripts/audits/codex_local_context_gateway.rb",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
           "score": 6
         },
         {
@@ -7459,86 +8173,27 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
-          "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 4
         },
         {
           "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+          "score": 4
+        },
+        {
+          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
           "score": 4
         },
         {
           "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
           "score": 4
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 4
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 898,
-      "kind": "behavioral_statement",
-      "rule_id": null,
-      "domain": "workmarket",
-      "statement": "`QuestDetailView.vue` should stay a thin rendering surface. Quest-detail section visibility, owner/application surface state, and edit dirty-state checks live in `useQuestDetailView` and `useQuestDetailEdit` so future workflow changes are made in composables or backend-prepared sections instead of the template file.",
-      "expected_evidence": [
-        "scenario_or_workflow_test",
-        "permission_or_policy_test"
-      ],
-      "evidence_matches": [
-        {
-          "path": "docs/regression-scenario-catalog.yaml",
-          "score": 10
-        },
-        {
-          "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
-          "score": 9
-        },
-        {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 9
-        },
-        {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 8
-        },
-        {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
-          "score": 8
-        },
-        {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
-          "score": 8
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 7
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
-          "score": 7
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-          "score": 7
-        }
-      ],
-      "priority": "none"
-    },
-    {
-      "source": "docs/domain-technical.md",
-      "line": 929,
+      "line": 973,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "location",
@@ -7552,11 +8207,11 @@
           "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
-          "score": 6
+          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "score": 7
         },
         {
-          "path": "docs/agent-operating-model/sections/policies.yaml",
+          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml",
           "score": 6
         },
         {
@@ -7592,7 +8247,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 962,
+      "line": 1006,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -7601,6 +8256,10 @@
         "contract_or_dto_audit"
       ],
       "evidence_matches": [
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+          "score": 2
+        },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
           "score": 2
@@ -7630,15 +8289,11 @@
           "score": 2
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/RequestDtoValidationTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 2
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestNewsMgrTest.java",
-          "score": 2
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java",
           "score": 2
         }
       ],
@@ -7646,7 +8301,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1125,
+      "line": 1169,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -7692,7 +8347,7 @@
           "score": 3
         },
         {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "path": "scripts/audits/codex_local_context_gateway.rb",
           "score": 3
         }
       ],
@@ -7700,7 +8355,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1130,
+      "line": 1174,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "social",
@@ -7754,7 +8409,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1164,
+      "line": 1208,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "location",
@@ -7776,11 +8431,15 @@
           "score": 5
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 5
+        },
+        {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 4
         },
         {
@@ -7798,17 +8457,13 @@
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
           "score": 3
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-          "score": 3
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1360,
+      "line": 1404,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -7826,12 +8481,20 @@
           "score": 5
         },
         {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 5
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 5
         },
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
           "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 4
         },
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
@@ -7846,14 +8509,6 @@
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 3
-        },
-        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationLookupServiceTest.java",
           "score": 3
         }
@@ -7862,7 +8517,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1395,
+      "line": 1439,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "social",
@@ -7908,7 +8563,7 @@
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 4
         }
       ],
@@ -7916,7 +8571,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1397,
+      "line": 1441,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "social",
@@ -7962,7 +8617,7 @@
           "score": 6
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/DashboardServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
           "score": 6
         }
       ],
@@ -7970,7 +8625,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1400,
+      "line": 1444,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "location",
@@ -7984,15 +8639,27 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java",
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestPresentationAssemblerTest.java",
+          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
+          "score": 5
+        },
+        {
+          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 4
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestPresentationAssemblerTest.java",
           "score": 4
         },
         {
@@ -8000,31 +8667,19 @@
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/intents.yaml",
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
           "score": 4
         },
         {
           "path": "docs/agent-operating-model/sections/source_of_truth.yaml",
           "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-          "score": 3
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 3
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
-          "score": 3
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1412,
+      "line": 1456,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "location",
@@ -8038,6 +8693,10 @@
           "score": 7
         },
         {
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 5
+        },
+        {
           "path": "docs/agent-operating-model/sections/policies.yaml",
           "score": 5
         },
@@ -8046,7 +8705,7 @@
           "score": 4
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 4
         },
         {
@@ -8062,23 +8721,19 @@
           "score": 3
         },
         {
-          "path": "scripts/audits/local_tooling_extended_tools.rb",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationParserServiceTest.java",
           "score": 3
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-          "score": 2
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
-          "score": 2
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationResolutionServiceTest.java",
+          "score": 3
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1419,
+      "line": 1463,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -8096,11 +8751,15 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestQueryServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java",
+          "score": 5
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 5
         },
         {
@@ -8122,17 +8781,13 @@
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
           "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
-          "score": 4
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1438,
+      "line": 1482,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -8146,15 +8801,19 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
           "score": 4
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestVisibilityServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+          "score": 4
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestVisibilityServiceTest.java",
           "score": 4
         },
         {
@@ -8176,17 +8835,13 @@
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
           "score": 3
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/QuestMgrTest.java",
-          "score": 3
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1439,
+      "line": 1483,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "social",
@@ -8240,7 +8895,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1442,
+      "line": 1486,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -8251,7 +8906,7 @@
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 9
+          "score": 10
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
@@ -8270,7 +8925,7 @@
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 7
         },
         {
@@ -8286,7 +8941,7 @@
           "score": 7
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestApplicationServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
           "score": 6
         }
       ],
@@ -8294,7 +8949,7 @@
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1449,
+      "line": 1493,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "workmarket",
@@ -8305,7 +8960,7 @@
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 8
+          "score": 9
         },
         {
           "path": "docs/agent-operating-model/sections/policies.yaml",
@@ -8314,6 +8969,10 @@
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
           "score": 7
+        },
+        {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+          "score": 6
         },
         {
           "path": "docs/regression-scenario-catalog.yaml",
@@ -8338,17 +8997,13 @@
         {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
           "score": 4
-        },
-        {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-          "score": 4
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1477,
+      "line": 1521,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "agent",
@@ -8386,23 +9041,23 @@
           "score": 9
         },
         {
-          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "path": "docs/agent-operating-model/sections/intents.yaml",
           "score": 8
         },
         {
-          "path": "docs/agent-operating-model/sections/frontend_contract_generation.yaml",
-          "score": 7
+          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+          "score": 8
         },
         {
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
-          "score": 7
+          "path": "scripts/audits/local_tooling_batch_audits.rb",
+          "score": 8
         }
       ],
       "priority": "none"
     },
     {
       "source": "docs/domain-technical.md",
-      "line": 1561,
+      "line": 1605,
       "kind": "behavioral_statement",
       "rule_id": null,
       "domain": "shared",
@@ -8414,7 +9069,7 @@
       "evidence_matches": [
         {
           "path": "docs/agent-operating-model/sections/intents.yaml",
-          "score": 7
+          "score": 8
         },
         {
           "path": "scripts/audits/local_tooling_extended_tools.rb",
@@ -8433,7 +9088,7 @@
           "score": 5
         },
         {
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/QuestServiceTest.java",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
           "score": 5
         },
         {
@@ -8441,15 +9096,15 @@
           "score": 5
         },
         {
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+          "score": 4
+        },
+        {
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
           "score": 4
         },
         {
           "path": "docs/agent-operating-model/sections/capability_registry.yaml",
-          "score": 4
-        },
-        {
-          "path": "docs/regression-scenario-catalog.yaml",
           "score": 4
         }
       ],

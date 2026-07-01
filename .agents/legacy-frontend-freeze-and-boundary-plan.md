@@ -73,25 +73,12 @@ Boundary decision:
 - permit only defect fixes that unblock existing login, admin access, or temporary detail-bridge flows
 - forbid any new user workflow, discovery pattern, or navigation investment in this shell
 
-### 4. Admin operator surface is a temporary survivor, not a target UX
-
-Observed files:
-
-- [AdminAgentPage.vue](/Users/jsakoman/Desktop/themuffinman/apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue)
-- [adminApi.ts](/Users/jsakoman/Desktop/themuffinman/apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts)
-
-Findings:
-
-- `/admin/agent` is a direct operator surface for planner, simulation, and guarded execution
-- it is backend-driven and operationally useful during Vision buildout
-- it is not part of the user-facing Vision runtime
-- the admin client is one of the few justified temporary consumers of the large workmarket API aggregation layer
+### 4. Keep vision-specific surfaces separate from the route-era shell
 
 Boundary decision:
 
-- preserve admin routes temporarily as an operator enclave
-- prioritize `/admin/agent` as the longest-lived legacy survivor if not yet absorbed by a standardized admin surface
-- do not use admin survival as justification for keeping user-facing legacy shell/module flows
+- preserve only the minimum route-era shell needed to keep login and transition flows working
+- do not use shell survival as justification for keeping user-facing legacy shell/module flows
 
 ## Freeze Policy
 

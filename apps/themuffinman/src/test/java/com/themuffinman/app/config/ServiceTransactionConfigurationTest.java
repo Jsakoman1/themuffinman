@@ -9,11 +9,11 @@ import com.themuffinman.app.social.service.CircleDiscoveryService;
 import com.themuffinman.app.social.service.CircleMembershipService;
 import com.themuffinman.app.social.service.CircleRelationService;
 import com.themuffinman.app.social.service.CircleService;
-import com.themuffinman.app.workmarket.service.QuestApplicationService;
-import com.themuffinman.app.workmarket.service.QuestExecutionPrimitiveService;
-import com.themuffinman.app.workmarket.service.QuestNewsService;
-import com.themuffinman.app.workmarket.service.QuestViewAssembler;
-import com.themuffinman.app.workmarket.service.WorkmarketOptionsService;
+import com.themuffinman.app.vision.service.QuestApplicationService;
+import com.themuffinman.app.vision.service.QuestExecutionPrimitiveService;
+import com.themuffinman.app.vision.service.QuestNewsService;
+import com.themuffinman.app.vision.service.QuestViewAssembler;
+import com.themuffinman.app.vision.service.VisionOptionsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +28,7 @@ class ServiceTransactionConfigurationTest {
     void selectedReadServicesUseReadOnlyTransactionalClassCoverage() {
         assertReadOnlyTransactional(AdminUserDetailService.class);
         assertReadOnlyTransactional(UserProfileViewService.class);
-        assertReadOnlyTransactional(WorkmarketOptionsService.class);
+        assertReadOnlyTransactional(VisionOptionsService.class);
         assertReadOnlyTransactional(AdminDatabaseMetricsService.class);
         assertReadOnlyTransactional(QuestApplicationService.class);
         assertReadOnlyTransactional(CircleDiscoveryService.class);
@@ -66,7 +66,7 @@ class ServiceTransactionConfigurationTest {
         assertMethodReadOnlyTransactional(CircleService.class, "getRelationWithUser", com.themuffinman.app.identity.model.AppUser.class, Long.class);
         assertMethodReadOnlyTransactional(QuestExecutionPrimitiveService.class, "resolveTarget", Long.class);
         assertMethodReadOnlyTransactional(QuestExecutionPrimitiveService.class, "resolveTargetForTermDecision", Long.class, com.themuffinman.app.identity.model.AppUser.class);
-        assertMethodReadOnlyTransactional(QuestExecutionPrimitiveService.class, "resolveCreator", com.themuffinman.app.workmarket.dto.QuestRequestDTO.class, com.themuffinman.app.identity.model.AppUser.class);
+        assertMethodReadOnlyTransactional(QuestExecutionPrimitiveService.class, "resolveCreator", com.themuffinman.app.vision.dto.QuestRequestDTO.class, com.themuffinman.app.identity.model.AppUser.class);
     }
 
     private void assertReadOnlyTransactional(Class<?> type) {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type {VisionCanvasBlock, VisionConversationTurnResponse, VisionReviewTarget} from "../api/visionApi.ts"
-import type {VisionExecutionCandidate} from "../api/visionApi.ts"
+import type {VisionCanvasBlock, VisionConversationTurnResponse, VisionReviewTarget} from "../api/visionConversationApi.ts"
+import type {VisionExecutionCandidate} from "../api/visionConversationApi.ts"
 import VisionCanvasSection from "./VisionCanvasSection.vue"
 
 defineProps<{
@@ -23,16 +23,16 @@ const emit = defineEmits<{
   >
     <template v-if="block.review">
       <div class="vision-review">
-        <div class="vision-review__header">
+        <div class="vision-review__hero">
           <div class="vision-review__summary">
-            <p class="vision-review__eyebrow">Review ready</p>
+            <p class="vision-review__eyebrow">Review stage</p>
             <h2>{{ block.review.title }}</h2>
             <p class="vision-review__lede">{{ block.review.description }}</p>
-            <p class="vision-review__note">Edit any field above, then confirm when the summary feels right.</p>
           </div>
-          <div class="vision-review__cta">
+
+          <div class="vision-review__status-stack">
             <span class="vision-review__pill">
-              {{ response.executionEnabled ? "Execution enabled" : "Planning only" }}
+              {{ response.executionEnabled ? "Execution on" : "Planning only" }}
             </span>
             <span v-if="executionCandidate" class="vision-review__pill vision-review__pill--soft">
               {{ executionCandidate.executionReady ? "Ready to execute" : executionCandidate.summary }}
@@ -43,12 +43,31 @@ const emit = defineEmits<{
               :disabled="!canConfirm"
               @click="emit('confirmReview')"
             >
-              Confirm and create
+              Confirm
             </button>
           </div>
         </div>
-        <div class="vision-review__body">
-          <div class="vision-review__applied" v-if="response.appliedSlotSummaries.length">
+        <div class="vision-review__snapshot">
+          <article class="vision-review__snapshot-card">
+            <span class="vision-review__snapshot-label">Reward</span>
+            <strong>{{ block.review.rewardLabel }}</strong>
+          </article>
+          <article class="vision-review__snapshot-card">
+            <span class="vision-review__snapshot-label">Visibility</span>
+            <strong>{{ block.review.visibility }}</strong>
+          </article>
+          <article class="vision-review__snapshot-card">
+            <span class="vision-review__snapshot-label">Schedule</span>
+            <strong>{{ block.review.schedule || "Not set" }}</strong>
+          </article>
+          <article class="vision-review__snapshot-card">
+            <span class="vision-review__snapshot-label">Location</span>
+            <strong>{{ block.review.location || "Not set" }}</strong>
+          </article>
+        </div>
+
+        <div class="vision-review__footer">
+          <div v-if="response.appliedSlotSummaries.length" class="vision-review__applied">
             <p class="vision-review__subheading">Applied this turn</p>
             <div class="vision-review__applied-list">
               <article
@@ -61,30 +80,13 @@ const emit = defineEmits<{
               </article>
             </div>
           </div>
-          <dl class="vision-review__grid">
-            <div>
-              <dt>Reward</dt>
-              <dd>{{ block.review.rewardLabel }}</dd>
-            </div>
-            <div>
-              <dt>Visibility</dt>
-              <dd>{{ block.review.visibility }}</dd>
-            </div>
-            <div>
-              <dt>Schedule</dt>
-              <dd>{{ block.review.schedule || "Not set" }}</dd>
-            </div>
-            <div>
-              <dt>Location</dt>
-              <dd>{{ block.review.location || "Not set" }}</dd>
-            </div>
-          </dl>
-          <div class="vision-choice-list">
-            <button type="button" class="vision-choice-chip" @click="emit('reviewChange', 'TITLE')">Title</button>
-            <button type="button" class="vision-choice-chip" @click="emit('reviewChange', 'DESCRIPTION')">Description</button>
-            <button type="button" class="vision-choice-chip" @click="emit('reviewChange', 'REWARD')">Reward</button>
-            <button type="button" class="vision-choice-chip" @click="emit('reviewChange', 'SCHEDULE')">Schedule</button>
-            <button type="button" class="vision-choice-chip" @click="emit('reviewChange', 'LOCATION')">Location</button>
+
+          <div class="vision-review__edit-rail">
+            <button type="button" class="vision-review__edit-chip" @click="emit('reviewChange', 'TITLE')">Title</button>
+            <button type="button" class="vision-review__edit-chip" @click="emit('reviewChange', 'DESCRIPTION')">Description</button>
+            <button type="button" class="vision-review__edit-chip" @click="emit('reviewChange', 'REWARD')">Reward</button>
+            <button type="button" class="vision-review__edit-chip" @click="emit('reviewChange', 'SCHEDULE')">Schedule</button>
+            <button type="button" class="vision-review__edit-chip" @click="emit('reviewChange', 'LOCATION')">Location</button>
           </div>
         </div>
       </div>
@@ -95,14 +97,18 @@ const emit = defineEmits<{
 <style scoped>
 .vision-review {
   display: grid;
-  gap: 0.8rem;
+  gap: 0.85rem;
 }
 
-.vision-review__header {
+.vision-review__hero {
+  padding: 1rem 1rem 0.95rem;
+  border-radius: 1.35rem;
+  background: linear-gradient(135deg, rgba(255, 157, 115, 0.12), rgba(127, 203, 255, 0.12));
+  border: 1px solid rgba(24, 36, 47, 0.08);
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
   align-items: flex-start;
+  gap: 1rem;
 }
 
 .vision-review__summary {
@@ -120,7 +126,7 @@ const emit = defineEmits<{
 
 .vision-review h2 {
   margin: 0;
-  font-size: 1.08rem;
+  font-size: 1.12rem;
   letter-spacing: -0.03em;
 }
 
@@ -130,14 +136,7 @@ const emit = defineEmits<{
   line-height: 1.5;
 }
 
-.vision-review__note {
-  margin: 0;
-  color: var(--vision-surface-ink-muted);
-  font-size: 0.9rem;
-  line-height: 1.45;
-}
-
-.vision-review__cta {
+.vision-review__status-stack {
   display: grid;
   gap: 0.55rem;
   justify-items: end;
@@ -160,9 +159,38 @@ const emit = defineEmits<{
   opacity: 0.85;
 }
 
-.vision-review__body {
+.vision-review__snapshot {
   display: grid;
-  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.vision-review__snapshot-card {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.82rem 0.9rem;
+  border-radius: 1.1rem;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(24, 36, 47, 0.07);
+  box-shadow: 0 12px 24px rgba(24, 36, 47, 0.04);
+}
+
+.vision-review__snapshot-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--vision-surface-ink-muted);
+}
+
+.vision-review__snapshot-card strong {
+  font-size: 0.96rem;
+  color: var(--vision-surface-ink);
+  font-weight: 600;
+}
+
+.vision-review__footer {
+  display: grid;
+  gap: 0.7rem;
 }
 
 .vision-review__applied {
@@ -187,7 +215,7 @@ const emit = defineEmits<{
 .vision-review__applied-chip {
   display: grid;
   gap: 0.2rem;
-  min-width: 9.5rem;
+  min-width: 9rem;
   padding: 0.65rem 0.78rem;
   border-radius: 1rem;
   border: 1px solid rgba(24, 36, 47, 0.08);
@@ -205,32 +233,13 @@ const emit = defineEmits<{
   color: var(--vision-surface-ink);
 }
 
-.vision-review__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  gap: 0.55rem 0.75rem;
-  margin: 0;
-}
-
-.vision-review__grid dt {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--vision-surface-ink-muted);
-}
-
-.vision-review__grid dd {
-  margin: 0.35rem 0 0;
-  color: var(--vision-surface-ink);
-}
-
-.vision-choice-list {
+.vision-review__edit-rail {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
 }
 
-.vision-choice-chip,
+.vision-review__edit-chip,
 .vision-review__confirm {
   appearance: none;
   border: 1px solid var(--vision-surface-chip-border);
@@ -243,7 +252,7 @@ const emit = defineEmits<{
   transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
 }
 
-.vision-choice-chip:hover,
+.vision-review__edit-chip:hover,
 .vision-review__confirm:hover {
   transform: translateY(-1px);
   box-shadow: var(--vision-surface-chip-shadow);
@@ -263,13 +272,17 @@ const emit = defineEmits<{
   box-shadow: none;
 }
 
-@media (max-width: 42rem) {
-  .vision-review__header {
-    flex-direction: column;
+@media (max-width: 720px) {
+  .vision-review__hero {
+    grid-template-columns: 1fr;
   }
 
-  .vision-review__cta {
+  .vision-review__status-stack {
     justify-items: start;
+  }
+
+  .vision-review__snapshot {
+    grid-template-columns: 1fr;
   }
 }
 </style>

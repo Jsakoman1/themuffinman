@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-30T16:08:01Z",
+  "generated_at": "2026-07-01T14:49:45Z",
   "endpoint_family": "quests",
   "endpoints": [
     {
       "method": "GET",
       "path": "/quests",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
       "dtos": [
         "QuestResponseDTO",
         "QuestListResponseDTO",
@@ -15,7 +15,7 @@
     {
       "method": "POST",
       "path": "/quests",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
       "dtos": [
         "ActionResultDTO",
         "QuestRequestDTO",
@@ -27,7 +27,7 @@
     {
       "method": "GET",
       "path": "/quests/applications/me",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "dtos": [
         "QuestApplicationResponseDTO",
         "QuestApplicationsViewDTO"
@@ -36,7 +36,7 @@
     {
       "method": "GET",
       "path": "/quests/presets/{preset}",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
       "dtos": [
         "QuestResponseDTO",
         "QuestListResponseDTO",
@@ -46,7 +46,7 @@
     {
       "method": "GET",
       "path": "/quests/search",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
       "dtos": [
         "QuestResponseDTO",
         "QuestListResponseDTO",
@@ -56,7 +56,7 @@
     {
       "method": "DELETE",
       "path": "/quests/{id}",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
       "dtos": [
         "ActionResultDTO",
         "QuestRequestDTO"
@@ -65,7 +65,7 @@
     {
       "method": "GET",
       "path": "/quests/{id}",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
       "dtos": [
         "QuestResponseDTO",
         "QuestListResponseDTO",
@@ -75,7 +75,7 @@
     {
       "method": "PUT",
       "path": "/quests/{id}",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
       "dtos": [
         "ActionResultDTO",
         "QuestRequestDTO"
@@ -84,7 +84,7 @@
     {
       "method": "PATCH",
       "path": "/quests/{id}/complete",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
       "dtos": [
         "ActionResultDTO",
         "QuestResponseDTO"
@@ -93,7 +93,7 @@
     {
       "method": "GET",
       "path": "/quests/{id}/detail",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
       "dtos": [
         "QuestResponseDTO",
         "QuestListResponseDTO",
@@ -103,7 +103,7 @@
     {
       "method": "PATCH",
       "path": "/quests/{id}/start",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
       "dtos": [
         "ActionResultDTO",
         "QuestResponseDTO"
@@ -112,7 +112,7 @@
     {
       "method": "PATCH",
       "path": "/quests/{id}/term/confirm",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
       "dtos": [
         "ActionResultDTO",
         "QuestResponseDTO"
@@ -121,7 +121,7 @@
     {
       "method": "PATCH",
       "path": "/quests/{id}/term/reject",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
       "dtos": [
         "ActionResultDTO",
         "QuestResponseDTO"
@@ -130,7 +130,7 @@
     {
       "method": "GET",
       "path": "/quests/{questId}/applications",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "dtos": [
         "QuestApplicationResponseDTO",
         "QuestApplicationsViewDTO"
@@ -139,7 +139,7 @@
     {
       "method": "POST",
       "path": "/quests/{questId}/applications",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "dtos": [
         "ActionResultDTO",
         "QuestApplicationRequestDTO",
@@ -150,7 +150,7 @@
     {
       "method": "PUT",
       "path": "/quests/{questId}/applications/me",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "dtos": [
         "ActionResultDTO",
         "AdminQuestApplicationUpdateRequestDTO"
@@ -159,7 +159,7 @@
     {
       "method": "PATCH",
       "path": "/quests/{questId}/applications/me/withdraw",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "dtos": [
         "ActionResultDTO"
       ]
@@ -167,7 +167,7 @@
     {
       "method": "GET",
       "path": "/quests/{questId}/applications/view",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "dtos": [
         "QuestApplicationResponseDTO",
         "QuestApplicationsViewDTO"
@@ -176,7 +176,7 @@
     {
       "method": "PATCH",
       "path": "/quests/{questId}/applications/{applicationId}/approve",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "dtos": [
         "ActionResultDTO"
       ]
@@ -184,7 +184,7 @@
     {
       "method": "PATCH",
       "path": "/quests/{questId}/applications/{applicationId}/decline",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "dtos": [
         "ActionResultDTO"
       ]
@@ -192,7 +192,7 @@
     {
       "method": "POST",
       "path": "/quests/{questId}/reviews",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/UserReviewController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java",
       "dtos": [
         "UserReviewResponseDTO",
         "UserReviewRequestDTO"
@@ -204,16 +204,16 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestListResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleRequestResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationsViewDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSearchRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewResponseDTO.java"
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminQuestApplicationUpdateRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationsViewDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestListResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSearchRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/UserReviewRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/UserReviewResponseDTO.java"
   ],
   "frontend_callsites": [
     {
@@ -238,20 +238,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/app/AppChatTray.vue",
-      "matched_paths": [
-        "me",
-        "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/app/AppNotificationsPanel.vue",
-      "matched_paths": [
-        "me",
-        "decline"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
       "matched_paths": [
         "me"
@@ -260,18 +246,7 @@
     {
       "file": "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
       "matched_paths": [
-        "me",
-        "decline"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/app/topbar/createTopbarNavState.ts",
-      "matched_paths": [
-        "/quests",
-        "quests",
-        "me",
-        "start",
-        "applications"
+        "me"
       ]
     },
     {
@@ -281,18 +256,9 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/app/topbar/useTopbarNotifications.ts",
-      "matched_paths": [
-        "me",
-        "search",
-        "decline"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
       "matched_paths": [
-        "me",
-        "decline"
+        "me"
       ]
     },
     {
@@ -340,18 +306,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAdminPageSection.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiAppShellPage.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiAuthCard.vue",
       "matched_paths": [
         "me"
@@ -366,12 +320,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/components/ui/UiDialog.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiEventPill.vue",
       "matched_paths": [
         "me"
       ]
@@ -410,12 +358,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiSectionHeader.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/components/ui/UiStatusBanner.vue",
       "matched_paths": [
         "me"
@@ -423,12 +365,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/components/ui/UiSurfaceSection.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiToast.vue",
       "matched_paths": [
         "me"
       ]
@@ -489,29 +425,9 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/lib/dashboardCalendar.ts",
-      "matched_paths": [
-        "me",
-        "start"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/lib/dialogFlow.ts",
       "matched_paths": [
         "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/business/api/businessApi.ts",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/business/views/BusinessHubView.vue",
-      "matched_paths": [
-        "me",
-        "detail"
       ]
     },
     {
@@ -530,15 +446,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/chat/views/ChatWorkspaceView.vue",
-      "matched_paths": [
-        "me",
-        "search",
-        "detail",
-        "view"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
       "matched_paths": [
         "me"
@@ -548,26 +455,6 @@
       "file": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
       "matched_paths": [
         "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/moduleRegistry.ts",
-      "matched_paths": [
-        "me",
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/rides/views/RideSharingView.vue",
-      "matched_paths": [
-        "me",
-        "detail"
       ]
     },
     {
@@ -595,24 +482,6 @@
       "matched_paths": [
         "quests",
         "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserProfileDialog.vue",
-      "matched_paths": [
-        "me",
-        "view",
-        "reviews"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/profile/UserSettingsDialog.vue",
-      "matched_paths": [
-        "me",
-        "search",
-        "detail",
-        "start",
-        "reject"
       ]
     },
     {
@@ -669,36 +538,79 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/pages/AdminCirclesPage.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
       "matched_paths": [
-        "quests",
         "me",
-        "search",
+        "complete",
+        "confirm",
         "view"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/views/CirclesView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue",
       "matched_paths": [
-        "quests",
         "me",
-        "search",
+        "start",
+        "view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "matched_paths": [
+        "me",
+        "start",
+        "confirm",
+        "view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionDetailSurface.vue",
+      "matched_paths": [
+        "me",
         "detail",
+        "start"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionExecutionCandidateBlock.vue",
+      "matched_paths": [
+        "me",
         "view"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionPromptDock.vue",
+      "matched_paths": [
+        "me",
+        "start",
+        "view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionQuestDiscoveryBlock.vue",
       "matched_paths": [
         "quests",
         "me"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/things/views/ThingSharingView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionReviewSummaryBlock.vue",
       "matched_paths": [
         "me",
-        "detail"
+        "start",
+        "confirm",
+        "view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "matched_paths": [
+        "me",
+        "complete",
+        "detail",
+        "start",
+        "confirm",
+        "view"
       ]
     },
     {
@@ -709,33 +621,77 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurfaceState.ts",
+      "matched_paths": [
+        "me",
+        "complete",
+        "view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
+      "matched_paths": [
+        "me",
+        "detail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "matched_paths": [
+        "me",
+        "search",
+        "detail",
+        "view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
+      "matched_paths": [
+        "quests",
+        "me",
+        "search",
+        "detail",
+        "view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "matched_paths": [
+        "me",
+        "complete",
+        "detail",
+        "start",
+        "confirm",
+        "reject",
+        "applications",
+        "withdraw"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
       "matched_paths": [
         "me",
-        "start"
+        "complete",
+        "start",
+        "confirm",
+        "view"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentSafetyViewModel.ts",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
       "matched_paths": [
         "me",
-        "detail",
-        "confirm"
+        "view",
+        "reviews"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/adminApi.ts",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
       "matched_paths": [
-        "quests",
-        "{id}",
+        "me",
+        "search",
         "detail",
-        "applications",
+        "reject",
         "view"
       ]
     },
@@ -812,156 +768,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminShellHeader.vue",
-      "matched_paths": [
-        "/quests",
-        "quests",
-        "start",
-        "applications",
-        "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/admin/AdminUserDetailDialog.vue",
-      "matched_paths": [
-        "me",
-        "search",
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersCreateForm.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/app-users/AppUsersList.vue",
-      "matched_paths": [
-        "me",
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardAdmin.vue",
-      "matched_paths": [
-        "quests",
-        "me",
-        "detail",
-        "confirm"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationDialog.vue",
-      "matched_paths": [
-        "me",
-        "withdraw",
-        "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardApplicationsDialog.vue",
-      "matched_paths": [
-        "me",
-        "applications",
-        "view"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardEditSheet.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardFindQuests.vue",
-      "matched_paths": [
-        "quests",
-        "me",
-        "search"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyApplications.vue",
-      "matched_paths": [
-        "me",
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardMyQuests.vue",
-      "matched_paths": [
-        "quests",
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardOpenWorkDialog.vue",
-      "matched_paths": [
-        "quests",
-        "me",
-        "confirm",
-        "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardPostWork.vue",
-      "matched_paths": [
-        "approve"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplications.vue",
-      "matched_paths": [
-        "me",
-        "applications",
-        "approve",
-        "decline"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestApplyForm.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestDialog.vue",
-      "matched_paths": [
-        "me",
-        "complete",
-        "detail",
-        "start",
-        "confirm",
-        "reject",
-        "applications",
-        "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestEditForm.vue",
-      "matched_paths": [
-        "me",
-        "start",
-        "approve"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardQuestSummaryRow.vue",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlanner.vue",
-      "matched_paths": [
-        "me",
-        "start",
-        "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardWorkPlannerFlexible.vue",
       "matched_paths": [
         "me"
       ]
@@ -989,12 +796,6 @@
       "matched_paths": [
         "me",
         "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DashboardSummaryListButton.vue",
-      "matched_paths": [
-        "me"
       ]
     },
     {
@@ -1101,223 +902,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/useAppUsersMutationActions.ts",
-      "matched_paths": [
-        "me",
-        "start",
-        "confirm"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/applyDashboardResponse.ts",
-      "matched_paths": [
-        "quests",
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createApplicationDialogViewState.ts",
-      "matched_paths": [
-        "me",
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardDataState.ts",
-      "matched_paths": [
-        "quests",
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardErrorState.ts",
-      "matched_paths": [
-        "quests",
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardInteractions.ts",
-      "matched_paths": [
-        "me",
-        "start"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardMutationRunner.ts",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardProfileState.ts",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestListState.ts",
-      "matched_paths": [
-        "quests",
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardQuestState.ts",
-      "matched_paths": [
-        "me",
-        "start"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardSelectors.ts",
-      "matched_paths": [
-        "quests",
-        "me",
-        "complete",
-        "applications",
-        "view",
-        "approve"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardTabState.ts",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createDashboardWorkPlannerState.ts",
-      "matched_paths": [
-        "me",
-        "start",
-        "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDashboardStateModules.ts",
-      "matched_paths": [
-        "quests",
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/createQuestDialogViewState.ts",
-      "matched_paths": [
-        "me",
-        "detail",
-        "confirm",
-        "reject",
-        "applications",
-        "approve"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/dashboardFacades.ts",
-      "matched_paths": [
-        "me",
-        "start",
-        "confirm",
-        "reject",
-        "applications",
-        "withdraw",
-        "approve",
-        "decline"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/questDraftState.ts",
-      "matched_paths": [
-        "start"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useApplicationDialogUiActions.ts",
-      "matched_paths": [
-        "me",
-        "start",
-        "withdraw"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardAdminQuestBrowser.ts",
-      "matched_paths": [
-        "me",
-        "search",
-        "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardFindQuestsBrowser.ts",
-      "matched_paths": [
-        "me",
-        "search",
-        "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useDashboardPostWorkState.ts",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardApplicationMutations.ts",
-      "matched_paths": [
-        "me",
-        "withdraw",
-        "approve",
-        "decline"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDataActions.ts",
-      "matched_paths": [
-        "quests",
-        "me",
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardDialogActions.ts",
-      "matched_paths": [
-        "start"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestDraftMutations.ts",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestEditMutations.ts",
-      "matched_paths": [
-        "me",
-        "start",
-        "confirm",
-        "reject"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDashboardQuestLifecycleMutations.ts",
-      "matched_paths": [
-        "me",
-        "complete",
-        "start"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/dashboard/useQuestDialogUiActions.ts",
-      "matched_paths": [
-        "me",
-        "confirm",
-        "reject",
-        "approve",
-        "decline"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/applyQuestDetailState.ts",
       "matched_paths": [
         "detail",
@@ -1392,22 +976,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAdminApplicationsPage.ts",
-      "matched_paths": [
-        "me",
-        "search",
-        "applications",
-        "approve",
-        "decline"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useAppUsersPageState.ts",
-      "matched_paths": [
-        "search"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageActions.ts",
       "matched_paths": [
         "detail"
@@ -1445,66 +1013,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminAgentPage.vue",
-      "matched_paths": [
-        "me",
-        "detail",
-        "confirm",
-        "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminApplicationsPage.vue",
-      "matched_paths": [
-        "me",
-        "search",
-        "applications",
-        "approve",
-        "decline"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminOverviewPage.vue",
-      "matched_paths": [
-        "quests",
-        "me",
-        "search",
-        "complete",
-        "start",
-        "confirm",
-        "applications",
-        "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminQuestsPage.vue",
-      "matched_paths": [
-        "quests",
-        "me",
-        "detail",
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/AdminUsersPage.vue",
-      "matched_paths": [
-        "me",
-        "search",
-        "detail",
-        "confirm",
-        "view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/pages/QuestsPage.vue",
-      "matched_paths": [
-        "quests",
-        "me",
-        "detail",
-        "applications"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
       "matched_paths": [
         "me"
@@ -1516,26 +1024,6 @@
         "/quests",
         "quests",
         "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/ApplicationDetailView.vue",
-      "matched_paths": [
-        "me",
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/views/QuestDetailView.vue",
-      "matched_paths": [
-        "me",
-        "complete",
-        "detail",
-        "start",
-        "confirm",
-        "reject",
-        "applications",
-        "withdraw"
       ]
     },
     {
@@ -1579,12 +1067,6 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/shared/richText.ts",
-      "matched_paths": [
-        "me"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/views/ModulePlaceholderView.vue",
       "matched_paths": [
         "me"
       ]
