@@ -235,15 +235,16 @@ Primary frontend source-of-truth files:
 - `apps/themuffinman/frontend/src/api/httpClient.ts`
 - `apps/themuffinman/frontend/src/api/apiErrors.ts`
 - `apps/themuffinman/frontend/src/modules/identity/api/authApi.ts`
-- `apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts`
-- `apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts`
-- `apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts`
-- `apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts`
-- `apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts`
-- `apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts`
-- `apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts`
-- `apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts`
-- `apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts`
+- `apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts`
+- `apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts`
+- `apps/themuffinman/frontend/src/modules/vision/api/contracts.ts`
+- `apps/themuffinman/frontend/src/modules/vision/api/clients/questsApi.ts`
+- `apps/themuffinman/frontend/src/modules/vision/api/clients/applicationsApi.ts`
+- `apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts`
+- `apps/themuffinman/frontend/src/modules/vision/api/clients/newsApi.ts`
+- `apps/themuffinman/frontend/src/modules/vision/api/clients/usersApi.ts`
+- `apps/themuffinman/frontend/src/modules/vision/api/clients/circlesApi.ts`
+- `apps/themuffinman/frontend/src/modules/vision/api/clients/locationApi.ts`
 - `apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts`
 - `apps/themuffinman/frontend/src/contracts/index.ts`
 - `apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts`
@@ -263,4 +264,4 @@ Important route and page entrypoints:
 - Start with the domain controller, service, and model files listed above.
 - Treat migrations as the schema history for the same domain.
 - If a business rule is not obvious from the model, resolve it in the service layer before documenting it.
-- When we start module-by-module documentation updates, begin with `workmarket`.
+- When we start module-by-module documentation updates, begin with `workmarket` backend domain naming, not the deleted legacy frontend module surface.

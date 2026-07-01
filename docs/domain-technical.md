@@ -915,15 +915,16 @@ Primary files:
 - `frontend/src/api/httpClient.ts`
 - `frontend/src/api/apiErrors.ts`
 - `frontend/src/modules/identity/api/authApi.ts`
-- `frontend/src/modules/workmarket/api/workmarketApi.ts`
-- `frontend/src/modules/workmarket/api/contracts.ts`
-- `frontend/src/modules/workmarket/api/clients/questsApi.ts`
-- `frontend/src/modules/workmarket/api/clients/applicationsApi.ts`
-- `frontend/src/modules/workmarket/api/clients/dashboardApi.ts`
-- `frontend/src/modules/workmarket/api/clients/newsApi.ts`
-- `frontend/src/modules/workmarket/api/clients/usersApi.ts`
-- `frontend/src/modules/workmarket/api/clients/circlesApi.ts`
-- `frontend/src/modules/workmarket/api/clients/locationApi.ts`
+- `frontend/src/modules/vision/api/visionApi.ts`
+- `frontend/src/modules/vision/api/visionConversationApi.ts`
+- `frontend/src/modules/vision/api/contracts.ts`
+- `frontend/src/modules/vision/api/clients/questsApi.ts`
+- `frontend/src/modules/vision/api/clients/applicationsApi.ts`
+- `frontend/src/modules/vision/api/clients/dashboardApi.ts`
+- `frontend/src/modules/vision/api/clients/newsApi.ts`
+- `frontend/src/modules/vision/api/clients/usersApi.ts`
+- `frontend/src/modules/vision/api/clients/circlesApi.ts`
+- `frontend/src/modules/vision/api/clients/locationApi.ts`
 - `frontend/src/modules/chat/api/chatApi.ts`
 - `frontend/src/contracts/index.ts`
 - `frontend/src/contracts/generated/themuffinmanContract.ts`
@@ -1516,8 +1517,8 @@ Frontend transport contract:
 Contract-shape model:
 - `frontend/src/contracts/generated/themuffinmanContract.ts` is the generated DTO source
 - `frontend/src/contracts/index.ts` re-exports generated contract types for app use
-- `frontend/src/modules/workmarket/api/contracts.ts` aliases generated DTOs into module-facing names and adds a few frontend-side request refinements
-- `workmarketApi` aggregates endpoint clients so surviving bridge screens can still consume user, circle, and location contracts through one import surface
+- `frontend/src/modules/vision/api/contracts.ts` aliases generated DTOs into Vision-facing names and adds a few frontend-side request refinements
+- `visionApi` aggregates endpoint clients so surviving Vision screens can consume user, circle, location, quest, and application contracts through one import surface
 - `npm run generate:contracts` writes the generated frontend contract, while `npm run validate:contracts` and the normal frontend build fail when the checked-in generated contract is stale.
 
 Endpoint client mapping:
@@ -1526,9 +1527,9 @@ Endpoint client mapping:
 - `dashboardApi` maps dashboard read models and summary sections
 - `newsApi` maps unread count and read-state mutations
 - `usersApi` maps `/app_users`, `/app_users/options`, `/app_users/me`, and `/app_users/:id/profile-view`
-- `circlesApi` maps social and circle-management endpoints even though the import surface lives under the workmarket module
+- `circlesApi` maps social and circle-management endpoints through the Vision-facing client layer
 - `locationApi` maps `/location/lookup`, `/location/reverse-lookup`, and `/location/admin/status`
-- `chatApi` is separate from `workmarketApi` and maps `/chat/*`
+- `chatApi` is separate from `visionApi` and maps `/chat/*`
 
 ## Location Lookup Behavior
 

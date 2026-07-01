@@ -1,6 +1,18 @@
 # Legacy Purge Master Plan
 
-Goal: remove the remaining legacy `workmarket` surface from the product where it is still active, while preserving the current `vision` UX and chat surface.
+## Status
+
+Active.
+
+## Goal
+
+Remove the remaining legacy `workmarket` naming and documentation surface from the product where it is still active, while preserving the current `vision` UX, backend capability model, and chat surface.
+
+## Current Focus
+
+- Keep backend `workmarket` runtime logic available for Vision.
+- Remove stale frontend-era references to workmarket where Vision now owns the surface.
+- Keep admin, auth, and Vision runtime behavior stable.
 
 ## Order
 
@@ -14,6 +26,17 @@ Goal: remove the remaining legacy `workmarket` surface from the product where it
 3. Rename or normalize backend/domain source-of-truth names where the change is low risk and the runtime behavior already exists.
 4. Regenerate docs, generated artifacts, and validation reports from the updated source of truth.
 5. Run validation and finish with a final drift audit.
+
+## Child Work
+
+1. `docs/source-of-truth-inventory.md`
+- Remove stale frontend workmarket source-map entries and replace them with current Vision-facing client surfaces.
+
+2. `docs/business-logic.md`
+- Rewrite legacy route and API-client descriptions so they reflect the Vision-first frontend state.
+
+3. `docs/domain-technical.md`
+- Replace stale frontend source-map entries and keep backend workmarket references only where the runtime still depends on them.
 
 ## Constraints
 

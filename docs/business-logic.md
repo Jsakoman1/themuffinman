@@ -678,19 +678,19 @@ Current covered modules:
 ### Route and page model
 
 - `/login` and `/register` are the only unauthenticated entry pages.
-- `/work` is still the current legacy workmarket entry for normal users, but `/vision` is the strategic replacement surface and the route set is being contracted around it.
-- `/work/:id` and `/applications/:id` are the main detail routes for quest and application flows.
-- `/users/:id` and `/settings` are the main profile and profile-settings routes.
+- `/vision` is the primary authenticated user surface.
+- Vision-native quest and application detail routes carry the main detail flows.
+- Vision-native profile, settings, circles, and chat routes carry the user-scoped continuation flows.
 - `/admin/work`, `/admin/quests`, `/admin/users`, `/admin/applications`, and `/admin/circles` are the admin workspaces.
-- Logged-in admins are redirected away from the normal legacy `/work` route to the admin workspace, while normal users now land on `/vision` instead of `/work`.
-- Authenticated module pages still use the shared app shell page surface, but the first decommission batch removed `/quests`, `/app-users`, `/business`, `/things`, and `/rides` as active user entry routes.
+- Logged-in admins are redirected to the admin workspace, while normal users land on `/vision`.
+- Legacy route-era user entry routes such as `/work`, `/quests`, `/app-users`, `/business`, `/things`, and `/rides` are no longer active product entry points.
 
 ### API client model
 
 - `authApi` owns login, register, and current-session lookup.
-- `workmarketApi` is an aggregated frontend gateway that combines quest, application, dashboard, news, user, circle, admin, and location clients.
+- `visionApi` is the primary frontend gateway and combines the conversation, quest, application, dashboard, news, user, circle, and location clients used by Vision routes.
 - Each underlying client is endpoint-focused and mostly forwards server DTOs directly to the page or composable layer.
-- Location lookups used in profile settings currently flow through the same aggregated `workmarketApi`, even though the backend routes live under `/location`.
+- The remaining backend `workmarket` domain stays available through the Vision-facing client layer.
 
 ### Error and session behavior
 
