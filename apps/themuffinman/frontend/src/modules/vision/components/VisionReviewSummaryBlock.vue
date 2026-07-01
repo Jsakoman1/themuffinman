@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type {VisionCanvasBlock, VisionConversationTurnResponse, VisionReviewTarget} from "../api/visionApi.ts"
+import type {VisionExecutionCandidate} from "../api/visionApi.ts"
 import VisionCanvasSection from "./VisionCanvasSection.vue"
 
 defineProps<{
   block: VisionCanvasBlock
   response: VisionConversationTurnResponse
   canConfirm: boolean
+  executionCandidate: VisionExecutionCandidate | null
 }>()
 
 const emit = defineEmits<{
@@ -31,6 +33,9 @@ const emit = defineEmits<{
           <div class="vision-review__cta">
             <span class="vision-review__pill">
               {{ response.executionEnabled ? "Execution enabled" : "Planning only" }}
+            </span>
+            <span v-if="executionCandidate" class="vision-review__pill vision-review__pill--soft">
+              {{ executionCandidate.executionReady ? "Ready to execute" : executionCandidate.summary }}
             </span>
             <button
               type="button"
@@ -149,6 +154,10 @@ const emit = defineEmits<{
   font-size: 0.76rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.vision-review__pill--soft {
+  opacity: 0.85;
 }
 
 .vision-review__body {

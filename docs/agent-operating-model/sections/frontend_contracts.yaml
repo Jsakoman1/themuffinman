@@ -24,6 +24,29 @@ frontend_contracts:
   - warnings
   - suggestedWorkflows
   - nextSteps
+  - directExecutionAvailable
+  - directExecutionCapabilityId
+  - directExecutionSummary
+- id: admin_agent_execution_response_contract
+  backend_java_class: com.themuffinman.app.agent.dto.AdminAgentExecutionResponseDTO
+  frontend_contract_file: apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
+  frontend_gate_file: apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+  frontend_type: AdminAgentExecutionResponse
+  required_fields:
+  - capabilityId
+  - executionEnabled
+  - executed
+  - confirmationRequired
+  - summary
+  - targetUserLabel
+  - targetUserId
+  - requestedCount
+  - effectiveCount
+  - topic
+  - questTitles
+  - createdQuestIds
+  - warnings
+  - blockingReasons
 - id: admin_agent_simulation_response_contract
   backend_java_class: com.themuffinman.app.agent.dto.AdminAgentSimulationResponseDTO
   frontend_contract_file: apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts

@@ -6,6 +6,8 @@ frontend_contract_generation:
   required_aliases:
   - AdminAgentPlaygroundRequest
   - AdminAgentPlaygroundResponse
+  - AdminAgentExecutionRequest
+  - AdminAgentExecutionResponse
   - AdminAgentSimulationRequest
   - AdminAgentSimulationResponse
   - AgentIntentId

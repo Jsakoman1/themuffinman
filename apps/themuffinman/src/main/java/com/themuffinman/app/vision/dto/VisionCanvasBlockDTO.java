@@ -23,6 +23,7 @@ public class VisionCanvasBlockDTO {
     private String placeholder;
     private List<VisionOptionDTO> options;
     private List<VisionSlotSummaryDTO> items;
+    private VisionQuestDiscoveryDTO questDiscovery;
     private VisionQuestReviewDTO review;
     private String tone;
 }

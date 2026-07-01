@@ -8,6 +8,7 @@ import com.themuffinman.app.agent.sandbox.SandboxGenerationPlanner;
 import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
+import com.themuffinman.app.prompt.PromptSemanticsSupport;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -43,10 +44,16 @@ class AdminAgentGoldenPromptMatrixTest {
                     .build();
         }
 
+        AdminAgentPromptPreparationService promptPreparationService =
+                new AdminAgentPromptPreparationService(agentProperties, provider, localTranslator, new PromptSemanticsSupport());
+        AdminAgentSurfacePolicy adminAgentSurfacePolicy = new AdminAgentSurfacePolicy(agentProperties);
+        AdminSyntheticQuestExecutionPlanner adminSyntheticQuestExecutionPlanner = new AdminSyntheticQuestExecutionPlanner();
         AdminAgentPlaygroundService service = new AdminAgentPlaygroundService(
                 agentProperties,
                 provider,
-                localTranslator,
+                promptPreparationService,
+                adminAgentSurfacePolicy,
+                adminSyntheticQuestExecutionPlanner,
                 new SandboxGenerationPlanner()
         );
         AppUser admin = new AppUser();

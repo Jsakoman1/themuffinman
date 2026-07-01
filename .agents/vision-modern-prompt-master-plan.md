@@ -1,5 +1,9 @@
 # Vision Modern Prompt Master Plan
 
+## Status
+
+Complete for the Phase 1 modern surface objective.
+
 ## Goal
 
 Replace the current vision screen with a minimalist agent-centered surface:
@@ -43,3 +47,9 @@ Replace the current vision screen with a minimalist agent-centered surface:
 - Backend tests, frontend type-check, and frontend build pass.
 - Docs and generated artifacts stay in sync with the new behavior.
 
+## Completion Evidence
+
+- Status: complete
+- Validation evidence: `./mvnw test` passed; `npm run type-check` passed; `npm run build` passed
+- Notes: the modern surface now uses an inline idle composer, mode-specific active hero states, compact in-shell context reveal, and shared backend-governed text/voice turn handling
+- Residual risk: continuation and recent-task memory behavior still need another pass as capability coverage expands

@@ -29,16 +29,24 @@ Frontend vision surface note:
 - `/vision` uses backend-managed OpenAI prompt decoding, transcription, speech synthesis, and agent planning through `POST /dashboard/me/vision/prompt`, `GET /dashboard/me/voice-config`, `POST /dashboard/me/voice/transcribe`, and `POST /dashboard/me/voice/speak`, while typed `app.voice.*` config still controls whether the frontend may record or play voice.
 - `app.voice.max-recording-millis`, `app.voice.max-audio-bytes`, and `app.voice.max-speech-text-length` are included in the dashboard voice config; the frontend applies them before upload/playback and `DashboardVoiceService` enforces audio and speech-text size limits before calling OpenAI.
 - Phase 1 `/vision` orchestration now also exposes `POST /vision/conversations/turns`, backed by persisted `vision_conversation` and `vision_turn` records, for stepwise backend-owned conversation state.
-- The first persisted `/vision` orchestration scope is `create_quest`: collect title, description, reward/free, visibility, `schedule_mode`, optional `scheduled_at`, `location_mode`, and optional `location_label` one slot at a time while execution stays behind `app.vision.execution-enabled`.
+- The `/vision/conversations/turns` request is versioned with `inputType`, `text`, `clientCapabilities`, `clientStateVersion`, and optional choice/confirmation fields so the frontend can keep the canvas contract explicit while the backend still understands the legacy prompt path during transition.
+- The first persisted `/vision` orchestration scope is `create_quest`: collect title, description, reward/free, visibility, `schedule_mode`, optional `scheduled_date`, optional `scheduled_time`, `location_mode`, and optional `location_label` one slot at a time while execution stays behind `app.vision.execution-enabled`.
 - A dedicated `VisionPromptUnderstandingService` now sits between prompt transcription and slot merging so the backend can use OpenAI, when configured, to extract explicit structured quest fields before deterministic slot validation takes over.
+- `VisionPromptUnderstandingService` now also returns a generic `VisionSemanticPlan` with candidate intent, confidence, capability id, and planning note before create_quest slot extraction, while deterministic backend routing and services still decide supported execution.
+- `VisionIntentRouter` now recognizes both `CREATE_QUEST` and `DISCOVER_QUESTS` so read-only browse/search prompts can be routed without depending on the create-quest flag.
+- `VisionConversationService` now switches to a new persisted conversation when the prompt clearly changes intent, so discovery and creation can coexist on the same adaptive surface without forcing one thread to masquerade as another.
+- `VisionIntentRouter` now also recognizes `OPEN_CHAT`, and `VisionChatExecutionService` resolves an explicit chat target before delegating to the existing chat opening boundary.
 - `VisionSurfaceModernView.vue` should use `POST /vision/conversations/turns` as the primary prompt-bearing conversation path, `GET /vision/conversations/recent` and `GET /vision/conversations/{conversationId}` for resume behavior, plus dedicated `POST /vision/conversations/{conversationId}/reset` and `POST /vision/conversations/{conversationId}/cancel` lifecycle endpoints instead of overloading the turn contract for everything.
-- The `/vision` conversation response now includes backend-driven `canvasMode` plus ordered `blocks`, with the first vocabulary covering `agent_message`, `recognized_prompt`, `field_request`, `result_summary`, `review_summary`, `info`, `success`, and `warning`.
+- The `/vision` conversation response now includes backend-driven `canvasMode` plus ordered `blocks`, with the first vocabulary covering `agent_message`, `recognized_prompt`, `field_request`, `result_summary`, `quest_discovery`, `review_summary`, `info`, `success`, and `warning`.
+- `VisionConversationSummaryDTO` is the compact long-session continuity read model for `/vision`; the backend keeps stage, progress, stale, resumable, completed, and pending-slot context there so the frontend does not need to reconstruct resume state from raw turn history.
 - Review-ready quest conversations may now retarget one named field back into clarification mode, so reward, schedule, and location corrections stay inside the same persisted conversation timeline.
 - `VisionConversationTurnRequestDTO` now supports explicit `action` values for prompt submission, review confirmation, and typed review-edit requests, plus a `reviewTarget` field that maps deterministic review corrections like title, reward, schedule, or location back onto one editable slot.
 - `VisionConversationSummaryDTO` now also exposes compact continuity metadata for recent-task resume surfaces: `stageLabel`, `progressLabel`, `groupKey`, `resumable`, `completed`, and `stale`, so the frontend does not have to infer resume meaning from raw status strings or local task grouping heuristics.
-- Schedule extraction for `/vision` quest creation is now centralized in `VisionScheduleParserService`, which deterministically parses ISO date-time, common European date-time, tomorrow, day-after-tomorrow, tonight, next week, next weekday, am/pm phrases, noon, midnight, hour-only day-period phrases, and a growing HR/EN spoken-time vocabulary into `scheduled_at`, while still rejecting ambiguous spoken times without a clear day-period signal.
+- `VisionExecutionPlanner` now produces a read-only `VisionExecutionCandidateDTO` for create_quest review turns so the canvas can show readiness, blockers, and the next required field without crossing into mutation execution.
+- `VisionQuestDiscoveryService` now produces a read-only `VisionQuestDiscoveryDTO` for `DISCOVER_QUESTS` turns so the canvas can show ranked available quests without crossing into mutation execution.
+- Schedule extraction for `/vision` quest creation is now centralized in `VisionScheduleParserService`, which deterministically parses ISO date-time, common European date-time, tomorrow, day-after-tomorrow, tonight, next week, next weekday, am/pm phrases, noon, midnight, hour-only day-period phrases, and a growing HR/EN spoken-time vocabulary into separate `scheduled_date` and `scheduled_time` slots; the backend derives `scheduled_at` only at the execution boundary once both values are present, while still rejecting ambiguous spoken times without a clear day-period signal.
 - Custom `/vision` quest locations now pass through `VisionLocationParserService` first and may be enriched by `VisionLocationResolutionService`; when lookup finds one or more more precise candidates, the conversation must pause for an explicit user choice among those candidates or the originally typed location before review may continue.
-- When `app.vision.execution-enabled` is true, a review-ready `create_quest` conversation may accept an explicit confirmation on the same turn endpoint and execute through `VisionCreateQuestExecutionAdapter`, which delegates to the existing quest creation boundary.
+- When `app.vision.execution-enabled` is true, a review-ready `create_quest` conversation may accept an explicit confirmation on the same turn endpoint and execute through `VisionExecutionService`, which owns the review-confirmation gate and delegates to `VisionCreateQuestExecutionAdapter` for the actual quest creation boundary.
 - `docs/vision-architecture-patterns.md` is the durable implementation guide for future `/vision` backend orchestration, API contracts, frontend canvas rendering, and executor rollout.
 
 Test fixture standard:
@@ -571,9 +579,14 @@ Primary files:
 - `config/AgentProperties.java`
 
 Technical notes:
-- The current admin agent playground is an admin-only planning surface.
+- The current admin agent playground is an admin-only planning surface with one Phase 1 guarded execution slice for synthetic quest batch generation.
 - Production admin planning lives under `agent/service`, while sandbox and synthetic-data planning helpers live under `agent/sandbox`.
-- `SandboxGenerationPlanner` contributes sandbox-only workflows, synthetic marker requirements, and warnings back into the admin playground response without executing mutations.
+- `SandboxGenerationPlanner` contributes sandbox-only workflows, synthetic marker requirements, and warnings back into the admin playground response.
+- `AdminAgentSurfacePolicy` and `VisionSurfacePolicy` now standardize the authority split between admin-scoped and user-scoped execution instead of leaving that split implicit in each surface.
+- `AdminAgentPromptPreparationService` now centralizes prompt translation preparation so planner and executor use the same backend-managed translation boundary.
+- `PromptSemanticsSupport` now provides the shared prompt-normalization and semantic-classification rules used by both Vision and Admin Playground.
+- `AdminSyntheticQuestExecutionPlanner` extracts the first reusable direct-execution plan shape from natural language, currently limited to synthetic quest batches for one exact target user.
+- `AdminAgentExecutionService` now backs `POST /admin/agent/execute`, reuses the existing quest creation use case through `creatorId`, requires explicit confirmation, and caps batch size through typed `AgentProperties`.
 - Prompt classification now runs through a translation layer before intent heuristics.
 - Local translation is a deterministic fallback, while provider-backed translation is the path for arbitrary languages such as Mandarin.
 - The response now also includes structured resolution requirements, clarification contract data, and execution-readiness metadata.
@@ -585,7 +598,6 @@ Technical notes:
 - Provider-written summary text should be constrained to the deterministic workflow ids, signals, and unresolved inputs already classified by the backend.
 - The OpenAI-backed summary path now uses `gpt-5.4-mini` by default and escalates to `gpt-5.4-medium` only for the heaviest or most creative planning slices.
 - `AgentProperties` now carries separate default and creative model settings plus a shared reasoning-effort default for the Responses API payload.
-- It does not execute mutations.
 - If `app.agent.provider=openai` and a backend API key is configured, the service also requests a concise planning summary from OpenAI through the Responses API.
 - If the provider is missing or the external call fails, the service falls back to the deterministic local planner and keeps the same response contract.
 - Provider credentials stay on the server side and are never exposed through frontend configuration.
@@ -1500,8 +1512,8 @@ Route guards:
 - `/login` and `/register` are public routes
 - all workmarket, social, profile, and admin routes require auth
 - admin routes additionally require `isAdmin()`
-- logged-in admins are redirected from `/work` and `/quests` to `/admin/work`
-- logged-in users are redirected away from auth screens to their role-appropriate landing route
+- `/work` is a legacy entry route that redirects to `/vision` for normal users and `/admin/work` for admins
+- logged-in users are redirected away from auth screens to their role-appropriate landing route, which is now `/vision` for normal users and `/admin/work` for admins
 
 Frontend transport contract:
 - `API_BASE_URL` defaults to `http://localhost:8080`
@@ -1513,7 +1525,7 @@ Contract-shape model:
 - `frontend/src/contracts/generated/themuffinmanContract.ts` is the generated DTO source
 - `frontend/src/contracts/index.ts` re-exports generated contract types for app use
 - `frontend/src/modules/workmarket/api/contracts.ts` aliases generated DTOs into module-facing names and adds a few frontend-side request refinements
-- `workmarketApi` aggregates endpoint clients so non-workmarket screens can still consume user, circle, and location contracts through one import surface
+- `workmarketApi` aggregates endpoint clients so surviving bridge screens can still consume user, circle, and location contracts through one import surface
 - `npm run generate:contracts` writes the generated frontend contract, while `npm run validate:contracts` and the normal frontend build fail when the checked-in generated contract is stale.
 
 Endpoint client mapping:

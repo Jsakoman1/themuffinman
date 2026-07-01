@@ -10,14 +10,9 @@ export const createDashboardInteractions = (state: {
   router: {push: (location: RouteLocationRaw) => Promise<unknown>}
   adminModeEnabled: Ref<boolean>
   activeTab: Ref<DashboardTab>
-  isNotificationsDialogOpen: Ref<boolean>
   questDialogId: Ref<number | null>
   applicationDialogId: Ref<number | null>
   userProfileDialogId: Ref<number | null>
-  isCreateJobDialogOpen: Ref<boolean>
-  isFindWorkDialogOpen: Ref<boolean>
-  isOpenWorkDialogOpen: Ref<boolean>
-  isApplicationsDialogOpen: Ref<boolean>
   applicationMessages: Ref<Record<number, string>>
   proposedPrices: Ref<Record<number, string>>
   questDisclosureRefs: Ref<Record<number, HTMLDetailsElement | null>>
@@ -112,10 +107,6 @@ export const createDashboardInteractions = (state: {
     }, 900)
   }
 
-  const setActiveTab = (tabId: DashboardTab) => {
-    state.activeTab.value = tabId
-  }
-
   const goToTab = (tabId: DashboardTab) => {
     state.activeTab.value = tabId
     void state.router.push({
@@ -124,14 +115,6 @@ export const createDashboardInteractions = (state: {
         tab: tabId
       }
     })
-  }
-
-  const openNotificationsDialog = () => {
-    state.isNotificationsDialogOpen.value = true
-  }
-
-  const closeNotificationsDialog = () => {
-    state.isNotificationsDialogOpen.value = false
   }
 
   const cancelEditingApplication = () => {
@@ -185,38 +168,6 @@ export const createDashboardInteractions = (state: {
 
   const closeUserProfileDialog = () => {
     state.userProfileDialogId.value = null
-  }
-
-  const openCreateJobDialog = () => {
-    state.isCreateJobDialogOpen.value = true
-  }
-
-  const closeCreateJobDialog = () => {
-    state.isCreateJobDialogOpen.value = false
-  }
-
-  const openFindWorkDialog = () => {
-    state.isFindWorkDialogOpen.value = true
-  }
-
-  const closeFindWorkDialog = () => {
-    state.isFindWorkDialogOpen.value = false
-  }
-
-  const openOpenWorkDialog = () => {
-    state.isOpenWorkDialogOpen.value = true
-  }
-
-  const closeOpenWorkDialog = () => {
-    state.isOpenWorkDialogOpen.value = false
-  }
-
-  const openApplicationsDialog = () => {
-    state.isApplicationsDialogOpen.value = true
-  }
-
-  const closeApplicationsDialog = () => {
-    state.isApplicationsDialogOpen.value = false
   }
 
   const scrollQuestDisclosureIntoView = async (questId: number) => {
@@ -365,22 +316,11 @@ export const createDashboardInteractions = (state: {
     setEditQuestTermMode,
     showFeedback: state.showFeedback,
     triggerSuccessPulse,
-    setActiveTab,
     goToTab,
-    openNotificationsDialog,
-    closeNotificationsDialog,
     closeQuestDialog,
     closeApplicationDialog,
     openUserProfileDialog,
     closeUserProfileDialog,
-    openCreateJobDialog,
-    closeCreateJobDialog,
-    openFindWorkDialog,
-    closeFindWorkDialog,
-    openOpenWorkDialog,
-    closeOpenWorkDialog,
-    openApplicationsDialog,
-    closeApplicationsDialog,
     registerQuestDisclosure,
     closeQuestDisclosure,
     openQuestDisclosure,

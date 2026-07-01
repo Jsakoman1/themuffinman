@@ -1,5 +1,31 @@
 [
   {
+    "javaClass": "com.themuffinman.app.agent.dto.AdminAgentExecutionRequestDTO",
+    "fields": [
+      "prompt",
+      "confirmed"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.agent.dto.AdminAgentExecutionResponseDTO",
+    "fields": [
+      "capabilityId",
+      "executionEnabled",
+      "executed",
+      "confirmationRequired",
+      "summary",
+      "targetUserLabel",
+      "targetUserId",
+      "requestedCount",
+      "effectiveCount",
+      "topic",
+      "questTitles",
+      "createdQuestIds",
+      "warnings",
+      "blockingReasons"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.agent.dto.AdminAgentPlaygroundRequestDTO",
     "fields": [
       "prompt"
@@ -25,7 +51,10 @@
       "unresolvedInputs",
       "warnings",
       "suggestedWorkflows",
-      "nextSteps"
+      "nextSteps",
+      "directExecutionAvailable",
+      "directExecutionCapabilityId",
+      "directExecutionSummary"
     ]
   },
   {
@@ -883,6 +912,7 @@
       "placeholder",
       "options",
       "items",
+      "questDiscovery",
       "review",
       "tone"
     ]
@@ -905,6 +935,7 @@
       "progressLabel",
       "groupKey",
       "requestedSlot",
+      "appliedSlotSummaries",
       "resumable",
       "completed",
       "stale",
@@ -936,10 +967,28 @@
       "translationApplied",
       "translationReliable",
       "executionEnabled",
+      "executionCandidate",
+      "questDiscovery",
       "blocks",
+      "appliedSlotSummaries",
       "slotSummaries",
       "review",
       "recentConversations"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionExecutionCandidateDTO",
+    "fields": [
+      "candidateIntent",
+      "capabilityId",
+      "confidence",
+      "reviewReady",
+      "executionReady",
+      "confirmationRequired",
+      "nextRequiredSlot",
+      "blockingReason",
+      "planningNote",
+      "summary"
     ]
   },
   {
@@ -948,6 +997,32 @@
       "id",
       "label",
       "value"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO",
+    "fields": [
+      "capabilityId",
+      "query",
+      "sort",
+      "summary",
+      "totalItems",
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionQuestDiscoveryItemDTO",
+    "fields": [
+      "questId",
+      "rank",
+      "title",
+      "description",
+      "creatorUsername",
+      "rewardLabel",
+      "statusLabel",
+      "locationLabel",
+      "scheduledAt",
+      "matchSummary"
     ]
   },
   {
@@ -1176,7 +1251,10 @@
       "interimResults",
       "continuousRecognition",
       "maxAlternatives",
-      "autoSpeakResponses"
+      "autoSpeakResponses",
+      "maxRecordingMillis",
+      "maxAudioBytes",
+      "maxSpeechTextLength"
     ]
   },
   {

@@ -3,9 +3,6 @@ import type {RouteLocationNormalizedLoaded, Router} from "vue-router"
 import {
   parseInstantFromInput
 } from "../../../../shared/questSchedule.ts"
-import {
-  dashboardTabs
-} from "../../domain/workmarketDomain.ts"
 import {createDashboardDataState} from "./createDashboardDataState.ts"
 import {createDashboardErrorState} from "./createDashboardErrorState.ts"
 import {createDashboardInteractions} from "./createDashboardInteractions.ts"
@@ -24,22 +21,9 @@ export const createQuestDashboardStateModules = (
   const optionState = createDashboardOptionState(dataState.dashboardOptions)
   const profileState = createDashboardProfileState()
   const questState = createDashboardQuestState()
-  const backendPreparedDashboardTabs = computed(() => {
-    const tabs = dataState.dashboardSections.value?.navigation?.tabs
-    return tabs && tabs.length > 0 ? tabs : dashboardTabs
-  })
-
   const selectors = createDashboardSelectors({
-    activeTab: tabState.activeTab,
     quests: dataState.quests,
-    dashboardMyQuests: dataState.dashboardMyQuests,
-    dashboardAvailableQuests: dataState.dashboardAvailableQuests,
     myApplications: dataState.myApplications,
-    newsItems: dataState.newsItems,
-    dashboardSummary: dataState.dashboardSummary,
-    dashboardSections: dataState.dashboardSections,
-    incomingCircleRequests: dataState.incomingCircleRequests,
-    adminQuestStatusFilter: questState.adminQuestStatusFilter,
     applicationsByQuestId: dataState.applicationsByQuestId,
     questDetailsById: dataState.questDetailsById,
     applicationDetailsById: dataState.applicationDetailsById,
@@ -54,14 +38,9 @@ export const createQuestDashboardStateModules = (
     router,
     adminModeEnabled,
     activeTab: tabState.activeTab,
-    isNotificationsDialogOpen: profileState.isNotificationsDialogOpen,
     questDialogId: questState.questDialogId,
     applicationDialogId: questState.applicationDialogId,
     userProfileDialogId: questState.userProfileDialogId,
-    isCreateJobDialogOpen: questState.isCreateJobDialogOpen,
-    isFindWorkDialogOpen: questState.isFindWorkDialogOpen,
-    isOpenWorkDialogOpen: questState.isOpenWorkDialogOpen,
-    isApplicationsDialogOpen: questState.isApplicationsDialogOpen,
     applicationMessages: questState.applicationMessages,
     proposedPrices: questState.proposedPrices,
     questDisclosureRefs: questState.questDisclosureRefs,
@@ -140,7 +119,6 @@ export const createQuestDashboardStateModules = (
     interactions,
     errorState,
     adminModeEnabled,
-    parseInstantFromInput,
-    dashboardTabs: backendPreparedDashboardTabs
+    parseInstantFromInput
   }
 }

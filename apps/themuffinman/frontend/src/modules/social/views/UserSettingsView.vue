@@ -16,7 +16,7 @@ const closeSettings = async () => {
     return
   }
 
-  await router.push("/work")
+  await router.push("/vision")
 }
 </script>
 

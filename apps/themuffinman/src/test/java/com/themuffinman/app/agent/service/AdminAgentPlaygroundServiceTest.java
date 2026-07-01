@@ -8,6 +8,7 @@ import com.themuffinman.app.agent.sandbox.SandboxGenerationPlanner;
 import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
+import com.themuffinman.app.prompt.PromptSemanticsSupport;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,8 +21,19 @@ class AdminAgentPlaygroundServiceTest {
     private final AgentProperties agentProperties = new AgentProperties();
     private final StubAdminAgentTextProvider provider = new StubAdminAgentTextProvider();
     private final LocalAdminAgentPromptTranslator localTranslator = new LocalAdminAgentPromptTranslator();
+    private final AdminAgentPromptPreparationService promptPreparationService =
+            new AdminAgentPromptPreparationService(agentProperties, provider, localTranslator, new PromptSemanticsSupport());
+    private final AdminAgentSurfacePolicy adminAgentSurfacePolicy = new AdminAgentSurfacePolicy(agentProperties);
+    private final AdminSyntheticQuestExecutionPlanner adminSyntheticQuestExecutionPlanner = new AdminSyntheticQuestExecutionPlanner();
     private final SandboxGenerationPlanner sandboxGenerationPlanner = new SandboxGenerationPlanner();
-    private final AdminAgentPlaygroundService service = new AdminAgentPlaygroundService(agentProperties, provider, localTranslator, sandboxGenerationPlanner);
+    private final AdminAgentPlaygroundService service = new AdminAgentPlaygroundService(
+            agentProperties,
+            provider,
+            promptPreparationService,
+            adminAgentSurfacePolicy,
+            adminSyntheticQuestExecutionPlanner,
+            sandboxGenerationPlanner
+    );
 
     @Test
     void rejectsNonAdminAccess() {
@@ -146,6 +158,24 @@ class AdminAgentPlaygroundServiceTest {
     }
 
     @Test
+    void exposesDirectExecutionCapabilityWhenSyntheticBatchExecutionIsEnabled() {
+        AppUser admin = new AppUser();
+        admin.setRole(AppUserRole.ADMIN);
+        agentProperties.setAdminExecutionEnabled(true);
+
+        AdminAgentPlaygroundResponseDTO response = service.runPrompt(
+                AdminAgentPlaygroundRequestDTO.builder()
+                        .prompt("Generate 3 unique synthetic quests for user test@test.com")
+                        .build(),
+                admin
+        );
+
+        assertTrue(response.isDirectExecutionAvailable());
+        assertEquals(AdminAgentSurfacePolicy.SYNTHETIC_QUEST_BATCH_CAPABILITY, response.getDirectExecutionCapabilityId());
+        assertEquals(false, response.getExecutionReadiness().isPlanningOnly());
+    }
+
+    @Test
     void classifiesCroatianAdminPromptForUserQuestAndConnectionFlows() {
         AppUser admin = new AppUser();
         admin.setRole(AppUserRole.ADMIN);
@@ -168,6 +198,7 @@ class AdminAgentPlaygroundServiceTest {
         assertTrue(response.getMatchedSignals().contains("user_creation"));
         assertTrue(response.getMatchedSignals().contains("quest_generation"));
         assertTrue(response.getMatchedSignals().contains("connection_request"));
+        assertTrue(response.getMatchedSignals().contains("shared_semantic_create_quest"));
         assertTrue(response.getUnresolvedInputs().contains("unique email"));
         assertTrue(response.getUnresolvedInputs().contains("exact recipient identity"));
         assertTrue(response.getSuggestedWorkflows().stream().noneMatch(item -> item.equals("create_circle_only_quest_for_selected_people")));

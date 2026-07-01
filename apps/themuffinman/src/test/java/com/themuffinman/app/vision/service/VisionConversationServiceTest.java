@@ -7,8 +7,11 @@ import com.themuffinman.app.testing.TestFixtures;
 import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
+import com.themuffinman.app.chat.dto.ChatConversationSummaryDTO;
+import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionConversationStatus;
+import com.themuffinman.app.vision.model.VisionNextAction;
 import com.themuffinman.app.vision.model.VisionTurn;
 import com.themuffinman.app.vision.repository.VisionConversationRepository;
 import com.themuffinman.app.vision.repository.VisionTurnRepository;
@@ -17,6 +20,8 @@ import com.themuffinman.app.vision.testing.VisionLocationCandidatePresets;
 import com.themuffinman.app.vision.testing.VisionSchedulePhrasePresets;
 import com.themuffinman.app.vision.testing.VisionSlotStatePresets;
 import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
+import com.themuffinman.app.workmarket.service.QuestReadService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,10 +40,13 @@ import java.util.concurrent.atomic.AtomicLong;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,6 +64,12 @@ class VisionConversationServiceTest {
 
     @Mock
     private VisionCreateQuestExecutionAdapter visionCreateQuestExecutionAdapter;
+
+    @Mock
+    private VisionChatExecutionService visionChatExecutionService;
+
+    @Mock
+    private QuestReadService questReadService;
 
     @Mock
     private LocationLookupService locationLookupService;
@@ -82,6 +96,13 @@ class VisionConversationServiceTest {
         VisionSlotService visionSlotService = new VisionSlotService(visionScheduleParserService, visionLocationResolutionService, visionSemanticMapper);
         VisionClarificationService visionClarificationService = new VisionClarificationService();
         VisionCanvasAssembler visionCanvasAssembler = new VisionCanvasAssembler(visionProperties);
+        VisionExecutionPlanner visionExecutionPlanner = new VisionExecutionPlanner(visionClarificationService, visionProperties);
+        VisionQuestDiscoveryService visionQuestDiscoveryService = new VisionQuestDiscoveryService(questReadService);
+        VisionSurfacePolicy visionSurfacePolicy = new VisionSurfacePolicy(visionProperties);
+        VisionExecutionService visionExecutionService = new VisionExecutionService(
+                visionSurfacePolicy,
+                visionCreateQuestExecutionAdapter
+        );
         currentUser = TestFixtures.user(7L, "vision-user");
 
         conversationIds = new AtomicLong(100);
@@ -136,11 +157,32 @@ class VisionConversationServiceTest {
                 visionSlotService,
                 visionClarificationService,
                 visionCanvasAssembler,
-                visionCreateQuestExecutionAdapter,
+                visionExecutionPlanner,
+                visionQuestDiscoveryService,
+                visionExecutionService,
+                visionChatExecutionService,
                 visionPromptUnderstandingService,
                 visionSemanticMapper,
+                visionSurfacePolicy,
                 visionProperties
         );
+
+        lenient().when(questReadService.getQuestListPreset(
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any()
+        )).thenReturn(QuestListResponseDTO.builder().items(List.of()).page(0).size(5).totalItems(0).totalPages(0).build());
 
         lenient().when(visionPromptUnderstandingService.understandPrompt(any(), any()))
                 .thenAnswer(invocation -> understanding(invocation.getArgument(0), invocation.getArgument(1)));
@@ -179,6 +221,44 @@ class VisionConversationServiceTest {
         assertFalse(response.getAppliedSlotSummaries().isEmpty());
         assertTrue(response.getAppliedSlotSummaries().stream().anyMatch(slot -> "quest_title".equals(slot.getSlotId())));
         assertTrue(response.getBlocks().stream().anyMatch(block -> "review_summary".equals(block.getType())));
+    }
+
+    @Test
+    void discoveryTurnReturnsQuestDiscoveryCanvas() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L);
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show me open quests for moving help")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("DISCOVER_QUESTS", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertEquals("results", response.getCanvasMode());
+        assertNotNull(response.getQuestDiscovery());
+        assertEquals("discover_quests", response.getQuestDiscovery().getCapabilityId());
+        assertTrue(response.getBlocks().stream().anyMatch(block -> "quest_discovery".equals(block.getType())));
+    }
+
+    @Test
+    void switchesConversationIntentWhenPromptChangesTaskType() {
+        VisionConversation conversation = createQuestConversation(88L, "quest_title");
+        when(visionConversationRepository.findByIdAndOwner(88L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L);
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(88L)
+                        .prompt("show me open quests for moving help")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("DISCOVER_QUESTS", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertNotEquals(88L, response.getConversationId());
     }
 
     @Test
@@ -310,6 +390,24 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void passesExistingConversationContextIntoPromptUnderstanding() {
+        VisionConversation conversation = createQuestConversation(77L, "location_mode");
+        when(visionConversationRepository.findByIdAndOwner(77L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(conversation)).thenReturn(1L, 1L);
+
+        visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(77L)
+                        .prompt("use profile location")
+                        .source("text")
+                        .build(),
+                currentUser
+        );
+
+        verify(visionPromptUnderstandingService).understandPrompt("use profile location", conversation);
+    }
+
+    @Test
     void fixedScheduleAndCustomLocationReachReview() {
         VisionConversation conversation = createQuestConversation(
                 52L,
@@ -327,7 +425,7 @@ class VisionConversationServiceTest {
                 currentUser
         );
 
-        assertEquals("scheduled_at", fixedModeResponse.getRequestedSlot());
+        assertEquals("scheduled_date", fixedModeResponse.getRequestedSlot());
 
         VisionConversationTurnResponseDTO fixedTimeResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -359,6 +457,31 @@ class VisionConversationServiceTest {
 
         assertEquals("SHOW_REVIEW", reviewResponse.getNextAction());
         assertEquals(VisionLocationCandidatePresets.BAN_JELACIC, reviewResponse.getReview().getLocation());
+    }
+
+    @Test
+    void fixedRelativeDateWithoutExplicitTimeAdvancesPastScheduledAt() {
+        VisionConversation conversation = createQuestConversation(
+                521L,
+                "schedule_mode",
+                VisionSlotStatePresets.createQuestBaseDetails()
+        );
+
+        when(visionConversationRepository.findByIdAndOwner(521L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(conversation)).thenReturn(4L, 4L, 5L, 5L);
+
+        VisionConversationTurnResponseDTO fixedModeResponse = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(521L)
+                        .prompt(VisionSchedulePhrasePresets.FIXED_NEXT_TUESDAY)
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("scheduled_time", fixedModeResponse.getRequestedSlot());
+        assertEquals("fixed", conversation.getSlotData().get("schedule_mode"));
+        assertEquals("2026-07-07", conversation.getSlotData().get("scheduled_date"));
+        assertNull(conversation.getSlotData().get("scheduled_time"));
     }
 
     @Test
@@ -557,7 +680,7 @@ class VisionConversationServiceTest {
     void spokenSchedulePhraseAdvancesToLocationStep() {
         VisionConversation conversation = createQuestConversation(
                 58L,
-                "scheduled_at",
+                "scheduled_time",
                 VisionSlotStatePresets.createQuestFixedSchedule()
         );
 
@@ -637,9 +760,10 @@ class VisionConversationServiceTest {
     void invalidScheduledAtAnswerReturnsRetryHintForSameSlot() {
         VisionConversation conversation = createQuestConversation(
                 71L,
-                "scheduled_at",
+                "scheduled_time",
                 VisionSlotStatePresets.createQuestFixedSchedule()
         );
+        conversation.getSlotData().put("scheduled_date", "2026-07-03");
 
         when(visionConversationRepository.findByIdAndOwner(71L, currentUser)).thenReturn(Optional.of(conversation));
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(5L, 5L);
@@ -653,8 +777,8 @@ class VisionConversationServiceTest {
         );
 
         assertEquals("ASK_FOR_SLOT", response.getNextAction());
-        assertEquals("scheduled_at", response.getRequestedSlot());
-        assertEquals("I could not read the time yet. Use a format like 2026-07-03 14:30, 03.07.2026 14:30, or tomorrow at 14:30.", response.getMessage());
+        assertEquals("scheduled_time", response.getRequestedSlot());
+        assertEquals("I still need the time. Use a format like 14:30, 2 pm, noon, or this evening.", response.getMessage());
     }
 
     @Test
@@ -697,6 +821,34 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void openChatPromptOpensConversationThroughChatBoundary() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L);
+        when(visionChatExecutionService.openChat(any(AppUser.class), any(String.class), any(VisionSemanticPlan.class))).thenReturn(
+                VisionChatExecutionResult.executed(ChatConversationSummaryDTO.builder()
+                        .conversationId(301L)
+                        .otherUserId(8L)
+                        .otherUsername("Josip")
+                        .resolutionKey("conversation:301")
+                        .resolutionLabel("Chat with Josip")
+                        .exactResolutionEligible(true)
+                        .build())
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("chat with Josip")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("OPEN_CHAT", response.getIntent());
+        assertEquals("COMPLETE", response.getNextAction());
+        assertEquals("complete", response.getCanvasMode());
+        assertEquals("Chat opened with Josip.", response.getMessage());
+        assertTrue(response.getBlocks().stream().anyMatch(block -> "success".equals(block.getType())));
+    }
+
+    @Test
     void confirmedReviewExecutesQuestWhenExecutionIsEnabled() {
         visionProperties.setExecutionEnabled(true);
 
@@ -723,6 +875,9 @@ class VisionConversationServiceTest {
         assertEquals("COMPLETE", response.getAgentState());
         assertEquals("COMPLETE", response.getNextAction());
         assertEquals("complete", response.getCanvasMode());
+        assertNotNull(response.getExecutionCandidate());
+        assertEquals("Conversation is already complete.", response.getExecutionCandidate().getBlockingReason());
+        assertFalse(response.getExecutionCandidate().isExecutionReady());
         assertEquals("success", response.getBlocks().get(response.getBlocks().size() - 1).getType());
     }
 
@@ -876,6 +1031,18 @@ class VisionConversationServiceTest {
 
     private VisionPromptUnderstandingResult understanding(String prompt, VisionConversation conversation) {
         String normalizedPrompt = prompt == null ? "" : prompt.trim();
+        VisionSemanticPlan semanticPlan = normalizedPrompt.equalsIgnoreCase("show me open quests for moving help")
+                ? VisionSemanticPlan.discoverQuests(0.9d, "browse available quests", "moving help")
+                : (normalizedPrompt.toLowerCase().contains("show me open quests")
+                || normalizedPrompt.toLowerCase().contains("open quests")
+                || normalizedPrompt.toLowerCase().contains("find quests")
+                ? VisionSemanticPlan.discoverQuests(0.85d, "browse available quests", "moving help")
+                : VisionSemanticPlan.empty());
+        if (normalizedPrompt.equals("Create a structured quest")
+                || normalizedPrompt.toLowerCase().contains("create a quest")
+                || normalizedPrompt.toLowerCase().contains("i need someone to help carry a sofa")) {
+            semanticPlan = VisionSemanticPlan.createQuest(0.95d, "mock create quest");
+        }
         return VisionPromptUnderstandingResult.builder()
                 .sourceLanguage("en")
                 .originalPrompt(normalizedPrompt)
@@ -883,6 +1050,7 @@ class VisionConversationServiceTest {
                 .translationProvider("mock")
                 .translationApplied(false)
                 .translationReliable(true)
+                .semanticPlan(semanticPlan)
                 .slots(extractedSlotsFor(normalizedPrompt, conversation))
                 .build();
     }
@@ -905,8 +1073,10 @@ class VisionConversationServiceTest {
                     .schedule(VisionPromptUnderstandingScheduleSlots.builder()
                             .mode("fixed")
                             .modeConfidence(1.0)
-                            .scheduledAt("2026-07-03T14:30:00Z")
-                            .scheduledAtConfidence(1.0)
+                            .scheduledDate("2026-07-03")
+                            .scheduledDateConfidence(1.0)
+                            .scheduledTime("14:30")
+                            .scheduledTimeConfidence(1.0)
                             .build())
                     .location(VisionPromptUnderstandingLocationSlots.builder()
                             .mode("profile")

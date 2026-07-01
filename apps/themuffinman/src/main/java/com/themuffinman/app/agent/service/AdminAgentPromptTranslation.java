@@ -1,5 +1,6 @@
 package com.themuffinman.app.agent.service;
 
+import com.themuffinman.app.prompt.PromptSemanticPlan;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,4 +13,22 @@ public class AdminAgentPromptTranslation {
     private final String translationProvider;
     private final boolean translationApplied;
     private final boolean translationReliable;
+    @Builder.Default
+    private final PromptSemanticPlan semanticPlan = PromptSemanticPlan.empty();
+
+    public PromptSemanticPlan semanticPlanOrEmpty() {
+        return semanticPlan == null ? PromptSemanticPlan.empty() : semanticPlan;
+    }
+
+    public AdminAgentPromptTranslation withSemanticPlan(PromptSemanticPlan semanticPlan) {
+        return AdminAgentPromptTranslation.builder()
+                .sourceLanguage(sourceLanguage)
+                .originalPrompt(originalPrompt)
+                .translatedPrompt(translatedPrompt)
+                .translationProvider(translationProvider)
+                .translationApplied(translationApplied)
+                .translationReliable(translationReliable)
+                .semanticPlan(semanticPlan == null ? PromptSemanticPlan.empty() : semanticPlan)
+                .build();
+    }
 }

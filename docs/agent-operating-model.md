@@ -162,11 +162,12 @@ Initial agent-safe workflows:
 Related admin tooling:
 - an admin agent playground may help classify prompts and surface workflow warnings
 - that playground should translate prompts into a stable planning language before deterministic workflow classification
-- that playground is a planning surface only and never executes mutations directly
+- that playground stays planning-first, but the first guarded direct execution slice may create synthetic quest batches for one exact target user only after explicit admin confirmation
 - when configured, the same admin endpoint may request a backend-managed OpenAI planning summary and still fall back to deterministic backend rules
 - planner responses should keep deterministic matched signals and unresolved inputs separate from provider-authored summary text
 - the dedicated `/vision/conversations/turns` backend is the persisted prompt-bearing path for stepwise adaptive orchestration, `GET /vision/conversations/recent` and `GET /vision/conversations/{conversationId}` provide resume state, dedicated `/vision/conversations/{conversationId}/reset` and `/vision/conversations/{conversationId}/cancel` endpoints own lifecycle control, and dashboard prompt decoding remains a lighter planning surface
 - the first persisted `/vision` quest conversation now stepwise-collects reward, visibility, schedule, and location decisions, pauses for explicit candidate choice when a custom location lookup finds one or more more precise matches, accepts a broader deterministic HR/EN spoken-time vocabulary while still rejecting ambiguous spoken times without a day-period signal, and can route a review correction back to one named field instead of reopening a legacy form
+- the same persisted `/vision` turn flow can now also resolve an `OPEN_CHAT` intent into the existing chat-open boundary when the semantic plan names a target contact, while still refusing ambiguous or non-accessible chat targets
 - explicit turn actions now exist for prompt submission, review confirmation, and typed review-edit targeting, while lifecycle control moved onto dedicated conversation endpoints
 - when the execution flag is enabled, that same persisted conversation path may cross from review into the first real `create_quest` executor only after explicit confirmation
 

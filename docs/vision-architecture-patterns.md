@@ -79,9 +79,9 @@ Animated agent motion should feel layered and ambient:
 - keep the center readable and calm, not noisy or gimmicky
 
 Prompt composer behavior should also stay blank-canvas oriented:
-- start collapsed when the surface is idle
-- expose a compact launcher for opening the dock
-- expand automatically only when the backend asks for input, the user is composing, or the flow needs review context
+- keep the inline composer visible in the blank state as the primary entry point
+- let the idle composer carry the first task invitation instead of adding a second launcher step
+- expand automatically when the backend asks for richer input, the user is composing, or the flow needs review context
 
 Idle hero text should not compete with active backend content:
 - show the large intro only while the canvas is actually blank
@@ -185,7 +185,8 @@ Common slot IDs:
 - `quest_description`
 - `reward_amount`
 - `free_quest`
-- `scheduled_at`
+- `scheduled_date`
+- `scheduled_time`
 - `ends_at`
 - `location_label`
 - `visibility`
@@ -193,11 +194,16 @@ Common slot IDs:
 - `target_user`
 - `confirmation`
 
+For `/vision` fixed scheduling, prefer separate conversational slots for day and time and derive one absolute `scheduled_at` only at the execution boundary once both are present.
+
 Slot extraction may use an LLM, but slot validation must use deterministic backend logic and domain services.
 The LLM layer should stay separate from slot validation as a semantic understanding step that can return normalized prompt text, a focus slot, and extracted slot candidates, while deterministic backend services still decide which values are accepted.
 Do not let fallback heuristics treat every prompt as description, reward, or location text just because the user spoke in one sentence.
 When the conversation already has a requested slot, the backend should use that slot as the fallback semantic focus if the model response does not name one explicitly.
 Prefer one shared semantic-mapping service for prompt understanding, fallback focus, and review-edit follow-up routing so the same turn-level rules do not drift across services.
+Semantic understanding should also return a generic semantic plan before slot extraction becomes capability-specific. The current first slice carries `candidateIntent`, `candidateIntentConfidence`, `capabilityId`, and a short planning note above create_quest slots so intent routing can move away from raw prompt heuristics without expanding execution authority.
+The current discovery slice adds read-only `DISCOVER_QUESTS` routing and a quest-discovery canvas payload, but it still keeps mutation execution scoped to typed backend adapters.
+Shared prompt semantics should be reused across Vision and Admin Playground when the same normalization and intent-classification rules apply, so both surfaces consume one backend prompt-understanding boundary instead of maintaining separate local heuristics.
 
 ## Clarification Pattern
 
@@ -232,6 +238,11 @@ Flow:
 7. Return compact result state.
 
 Do not execute directly from a raw natural-language prompt.
+
+When `/vision` and admin operator surfaces share runtime abstractions, keep the split explicit:
+- `Vision` stays user-scoped and must not gain cross-user execution authority
+- admin surfaces may gain broader execution only through separate admin-scoped policy gates
+- shared policy abstractions may standardize capability checks, but they must not blur trust boundaries
 
 The first production execution capability should be `create_quest`, because it offers useful end-to-end coverage without introducing destructive or multi-actor risk too early.
 
@@ -290,6 +301,18 @@ Prefer a vision-specific conversation API instead of dashboard-specific prompt e
 
 Recommended future endpoint:
 - `POST /vision/conversations/turns`
+
+The request contract is versioned and should carry:
+- `conversationId`
+- `inputType`
+- `text`
+- `clientCapabilities`
+- `clientStateVersion`
+- optional `selectedOptionId`
+- optional `fieldValue`
+- optional `confirmation`
+
+The backend may continue to accept legacy prompt fields during transition, but the versioned request shape should be treated as the primary contract.
 
 Response should be backend-prepared canvas state:
 - `conversationId`

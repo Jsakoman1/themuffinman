@@ -31,6 +31,7 @@ permission_matrix:
     - delete_admin_application
     - create_user_with_quests
     - create_sandbox_user_with_circle_and_quest_flow
+    - execute_admin_agent_capability
     allowed_actors:
     - admin
     forbidden_actors:
@@ -50,6 +51,7 @@ permission_matrix:
     - delete_circle_as_admin
     - update_admin_application
     - delete_admin_application
+    - run_admin_agent_execution
   - id: self_profile_management
     intent_ids:
     - set_profile_location

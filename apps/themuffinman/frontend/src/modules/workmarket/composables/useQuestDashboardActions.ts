@@ -13,10 +13,6 @@ export const useQuestDashboardActions = (state: QuestDashboardState) => {
 
   return {
     ...dataActions,
-    ...mutationActions,
-    openCreateJobDialog: state.openCreateJobDialog,
-    closeCreateJobDialog: state.closeCreateJobDialog,
-    openFindWorkDialog: state.openFindWorkDialog,
-    closeFindWorkDialog: state.closeFindWorkDialog
+    ...mutationActions
   }
 }

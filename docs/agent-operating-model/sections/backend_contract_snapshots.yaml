@@ -21,6 +21,9 @@ backend_contract_snapshots:
   - warnings
   - suggestedWorkflows
   - nextSteps
+  - directExecutionAvailable
+  - directExecutionCapabilityId
+  - directExecutionSummary
   semantic_required_fields:
   - promptSourceLanguage
   - promptTranslationReliable
@@ -35,6 +38,37 @@ backend_contract_snapshots:
   - admin_agent_playground_service_test
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: admin_agent_execution_response_snapshot
+  java_class: com.themuffinman.app.agent.dto.AdminAgentExecutionResponseDTO
+  declared_fields:
+  - capabilityId
+  - executionEnabled
+  - executed
+  - confirmationRequired
+  - summary
+  - targetUserLabel
+  - targetUserId
+  - requestedCount
+  - effectiveCount
+  - topic
+  - questTitles
+  - createdQuestIds
+  - warnings
+  - blockingReasons
+  semantic_required_fields:
+  - capabilityId
+  - executionEnabled
+  - executed
+  - confirmationRequired
+  - summary
+  - effectiveCount
+  - questTitles
+  - blockingReasons
+  source_refs:
+  - admin_agent_execution_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
 - id: admin_agent_simulation_response_snapshot
   java_class: com.themuffinman.app.agent.dto.AdminAgentSimulationResponseDTO

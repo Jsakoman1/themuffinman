@@ -20,6 +20,7 @@ public class LocalAdminAgentPromptTranslator implements AdminAgentPromptTranslat
         CROATIAN_TO_ENGLISH.put("novi user", "new user");
         CROATIAN_TO_ENGLISH.put("napravi novi quest", "create new quest");
         CROATIAN_TO_ENGLISH.put("napravi quest", "create quest");
+        CROATIAN_TO_ENGLISH.put("questa", "quests");
         CROATIAN_TO_ENGLISH.put("novi quest", "new quest");
         CROATIAN_TO_ENGLISH.put("ako ima vise", "if there are multiple");
         CROATIAN_TO_ENGLISH.put("ako ima više", "if there are multiple");

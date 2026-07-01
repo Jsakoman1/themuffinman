@@ -78,6 +78,14 @@ Review corrections should use explicit backend action plus explicit review targe
 
 Free-text correction prompts must not be reinterpreted as review-edit commands inside the review-ready backend state.
 
+### VDR-011: Continuity Is Summary-First
+
+The shell should treat compact backend summaries as the source of long-session continuity.
+
+- Resume and recent-task surfaces should read the summary first.
+- Raw turn history is for detail, audit, and drill-down, not for reconstructing the active state from scratch.
+- Frontend state may cache display hints, but it should not become the authoritative memory layer.
+
 ### VDR-009: Legacy Surfaces Are Not The Design Baseline
 
 Legacy pages may remain temporarily.

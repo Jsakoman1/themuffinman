@@ -51,6 +51,13 @@ Continuity contract:
 
 - `VisionConversationSummaryDTO` is the compact recent/resume summary source for stage, progress, resumable/completed state, recent-task grouping, stale marking, and pending-slot context
 
+Continuity rules:
+
+- Treat `VisionConversationSummaryDTO` as the long-session memory surface for the shell.
+- Use raw turn history for detailed audit only; do not rebuild resume state from transcript fragments when the summary already knows the stage, progress, and pending slot.
+- Prefer compact in-shell reveal for active continuation state, and keep completed or stale work out of the main canvas unless the user explicitly reopens it.
+- When a conversation changes intent or becomes stale, refresh the summary instead of leaving the frontend to infer continuity from older turn text.
+
 ## Vision Frontend Map
 
 - `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue`: route-level blank-canvas shell

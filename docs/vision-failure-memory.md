@@ -111,3 +111,21 @@ Location resolution silently replaces typed user input with a backend lookup can
 - keep typed location until the user confirms a candidate
 - expose candidate choices explicitly
 - fail closed to the same slot when the confirmation answer is ambiguous
+
+## VF-007: Continuation Drift
+
+### Symptom
+
+The surface reopens like a dead window, repeats older prompt text, or makes the resume rail compete with the active turn instead of supporting it.
+
+### Typical Triggers
+
+- reconstructing resume state from raw turn text
+- keeping too much context chrome visible at once
+- not refreshing stale summary state after the conversation changes intent
+
+### Fix Pattern
+
+- treat the compact summary as the memory source for resume and recent-session behavior
+- keep continuation cues inline and compact unless the user explicitly expands them
+- mark stale or completed work clearly instead of letting it masquerade as active context

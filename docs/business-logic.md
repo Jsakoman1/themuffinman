@@ -27,12 +27,16 @@ Current covered modules:
 - The authenticated frontend now also includes an experimental `/vision` screen that demonstrates this direction with a centered animated agent and an inline prompt surface inside the same adaptive canvas.
 - `/vision` now uses backend-managed OpenAI speech transcription, speech synthesis, prompt decoding, and agent planning so typed text and voice input can feed the same backend processing path.
 - `/vision` now inserts a dedicated semantic understanding step between speech transcription and slot merging so one prompt can fill multiple explicit quest fields without dumping everything into description or location by default.
+- `/vision` now also supports a read-only quest discovery path, so browse/search prompts can return ranked open quests inside the same adaptive surface without entering the create-quest execution flow.
+- `/vision` can now also open a chat with an existing circle contact when the user explicitly names the target, using the same adaptive surface instead of a separate chat launcher.
 - Voice recording and speech playback use backend-provided limits so long recordings, oversized audio uploads, and overly long speech synthesis text fail early instead of exhausting local memory.
 - `/vision` now also has a dedicated persisted conversation backend foundation at `POST /vision/conversations/turns`, so the system can ask one missing field at a time and keep the same task state across turns.
+- `/vision/conversations/turns` now uses a versioned request shape with `inputType`, `text`, `clientCapabilities`, and `clientStateVersion`, so the frontend can declare what it can do instead of relying only on legacy prompt fields.
 - The active `/vision` surface should prefer that persisted conversation path for stepwise task guidance, use dedicated reset and cancel lifecycle endpoints for conversation control, expose recent task resume behavior, and keep the older dashboard prompt endpoint as a compatibility/planning path during transition.
+- The active `/vision` surface should treat compact backend summaries as the memory source for resume and recent-task continuity, rather than reconstructing the current state from older transcript text.
 - The persisted `/vision` path now returns backend-prepared canvas blocks such as agent message, recognized input, field request, collected summary, review summary, and warnings, so the frontend can stay visually adaptive without deciding workflow rules itself.
 - The first real `/vision` quest flow now collects title, description, reward, visibility, schedule choice, and location choice step by step instead of pushing the user into one big form.
-- The same `/vision` quest flow now understands a wider set of time phrases such as ISO date-time, European date-time, tomorrow, tonight, next week, next weekday, am/pm, noon, midnight, and a small spoken-time vocabulary before it asks again for a missing exact schedule.
+- The same `/vision` quest flow now understands a wider set of date and time phrases such as ISO date-time, European date-time, tomorrow, tonight, next week, next weekday, am/pm, noon, midnight, and a small spoken-time vocabulary, while collecting the day and time as separate conversation details when the user does not provide both at once.
 - When the user gives a custom quest location on `/vision`, the backend may suggest one or more more precise matched places, but the surface must ask whether to use one of those resolved candidates or keep the typed location before the quest review continues.
 - The same `/vision` review state can now send the user back to one named field such as reward, schedule, or location, so corrections stay conversational instead of reopening a legacy edit surface.
 - The `/vision` conversation turn API now accepts explicit backend actions for review-to-execution confirmation and review-field correction targets, while reset and cancel use dedicated lifecycle endpoints instead of free-text phrases.
@@ -233,12 +237,15 @@ Current covered modules:
 ## Admin Agent Playground
 
 - Admins can use a lightweight agent playground to try prompts against a backend planning surface.
-- The current playground is for safe prompt and workflow testing only.
-- It does not execute mutations and it does not rely on the ChatGPT consumer app.
+- The current playground is still planning-first, but it now also exposes one guarded direct execution capability for synthetic quest batch generation after explicit confirmation.
+- The direct execution slice is admin-only, target-user-specific, and limited to synthetic quest creation for sandbox/operator workflows.
+- It does not rely on the ChatGPT consumer app.
 - Production admin prompt planning and sandbox-generation planning are structurally separate so synthetic test-data rules stay auditable.
 - The playground now runs a translation layer before workflow classification so prompts do not have to be written only in English.
 - Local fallback translation is intentionally limited and mainly covers known planning phrases, while broader language support depends on a backend-managed provider.
 - The planner now also returns structured resolution, clarification, and execution-readiness contracts instead of only free-form warnings.
+- The same planner response now also tells the admin UI whether the first guarded execution capability is available for the current prompt.
+- Vision and Admin Playground now share one backend prompt-semantics boundary for normalization and intent classification, while still keeping user-scoped and admin-scoped authority separate.
 - The same agent-safe pattern is now expected across quest updates, application self-service, circle-group management, outgoing request cancellation, and chat read actions.
 - The same agent-safe pattern now also covers profile self-update, notification read actions, and admin-side application correction or deletion.
 - The operating model now also explicitly covers common read surfaces such as dashboard, circle overview, quest detail, application detail, chat history, and admin debug status instead of leaving them implicit.
@@ -671,12 +678,12 @@ Current covered modules:
 ### Route and page model
 
 - `/login` and `/register` are the only unauthenticated entry pages.
-- `/work` is the main workmarket entry for normal users.
+- `/work` is still the current legacy workmarket entry for normal users, but `/vision` is the strategic replacement surface and the route set is being contracted around it.
 - `/work/:id` and `/applications/:id` are the main detail routes for quest and application flows.
 - `/users/:id` and `/settings` are the main profile and profile-settings routes.
 - `/admin/work`, `/admin/quests`, `/admin/users`, `/admin/applications`, and `/admin/circles` are the admin workspaces.
-- Logged-in admins are redirected away from the normal `/work` route to the admin workspace.
-- Authenticated module pages use the shared app shell page surface so work, social, business, things, rides, chat, and admin pages share one layout contract instead of per-module page wrappers.
+- Logged-in admins are redirected away from the normal legacy `/work` route to the admin workspace, while normal users now land on `/vision` instead of `/work`.
+- Authenticated module pages still use the shared app shell page surface, but the first decommission batch removed `/quests`, `/app-users`, `/business`, `/things`, and `/rides` as active user entry routes.
 
 ### API client model
 

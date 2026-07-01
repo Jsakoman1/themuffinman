@@ -102,51 +102,74 @@ public class VisionScheduleParserService {
     }
 
     public String extractScheduledAt(String normalizedPrompt) {
+        return deriveScheduledAt(extractScheduledDate(normalizedPrompt), extractScheduledTime(normalizedPrompt));
+    }
+
+    public String extractScheduledDate(String normalizedPrompt) {
         String prompt = normalizedPrompt.trim();
         String lower = prompt.toLowerCase(Locale.ROOT);
-        String resolvedTime = extractTime(lower, prompt);
 
         Matcher explicitIsoDateTime = ISO_DATE_TIME_PATTERN.matcher(prompt);
         if (explicitIsoDateTime.find()) {
-            return toInstant(parseDate(explicitIsoDateTime.group(1)), explicitIsoDateTime.group(2));
+            LocalDate parsed = parseDate(explicitIsoDateTime.group(1));
+            return parsed == null ? null : parsed.toString();
         }
 
         Matcher euroDate = EURO_DATE_PATTERN.matcher(prompt);
-        if (euroDate.find() && resolvedTime != null) {
-            return toInstant(parseDate(euroDate.group(1)), resolvedTime);
+        if (euroDate.find()) {
+            LocalDate parsed = parseDate(euroDate.group(1));
+            return parsed == null ? null : parsed.toString();
         }
 
         Matcher isoDate = ISO_DATE_PATTERN.matcher(prompt);
-        if (isoDate.find() && resolvedTime != null) {
-            return toInstant(parseDate(isoDate.group(1)), resolvedTime);
+        if (isoDate.find()) {
+            LocalDate parsed = parseDate(isoDate.group(1));
+            return parsed == null ? null : parsed.toString();
         }
 
-        LocalDate baseDate = resolveRelativeDate(lower);
-        if (baseDate != null) {
-            if (resolvedTime != null) {
-                return toInstant(baseDate, resolvedTime);
-            }
-            if (containsAny(lower, "tonight", "veceras", "večeras")) {
-                return toInstant(baseDate, "20:00");
-            }
-            if (containsAny(lower, "morning", "ujutro")) {
-                return toInstant(baseDate, "09:00");
-            }
-            if (containsAny(lower, "afternoon", "popodne")) {
-                return toInstant(baseDate, "14:00");
-            }
-            if (containsAny(lower, "evening", "navecer", "navečer")) {
-                return toInstant(baseDate, "18:00");
-            }
-            if (containsAny(lower, "noon", "midday", "podne")) {
-                return toInstant(baseDate, "12:00");
-            }
-            if (containsAny(lower, "midnight", "ponoc", "ponoć")) {
-                return toInstant(baseDate, "00:00");
-            }
+        LocalDate relativeDate = resolveRelativeDate(lower);
+        return relativeDate == null ? null : relativeDate.toString();
+    }
+
+    public String extractScheduledTime(String normalizedPrompt) {
+        String prompt = normalizedPrompt.trim();
+        String lower = prompt.toLowerCase(Locale.ROOT);
+
+        Matcher explicitIsoDateTime = ISO_DATE_TIME_PATTERN.matcher(prompt);
+        if (explicitIsoDateTime.find()) {
+            return explicitIsoDateTime.group(2);
         }
 
+        String resolvedTime = extractTime(lower, prompt);
+        if (resolvedTime != null) {
+            return resolvedTime;
+        }
+        if (containsAny(lower, "tonight", "veceras", "večeras")) {
+            return "20:00";
+        }
+        if (containsAny(lower, "morning", "ujutro")) {
+            return "09:00";
+        }
+        if (containsAny(lower, "afternoon", "popodne")) {
+            return "14:00";
+        }
+        if (containsAny(lower, "evening", "navecer", "navečer")) {
+            return "18:00";
+        }
+        if (containsAny(lower, "noon", "midday", "podne")) {
+            return "12:00";
+        }
+        if (containsAny(lower, "midnight", "ponoc", "ponoć")) {
+            return "00:00";
+        }
         return null;
+    }
+
+    public String deriveScheduledAt(String scheduledDate, String scheduledTime) {
+        if (scheduledDate == null || scheduledDate.isBlank() || scheduledTime == null || scheduledTime.isBlank()) {
+            return null;
+        }
+        return toInstant(parseDate(scheduledDate.trim()), scheduledTime.trim());
     }
 
     private String extractTime(String lower, String prompt) {
@@ -314,6 +337,13 @@ public class VisionScheduleParserService {
         }
     }
 
+    private String toInstant(LocalDate date, LocalTime time) {
+        if (date == null || time == null) {
+            return null;
+        }
+        return date.atTime(time).atZone(clock.getZone()).toInstant().toString();
+    }
+
     @SuppressWarnings("unused")
     private String toInstant(LocalDateTime dateTime) {
         return dateTime.atZone(clock.getZone()).toInstant().toString();
@@ -326,6 +356,16 @@ public class VisionScheduleParserService {
             }
         }
         return false;
+    }
+
+    private boolean containsTimeSignal(String lower, String prompt) {
+        return TIME_PATTERN.matcher(prompt).find()
+                || HOUR_ONLY_PATTERN.matcher(lower).find()
+                || AM_PM_TIME_PATTERN.matcher(lower).find()
+                || HALF_PAST_PATTERN.matcher(lower).find()
+                || QUARTER_PAST_PATTERN.matcher(lower).find()
+                || QUARTER_TO_PATTERN.matcher(lower).find()
+                || CROATIAN_HALF_PAST_PATTERN.matcher(lower).find();
     }
 
     private int normalizeHour(int hour) {

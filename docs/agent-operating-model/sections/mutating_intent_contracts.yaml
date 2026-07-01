@@ -336,6 +336,13 @@ mutating_intent_contracts:
   notifications: [none]
   blocking_conditions: [sandbox authority missing, unsupported synthetic payload, sandbox isolation rules violated]
   source_refs: [admin_agent_playground_service, app_user_service, create_quest_use_case]
+- intent_id: execute_admin_agent_capability
+  preconditions: [admin authority, direct execution enabled, exact target user, explicit confirmation]
+  state_changes: [persist synthetic quests for the resolved target user]
+  side_effects: [reuse quest creation with creator override and synthetic marker strategy]
+  notifications: [none]
+  blocking_conditions: [execution disabled, target user unresolved, confirmation missing, batch limit exceeded]
+  source_refs: [admin_agent_execution_service, admin_synthetic_quest_execution_planner, quest_service]
 - intent_id: save_my_business_profile
   preconditions: [authenticated owner, validated business profile payload, unique slug for owner scope]
   state_changes: [persist current user's business profile]

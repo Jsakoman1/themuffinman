@@ -16,6 +16,8 @@ public final class VisionSchedulePhrasePresets {
     public static final String NEXT_WEEK_0915 = "next week at 09:15";
     public static final String NEXT_WEEK_NOON = "next week at noon";
     public static final String NEXT_MONDAY_0800 = "next monday 08:00";
+    public static final String NEXT_TUESDAY = "next Tuesday";
+    public static final String FIXED_NEXT_TUESDAY = "fixed next Tuesday";
     public static final String INVALID_SOMETIME_LATER = "sometime later maybe";
 
     private VisionSchedulePhrasePresets() {

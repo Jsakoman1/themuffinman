@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T13:52:39Z",
+  "generated_at": "2026-07-01T09:58:12Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -462,7 +462,7 @@
     },
     {
       "path": "docs/generated/local-tooling/audit-documentation-summary.md",
-      "mtime": "2026-06-30T13:52:38Z",
+      "mtime": "2026-07-01T09:58:12Z",
       "bytes": 143
     },
     {
@@ -577,8 +577,8 @@
     },
     {
       "path": "docs/generated/local-tooling/doc-staleness-scoring-summary.md",
-      "mtime": "2026-06-30T13:45:20Z",
-      "bytes": 3414
+      "mtime": "2026-07-01T09:23:44Z",
+      "bytes": 4023
     },
     {
       "path": "docs/generated/local-tooling/doc-sync-duplicates-summary.md",
@@ -657,38 +657,38 @@
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/app_users-summary.md",
-      "mtime": "2026-06-30T13:19:36Z",
+      "mtime": "2026-06-30T16:08:01Z",
       "bytes": 1083
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/applications-summary.md",
-      "mtime": "2026-06-30T13:19:36Z",
+      "mtime": "2026-06-30T16:08:01Z",
       "bytes": 305
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/auth-summary.md",
-      "mtime": "2026-06-30T13:19:36Z",
+      "mtime": "2026-06-30T16:08:01Z",
       "bytes": 626
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/business-summary.md",
-      "mtime": "2026-06-30T13:19:36Z",
+      "mtime": "2026-06-30T16:08:01Z",
       "bytes": 1052
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/chat-summary.md",
-      "mtime": "2026-06-30T13:19:36Z",
+      "mtime": "2026-06-30T16:08:01Z",
       "bytes": 1247
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/circles-summary.md",
-      "mtime": "2026-06-30T13:19:36Z",
+      "mtime": "2026-06-30T16:08:01Z",
       "bytes": 1141
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/dashboard-summary.md",
-      "mtime": "2026-06-30T13:19:36Z",
-      "bytes": 756
+      "mtime": "2026-06-30T16:08:01Z",
+      "bytes": 1316
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/index-summary.md",
@@ -697,27 +697,27 @@
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/location-summary.md",
-      "mtime": "2026-06-30T13:19:37Z",
+      "mtime": "2026-06-30T16:08:01Z",
       "bytes": 754
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/news-summary.md",
-      "mtime": "2026-06-30T13:19:37Z",
+      "mtime": "2026-06-30T16:08:01Z",
       "bytes": 815
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/quests-summary.md",
-      "mtime": "2026-06-30T13:19:37Z",
+      "mtime": "2026-06-30T16:08:01Z",
       "bytes": 1161
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/rides-summary.md",
-      "mtime": "2026-06-30T13:19:37Z",
+      "mtime": "2026-06-30T16:08:01Z",
       "bytes": 697
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/things-summary.md",
-      "mtime": "2026-06-30T13:19:37Z",
+      "mtime": "2026-06-30T16:08:01Z",
       "bytes": 1042
     },
     {
@@ -727,7 +727,7 @@
     },
     {
       "path": "docs/generated/local-tooling/failure-knowledge-base-summary.md",
-      "mtime": "2026-06-30T13:52:38Z",
+      "mtime": "2026-07-01T07:23:28Z",
       "bytes": 340
     },
     {
@@ -787,7 +787,7 @@
     },
     {
       "path": "docs/generated/local-tooling/make-target-index-summary.md",
-      "mtime": "2026-06-30T13:52:38Z",
+      "mtime": "2026-07-01T09:58:12Z",
       "bytes": 815
     },
     {
@@ -1126,6 +1126,21 @@
       "bytes": 229
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/agent-surface-standardization-master-plan-summary.md",
+      "mtime": "2026-07-01T09:23:28Z",
+      "bytes": 224
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/agent-surface-standardization-phase1-plan-summary.md",
+      "mtime": "2026-07-01T09:06:14Z",
+      "bytes": 224
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/agent-surface-standardization-phase2-plan-summary.md",
+      "mtime": "2026-07-01T09:23:42Z",
+      "bytes": 224
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/backend-audit-tiering-plan-summary.md",
       "mtime": "2026-06-29T10:33:28Z",
       "bytes": 251
@@ -1206,6 +1221,11 @@
       "bytes": 251
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/god-plan-hierarchy-plan-summary.md",
+      "mtime": "2026-07-01T07:01:05Z",
+      "bytes": 242
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/local-context-batch-two-plan-summary.md",
       "mtime": "2026-06-29T12:47:09Z",
       "bytes": 198
@@ -1261,9 +1281,49 @@
       "bytes": 200
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/vision-canvas-execution-surface-plan-summary.md",
+      "mtime": "2026-07-01T07:35:30Z",
+      "bytes": 214
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-context-toggle-pass-plan-summary.md",
+      "mtime": "2026-07-01T08:29:07Z",
+      "bytes": 204
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-execution-planning-plan-summary.md",
+      "mtime": "2026-07-01T07:23:28Z",
+      "bytes": 202
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-generic-semantic-planning-plan-summary.md",
+      "mtime": "2026-07-01T07:12:29Z",
+      "bytes": 216
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-memory-and-context-master-plan-summary.md",
+      "mtime": "2026-07-01T09:58:11Z",
+      "bytes": 216
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-modern-surface-pass-plan-summary.md",
+      "mtime": "2026-07-01T08:20:17Z",
+      "bytes": 204
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-quest-discovery-plan-summary.md",
+      "mtime": "2026-07-01T08:09:28Z",
+      "bytes": 196
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/vision-surface-screen-plan-summary.md",
       "mtime": "2026-06-30T12:36:13Z",
       "bytes": 194
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-surface-unification-plan-summary.md",
+      "mtime": "2026-07-01T07:41:46Z",
+      "bytes": 204
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/vision-voice-master-plan-summary.md",
@@ -1287,7 +1347,7 @@
     },
     {
       "path": "docs/generated/local-tooling/repo-map-summary.md",
-      "mtime": "2026-06-30T13:19:35Z",
+      "mtime": "2026-06-30T16:08:26Z",
       "bytes": 961
     },
     {
@@ -1337,8 +1397,8 @@
     },
     {
       "path": "docs/generated/local-tooling/symbol-index-summary.md",
-      "mtime": "2026-06-30T13:19:36Z",
-      "bytes": 3100
+      "mtime": "2026-06-30T16:08:26Z",
+      "bytes": 3087
     },
     {
       "path": "docs/generated/local-tooling/symbol-test-links/questservice-summary.md",
@@ -1382,7 +1442,7 @@
     },
     {
       "path": "docs/generated/local-tooling/validation-memory-drift-summary.md",
-      "mtime": "2026-06-30T13:52:05Z",
+      "mtime": "2026-07-01T07:00:51Z",
       "bytes": 1103
     },
     {

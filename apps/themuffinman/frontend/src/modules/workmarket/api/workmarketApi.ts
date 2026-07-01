@@ -9,6 +9,8 @@ import {usersApi} from "./clients/usersApi.ts"
 
 export type {
   ActionResult,
+  AdminAgentExecutionRequest,
+  AdminAgentExecutionResponse,
   AdminAgentSimulationRequest,
   AdminAgentSimulationResponse,
   AdminAgentPlaygroundRequest,

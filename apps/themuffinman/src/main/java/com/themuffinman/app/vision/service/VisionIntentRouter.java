@@ -16,10 +16,32 @@ public class VisionIntentRouter {
     }
 
     public VisionIntent detectIntent(String prompt) {
+        return detectIntent(prompt, null);
+    }
+
+    public VisionIntent detectIntent(String prompt, VisionPromptUnderstandingResult understanding) {
+        VisionIntent semanticIntent = understanding == null
+                ? VisionIntent.UNSUPPORTED
+                : understanding.semanticPlanOrEmpty().candidateIntentOrUnsupported();
+        if (semanticIntent == VisionIntent.DISCOVER_QUESTS) {
+            return VisionIntent.DISCOVER_QUESTS;
+        }
+        if (semanticIntent == VisionIntent.OPEN_CHAT) {
+            return VisionIntent.OPEN_CHAT;
+        }
+        String lower = prompt.toLowerCase(Locale.ROOT);
+        if (containsDiscoverySignals(lower)) {
+            return VisionIntent.DISCOVER_QUESTS;
+        }
+        if (containsChatSignals(lower)) {
+            return VisionIntent.OPEN_CHAT;
+        }
         if (!visionProperties.isCreateQuestEnabled()) {
             return VisionIntent.UNSUPPORTED;
         }
-        String lower = prompt.toLowerCase(Locale.ROOT);
+        if (semanticIntent == VisionIntent.CREATE_QUEST) {
+            return VisionIntent.CREATE_QUEST;
+        }
         if (lower.contains("create") && lower.contains("quest")) {
             return VisionIntent.CREATE_QUEST;
         }
@@ -49,5 +71,38 @@ public class VisionIntentRouter {
             }
         }
         return false;
+    }
+
+    private boolean containsDiscoverySignals(String value) {
+        return containsAny(value,
+                "open quests",
+                "available quests",
+                "show open quests",
+                "show quests",
+                "find quests",
+                "browse quests",
+                "search quests",
+                "looking for work",
+                "looking for jobs",
+                "what quests",
+                "what can i do",
+                "odd jobs",
+                "jobs near",
+                "work near",
+                "help wanted",
+                "recommend a quest",
+                "recommend work");
+    }
+
+    private boolean containsChatSignals(String value) {
+        return containsAny(value,
+                "open chat",
+                "start chat",
+                "chat with",
+                "message",
+                "send a message",
+                "dm",
+                "direct message",
+                "talk to");
     }
 }

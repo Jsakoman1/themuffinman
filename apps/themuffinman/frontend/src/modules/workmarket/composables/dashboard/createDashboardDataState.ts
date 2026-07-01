@@ -2,29 +2,20 @@ import {ref} from "vue"
 import type {
   AppUser,
   CircleGroup,
-  CircleRequest,
-  DashboardSections,
   DashboardSummary,
   Quest,
   QuestApplication,
   QuestApplicationDetail,
   QuestDetail,
   QuestApplicationsView,
-  QuestNewsItem,
   WorkmarketOptions
 } from "../../api/workmarketApi.ts"
 
 export const createDashboardDataState = () => {
   const quests = ref<Quest[]>([])
-  const dashboardMyQuests = ref<Quest[]>([])
-  const dashboardAvailableQuests = ref<Quest[]>([])
   const myApplications = ref<QuestApplication[]>([])
-  const newsItems = ref<QuestNewsItem[]>([])
-  const unreadNewsCount = ref(0)
   const dashboardOptions = ref<WorkmarketOptions | null>(null)
   const dashboardSummary = ref<DashboardSummary | null>(null)
-  const dashboardSections = ref<DashboardSections | null>(null)
-  const incomingCircleRequests = ref<CircleRequest[]>([])
   const circles = ref<CircleGroup[]>([])
   const appUsers = ref<AppUser[]>([])
   const applicationsByQuestId = ref<Record<number, QuestApplicationsView>>({})
@@ -47,15 +38,9 @@ export const createDashboardDataState = () => {
 
   return {
     quests,
-    dashboardMyQuests,
-    dashboardAvailableQuests,
     myApplications,
-    newsItems,
-    unreadNewsCount,
     dashboardOptions,
     dashboardSummary,
-    dashboardSections,
-    incomingCircleRequests,
     circles,
     appUsers,
     applicationsByQuestId,

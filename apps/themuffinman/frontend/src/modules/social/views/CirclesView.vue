@@ -13,7 +13,9 @@ import UiWorkspace from "../../../components/ui/UiWorkspace.vue"
 import {useCirclesView} from "../composables/useCirclesView.ts"
 
 const {
-  dashboard,
+  userProfileDialogId,
+  openUserProfileDialog,
+  closeUserProfileDialog,
   circles,
   directoryQuery,
   discoverQuery,
@@ -114,7 +116,7 @@ const {
                 :incoming-count="incomingCount"
                 :outgoing-count="outgoingCount"
                 :is-saving="isSaving"
-                @open-user="dashboard.openUserProfileDialog($event)"
+                @open-user="openUserProfileDialog"
                 @accept="acceptRequest($event)"
                 @remove="removeRequest($event)"
                 @previous-incoming="previousIncomingPage"
@@ -154,7 +156,7 @@ const {
                       :get-selected-circle-ids="getSelectedCircleIds"
                       :has-pending-circle-changes="hasPendingCircleChanges"
                       @select-filter="activeCircleFilter = $event"
-                      @open-user="dashboard.openUserProfileDialog($event)"
+                      @open-user="openUserProfileDialog"
                       @toggle-circle="toggleConnectionCircle($event.connection, $event.circleId)"
                       @save-connection="saveConnectionCircles($event)"
                       @reset-connection="resetConnectionCircles($event)"
@@ -182,7 +184,7 @@ const {
                         :key="user.id"
                         :user="user"
                         :saving="isSaving"
-                        @open-profile="dashboard.openUserProfileDialog"
+                        @open-profile="openUserProfileDialog"
                         @invite="sendRequest"
                         @block="blockUser"
                         @unblock="unblockUser"
@@ -229,7 +231,7 @@ const {
                     :key="user.id"
                     :user="user"
                     :saving="isSaving"
-                    @open-profile="dashboard.openUserProfileDialog"
+                    @open-profile="openUserProfileDialog"
                     @invite="sendRequest"
                     @block="blockUser"
                     @unblock="unblockUser"
@@ -257,7 +259,7 @@ const {
                     :key="`nearby-${user.id}`"
                     :user="user"
                     :saving="isSaving"
-                    @open-profile="dashboard.openUserProfileDialog"
+                    @open-profile="openUserProfileDialog"
                     @invite="sendRequest"
                     @block="blockUser"
                     @unblock="unblockUser"
@@ -280,9 +282,9 @@ const {
           </UiWorkspace>
 
           <UserProfileDialog
-            :open="dashboard.userProfileDialogId !== null"
-            :user-id="dashboard.userProfileDialogId"
-            @close="dashboard.closeUserProfileDialog()"
+            :open="userProfileDialogId !== null"
+            :user-id="userProfileDialogId"
+            @close="closeUserProfileDialog"
           />
         </section>
   </UiAppShellPage>

@@ -27,7 +27,7 @@ const register = async () => {
     email.value = ""
     username.value = ""
     password.value = ""
-    await router.push("/work")
+    await router.push("/vision")
   } catch {
     error.value = "Registration failed"
   }

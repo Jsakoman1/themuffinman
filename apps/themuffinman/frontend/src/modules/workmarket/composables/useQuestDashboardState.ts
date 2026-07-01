@@ -1,5 +1,5 @@
 import {useRoute, useRouter} from "vue-router"
-import {currentUser, isAdmin} from "../../../auth.ts"
+import {currentUser} from "../../../auth.ts"
 import {createQuestDashboardStateModules} from "./dashboard/createQuestDashboardStateModules.ts"
 
 export const useQuestDashboardState = () => {
@@ -15,11 +15,8 @@ export const useQuestDashboardState = () => {
     interactions,
     errorState,
     adminModeEnabled,
-    parseInstantFromInput,
-    dashboardTabs
+    parseInstantFromInput
   } = createQuestDashboardStateModules(route, router)
-
-  const init = () => undefined
 
   return {
     ...tabState,
@@ -27,15 +24,12 @@ export const useQuestDashboardState = () => {
     ...profileState,
     currentUser,
     adminModeEnabled,
-    isAdmin,
     ...questState,
     ...optionState,
-    dashboardTabs,
     ...selectors,
     parseInstantFromInput,
     ...interactions,
-    ...errorState,
-    init
+    ...errorState
   }
 }
 

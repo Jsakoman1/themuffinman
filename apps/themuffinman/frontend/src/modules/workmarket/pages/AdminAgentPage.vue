@@ -13,6 +13,7 @@ import {adminAgentContractGate} from "../api/adminAgentContractGate.ts"
 import {collectAgentWorkflowReferenceIssues} from "../api/agentWorkflowGuards.ts"
 import {
   workmarketApi,
+  type AdminAgentExecutionResponse,
   type AdminAgentPlaygroundResponse,
   type AdminAgentSimulationResponse
 } from "../api/workmarketApi.ts"
@@ -20,9 +21,11 @@ import {
 const prompt = ref("Approve the first applicant for my quest Garden Help.")
 const isSubmittingPlanner = ref(false)
 const isSubmittingSimulation = ref(false)
+const isSubmittingExecution = ref(false)
 const error = ref("")
 const plannerResponse = ref<AdminAgentPlaygroundResponse | null>(null)
 const simulationResponse = ref<AdminAgentSimulationResponse | null>(null)
+const executionResponse = ref<AdminAgentExecutionResponse | null>(null)
 
 const plannerSafety = computed(() => plannerResponse.value
   ? buildPlaygroundSafetyViewModel(plannerResponse.value)
@@ -72,13 +75,29 @@ const runSimulation = async () => {
     isSubmittingSimulation.value = false
   }
 }
+
+const runExecution = async (confirmed: boolean) => {
+  isSubmittingExecution.value = true
+  error.value = ""
+
+  try {
+    executionResponse.value = await workmarketApi.runAdminAgentExecution({
+      prompt: prompt.value,
+      confirmed
+    })
+  } catch (requestError) {
+    error.value = getApiErrorMessage(requestError, "Could not run agent execution.")
+  } finally {
+    isSubmittingExecution.value = false
+  }
+}
 </script>
 
 <template>
   <UiAppShellPage admin>
     <AdminShellHeader
       title="Agent Playground"
-      subtitle="Inspect backend planner and dry-run safety output before any future executor exists."
+      subtitle="Inspect planner and dry-run output, then preview or confirm the first guarded admin execution capability."
     />
 
     <div class="admin-overview">
@@ -95,7 +114,7 @@ const runSimulation = async () => {
 
           <div class="surface-inline-spread">
             <div class="muted">
-              This surface never executes mutations. Use planner output for classification and dry-run output for explicit execution blockers.
+              Planner and dry-run remain the default surfaces. Direct execution is limited to synthetic quest batch generation behind explicit confirmation.
             </div>
             <div class="surface-inline">
               <button class="button button--ghost" type="button" :disabled="isSubmittingPlanner || !prompt.trim()" @click="runPlanner">
@@ -103,6 +122,17 @@ const runSimulation = async () => {
               </button>
               <button class="button button--action" type="button" :disabled="isSubmittingSimulation || !prompt.trim()" @click="runSimulation">
                 {{ isSubmittingSimulation ? "Running dry run..." : "Run dry run" }}
+              </button>
+              <button class="button button--ghost" type="button" :disabled="isSubmittingExecution || !prompt.trim()" @click="runExecution(false)">
+                {{ isSubmittingExecution ? "Preparing..." : "Preview execute" }}
+              </button>
+              <button
+                class="button button--danger"
+                type="button"
+                :disabled="isSubmittingExecution || !executionResponse?.confirmationRequired"
+                @click="runExecution(true)"
+              >
+                {{ isSubmittingExecution ? "Executing..." : "Confirm execute" }}
               </button>
             </div>
           </div>
@@ -186,6 +216,14 @@ const runSimulation = async () => {
               <li>Destructive confirmation required: {{ plannerResponse.executionReadiness.destructiveConfirmationRequired ? "Yes" : "No" }}</li>
               <li>Multi-actor context required: {{ plannerResponse.executionReadiness.multiActorContextRequired ? "Yes" : "No" }}</li>
             </ul>
+          </div>
+
+          <div v-if="plannerResponse.directExecutionSummary" class="surface-stack">
+            <strong>Direct execution</strong>
+            <div class="muted">{{ plannerResponse.directExecutionSummary }}</div>
+            <div v-if="plannerResponse.directExecutionCapabilityId">
+              Capability: <code>{{ plannerResponse.directExecutionCapabilityId }}</code>
+            </div>
           </div>
 
           <div class="muted">{{ plannerResponse.summary }}</div>
@@ -299,6 +337,60 @@ const runSimulation = async () => {
             <strong>Unresolved inputs</strong>
             <ul class="stack">
               <li v-for="item in simulationResponse.unresolvedInputs" :key="item">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+      </UiSurfaceSection>
+
+      <UiSurfaceSection v-if="executionResponse" title="Direct execution" compact>
+        <div class="surface-stack">
+          <div class="surface-inline-spread">
+            <strong>Status</strong>
+            <span :class="executionResponse.executed ? 'badge badge--success' : executionResponse.confirmationRequired ? 'badge badge--warning' : 'badge badge--danger'">
+              {{ executionResponse.executed ? "Executed" : executionResponse.confirmationRequired ? "Awaiting confirmation" : "Blocked" }}
+            </span>
+          </div>
+
+          <div class="muted">{{ executionResponse.summary }}</div>
+
+          <div class="surface-inline-spread">
+            <strong>Capability</strong>
+            <span><code>{{ executionResponse.capabilityId }}</code></span>
+          </div>
+
+          <div class="surface-inline-spread">
+            <strong>Target user</strong>
+            <span>{{ executionResponse.targetUserLabel ?? "Not resolved" }}</span>
+          </div>
+
+          <div class="surface-inline-spread">
+            <strong>Batch size</strong>
+            <span>{{ executionResponse.effectiveCount ?? 0 }} / {{ executionResponse.requestedCount ?? 0 }}</span>
+          </div>
+
+          <div v-if="executionResponse.topic" class="surface-inline-spread">
+            <strong>Topic</strong>
+            <span>{{ executionResponse.topic }}</span>
+          </div>
+
+          <div v-if="executionResponse.blockingReasons.length" class="surface-stack">
+            <strong>Blocking reasons</strong>
+            <ul class="stack">
+              <li v-for="reason in executionResponse.blockingReasons" :key="reason">{{ reason }}</li>
+            </ul>
+          </div>
+
+          <div v-if="executionResponse.warnings.length" class="surface-stack">
+            <strong>Warnings</strong>
+            <ul class="stack">
+              <li v-for="warning in executionResponse.warnings" :key="warning">{{ warning }}</li>
+            </ul>
+          </div>
+
+          <div v-if="executionResponse.questTitles.length" class="surface-stack">
+            <strong>{{ executionResponse.executed ? "Created quests" : "Execution preview" }}</strong>
+            <ul class="stack">
+              <li v-for="title in executionResponse.questTitles" :key="title">{{ title }}</li>
             </ul>
           </div>
         </div>

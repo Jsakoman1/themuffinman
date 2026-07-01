@@ -25,6 +25,8 @@ public class VisionPromptUnderstandingResult {
     private String translationProvider;
     private String focusSlotId;
     private Double focusSlotConfidence;
+    @Builder.Default
+    private VisionSemanticPlan semanticPlan = VisionSemanticPlan.empty();
     private boolean translationApplied;
     private boolean translationReliable;
     @Builder.Default
@@ -38,6 +40,7 @@ public class VisionPromptUnderstandingResult {
                 .translationProvider("none")
                 .focusSlotId(null)
                 .focusSlotConfidence(null)
+                .semanticPlan(VisionSemanticPlan.empty())
                 .translationApplied(false)
                 .translationReliable(true)
                 .slots(new VisionPromptUnderstandingSlots())
@@ -65,7 +68,8 @@ public class VisionPromptUnderstandingResult {
         VisionPromptUnderstandingScheduleSlots schedule = slots.getSchedule();
         if (schedule != null) {
             putIfExplicit(flattened, "schedule_mode", schedule.getMode(), schedule.getModeConfidence());
-            putIfExplicit(flattened, "scheduled_at", schedule.getScheduledAt(), schedule.getScheduledAtConfidence());
+            putIfExplicit(flattened, "scheduled_date", schedule.getScheduledDate(), schedule.getScheduledDateConfidence());
+            putIfExplicit(flattened, "scheduled_time", schedule.getScheduledTime(), schedule.getScheduledTimeConfidence());
         }
 
         VisionPromptUnderstandingLocationSlots location = slots.getLocation();
@@ -76,6 +80,10 @@ public class VisionPromptUnderstandingResult {
         }
 
         return flattened;
+    }
+
+    public VisionSemanticPlan semanticPlanOrEmpty() {
+        return semanticPlan == null ? VisionSemanticPlan.empty() : semanticPlan;
     }
 
     private void putIfExplicit(Map<String, String> target, String key, String value, Double confidence) {
@@ -137,8 +145,10 @@ class VisionPromptUnderstandingRewardSlots {
 class VisionPromptUnderstandingScheduleSlots {
     private String mode;
     private Double modeConfidence;
-    private String scheduledAt;
-    private Double scheduledAtConfidence;
+    private String scheduledDate;
+    private Double scheduledDateConfidence;
+    private String scheduledTime;
+    private Double scheduledTimeConfidence;
 }
 
 @Getter

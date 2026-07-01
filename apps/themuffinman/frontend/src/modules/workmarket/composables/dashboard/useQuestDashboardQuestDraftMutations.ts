@@ -47,7 +47,6 @@ export const useQuestDashboardQuestDraftMutations = ({
       successPulseTarget: "side-job",
       afterSuccess: async () => {
         resetCreateQuestDraft(state, state.adminModeEnabled.value)
-        state.closeCreateJobDialog()
         await helpers.refreshDashboardData()
       }
     })
@@ -81,18 +80,9 @@ export const useQuestDashboardQuestDraftMutations = ({
     state.questImages.value = state.questImages.value.filter((_, currentIndex) => currentIndex !== index)
   }
 
-  const init = async () => {
-    if (state.adminModeEnabled.value && currentUser.value) {
-      state.questCreatorId.value = String(currentUser.value.id)
-    }
-
-    await helpers.refreshDashboardData()
-  }
-
   return {
     createQuest,
     addQuestImages,
-    removeQuestImage,
-    init
+    removeQuestImage
   }
 }

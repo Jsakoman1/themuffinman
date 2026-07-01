@@ -9,7 +9,7 @@ import {
 import type {DashboardVoiceConfig} from "../../workmarket/api/contracts.ts"
 
 export type VisionVoiceState = "idle" | "listening" | "processing" | "speaking"
-export type VisionAttentionState = "quiet" | "listening" | "processing" | "speaking" | "asking" | "review" | "complete" | "blocked"
+export type VisionAttentionState = "quiet" | "listening" | "processing" | "speaking" | "asking" | "discovering" | "review" | "complete" | "blocked"
 
 const slotLabels: Record<string, string> = {
   quest_title: "Title",
@@ -17,7 +17,8 @@ const slotLabels: Record<string, string> = {
   reward_amount: "Reward",
   visibility: "Visibility",
   schedule_mode: "Schedule",
-  scheduled_at: "Date and time",
+  scheduled_date: "Date",
+  scheduled_time: "Time",
   location_mode: "Location",
   location_label: "Custom place",
   location_candidate_confirmation: "Location confirmation"
@@ -29,7 +30,8 @@ const slotPlaceholders: Record<string, string> = {
   reward_amount: "Example: 20 euros or free",
   visibility: "Example: public or circles",
   schedule_mode: "Example: fixed time or by agreement",
-  scheduled_at: "Example: 2026-07-03T14:30",
+  scheduled_date: "Example: 2026-07-03 or next Tuesday",
+  scheduled_time: "Example: 14:30 or 2 pm",
   location_mode: "Example: use profile, hide location, or custom place",
   location_label: "Example: Ban Jelacic Square, Zagreb",
   location_candidate_confirmation: "Choose resolved place or keep typed location"
@@ -84,13 +86,29 @@ export const useVisionConversation = () => {
   const maxRecordingMillis = computed(() => voiceConfig.value?.maxRecordingMillis ?? 20_000)
   const maxAudioBytes = computed(() => voiceConfig.value?.maxAudioBytes ?? 2_000_000)
   const maxSpeechTextLength = computed(() => voiceConfig.value?.maxSpeechTextLength ?? 1_000)
+  const clientStateVersion = "vision-surface-v1"
+
+  const clientCapabilities = computed(() => {
+    const capabilities = ["text_input"]
+    if (speechRecognitionSupported.value) {
+      capabilities.push("voice_input")
+    }
+    if (speechSynthesisSupported.value) {
+      capabilities.push("voice_output")
+    }
+    if (voiceEnabled.value) {
+      capabilities.push("voice_turns")
+    }
+    return capabilities
+  })
 
   const fieldRequestBlock = computed(() => response.value?.blocks.find((block) => block.type === "field_request") ?? null)
   const promptComposerVisible = computed(() => !response.value
     || composerExpanded.value
     || voiceState.value !== "idle"
     || !!fieldRequestBlock.value
-    || response.value?.canvasMode === "review")
+    || response.value?.canvasMode === "review"
+    || response.value?.canvasMode === "results")
 
   const currentSlotId = computed(() => fieldRequestBlock.value?.fieldId ?? "")
 
@@ -142,8 +160,12 @@ export const useVisionConversation = () => {
         : "The backend normalized the turn before slot extraction."
     }
 
-    if (currentFieldKind.value === "date_time") {
-      return "This slot expects a structured date and time value."
+    if (currentFieldKind.value === "date") {
+      return "This slot expects a calendar day."
+    }
+
+    if (currentFieldKind.value === "time") {
+      return "This slot expects a time of day."
     }
 
     return "The current turn is being routed into the active slot."
@@ -163,6 +185,9 @@ export const useVisionConversation = () => {
     }
     if (response.value?.agentState === "BLOCKED") {
       return "blocked"
+    }
+    if (response.value?.agentState === "RECOMMENDING") {
+      return "discovering"
     }
     if (response.value?.agentState === "COMPLETE") {
       return "complete"
@@ -196,7 +221,7 @@ export const useVisionConversation = () => {
 
   const canSend = computed(() => inputText.value.trim().length > 0 && voiceState.value !== "processing")
   const canConfirm = computed(() => response.value?.canvasMode === "review"
-    && response.value.executionEnabled
+    && (response.value.executionCandidate?.executionReady ?? response.value.executionEnabled)
     && voiceState.value === "idle")
 
   const speechStatusLabel = computed(() => {
@@ -240,7 +265,10 @@ export const useVisionConversation = () => {
     prompt: string,
     source = "text",
     action = "SUBMIT_PROMPT",
-    reviewTarget: VisionReviewTarget | null = null
+    reviewTarget: VisionReviewTarget | null = null,
+    selectedOptionId: string | null = null,
+    fieldValue: string | null = null,
+    confirmation: boolean | null = null
   ) => {
     const trimmedPrompt = prompt.trim()
     if (action === "SUBMIT_PROMPT" && !trimmedPrompt) {
@@ -251,7 +279,18 @@ export const useVisionConversation = () => {
 
     try {
       voiceState.value = "processing"
-      const next = await visionApi.processConversationTurn(trimmedPrompt, conversationId.value, source, action, reviewTarget)
+      const next = await visionApi.processConversationTurn({
+        conversationId: conversationId.value,
+        inputType: source === "voice" ? "voice" : "text",
+        text: trimmedPrompt,
+        clientCapabilities: clientCapabilities.value,
+        clientStateVersion,
+        selectedOptionId,
+        fieldValue,
+        confirmation,
+        action,
+        reviewTarget
+      })
       response.value = next
       conversationId.value = next.conversationId
       recentConversations.value = next.recentConversations
@@ -274,7 +313,7 @@ export const useVisionConversation = () => {
   }
 
   const confirmReview = async () => {
-    await processPrompt("", "text", "CONFIRM_REVIEW")
+    await processPrompt("", "text", "CONFIRM_REVIEW", null, null, null, true)
   }
 
   const requestReviewChange = async (reviewTarget: VisionReviewTarget) => {

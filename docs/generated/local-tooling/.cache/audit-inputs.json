@@ -183,11 +183,11 @@
     "payload_checksum": "4d9d575329a429db941f5f11206fb3242cd2287314771d6a025ad6f4fa6b4b1d"
   },
   "audit-summary-index": {
-    "updated_at": "2026-06-30T13:52:39Z",
+    "updated_at": "2026-07-01T09:58:12Z",
     "output": "docs/generated/local-tooling/audit-summary-index.json",
     "cache_status": "refreshed",
-    "payload_checksum": "6f8995e4b4ccd97e6dc8ebeea5d9b0385c11271125012346cffdb4118f69d180",
-    "semantic_checksum": "c92c28860003c1f234547e5da74770f34bb2e3ad3984f381c4fbd75b3df36729"
+    "payload_checksum": "51418d8938e16e90ce19214f85ca53c23a1bcfa8873d326c5e452a26bd88123b",
+    "semantic_checksum": "4e0ee54eb7079b853fc76be771738c54fa51ab6bf12d3726ff1ad55209042acf"
   },
   "audit-registry-artifacts": {
     "updated_at": "2026-06-30T13:51:52Z",
@@ -239,11 +239,11 @@
     "semantic_checksum": "767ad4efb5b30659646adc2e00376a00335d4c5c9c881c7ade995fa3d3bbbb28"
   },
   "failure-knowledge-base": {
-    "updated_at": "2026-06-30T13:52:38Z",
+    "updated_at": "2026-07-01T07:23:28Z",
     "output": "docs/generated/local-tooling/failure-knowledge-base.json",
     "cache_status": "refreshed",
-    "payload_checksum": "2c6926fdee506227fc724d6f67d33fcb66ea0c2bf29888b0151c0ec624d4f628",
-    "semantic_checksum": "fbd7b0b29cf6ee16fce580b67514eed0068542afad1554b2f5b8e2330b0a4b20"
+    "payload_checksum": "474b0e595016e7ac45de09bb9eeec5af6f80dfaf7d8c206dfee3e15be12ae4d4",
+    "semantic_checksum": "7e2a0bc2c720eb61a771178ea5491db0b3dd9ca458337f53a3a8799e13ebef70"
   },
   "codebase-capsule": {
     "updated_at": "2026-06-30T13:20:15Z",

@@ -2,16 +2,15 @@
 import axios from "axios"
 import {computed, onMounted} from "vue"
 import {useRoute} from "vue-router"
-import AppChatTray from "./components/app/AppChatTray.vue"
 import AppTopbar from "./components/app/AppTopbar.vue"
 import {authApi} from "./modules/identity/api/authApi.ts"
-import {clearSession, currentUser, saveSession, token} from "./services/sessionService.ts"
+import {clearSession, saveSession, token} from "./services/sessionService.ts"
 
 const route = useRoute()
-const currentYear = computed(() => new Date().getFullYear())
 const isAdminRoute = computed(() => route.path.startsWith("/admin"))
+const isAuthRoute = computed(() => route.path.startsWith("/login") || route.path.startsWith("/register"))
 const isVisionRoute = computed(() => route.path.startsWith("/vision"))
-const showLegacyChrome = computed(() => !isAdminRoute.value && !isVisionRoute.value)
+const showLegacyChrome = computed(() => !isAdminRoute.value && !isVisionRoute.value && !isAuthRoute.value)
 
 onMounted(() => {
   if (!token.value) {
@@ -36,18 +35,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="['app-shell', { 'app-shell--with-chat': !!currentUser && showLegacyChrome, 'app-shell--vision': isVisionRoute }]">
+  <div :class="['app-shell', { 'app-shell--vision': isVisionRoute }]">
     <AppTopbar v-if="showLegacyChrome" />
 
     <main class="app-main">
       <router-view/>
     </main>
-
-    <AppChatTray v-if="showLegacyChrome" />
-
-    <footer v-if="showLegacyChrome" class="site-footer">
-      <span class="site-footer__flag" aria-hidden="true">🇨🇭</span>
-      <span>© {{ currentYear }} Sakoman. Made in Switzerland.</span>
-    </footer>
   </div>
 </template>

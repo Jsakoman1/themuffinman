@@ -86,6 +86,7 @@ intent_safety_catalog:
     - create_thing_listing
     - request_borrow_thing
     - create_ride_offer
+    - execute_admin_agent_capability
     destructive_write:
     - delete_user_as_admin
     - delete_circle
@@ -103,6 +104,7 @@ intent_safety_catalog:
     - prepare_circle_only_quest_flow_to_start
     - voice_prepare_scheduled_circle_only_quest_for_selected_people
     - create_sandbox_user_with_circle_and_quest_flow
+    - execute_admin_agent_capability
     admin_only_write:
     - create_user
     - create_user_as_admin

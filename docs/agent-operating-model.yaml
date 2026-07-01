@@ -17,8 +17,24 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java
   - id: admin_agent_playground_response_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java
+  - id: admin_agent_execution_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionRequestDTO.java
+  - id: admin_agent_execution_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionResponseDTO.java
   - id: admin_agent_playground_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java
+  - id: admin_agent_execution_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentExecutionService.java
+  - id: admin_agent_surface_policy
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentSurfacePolicy.java
+  - id: admin_agent_prompt_preparation_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptPreparationService.java
+  - id: admin_agent_target_user_resolver
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTargetUserResolver.java
+  - id: admin_synthetic_quest_execution_plan
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlan.java
+  - id: admin_synthetic_quest_execution_planner
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlanner.java
   - id: admin_agent_prompt_translation
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslation.java
   - id: admin_agent_prompt_translator
@@ -35,6 +51,12 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java
   - id: sandbox_generation_planner
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java
+  - id: agent_surface_policy
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfacePolicy.java
+  - id: agent_surface_id
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfaceId.java
+  - id: agent_surface_authority
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfaceAuthority.java
   - id: auth_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java
   - id: auth_service
@@ -77,8 +99,12 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/DashboardVoiceService.java
   - id: vision_conversation_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - id: vision_chat_execution_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java
   - id: vision_create_quest_execution_adapter
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java
+  - id: vision_surface_policy
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSurfacePolicy.java
   - id: openai_voice_client
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/OpenAiVoiceClient.java
   - id: dashboard_application_group_dto
@@ -2439,6 +2465,27 @@ mutating_intent_contracts:
   - admin_agent_playground_service
   - app_user_service
   - create_quest_use_case
+- intent_id: execute_admin_agent_capability
+  preconditions:
+  - admin authority
+  - direct execution enabled
+  - exact target user
+  - explicit confirmation
+  state_changes:
+  - persist synthetic quests for the resolved target user
+  side_effects:
+  - reuse quest creation with creator override and synthetic marker strategy
+  notifications:
+  - none
+  blocking_conditions:
+  - execution disabled
+  - target user unresolved
+  - confirmation missing
+  - batch limit exceeded
+  source_refs:
+  - admin_agent_execution_service
+  - admin_synthetic_quest_execution_planner
+  - quest_service
 - intent_id: save_my_business_profile
   preconditions:
   - authenticated owner
@@ -2591,6 +2638,7 @@ intent_safety_catalog:
     - create_thing_listing
     - request_borrow_thing
     - create_ride_offer
+    - execute_admin_agent_capability
     destructive_write:
     - delete_user_as_admin
     - delete_circle
@@ -2608,6 +2656,7 @@ intent_safety_catalog:
     - prepare_circle_only_quest_flow_to_start
     - voice_prepare_scheduled_circle_only_quest_for_selected_people
     - create_sandbox_user_with_circle_and_quest_flow
+    - execute_admin_agent_capability
     admin_only_write:
     - create_user
     - create_user_as_admin
@@ -3270,6 +3319,8 @@ frontend_contract_generation:
   required_aliases:
   - AdminAgentPlaygroundRequest
   - AdminAgentPlaygroundResponse
+  - AdminAgentExecutionRequest
+  - AdminAgentExecutionResponse
   - AdminAgentSimulationRequest
   - AdminAgentSimulationResponse
   - AgentIntentId
@@ -3301,6 +3352,29 @@ frontend_contracts:
   - warnings
   - suggestedWorkflows
   - nextSteps
+  - directExecutionAvailable
+  - directExecutionCapabilityId
+  - directExecutionSummary
+- id: admin_agent_execution_response_contract
+  backend_java_class: com.themuffinman.app.agent.dto.AdminAgentExecutionResponseDTO
+  frontend_contract_file: apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
+  frontend_gate_file: apps/themuffinman/frontend/src/modules/workmarket/api/adminAgentContractGate.ts
+  frontend_type: AdminAgentExecutionResponse
+  required_fields:
+  - capabilityId
+  - executionEnabled
+  - executed
+  - confirmationRequired
+  - summary
+  - targetUserLabel
+  - targetUserId
+  - requestedCount
+  - effectiveCount
+  - topic
+  - questTitles
+  - createdQuestIds
+  - warnings
+  - blockingReasons
 - id: admin_agent_simulation_response_contract
   backend_java_class: com.themuffinman.app.agent.dto.AdminAgentSimulationResponseDTO
   frontend_contract_file: apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts
@@ -3427,6 +3501,7 @@ capability_registry:
     surfaces.
   required_for_intents:
   - run_admin_agent_playground
+  - execute_admin_agent_capability
   - simulate_admin_agent_execution
 - id: external_translation_provider
   description: Reliable provider-backed translation for prompts the local translator
@@ -3573,6 +3648,9 @@ backend_contract_snapshots:
   - warnings
   - suggestedWorkflows
   - nextSteps
+  - directExecutionAvailable
+  - directExecutionCapabilityId
+  - directExecutionSummary
   semantic_required_fields:
   - promptSourceLanguage
   - promptTranslationReliable
@@ -3587,6 +3665,37 @@ backend_contract_snapshots:
   - admin_agent_playground_service_test
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: admin_agent_execution_response_snapshot
+  java_class: com.themuffinman.app.agent.dto.AdminAgentExecutionResponseDTO
+  declared_fields:
+  - capabilityId
+  - executionEnabled
+  - executed
+  - confirmationRequired
+  - summary
+  - targetUserLabel
+  - targetUserId
+  - requestedCount
+  - effectiveCount
+  - topic
+  - questTitles
+  - createdQuestIds
+  - warnings
+  - blockingReasons
+  semantic_required_fields:
+  - capabilityId
+  - executionEnabled
+  - executed
+  - confirmationRequired
+  - summary
+  - effectiveCount
+  - questTitles
+  - blockingReasons
+  source_refs:
+  - admin_agent_execution_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
 - id: admin_agent_simulation_response_snapshot
   java_class: com.themuffinman.app.agent.dto.AdminAgentSimulationResponseDTO
@@ -3969,6 +4078,7 @@ service_workflow_inventory:
   - resetConversation
   - cancelConversation
   - handleCreateQuestReviewTurn
+  - handleOpenChatTurn
   covered_intents:
   - process_vision_conversation_turn
   - reset_vision_conversation
@@ -3976,13 +4086,38 @@ service_workflow_inventory:
   automation_relevant: true
   source_refs:
   - vision_conversation_service
+  - vision_surface_policy
   - vision_create_quest_execution_adapter
+  - vision_chat_execution_service
   - create_quest_use_case
+  - chat_service
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+- id: admin_synthetic_quest_batch_execution_flow
+  service_class: com.themuffinman.app.agent.service.AdminAgentExecutionService
+  service_methods:
+  - execute
+  covered_intents:
+  - execute_admin_agent_capability
+  automation_relevant: true
+  source_refs:
+  - admin_agent_execution_service
+  - admin_agent_surface_policy
+  - agent_surface_policy
+  - agent_surface_id
+  - agent_surface_authority
+  - admin_synthetic_quest_execution_plan
+  - admin_synthetic_quest_execution_planner
+  - admin_agent_target_user_resolver
+  - quest_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
 - id: quest_update_write_flow
   service_class: com.themuffinman.app.workmarket.service.UpdateQuestUseCase
   service_methods:
@@ -4244,6 +4379,7 @@ permission_matrix:
     - delete_admin_application
     - create_user_with_quests
     - create_sandbox_user_with_circle_and_quest_flow
+    - execute_admin_agent_capability
     allowed_actors:
     - admin
     forbidden_actors:
@@ -4263,6 +4399,7 @@ permission_matrix:
     - delete_circle_as_admin
     - update_admin_application
     - delete_admin_application
+    - run_admin_agent_execution
   - id: self_profile_management
     intent_ids:
     - set_profile_location
@@ -5105,6 +5242,11 @@ api:
     path: "/admin/agent/simulate"
     controller_class: com.themuffinman.app.agent.controller.AdminAgentController
     handler_method: runSimulation
+  - id: run_admin_agent_execution
+    method: POST
+    path: "/admin/agent/execute"
+    controller_class: com.themuffinman.app.agent.controller.AdminAgentController
+    handler_method: runExecution
   - id: get_dashboard
     method: GET
     path: "/dashboard/me"
@@ -5615,6 +5757,62 @@ intents:
     source_refs:
     - admin_agent_controller
     - admin_agent_playground_service
+- id: execute_admin_agent_capability
+  description: Run the first guarded admin-only direct execution slice, currently
+    synthetic quest batch generation for one exact target user after explicit confirmation.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - prompt
+  optional_inputs:
+  - confirmed
+  defaults:
+  - field: confirmed
+    value: false
+  workflow:
+  - step: 1
+    action: Require admin authority, a non-blank prompt, and shared prompt preparation
+      before execution planning.
+    source_refs:
+    - admin_agent_controller
+    - admin_agent_execution_service
+    - admin_agent_prompt_preparation_service
+    - admin_agent_execution_request_dto
+    - service_errors
+    fail_if:
+    - authenticated user is not admin
+    - prompt is missing
+  - step: 2
+    action: Convert the prompt into the first reusable admin execution plan shape
+      and stop unless the capability is the supported synthetic quest batch flow.
+    source_refs:
+    - admin_synthetic_quest_execution_planner
+    - admin_agent_surface_policy
+    - sandbox_generation_planner
+    fail_if:
+    - prompt does not resolve to the supported direct execution capability
+    - direct execution is disabled by policy
+  - step: 3
+    action: Resolve one exact target user and cap the batch size through typed agent
+      properties before any mutation can run.
+    source_refs:
+    - admin_agent_target_user_resolver
+    - admin_agent_execution_service
+    - app_user_lookup_service
+    fail_if:
+    - target user is missing
+    - target user does not resolve exactly
+  - step: 4
+    action: Return a confirmation preview until explicit confirmation is provided,
+      then create synthetic quests through the existing quest creation boundary with
+      creator override.
+    endpoint_id: run_admin_agent_execution
+    source_refs:
+    - admin_agent_execution_service
+    - admin_agent_execution_response_dto
+    - quest_service
+    fail_if:
+    - confirmation is missing
 - id: simulate_admin_agent_execution
   description: Run an admin-only dry-run simulation through resolution, clarification,
     safety-policy, and endpoint-selection logic without mutating anything.
@@ -6368,15 +6566,18 @@ intents:
     action: Keep the turn read-only while the backend collects one missing quest slot
       at a time, including reward, visibility, schedule, and location decisions; require
       explicit confirmation when a custom location lookup proposes a more precise
-      candidate before review may continue; require typed review-edit actions with
-      one explicit review target whenever the client requests a review correction;
-      keep reset and cancel on dedicated lifecycle endpoints; execute the first real
-      quest creation only when the execution flag is enabled and the user explicitly
-      confirms.
+      candidate before review may continue; route `OPEN_CHAT` through the existing
+      chat-open boundary when the semantic plan resolves a target contact; require
+      typed review-edit actions with one explicit review target whenever the client
+      requests a review correction; keep reset and cancel on dedicated lifecycle endpoints;
+      execute the first real quest creation only when the execution flag is enabled
+      and the user explicitly confirms.
     source_refs:
     - vision_conversation_service
     - vision_create_quest_execution_adapter
+    - vision_chat_execution_service
     - create_quest_use_case
+    - chat_service
     - service_errors
 - id: reset_vision_conversation
   description: Reset one persisted `/vision` conversation back to a fresh create quest

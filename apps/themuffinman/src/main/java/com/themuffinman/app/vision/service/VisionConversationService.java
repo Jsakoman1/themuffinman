@@ -8,6 +8,7 @@ import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
 import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
+import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.model.VisionAgentState;
 import com.themuffinman.app.vision.model.VisionConversationAction;
 import com.themuffinman.app.vision.model.VisionConversation;
@@ -19,7 +20,6 @@ import com.themuffinman.app.vision.model.VisionTurn;
 import com.themuffinman.app.vision.model.VisionTurnSource;
 import com.themuffinman.app.vision.repository.VisionConversationRepository;
 import com.themuffinman.app.vision.repository.VisionTurnRepository;
-import com.themuffinman.app.workmarket.model.Quest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,9 +39,13 @@ public class VisionConversationService {
     private final VisionSlotService visionSlotService;
     private final VisionClarificationService visionClarificationService;
     private final VisionCanvasAssembler visionCanvasAssembler;
-    private final VisionCreateQuestExecutionAdapter visionCreateQuestExecutionAdapter;
+    private final VisionExecutionPlanner visionExecutionPlanner;
+    private final VisionQuestDiscoveryService visionQuestDiscoveryService;
+    private final VisionExecutionService visionExecutionService;
+    private final VisionChatExecutionService visionChatExecutionService;
     private final VisionPromptUnderstandingService visionPromptUnderstandingService;
     private final VisionSemanticMapper visionSemanticMapper;
+    private final VisionSurfacePolicy visionSurfacePolicy;
     private final VisionProperties visionProperties;
 
     public VisionConversationService(
@@ -51,9 +55,13 @@ public class VisionConversationService {
             VisionSlotService visionSlotService,
             VisionClarificationService visionClarificationService,
             VisionCanvasAssembler visionCanvasAssembler,
-            VisionCreateQuestExecutionAdapter visionCreateQuestExecutionAdapter,
+            VisionExecutionPlanner visionExecutionPlanner,
+            VisionQuestDiscoveryService visionQuestDiscoveryService,
+            VisionExecutionService visionExecutionService,
+            VisionChatExecutionService visionChatExecutionService,
             VisionPromptUnderstandingService visionPromptUnderstandingService,
             VisionSemanticMapper visionSemanticMapper,
+            VisionSurfacePolicy visionSurfacePolicy,
             VisionProperties visionProperties
     ) {
         this.visionConversationRepository = visionConversationRepository;
@@ -62,9 +70,13 @@ public class VisionConversationService {
         this.visionSlotService = visionSlotService;
         this.visionClarificationService = visionClarificationService;
         this.visionCanvasAssembler = visionCanvasAssembler;
-        this.visionCreateQuestExecutionAdapter = visionCreateQuestExecutionAdapter;
+        this.visionExecutionPlanner = visionExecutionPlanner;
+        this.visionQuestDiscoveryService = visionQuestDiscoveryService;
+        this.visionExecutionService = visionExecutionService;
+        this.visionChatExecutionService = visionChatExecutionService;
         this.visionPromptUnderstandingService = visionPromptUnderstandingService;
         this.visionSemanticMapper = visionSemanticMapper;
+        this.visionSurfacePolicy = visionSurfacePolicy;
         this.visionProperties = visionProperties;
     }
 
@@ -76,27 +88,45 @@ public class VisionConversationService {
         }
 
         VisionConversationAction action = VisionConversationAction.from(dto == null ? null : dto.getAction());
+        VisionConversation existingConversation = dto != null && dto.getConversationId() != null
+                ? loadExistingConversation(dto.getConversationId(), currentUser)
+                : null;
         String prompt = action == VisionConversationAction.SUBMIT_PROMPT ? requirePrompt(dto) : "";
         VisionPromptUnderstandingResult understanding = action == VisionConversationAction.SUBMIT_PROMPT
-                ? visionPromptUnderstandingService.understandPrompt(prompt, null)
+                ? visionPromptUnderstandingService.understandPrompt(prompt, existingConversation)
                 : VisionPromptUnderstandingResult.empty("");
         String normalizedPrompt = action == VisionConversationAction.SUBMIT_PROMPT
                 ? normalizePrompt(prompt, understanding)
                 : "";
 
-        VisionConversation conversation = loadOrCreateConversation(dto == null ? null : dto.getConversationId(), currentUser, normalizedPrompt, action);
+        VisionConversation conversation = loadOrCreateConversation(
+                dto == null ? null : dto.getConversationId(),
+                currentUser,
+                normalizedPrompt,
+                action,
+                understanding,
+                existingConversation
+        );
         ensureTurnCapacity(conversation);
 
         VisionTurn turn = switch (action) {
-            case CONFIRM_REVIEW -> handleConfirmReviewAction(conversation, understanding, dto == null ? null : dto.getSource());
-            case REQUEST_REVIEW_EDIT -> handleReviewEditAction(conversation, understanding, dto == null ? null : dto.getSource(), dto);
+            case CONFIRM_REVIEW -> handleConfirmReviewAction(conversation, understanding, dto == null ? null : dto.getEffectiveSource());
+            case REQUEST_REVIEW_EDIT -> handleReviewEditAction(conversation, understanding, dto == null ? null : dto.getEffectiveSource(), dto);
             case SUBMIT_PROMPT -> switch (conversation.getIntent()) {
-                case CREATE_QUEST -> handleCreateQuestTurn(conversation, prompt, normalizedPrompt, understanding, dto.getSource());
-                case UNSUPPORTED -> handleUnsupportedTurn(conversation, prompt, normalizedPrompt, understanding, dto.getSource());
+                case CREATE_QUEST -> handleCreateQuestTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
+                case DISCOVER_QUESTS -> handleDiscoverQuestsTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
+                case OPEN_CHAT -> handleOpenChatTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
+                case UNSUPPORTED -> handleUnsupportedTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
             };
         };
 
-        return visionCanvasAssembler.assemble(conversation, turn, recentConversationSummaries(currentUser));
+        return visionCanvasAssembler.assemble(
+                conversation,
+                turn,
+                recentConversationSummaries(currentUser),
+                visionExecutionPlanner.plan(conversation, understanding),
+                visionQuestDiscoveryService.discover(conversation, understanding, currentUser)
+        );
     }
 
     @Transactional
@@ -105,7 +135,13 @@ public class VisionConversationService {
         VisionConversation conversation = loadExistingConversation(conversationId, currentUser);
         ensureTurnCapacity(conversation);
         VisionTurn turn = handleResetConversationAction(conversation, "system");
-        return visionCanvasAssembler.assemble(conversation, turn, recentConversationSummaries(currentUser));
+        return visionCanvasAssembler.assemble(
+                conversation,
+                turn,
+                recentConversationSummaries(currentUser),
+                visionExecutionPlanner.plan(conversation),
+                visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser)
+        );
     }
 
     @Transactional
@@ -114,7 +150,13 @@ public class VisionConversationService {
         VisionConversation conversation = loadExistingConversation(conversationId, currentUser);
         ensureTurnCapacity(conversation);
         VisionTurn turn = handleCancelConversationAction(conversation, "system");
-        return visionCanvasAssembler.assemble(conversation, turn, recentConversationSummaries(currentUser));
+        return visionCanvasAssembler.assemble(
+                conversation,
+                turn,
+                recentConversationSummaries(currentUser),
+                visionExecutionPlanner.plan(conversation),
+                visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser)
+        );
     }
 
     @Transactional(readOnly = true)
@@ -123,7 +165,13 @@ public class VisionConversationService {
         VisionConversation conversation = loadExistingConversation(conversationId, currentUser);
         VisionTurn turn = visionTurnRepository.findTopByConversationOrderByTurnIndexDesc(conversation)
                 .orElseGet(() -> snapshotTurn(conversation));
-        return visionCanvasAssembler.assemble(conversation, turn, recentConversationSummaries(currentUser));
+        return visionCanvasAssembler.assemble(
+                conversation,
+                turn,
+                recentConversationSummaries(currentUser),
+                visionExecutionPlanner.plan(conversation),
+                visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser)
+        );
     }
 
     @Transactional(readOnly = true)
@@ -138,8 +186,26 @@ public class VisionConversationService {
             Long conversationId,
             AppUser currentUser,
             String normalizedPrompt,
-            VisionConversationAction action
+            VisionConversationAction action,
+            VisionPromptUnderstandingResult understanding,
+            VisionConversation existingConversation
     ) {
+        VisionIntent detectedIntent = visionIntentRouter.detectIntent(normalizedPrompt, understanding);
+        if (existingConversation != null) {
+            if (action == VisionConversationAction.SUBMIT_PROMPT
+                    && detectedIntent != VisionIntent.UNSUPPORTED
+                    && detectedIntent != existingConversation.getIntent()) {
+                VisionConversation switchedConversation = new VisionConversation();
+                switchedConversation.setOwner(currentUser);
+                switchedConversation.setIntent(detectedIntent);
+                switchedConversation.setStatus(detectedIntent == VisionIntent.UNSUPPORTED
+                        ? VisionConversationStatus.BLOCKED
+                        : VisionConversationStatus.ACTIVE);
+                switchedConversation.setSlotData(new LinkedHashMap<>());
+                return visionConversationRepository.save(switchedConversation);
+            }
+            return existingConversation;
+        }
         if (conversationId != null) {
             return loadExistingConversation(conversationId, currentUser);
         }
@@ -149,7 +215,7 @@ public class VisionConversationService {
 
         VisionConversation conversation = new VisionConversation();
         conversation.setOwner(currentUser);
-        conversation.setIntent(visionIntentRouter.detectIntent(normalizedPrompt));
+        conversation.setIntent(detectedIntent);
         conversation.setStatus(conversation.getIntent() == VisionIntent.UNSUPPORTED
                 ? VisionConversationStatus.BLOCKED
                 : VisionConversationStatus.ACTIVE);
@@ -170,6 +236,15 @@ public class VisionConversationService {
 
     private VisionConversationSummaryDTO toConversationSummary(VisionConversation conversation) {
         String title = conversation.getSlotData().get("quest_title");
+        if (title == null || title.isBlank()) {
+            title = conversation.getSlotData().get("search_query");
+        }
+        if ((title == null || title.isBlank()) && conversation.getIntent() == VisionIntent.OPEN_CHAT) {
+            title = conversation.getSlotData().get("opened_chat_username");
+        }
+        if ((title == null || title.isBlank()) && conversation.getIntent() == VisionIntent.OPEN_CHAT) {
+            title = conversation.getSlotData().get("target_user");
+        }
         if (title == null || title.isBlank()) {
             title = conversation.getIntent().name();
         }
@@ -205,7 +280,15 @@ public class VisionConversationService {
 
     private String stageLabel(VisionConversation conversation) {
         return switch (conversation.getStatus()) {
-            case ACTIVE -> conversation.getRequestedSlot() == null ? "In progress" : "Needs input";
+            case ACTIVE -> {
+                if (conversation.getIntent() == VisionIntent.DISCOVER_QUESTS) {
+                    yield "Browsing";
+                }
+                if (conversation.getIntent() == VisionIntent.OPEN_CHAT) {
+                    yield conversation.getRequestedSlot() == null ? "Chatting" : "Needs input";
+                }
+                yield conversation.getRequestedSlot() == null ? "In progress" : "Needs input";
+            }
             case REVIEW_READY -> "Review ready";
             case COMPLETED -> "Complete";
             case BLOCKED -> "Blocked";
@@ -214,7 +297,13 @@ public class VisionConversationService {
 
     private String progressLabel(VisionConversation conversation) {
         return switch (conversation.getStatus()) {
-            case ACTIVE -> conversation.getRequestedSlot() == null
+            case ACTIVE -> conversation.getIntent() == VisionIntent.DISCOVER_QUESTS
+                    ? "Quest discovery is ready."
+                    : conversation.getIntent() == VisionIntent.OPEN_CHAT
+                    ? conversation.getRequestedSlot() == null
+                    ? "Chat conversation is active."
+                    : "Next step: " + visionClarificationService.buildQuestion(conversation.getRequestedSlot())
+                    : conversation.getRequestedSlot() == null
                     ? "Conversation is active."
                     : "Next step: " + visionClarificationService.buildQuestion(conversation.getRequestedSlot());
             case REVIEW_READY -> "Ready for review and confirmation.";
@@ -255,7 +344,8 @@ public class VisionConversationService {
             case "reward_amount" -> "Reward";
             case "visibility" -> "Visibility";
             case "schedule_mode" -> "Schedule";
-            case "scheduled_at" -> "Date and time";
+            case "scheduled_date" -> "Date";
+            case "scheduled_time" -> "Time";
             case "location_mode" -> "Location";
             case "location_label" -> "Custom place";
             case "location_candidate_confirmation" -> "Location confirmation";
@@ -280,6 +370,8 @@ public class VisionConversationService {
                 }
                 yield mode;
             }
+            case "scheduled_date" -> slotData.get("scheduled_date");
+            case "scheduled_time" -> slotData.get("scheduled_time");
             case "location_mode" -> {
                 String mode = slotData.get("location_mode");
                 if ("profile".equals(mode)) {
@@ -316,13 +408,17 @@ public class VisionConversationService {
         turn.setNormalizedPrompt(conversation.getLastNormalizedPrompt() == null ? "" : conversation.getLastNormalizedPrompt());
         turn.setDetectedIntent(conversation.getIntent());
         turn.setAgentState(switch (conversation.getStatus()) {
-            case ACTIVE -> VisionAgentState.ASKING;
+            case ACTIVE -> conversation.getIntent() == VisionIntent.DISCOVER_QUESTS
+                    ? VisionAgentState.RECOMMENDING
+                    : VisionAgentState.ASKING;
             case REVIEW_READY -> VisionAgentState.REVIEW_READY;
             case COMPLETED -> VisionAgentState.COMPLETE;
             case BLOCKED -> VisionAgentState.BLOCKED;
         });
         turn.setNextAction(switch (conversation.getStatus()) {
-            case ACTIVE -> VisionNextAction.ASK_FOR_SLOT;
+            case ACTIVE -> conversation.getIntent() == VisionIntent.DISCOVER_QUESTS
+                    ? VisionNextAction.SHOW_RESULTS
+                    : VisionNextAction.ASK_FOR_SLOT;
             case REVIEW_READY -> VisionNextAction.SHOW_REVIEW;
             case COMPLETED -> VisionNextAction.COMPLETE;
             case BLOCKED -> VisionNextAction.BLOCKED;
@@ -359,11 +455,22 @@ public class VisionConversationService {
     }
 
     private VisionTurn handleResetConversationAction(VisionConversation conversation, String source) {
-        conversation.setIntent(VisionIntent.CREATE_QUEST);
+        VisionIntent intent = conversation.getIntent() == VisionIntent.DISCOVER_QUESTS
+                ? VisionIntent.DISCOVER_QUESTS
+                : conversation.getIntent() == VisionIntent.OPEN_CHAT
+                ? VisionIntent.OPEN_CHAT
+                : VisionIntent.CREATE_QUEST;
+        conversation.setIntent(intent);
         conversation.setStatus(VisionConversationStatus.ACTIVE);
-        conversation.setRequestedSlot("quest_title");
+        conversation.setRequestedSlot(intent == VisionIntent.DISCOVER_QUESTS
+                ? null
+                : intent == VisionIntent.OPEN_CHAT ? "target_user" : "quest_title");
         conversation.setSlotData(new LinkedHashMap<>());
-        String message = "The current vision task was reset. What should the new quest be called?";
+        String message = intent == VisionIntent.DISCOVER_QUESTS
+                ? "The current quest discovery was reset. What would you like to browse next?"
+                : intent == VisionIntent.OPEN_CHAT
+                ? "The current chat task was reset. Who should I open chat with?"
+                : "The current vision task was reset. What should the new quest be called?";
         updateConversationMetadata(conversation, "", "", message, true);
         visionConversationRepository.save(conversation);
         return createTurn(
@@ -371,10 +478,10 @@ public class VisionConversationService {
                 source,
                 "",
                 "",
-                VisionIntent.CREATE_QUEST,
-                VisionAgentState.ASKING,
-                VisionNextAction.ASK_FOR_SLOT,
-                "quest_title",
+                intent,
+                intent == VisionIntent.DISCOVER_QUESTS ? VisionAgentState.RECOMMENDING : VisionAgentState.ASKING,
+                intent == VisionIntent.DISCOVER_QUESTS ? VisionNextAction.SHOW_RESULTS : VisionNextAction.ASK_FOR_SLOT,
+                intent == VisionIntent.DISCOVER_QUESTS ? null : intent == VisionIntent.OPEN_CHAT ? "target_user" : "quest_title",
                 false,
                 true,
                 message
@@ -476,24 +583,24 @@ public class VisionConversationService {
         VisionConversationStatus status;
 
         if (action == VisionConversationAction.CONFIRM_REVIEW || isConfirmationPrompt(normalizedPrompt)) {
-            if (!visionProperties.isExecutionEnabled()) {
-                status = VisionConversationStatus.REVIEW_READY;
-                nextAction = VisionNextAction.SHOW_REVIEW;
-                agentState = VisionAgentState.REVIEW_READY;
-                message = "Execution is still disabled. The quest review stays ready until that flag is enabled.";
-            } else {
-                Quest createdQuest = visionCreateQuestExecutionAdapter.execute(conversation.getSlotData(), conversation.getOwner());
-                conversation.getSlotData().put("created_quest_id", createdQuest.getId().toString());
+            VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+            if (executionResult.isExecuted()) {
+                conversation.getSlotData().put("created_quest_id", executionResult.getCreatedQuest().getId().toString());
                 status = VisionConversationStatus.COMPLETED;
                 nextAction = VisionNextAction.COMPLETE;
                 agentState = VisionAgentState.COMPLETE;
                 message = "Quest created successfully. The first real `/vision` executor completed this task.";
+            } else {
+                status = VisionConversationStatus.REVIEW_READY;
+                nextAction = VisionNextAction.SHOW_REVIEW;
+                agentState = VisionAgentState.REVIEW_READY;
+                message = executionResult.getBlockingReason();
             }
         } else {
             status = VisionConversationStatus.REVIEW_READY;
             nextAction = VisionNextAction.SHOW_REVIEW;
             agentState = VisionAgentState.REVIEW_READY;
-            message = visionProperties.isExecutionEnabled()
+            message = visionSurfacePolicy.canExecuteCapability("create_quest")
                     ? "The review is ready. Confirm to create the quest, or use the explicit review controls to revise one field."
                     : "The review is ready, but execution is still disabled. Use the explicit review controls if you want to revise one field.";
         }
@@ -574,7 +681,7 @@ public class VisionConversationService {
             VisionPromptUnderstandingResult understanding,
             String source
     ) {
-        String message = "This Phase 1 vision backend only supports stepwise create_quest planning for now.";
+        String message = "This vision backend only supports stepwise create_quest planning and read-only quest discovery for now.";
         conversation.setStatus(VisionConversationStatus.BLOCKED);
         conversation.setRequestedSlot(null);
         updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
@@ -590,6 +697,100 @@ public class VisionConversationService {
         turn.setAgentState(VisionAgentState.BLOCKED);
         turn.setNextAction(VisionNextAction.BLOCKED);
         turn.setRequestedSlot(null);
+        turn.setTranslationApplied(understanding.isTranslationApplied());
+        turn.setTranslationReliable(understanding.isTranslationReliable());
+        turn.setAssistantMessage(message);
+        return visionTurnRepository.save(turn);
+    }
+
+    private VisionTurn handleDiscoverQuestsTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        VisionQuestDiscoveryDTO discovery = visionQuestDiscoveryService.discover(conversation, understanding, conversation.getOwner());
+        if (discovery == null) {
+            throw ServiceErrors.conflict("Discovery is not available for this vision conversation");
+        }
+
+        conversation.setStatus(VisionConversationStatus.ACTIVE);
+        conversation.setRequestedSlot(null);
+        conversation.getSlotData().put("search_query", discovery.getQuery() == null ? "" : discovery.getQuery());
+        String message = discovery.getSummary();
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+
+        VisionTurn turn = new VisionTurn();
+        turn.setConversation(conversation);
+        turn.setTurnIndex((int) visionTurnRepository.countByConversation(conversation) + 1);
+        turn.setSource(VisionTurnSource.from(source));
+        turn.setPrompt(prompt);
+        turn.setNormalizedPrompt(normalizedPrompt);
+        turn.setDetectedIntent(VisionIntent.DISCOVER_QUESTS);
+        turn.setAgentState(VisionAgentState.RECOMMENDING);
+        turn.setNextAction(VisionNextAction.SHOW_RESULTS);
+        turn.setRequestedSlot(null);
+        turn.setTranslationApplied(understanding.isTranslationApplied());
+        turn.setTranslationReliable(understanding.isTranslationReliable());
+        turn.setAssistantMessage(message);
+        return visionTurnRepository.save(turn);
+    }
+
+    private VisionTurn handleOpenChatTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        VisionChatExecutionResult result = visionChatExecutionService.openChat(
+                conversation.getOwner(),
+                normalizedPrompt,
+                understanding.semanticPlanOrEmpty()
+        );
+
+        String message;
+        VisionAgentState agentState;
+        VisionNextAction nextAction;
+        VisionConversationStatus status;
+
+        if (result.isExecuted()) {
+            status = VisionConversationStatus.COMPLETED;
+            nextAction = VisionNextAction.COMPLETE;
+            agentState = VisionAgentState.COMPLETE;
+            conversation.getSlotData().put("conversation_outcome", "opened_chat");
+            conversation.getSlotData().put("opened_chat_conversation_id", result.getConversation().getConversationId().toString());
+            conversation.getSlotData().put("opened_chat_username", result.getConversation().getOtherUsername());
+            conversation.getSlotData().put("opened_chat_user_id", result.getConversation().getOtherUserId().toString());
+            message = "Chat opened with " + result.getConversation().getOtherUsername() + ".";
+            conversation.setRequestedSlot(null);
+        } else {
+            status = VisionConversationStatus.ACTIVE;
+            nextAction = VisionNextAction.ASK_FOR_SLOT;
+            agentState = VisionAgentState.ASKING;
+            conversation.setRequestedSlot("target_user");
+            message = result.getBlockingReason();
+            if (message == null || message.isBlank()) {
+                message = "Who should I open chat with?";
+            }
+        }
+
+        conversation.setStatus(status);
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+
+        VisionTurn turn = new VisionTurn();
+        turn.setConversation(conversation);
+        turn.setTurnIndex((int) visionTurnRepository.countByConversation(conversation) + 1);
+        turn.setSource(VisionTurnSource.from(source));
+        turn.setPrompt(prompt);
+        turn.setNormalizedPrompt(normalizedPrompt);
+        turn.setDetectedIntent(VisionIntent.OPEN_CHAT);
+        turn.setAgentState(agentState);
+        turn.setNextAction(nextAction);
+        turn.setRequestedSlot(conversation.getRequestedSlot());
         turn.setTranslationApplied(understanding.isTranslationApplied());
         turn.setTranslationReliable(understanding.isTranslationReliable());
         turn.setAssistantMessage(message);
@@ -677,10 +878,10 @@ public class VisionConversationService {
     }
 
     private String requirePrompt(VisionConversationTurnRequestDTO dto) {
-        if (dto == null || dto.getPrompt() == null || dto.getPrompt().isBlank()) {
+        if (dto == null || dto.getEffectivePrompt().isBlank()) {
             throw ServiceErrors.badRequest("Prompt is required");
         }
-        String prompt = dto.getPrompt().trim();
+        String prompt = dto.getEffectivePrompt();
         if (prompt.length() > visionProperties.getMaxPromptLength()) {
             throw ServiceErrors.badRequest("Prompt is too long");
         }

@@ -128,6 +128,7 @@ service_workflow_inventory:
   - resetConversation
   - cancelConversation
   - handleCreateQuestReviewTurn
+  - handleOpenChatTurn
   covered_intents:
   - process_vision_conversation_turn
   - reset_vision_conversation
@@ -135,13 +136,38 @@ service_workflow_inventory:
   automation_relevant: true
   source_refs:
   - vision_conversation_service
+  - vision_surface_policy
   - vision_create_quest_execution_adapter
+  - vision_chat_execution_service
   - create_quest_use_case
+  - chat_service
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+- id: admin_synthetic_quest_batch_execution_flow
+  service_class: com.themuffinman.app.agent.service.AdminAgentExecutionService
+  service_methods:
+  - execute
+  covered_intents:
+  - execute_admin_agent_capability
+  automation_relevant: true
+  source_refs:
+  - admin_agent_execution_service
+  - admin_agent_surface_policy
+  - agent_surface_policy
+  - agent_surface_id
+  - agent_surface_authority
+  - admin_synthetic_quest_execution_plan
+  - admin_synthetic_quest_execution_planner
+  - admin_agent_target_user_resolver
+  - quest_service
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
 - id: quest_update_write_flow
   service_class: com.themuffinman.app.workmarket.service.UpdateQuestUseCase
   service_methods:

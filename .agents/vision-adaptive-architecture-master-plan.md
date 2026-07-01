@@ -2,7 +2,9 @@
 
 ## Status
 
-Planning only. Do not start implementation from this plan until the user explicitly asks for implementation.
+Active under `.agents/god-plans/vision-god-plan.yaml`.
+
+The current implementation phase is no longer the original blank preflight. Persisted conversation state, backend-prepared canvas blocks, typed review edits, recent conversation recovery, voice feedback, and the first `create_quest` execution adapter now exist.
 
 ## Goal
 
@@ -35,18 +37,30 @@ Recommended implementation-start order:
 ## Current Reality
 
 What exists today:
-- `/vision` has a modern agent-centered UI and a bottom prompt composer.
-- Text and voice can enter one backend prompt path.
-- OpenAI-backed STT, TTS, prompt translation, and planning summaries are wired through backend services.
-- `DashboardVisionPromptService` now reuses `AdminAgentPlaygroundService.analyzePrompt(...)` for planning.
+- `/vision` has a modern agent-centered UI, animated agent, adaptive prompt composer, backend-driven canvas renderer, review block, field-request block, and recent conversation context.
+- Text and voice can enter one persisted backend conversation path.
+- OpenAI-backed STT/TTS and prompt understanding are wired through backend services, with local fallback when OpenAI is unavailable.
+- Persisted conversation state, turn history, requested-slot tracking, applied-slot summaries, reset, cancel, resume, and recent conversation endpoints exist.
+- The first `create_quest` execution adapter exists behind typed backend feature flags and explicit review confirmation.
+- Review-confirmation execution now flows through a dedicated `VisionExecutionService` boundary around the `create_quest` adapter.
+- Shared semantic focus mapping now covers prompt understanding fallback and typed review-edit routing.
+- Read-only execution candidate planning now describes readiness, blockers, and the next required field for create_quest review turns.
+- The frontend vision canvas now renders the execution candidate as a compact read-only block and reuses the planning summary in review state.
+- Read-only quest discovery and backend-governed intent switching now share the same adaptive surface as create_quest.
+- The modern surface now uses an inline idle composer, mode-specific hero states, and compact in-shell context reveal instead of stacked blank-state chrome.
+- The route shell now keeps its adaptive surface-state calculations in a reusable composable so the view stays thin while the shell behavior stays consistent.
+- Shared prompt semantics now also power the admin playground planning slice, so the same normalization and classification rules are reused across user-scoped and admin-scoped surfaces.
+- The read-only execution-planning and canvas-execution slices are complete, so the review surface now stays read-only until an execution adapter is explicitly invoked.
+- The long-session resume and continuity model now uses compact backend summaries as the memory source, so the shell can stay calm instead of reconstructing state from older transcript text.
 - Agent operating docs model many intents, safety categories, resolution rules, and pre-executor constraints.
 
 What does not exist yet:
-- No production executor mutates quests, applications, circles, chat, or profile state from natural-language instructions.
-- No stateful conversation session stores partial slot collection across turns.
-- No backend contract tells the frontend exactly which transient fields, prompts, result cards, confirmations, or guidance fragments to show next.
-- No stepwise clarification policy is implemented as a reusable orchestration engine.
-- `/vision` still depends on parts of the old dashboard/read model for context.
+- No mutation executors beyond `create_quest` exist.
+- No generic multi-capability execution service exists yet.
+- Intent routing still needs broader capability coverage beyond `CREATE_QUEST` and read-only discovery.
+- Prompt understanding now supports generic planning metadata and discovery, but broader capability understanding still remains deferred.
+- Recent-task continuation behavior is now summary-first, but broader capability coverage still needs to keep the same calm continuation model.
+- Fixed scheduling still uses one overloaded `scheduled_at` slot; the date/time split follow-up now lives in `.agents/vision-schedule-date-time-split-master-plan.md`.
 
 ## Architectural Position
 
@@ -75,16 +89,19 @@ The following decisions are now treated as locked unless later evidence forces a
 - Phase 1 conversation continuity should use persisted backend conversation state, not a client-managed state token.
 - Real mutation execution must remain behind typed backend `vision.*` feature flags.
 - New `/vision` implementation should grow from dedicated `vision` orchestration and API layers rather than extending legacy dashboard read-model assumptions.
+- Read-only execution planning should remain separate from mutation execution so the backend can describe readiness without creating a second commit path.
 
 ## Child Plans
 
 1. `.agents/vision-backend-orchestration-plan.md`
 - Create the backend conversation and orchestration foundation.
 - Define session state, turn state, slot collection, intent routing, and action readiness.
+- Status: complete
 
 2. `.agents/vision-api-contract-plan.md`
 - Define the API contract between `/vision` and the backend orchestrator.
 - Make the response describe what the canvas should show, hide, ask, confirm, or execute next.
+- Status: complete
 
 3. `.agents/vision-frontend-canvas-plan.md`
 - Build the adaptive frontend shell around backend-prepared canvas state.
@@ -97,6 +114,25 @@ The following decisions are now treated as locked unless later evidence forces a
 5. `.agents/vision-validation-docs-plan.md`
 - Define tests, safety docs, generated artifacts, and closeout rules for this architecture.
 - Keep agent model, backend code, frontend contracts, and product docs aligned.
+
+6. `.agents/vision-generic-semantic-planning-plan.md`
+- Add a generic semantic planning boundary above create_quest slot extraction.
+- Prepare intent, capability, and confidence metadata before adding more executors.
+- Status: complete
+
+7. `.agents/vision-execution-planning-plan.md`
+- Add a non-mutating execution planning boundary above the existing create_quest review path.
+- Surface readiness, blockers, and execution preview data without introducing a new mutating executor.
+- Status: complete
+
+8. `.agents/vision-canvas-execution-surface-plan.md`
+- Render the execution candidate in the frontend canvas as a compact read-only block.
+- Keep review confirmation visually unified with the same adaptive surface rather than a separate popup.
+- Status: complete
+
+9. `.agents/vision-memory-and-context-master-plan.md`
+- Harden the durable repo context for `/vision` implementation so future sessions do not have to rediscover architecture decisions, generated-artifact rules, repeated failures, or test setup patterns.
+- Status: complete
 
 ## Development Phases
 
@@ -121,7 +157,7 @@ Deliverables:
 
 Exit criteria:
 - User can say or type "create a new quest..." and backend returns either a ready review state or the next missing field.
-- No mutation execution yet.
+- Status: complete for the first create_quest conversation/execution scope; mutation execution exists behind explicit review and backend feature flag.
 
 ### Phase 2: Adaptive Canvas Contract
 
@@ -148,6 +184,7 @@ Exit criteria:
 - User can create a quest through a stepwise `/vision` conversation.
 - Backend uses existing quest validation and use case boundaries.
 - Frontend shows review before final commit.
+- Status: initial create_quest executor exists behind `vision.execution-enabled`; hardening continues.
 
 ### Phase 4: Capability Expansion
 

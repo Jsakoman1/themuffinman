@@ -1,5 +1,7 @@
 package com.themuffinman.app.agent.service;
 
+import com.themuffinman.app.prompt.PromptSemanticPlan;
+
 import java.util.List;
 
 public interface AdminAgentTextProvider {
@@ -35,6 +37,7 @@ public interface AdminAgentTextProvider {
                 .translationProvider(providerName())
                 .translationApplied(false)
                 .translationReliable(false)
+                .semanticPlan(PromptSemanticPlan.empty())
                 .build();
     }
 }

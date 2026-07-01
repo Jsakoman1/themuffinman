@@ -62,10 +62,6 @@ export const createDashboardQuestState = () => {
   const questDialogId = ref<number | null>(null)
   const applicationDialogId = ref<number | null>(null)
   const userProfileDialogId = ref<number | null>(null)
-  const isCreateJobDialogOpen = ref(false)
-  const isFindWorkDialogOpen = ref(false)
-  const isOpenWorkDialogOpen = ref(false)
-  const isApplicationsDialogOpen = ref(false)
 
   return {
     questTitle,
@@ -121,10 +117,6 @@ export const createDashboardQuestState = () => {
     editApplicationPrice,
     questDialogId,
     applicationDialogId,
-    userProfileDialogId,
-    isCreateJobDialogOpen,
-    isFindWorkDialogOpen,
-    isOpenWorkDialogOpen,
-    isApplicationsDialogOpen
+    userProfileDialogId
   }
 }

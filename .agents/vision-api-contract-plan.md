@@ -2,7 +2,7 @@
 
 ## Status
 
-Planning only. Do not implement until explicitly requested.
+Complete.
 
 ## Purpose
 
@@ -181,3 +181,11 @@ Future path:
 - Controller tests for auth and validation.
 - Frontend compile check after generated contract refresh.
 - Agent operating model endpoint and intent coverage when new endpoints are added.
+
+## Completion Evidence
+
+- Status: complete
+- Changed files: `apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java`, `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java`, `apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts`, `apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts`, `docs/vision-architecture-patterns.md`, `docs/domain-technical.md`, `docs/business-logic.md`, `docs/vision-status-ledger.md`
+- Validation evidence: `./mvnw -q -Dtest=AgentOperatingModelValidationTest test` passed; `npm run type-check` passed; `npm run generate:contracts` passed; `npm run build` passed
+- Doc delta summary: the `/vision/conversations/turns` API now carries a versioned client request shape while still tolerating the legacy prompt path during transition
+- Residual risk: the versioned request contract is now explicit, but future frontend consumers should keep using the shared request builder instead of reintroducing ad hoc payloads

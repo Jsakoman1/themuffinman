@@ -26,7 +26,7 @@ defineProps<{
 <style scoped>
 .vision-agent {
   position: relative;
-  width: min(27rem, 78vw);
+  width: min(46rem, 96vw);
   aspect-ratio: 1;
   display: grid;
   place-items: center;
@@ -47,32 +47,32 @@ defineProps<{
 .vision-agent__field {
   inset: 0;
   background:
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.42), transparent 36%),
+    radial-gradient(circle at 50% 50%, rgba(255, 245, 236, 0.72), transparent 34%),
     conic-gradient(
       from 0deg,
-      var(--vision-surface-orb-field-start),
-      var(--vision-surface-orb-field-mid),
-      var(--vision-surface-orb-field-end),
+      rgba(255, 172, 134, 0.72),
+      rgba(120, 197, 255, 0.62),
+      rgba(255, 216, 175, 0.42),
       var(--vision-surface-orb-field-start)
     );
-  filter: blur(24px);
-  opacity: 0.9;
+  filter: blur(22px);
+  opacity: 0.98;
   animation: field-drift 18s linear infinite;
 }
 
 .vision-agent__halo {
   inset: 8%;
-  background: radial-gradient(circle, rgba(118, 190, 255, 0.32), rgba(118, 190, 255, 0.06) 48%, transparent 72%);
-  filter: blur(12px);
+  background: radial-gradient(circle, rgba(118, 190, 255, 0.44), rgba(118, 190, 255, 0.14) 50%, transparent 72%);
+  filter: blur(14px);
   animation: halo-breathe 8.5s ease-in-out infinite;
 }
 
 .vision-agent__drift {
   inset: 17%;
   background:
-    radial-gradient(circle at 30% 30%, rgba(255, 189, 147, 0.18), transparent 20%),
-    radial-gradient(circle at 68% 72%, rgba(135, 205, 255, 0.18), transparent 24%),
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.18), transparent 46%);
+    radial-gradient(circle at 30% 30%, rgba(255, 189, 147, 0.32), transparent 20%),
+    radial-gradient(circle at 68% 72%, rgba(135, 205, 255, 0.32), transparent 24%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.24), transparent 46%);
   mix-blend-mode: screen;
   filter: blur(8px);
   animation: drift-breathe 10s ease-in-out infinite;
@@ -101,17 +101,17 @@ defineProps<{
 
 .vision-agent__pulse {
   inset: 28%;
-  background: radial-gradient(circle, var(--vision-surface-accent-wash), rgba(125, 195, 255, 0.08) 58%, transparent 76%);
+  background: radial-gradient(circle, rgba(255, 174, 137, 0.48), rgba(125, 195, 255, 0.22) 58%, transparent 76%);
   animation: pulse-core 5.5s ease-in-out infinite;
 }
 
 .vision-agent__core {
   inset: 38%;
-  background: linear-gradient(145deg, var(--vision-surface-orb-core-start) 0%, var(--vision-surface-orb-core-end) 100%);
+  background: linear-gradient(145deg, rgba(255, 230, 215, 0.98) 0%, rgba(209, 233, 255, 0.98) 100%);
   box-shadow:
     0 0 0 1px var(--vision-surface-border-soft),
-    0 24px 60px var(--vision-surface-orb-core-shadow),
-    inset 0 0 32px rgba(255, 255, 255, 0.9);
+    0 32px 80px rgba(89, 145, 189, 0.3),
+    inset 0 0 36px rgba(255, 255, 255, 0.88);
   animation: core-breathe 6.5s ease-in-out infinite;
 }
 
@@ -138,8 +138,8 @@ defineProps<{
 .vision-agent__spark {
   width: 0.6rem;
   height: 0.6rem;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 22px rgba(123, 192, 255, 0.42);
+  background: rgba(255, 252, 250, 0.96);
+  box-shadow: 0 0 24px rgba(123, 192, 255, 0.6);
   opacity: 0.8;
 }
 

@@ -1,64 +1,21 @@
 import {computed, type Ref} from "vue"
-import type {DashboardTab, QuestStatusFilter} from "../../domain/workmarketDomain.ts"
 import type {
-  DashboardSections,
-  DashboardSummary,
   Quest,
   QuestApplication,
   QuestApplicationDetail,
   QuestDetail,
-  QuestApplicationsView,
-  QuestNewsItem,
-  CircleRequest
+  QuestApplicationsView
 } from "../../api/workmarketApi.ts"
 
 export const createDashboardSelectors = (state: {
-  activeTab: Ref<DashboardTab>
   quests: Ref<Quest[]>
-  dashboardMyQuests: Ref<Quest[]>
-  dashboardAvailableQuests: Ref<Quest[]>
   myApplications: Ref<QuestApplication[]>
-  newsItems: Ref<QuestNewsItem[]>
-  dashboardSummary: Ref<DashboardSummary | null>
-  dashboardSections: Ref<DashboardSections | null>
-  incomingCircleRequests: Ref<CircleRequest[]>
-  adminQuestStatusFilter: Ref<QuestStatusFilter>
   applicationsByQuestId: Ref<Record<number, QuestApplicationsView>>
   questDetailsById: Ref<Record<number, QuestDetail>>
   applicationDetailsById: Ref<Record<number, QuestApplicationDetail>>
   questDialogId: Ref<number | null>
   applicationDialogId: Ref<number | null>
 }) => {
-  const activeNavigationItem = computed(() => {
-    return state.dashboardSections.value?.navigation?.tabs.find((tab) => tab.id === state.activeTab.value) ?? null
-  })
-
-  const sectionTitle = computed(() => {
-    return activeNavigationItem.value?.title ?? "Overview"
-  })
-
-  const sectionSubtitle = computed(() => {
-    return activeNavigationItem.value?.description ?? ""
-  })
-
-  const recentMyQuests = computed(() => state.dashboardSections.value?.recentMyQuests ?? [])
-  const recentMyApplications = computed(() => state.dashboardSections.value?.recentMyApplications ?? [])
-  const activeWorkApplications = computed(() => state.dashboardSections.value?.activeWorkApplications ?? [])
-  const pendingWorkApplications = computed(() => state.dashboardSections.value?.visibleMyApplications ?? [])
-  const visibleMyQuestsCount = computed(() => state.dashboardSummary.value?.visibleMyQuestsCount ?? 0)
-  const pendingWorkApplicationsCount = computed(() => state.dashboardSummary.value?.pendingWorkApplicationsCount ?? 0)
-  const activeWorkApplicationsCount = computed(() => state.dashboardSummary.value?.activeWorkApplicationsCount ?? 0)
-  const activeMyQuestsCount = computed(() => state.dashboardSummary.value?.activeMyQuestsCount ?? 0)
-  const activeWorkCount = computed(() => state.dashboardSummary.value?.activeWorkCount ?? 0)
-  const completedMyQuestsCount = computed(() => state.dashboardSummary.value?.completedMyQuestsCount ?? 0)
-  const incomingWorkQuests = computed(() => state.dashboardSections.value?.incomingWorkQuests ?? [])
-  const outgoingWorkApplications = computed(() => state.dashboardSections.value?.outgoingWorkApplications ?? [])
-  const visibleMyQuests = computed(() => state.dashboardSections.value?.visibleMyQuests ?? [])
-  const visibleMyApplications = computed(() => state.dashboardSections.value?.visibleMyApplications ?? [])
-  const recentNewsItems = computed(() => state.dashboardSections.value?.notifications?.recentItems ?? [])
-  const unreadNewsItems = computed(() => state.dashboardSections.value?.notifications?.unreadItems ?? [])
-  const recentIncomingCircleRequests = computed(() => state.dashboardSections.value?.recentIncomingCircleRequests ?? [])
-
   const applicationsViewForQuest = (questId: number) => (
     state.applicationsByQuestId.value[questId]
     ?? state.questDetailsById.value[questId]?.applicationsView
@@ -102,32 +59,10 @@ export const createDashboardSelectors = (state: {
     return state.applicationDetailsById.value[state.applicationDialogId.value] ?? null
   })
 
-  const questCreatorUsernameForQuest = (questId: number) => questForId(questId)?.creatorUsername ?? "Unknown"
-  const featuredApplicationForQuest = (questId: number) => applicationsViewForQuest(questId)?.featuredApplication ?? null
   const hiddenApplicationsCountForQuest = (questId: number) => applicationsViewForQuest(questId)?.hiddenApplicationsCount ?? 0
   const canRevealHiddenApplicationsForQuest = (questId: number) => applicationsViewForQuest(questId)?.canRevealHiddenApplications ?? false
-  const showAllApplicationsForQuest = (questId: number) => applicationsViewForQuest(questId)?.showingAllApplications ?? false
   const applicationRevealLabel = (questId: number) => applicationsViewForQuest(questId)?.revealLabel ?? "Show applications"
   return {
-    sectionTitle,
-    sectionSubtitle,
-    recentMyQuests,
-    recentMyApplications,
-    activeWorkApplications,
-    pendingWorkApplications,
-    visibleMyQuestsCount,
-    pendingWorkApplicationsCount,
-    activeWorkApplicationsCount,
-    activeMyQuestsCount,
-    activeWorkCount,
-    completedMyQuestsCount,
-    incomingWorkQuests,
-    outgoingWorkApplications,
-    visibleMyQuests,
-    visibleMyApplications,
-    recentNewsItems,
-    unreadNewsItems,
-    recentIncomingCircleRequests,
     applicationsViewForQuest,
     applicationsForQuest,
     approvedApplicationsForQuest,
@@ -136,11 +71,8 @@ export const createDashboardSelectors = (state: {
     selectedQuestDetail,
     selectedApplicationDialog,
     selectedApplicationDetail,
-    questCreatorUsernameForQuest,
-    featuredApplicationForQuest,
     hiddenApplicationsCountForQuest,
     canRevealHiddenApplicationsForQuest,
-    showAllApplicationsForQuest,
     applicationRevealLabel
   }
 }

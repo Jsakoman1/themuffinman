@@ -8,16 +8,12 @@ const AdminCirclesPage = () => import("./modules/social/pages/AdminCirclesPage.v
 const AdminAgentPage = () => import("./modules/workmarket/pages/AdminAgentPage.vue");
 const AdminUsersPage = () => import("./modules/workmarket/pages/AdminUsersPage.vue");
 const CirclesView = () => import("./modules/social/views/CirclesView.vue");
-const QuestsPage = () => import("./modules/workmarket/pages/QuestsPage.vue");
 const QuestDetailView = () => import("./modules/workmarket/views/QuestDetailView.vue");
 const ApplicationDetailView = () => import("./modules/workmarket/views/ApplicationDetailView.vue");
 const LoginView = () => import("./modules/identity/views/LoginView.vue");
 const RegisterView = () => import("./modules/identity/views/RegisterView.vue");
 const UserProfileView = () => import("./modules/social/views/UserProfileView.vue");
 const UserSettingsView = () => import("./modules/social/views/UserSettingsView.vue");
-const BusinessHubView = () => import("./modules/business/views/BusinessHubView.vue");
-const ThingSharingView = () => import("./modules/things/views/ThingSharingView.vue");
-const RideSharingView = () => import("./modules/rides/views/RideSharingView.vue");
 const ChatWorkspaceView = () => import("./modules/chat/views/ChatWorkspaceView.vue");
 const VisionSurfaceModernView = () => import("./modules/vision/views/VisionSurfaceModernView.vue");
 
@@ -25,7 +21,7 @@ const VisionSurfaceModernView = () => import("./modules/vision/views/VisionSurfa
 const routes = [
     {
         path: '/',
-        redirect: '/work'
+        redirect: '/vision'
     },
     {
         path: '/login',
@@ -37,12 +33,8 @@ const routes = [
     },
     {
         path: '/work',
-        component: QuestsPage,
+        redirect: () => (isAdmin() ? '/admin/work' : '/vision'),
         meta: {requiresAuth: true}
-    },
-    {
-        path: '/quests',
-        redirect: '/work'
     },
     {
         path: '/circles',
@@ -110,25 +102,6 @@ const routes = [
         meta: {requiresAuth: true, requiresAdmin: true}
     },
     {
-        path: '/app-users',
-        redirect: '/admin/users'
-    },
-    {
-        path: '/business',
-        component: BusinessHubView,
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/things',
-        component: ThingSharingView,
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/rides',
-        component: RideSharingView,
-        meta: {requiresAuth: true}
-    },
-    {
         path: '/chat',
         component: ChatWorkspaceView,
         meta: {requiresAuth: true}
@@ -151,14 +124,10 @@ router.beforeEach((to) => {
     }
 
     if (to.meta.requiresAdmin && !isAdmin()) {
-        return '/work';
-    }
-
-    if (isAdmin() && (to.path === '/work' || to.path === '/quests')) {
-        return '/admin/work';
+        return '/vision';
     }
 
     if (isLoggedIn() && (to.path === '/login' || to.path === '/register')) {
-        return isAdmin() ? '/admin/work' : '/work';
+        return isAdmin() ? '/admin/work' : '/vision';
     }
 })

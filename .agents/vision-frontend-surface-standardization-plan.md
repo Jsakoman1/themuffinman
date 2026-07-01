@@ -35,3 +35,11 @@ Replace the current route-level all-in-one implementation with a stable structur
 ## Closeout Rule
 
 This plan is complete only when the route view is materially thinner, the extracted components are reusable, and the frontend still validates without backend contract changes.
+
+## Completion Evidence
+
+- Status: complete
+- Changed files: `frontend/src/modules/vision/views/VisionSurfaceModernView.vue`, `frontend/src/modules/vision/composables/useVisionSurfaceState.ts`, `docs/vision-status-ledger.md`, `docs/product-memory.md`
+- Validation evidence: `npm run type-check` passed; `npm run build` passed
+- Doc delta summary: moved shell-level surface state into a reusable composable so the route view reads as a thinner adaptive shell
+- Residual risk: the remaining context and continuation experience still needs broader long-session hardening in later slices

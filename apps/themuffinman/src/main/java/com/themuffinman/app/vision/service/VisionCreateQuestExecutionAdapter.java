@@ -18,9 +18,11 @@ import java.util.Map;
 public class VisionCreateQuestExecutionAdapter {
 
     private final QuestService questService;
+    private final VisionScheduleParserService visionScheduleParserService;
 
-    public VisionCreateQuestExecutionAdapter(QuestService questService) {
+    public VisionCreateQuestExecutionAdapter(QuestService questService, VisionScheduleParserService visionScheduleParserService) {
         this.questService = questService;
+        this.visionScheduleParserService = visionScheduleParserService;
     }
 
     public Quest execute(Map<String, String> slotData, AppUser currentUser) {
@@ -73,7 +75,12 @@ public class VisionCreateQuestExecutionAdapter {
             return null;
         }
 
-        String scheduledAt = required(slotData, "scheduled_at");
+        String scheduledDate = required(slotData, "scheduled_date");
+        String scheduledTime = required(slotData, "scheduled_time");
+        String scheduledAt = visionScheduleParserService.deriveScheduledAt(scheduledDate, scheduledTime);
+        if (scheduledAt == null || scheduledAt.isBlank()) {
+            throw ServiceErrors.conflict("Missing required slot: scheduled_at");
+        }
         return Instant.parse(scheduledAt);
     }
 

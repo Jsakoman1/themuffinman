@@ -3,6 +3,7 @@ import type {
   AgentIntentId,
   AgentRequiredUnresolvedInput,
   AdminAgentSafetyFlagIdGenerated,
+  AdminAgentExecutionResponse,
   AdminAgentPlaygroundResponse,
   AdminAgentSimulationResponse
 } from "./contracts.ts"
@@ -34,7 +35,10 @@ const adminAgentPlaygroundResponseKeys = [
   "unresolvedInputs",
   "warnings",
   "suggestedWorkflows",
-  "nextSteps"
+  "nextSteps",
+  "directExecutionAvailable",
+  "directExecutionCapabilityId",
+  "directExecutionSummary"
 ] as const satisfies readonly (keyof AdminAgentPlaygroundResponse)[]
 
 const adminAgentSimulationResponseKeys = [
@@ -54,6 +58,23 @@ const adminAgentSimulationResponseKeys = [
   "blockingReasons",
   "suggestedWorkflows"
 ] as const satisfies readonly (keyof AdminAgentSimulationResponse)[]
+
+const adminAgentExecutionResponseKeys = [
+  "capabilityId",
+  "executionEnabled",
+  "executed",
+  "confirmationRequired",
+  "summary",
+  "targetUserLabel",
+  "targetUserId",
+  "requestedCount",
+  "effectiveCount",
+  "topic",
+  "questTitles",
+  "createdQuestIds",
+  "warnings",
+  "blockingReasons"
+] as const satisfies readonly (keyof AdminAgentExecutionResponse)[]
 
 const adminAgentClarificationContractKeys = [
   "clarificationRequired",
@@ -110,6 +131,7 @@ const adminAgentEndpointPlanKeys = [
 
 const _adminAgentResponseCoverage: AssertAllKeysCovered<AdminAgentPlaygroundResponse, typeof adminAgentPlaygroundResponseKeys> = true
 const _adminAgentSimulationCoverage: AssertAllKeysCovered<AdminAgentSimulationResponse, typeof adminAgentSimulationResponseKeys> = true
+const _adminAgentExecutionResponseCoverage: AssertAllKeysCovered<AdminAgentExecutionResponse, typeof adminAgentExecutionResponseKeys> = true
 const _clarificationCoverage: AssertAllKeysCovered<AdminAgentPlaygroundResponse["clarificationContract"], typeof adminAgentClarificationContractKeys> = true
 const _executionCoverage: AssertAllKeysCovered<AdminAgentPlaygroundResponse["executionReadiness"], typeof adminAgentExecutionReadinessKeys> = true
 const _resolutionCoverage: AssertAllKeysCovered<AdminAgentPlaygroundResponse["resolutionRequirements"][number], typeof adminAgentResolutionRequirementKeys> = true
@@ -125,6 +147,7 @@ export const adminAgentContractGate = {
   safetyFlagIds: ADMIN_AGENT_SAFETY_FLAG_IDS as readonly AdminAgentSafetyFlagIdGenerated[],
   adminAgentPlaygroundResponseKeys,
   adminAgentSimulationResponseKeys,
+  adminAgentExecutionResponseKeys,
   adminAgentClarificationContractKeys,
   adminAgentExecutionReadinessKeys,
   adminAgentResolutionRequirementKeys,
@@ -134,6 +157,7 @@ export const adminAgentContractGate = {
   adminAgentEndpointPlanKeys,
   adminAgentResponseCoverage: _adminAgentResponseCoverage,
   adminAgentSimulationCoverage: _adminAgentSimulationCoverage,
+  adminAgentExecutionResponseCoverage: _adminAgentExecutionResponseCoverage,
   clarificationCoverage: _clarificationCoverage,
   executionCoverage: _executionCoverage,
   resolutionCoverage: _resolutionCoverage,

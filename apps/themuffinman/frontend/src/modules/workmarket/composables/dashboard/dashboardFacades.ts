@@ -1,38 +1,5 @@
 import type {QuestDashboard} from "../useQuestDashboard.ts"
 
-export type DashboardQuestCreateFacade = Pick<
-  QuestDashboard,
-  | "createQuest"
-  | "successPulseTarget"
-  | "questTitle"
-  | "questDescription"
-  | "questAwardAmount"
-  | "questAssigneeTarget"
-  | "questShowApprovedApplicants"
-  | "questScheduledAt"
-  | "questEndsAt"
-  | "questTermMode"
-  | "questAudience"
-  | "questAudienceOptions"
-  | "questSelectedCircleIds"
-  | "questLocationSource"
-  | "questLocationCountry"
-  | "questLocationLocality"
-  | "questLocationPostalCode"
-  | "questLocationStreet"
-  | "questLocationHouseNumber"
-  | "questLocationVisibility"
-  | "questCreatorId"
-  | "questImages"
-  | "circles"
-  | "appUsers"
-  | "adminModeEnabled"
-  | "setQuestTermMode"
-  | "addQuestImages"
-  | "removeQuestImage"
-  | "questLocationVisibilityOptions"
->
-
 export type DashboardQuestEditFacade = Pick<
   QuestDashboard,
   | "saveEditedQuest"
@@ -98,42 +65,6 @@ export type DashboardQuestApplicationsFacade = Pick<
   | "hiddenApplicationsCountForQuest"
 >
 
-export type DashboardQuestListFacade = Pick<
-  QuestDashboard,
-  | "dashboardMyQuests"
-  | "dashboardSections"
-  | "myApplications"
-  | "successPulseTarget"
-  | "questCreatorUsernameForQuest"
-  | "openApplicationDialog"
->
-
-export type DashboardApplicationsDialogFacade = Pick<
-  QuestDashboard,
-  | "isApplicationsDialogOpen"
-  | "closeApplicationsDialog"
-  | "pendingWorkApplications"
-> & DashboardQuestListFacade
-
-export type DashboardOpenWorkDialogFacade = Pick<
-  QuestDashboard,
-  | "dashboardSections"
-  | "isOpenWorkDialogOpen"
-  | "closeOpenWorkDialog"
-> & DashboardQuestListFacade
-
-export type DashboardWorkPlannerFacade = Pick<
-  QuestDashboard,
-  | "dashboardSections"
-  | "accountCreatedAt"
-  | "questScheduledAt"
-  | "questEndsAt"
-  | "setQuestTermMode"
-  | "openCreateJobDialog"
-  | "openQuestDialog"
-  | "questForId"
->
-
 export type DashboardQuestDialogFacade = Pick<
   QuestDashboard,
   | "selectedQuestDialog"
@@ -142,7 +73,6 @@ export type DashboardQuestDialogFacade = Pick<
   | "approvedApplicationsForQuest"
   | "applicationMessages"
   | "myApplications"
-  | "featuredApplicationForQuest"
   | "startEditingQuest"
   | "deleteQuest"
   | "closeQuestDialog"
@@ -163,11 +93,4 @@ export type DashboardAdminFacade = Pick<
   | "questAudienceFilterOptions"
   | "successPulseTarget"
   | "deleteQuest"
->
-
-export type DashboardFindQuestsFacade = Pick<
-  QuestDashboard,
-  | "questSortOptions"
-  | "questSearchDefaults"
-  | "questAudienceFilterOptions"
 >

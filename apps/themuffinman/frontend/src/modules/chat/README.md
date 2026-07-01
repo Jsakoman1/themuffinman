@@ -2,14 +2,13 @@
 
 ## Responsibility
 
-Owns chat API access, shared chat composable state, global chat tray integration, and the standalone chat workspace.
+Owns chat API access, shared chat composable state, and the standalone chat workspace.
 
 ## Main Entry Points
 
 - API: `api/chatApi.ts`
 - Composable: `composables/useAppChat.ts`
 - View: `views/ChatWorkspaceView.vue`
-- Global tray component: `src/components/app/AppChatTray.vue`
 
 ## Validation
 
@@ -23,6 +22,6 @@ Owns chat API access, shared chat composable state, global chat tray integration
 
 ## Forbidden Shortcuts
 
-- Do not fork chat state between tray and workspace.
+- Do not fork chat state between multiple frontend entry surfaces.
 - Do not create frontend-only access rules for conversations.
 - Do not assume chat belongs only to workmarket routes.

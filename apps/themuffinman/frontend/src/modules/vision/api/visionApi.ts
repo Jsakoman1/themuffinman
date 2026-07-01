@@ -2,10 +2,60 @@ import {api, withAuth} from "../../../api/httpClient.ts"
 import {dashboardApi, type DashboardVoiceTranscription} from "../../workmarket/api/clients/dashboardApi.ts"
 import type {DashboardVoiceConfig} from "../../workmarket/api/contracts.ts"
 
-export type VisionAgentState = "ASKING" | "REVIEW_READY" | "COMPLETE" | "BLOCKED"
-export type VisionNextAction = "ASK_FOR_SLOT" | "SHOW_REVIEW" | "COMPLETE" | "BLOCKED"
-export type VisionCanvasMode = "clarification" | "review" | "complete" | "blocked"
+export type VisionAgentState = "ASKING" | "RECOMMENDING" | "REVIEW_READY" | "COMPLETE" | "BLOCKED"
+export type VisionNextAction = "ASK_FOR_SLOT" | "SHOW_RESULTS" | "SHOW_REVIEW" | "COMPLETE" | "BLOCKED"
+export type VisionCanvasMode = "clarification" | "results" | "review" | "complete" | "blocked"
 export type VisionReviewTarget = "TITLE" | "DESCRIPTION" | "REWARD" | "VISIBILITY" | "SCHEDULE" | "LOCATION"
+
+export type VisionInputType = "text" | "voice"
+
+export type VisionConversationTurnRequest = {
+  conversationId?: number | null
+  inputType: VisionInputType
+  text: string
+  clientCapabilities: string[]
+  clientStateVersion: string
+  selectedOptionId?: string | null
+  fieldValue?: string | null
+  confirmation?: boolean | null
+  action?: string
+  reviewTarget?: VisionReviewTarget | null
+}
+
+export type VisionExecutionCandidate = {
+  candidateIntent: string
+  capabilityId: string
+  confidence: number
+  reviewReady: boolean
+  executionReady: boolean
+  confirmationRequired: boolean
+  nextRequiredSlot: string | null
+  blockingReason: string
+  planningNote: string
+  summary: string
+}
+
+export type VisionQuestDiscoveryItem = {
+  questId: number
+  rank: number
+  title: string
+  description: string
+  creatorUsername: string
+  rewardLabel: string
+  statusLabel: string
+  locationLabel: string | null
+  scheduledAt: string | null
+  matchSummary: string
+}
+
+export type VisionQuestDiscovery = {
+  capabilityId: string
+  query: string
+  sort: string
+  summary: string
+  totalItems: number
+  items: VisionQuestDiscoveryItem[]
+}
 
 export type VisionSlotSummary = {
   slotId: string
@@ -46,7 +96,7 @@ export type VisionQuestReview = {
 }
 
 export type VisionCanvasBlock = {
-  type: "agent_message" | "recognized_prompt" | "field_request" | "result_summary" | "review_summary" | "warning" | "success" | "info"
+  type: "agent_message" | "recognized_prompt" | "field_request" | "result_summary" | "quest_discovery" | "review_summary" | "warning" | "success" | "info"
   title: string | null
   body: string | null
   fieldId: string | null
@@ -55,6 +105,7 @@ export type VisionCanvasBlock = {
   placeholder: string | null
   options: VisionOption[]
   items: VisionSlotSummary[]
+  questDiscovery: VisionQuestDiscovery | null
   review: VisionQuestReview | null
   tone: string | null
 }
@@ -72,6 +123,8 @@ export type VisionConversationTurnResponse = {
   translationApplied: boolean
   translationReliable: boolean
   executionEnabled: boolean
+  executionCandidate: VisionExecutionCandidate | null
+  questDiscovery: VisionQuestDiscovery | null
   blocks: VisionCanvasBlock[]
   appliedSlotSummaries: VisionSlotSummary[]
   slotSummaries: VisionSlotSummary[]
@@ -84,20 +137,21 @@ export type VisionConversationListResponse = {
 }
 
 export const visionApi = {
-  async processConversationTurn(
-    prompt: string,
-    conversationId?: number | null,
-    source = "text",
-    action = "SUBMIT_PROMPT",
-    reviewTarget?: VisionReviewTarget | null
-  ): Promise<VisionConversationTurnResponse> {
+  async processConversationTurn(request: VisionConversationTurnRequest): Promise<VisionConversationTurnResponse> {
     const auth = withAuth()
     return (await api.post<VisionConversationTurnResponse>("/vision/conversations/turns", {
-      conversationId: conversationId ?? undefined,
-      prompt,
-      source,
-      action,
-      reviewTarget: reviewTarget ?? undefined
+      conversationId: request.conversationId ?? undefined,
+      prompt: request.text,
+      text: request.text,
+      source: request.inputType,
+      inputType: request.inputType,
+      clientCapabilities: request.clientCapabilities,
+      clientStateVersion: request.clientStateVersion,
+      selectedOptionId: request.selectedOptionId ?? undefined,
+      fieldValue: request.fieldValue ?? undefined,
+      confirmation: request.confirmation ?? undefined,
+      action: request.action ?? "SUBMIT_PROMPT",
+      reviewTarget: request.reviewTarget ?? undefined
     }, auth)).data
   },
 

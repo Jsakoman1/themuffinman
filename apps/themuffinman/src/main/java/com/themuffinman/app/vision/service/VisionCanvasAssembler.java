@@ -4,7 +4,9 @@ import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
 import com.themuffinman.app.vision.dto.VisionCanvasBlockDTO;
 import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
+import com.themuffinman.app.vision.dto.VisionExecutionCandidateDTO;
 import com.themuffinman.app.vision.dto.VisionOptionDTO;
+import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestReviewDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
@@ -31,7 +33,9 @@ public class VisionCanvasAssembler {
     public VisionConversationTurnResponseDTO assemble(
             VisionConversation conversation,
             VisionTurn turn,
-            List<VisionConversationSummaryDTO> recentConversations
+            List<VisionConversationSummaryDTO> recentConversations,
+            VisionExecutionCandidateDTO executionCandidate,
+            VisionQuestDiscoveryDTO questDiscovery
     ) {
         return VisionConversationTurnResponseDTO.builder()
                 .conversationId(conversation.getId())
@@ -46,7 +50,9 @@ public class VisionCanvasAssembler {
                 .translationApplied(turn.isTranslationApplied())
                 .translationReliable(turn.isTranslationReliable())
                 .executionEnabled(visionProperties.isExecutionEnabled())
-                .blocks(toBlocks(conversation, turn))
+                .executionCandidate(executionCandidate)
+                .questDiscovery(questDiscovery)
+                .blocks(toBlocks(conversation, turn, questDiscovery))
                 .appliedSlotSummaries(toAppliedSlotSummaries(conversation.getSlotData(), turn.getAppliedSlotIds()))
                 .slotSummaries(toSlotSummaries(conversation.getSlotData()))
                 .review(toReview(conversation.getSlotData(), turn))
@@ -58,12 +64,13 @@ public class VisionCanvasAssembler {
         return switch (turn.getNextAction()) {
             case ASK_FOR_SLOT -> "clarification";
             case SHOW_REVIEW -> "review";
+            case SHOW_RESULTS -> "results";
             case COMPLETE -> "complete";
             case BLOCKED -> "blocked";
         };
     }
 
-    private List<VisionCanvasBlockDTO> toBlocks(VisionConversation conversation, VisionTurn turn) {
+    private List<VisionCanvasBlockDTO> toBlocks(VisionConversation conversation, VisionTurn turn, VisionQuestDiscoveryDTO questDiscovery) {
         List<VisionCanvasBlockDTO> blocks = new ArrayList<>();
         blocks.add(VisionCanvasBlockDTO.builder()
                 .type("agent_message")
@@ -83,6 +90,16 @@ public class VisionCanvasAssembler {
                     .title("Translation check")
                     .body("Translation reliability dropped for this turn, so review the wording carefully.")
                     .tone("warning")
+                    .build());
+        }
+
+        if (questDiscovery != null) {
+            blocks.add(VisionCanvasBlockDTO.builder()
+                    .type("quest_discovery")
+                    .title("Quest discovery")
+                    .body(questDiscovery.getSummary())
+                    .questDiscovery(questDiscovery)
+                    .tone("info")
                     .build());
         }
 
@@ -162,6 +179,8 @@ public class VisionCanvasAssembler {
         }
         addSummary(summaries, "visibility", "Visibility", slotData.get("visibility"));
         addSummary(summaries, "schedule_mode", "Schedule", formatScheduleSummary(slotData));
+        addSummary(summaries, "scheduled_date", "Date", formatScheduledDate(slotData.get("scheduled_date")));
+        addSummary(summaries, "scheduled_time", "Time", formatScheduledTime(slotData.get("scheduled_time")));
         addSummary(summaries, "location_mode", "Location", formatLocationSummary(slotData));
         return summaries;
     }
@@ -273,6 +292,8 @@ public class VisionCanvasAssembler {
         return switch (slotId) {
             case "reward_amount" -> "true".equals(slotData.get("free_quest")) ? "Free" : slotData.get("reward_amount");
             case "schedule_mode" -> formatScheduleSummary(slotData);
+            case "scheduled_date" -> formatScheduledDate(slotData.get("scheduled_date"));
+            case "scheduled_time" -> formatScheduledTime(slotData.get("scheduled_time"));
             case "location_mode" -> formatLocationSummary(slotData);
             default -> slotData.get(slotId);
         };
@@ -285,7 +306,8 @@ public class VisionCanvasAssembler {
             case "reward_amount" -> "Reward";
             case "visibility" -> "Visibility";
             case "schedule_mode" -> "Schedule";
-            case "scheduled_at" -> "Date and time";
+            case "scheduled_date" -> "Date";
+            case "scheduled_time" -> "Time";
             case "location_mode" -> "Location";
             case "location_label" -> "Custom place";
             case "location_candidate_confirmation" -> "Location confirmation";
@@ -300,7 +322,8 @@ public class VisionCanvasAssembler {
             case "visibility" -> "single_choice";
             case "schedule_mode", "location_mode" -> "single_choice";
             case "location_candidate_confirmation" -> "single_choice";
-            case "scheduled_at" -> "date_time";
+            case "scheduled_date" -> "date";
+            case "scheduled_time" -> "time";
             default -> "short_text";
         };
     }
@@ -312,7 +335,8 @@ public class VisionCanvasAssembler {
             case "reward_amount" -> "Example: 20 euros or free";
             case "visibility" -> "Choose who should see the quest";
             case "schedule_mode" -> "Choose fixed time or by agreement";
-            case "scheduled_at" -> "Example: 2026-07-03 14:30";
+            case "scheduled_date" -> "Example: 2026-07-03 or next Tuesday";
+            case "scheduled_time" -> "Example: 14:30 or 2 pm";
             case "location_mode" -> "Choose profile, hidden, or custom";
             case "location_label" -> "Example: Main square in Zurich";
             case "location_candidate_confirmation" -> "Choose resolved place or keep typed location";
@@ -373,7 +397,18 @@ public class VisionCanvasAssembler {
     private String formatScheduleSummary(Map<String, String> slotData) {
         String scheduleMode = slotData.get("schedule_mode");
         if ("fixed".equals(scheduleMode)) {
-            return formatScheduledAt(slotData.get("scheduled_at"));
+            String date = formatScheduledDate(slotData.get("scheduled_date"));
+            String time = formatScheduledTime(slotData.get("scheduled_time"));
+            if (date != null && time != null) {
+                return date + " at " + time;
+            }
+            if (date != null) {
+                return date + ", time missing";
+            }
+            if (time != null) {
+                return "Fixed time at " + time + ", date missing";
+            }
+            return "Fixed time";
         }
         if ("agreement".equals(scheduleMode)) {
             return "By agreement";
@@ -403,6 +438,28 @@ public class VisionCanvasAssembler {
             return slotData.get("location_label");
         }
         return null;
+    }
+
+    private String formatScheduledDate(String rawValue) {
+        if (rawValue == null || rawValue.isBlank()) {
+            return null;
+        }
+        try {
+            return DateTimeFormatter.ofPattern("dd MMM yyyy").format(java.time.LocalDate.parse(rawValue));
+        } catch (RuntimeException ignored) {
+            return rawValue;
+        }
+    }
+
+    private String formatScheduledTime(String rawValue) {
+        if (rawValue == null || rawValue.isBlank()) {
+            return null;
+        }
+        try {
+            return DateTimeFormatter.ofPattern("HH:mm").format(java.time.LocalTime.parse(rawValue));
+        } catch (RuntimeException ignored) {
+            return rawValue;
+        }
     }
 
     private String formatScheduledAt(String rawValue) {

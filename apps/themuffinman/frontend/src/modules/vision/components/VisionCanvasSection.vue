@@ -10,6 +10,7 @@ defineProps<{
   <div
     class="vision-panel__section"
     :class="{
+      'vision-panel__section--default': !tone || tone === 'default',
       'vision-panel__section--warning': tone === 'warning',
       'vision-panel__section--info': tone === 'info',
       'vision-panel__section--field': tone === 'field',
@@ -26,6 +27,11 @@ defineProps<{
 .vision-panel__section {
   display: grid;
   gap: 0.55rem;
+}
+
+.vision-panel__section--default {
+  padding: 0.25rem 0;
+  border-top: 1px solid rgba(24, 36, 47, 0.06);
 }
 
 .vision-panel__section--warning {
@@ -63,5 +69,6 @@ defineProps<{
 .vision-panel__body {
   margin: 0;
   color: var(--vision-surface-ink-soft);
+  line-height: 1.55;
 }
 </style>

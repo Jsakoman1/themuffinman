@@ -1,6 +1,8 @@
 import {api, withAuth} from "../../../../api/httpClient.ts"
 import type {
   ActionResult,
+  AdminAgentExecutionRequest,
+  AdminAgentExecutionResponse,
   AdminAgentSimulationRequest,
   AdminAgentSimulationResponse,
   AdminAgentPlaygroundRequest,
@@ -55,5 +57,9 @@ export const adminApi = {
 
   async runAdminAgentSimulation(dto: AdminAgentSimulationRequest): Promise<AdminAgentSimulationResponse> {
     return (await api.post<AdminAgentSimulationResponse>("/admin/agent/simulate", dto, withAuth())).data
+  },
+
+  async runAdminAgentExecution(dto: AdminAgentExecutionRequest): Promise<AdminAgentExecutionResponse> {
+    return (await api.post<AdminAgentExecutionResponse>("/admin/agent/execute", dto, withAuth())).data
   }
 }

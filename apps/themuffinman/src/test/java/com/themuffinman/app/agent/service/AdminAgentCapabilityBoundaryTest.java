@@ -6,6 +6,7 @@ import com.themuffinman.app.agent.sandbox.SandboxGenerationPlanner;
 import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
+import com.themuffinman.app.prompt.PromptSemanticsSupport;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,8 +17,19 @@ class AdminAgentCapabilityBoundaryTest {
     private final AgentProperties agentProperties = new AgentProperties();
     private final OpenAiAdminAgentClient provider = new OpenAiAdminAgentClient(agentProperties);
     private final LocalAdminAgentPromptTranslator localTranslator = new LocalAdminAgentPromptTranslator();
+    private final AdminAgentPromptPreparationService promptPreparationService =
+            new AdminAgentPromptPreparationService(agentProperties, provider, localTranslator, new PromptSemanticsSupport());
+    private final AdminAgentSurfacePolicy adminAgentSurfacePolicy = new AdminAgentSurfacePolicy(agentProperties);
+    private final AdminSyntheticQuestExecutionPlanner adminSyntheticQuestExecutionPlanner = new AdminSyntheticQuestExecutionPlanner();
     private final SandboxGenerationPlanner sandboxGenerationPlanner = new SandboxGenerationPlanner();
-    private final AdminAgentPlaygroundService service = new AdminAgentPlaygroundService(agentProperties, provider, localTranslator, sandboxGenerationPlanner);
+    private final AdminAgentPlaygroundService service = new AdminAgentPlaygroundService(
+            agentProperties,
+            provider,
+            promptPreparationService,
+            adminAgentSurfacePolicy,
+            adminSyntheticQuestExecutionPlanner,
+            sandboxGenerationPlanner
+    );
 
     @Test
     void deletePromptStaysBlockedUntilExactTargetAndConfirmationExist() {

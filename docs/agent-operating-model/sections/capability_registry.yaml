@@ -5,6 +5,7 @@ capability_registry:
     surfaces.
   required_for_intents:
   - run_admin_agent_playground
+  - execute_admin_agent_capability
   - simulate_admin_agent_execution
 - id: external_translation_provider
   description: Reliable provider-backed translation for prompts the local translator

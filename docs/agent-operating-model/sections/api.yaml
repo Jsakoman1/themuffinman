@@ -96,6 +96,11 @@ api:
     path: "/admin/agent/simulate"
     controller_class: com.themuffinman.app.agent.controller.AdminAgentController
     handler_method: runSimulation
+  - id: run_admin_agent_execution
+    method: POST
+    path: "/admin/agent/execute"
+    controller_class: com.themuffinman.app.agent.controller.AdminAgentController
+    handler_method: runExecution
   - id: get_dashboard
     method: GET
     path: "/dashboard/me"

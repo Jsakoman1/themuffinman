@@ -2,7 +2,9 @@
 import {computed} from "vue"
 import type {VisionCanvasBlock, VisionConversationTurnResponse, VisionReviewTarget} from "../api/visionApi.ts"
 import VisionCanvasSection from "./VisionCanvasSection.vue"
+import VisionExecutionCandidateBlock from "./VisionExecutionCandidateBlock.vue"
 import VisionFieldRequestBlock from "./VisionFieldRequestBlock.vue"
+import VisionQuestDiscoveryBlock from "./VisionQuestDiscoveryBlock.vue"
 import VisionResultSummaryBlock from "./VisionResultSummaryBlock.vue"
 import VisionReviewSummaryBlock from "./VisionReviewSummaryBlock.vue"
 import VisionPromptDock from "./VisionPromptDock.vue"
@@ -14,9 +16,7 @@ const props = defineProps<{
   canConfirm: boolean
   promptComposerVisible: boolean
   currentSlotLabel: string
-  currentSlotValue: string
   transcriptTargetLabel: string
-  transcriptTargetDetail: string
   currentFieldKind: string
   currentPlaceholder: string
   inputText: string
@@ -25,7 +25,6 @@ const props = defineProps<{
   textToSpeechEnabled: boolean
   speechRecognitionSupported: boolean
   speechSynthesisSupported: boolean
-  speechStatusLabel: string
   canSend: boolean
   voiceState: "idle" | "listening" | "processing" | "speaking"
 }>()
@@ -51,67 +50,15 @@ const choose = (value: string) => {
 }
 
 const hasResponse = computed(() => !!props.response)
+const executionCandidate = computed(() => props.response?.executionCandidate ?? null)
 </script>
 
 <template>
   <section class="vision-panel">
-    <VisionCanvasSection
-      v-if="!hasResponse"
-      title="Blank canvas"
-      body="Type a prompt or speak to begin. The canvas will expand as the task becomes clearer."
-      tone="info"
-    >
-      <div class="vision-panel__idle-prompt">
-        <p class="vision-panel__idle-copy">
-          The surface is waiting for a task. Start with one sentence, then let the canvas shape itself around what the backend understands.
-        </p>
-      </div>
-    </VisionCanvasSection>
-
-    <template v-else>
-      <div
-        v-for="(block, index) in displayBlocks"
-        :key="`${block.type}-${index}`"
-      >
-        <VisionResultSummaryBlock
-          v-if="block.type === 'result_summary'"
-          :block="block"
-        />
-        <VisionFieldRequestBlock
-          v-else-if="block.type === 'field_request'"
-          :block="block"
-          @choice="choose"
-        />
-        <VisionReviewSummaryBlock
-          v-else-if="block.type === 'review_summary'"
-          :block="block"
-          :response="response!"
-          :can-confirm="canConfirm"
-          @review-change="emit('reviewChange', $event)"
-          @confirm-review="emit('confirmReview')"
-        />
-        <VisionCanvasSection
-          v-else
-          :title="block.title"
-          :body="block.body"
-          :tone="block.type === 'warning'
-            ? 'warning'
-            : block.type === 'info'
-              ? 'info'
-              : block.type === 'success'
-                ? 'success'
-                : 'default'"
-        />
-      </div>
-
-    </template>
-
     <VisionPromptDock
       :visible="promptComposerVisible"
       :current-slot-label="currentSlotLabel"
-      :current-slot-value="currentSlotValue"
       :transcript-target-label="transcriptTargetLabel"
-      :transcript-target-detail="transcriptTargetDetail"
       :current-field-kind="currentFieldKind"
       :current-placeholder="currentPlaceholder"
       :input-text="inputText"
@@ -122,7 +69,6 @@ const hasResponse = computed(() => !!props.response)
       :speech-recognition-supported="speechRecognitionSupported"
       :speech-synthesis-supported="speechSynthesisSupported"
       :has-response="hasResponse"
-      :speech-status-label="speechStatusLabel"
       :can-send="canSend"
       :voice-state="voiceState"
       @update:input-text="emit('update:inputText', $event)"
@@ -136,14 +82,64 @@ const hasResponse = computed(() => !!props.response)
       @open="emit('open')"
       @close="emit('close')"
     />
+
+    <template v-if="hasResponse">
+      <VisionExecutionCandidateBlock
+        v-if="executionCandidate"
+        :candidate="executionCandidate"
+      />
+      <div v-if="displayBlocks.length" class="vision-panel__response-stack">
+        <div
+          v-for="(block, index) in displayBlocks"
+          :key="`${block.type}-${index}`"
+          class="vision-panel__response-block"
+        >
+          <VisionResultSummaryBlock
+            v-if="block.type === 'result_summary'"
+            :block="block"
+          />
+          <VisionQuestDiscoveryBlock
+            v-else-if="block.type === 'quest_discovery'"
+            :block="block"
+          />
+          <VisionFieldRequestBlock
+            v-else-if="block.type === 'field_request'"
+            :block="block"
+            @choice="choose"
+          />
+          <VisionReviewSummaryBlock
+            v-else-if="block.type === 'review_summary'"
+            :block="block"
+            :response="response!"
+            :can-confirm="canConfirm"
+            :execution-candidate="executionCandidate"
+            @review-change="emit('reviewChange', $event)"
+            @confirm-review="emit('confirmReview')"
+          />
+          <VisionCanvasSection
+            v-else
+            :title="block.title"
+            :body="block.body"
+            :tone="block.type === 'warning'
+              ? 'warning'
+              : block.type === 'info'
+                ? 'info'
+                : block.type === 'success'
+                  ? 'success'
+                  : 'default'"
+          />
+        </div>
+      </div>
+    </template>
   </section>
 </template>
 
 <style scoped>
 .vision-panel {
-  width: min(60rem, 100%);
+  width: min(58rem, 100%);
   display: grid;
-  gap: 1rem;
+  justify-items: center;
+  gap: 0.9rem;
   padding: 0;
   border-radius: 0;
   background: transparent;
@@ -152,14 +148,20 @@ const hasResponse = computed(() => !!props.response)
   text-align: left;
 }
 
-.vision-panel__idle-prompt {
+.vision-panel__response-stack {
   display: grid;
-  gap: 0.75rem;
+  gap: 0.7rem;
+  width: 100%;
 }
 
-.vision-panel__idle-copy {
-  margin: 0;
-  color: var(--vision-surface-ink-soft);
-  line-height: 1.6;
+.vision-panel__response-block {
+  display: grid;
+  gap: 0.7rem;
+}
+
+@media (max-width: 720px) {
+  .vision-panel {
+    gap: 0.75rem;
+  }
 }
 </style>

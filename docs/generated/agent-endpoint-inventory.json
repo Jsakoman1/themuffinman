@@ -12,6 +12,12 @@
     "path": "/admin/agent/simulate"
   },
   {
+    "controllerClass": "com.themuffinman.app.agent.controller.AdminAgentController",
+    "handlerMethod": "runExecution",
+    "httpMethod": "POST",
+    "path": "/admin/agent/execute"
+  },
+  {
     "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
     "handlerMethod": "getDirectory",
     "httpMethod": "GET",

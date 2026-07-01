@@ -26,45 +26,67 @@ masterPlans:
       - Some current reality notes are now stale because phase 1 conversation and create_quest execution have advanced.
   - id: vision-modern-prompt
     path: .agents/vision-modern-prompt-master-plan.md
-    status: active
+    status: complete
     role: Coordinates prompt, voice, and modern blank-canvas interaction work.
     pros:
       - Captures the user-facing direction away from fixed form windows.
     cons:
-      - Needs reconciliation with the current semantic mapping and shared canvas work.
+      - Residual continuation and memory behavior still need follow-up as capability coverage expands.
   - id: vision-memory-context
     path: .agents/vision-memory-and-context-master-plan.md
-    status: active
+    status: complete
     role: Coordinates memory, resume, and context continuity for the vision surface.
     pros:
       - Keeps persisted conversation and recent-session recovery visible.
     cons:
-      - Needs tighter links to current `recentConversations` and applied-slot badge behavior.
+      - The summary-first memory model is established, but later capability slices still need to reuse it instead of inventing new resume rules.
   - id: vision-voice
     path: .agents/vision-voice-master-plan.md
-    status: active
+    status: complete
     role: Coordinates voice input, transcription, speech output, and visual feedback.
     pros:
       - Keeps speech-to-text and text-to-speech concerns separate from orchestration.
     cons:
       - Needs an explicit memory-pressure and local-device safety note after observed development machine pressure.
+  - id: vision-schedule-date-time-split
+    path: .agents/vision-schedule-date-time-split-master-plan.md
+    status: complete
+    role: Refactors Vision fixed scheduling from one overloaded absolute timestamp slot into separate conversational date and time collection.
+    pros:
+      - Aligns the scheduling contract with natural user input and incremental clarification.
+      - Creates a cleaner execution boundary where absolute timestamps are derived only when complete.
+    cons:
+      - Requires coordinated backend, API, frontend, docs, and test migration.
+  - id: legacy-frontend-decommission
+    path: .agents/legacy-frontend-decommission-master-plan.md
+    status: active
+    role: Removes the unused route-based legacy frontend so Vision can become the dominant runtime during dev phase.
+    pros:
+      - Reduces duplicate frontend state systems and cleanup drag.
+      - Lets new product work focus on one strategic surface.
+    cons:
+      - Requires careful capability triage so dev-only workflows are not deleted before Vision replacement exists.
 implementationState:
-  currentPhase: Phase 1 create_quest conversation and review flow is partially implemented.
-  nextPhase: Generalize semantic planning and reduce frontend panel stacking into one adaptive surface.
-  backend: Persisted conversation, turn state, create_quest slot collection, review edit actions, and execution adapter exist.
+  currentPhase: Phase 1 foundation is complete with create_quest conversation, open_chat conversation, review flow, voice input/output, adaptive canvas rendering, read-only quest discovery, shared prompt semantics, read-only execution planning, and a thinner reusable surface shell.
+  nextPhase: Continue capability expansion and rollout hardening while reusing the shared semantic and policy boundary across Vision and Admin Playground, keep the new split date/time scheduling contract intact, and implement the planned legacy route-based frontend contraction around a Vision-first runtime.
+  backend: Persisted conversation, turn state, create_quest slot collection, open_chat routing, review edit actions, execution boundary services, and execution adapters exist.
   api: Conversation turn, resume, recent, reset, cancel, blocks, slot summaries, and review DTOs exist.
-  frontend: Modern vision route, canvas renderer, prompt composer, voice controls, transcript feedback, recent conversations, and review summary exist.
-  semanticMapping: Shared focus-slot mapper exists, but the understanding prompt remains create_quest-centric.
+  frontend: Modern vision route, reusable surface-state composable, canvas renderer, inline prompt composer, voice controls, transcript feedback, recent conversations, mode-specific hero states, compact in-shell context reveal, review summary, and execution candidate surface exist.
+  api: Versioned `/vision/conversations/turns` request contract now carries input type, text, client capabilities, state version, and optional choice/confirmation fields.
+  semanticMapping: Shared focus-slot mapper exists, shared prompt semantics support now covers both Vision and Admin Playground, and the understanding prompt also supports read-only discovery planning.
+  activeChildPlan: .agents/vision-adaptive-architecture-master-plan.md
 pros:
   - Backend state and review gating already match key vision decision records.
   - Frontend receives backend-prepared blocks instead of inventing workflow decisions locally.
   - Voice feedback exposes transcript and current semantic target.
   - Recent conversations and applied-slot summaries support resume-oriented UX.
+  - Read-only discovery now shares the same backend-governed surface as create_quest.
 cons:
-  - Vision currently supports create_quest and unsupported intents only.
+  - Vision still needs broader capability coverage beyond create_quest and discovery.
   - No generic VisionExecutionPlanner or VisionExecutionService exists yet.
-  - The UI still reads as multiple stacked panels during active work.
-  - Historical master plans need reconciliation with the current implementation state.
+  - Context reveal and continuation behavior still need more tightening before the surface fully reads as one morphing canvas.
+  - Memory/context hardening still needs more work before the surface can stay calm across longer sessions.
+  - The repo still carries a broad legacy route/module frontend that increases maintenance cost even though the product is still in dev phase.
 risks:
   - id: VISION-RISK-001
     description: The plan stack can become stale because implementation is moving quickly.
@@ -73,8 +95,14 @@ risks:
     description: The frontend can continue drifting toward a dashboard of panels instead of one adaptive canvas.
     mitigation: Require each frontend vision plan to state how it reduces or justifies visible surface fragmentation.
   - id: VISION-RISK-003
-    description: Semantic extraction can remain create_quest-specific and block capability expansion.
-    mitigation: Add a master-plan slice for generic intent and planning contracts before expanding executors.
+    description: Capability expansion can drift back into create_quest-specific heuristics if future executors stop using the shared semantics boundary.
+    mitigation: Reuse the shared prompt-semantics support for every new capability slice before adding more executors.
+  - id: VISION-RISK-004
+    description: Future capability slices can regress fixed scheduling back into single-slot timestamp heuristics and lose the new partial-state clarity.
+    mitigation: Keep `scheduled_date` and `scheduled_time` as the Vision conversation contract and derive `scheduled_at` only at execution boundaries.
+  - id: VISION-RISK-005
+    description: Legacy frontend decommission can accidentally remove dev-critical routes before Vision or a temporary bridge covers the same workflow.
+    mitigation: Use the dedicated legacy frontend decommission master plan with explicit parity thresholds and temporary-survivor decisions before any delete batch.
 decisions:
   - id: VISION-DEC-001
     decision: Use God Plan > Master Plan > Plan > temporary work product as the coordination hierarchy for broad vision work.
@@ -85,9 +113,16 @@ decisions:
   - id: VISION-DEC-003
     decision: Keep temporary plan support files under `.agents/tmp/` and remove or promote them at plan closeout.
     status: accepted
+  - id: VISION-DEC-004
+    decision: The first God Plan implementation slice starts with a generic semantic planning boundary above create_quest slot extraction, and discovery can reuse that boundary for read-only search flows.
+    status: accepted
+dependencies:
+  relatedMasterPlans:
+    - path: .agents/agent-surface-standardization-master-plan.md
+      role: Cross-surface policy and execution standardization for Vision and Admin Playground.
+      status: complete
 validation:
   requiredChecks:
     - ruby scripts/generate-agent-operating-model.rb
     - ./mvnw test -Dtest=AgentOperatingModelValidationTest
   closeoutRule: Child master plans must be complete, updated, or explicitly deferred before the vision God Plan can close.
-

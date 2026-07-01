@@ -59,11 +59,24 @@ public class VisionSlotService {
             if (!merged.containsKey("schedule_mode")) {
                 applyScheduleModeAnswer(merged, normalizedPrompt);
             }
-            if ("fixed".equals(merged.get("schedule_mode")) && !merged.containsKey("scheduled_at")) {
-                applyScheduledAtAnswer(merged, normalizedPrompt);
+            if ("fixed".equals(merged.get("schedule_mode"))) {
+                if (!merged.containsKey("scheduled_date")) {
+                    applyScheduledDateAnswer(merged, normalizedPrompt);
+                }
+                if (!merged.containsKey("scheduled_time")) {
+                    applyScheduledTimeAnswer(merged, normalizedPrompt);
+                }
             }
-        } else if ("scheduled_at".equals(requestedSlot) && !merged.containsKey("scheduled_at")) {
-            applyScheduledAtAnswer(merged, normalizedPrompt);
+        } else if ("scheduled_date".equals(requestedSlot) && !merged.containsKey("scheduled_date")) {
+            applyScheduledDateAnswer(merged, normalizedPrompt);
+            if (!merged.containsKey("scheduled_time")) {
+                applyScheduledTimeAnswer(merged, normalizedPrompt);
+            }
+        } else if ("scheduled_time".equals(requestedSlot) && !merged.containsKey("scheduled_time")) {
+            applyScheduledTimeAnswer(merged, normalizedPrompt);
+            if (!merged.containsKey("scheduled_date")) {
+                applyScheduledDateAnswer(merged, normalizedPrompt);
+            }
         } else if ("location_mode".equals(requestedSlot)) {
             if (!merged.containsKey("location_mode")) {
                 applyLocationModeAnswer(merged, normalizedPrompt, actorKeyForConversation(conversation));
@@ -97,7 +110,8 @@ public class VisionSlotService {
             }
             case "schedule_mode" -> {
                 slotData.remove("schedule_mode");
-                slotData.remove("scheduled_at");
+                slotData.remove("scheduled_date");
+                slotData.remove("scheduled_time");
             }
             case "location_mode" -> {
                 slotData.remove("location_mode");
@@ -148,8 +162,13 @@ public class VisionSlotService {
             applyScheduleModeAnswer(merged, prompt);
         }
 
-        if ("fixed".equals(merged.get("schedule_mode")) && !merged.containsKey("scheduled_at")) {
-            applyScheduledAtAnswer(merged, prompt);
+        if ("fixed".equals(merged.get("schedule_mode"))) {
+            if (!merged.containsKey("scheduled_date")) {
+                applyScheduledDateAnswer(merged, prompt);
+            }
+            if (!merged.containsKey("scheduled_time")) {
+                applyScheduledTimeAnswer(merged, prompt);
+            }
         }
 
         if (!merged.containsKey("location_mode") && shouldAutoFillLocation(prompt, focusSlotId)) {
@@ -236,9 +255,14 @@ public class VisionSlotService {
             }
         }
 
-        String scheduledAt = extractedSlots.get("scheduled_at");
-        if (scheduledAt != null && !scheduledAt.isBlank()) {
-            merged.put("scheduled_at", scheduledAt.trim());
+        String scheduledDate = extractedSlots.get("scheduled_date");
+        if (scheduledDate != null && !scheduledDate.isBlank()) {
+            merged.put("scheduled_date", scheduledDate.trim());
+        }
+
+        String scheduledTime = extractedSlots.get("scheduled_time");
+        if (scheduledTime != null && !scheduledTime.isBlank()) {
+            merged.put("scheduled_time", scheduledTime.trim());
         }
     }
 
@@ -309,7 +333,11 @@ public class VisionSlotService {
     }
 
     private boolean shouldAutoFillSchedule(String normalizedPrompt, String focusSlotId) {
-        if (focusSlotId != null && ("schedule_mode".equals(focusSlotId) || "scheduled_at".equals(focusSlotId))) {
+        if (focusSlotId != null && (
+                "schedule_mode".equals(focusSlotId)
+                        || "scheduled_date".equals(focusSlotId)
+                        || "scheduled_time".equals(focusSlotId)
+        )) {
             return true;
         }
         return visionScheduleParserService.suggestsFixedSchedule(normalizedPrompt)
@@ -363,16 +391,26 @@ public class VisionSlotService {
 
         merged.put("schedule_mode", scheduleMode);
         if ("agreement".equals(scheduleMode)) {
-            merged.remove("scheduled_at");
-        } else {
-            applyScheduledAtAnswer(merged, normalizedPrompt);
+            merged.remove("scheduled_date");
+            merged.remove("scheduled_time");
+            return;
+        }
+
+        applyScheduledDateAnswer(merged, normalizedPrompt);
+        applyScheduledTimeAnswer(merged, normalizedPrompt);
+    }
+
+    private void applyScheduledDateAnswer(Map<String, String> merged, String normalizedPrompt) {
+        String scheduledDate = extractScheduledDate(normalizedPrompt);
+        if (scheduledDate != null) {
+            merged.put("scheduled_date", scheduledDate);
         }
     }
 
-    private void applyScheduledAtAnswer(Map<String, String> merged, String normalizedPrompt) {
-        String scheduledAt = extractScheduledAt(normalizedPrompt);
-        if (scheduledAt != null) {
-            merged.put("scheduled_at", scheduledAt);
+    private void applyScheduledTimeAnswer(Map<String, String> merged, String normalizedPrompt) {
+        String scheduledTime = extractScheduledTime(normalizedPrompt);
+        if (scheduledTime != null) {
+            merged.put("scheduled_time", scheduledTime);
         }
     }
 
@@ -446,8 +484,12 @@ public class VisionSlotService {
         return null;
     }
 
-    private String extractScheduledAt(String normalizedPrompt) {
-        return visionScheduleParserService.extractScheduledAt(normalizedPrompt);
+    private String extractScheduledDate(String normalizedPrompt) {
+        return visionScheduleParserService.extractScheduledDate(normalizedPrompt);
+    }
+
+    private String extractScheduledTime(String normalizedPrompt) {
+        return visionScheduleParserService.extractScheduledTime(normalizedPrompt);
     }
 
     private String extractLocationMode(String normalizedPrompt) {

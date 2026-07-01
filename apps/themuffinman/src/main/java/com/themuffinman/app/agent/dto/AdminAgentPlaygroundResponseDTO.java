@@ -32,4 +32,7 @@ public class AdminAgentPlaygroundResponseDTO {
     private List<String> warnings;
     private List<String> suggestedWorkflows;
     private List<String> nextSteps;
+    private boolean directExecutionAvailable;
+    private String directExecutionCapabilityId;
+    private String directExecutionSummary;
 }

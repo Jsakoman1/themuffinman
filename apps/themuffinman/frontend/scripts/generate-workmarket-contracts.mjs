@@ -28,6 +28,8 @@ const transportAliases = {
   AdminApplicationsQuery: "AdminApplicationsQueryDTO",
   AdminAgentPlaygroundRequest: "AdminAgentPlaygroundRequestDTO",
   AdminAgentPlaygroundResponse: "AdminAgentPlaygroundResponseDTO",
+  AdminAgentExecutionRequest: "AdminAgentExecutionRequestDTO",
+  AdminAgentExecutionResponse: "AdminAgentExecutionResponseDTO",
   AdminAgentSimulationRequest: "AdminAgentSimulationRequestDTO",
   AdminAgentSimulationResponse: "AdminAgentSimulationResponseDTO",
   CircleBlockCreate: "CircleBlockCreateDTO",

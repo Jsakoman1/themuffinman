@@ -60,7 +60,7 @@ const closeApplicationDetail = async () => {
     return
   }
 
-  await router.push("/work")
+  await router.push("/vision")
 }
 
 const openPostedBy = async () => {

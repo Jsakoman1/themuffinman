@@ -14,7 +14,8 @@ public class VisionClarificationService {
             "reward_amount",
             "visibility",
             "schedule_mode",
-            "scheduled_at",
+            "scheduled_date",
+            "scheduled_time",
             "location_mode",
             "location_label",
             "location_candidate_confirmation"
@@ -28,7 +29,7 @@ public class VisionClarificationService {
                 }
                 continue;
             }
-            if ("scheduled_at".equals(slotId)) {
+            if ("scheduled_date".equals(slotId) || "scheduled_time".equals(slotId)) {
                 if (!"fixed".equals(slotData.get("schedule_mode"))) {
                     continue;
                 }
@@ -57,10 +58,12 @@ public class VisionClarificationService {
             case "reward_amount" -> "What is the reward amount, or should this quest be free?";
             case "visibility" -> "Should this quest be public or visible only to your circles?";
             case "schedule_mode" -> "Should this quest happen at a fixed time or be arranged by agreement?";
-            case "scheduled_at" -> "What exact date and time should I use? Example: 2026-07-03 14:30 or tomorrow at 14:30.";
+            case "scheduled_date" -> "What day should I use? Example: 2026-07-03, tomorrow, or next Tuesday.";
+            case "scheduled_time" -> "What time should I use on that day? Example: 14:30, 2 pm, or around noon.";
             case "location_mode" -> "Should I use your profile location, hide the location, or use a custom place?";
             case "location_label" -> "What custom place or address should I use for this quest?";
             case "location_candidate_confirmation" -> "I found a more precise place match. Should I use the resolved place or keep the location exactly as you typed it?";
+            case "target_user" -> "Who should I open chat with?";
             default -> "What is the next missing detail?";
         };
     }
@@ -70,10 +73,12 @@ public class VisionClarificationService {
             case "reward_amount" -> "I still need a usable reward value. Tell me an amount like 20 euros, or say this quest should be free.";
             case "visibility" -> "I still need the visibility. Say public or circles only.";
             case "schedule_mode" -> "I still need the schedule type. Say fixed time or by agreement.";
-            case "scheduled_at" -> "I could not read the time yet. Use a format like 2026-07-03 14:30, 03.07.2026 14:30, or tomorrow at 14:30.";
+            case "scheduled_date" -> "I still need the day. Use a date like 2026-07-03, 03.07.2026, tomorrow, or next Tuesday.";
+            case "scheduled_time" -> "I still need the time. Use a format like 14:30, 2 pm, noon, or this evening.";
             case "location_mode" -> "I still need the location type. Say use profile, hide location, or custom place.";
             case "location_label" -> "I still need a real custom place or address, not just 'custom place'.";
             case "location_candidate_confirmation" -> "Choose one: use resolved place, or keep typed location.";
+            case "target_user" -> "I still need the person you want to chat with. Say a username, email, or name fragment.";
             default -> buildQuestion(slotId);
         };
     }

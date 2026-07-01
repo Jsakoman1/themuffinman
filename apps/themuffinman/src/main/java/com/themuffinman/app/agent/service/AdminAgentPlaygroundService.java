@@ -17,6 +17,7 @@ import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
+import com.themuffinman.app.prompt.PromptSemanticPlan;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -77,18 +78,24 @@ public class AdminAgentPlaygroundService {
 
     private final AgentProperties agentProperties;
     private final AdminAgentTextProvider adminAgentTextProvider;
-    private final AdminAgentPromptTranslator localPromptTranslator;
+    private final AdminAgentPromptPreparationService adminAgentPromptPreparationService;
+    private final AdminAgentSurfacePolicy adminAgentSurfacePolicy;
+    private final AdminSyntheticQuestExecutionPlanner adminSyntheticQuestExecutionPlanner;
     private final SandboxGenerationPlanner sandboxGenerationPlanner;
 
     public AdminAgentPlaygroundService(
             AgentProperties agentProperties,
             OpenAiAdminAgentClient adminAgentTextProvider,
-            LocalAdminAgentPromptTranslator localPromptTranslator,
+            AdminAgentPromptPreparationService adminAgentPromptPreparationService,
+            AdminAgentSurfacePolicy adminAgentSurfacePolicy,
+            AdminSyntheticQuestExecutionPlanner adminSyntheticQuestExecutionPlanner,
             SandboxGenerationPlanner sandboxGenerationPlanner
     ) {
         this.agentProperties = agentProperties;
         this.adminAgentTextProvider = adminAgentTextProvider;
-        this.localPromptTranslator = localPromptTranslator;
+        this.adminAgentPromptPreparationService = adminAgentPromptPreparationService;
+        this.adminAgentSurfacePolicy = adminAgentSurfacePolicy;
+        this.adminSyntheticQuestExecutionPlanner = adminSyntheticQuestExecutionPlanner;
         this.sandboxGenerationPlanner = sandboxGenerationPlanner;
     }
 
@@ -104,8 +111,13 @@ public class AdminAgentPlaygroundService {
         }
 
         String prompt = rawPrompt.trim();
-        AdminAgentPromptTranslation translation = translatePrompt(prompt);
+        AdminAgentPromptTranslation translation = adminAgentPromptPreparationService.preparePrompt(prompt);
         String normalizedPrompt = translation.getTranslatedPrompt().trim().toLowerCase(Locale.ROOT);
+        AdminSyntheticQuestExecutionPlan executionPlan = adminSyntheticQuestExecutionPlanner.plan(translation);
+        PromptSemanticPlan semanticPlan = translation.semanticPlanOrEmpty();
+        boolean directExecutionAvailable = translation.isTranslationReliable()
+                && executionPlan.isExecutable()
+                && adminAgentSurfacePolicy.canExecuteCapability(executionPlan.getCapabilityId());
 
         Set<String> suggestedWorkflows = new LinkedHashSet<>();
         Set<String> matchedSignals = new LinkedHashSet<>();
@@ -114,7 +126,12 @@ public class AdminAgentPlaygroundService {
         List<String> warnings = new ArrayList<>();
         List<String> nextSteps = new ArrayList<>();
 
-        warnings.add("This playground is a planning surface only and does not execute backend mutations.");
+        warnings.add(directExecutionAvailable
+                ? "This playground can directly execute one guarded admin capability in this phase: synthetic quest batch generation after explicit confirmation."
+                : "This playground remains planning-first and executes no backend mutations unless a guarded admin capability is explicitly enabled.");
+        if (!semanticPlan.isUnsupported()) {
+            matchedSignals.add("shared_semantic_" + semanticPlan.getCapabilityId());
+        }
         nextSteps.add("Keep the UI and backend contract stable first, then change providers behind the same endpoint.");
         nextSteps.add("Use a backend-managed OpenAI API key instead of relying on the ChatGPT consumer app.");
         if (!translation.isTranslationReliable()) {
@@ -164,7 +181,9 @@ public class AdminAgentPlaygroundService {
             suggestedWorkflows.addAll(sandboxGenerationPlan.suggestedWorkflows());
             warnings.add("Batch quest generation must keep titles and descriptions meaningfully unique.");
             warnings.addAll(sandboxGenerationPlan.warnings());
-            nextSteps.add("Review uniqueness policy and batch stop conditions before enabling execution.");
+            nextSteps.add(directExecutionAvailable
+                    ? "Review the generated execution preview and confirm before the admin batch runs."
+                    : "Review uniqueness policy and batch stop conditions before enabling execution.");
             nextSteps.addAll(sandboxGenerationPlan.nextSteps());
             unresolvedInputs.add("unique quest titles");
             unresolvedInputs.add("unique quest descriptions");
@@ -435,12 +454,15 @@ public class AdminAgentPlaygroundService {
                 .summary(summary)
                 .resolutionRequirements(List.copyOf(resolutionRequirements))
                 .clarificationContract(buildClarificationContract(unresolvedInputs, translation))
-                .executionReadiness(buildExecutionReadiness(normalizedPrompt, translation))
+                .executionReadiness(buildExecutionReadiness(normalizedPrompt, translation, directExecutionAvailable))
                 .matchedSignals(List.copyOf(matchedSignals))
                 .unresolvedInputs(List.copyOf(unresolvedInputs))
                 .warnings(List.copyOf(warnings))
                 .suggestedWorkflows(List.copyOf(suggestedWorkflows))
                 .nextSteps(List.copyOf(nextSteps))
+                .directExecutionAvailable(directExecutionAvailable)
+                .directExecutionCapabilityId(directExecutionAvailable ? executionPlan.getCapabilityId() : null)
+                .directExecutionSummary(buildDirectExecutionSummary(executionPlan, directExecutionAvailable))
                 .build();
     }
 
@@ -500,9 +522,13 @@ public class AdminAgentPlaygroundService {
                 .build();
     }
 
-    private AgentExecutionReadinessDTO buildExecutionReadiness(String normalizedPrompt, AdminAgentPromptTranslation translation) {
+    private AgentExecutionReadinessDTO buildExecutionReadiness(
+            String normalizedPrompt,
+            AdminAgentPromptTranslation translation,
+            boolean directExecutionAvailable
+    ) {
         return AgentExecutionReadinessDTO.builder()
-                .planningOnly(true)
+                .planningOnly(!directExecutionAvailable)
                 .translationReady(translation.isTranslationReliable())
                 .requiresExternalTranslationProvider(!translation.isTranslationReliable())
                 .currentLocationCapabilityRequired(mentionsCurrentLocationUpdate(normalizedPrompt))
@@ -516,6 +542,16 @@ public class AdminAgentPlaygroundService {
                         || mentionsConnectionAcceptance(normalizedPrompt)
                         || mentionsChatIntent(normalizedPrompt))
                 .build();
+    }
+
+    private String buildDirectExecutionSummary(AdminSyntheticQuestExecutionPlan executionPlan, boolean directExecutionAvailable) {
+        if (directExecutionAvailable) {
+            return "Direct execution is available for a confirmed synthetic quest batch targeting one exact user.";
+        }
+        if (!AdminAgentSurfacePolicy.SYNTHETIC_QUEST_BATCH_CAPABILITY.equals(executionPlan.getCapabilityId())) {
+            return null;
+        }
+        return "Direct execution is limited to confirmed synthetic quest batch generation in this phase.";
     }
 
     private AgentModelProfile selectSummaryModelProfile(
@@ -559,17 +595,6 @@ public class AdminAgentPlaygroundService {
                 .ambiguityPolicy(ambiguityPolicy)
                 .endpointHint(endpointHint)
                 .build();
-    }
-
-    private AdminAgentPromptTranslation translatePrompt(String prompt) {
-        if (adminAgentTextProvider.isConfigured()) {
-            try {
-                return adminAgentTextProvider.translatePromptToEnglish(prompt);
-            } catch (RuntimeException ignored) {
-                return localPromptTranslator.translateForPlanning(prompt);
-            }
-        }
-        return localPromptTranslator.translateForPlanning(prompt);
     }
 
     private void validateAdmin(AppUser currentUser) {

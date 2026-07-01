@@ -48,6 +48,20 @@ class VisionScheduleParserServiceTest {
     }
 
     @Test
+    void extractsNextTuesdayDateWithoutExplicitTime() {
+        assertEquals("2026-07-07", parserService.extractScheduledDate(VisionSchedulePhrasePresets.NEXT_TUESDAY));
+        assertNull(parserService.extractScheduledTime(VisionSchedulePhrasePresets.NEXT_TUESDAY));
+        assertNull(parserService.extractScheduledAt(VisionSchedulePhrasePresets.NEXT_TUESDAY));
+    }
+
+    @Test
+    void extractsFixedNextTuesdayDateWithoutExplicitTime() {
+        assertEquals("2026-07-07", parserService.extractScheduledDate(VisionSchedulePhrasePresets.FIXED_NEXT_TUESDAY));
+        assertNull(parserService.extractScheduledTime(VisionSchedulePhrasePresets.FIXED_NEXT_TUESDAY));
+        assertNull(parserService.extractScheduledAt(VisionSchedulePhrasePresets.FIXED_NEXT_TUESDAY));
+    }
+
+    @Test
     void parsesRelativeDateWithAmPmTime() {
         assertEquals("2026-07-01T12:00:00Z", parserService.extractScheduledAt(VisionSchedulePhrasePresets.TOMORROW_2_PM));
     }
@@ -110,6 +124,12 @@ class VisionScheduleParserServiceTest {
     @Test
     void returnsNullForAmbiguousSpokenTimeWithoutDayPeriod() {
         assertNull(parserService.extractScheduledAt(VisionSchedulePhrasePresets.TOMORROW_HALF_PAST_TWO));
+    }
+
+    @Test
+    void derivesScheduledAtOnlyWhenDateAndTimeExist() {
+        assertEquals("2026-07-07T12:30:00Z", parserService.deriveScheduledAt("2026-07-07", "14:30"));
+        assertNull(parserService.deriveScheduledAt("2026-07-07", null));
     }
 
     @Test

@@ -38,7 +38,7 @@ export const useQuestDetailView = () => {
   const showOverviewStatus = computed(() => page.quest.value?.presentation.overviewStatusVisible ?? false)
 
   const closeQuestDetail = () => {
-    void page.router.push(routeForNavigationTarget(page.detail.value?.sections?.navigation?.listNavigation) || "/work")
+    void page.router.push(routeForNavigationTarget(page.detail.value?.sections?.navigation?.listNavigation) || "/vision")
   }
 
   return {

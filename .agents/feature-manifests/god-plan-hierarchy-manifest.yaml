@@ -124,6 +124,9 @@ artifacts:
     - make generate-agent-operating-model
   auditCommands:
     - make audit-agent-safety
+    - npm run validate:contracts
+    - npm run type-check
+    - npm run build
     - make audit-plan-completion plan=.agents/god-plan-hierarchy-plan.md manifest=.agents/feature-manifests/god-plan-hierarchy-manifest.yaml
     - make feature-closeout-audit manifest=.agents/feature-manifests/god-plan-hierarchy-manifest.yaml
     - make audit-validation-evidence-quality

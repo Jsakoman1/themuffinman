@@ -15,4 +15,7 @@ public class AgentProperties {
     private String reasoningEffort = "medium";
     private String apiKey;
     private String baseUrl = "https://api.openai.com/v1";
+    private boolean adminExecutionEnabled = false;
+    private int adminQuestBatchLimit = 10;
+    private String syntheticQuestMarker = "[SYNTHETIC]";
 }

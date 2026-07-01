@@ -114,6 +114,56 @@ intents:
     source_refs:
     - admin_agent_controller
     - admin_agent_playground_service
+- id: execute_admin_agent_capability
+  description: Run the first guarded admin-only direct execution slice, currently synthetic quest batch generation for one exact target user after explicit confirmation.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - prompt
+  optional_inputs:
+  - confirmed
+  defaults:
+  - field: confirmed
+    value: false
+  workflow:
+  - step: 1
+    action: Require admin authority, a non-blank prompt, and shared prompt preparation before execution planning.
+    source_refs:
+    - admin_agent_controller
+    - admin_agent_execution_service
+    - admin_agent_prompt_preparation_service
+    - admin_agent_execution_request_dto
+    - service_errors
+    fail_if:
+    - authenticated user is not admin
+    - prompt is missing
+  - step: 2
+    action: Convert the prompt into the first reusable admin execution plan shape and stop unless the capability is the supported synthetic quest batch flow.
+    source_refs:
+    - admin_synthetic_quest_execution_planner
+    - admin_agent_surface_policy
+    - sandbox_generation_planner
+    fail_if:
+    - prompt does not resolve to the supported direct execution capability
+    - direct execution is disabled by policy
+  - step: 3
+    action: Resolve one exact target user and cap the batch size through typed agent properties before any mutation can run.
+    source_refs:
+    - admin_agent_target_user_resolver
+    - admin_agent_execution_service
+    - app_user_lookup_service
+    fail_if:
+    - target user is missing
+    - target user does not resolve exactly
+  - step: 4
+    action: Return a confirmation preview until explicit confirmation is provided, then create synthetic quests through the existing quest creation boundary with creator override.
+    endpoint_id: run_admin_agent_execution
+    source_refs:
+    - admin_agent_execution_service
+    - admin_agent_execution_response_dto
+    - quest_service
+    fail_if:
+    - confirmation is missing
 - id: simulate_admin_agent_execution
   description: Run an admin-only dry-run simulation through resolution, clarification,
     safety-policy, and endpoint-selection logic without mutating anything.
@@ -833,7 +883,9 @@ intents:
     - dashboard_vision_prompt_response_dto
     - service_errors
 - id: process_vision_conversation_turn
-  description: Advance one persisted `/vision` conversation turn through backend-owned stepwise orchestration, including review-to-execution when the flag is enabled and the user explicitly confirms.
+  description: Advance one persisted `/vision` conversation turn through backend-owned
+    stepwise orchestration, including review-to-execution when the flag is enabled
+    and the user explicitly confirms.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -846,7 +898,8 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require authenticated context and load or create one persisted vision conversation.
+    action: Require authenticated context and load or create one persisted vision
+      conversation.
     endpoint_id: process_vision_conversation_turn
     source_refs:
     - vision_conversation_controller
@@ -857,11 +910,21 @@ intents:
     - vision_quest_review_dto
     - service_errors
   - step: 2
-    action: Keep the turn read-only while the backend collects one missing quest slot at a time, including reward, visibility, schedule, and location decisions; require explicit confirmation when a custom location lookup proposes a more precise candidate before review may continue; require typed review-edit actions with one explicit review target whenever the client requests a review correction; keep reset and cancel on dedicated lifecycle endpoints; execute the first real quest creation only when the execution flag is enabled and the user explicitly confirms.
+    action: Keep the turn read-only while the backend collects one missing quest slot
+      at a time, including reward, visibility, schedule, and location decisions; require
+      explicit confirmation when a custom location lookup proposes a more precise
+      candidate before review may continue; route `OPEN_CHAT` through the existing
+      chat-open boundary when the semantic plan resolves a target contact; require
+      typed review-edit actions with one explicit review target whenever the client
+      requests a review correction; keep reset and cancel on dedicated lifecycle
+      endpoints; execute the first real quest creation only when the execution flag
+      is enabled and the user explicitly confirms.
     source_refs:
     - vision_conversation_service
     - vision_create_quest_execution_adapter
+    - vision_chat_execution_service
     - create_quest_use_case
+    - chat_service
     - service_errors
 - id: reset_vision_conversation
   description: Reset one persisted `/vision` conversation back to a fresh create quest clarification flow for the authenticated owner.

@@ -1,5 +1,4 @@
-import {onMounted, watch} from "vue"
-import {useQuestDashboard} from "../../workmarket/composables/useQuestDashboard.ts"
+import {onMounted, ref, watch} from "vue"
 import {useDebouncedWatch} from "../../../composables/useDebouncedWatch.ts"
 import {normalizeSearchQuery} from "../../../lib/searchQuery.ts"
 import {createCircleSelectionState} from "./circles/circleSelection.ts"
@@ -10,7 +9,7 @@ import {useCirclesMutationActions} from "./circles/useCirclesMutationActions.ts"
 import {useCirclesPagination} from "./circles/useCirclesPagination.ts"
 
 export const useCirclesView = () => {
-  const dashboard = useQuestDashboard()
+  const userProfileDialogId = ref<number | null>(null)
   const pageSize = 8
   const state = createCirclesPageState()
   const {
@@ -262,17 +261,26 @@ export const useCirclesView = () => {
     void loadNearbyPage()
   }
 
+  const openUserProfileDialog = (userId: number) => {
+    userProfileDialogId.value = userId
+  }
+
+  const closeUserProfileDialog = () => {
+    userProfileDialogId.value = null
+  }
+
   onMounted(() => {
     isLoading.value = true
     error.value = ""
     void refreshWorkspace().finally(() => {
       isLoading.value = false
     })
-    void dashboard.init()
   })
 
   return {
-    dashboard,
+    userProfileDialogId,
+    openUserProfileDialog,
+    closeUserProfileDialog,
     inviteCandidates,
     searchResults,
     circles,

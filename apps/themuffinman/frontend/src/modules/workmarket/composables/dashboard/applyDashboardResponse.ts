@@ -22,15 +22,9 @@ export const resetDashboardRequestErrors = (state: QuestDashboardState) => {
 
 export const clearDashboardResponseState = (state: QuestDashboardState) => {
   state.quests.value = []
-  state.dashboardMyQuests.value = []
-  state.dashboardAvailableQuests.value = []
   state.myApplications.value = []
-  state.newsItems.value = []
   state.dashboardOptions.value = null
   state.dashboardSummary.value = null
-  state.dashboardSections.value = null
-  state.unreadNewsCount.value = 0
-  state.incomingCircleRequests.value = []
   state.circles.value = []
   state.appUsers.value = []
   state.questDetailsById.value = {}
@@ -39,15 +33,9 @@ export const clearDashboardResponseState = (state: QuestDashboardState) => {
 
 export const applyDashboardResponse = (state: QuestDashboardState, dashboard: DashboardResponse) => {
   state.quests.value = dashboard.quests
-  state.dashboardMyQuests.value = dashboard.myQuests
-  state.dashboardAvailableQuests.value = dashboard.availableQuests
   state.myApplications.value = dashboard.myApplications
-  state.newsItems.value = dashboard.recentNews
   state.dashboardOptions.value = dashboard.options
   state.dashboardSummary.value = dashboard.summary
-  state.dashboardSections.value = dashboard.sections
-  state.unreadNewsCount.value = dashboard.summary.unreadNewsCount
-  state.incomingCircleRequests.value = dashboard.incomingCircleRequests
   state.circles.value = dashboard.circles
   state.appUsers.value = dashboard.appUsers
 

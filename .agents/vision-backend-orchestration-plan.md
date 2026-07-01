@@ -2,7 +2,7 @@
 
 ## Status
 
-Planning only. Do not implement until explicitly requested.
+Complete.
 
 ## Purpose
 
@@ -183,3 +183,13 @@ Backend tests should cover:
 - Destructive execution.
 - Admin automation.
 - Replacing every legacy endpoint.
+
+## Completion Evidence
+
+- Status: complete
+- Validation:
+  - `./mvnw -q -Dtest=VisionExecutionServiceTest,VisionChatExecutionServiceTest,VisionConversationServiceTest,VisionExecutionPlannerTest,VisionPromptUnderstandingServiceTest,VisionIntentRouterTest test`
+  - `make audit-todo`
+- Notes:
+  - The backend orchestration layer now persists conversations, understands `create_quest`, `discover_quests`, and `open_chat`, and routes confirmable mutation and bounded chat execution through dedicated service boundaries.
+  - `create_quest` execution remains behind the review gate and typed execution flag, while `open_chat` resolves a target contact through the chat boundary and existing circle permissions.

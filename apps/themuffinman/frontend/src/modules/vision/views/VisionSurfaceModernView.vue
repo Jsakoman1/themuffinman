@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import {computed, ref} from "vue"
+import {ref} from "vue"
 import {useMountedAsync} from "../../../composables/useMountedAsync.ts"
 import VisionAgentOrb from "../components/VisionAgentOrb.vue"
 import VisionCanvasRenderer from "../components/VisionCanvasRenderer.vue"
 import {useVisionConversation} from "../composables/useVisionConversation.ts"
+import {useVisionSurfaceState} from "../composables/useVisionSurfaceState.ts"
 
 const {
   isLoading,
@@ -19,15 +20,12 @@ const {
   promptComposerVisible,
   displayBlocks,
   currentSlotLabel,
-  currentSlotValue,
   transcriptTargetLabel,
-  transcriptTargetDetail,
   currentPlaceholder,
   currentFieldKind,
   currentMessage,
   attentionState,
   translationWarning,
-  speechStatusLabel,
   voiceRuntimeError,
   lastTranscript,
   canSend,
@@ -50,17 +48,22 @@ const {
 
 const contextPinned = ref(false)
 
-const agentCaption = computed(() => {
-  if (voiceState.value === "listening") {
-    return "Listening for the next turn."
-  }
-  if (voiceState.value === "processing") {
-    return "Updating the persisted backend conversation."
-  }
-  if (voiceState.value === "speaking") {
-    return "Speaking the current backend response."
-  }
-  return currentMessage.value
+const {
+  surfaceStatusLabel,
+  surfaceStatusDetail,
+  contextVisible,
+  showContextToggle,
+  surfaceToneClass,
+  recentConversationGroups
+} = useVisionSurfaceState({
+  voiceState,
+  voiceRuntimeError,
+  translationWarning,
+  response,
+  currentMessage,
+  currentSlotLabel,
+  recentConversations,
+  contextPinned
 })
 
 const submitPrompt = async () => {
@@ -69,126 +72,12 @@ const submitPrompt = async () => {
 
 const submitChoice = async (value: string) => {
   inputText.value = value
-  await processPrompt(value, "text")
+  await processPrompt(value, "text", "SUBMIT_PROMPT", null, value, value)
 }
 
 const updateInputText = (value: string) => {
   inputText.value = value
 }
-
-const nextActionLabel = computed(() => {
-  if (!response.value) {
-    return "Blank"
-  }
-  if (response.value.nextAction === "SHOW_REVIEW") {
-    return "Review"
-  }
-  if (response.value.nextAction === "COMPLETE") {
-    return "Complete"
-  }
-  if (response.value.nextAction === "BLOCKED") {
-    return "Blocked"
-  }
-  return "Clarify"
-})
-
-const surfaceStatusLabel = computed(() => {
-  if (voiceState.value === "listening") {
-    return "Listening"
-  }
-  if (voiceState.value === "processing") {
-    return "Processing"
-  }
-  if (voiceState.value === "speaking") {
-    return "Speaking"
-  }
-  return nextActionLabel.value
-})
-
-const surfaceStatusDetail = computed(() => {
-  if (voiceRuntimeError.value) {
-    return voiceRuntimeError.value
-  }
-  if (translationWarning.value) {
-    return translationWarning.value
-  }
-  return agentCaption.value
-})
-
-const showIntroDetail = computed(() => !!response.value
-  || voiceState.value !== "idle"
-  || !!translationWarning.value
-  || !!voiceRuntimeError.value)
-
-const showIntroHeading = computed(() => !response.value && voiceState.value === "idle")
-
-const autoContextVisible = computed(() => {
-  if (!response.value) {
-    return false
-  }
-  return response.value.canvasMode === "review"
-    || response.value.canvasMode === "blocked"
-    || response.value.canvasMode === "complete"
-    || !!translationWarning.value
-    || !!voiceRuntimeError.value
-})
-
-const contextVisible = computed(() => contextPinned.value || autoContextVisible.value)
-
-const showSurfaceControls = computed(() => !!response.value
-  || recentConversations.value.length > 0
-  || voiceState.value !== "idle"
-  || contextPinned.value
-  || autoContextVisible.value)
-
-const surfaceToneClass = computed(() => {
-  const canvasMode = response.value?.canvasMode
-  if (canvasMode === "review") {
-    return "vision-surface--review"
-  }
-  if (canvasMode === "blocked") {
-    return "vision-surface--blocked"
-  }
-  if (canvasMode === "complete") {
-    return "vision-surface--complete"
-  }
-  if (voiceState.value === "processing") {
-    return "vision-surface--processing"
-  }
-  if (voiceState.value === "listening") {
-    return "vision-surface--listening"
-  }
-  if (voiceState.value === "speaking") {
-    return "vision-surface--speaking"
-  }
-  return "vision-surface--calm"
-})
-
-const recentConversationGroups = computed(() => {
-  const groups = [
-    {
-      key: "active",
-      title: "In progress",
-      items: recentConversations.value.filter((conversation) => conversation.groupKey === "active")
-    },
-    {
-      key: "review_ready",
-      title: "Ready for review",
-      items: recentConversations.value.filter((conversation) => conversation.groupKey === "review_ready")
-    },
-    {
-      key: "blocked",
-      title: "Blocked",
-      items: recentConversations.value.filter((conversation) => conversation.groupKey === "blocked")
-    },
-    {
-      key: "completed",
-      title: "Completed",
-      items: recentConversations.value.filter((conversation) => conversation.groupKey === "completed")
-    }
-  ]
-  return groups.filter((group) => group.items.length > 0)
-})
 
 const openRecentConversation = async (conversationId: number, resumable: boolean) => {
   if (!resumable) {
@@ -202,121 +91,121 @@ useMountedAsync(init)
 
 <template>
   <section class="vision-surface" :class="surfaceToneClass">
-    <div class="vision-surface__wash vision-surface__wash--one" aria-hidden="true"></div>
-    <div class="vision-surface__wash vision-surface__wash--two" aria-hidden="true"></div>
-    <div class="vision-surface__grain" aria-hidden="true"></div>
-
-    <div v-if="showSurfaceControls" class="vision-surface__controls">
-      <button type="button" class="vision-surface__control vision-surface__control--context" @click="contextPinned = !contextPinned">
-        <span class="vision-surface__control-label">Context</span>
-        <span class="vision-surface__control-value">
-          {{ surfaceStatusLabel }}<span v-if="recentConversations.length"> · {{ recentConversations.length }} tasks</span>
-        </span>
-      </button>
-    </div>
-
     <main class="vision-surface__stage">
-      <VisionAgentOrb :voice-state="voiceState" :attention-state="attentionState" />
+      <VisionAgentOrb class="vision-surface__orb" :voice-state="voiceState" :attention-state="attentionState" />
 
       <div v-if="isLoading" class="vision-surface__loading">Loading adaptive canvas...</div>
       <div v-else-if="error" class="vision-surface__loading vision-surface__loading--error">{{ error }}</div>
 
-      <div class="vision-surface__intro">
-        <p v-if="showIntroHeading" class="vision-surface__eyebrow">Blank canvas</p>
-        <h1 v-if="showIntroHeading">One surface that waits until it matters.</h1>
-        <p v-if="showIntroDetail">{{ agentCaption }}</p>
-        <p v-if="translationWarning && !contextVisible" class="vision-surface__hint">{{ translationWarning }}</p>
-        <p v-if="voiceRuntimeError && !contextVisible" class="vision-surface__error">{{ voiceRuntimeError }}</p>
-      </div>
-
-      <section v-if="contextVisible" class="vision-surface__context-strip">
-        <div class="vision-surface__context-summary">
-          <p class="vision-surface__eyebrow">Current state</p>
-          <p class="vision-surface__context-title">{{ surfaceStatusLabel }}</p>
-          <p class="vision-surface__context-body">{{ surfaceStatusDetail }}</p>
-          <div class="vision-surface__context-meta">
-            <span v-if="response?.intent">{{ response.intent }}</span>
-            <span v-if="currentSlotLabel">{{ currentSlotLabel }}</span>
-          </div>
-        </div>
-        <section v-if="recentConversations.length" class="vision-surface__recent-inline">
-          <section
-            v-for="group in recentConversationGroups"
-            :key="group.key"
-            class="vision-recent-group"
+      <section class="vision-surface__surface-shell">
+        <div v-if="showContextToggle" class="vision-surface__shell-utility">
+          <button
+            type="button"
+            class="vision-surface__context-chip"
+            :class="{'vision-surface__context-chip--active': contextVisible}"
+            @click="contextPinned = !contextPinned"
+            :aria-label="contextVisible ? 'Hide context' : 'Show context'"
           >
-            <p class="vision-recent-group__title">{{ group.title }}</p>
-            <div class="vision-choice-list vision-choice-list--recent">
-              <button
-                v-for="conversation in group.items"
-                :key="conversation.conversationId"
-                type="button"
-                class="vision-choice-chip vision-choice-chip--recent"
-                :class="{
-                  'vision-choice-chip--completed': conversation.completed,
-                  'vision-choice-chip--active': conversation.resumable,
-                  'vision-choice-chip--stale': conversation.stale
-                }"
-                :disabled="!conversation.resumable"
-                @click="openRecentConversation(conversation.conversationId, conversation.resumable)"
-              >
-                <span class="vision-recent-task__stage">
-                  {{ conversation.stageLabel }}<span v-if="conversation.stale"> · Stale</span>
-                </span>
-                <span class="vision-recent-task__title">{{ conversation.title }}</span>
-                <span class="vision-recent-task__progress">{{ conversation.progressLabel }}</span>
-                <span v-if="conversation.appliedSlotSummaries.length" class="vision-recent-task__applied">
-                  <span
-                    v-for="slot in conversation.appliedSlotSummaries.slice(0, 2)"
-                    :key="slot.slotId"
-                    class="vision-recent-task__applied-pill"
-                  >
-                    {{ slot.label }} · {{ slot.value }}
-                  </span>
-                </span>
-              </button>
-            </div>
-          </section>
-        </section>
-      </section>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7.5 19h10a4.5 4.5 0 0 0 .4-8.98A5.5 5.5 0 0 0 7.7 8.3 3.75 3.75 0 0 0 7.5 19Zm6.5-9h1.5a3 3 0 0 1 .3 6h-8a2.25 2.25 0 0 1-.2-4.49A4 4 0 0 1 14 10Z" />
+            </svg>
+          </button>
+        </div>
 
-      <transition name="vision-panel-fade">
-        <VisionCanvasRenderer
-          :response="response"
-          :display-blocks="displayBlocks"
-          :last-transcript="lastTranscript"
-          :can-confirm="canConfirm"
-          :prompt-composer-visible="promptComposerVisible"
-          :current-slot-label="currentSlotLabel"
-          :current-slot-value="currentSlotValue"
-          :transcript-target-label="transcriptTargetLabel"
-          :transcript-target-detail="transcriptTargetDetail"
-          :current-field-kind="currentFieldKind"
-          :current-placeholder="currentPlaceholder"
-          :input-text="inputText"
-          :voice-enabled="voiceEnabled"
-          :speech-to-text-enabled="speechToTextEnabled"
-          :text-to-speech-enabled="textToSpeechEnabled"
-          :speech-recognition-supported="speechRecognitionSupported"
-          :speech-synthesis-supported="speechSynthesisSupported"
-          :speech-status-label="speechStatusLabel"
-          :can-send="canSend"
-          :voice-state="voiceState"
-          @choice="submitChoice"
-          @review-change="requestReviewChange"
-          @confirm-review="confirmReview"
-          @update:input-text="updateInputText"
-          @submit="submitPrompt"
-          @start-listening="startListening"
-          @stop-listening="stopListening"
-          @speak-summary="speakSummary"
-          @stop-speaking="stopSpeaking"
-          @reset="resetConversation"
-          @cancel="cancelConversation"
-          @open="openComposer"
-          @close="closeComposer"
-        />
-      </transition>
+        <div class="vision-surface__surface-layout">
+          <div class="vision-surface__main-column">
+            <transition name="vision-panel-fade">
+              <VisionCanvasRenderer
+                :response="response"
+                :display-blocks="displayBlocks"
+                :last-transcript="lastTranscript"
+                :can-confirm="canConfirm"
+                :prompt-composer-visible="promptComposerVisible"
+                :current-slot-label="currentSlotLabel"
+                :transcript-target-label="transcriptTargetLabel"
+                :current-field-kind="currentFieldKind"
+                :current-placeholder="currentPlaceholder"
+                :input-text="inputText"
+                :voice-enabled="voiceEnabled"
+                :speech-to-text-enabled="speechToTextEnabled"
+                :text-to-speech-enabled="textToSpeechEnabled"
+                :speech-recognition-supported="speechRecognitionSupported"
+                :speech-synthesis-supported="speechSynthesisSupported"
+                :can-send="canSend"
+                :voice-state="voiceState"
+                @choice="submitChoice"
+                @review-change="requestReviewChange"
+                @confirm-review="confirmReview"
+                @update:input-text="updateInputText"
+                @submit="submitPrompt"
+                @start-listening="startListening"
+                @stop-listening="stopListening"
+                @speak-summary="speakSummary"
+                @stop-speaking="stopSpeaking"
+                @reset="resetConversation"
+                @cancel="cancelConversation"
+                @open="openComposer"
+                @close="closeComposer"
+              />
+            </transition>
+          </div>
+
+          <transition name="vision-float-fade">
+            <aside v-if="contextVisible" class="vision-surface__context-flyout">
+              <section class="vision-surface__bubble vision-surface__bubble--state">
+                <p class="vision-surface__bubble-title">{{ surfaceStatusLabel }}</p>
+                <p class="vision-surface__bubble-copy">{{ surfaceStatusDetail }}</p>
+                <div class="vision-surface__bubble-pills">
+                  <span v-if="response?.intent">{{ response.intent }}</span>
+                  <span v-if="currentSlotLabel">{{ currentSlotLabel }}</span>
+                  <span v-if="recentConversations.length">{{ recentConversations.length }}</span>
+                </div>
+              </section>
+
+              <section v-if="recentConversations.length" class="vision-surface__bubble vision-surface__bubble--recent">
+                <div class="vision-surface__recent-scroll">
+                  <section
+                    v-for="group in recentConversationGroups"
+                    :key="group.key"
+                    class="vision-recent-group"
+                  >
+                    <p class="vision-recent-group__title">{{ group.title }}</p>
+                    <div class="vision-choice-list vision-choice-list--recent">
+                      <button
+                        v-for="conversation in group.items"
+                        :key="conversation.conversationId"
+                        type="button"
+                        class="vision-choice-chip vision-choice-chip--recent"
+                        :class="{
+                          'vision-choice-chip--completed': conversation.completed,
+                          'vision-choice-chip--active': conversation.resumable,
+                          'vision-choice-chip--stale': conversation.stale
+                        }"
+                        :disabled="!conversation.resumable"
+                        @click="openRecentConversation(conversation.conversationId, conversation.resumable)"
+                      >
+                        <span class="vision-recent-task__stage">
+                          {{ conversation.stageLabel }}<span v-if="conversation.stale"> · Stale</span>
+                        </span>
+                        <span class="vision-recent-task__title">{{ conversation.title }}</span>
+                        <span v-if="conversation.appliedSlotSummaries.length" class="vision-recent-task__applied">
+                          <span
+                            v-for="slot in conversation.appliedSlotSummaries.slice(0, 2)"
+                            :key="slot.slotId"
+                            class="vision-recent-task__applied-pill"
+                          >
+                            {{ slot.label }} · {{ slot.value }}
+                          </span>
+                        </span>
+                      </button>
+                    </div>
+                  </section>
+                </div>
+              </section>
+            </aside>
+          </transition>
+        </div>
+      </section>
     </main>
 
   </section>
@@ -327,6 +216,7 @@ useMountedAsync(init)
   position: relative;
   min-height: 100vh;
   overflow: hidden;
+  background: #ffffff;
   --vision-surface-ink: #18242f;
   --vision-surface-ink-soft: rgba(24, 36, 47, 0.72);
   --vision-surface-ink-muted: rgba(24, 36, 47, 0.46);
@@ -368,17 +258,9 @@ useMountedAsync(init)
   --vision-surface-orb-field-start: rgba(255, 162, 121, 0.15);
   --vision-surface-orb-field-mid: rgba(120, 195, 255, 0.12);
   --vision-surface-orb-field-end: rgba(255, 216, 175, 0.08);
-  --vision-surface-base-top: #fffdf8;
-  --vision-surface-base-mid: #fbfbf8;
-  --vision-surface-base-bottom: #f4f6f8;
-  --vision-surface-wash-one: rgba(255, 173, 141, 0.18);
-  --vision-surface-wash-two: rgba(116, 197, 255, 0.18);
-  --vision-surface-wash-three: rgba(255, 255, 255, 0.08);
-  background:
-    radial-gradient(circle at top, var(--vision-surface-wash-one), transparent 32%),
-    radial-gradient(circle at 80% 18%, var(--vision-surface-wash-two), transparent 28%),
-    radial-gradient(circle at 48% 84%, var(--vision-surface-wash-three), transparent 24%),
-    linear-gradient(180deg, var(--vision-surface-base-top) 0%, var(--vision-surface-base-mid) 45%, var(--vision-surface-base-bottom) 100%);
+  --vision-surface-base-top: #ffffff;
+  --vision-surface-base-mid: #ffffff;
+  --vision-surface-base-bottom: #ffffff;
   color: var(--vision-surface-ink);
 }
 
@@ -395,6 +277,21 @@ useMountedAsync(init)
   --vision-surface-wash-one: rgba(255, 167, 120, 0.2);
   --vision-surface-wash-two: rgba(143, 201, 255, 0.16);
   --vision-surface-wash-three: rgba(255, 245, 232, 0.16);
+}
+
+.vision-surface--results {
+  --vision-surface-accent-gradient: linear-gradient(135deg, #82d4c4 0%, #8db4ff 100%);
+  --vision-surface-accent-gradient-soft: linear-gradient(135deg, rgba(130, 212, 196, 0.84) 0%, rgba(141, 180, 255, 0.84) 100%);
+  --vision-surface-accent-wash: rgba(130, 212, 196, 0.2);
+  --vision-surface-orb-core-start: #f4fcfa;
+  --vision-surface-orb-core-end: #eef6ff;
+  --vision-surface-orb-core-shadow: rgba(111, 173, 166, 0.2);
+  --vision-surface-base-top: #f7fcfb;
+  --vision-surface-base-mid: #fafcfb;
+  --vision-surface-base-bottom: #f2f7f8;
+  --vision-surface-wash-one: rgba(130, 212, 196, 0.18);
+  --vision-surface-wash-two: rgba(141, 180, 255, 0.14);
+  --vision-surface-wash-three: rgba(244, 252, 250, 0.16);
 }
 
 .vision-surface--blocked {
@@ -460,190 +357,181 @@ useMountedAsync(init)
 
 .vision-surface__wash,
 .vision-surface__grain {
+  display: none;
+}
+
+.vision-surface__shell-utility {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.vision-surface__wash--one {
-  background: radial-gradient(circle at 22% 60%, var(--vision-surface-wash-one), transparent 30%);
-}
-
-.vision-surface__wash--two {
-  background: radial-gradient(circle at 78% 34%, var(--vision-surface-wash-two), transparent 26%);
-}
-
-.vision-surface__grain {
-  opacity: 0.4;
-  background-image: linear-gradient(rgba(24, 36, 47, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(24, 36, 47, 0.025) 1px, transparent 1px);
-  background-size: 84px 84px;
-  mask-image: radial-gradient(circle at center, black 35%, transparent 90%);
-}
-
-.vision-surface__controls {
-  position: relative;
-  z-index: 1;
+  top: 0.8rem;
+  right: 0.8rem;
+  z-index: 2;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.25rem 1.25rem 0;
+  justify-content: flex-end;
 }
 
-.vision-surface__control {
+.vision-surface__context-chip {
   appearance: none;
-  border: 1px solid var(--vision-surface-panel-border);
-  border-radius: 1.4rem;
-  padding: 0.7rem 0.9rem;
-  background: var(--vision-surface-card-muted);
-  backdrop-filter: blur(18px);
-  box-shadow: var(--vision-surface-shadow-soft);
+  border: 1px solid rgba(24, 36, 47, 0.06);
+  border-radius: 999px;
+  width: 2.8rem;
+  height: 2.8rem;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 10px 24px rgba(24, 36, 47, 0.05);
   color: var(--vision-surface-ink);
-  text-align: left;
   cursor: pointer;
   display: grid;
-  gap: 0.2rem;
-  min-width: 8rem;
+  place-items: center;
   transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
 
-.vision-surface__control:hover {
+.vision-surface__context-chip svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: currentColor;
+}
+
+.vision-surface__context-chip:hover {
   transform: translateY(-1px);
-  box-shadow: var(--vision-surface-shadow-float);
-  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 14px 28px rgba(24, 36, 47, 0.07);
+  background: rgba(255, 255, 255, 0.68);
 }
 
-.vision-surface__control-label {
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--vision-surface-ink-muted);
-}
-
-.vision-surface__control-value {
-  font-size: 0.92rem;
-  color: var(--vision-surface-ink-soft);
-}
-
-.vision-floating-card {
-  position: absolute;
-  z-index: 2;
-  border: 1px solid var(--vision-surface-panel-border);
-  border-radius: 1.8rem;
-  background: var(--vision-surface-panel-bg);
-  backdrop-filter: blur(24px);
-  box-shadow: var(--vision-surface-panel-shadow);
-}
-
-.vision-floating-card--context {
-  top: 5.4rem;
-  left: 1.25rem;
-  width: min(24rem, calc(100vw - 2.5rem));
-  padding: 1rem 1.1rem;
-}
-
-.vision-floating-card__eyebrow {
-  margin: 0 0 0.35rem;
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--vision-surface-ink-muted);
-}
-
-.vision-floating-card__title {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--vision-surface-ink);
-}
-
-.vision-floating-card__body {
-  margin: 0.45rem 0 0;
-  line-height: 1.5;
-  color: var(--vision-surface-ink-soft);
-}
-
-.vision-floating-card__meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-}
-
-.vision-floating-card__meta span {
-  border-radius: 999px;
-  padding: 0.38rem 0.72rem;
-  background: var(--vision-surface-card-soft);
-  font-size: 0.76rem;
-  color: var(--vision-surface-ink-soft);
+.vision-surface__context-chip--active {
+  background: rgba(255, 255, 255, 0.74);
 }
 
 .vision-surface__stage {
   position: relative;
   z-index: 1;
-  width: min(72rem, calc(100vw - 2.4rem));
-  min-height: 82vh;
+  width: min(70rem, calc(100vw - 1.6rem));
+  min-height: 100vh;
   display: grid;
-  align-content: center;
+  place-items: center;
   justify-items: center;
-  gap: 1.2rem;
-  padding: 2rem 0 4rem;
+  gap: 0.35rem;
+  padding: 0;
   text-align: center;
+}
+
+.vision-surface__orb {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%) scale(1.08);
+  width: min(48rem, 96vw);
+  opacity: 0.28;
+  filter: blur(0.3px) saturate(1.18);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.vision-surface__surface-shell {
+  width: 100%;
+  display: grid;
+  gap: 0.25rem;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  position: relative;
+  overflow: visible;
+}
+
+.vision-surface__surface-layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 0.2rem;
+  padding-top: 0;
+}
+
+.vision-surface__main-column {
+  min-width: 0;
+  display: grid;
+  gap: 0.3rem;
+  width: min(100%, 48rem);
+  justify-self: center;
+}
+
+.vision-surface__context-flyout {
+  position: absolute;
+  top: 3.8rem;
+  right: 0.8rem;
+  width: min(20rem, calc(100vw - 1.6rem));
+  display: grid;
+  gap: 0.45rem;
+  align-content: start;
+  max-height: min(40vh, 28rem);
+  overflow: auto;
+  padding: 0.1rem;
+  border-radius: 1.2rem;
+  background: rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(24, 36, 47, 0.035);
+  box-shadow: 0 14px 32px rgba(24, 36, 47, 0.04);
+  backdrop-filter: blur(14px);
+}
+
+.vision-surface__bubble {
+  display: grid;
+  gap: 0.28rem;
+  padding: 0.48rem 0.56rem;
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(24, 36, 47, 0.04);
+  box-shadow: none;
+}
+
+.vision-surface__bubble-title {
+  margin: 0;
+  color: var(--vision-surface-ink);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.vision-surface__bubble-copy {
+  margin: 0;
+  color: var(--vision-surface-ink-soft);
+  line-height: 1.45;
+  font-size: 0.86rem;
+}
+
+.vision-surface__bubble-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.vision-surface__bubble-pills span {
+  border-radius: 999px;
+  padding: 0.24rem 0.5rem;
+  background: rgba(255, 255, 255, 0.68);
+  font-size: 0.68rem;
+  color: var(--vision-surface-ink-soft);
 }
 
 .vision-surface__intro {
   max-width: 38rem;
+  justify-self: center;
 }
 
-.vision-surface__context-strip {
-  width: 100%;
-  display: grid;
-  gap: 1rem;
-  padding: 1rem 1.1rem;
-  border-radius: 1.8rem;
-  background: var(--vision-surface-panel-bg);
-  border: 1px solid var(--vision-surface-panel-border);
-  box-shadow: var(--vision-surface-panel-shadow-soft);
-  backdrop-filter: blur(20px);
-  text-align: left;
+.vision-surface__intro-copy {
+  margin: 0;
+  color: var(--vision-surface-ink-soft);
+  line-height: 1.65;
+  font-size: 1rem;
+  max-width: 42rem;
 }
 
-.vision-surface__context-summary {
+.vision-surface__recent-scroll {
   display: grid;
   gap: 0.35rem;
-}
-
-.vision-surface__context-title {
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--vision-surface-ink);
-}
-
-.vision-surface__context-body {
-  margin: 0;
-  color: var(--vision-surface-ink-soft);
-  line-height: 1.5;
-}
-
-.vision-surface__context-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.vision-surface__context-meta span {
-  border-radius: 999px;
-  padding: 0.38rem 0.72rem;
-  background: var(--vision-surface-card-soft);
-  font-size: 0.76rem;
-  color: var(--vision-surface-ink-soft);
-}
-
-.vision-surface__recent-inline {
-  display: grid;
-  gap: 1rem;
+  overflow: auto;
+  max-height: min(38vh, 22rem);
+  padding-right: 0.1rem;
 }
 
 .vision-surface__eyebrow {
@@ -682,9 +570,9 @@ useMountedAsync(init)
 .vision-choice-list--recent {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  gap: 0.7rem;
+  gap: 0.55rem;
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 0.55rem;
 }
 
 .vision-recent-group--drawer {
@@ -693,8 +581,8 @@ useMountedAsync(init)
 
 .vision-recent-group {
   display: grid;
-  gap: 0.4rem;
-  margin-top: 1rem;
+  gap: 0.3rem;
+  margin-top: 0;
 }
 
 .vision-recent-group__title {
@@ -708,13 +596,13 @@ useMountedAsync(init)
 .vision-choice-chip--recent {
   appearance: none;
   display: grid;
-  gap: 0.4rem;
+  gap: 0.18rem;
   justify-items: flex-start;
   width: 100%;
   border: 1px solid var(--vision-surface-chip-border);
-  border-radius: 1.3rem;
-  padding: 0.95rem 1rem;
-  background: var(--vision-surface-chip-bg);
+  border-radius: 1rem;
+  padding: 0.62rem 0.68rem;
+  background: rgba(255, 255, 255, 0.7);
   color: var(--vision-surface-chip-text);
   text-align: left;
   cursor: pointer;
@@ -753,15 +641,9 @@ useMountedAsync(init)
 }
 
 .vision-recent-task__title {
-  font-size: 0.98rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: var(--vision-surface-ink);
-}
-
-.vision-recent-task__progress {
-  font-size: 0.84rem;
-  line-height: 1.45;
-  color: rgba(24, 36, 47, 0.66);
 }
 
 .vision-recent-task__applied {
@@ -831,10 +713,17 @@ useMountedAsync(init)
     flex: 1 1 0;
   }
 
-  .vision-floating-card--context {
-    left: 1rem;
-    right: 1rem;
-    width: auto;
+  .vision-surface__context-flyout {
+    position: static;
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+    box-shadow: none;
+  }
+
+  .vision-surface__orb {
+    width: min(38rem, 94vw);
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 </style>
