@@ -2,8 +2,6 @@
 import {ref} from "vue"
 import {useRouter} from "vue-router"
 import AppBrand from "../../../components/app/AppBrand.vue"
-import UiAuthCard from "../../../components/ui/UiAuthCard.vue"
-import UiFieldGroup from "../../../components/ui/UiFieldGroup.vue"
 import {authApi} from "../api/authApi.ts"
 import {loginUser} from "../auth.ts"
 
@@ -36,33 +34,41 @@ const register = async () => {
 
 <template>
   <div class="auth-layout">
-    <UiAuthCard title="Register">
-      <template #brand>
+    <div class="card auth-card">
+      <div class="auth-brand">
         <AppBrand class="auth-brand__mark" to="/" />
         <p class="auth-brand__subtitle">Start once, use every module.</p>
-      </template>
+      </div>
 
-      <form class="form-stack" @submit.prevent="register">
-        <UiFieldGroup label="Email">
-          <input v-model="email" class="input" />
-        </UiFieldGroup>
+      <div class="surface-stack">
+        <div class="surface-stack">
+          <h1 class="auth-card__title">Register</h1>
+        </div>
 
-        <UiFieldGroup label="Username">
-          <input v-model="username" class="input" />
-        </UiFieldGroup>
+        <form class="form-stack" @submit.prevent="register">
+          <label class="field">
+            <span class="label">Email</span>
+            <input v-model="email" class="input" />
+          </label>
 
-        <UiFieldGroup label="Password">
-          <input v-model="password" class="input" type="password" />
-        </UiFieldGroup>
+          <label class="field">
+            <span class="label">Username</span>
+            <input v-model="username" class="input" />
+          </label>
 
-        <button class="button" type="submit">Register</button>
-      </form>
+          <label class="field">
+            <span class="label">Password</span>
+            <input v-model="password" class="input" type="password" />
+          </label>
 
-      <div v-if="error" class="alert alert--error mt-4">{{ error }}</div>
+          <button class="button" type="submit">Register</button>
+        </form>
 
-      <template #footer>
-        Already have an account? <RouterLink to="/login">Login here</RouterLink>
-      </template>
-    </UiAuthCard>
+        <div v-if="error" class="alert alert--error mt-4">{{ error }}</div>
+        <div class="auth-footer">
+          Already have an account? <RouterLink to="/login">Login here</RouterLink>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import DashboardEditSheet from "../dashboard/DashboardEditSheet.vue"
-import ApplicationEditFields from "./ApplicationEditFields.vue"
-
 defineProps<{
   message: string
   price: string
@@ -21,23 +18,39 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <form class="stack calendar-application-form quest-apply-form" autocomplete="off" @submit.prevent="emit('submit')">
-    <DashboardEditSheet>
-      <ApplicationEditFields
-        :message="message"
-        :price="price"
-        :price-placeholder="pricePlaceholder"
-        :quickfill-label="quickfillLabel"
-        :show-price="showPrice"
-        :inline-editable="false"
-        @update:message="emit('update:message', $event)"
-        @update:price="emit('update:price', $event)"
-        @quickfill="emit('quickfill')"
-      />
+  <form class="vision-terminal-feed" autocomplete="off" @submit.prevent="emit('submit')">
+    <section class="vision-terminal-feed__block">
+      <p class="vision-terminal-feed__block-title">apply</p>
+      <label class="vision-terminal-feed__field">
+        <span>Message</span>
+        <textarea
+          :value="message"
+          class="input vision-terminal-feed__textarea"
+          rows="4"
+          placeholder="Write your application"
+          @input="emit('update:message', ($event.target as HTMLTextAreaElement).value)"
+        />
+      </label>
 
-      <template #actions>
-        <button class="button button--action button--flat-primary" type="submit" :disabled="!canSubmit">{{ submitLabel ?? "Apply" }}</button>
-      </template>
-    </DashboardEditSheet>
+      <label v-if="showPrice !== false" class="vision-terminal-feed__field">
+        <span>Price</span>
+        <input
+          :value="price"
+          class="input"
+          :placeholder="pricePlaceholder ?? '0'"
+          inputmode="numeric"
+          @input="emit('update:price', ($event.target as HTMLInputElement).value)"
+        />
+      </label>
+
+      <div class="vision-terminal-feed__action-row">
+        <button v-if="quickfillLabel" class="vision-terminal-feed__link-button" type="button" @click="emit('quickfill')">
+          {{ quickfillLabel }}
+        </button>
+        <button class="vision-terminal-feed__link-button" type="submit" :disabled="!canSubmit">
+          {{ submitLabel ?? "Apply" }}
+        </button>
+      </div>
+    </section>
   </form>
 </template>

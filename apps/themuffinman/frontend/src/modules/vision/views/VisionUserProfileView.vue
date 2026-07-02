@@ -14,15 +14,7 @@ import {PROFILE_IMAGE_PROCESSING_ERROR_MESSAGE} from "../../../shared/clientMess
 import type {AppUser} from "../../../contracts/index.ts"
 import {executeSocialAction} from "../shared/socialActions.ts"
 import {useUserProfileView} from "../composables/useUserProfileView.ts"
-import ProfileOpenQuestItem from "../../../components/profile/ProfileOpenQuestItem.vue"
-import ProfileReviewItem from "../../../components/profile/ProfileReviewItem.vue"
-import ProfileSummaryCard from "../../../components/profile/ProfileSummaryCard.vue"
-import UiInfoGrid from "../../../components/ui/UiInfoGrid.vue"
-import UiStatCard from "../../../components/ui/UiStatCard.vue"
-import UiStatusBanner from "../../../components/ui/UiStatusBanner.vue"
-import UiSurfaceSection from "../../../components/ui/UiSurfaceSection.vue"
-import VisionDetailSurface from "../components/VisionDetailSurface.vue"
-import ProfileDescriptionEditor from "../components/shared/ProfileDescriptionEditor.vue"
+import {getProfileInitials} from "../../../shared/profileFormatting.ts"
 
 const route = useRoute()
 const router = useRouter()
@@ -64,65 +56,47 @@ const {
   loadErrorMessage: "Could not load profile."
 })
 
-const profileTitle = computed(() => {
-  if (isOwnProfile.value) {
-    return "My profile"
-  }
+const profileTitle = computed(() => profile.value?.username ?? "Profile")
 
-  return profile.value?.username ?? "Profile"
-})
-
-const profileRole = computed(() => profile.value?.role ?? "")
-
-const profileDescription = computed(() => profile.value?.profileDescription ?? "")
-
-const summaryBadge = computed(() => {
-  if (!profile.value || isOwnProfile.value) {
-    return ""
-  }
-
-  return `${profile.value.openQuestCount} open`
-})
-
-const overviewItems = computed(() => {
+const summaryLine = computed(() => {
   if (!profile.value) {
-    return []
+    return ""
   }
 
   const locationLabel = profile.value.locationSettings?.label
     || profile.value.locationSettings?.locality
     || profile.value.locationSettings?.country
     || "Hidden"
-  const visibilityLabel = profile.value.locationSettings?.visibilitySummary || "Hidden"
 
   return [
-    {
-      label: "Location",
-      value: locationLabel,
-      hint: ""
-    },
-    {
-      label: "Visibility",
-      value: visibilityLabel,
-      hint: ""
-    },
-    {
-      label: "As employer",
-      value: formatUserRatingSummary(employerRating.value),
-      hint: ""
-    },
-    {
-      label: "As worker",
-      value: formatUserRatingSummary(workerRating.value),
-      hint: ""
-    }
+    profile.value.email,
+    profile.value.role,
+    locationLabel,
+    profile.value.locationSettings?.visibilitySummary || "Hidden"
+  ].filter(Boolean).join(" · ")
+})
+
+const overviewLines = computed(() => {
+  if (!profile.value) {
+    return []
+  }
+
+  return [
+    `Location: ${profile.value.locationSettings?.label || profile.value.locationSettings?.locality || profile.value.locationSettings?.country || "Hidden"}`,
+    `Visibility: ${profile.value.locationSettings?.visibilitySummary || "Hidden"}`,
+    `As employer: ${formatUserRatingSummary(employerRating.value)}`,
+    `As worker: ${formatUserRatingSummary(workerRating.value)}`
   ]
 })
+
+const openQuest = async (quest: AppUser["openQuests"][number]) => {
+  await router.push(routeForNavigationTarget(quest.questNavigation))
+}
 
 const handleSocialAction = async (action = primaryAction.value) => {
   await executeSocialAction(router, action, {
     editProfile: async () => {
-      await router.push("/vision/settings")
+      await router.push("/vision/profile")
     },
     sendInvite: () => {
       void sendInvite()
@@ -134,10 +108,6 @@ const handleSocialAction = async (action = primaryAction.value) => {
       void unblockProfile()
     }
   })
-}
-
-const openQuest = async (quest: AppUser["openQuests"][number]) => {
-  await router.push(routeForNavigationTarget(quest.questNavigation))
 }
 
 const syncOwnProfileDraft = () => {
@@ -176,6 +146,10 @@ const clearProfileAvatar = () => {
 const openProfileImagePicker = () => {
   profileImageInputRef.value?.click()
 }
+
+const profileAvatarStyle = (size: number) => ({
+  "--profile-avatar-size": `${size}px`
+})
 
 const discardOwnProfileChanges = () => {
   syncOwnProfileDraft()
@@ -224,155 +198,120 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <VisionDetailSurface
-    :title="profileTitle"
-    @close="router.push('/vision/circles')"
-  >
-    <UiStatusBanner :message="bannerMessage" :tone="bannerTone" />
-
-    <div v-if="isLoading" class="empty-state">
-      Loading profile...
-    </div>
-    <div v-else-if="error" class="alert alert--error">
-      {{ error }}
-    </div>
-    <div v-else-if="profile" class="vision-profile-view">
-      <div class="vision-profile-view__main">
-        <UiSurfaceSection compact eyebrow="Profile">
-          <ProfileSummaryCard
-            :username="profile.username"
-            :avatar-data-url="isOwnProfile ? profileAvatarDraft : profile.profileAvatarDataUrl"
-            :badge-label="summaryBadge"
-            :role="profileRole"
-            :email="profile.email"
-            :description="isOwnProfile ? '' : profileDescription"
-            :description-placeholder="isOwnProfile ? '' : 'This user has not added a profile description yet.'"
-            :size="108"
-            :soft="false"
-          >
-            <template v-if="isOwnProfile" #avatarActions>
-              <button
-                class="button button--icon button--secondary button--icon-compact"
-                type="button"
-                aria-label="Change profile picture"
-                title="Change profile picture"
-                @click="openProfileImagePicker"
-              >
-                ✎
-              </button>
-              <button
-                v-if="profileAvatarDraft"
-                class="button button--icon button--secondary button--icon-compact"
-                type="button"
-                aria-label="Remove profile picture"
-                title="Remove profile picture"
-                @click="clearProfileAvatar"
-              >
-                ×
-              </button>
-            </template>
-
-            <template #actions>
-              <div v-if="!isOwnProfile" class="button-row mt-4">
-                <button
-                  v-if="primaryAction"
-                  class="button"
-                  type="button"
-                  :disabled="isSaving || !primaryAction.enabled"
-                  @click="handleSocialAction(primaryAction)"
-                >
-                  {{ primaryAction.label }}
-                </button>
-                <button
-                  v-if="showBlockAction"
-                  class="button button--secondary"
-                  type="button"
-                  :disabled="isSaving || !blockActionEnabled"
-                  @click="profileView?.relation.blockedByCurrentUser ? unblockProfile() : blockProfile()"
-                >
-                  {{ profileView?.blockActionLabel ?? "Block" }}
-                </button>
-              </div>
-              <div v-else class="button-row mt-4">
-                <button class="button button--secondary" type="button" @click="router.push('/vision/settings')">
-                  Open settings
-                </button>
-              </div>
-            </template>
-          </ProfileSummaryCard>
-        </UiSurfaceSection>
-
-        <UiSurfaceSection v-if="isOwnProfile" compact eyebrow="About me">
-          <ProfileDescriptionEditor
-            :description="profileDescriptionDraft"
-            @update:description="profileDescriptionDraft = $event"
-          />
-        </UiSurfaceSection>
-
-        <UiSurfaceSection compact eyebrow="Recent reviews">
-          <div v-if="recentReviews.length" class="surface-stack">
-            <ProfileReviewItem
-              v-for="review in recentReviews"
-              :key="review.id"
-              :reviewer-username="review.reviewerUsername"
-              :stars="review.stars"
-              :role-label="formatReviewedRoleLabel(review.reviewedRole)"
-              :quest-title="review.questTitle"
-              :quest-path="routeForNavigationTarget(review.questNavigation)"
-              :comment="review.comment"
-            />
-          </div>
-          <div v-else class="empty-state">
-            No reviews yet.
-          </div>
-        </UiSurfaceSection>
-
-        <UiSurfaceSection v-if="!isOwnProfile" compact eyebrow="Open jobs">
-          <div v-if="profile.openQuests.length" class="surface-stack">
-            <ProfileOpenQuestItem
-              v-for="quest in profile.openQuests"
-              :key="quest.id"
-              :title="quest.title"
-              :meta="`${formatQuestReward(quest.awardAmount)} · ${formatQuestTermForDisplay(quest.scheduledAt, quest.endsAt, quest.termFixed)}`"
-              :status-class="quest.presentation.statusBadgeClass"
-              :status-label="quest.presentation.statusLabel"
-              :description="quest.description"
-              action-label="Open job"
-              :action-path="routeForNavigationTarget(quest.questNavigation)"
-              interactive
-              @open="openQuest(quest)"
-            />
-          </div>
-          <div v-else class="empty-state">
-            No open jobs right now.
-          </div>
-        </UiSurfaceSection>
+  <section class="vision-profile-terminal">
+    <header class="vision-profile-terminal__header">
+      <div>
+        <p class="vision-profile-terminal__eyebrow">Vision</p>
+        <h1 class="vision-profile-terminal__title">{{ profileTitle }}</h1>
       </div>
+      <button class="vision-profile-terminal__back" type="button" @click="router.push('/vision/circles')">
+        > back
+      </button>
+    </header>
 
-      <aside class="vision-profile-view__side">
-        <UiSurfaceSection compact eyebrow="Overview">
-          <UiInfoGrid :columns="1">
-            <UiStatCard
-              v-for="item in overviewItems"
-              :key="item.label"
-              :label="item.label"
-              :value="item.value"
-              :hint="item.hint"
-            />
-          </UiInfoGrid>
-        </UiSurfaceSection>
+    <div class="vision-profile-terminal__feed">
+      <p v-if="bannerMessage" :class="['vision-profile-terminal__line', `vision-profile-terminal__line--${bannerTone}`]">
+        {{ bannerMessage }}
+      </p>
+      <p v-if="isLoading" class="vision-profile-terminal__line">loading profile...</p>
+      <p v-else-if="error" class="vision-profile-terminal__line vision-profile-terminal__line--error">{{ error }}</p>
+      <template v-else-if="profile">
+        <p class="vision-profile-terminal__line">> profile</p>
+        <p class="vision-profile-terminal__line vision-profile-terminal__line--soft">{{ summaryLine }}</p>
 
-        <UiSurfaceSection v-if="isOwnProfile && hasUnsavedOwnProfileChanges" compact eyebrow="Actions">
-          <div class="button-row">
-            <button class="button button--action" type="button" @click="saveOwnProfileChanges">
-              Save changes
+        <section class="vision-profile-terminal__block">
+          <p class="vision-profile-terminal__block-title">overview</p>
+          <p v-for="line in overviewLines" :key="line" class="vision-profile-terminal__line">{{ line }}</p>
+        </section>
+
+        <section v-if="isOwnProfile" class="vision-profile-terminal__block">
+          <p class="vision-profile-terminal__block-title">edit</p>
+          <div class="vision-profile-terminal__row">
+            <span class="profile-avatar" :style="profileAvatarStyle(96)">
+              <img
+                v-if="profileAvatarDraft"
+                class="profile-avatar__image"
+                :src="profileAvatarDraft"
+                :alt="`${profile.username || 'User'} avatar`"
+              />
+              <span v-else class="profile-avatar__fallback">{{ getProfileInitials(profile.username) }}</span>
+            </span>
+            <div class="vision-profile-terminal__row-actions">
+              <button class="vision-profile-terminal__action" type="button" @click="openProfileImagePicker">change avatar</button>
+              <button v-if="profileAvatarDraft" class="vision-profile-terminal__action vision-profile-terminal__action--ghost" type="button" @click="clearProfileAvatar">remove avatar</button>
+            </div>
+          </div>
+
+          <textarea
+            v-model="profileDescriptionDraft"
+            class="vision-profile-terminal__textarea"
+            rows="4"
+            placeholder="Write a short description..."
+          ></textarea>
+
+          <div v-if="hasUnsavedOwnProfileChanges" class="vision-profile-terminal__row-actions">
+            <button class="vision-profile-terminal__action" type="button" @click="saveOwnProfileChanges">save changes</button>
+            <button class="vision-profile-terminal__action vision-profile-terminal__action--ghost" type="button" @click="discardOwnProfileChanges">discard</button>
+          </div>
+        </section>
+
+        <section v-else class="vision-profile-terminal__block">
+          <p class="vision-profile-terminal__block-title">actions</p>
+          <div class="vision-profile-terminal__row-actions">
+            <button
+              v-if="primaryAction"
+              class="vision-profile-terminal__action"
+              type="button"
+              :disabled="isSaving || !primaryAction.enabled"
+              @click="handleSocialAction(primaryAction)"
+            >
+              {{ primaryAction.label }}
             </button>
-            <button class="button button--secondary" type="button" @click="discardOwnProfileChanges">
-              Discard
+            <button
+              v-if="showBlockAction"
+              class="vision-profile-terminal__action vision-profile-terminal__action--ghost"
+              type="button"
+              :disabled="isSaving || !blockActionEnabled"
+              @click="profileView?.relation.blockedByCurrentUser ? unblockProfile() : blockProfile()"
+            >
+              {{ profileView?.blockActionLabel ?? "block" }}
             </button>
           </div>
-        </UiSurfaceSection>
-      </aside>
+        </section>
+
+        <section class="vision-profile-terminal__block">
+          <p class="vision-profile-terminal__block-title">recent reviews</p>
+          <div v-if="recentReviews.length" class="vision-profile-terminal__rows">
+            <article v-for="review in recentReviews" :key="review.id" class="vision-profile-terminal__row">
+              <div class="vision-profile-terminal__row-main">
+                <strong>{{ review.reviewerUsername }}</strong>
+                <span class="vision-profile-terminal__muted">★{{ review.stars }} · {{ formatReviewedRoleLabel(review.reviewedRole) }} · {{ review.questTitle }}</span>
+              </div>
+              <p class="vision-profile-terminal__message">{{ review.comment || "No comment." }}</p>
+            </article>
+          </div>
+          <p v-else class="vision-profile-terminal__line vision-profile-terminal__line--soft">No reviews yet.</p>
+        </section>
+
+        <section v-if="!isOwnProfile" class="vision-profile-terminal__block">
+          <p class="vision-profile-terminal__block-title">open jobs</p>
+          <div v-if="profile.openQuests.length" class="vision-profile-terminal__rows">
+            <article v-for="quest in profile.openQuests" :key="quest.id" class="vision-profile-terminal__row">
+              <div class="vision-profile-terminal__row-main">
+                <strong>{{ quest.title }}</strong>
+                <span class="vision-profile-terminal__muted">
+                  {{ formatQuestReward(quest.awardAmount) }} · {{ formatQuestTermForDisplay(quest.scheduledAt, quest.endsAt, quest.termFixed) }}
+                </span>
+                <p class="vision-profile-terminal__message">{{ quest.description }}</p>
+              </div>
+              <div class="vision-profile-terminal__row-actions">
+                <button class="vision-profile-terminal__action" type="button" @click="openQuest(quest)">open job</button>
+              </div>
+            </article>
+          </div>
+          <p v-else class="vision-profile-terminal__line vision-profile-terminal__line--soft">No open jobs right now.</p>
+        </section>
+      </template>
     </div>
 
     <input
@@ -382,25 +321,138 @@ onBeforeUnmount(() => {
       accept="image/*"
       @change="updateProfileAvatarFromFile(($event.target as HTMLInputElement).files?.[0] ?? null); ($event.target as HTMLInputElement).value = ''"
     >
-  </VisionDetailSurface>
+  </section>
 </template>
 
 <style scoped>
-.vision-profile-view {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
-  gap: 1.25rem;
-}
-
-.vision-profile-view__main,
-.vision-profile-view__side {
+.vision-profile-terminal {
+  width: min(72rem, 100%);
   display: grid;
   gap: 1rem;
 }
 
-@media (max-width: 920px) {
-  .vision-profile-view {
-    grid-template-columns: 1fr;
+.vision-profile-terminal__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.vision-profile-terminal__eyebrow {
+  margin: 0 0 0.15rem;
+  color: var(--vision-surface-ink-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.vision-profile-terminal__title {
+  margin: 0;
+  font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+  letter-spacing: -0.05em;
+}
+
+.vision-profile-terminal__back {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: rgba(24, 36, 47, 0.68);
+  font: inherit;
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.vision-profile-terminal__feed {
+  display: grid;
+  gap: 1rem;
+}
+
+.vision-profile-terminal__line,
+.vision-profile-terminal__message {
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.vision-profile-terminal__line--soft,
+.vision-profile-terminal__muted {
+  color: var(--vision-surface-ink-soft);
+}
+
+.vision-profile-terminal__line--error {
+  color: #b04f43;
+}
+
+.vision-profile-terminal__block {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.vision-profile-terminal__block-title {
+  margin: 0;
+  color: rgba(24, 36, 47, 0.48);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.vision-profile-terminal__rows {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.vision-profile-terminal__row {
+  display: grid;
+  gap: 0.35rem;
+  padding-left: 0.35rem;
+}
+
+.vision-profile-terminal__row-main {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.vision-profile-terminal__row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.vision-profile-terminal__action {
+  appearance: none;
+  border: 0;
+  border-bottom: 1px solid rgba(24, 36, 47, 0.18);
+  background: transparent;
+  padding: 0.28rem 0;
+  color: var(--vision-surface-ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.vision-profile-terminal__action--ghost {
+  color: rgba(24, 36, 47, 0.68);
+}
+
+.vision-profile-terminal__textarea {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(24, 36, 47, 0.16);
+  border-radius: 0;
+  background: transparent;
+  padding: 0.35rem 0;
+  color: var(--vision-surface-ink);
+  font: inherit;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+}
+
+@media (max-width: 720px) {
+  .vision-profile-terminal__header {
+    flex-direction: column;
   }
 }
 </style>

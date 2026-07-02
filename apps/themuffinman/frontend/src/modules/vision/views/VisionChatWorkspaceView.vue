@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue"
 import {useRouter} from "vue-router"
-import ProfileAvatar from "../../../components/profile/ProfileAvatar.vue"
-import UiRequestError from "../../../components/ui/UiRequestError.vue"
-import UiSurfaceSection from "../../../components/ui/UiSurfaceSection.vue"
-import UiWorkspace from "../../../components/ui/UiWorkspace.vue"
 import {getApiErrorMessage} from "../../../api/apiErrors.ts"
 import {chatApi} from "../../chat/api/chatApi.ts"
 import type {ChatWorkspace} from "../../../contracts/index.ts"
 import VisionDetailSurface from "../components/VisionDetailSurface.vue"
+import {getProfileInitials} from "../../../shared/profileFormatting.ts"
 
 const workspace = ref<ChatWorkspace | null>(null)
 const loading = ref(true)
@@ -43,6 +40,10 @@ onMounted(loadWorkspace)
 const closeChatWorkspace = async () => {
   await router.push("/vision")
 }
+
+const profileAvatarStyle = (size: number) => ({
+  "--profile-avatar-size": `${size}px`
+})
 </script>
 
 <template>
@@ -50,62 +51,64 @@ const closeChatWorkspace = async () => {
     title="Chat"
     @close="closeChatWorkspace"
   >
-    <UiRequestError
-      v-if="errorMessage"
-      :message="errorMessage"
-      :details="[errorMessage]"
-      summary="Chat workspace error details"
-      :copied="false"
-    />
+    <div class="vision-terminal-feed">
+      <p class="vision-terminal-feed__line">> chat</p>
+      <p v-if="loading" class="vision-terminal-feed__line vision-terminal-feed__line--soft">Loading conversations and contacts.</p>
+      <p v-else-if="errorMessage" class="vision-terminal-feed__line vision-terminal-feed__line--error">{{ errorMessage }}</p>
 
-    <UiWorkspace variant="detail">
-      <UiSurfaceSection title="Summary">
-        <div class="chat-module-stats">
-          <div class="stat-card">
-            <strong>{{ workspace?.unreadConversationCount ?? 0 }}</strong>
-            <span>Unread</span>
-          </div>
-          <div class="stat-card">
-            <strong>{{ workspace?.onlineContactCount ?? 0 }}</strong>
-            <span>Online</span>
-          </div>
-          <div class="stat-card">
-            <strong>{{ workspace?.contacts.length ?? 0 }}</strong>
-            <span>Contacts</span>
-          </div>
-        </div>
-      </UiSurfaceSection>
+      <template v-else>
+        <p class="vision-terminal-feed__line">
+          Unread: {{ workspace?.unreadConversationCount ?? 0 }} · Online: {{ workspace?.onlineContactCount ?? 0 }} · Contacts: {{ workspace?.contacts.length ?? 0 }}
+        </p>
 
-      <UiSurfaceSection title="Recent">
-        <div v-if="loading" class="empty-state empty-state--compact">Loading conversations.</div>
-        <div v-else-if="!workspace?.conversations.length" class="empty-state empty-state--compact">No recent conversations.</div>
-        <div v-else class="chat-module-list">
-          <article v-for="conversation in workspace.conversations" :key="conversation.conversationId" class="chat-module-row">
-            <ProfileAvatar :username="conversation.otherUsername" :avatar-data-url="conversation.otherUserAvatarDataUrl" :size="36" />
-            <div>
-              <strong>{{ conversation.otherUsername }}</strong>
-              <p class="muted">{{ conversation.lastMessagePreview || "Start the conversation" }}</p>
+        <section class="vision-terminal-feed__block">
+          <p class="vision-terminal-feed__block-title">recent</p>
+          <p v-if="!workspace?.conversations.length" class="vision-terminal-feed__line vision-terminal-feed__line--soft">No recent conversations.</p>
+          <article v-for="conversation in workspace?.conversations ?? []" :key="conversation.conversationId" class="vision-terminal-feed__entry">
+            <span class="profile-avatar" :style="profileAvatarStyle(28)">
+              <img
+                v-if="conversation.otherUserAvatarDataUrl"
+                class="profile-avatar__image"
+                :src="conversation.otherUserAvatarDataUrl"
+                :alt="`${conversation.otherUsername || 'User'} avatar`"
+              />
+              <span v-else class="profile-avatar__fallback">{{ getProfileInitials(conversation.otherUsername) }}</span>
+            </span>
+            <div class="vision-terminal-feed__entry-body">
+              <p class="vision-terminal-feed__line">
+                {{ conversation.otherUsername }} <span v-if="conversation.unreadCount > 0" class="vision-terminal-feed__pulse">({{ conversation.unreadCount }} unread)</span>
+              </p>
+              <p class="vision-terminal-feed__line vision-terminal-feed__line--soft">
+                {{ conversation.lastMessagePreview || "Start the conversation" }}
+              </p>
             </div>
-            <span v-if="conversation.unreadCount > 0" class="badge badge--accent">{{ conversation.unreadCount }}</span>
           </article>
-        </div>
-      </UiSurfaceSection>
+        </section>
 
-      <UiSurfaceSection title="People">
-        <input v-model="contactQuery" class="input" placeholder="Search contacts" />
-        <div v-if="loading" class="empty-state empty-state--compact">Loading contacts.</div>
-        <div v-else-if="filteredContacts.length === 0" class="empty-state empty-state--compact">No contacts match this search.</div>
-        <div v-else class="chat-module-list">
-          <article v-for="contact in filteredContacts" :key="contact.userId" class="chat-module-row">
-            <ProfileAvatar :username="contact.username" :avatar-data-url="contact.profileAvatarDataUrl" :size="36" />
-            <div>
-              <strong>{{ contact.username }}</strong>
-              <p class="muted">{{ contact.circleNames.join(", ") || "No circle label" }}</p>
+        <section class="vision-terminal-feed__block">
+          <p class="vision-terminal-feed__block-title">people</p>
+          <input v-model="contactQuery" class="input vision-terminal-feed__input" placeholder="Search contacts" />
+          <p v-if="!filteredContacts.length" class="vision-terminal-feed__line vision-terminal-feed__line--soft">No contacts match this search.</p>
+          <article v-for="contact in filteredContacts" :key="contact.userId" class="vision-terminal-feed__entry">
+            <span class="profile-avatar" :style="profileAvatarStyle(28)">
+              <img
+                v-if="contact.profileAvatarDataUrl"
+                class="profile-avatar__image"
+                :src="contact.profileAvatarDataUrl"
+                :alt="`${contact.username || 'User'} avatar`"
+              />
+              <span v-else class="profile-avatar__fallback">{{ getProfileInitials(contact.username) }}</span>
+            </span>
+            <div class="vision-terminal-feed__entry-body">
+              <p class="vision-terminal-feed__line">{{ contact.username }}</p>
+              <p class="vision-terminal-feed__line vision-terminal-feed__line--soft">
+                {{ contact.circleNames.join(", ") || "No circle label" }}
+              </p>
             </div>
-            <span :class="['chat-module-status', { 'chat-module-status--online': contact.online }]" />
+            <span :class="['vision-terminal-feed__status', { 'vision-terminal-feed__status--online': contact.online }]" />
           </article>
-        </div>
-      </UiSurfaceSection>
-    </UiWorkspace>
+        </section>
+      </template>
+    </div>
   </VisionDetailSurface>
 </template>

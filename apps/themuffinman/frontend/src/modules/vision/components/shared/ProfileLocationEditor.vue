@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import {computed} from "vue"
-import InlineEditableField from "./InlineEditableField.vue"
-import UiSearchableMultiSelect from "../../../../components/ui/UiSearchableMultiSelect.vue"
+import {computed, ref} from "vue"
 import type {
   CircleContact,
   CircleGroup,
@@ -80,17 +78,39 @@ const locationResolutionLabel = computed(() => {
 
   return props.isResolved ? "Resolved from provider" : "Approximate coordinates only"
 })
+
+const circleSearchQuery = ref("")
+const userSearchQuery = ref("")
+
+const filterOptions = <T extends {label: string; meta?: string}>(options: T[], query: string) => {
+  const normalizedQuery = query.trim().toLowerCase()
+
+  if (!normalizedQuery) {
+    return options
+  }
+
+  return options.filter((option) => `${option.label} ${option.meta ?? ""}`.toLowerCase().includes(normalizedQuery))
+}
+
+const filteredCircleOptions = computed(() => filterOptions(
+  props.circleOptions.map((circle) => ({id: circle.id, label: circle.name})),
+  circleSearchQuery.value,
+))
+
+const filteredUserOptions = computed(() => filterOptions(
+  props.contactOptions.map((contact) => ({id: contact.userId, label: contact.username, meta: contact.circleSummaryLabel})),
+  userSearchQuery.value,
+))
 </script>
 
 <template>
-  <div class="dashboard-profile-edit-side settings-location-editor">
-    <InlineEditableField label="Location sharing" :editing="true" :editable="false">
-      <template #editor>
-        <select :value="mode" class="input" @change="handleModeChange">
-          <option v-for="option in modeOptions" :key="option.value" :value="option.value">{{ option.label }}</option>
-        </select>
-      </template>
-    </InlineEditableField>
+  <div class="vision-profile-edit-side settings-location-editor">
+    <div class="vision-terminal-feed__block">
+      <p class="vision-terminal-feed__block-title">location sharing</p>
+      <select :value="mode" class="input" @change="handleModeChange">
+        <option v-for="option in modeOptions" :key="option.value" :value="option.value">{{ option.label }}</option>
+      </select>
+    </div>
 
     <template v-if="mode !== 'OFF'">
       <div class="settings-location-editor__group">
@@ -194,34 +214,52 @@ const locationResolutionLabel = computed(() => {
       </div>
 
       <template v-if="mode === 'EXACT'">
-        <InlineEditableField label="Exact address visibility" :editing="true" :editable="false">
-          <template #editor>
-            <select :value="exactVisibilityScope" class="input" @change="handleExactVisibilityChange">
-              <option v-for="option in exactVisibilityOptions" :key="option.value" :value="option.value">{{ option.label }}</option>
-            </select>
-          </template>
-        </InlineEditableField>
+        <div class="vision-terminal-feed__block">
+          <p class="vision-terminal-feed__block-title">exact address visibility</p>
+          <select :value="exactVisibilityScope" class="input" @change="handleExactVisibilityChange">
+            <option v-for="option in exactVisibilityOptions" :key="option.value" :value="option.value">{{ option.label }}</option>
+          </select>
+        </div>
 
         <div v-if="exactVisibilityScope === 'CIRCLES'" class="ui-edit-field field">
           <span class="label">Selected circles</span>
-          <UiSearchableMultiSelect
-            :options="circleOptions.map((circle) => ({id: circle.id, label: circle.name}))"
-            :selected-ids="selectedCircleIds"
-            placeholder="Search circles"
-            empty-label="No circles found."
-            @toggle="emit('toggleCircle', $event)"
-          />
+          <div class="ui-searchable-multi-select">
+            <input v-model="circleSearchQuery" class="input ui-searchable-multi-select__search" placeholder="Search circles" type="text" />
+            <div class="ui-searchable-multi-select__list">
+              <label v-for="option in filteredCircleOptions" :key="option.id" class="ui-searchable-multi-select__option">
+                <input
+                  type="checkbox"
+                  :checked="selectedCircleIds.includes(option.id)"
+                  @change="emit('toggleCircle', option.id)"
+                />
+                <span class="ui-searchable-multi-select__copy">
+                  <strong>{{ option.label }}</strong>
+                </span>
+              </label>
+              <div v-if="!filteredCircleOptions.length" class="muted">No circles found.</div>
+            </div>
+          </div>
         </div>
 
         <div v-if="exactVisibilityScope === 'USERS'" class="ui-edit-field field">
           <span class="label">Selected people</span>
-          <UiSearchableMultiSelect
-            :options="contactOptions.map((contact) => ({id: contact.userId, label: contact.username, meta: contact.circleSummaryLabel}))"
-            :selected-ids="selectedUserIds"
-            placeholder="Search people"
-            empty-label="No people found."
-            @toggle="emit('toggleUser', $event)"
-          />
+          <div class="ui-searchable-multi-select">
+            <input v-model="userSearchQuery" class="input ui-searchable-multi-select__search" placeholder="Search people" type="text" />
+            <div class="ui-searchable-multi-select__list">
+              <label v-for="option in filteredUserOptions" :key="option.id" class="ui-searchable-multi-select__option">
+                <input
+                  type="checkbox"
+                  :checked="selectedUserIds.includes(option.id)"
+                  @change="emit('toggleUser', option.id)"
+                />
+                <span class="ui-searchable-multi-select__copy">
+                  <strong>{{ option.label }}</strong>
+                  <small v-if="option.meta">{{ option.meta }}</small>
+                </span>
+              </label>
+              <div v-if="!filteredUserOptions.length" class="muted">No people found.</div>
+            </div>
+          </div>
         </div>
       </template>
     </template>

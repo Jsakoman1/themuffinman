@@ -72,6 +72,11 @@ Route-shell behavior should also stay blank-canvas oriented:
 - reveal status, memory, and support context through one compact contextual control only when useful
 - keep the animated agent and prompt dock as the dominant anchors in the default state
 - auto-reveal state context when the backend enters review, blocked, or complete modes, because those are the moments when the user needs summary context most
+- treat `create_quest` as the gold-standard interaction pattern for both the terminal feed and the preview model: reveal only the next useful line, keep capability entry points inline and contextual, and avoid separate launcher surfaces that compete with the primary canvas
+- extend the same terminal-first pattern to circles, applications, profile, chat, and request-style entity flows so they read like one evolving conversation surface rather than separate dashboard pages
+- keep confirmations, debug details, and request review surfaces inline in the feed unless a native browser modal is explicitly required for a destructive cross-route boundary
+- when a route needs a preview, render it as a textual entity sketch that grows and reshapes with the current object instead of a modal, sheet, or split-pane shell
+- circles, applications, and profile routes should prefer one linear feed with inline actions and text-based entity summaries over card stacks, grids, or profile panels
 
 Animated agent motion should feel layered and ambient:
 - use slow field drift, halo breathing, and subtle spark motion instead of flat pulsing

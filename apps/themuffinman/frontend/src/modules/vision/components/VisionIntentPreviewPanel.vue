@@ -20,12 +20,13 @@ const fieldValues = computed<IntentField[]>(() => {
   const review = props.response?.review
 
   return [
-    {label: "Name", value: review?.title ?? summaries.get("quest_title") ?? ""},
-    {label: "Context", value: review?.description ?? summaries.get("quest_description") ?? ""},
-    {label: "Value", value: review?.rewardLabel ?? summaries.get("reward_amount") ?? ""},
-    {label: "Timing", value: [summaries.get("scheduled_date"), summaries.get("scheduled_time")].filter(Boolean).join(" ")},
-    {label: "Audience", value: review?.visibility ?? summaries.get("visibility") ?? ""},
-    {label: "Place", value: review?.location ?? summaries.get("location_label") ?? ""}
+    {label: "Title", value: review?.title ?? summaries.get("quest_title") ?? ""},
+    {label: "Description", value: review?.description ?? summaries.get("quest_description") ?? ""},
+    {label: "Reward", value: review?.rewardLabel ?? summaries.get("reward_amount") ?? ""},
+    {label: "Date", value: summaries.get("scheduled_date") ?? ""},
+    {label: "Time", value: summaries.get("scheduled_time") ?? ""},
+    {label: "Visibility", value: review?.visibility ?? summaries.get("visibility") ?? ""},
+    {label: "Location", value: review?.location ?? summaries.get("location_label") ?? ""}
   ]
 })
 
@@ -39,6 +40,18 @@ const isComplete = computed(() => {
 })
 
 const visibleFields = computed(() => fieldValues.value.filter((field) => field.value.trim().length > 0 || !isComplete.value))
+
+const previewLabel = computed(() => {
+  if (!props.visible) {
+    return ""
+  }
+
+  if (props.response?.intent) {
+    return props.response.intent.toLowerCase()
+  }
+
+  return "create_quest style preview"
+})
 </script>
 
 <template>
@@ -50,6 +63,9 @@ const visibleFields = computed(() => fieldValues.value.filter((field) => field.v
     <div class="vision-intent__orb" aria-hidden="true"></div>
 
     <article class="vision-intent__ghost">
+      <div v-if="previewLabel" class="vision-intent__label">
+        {{ previewLabel }}
+      </div>
       <div
         v-for="field in visibleFields"
         :key="field.label"
@@ -150,6 +166,14 @@ const visibleFields = computed(() => fieldValues.value.filter((field) => field.v
 
 .vision-intent__line + .vision-intent__line {
   border-top: 1px solid rgba(24, 36, 47, 0.04);
+}
+
+.vision-intent__label {
+  color: rgba(24, 36, 47, 0.42);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding-bottom: 0.12rem;
 }
 
 .vision-intent__key {

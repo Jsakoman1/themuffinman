@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import axios from "axios"
-import {computed, onMounted} from "vue"
-import {useRoute} from "vue-router"
+import {onMounted} from "vue"
 import {authApi} from "./modules/identity/api/authApi.ts"
 import {clearSession, saveSession, token} from "./services/sessionService.ts"
-
-const route = useRoute()
-const isVisionRoute = computed(() => route.path.startsWith("/vision"))
 
 onMounted(() => {
   if (!token.value) {
@@ -31,9 +27,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="['app-shell', { 'app-shell--vision': isVisionRoute }]">
-    <main class="app-main">
-      <router-view/>
-    </main>
-  </div>
+  <router-view />
 </template>

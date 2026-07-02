@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import {computed, onBeforeUnmount, onMounted, ref} from "vue"
-import QuestDetailAsidePanels from "./QuestDetailAsidePanels.vue"
-import QuestDetailHero from "./QuestDetailHero.vue"
-import DetailDialogFrame from "./DetailDialogFrame.vue"
 import type {Quest, QuestApplication, QuestDetail} from "../../api/visionApi.ts"
 
 const props = withDefaults(defineProps<{
@@ -65,23 +62,7 @@ const emit = defineEmits<{
 }>()
 
 const previewIndex = ref<number | null>(null)
-
-const previewImage = computed(() => {
-  if (previewIndex.value === null) {
-    return null
-  }
-
-  return props.quest.images?.[previewIndex.value] ?? null
-})
-
-const previewLabel = computed(() => {
-  if (previewIndex.value === null || !props.quest.images?.length) {
-    return "Photo preview"
-  }
-
-  return `Photo ${previewIndex.value + 1} of ${props.quest.images.length}`
-})
-
+const previewImage = computed(() => previewIndex.value === null ? null : props.quest.images?.[previewIndex.value] ?? null)
 const hasMultipleImages = computed(() => (props.quest.images?.length ?? 0) > 1)
 const isPreviewOpen = computed(() => previewIndex.value !== null && !!previewImage.value)
 
@@ -139,69 +120,43 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <DetailDialogFrame>
-    <template #main>
-      <QuestDetailHero :quest="quest" :show-title="showTitle" />
+  <section class="vision-terminal-feed">
+    <section v-if="showTitle" class="vision-terminal-feed__block">
+      <p class="vision-terminal-feed__block-title">{{ mainSectionEyebrow }}</p>
+      <p class="vision-terminal-feed__line">{{ quest.title || "Untitled" }}</p>
+      <p v-if="mainSectionSubtitle" class="vision-terminal-feed__line vision-terminal-feed__line--soft">{{ mainSectionSubtitle }}</p>
+    </section>
 
-      <section v-if="quest.images?.length" class="quest-detail-gallery">
-        <div class="quest-gallery quest-gallery--dialog">
-          <button
-            v-for="(image, index) in quest.images"
-            :key="`${quest.id}-${index}`"
-            class="ui-media-tile ui-media-tile--dialog quest-gallery__preview-trigger"
-            type="button"
-            :aria-label="`Open photo ${index + 1}`"
-            @click.stop="openPreview(index)"
-          >
-            <img class="quest-gallery__image" :src="image" :alt="`Quest photo ${index + 1}`">
-            <span v-if="hasMultipleImages" class="quest-gallery__badge">{{ index + 1 }} / {{ quest.images.length }}</span>
-          </button>
-        </div>
-      </section>
+    <section v-if="quest.description" class="vision-terminal-feed__block">
+      <p class="vision-terminal-feed__block-title">description</p>
+      <p class="vision-terminal-feed__line">{{ quest.description }}</p>
+    </section>
 
-      <slot name="main-after" />
-    </template>
+    <section v-if="quest.images?.length" class="vision-terminal-feed__block">
+      <p class="vision-terminal-feed__block-title">images</p>
+      <div class="vision-terminal-feed__stack">
+        <button
+          v-for="(image, index) in quest.images"
+          :key="`${quest.id}-${index}`"
+          type="button"
+          class="vision-terminal-feed__list-button"
+          @click.stop="openPreview(index)"
+        >
+          <span>Photo {{ index + 1 }} / {{ quest.images.length }}</span>
+          <span>{{ image }}</span>
+        </button>
+      </div>
+    </section>
 
-    <template #side>
-      <QuestDetailAsidePanels
-      :quest="quest"
-      :my-application="myApplication"
-      :applications-view="applicationsView"
-      :show-overview="showOverview"
-      :show-my-application="showMyApplication"
-      :can-open-application="canOpenApplication"
-      :application-open-label="applicationOpenLabel"
-      :show-term-change-details="showTermChangeDetails"
-      :execution-section="executionSection"
-      :term-change-section="termChangeSection"
-      :management-section="managementSection"
-      :review-section="reviewSection"
-      :is-saving="isSaving"
-      :is-action-in-progress="isActionInProgress"
-      :has-submitted-review="hasSubmittedReview"
-      :review-stars="reviewStars"
-      :review-comment="reviewComment"
-      @toggle-term-change="emit('toggle-term-change')"
-      @open-application="emit('open-application')"
-      @select-review-stars="emit('select-review-stars', $event)"
-      @update:review-comment="emit('update:reviewComment', $event)"
-      @submit-review="emit('submit-review')"
-      @start-work="emit('start-work')"
-      @complete-work="emit('complete-work')"
-      @delete-quest="emit('delete-quest')"
-      @assign-now="emit('assign-now')"
-      @confirm-term-change="emit('confirm-term-change')"
-      @reject-term-change="emit('reject-term-change')"
-      >
-        <slot name="side-after" />
-      </QuestDetailAsidePanels>
-    </template>
+    <slot name="main-after" />
+
+    <slot name="side-after" />
 
     <Teleport to="body">
       <div v-if="previewImage" class="quest-gallery__preview-backdrop" @click.self="closePreview">
         <div class="quest-gallery__preview-panel">
           <div class="quest-gallery__preview-toolbar">
-            <span class="quest-gallery__preview-count">{{ previewLabel }}</span>
+            <span class="quest-gallery__preview-count">Photo preview</span>
             <button class="button button--ghost" type="button" @click="closePreview">Close</button>
           </div>
 
@@ -217,7 +172,7 @@ onBeforeUnmount(() => {
             </button>
 
             <div class="quest-gallery__preview-frame">
-              <img class="quest-gallery__preview-image" :src="previewImage" :alt="previewLabel">
+              <img class="quest-gallery__preview-image" :src="previewImage" alt="Quest image preview">
             </div>
 
             <button
@@ -233,5 +188,5 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </Teleport>
-  </DetailDialogFrame>
+  </section>
 </template>

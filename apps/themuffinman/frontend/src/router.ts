@@ -6,6 +6,8 @@ const RegisterView = () => import("./modules/identity/views/RegisterView.vue");
 const VisionSurfaceModernView = () => import("./modules/vision/views/VisionSurfaceModernView.vue");
 const VisionQuestDetailView = () => import("./modules/vision/views/VisionQuestDetailView.vue");
 const VisionApplicationDetailView = () => import("./modules/vision/views/VisionApplicationDetailView.vue");
+const VisionApplicationsView = () => import("./modules/vision/views/VisionApplicationsView.vue");
+const VisionProfileOnboardingView = () => import("./modules/vision/views/VisionProfileOnboardingView.vue");
 const VisionUserProfileView = () => import("./modules/vision/views/VisionUserProfileView.vue");
 const VisionUserSettingsView = () => import("./modules/vision/views/VisionUserSettingsView.vue");
 const VisionCirclesView = () => import("./modules/vision/views/VisionCirclesView.vue");
@@ -36,6 +38,11 @@ const routes = [
         meta: {requiresAuth: true}
     },
     {
+        path: '/vision/profile',
+        component: VisionProfileOnboardingView,
+        meta: {requiresAuth: true}
+    },
+    {
         path: '/vision/settings',
         component: VisionUserSettingsView,
         meta: {requiresAuth: true}
@@ -58,6 +65,11 @@ const routes = [
     {
         path: '/vision/applications/:id',
         component: VisionApplicationDetailView,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/vision/applications',
+        component: VisionApplicationsView,
         meta: {requiresAuth: true}
     }
 ];

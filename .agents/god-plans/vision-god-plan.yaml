@@ -67,11 +67,11 @@ masterPlans:
     cons:
       - Requires careful capability triage so dev-only workflows are not deleted before Vision replacement exists.
 implementationState:
-  currentPhase: Phase 1 foundation is complete with create_quest conversation, open_chat conversation, review flow, voice input/output, adaptive canvas rendering, read-only quest discovery, shared prompt semantics, read-only execution planning, Vision-native quest/application detail bridging, and a thinner reusable surface shell.
-  nextPhase: Continue capability expansion and rollout hardening while reusing the shared semantic and policy boundary across Vision and Admin Playground, keep the new split date/time scheduling contract intact, and implement the planned legacy route-based frontend contraction around a Vision-first runtime, starting with the remaining user-scoped detail and account bridges.
+  currentPhase: Phase 1 foundation is complete with create_quest conversation, open_chat conversation, review flow, voice input/output, adaptive canvas rendering, read-only quest discovery, shared prompt semantics, read-only execution planning, and a terminal-first Vision route shell.
+  nextPhase: Continue capability expansion and rollout hardening while reusing the shared semantic and policy boundary across Vision and Admin Playground, keep the new split date/time scheduling contract intact, and finish the remaining legacy route-based frontend contraction around a Vision-first runtime.
   backend: Persisted conversation, turn state, create_quest slot collection, open_chat routing, review edit actions, execution boundary services, and execution adapters exist.
   api: Conversation turn, resume, recent, reset, cancel, blocks, slot summaries, and review DTOs exist.
-  frontend: Modern vision route, reusable surface-state composable, canvas renderer, inline prompt composer, voice controls, transcript feedback, recent conversations, mode-specific hero states, compact in-shell context reveal, review summary, execution candidate surface, and Vision detail route wrappers for quest/application continuity exist.
+  frontend: Modern vision route, reusable surface-state composable, canvas renderer, inline prompt composer, voice controls, transcript feedback, recent conversations, mode-specific hero states, compact in-shell context reveal, review summary, execution candidate surface, Vision detail route wrappers for quest/application continuity, inline capability hints inside the terminal feed, create_quest-shaped preview semantics, terminal/feed surfaces for chat, application detail, settings, onboarding, quest composer, and quest detail edit, a profile onboarding route with location setup, profiles without a saved location auto-focus the onboarding location section, and a redirect away from the removed `/admin/work` route exist.
   api: Versioned `/vision/conversations/turns` request contract now carries input type, text, client capabilities, state version, and optional choice/confirmation fields.
   semanticMapping: Shared focus-slot mapper exists, shared prompt semantics support now covers both Vision and Admin Playground, and the understanding prompt also supports read-only discovery planning.
   activeChildPlan: .agents/vision-adaptive-architecture-master-plan.md
@@ -81,12 +81,13 @@ pros:
   - Voice feedback exposes transcript and current semantic target.
   - Recent conversations and applied-slot summaries support resume-oriented UX.
   - Read-only discovery now shares the same backend-governed surface as create_quest.
-cons:
+  - The surface is converging on a single inline feed model instead of separate launch panels, which matches the create_quest interaction style more closely.
+  cons:
   - Vision still needs broader capability coverage beyond create_quest and discovery.
   - No generic VisionExecutionPlanner or VisionExecutionService exists yet.
   - Context reveal and continuation behavior still need more tightening before the surface fully reads as one morphing canvas.
   - Memory/context hardening still needs more work before the surface can stay calm across longer sessions.
-  - The repo still carries a broad legacy route/module frontend that increases maintenance cost even though the product is still in dev phase.
+  - The repo still carries a few legacy helper wrappers and non-Vision route/module surfaces that increase maintenance cost even though the product is still in dev phase.
 risks:
   - id: VISION-RISK-001
     description: The plan stack can become stale because implementation is moving quickly.

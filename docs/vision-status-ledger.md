@@ -52,6 +52,15 @@ It should stay short, factual, and updated when a vision batch materially change
 - quest and application detail entry points now have Vision-native routes, with legacy detail paths redirected into the Vision surface
 - profile, settings, circles, and chat entry points now resolve through Vision-native routes, and the old legacy view files have been removed from the route graph
 - profile and settings are now direct Vision route surfaces instead of nested profile dialogs, keeping identity and location editing inside the same route-level mental model as the rest of Vision
+- the main Vision surface now exposes Vision-native routes for profile, circles, applications, and chat, and the current user's applications now have a Vision-native list route
+- the main Vision surface now keeps capability entry points inline inside the terminal feed instead of rendering a separate launchpad panel, and the preview model is being tuned to the `create_quest` slot-by-slot reveal pattern
+- Vision detail routes are being collapsed toward a terminal-first shell so circles, applications, chat, and profile surfaces stop reading like legacy popup pages
+- circles, applications, and profile are now rendered as linear text feeds with inline actions instead of dashboard cards and sidebars
+- chat, application detail, settings, onboarding, quest composer, and quest detail edit now also use the same terminal/feed presentation instead of the old dialog-and-panel shell
+- the shared Vision feed styling now standardizes line-by-line blocks, inline actions, and textual summaries across the remaining Vision detail surfaces
+- Vision now has a profile onboarding route for completing identity, avatar, and location setup before falling back to the fuller settings surface
+- profiles without a saved location auto-focus the onboarding location section so the first-time setup path opens on the missing piece
+- the legacy admin login handoff now redirects into Vision instead of pointing at a removed frontend route
 - the legacy admin frontend shell and its route-level entry pages have been removed from the active frontend tree
 - the `/vision/conversations/turns` request now carries a versioned client contract with input type, text, client capabilities, and client state version fields instead of relying only on legacy prompt semantics
 

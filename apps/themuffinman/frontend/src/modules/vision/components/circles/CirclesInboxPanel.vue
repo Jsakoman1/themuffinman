@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import ProfileAvatar from "../../../../components/profile/ProfileAvatar.vue"
-import UiListItem from "../../../../components/ui/UiListItem.vue"
-import UiPagination from "../../../../components/ui/UiPagination.vue"
-import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
+import {getProfileInitials} from "../../../../shared/profileFormatting.ts"
 import type {CircleRequest, ProfilePrimaryAction} from "../../../../contracts/index.ts"
 
 defineProps<{
@@ -42,145 +39,99 @@ const handleAction = (requestId: number, action: ProfilePrimaryAction | null | u
       return
   }
 }
+
+const profileAvatarStyle = (size: number) => ({
+  "--profile-avatar-size": `${size}px`
+})
 </script>
 
 <template>
-  <UiSurfaceSection
-    tag="section"
-    class="surface-stack circles-page__panel"
-    compact
-    plain
-    title="Requests"
-  >
-    <template #actions>
-      <div class="circles-section-actions">
-        <span class="badge">{{ incomingCount ?? 0 }} incoming</span>
-        <span class="badge">{{ outgoingCount ?? 0 }} outgoing</span>
+  <section class="vision-terminal-feed__block">
+      <p class="vision-terminal-feed__block-title">requests</p>
+      <p class="vision-terminal-feed__line vision-terminal-feed__line--soft">{{ incomingCount ?? 0 }} incoming · {{ outgoingCount ?? 0 }} outgoing</p>
+
+    <section class="vision-terminal-feed__block">
+      <p class="vision-terminal-feed__line">Incoming</p>
+      <article v-for="request in incomingItems" :key="request.id" class="vision-terminal-feed__entry">
+        <span class="profile-avatar" :style="profileAvatarStyle(44)">
+          <img v-if="request.counterpartProfileAvatarDataUrl" class="profile-avatar__image" :src="request.counterpartProfileAvatarDataUrl" :alt="`${request.counterpartUsername || 'User'} avatar`" />
+          <span v-else class="profile-avatar__fallback">{{ getProfileInitials(request.counterpartUsername) }}</span>
+        </span>
+        <div class="vision-terminal-feed__entry-body">
+          <p class="vision-terminal-feed__line">{{ request.counterpartUsername }}</p>
+          <p class="vision-terminal-feed__line vision-terminal-feed__line--soft">{{ request.primaryAction?.label ?? "Pending" }}</p>
+        </div>
+        <div class="vision-terminal-feed__action-row">
+          <button
+            v-if="request.primaryAction?.label"
+            class="vision-terminal-feed__link-button"
+            type="button"
+            :disabled="isSaving || !request.primaryAction.enabled"
+            @click="handleAction(request.id, request.primaryAction)"
+          >
+            {{ request.primaryAction.label }}
+          </button>
+          <button
+            v-if="request.secondaryAction?.label"
+            class="vision-terminal-feed__link-button"
+            type="button"
+            :disabled="isSaving || !request.secondaryAction.enabled"
+            @click="handleAction(request.id, request.secondaryAction)"
+          >
+            {{ request.secondaryAction.label }}
+          </button>
+        </div>
+      </article>
+      <p v-if="!incomingItems.length" class="vision-terminal-feed__line vision-terminal-feed__line--soft">No incoming requests.</p>
+      <div v-if="incomingPages > 1" class="vision-pagination">
+        <div class="muted">{{ `Page ${incomingPage} of ${incomingPages}` }}</div>
+        <div class="button-row">
+          <button class="button button--secondary" type="button" :disabled="incomingPage <= 1" @click="emit('previous-incoming')">Previous</button>
+          <button class="button button--secondary" type="button" :disabled="incomingPage >= incomingPages" @click="emit('next-incoming')">Next</button>
+        </div>
       </div>
-    </template>
+    </section>
 
-    <div class="circles-inbox-grid">
-      <section class="surface-stack">
-        <div class="circles-subsection-heading">
-          <strong>Incoming</strong>
-          <span class="muted">{{ incomingTotal ?? 0 }}</span>
+    <section class="vision-terminal-feed__block">
+      <p class="vision-terminal-feed__line">Outgoing</p>
+      <article v-for="request in outgoingItems" :key="request.id" class="vision-terminal-feed__entry">
+        <span class="profile-avatar" :style="profileAvatarStyle(44)">
+          <img v-if="request.counterpartProfileAvatarDataUrl" class="profile-avatar__image" :src="request.counterpartProfileAvatarDataUrl" :alt="`${request.counterpartUsername || 'User'} avatar`" />
+          <span v-else class="profile-avatar__fallback">{{ getProfileInitials(request.counterpartUsername) }}</span>
+        </span>
+        <div class="vision-terminal-feed__entry-body">
+          <p class="vision-terminal-feed__line">{{ request.counterpartUsername }}</p>
+          <p class="vision-terminal-feed__line vision-terminal-feed__line--soft">{{ request.primaryAction?.label ?? "Pending" }}</p>
         </div>
-
-        <div v-if="incomingItems.length" class="surface-list">
-          <UiListItem v-for="request in incomingItems" :key="request.id">
-            <template #header>
-              <button
-                class="profile-link profile-link--button"
-                type="button"
-                @click="emit('open-user', request.counterpartUserId)"
-              >
-                <ProfileAvatar
-                  :username="request.counterpartUsername"
-                  :avatar-data-url="request.counterpartProfileAvatarDataUrl"
-                  :size="44"
-                />
-                <div class="stack stack--xs profile-entity-card__identity">
-                  <strong>{{ request.counterpartUsername }}</strong>
-                </div>
-              </button>
-            </template>
-
-            <template #actions>
-              <button
-                v-if="request.primaryAction?.label"
-                class="button"
-                type="button"
-                :disabled="isSaving || !request.primaryAction.enabled"
-                @click="handleAction(request.id, request.primaryAction)"
-              >
-                {{ request.primaryAction.label }}
-              </button>
-              <button
-                v-if="request.secondaryAction?.label"
-                class="button button--ghost"
-                type="button"
-                :disabled="isSaving || !request.secondaryAction.enabled"
-                @click="handleAction(request.id, request.secondaryAction)"
-              >
-                {{ request.secondaryAction.label }}
-              </button>
-            </template>
-          </UiListItem>
+        <div class="vision-terminal-feed__action-row">
+          <button
+            v-if="request.primaryAction?.label"
+            class="vision-terminal-feed__link-button"
+            type="button"
+            :disabled="isSaving || !request.primaryAction.enabled"
+            @click="handleAction(request.id, request.primaryAction)"
+          >
+            {{ request.primaryAction.label }}
+          </button>
+          <button
+            v-if="request.secondaryAction?.label"
+            class="vision-terminal-feed__link-button"
+            type="button"
+            :disabled="isSaving || !request.secondaryAction.enabled"
+            @click="handleAction(request.id, request.secondaryAction)"
+          >
+            {{ request.secondaryAction.label }}
+          </button>
         </div>
-        <div v-else class="empty-state empty-state--soft">
-          No incoming requests.
+      </article>
+      <p v-if="!outgoingItems.length" class="vision-terminal-feed__line vision-terminal-feed__line--soft">No outgoing requests.</p>
+      <div v-if="outgoingPages > 1" class="vision-pagination">
+        <div class="muted">{{ `Page ${outgoingPage} of ${outgoingPages}` }}</div>
+        <div class="button-row">
+          <button class="button button--secondary" type="button" :disabled="outgoingPage <= 1" @click="emit('previous-outgoing')">Previous</button>
+          <button class="button button--secondary" type="button" :disabled="outgoingPage >= outgoingPages" @click="emit('next-outgoing')">Next</button>
         </div>
-
-        <UiPagination
-          v-if="incomingPages > 1"
-          :label="`Page ${incomingPage} of ${incomingPages}`"
-          :has-previous="incomingPage > 1"
-          :has-next="incomingPage < incomingPages"
-          @previous="emit('previous-incoming')"
-          @next="emit('next-incoming')"
-        />
-      </section>
-
-      <section class="surface-stack">
-        <div class="circles-subsection-heading">
-          <strong>Outgoing</strong>
-          <span class="muted">{{ outgoingTotal ?? 0 }}</span>
-        </div>
-
-        <div v-if="outgoingItems.length" class="surface-list">
-          <UiListItem v-for="request in outgoingItems" :key="request.id">
-            <template #header>
-              <button
-                class="profile-link profile-link--button"
-                type="button"
-                @click="emit('open-user', request.counterpartUserId)"
-              >
-                <ProfileAvatar
-                  :username="request.counterpartUsername"
-                  :avatar-data-url="request.counterpartProfileAvatarDataUrl"
-                  :size="44"
-                />
-                <div class="stack stack--xs profile-entity-card__identity">
-                  <strong>{{ request.counterpartUsername }}</strong>
-                </div>
-              </button>
-            </template>
-
-            <template #actions>
-              <button
-                v-if="request.primaryAction?.label"
-                class="button button--ghost"
-                type="button"
-                :disabled="isSaving || !request.primaryAction.enabled"
-                @click="handleAction(request.id, request.primaryAction)"
-              >
-                {{ request.primaryAction.label }}
-              </button>
-              <button
-                v-if="request.secondaryAction?.label"
-                class="button"
-                type="button"
-                :disabled="isSaving || !request.secondaryAction.enabled"
-                @click="handleAction(request.id, request.secondaryAction)"
-              >
-                {{ request.secondaryAction.label }}
-              </button>
-            </template>
-          </UiListItem>
-        </div>
-        <div v-else class="empty-state empty-state--soft">
-          No outgoing requests.
-        </div>
-
-        <UiPagination
-          v-if="outgoingPages > 1"
-          :label="`Page ${outgoingPage} of ${outgoingPages}`"
-          :has-previous="outgoingPage > 1"
-          :has-next="outgoingPage < outgoingPages"
-          @previous="emit('previous-outgoing')"
-          @next="emit('next-outgoing')"
-        />
-      </section>
-    </div>
-  </UiSurfaceSection>
+      </div>
+    </section>
+  </section>
 </template>

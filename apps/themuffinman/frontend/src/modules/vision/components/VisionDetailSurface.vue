@@ -23,7 +23,7 @@ const emit = defineEmits<{
       </div>
 
       <button type="button" class="vision-detail-surface__close" @click="emit('close')">
-        Back to Vision
+        > back
       </button>
     </header>
 
@@ -38,7 +38,9 @@ const emit = defineEmits<{
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background: #ffffff;
+  background:
+    radial-gradient(circle at top, rgba(255, 250, 242, 0.96), transparent 38%),
+    linear-gradient(180deg, #ffffff 0%, #fffdf9 100%);
   color: var(--vision-surface-ink);
   display: grid;
   justify-items: center;
@@ -55,10 +57,10 @@ const emit = defineEmits<{
 .vision-detail-surface__header {
   width: min(72rem, 100%);
   display: flex;
-  align-items: flex-start;
+  align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .vision-detail-surface__heading {
@@ -91,20 +93,24 @@ const emit = defineEmits<{
 
 .vision-detail-surface__close {
   appearance: none;
-  border: 1px solid rgba(24, 36, 47, 0.08);
-  background: rgba(255, 255, 255, 0.96);
+  border: 0;
+  background: transparent;
   color: var(--vision-surface-ink);
-  border-radius: 999px;
-  padding: 0.7rem 0.95rem;
+  border-radius: 0;
+  padding: 0;
   font: inherit;
   cursor: pointer;
-  box-shadow: 0 10px 24px rgba(24, 36, 47, 0.06);
+  box-shadow: none;
+  color: rgba(24, 36, 47, 0.68);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .vision-detail-surface__body {
-  width: min(72rem, 100%);
+  width: min(68rem, 100%);
   display: grid;
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
 @media (max-width: 720px) {

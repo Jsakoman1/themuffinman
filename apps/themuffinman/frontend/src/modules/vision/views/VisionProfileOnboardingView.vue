@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import {computed, onBeforeUnmount, ref, watch} from "vue"
+import {computed, nextTick, onBeforeUnmount, ref, watch} from "vue"
 import {useRouter} from "vue-router"
 import {currentUser} from "../../../auth.ts"
 import {getApiErrorMessage} from "../../../api/apiErrors.ts"
+import {PROFILE_IMAGE_PROCESSING_ERROR_MESSAGE} from "../../../shared/clientMessages.ts"
+import {compressProfileAvatar} from "../../../shared/imageCompression.ts"
 import {updateSessionUser} from "../../../services/sessionService.ts"
+import {useDebouncedWatch} from "../../../composables/useDebouncedWatch.ts"
 import type {
   AppUser,
   CircleContact,
@@ -14,14 +17,16 @@ import type {
   LocationModeOption
 } from "../../../contracts/index.ts"
 import {visionApi} from "../api/visionApi.ts"
-import {useDebouncedWatch} from "../../../composables/useDebouncedWatch.ts"
 import {useUserProfileView} from "../composables/useUserProfileView.ts"
+import {getProfileInitials} from "../../../shared/profileFormatting.ts"
 import VisionDetailSurface from "../components/VisionDetailSurface.vue"
 
 const router = useRouter()
-
-const profileEmail = ref("")
-const profileUsername = ref("")
+const profileImageInputRef = ref<HTMLInputElement | null>(null)
+const profileEmailDraft = ref("")
+const profileUsernameDraft = ref("")
+const profileDescriptionDraft = ref("")
+const profileAvatarDraft = ref("")
 const profileLocationMode = ref<NonNullable<NonNullable<AppUser["locationSettings"]>["mode"]>>("OFF")
 const profileExactVisibilityScope = ref<NonNullable<NonNullable<AppUser["locationSettings"]>["exactVisibilityScope"]>>("NOBODY")
 const profileExactVisibleCircleIds = ref<number[]>([])
@@ -37,9 +42,6 @@ const profileLocationHouseNumber = ref("")
 const profileLocationLatitude = ref("")
 const profileLocationLongitude = ref("")
 const profileLocationResolvedAt = ref("")
-const originalProfileEmail = ref("")
-const originalProfileUsername = ref("")
-const originalLocationSignature = ref("")
 const locationModeOptions = ref<LocationModeOption[]>([])
 const exactVisibilityScopeOptions = ref<ExactLocationVisibilityScopeOption[]>([])
 const myCircleOptions = ref<CircleGroup[]>([])
@@ -50,6 +52,13 @@ const lookupConfigured = ref(false)
 const isLookupLoading = ref(false)
 const isUsingCurrentLocation = ref(false)
 const locationError = ref("")
+const originalProfileEmail = ref("")
+const originalProfileUsername = ref("")
+const originalProfileDescription = ref("")
+const originalProfileAvatar = ref("")
+const originalLocationSignature = ref("")
+const locationSectionRef = ref<HTMLElement | null>(null)
+const locationAutoFocused = ref(false)
 
 const activeUserId = computed(() => currentUser.value?.id ?? null)
 
@@ -67,10 +76,10 @@ const {
 } = useUserProfileView({
   userId: () => activeUserId.value,
   enabled: () => true,
-  loadErrorMessage: "Could not load settings."
+  loadErrorMessage: "Could not load profile setup."
 })
 
-const loadSettingsOptions = async () => {
+const loadSetupOptions = async () => {
   try {
     const options = await visionApi.getAppUserOptions()
     locationModeOptions.value = options.locationModes
@@ -94,39 +103,55 @@ const loadSettingsOptions = async () => {
   }
 }
 
-const isLocationResolved = computed(() => Boolean(
-  profileLocationLatitude.value.trim()
-  && profileLocationLongitude.value.trim()
-  && (profileLocationStreet.value.trim() || profileLocationLocality.value.trim() || profileLocationLabel.value.trim())
-))
-
-const selectedLocationTitle = computed(() =>
-  [profileLocationStreet.value.trim(), profileLocationHouseNumber.value.trim()].filter(Boolean).join(" ").trim()
-  || profileLocationLabel.value.trim()
-  || profileLocationLocality.value.trim()
-  || "No location selected"
-)
-
-const selectedLocationMeta = computed(() =>
-  [profileLocationPostalCode.value.trim(), profileLocationLocality.value.trim(), profileLocationCountry.value.trim()]
-    .filter(Boolean)
-    .join(", ")
-)
-
-const selectedLocationStatus = computed(() => {
-  if (!profileLocationLatitude.value.trim() || !profileLocationLongitude.value.trim()) {
-    return "No coordinates saved"
+const syncDraft = () => {
+  if (!profile.value || !isOwnProfile.value) {
+    return
   }
 
-  return isLocationResolved.value ? "Resolved from provider" : "Approximate coordinates only"
-})
+  profileEmailDraft.value = profile.value.email ?? currentUser.value?.email ?? ""
+  profileUsernameDraft.value = profile.value.username ?? currentUser.value?.username ?? ""
+  profileDescriptionDraft.value = profile.value.profileDescription ?? ""
+  profileAvatarDraft.value = profile.value.profileAvatarDataUrl ?? ""
+  profileLocationMode.value = profile.value.locationSettings?.mode ?? "OFF"
+  profileExactVisibilityScope.value = profile.value.locationSettings?.exactVisibilityScope ?? "NOBODY"
+  profileExactVisibleCircleIds.value = [...(profile.value.locationSettings?.exactVisibleCircleIds ?? [])]
+  profileExactVisibleUserIds.value = [...(profile.value.locationSettings?.exactVisibleUserIds ?? [])]
+  profileLocationProvider.value = profile.value.locationSettings?.provider ?? ""
+  profileLocationProviderPlaceId.value = profile.value.locationSettings?.providerPlaceId ?? ""
+  profileLocationLabel.value = profile.value.locationSettings?.label ?? ""
+  profileLocationCountry.value = profile.value.locationSettings?.country ?? ""
+  profileLocationLocality.value = profile.value.locationSettings?.locality ?? ""
+  profileLocationPostalCode.value = profile.value.locationSettings?.postalCode ?? ""
+  profileLocationStreet.value = profile.value.locationSettings?.street ?? ""
+  profileLocationHouseNumber.value = profile.value.locationSettings?.houseNumber ?? ""
+  profileLocationLatitude.value = profile.value.locationSettings?.latitude != null ? String(profile.value.locationSettings.latitude) : ""
+  profileLocationLongitude.value = profile.value.locationSettings?.longitude != null ? String(profile.value.locationSettings.longitude) : ""
+  profileLocationResolvedAt.value = profile.value.locationSettings?.resolvedAt ?? ""
+  locationSearchQuery.value = profileLocationLabel.value || buildManualAddressQuery()
+  locationSuggestions.value = []
+  locationError.value = ""
+  originalProfileEmail.value = profileEmailDraft.value
+  originalProfileUsername.value = profileUsernameDraft.value
+  originalProfileDescription.value = profileDescriptionDraft.value
+  originalProfileAvatar.value = profileAvatarDraft.value
+  originalLocationSignature.value = buildLocationSignature()
+}
 
-const selectedLocationModeLabel = computed(() =>
-  locationModeOptions.value.find((option) => option.value === profileLocationMode.value)?.label ?? "Hidden"
+const hasUnsavedChanges = computed(() =>
+  profileEmailDraft.value !== originalProfileEmail.value
+  || profileUsernameDraft.value !== originalProfileUsername.value
+  || profileDescriptionDraft.value !== originalProfileDescription.value
+  || profileAvatarDraft.value !== originalProfileAvatar.value
+  || buildLocationSignature() !== originalLocationSignature.value
 )
 
-const selectedVisibilityScopeLabel = computed(() =>
-  exactVisibilityScopeOptions.value.find((option) => option.value === profileExactVisibilityScope.value)?.label ?? "Hidden"
+const hasSavedLocation = computed(() =>
+  profileLocationMode.value !== "OFF"
+  && (
+    profileLocationLatitude.value.trim().length > 0
+    || profileLocationLongitude.value.trim().length > 0
+    || profileLocationLabel.value.trim().length > 0
+  )
 )
 
 const buildLocationSignature = () => JSON.stringify({
@@ -147,41 +172,18 @@ const buildLocationSignature = () => JSON.stringify({
   resolvedAt: profileLocationResolvedAt.value
 })
 
-const syncDraft = () => {
-  if (!profile.value || !isOwnProfile.value) {
-    return
-  }
-
-  profileEmail.value = profile.value.email ?? currentUser.value?.email ?? ""
-  profileUsername.value = profile.value.username ?? currentUser.value?.username ?? ""
-  profileLocationMode.value = profile.value.locationSettings?.mode ?? "OFF"
-  profileExactVisibilityScope.value = profile.value.locationSettings?.exactVisibilityScope ?? "NOBODY"
-  profileExactVisibleCircleIds.value = [...(profile.value.locationSettings?.exactVisibleCircleIds ?? [])]
-  profileExactVisibleUserIds.value = [...(profile.value.locationSettings?.exactVisibleUserIds ?? [])]
-  profileLocationProvider.value = profile.value.locationSettings?.provider ?? ""
-  profileLocationProviderPlaceId.value = profile.value.locationSettings?.providerPlaceId ?? ""
-  profileLocationLabel.value = profile.value.locationSettings?.label ?? ""
-  profileLocationCountry.value = profile.value.locationSettings?.country ?? ""
-  profileLocationLocality.value = profile.value.locationSettings?.locality ?? ""
-  profileLocationPostalCode.value = profile.value.locationSettings?.postalCode ?? ""
-  profileLocationStreet.value = profile.value.locationSettings?.street ?? ""
-  profileLocationHouseNumber.value = profile.value.locationSettings?.houseNumber ?? ""
-  profileLocationLatitude.value = profile.value.locationSettings?.latitude != null ? String(profile.value.locationSettings.latitude) : ""
-  profileLocationLongitude.value = profile.value.locationSettings?.longitude != null ? String(profile.value.locationSettings.longitude) : ""
-  profileLocationResolvedAt.value = profile.value.locationSettings?.resolvedAt ?? ""
-  locationSearchQuery.value = profileLocationLabel.value || buildManualAddressQuery()
-  locationSuggestions.value = []
-  locationError.value = ""
-  originalProfileEmail.value = profileEmail.value
-  originalProfileUsername.value = profileUsername.value
-  originalLocationSignature.value = buildLocationSignature()
+const buildManualAddressQuery = () => {
+  return [
+    profileLocationStreet.value,
+    profileLocationHouseNumber.value,
+    profileLocationPostalCode.value,
+    profileLocationLocality.value,
+    profileLocationCountry.value
+  ]
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .join(", ")
 }
-
-const hasUnsavedChanges = computed(() =>
-  profileEmail.value.trim() !== originalProfileEmail.value.trim()
-  || profileUsername.value.trim() !== originalProfileUsername.value.trim()
-  || buildLocationSignature() !== originalLocationSignature.value
-)
 
 const clearLocationProviderMetadata = () => {
   profileLocationProvider.value = ""
@@ -211,19 +213,6 @@ const clearSelectedLocation = () => {
   locationError.value = ""
 }
 
-const buildManualAddressQuery = () => {
-  return [
-    profileLocationStreet.value,
-    profileLocationHouseNumber.value,
-    profileLocationPostalCode.value,
-    profileLocationLocality.value,
-    profileLocationCountry.value
-  ]
-    .map((value) => value.trim())
-    .filter(Boolean)
-    .join(", ")
-}
-
 const applyLocationCandidate = (candidate: LocationLookupCandidate) => {
   profileLocationProvider.value = candidate.provider ?? ""
   profileLocationProviderPlaceId.value = candidate.providerPlaceId ?? ""
@@ -241,43 +230,6 @@ const applyLocationCandidate = (candidate: LocationLookupCandidate) => {
   locationError.value = ""
 }
 
-const updateLocationCountry = (value: string) => {
-  profileLocationCountry.value = value
-  markAddressAsUnresolved()
-}
-
-const updateLocationLocality = (value: string) => {
-  profileLocationLocality.value = value
-  markAddressAsUnresolved()
-}
-
-const updateLocationPostalCode = (value: string) => {
-  profileLocationPostalCode.value = value
-  markAddressAsUnresolved()
-}
-
-const updateLocationStreet = (value: string) => {
-  profileLocationStreet.value = value
-  markAddressAsUnresolved()
-}
-
-const updateLocationHouseNumber = (value: string) => {
-  profileLocationHouseNumber.value = value
-  markAddressAsUnresolved()
-}
-
-const toggleExactVisibleCircle = (circleId: number) => {
-  profileExactVisibleCircleIds.value = profileExactVisibleCircleIds.value.includes(circleId)
-    ? profileExactVisibleCircleIds.value.filter((id) => id !== circleId)
-    : [...profileExactVisibleCircleIds.value, circleId]
-}
-
-const toggleExactVisibleUser = (userId: number) => {
-  profileExactVisibleUserIds.value = profileExactVisibleUserIds.value.includes(userId)
-    ? profileExactVisibleUserIds.value.filter((id) => id !== userId)
-    : [...profileExactVisibleUserIds.value, userId]
-}
-
 const searchLocations = async (queryOverride?: string): Promise<LocationLookupResponse | null> => {
   const sourceQuery = (queryOverride ?? locationSearchQuery.value).trim().replaceAll(/\s+/g, " ")
   if (sourceQuery.length < 3) {
@@ -288,6 +240,7 @@ const searchLocations = async (queryOverride?: string): Promise<LocationLookupRe
 
   isLookupLoading.value = true
   locationError.value = ""
+
   try {
     const response = await visionApi.lookupLocation({query: sourceQuery})
     lookupConfigured.value = response.configured
@@ -362,25 +315,82 @@ const useCurrentLocation = async () => {
   }
 }
 
-const saveProfile = async () => {
-  if (!currentUser.value || !isOwnProfile.value || !profile.value) {
+const updateLocationCountry = (value: string) => {
+  profileLocationCountry.value = value
+  markAddressAsUnresolved()
+}
+
+const updateLocationLocality = (value: string) => {
+  profileLocationLocality.value = value
+  markAddressAsUnresolved()
+}
+
+const updateLocationPostalCode = (value: string) => {
+  profileLocationPostalCode.value = value
+  markAddressAsUnresolved()
+}
+
+const updateLocationStreet = (value: string) => {
+  profileLocationStreet.value = value
+  markAddressAsUnresolved()
+}
+
+const updateLocationHouseNumber = (value: string) => {
+  profileLocationHouseNumber.value = value
+  markAddressAsUnresolved()
+}
+
+const toggleExactVisibleCircle = (circleId: number) => {
+  profileExactVisibleCircleIds.value = profileExactVisibleCircleIds.value.includes(circleId)
+    ? profileExactVisibleCircleIds.value.filter((id) => id !== circleId)
+    : [...profileExactVisibleCircleIds.value, circleId]
+}
+
+const toggleExactVisibleUser = (userId: number) => {
+  profileExactVisibleUserIds.value = profileExactVisibleUserIds.value.includes(userId)
+    ? profileExactVisibleUserIds.value.filter((id) => id !== userId)
+    : [...profileExactVisibleUserIds.value, userId]
+}
+
+const openProfileImagePicker = () => {
+  profileImageInputRef.value?.click()
+}
+
+const profileAvatarStyle = (size: number) => ({
+  "--profile-avatar-size": `${size}px`
+})
+
+const updateProfileAvatarFromFile = async (file: File | null) => {
+  if (!file) {
+    profileAvatarDraft.value = ""
     return
   }
 
-  if (profileLocationMode.value !== "OFF" && (!profileLocationLatitude.value.trim() || !profileLocationLongitude.value.trim())) {
-    showMessage("Resolve the address first by selecting a search result or using your current location before saving.", "warning")
+  try {
+    profileAvatarDraft.value = await compressProfileAvatar(file)
+  } catch {
+    showMessage(PROFILE_IMAGE_PROCESSING_ERROR_MESSAGE, "warning")
+  }
+}
+
+const clearProfileAvatar = () => {
+  profileAvatarDraft.value = ""
+}
+
+const saveProfile = async () => {
+  if (!currentUser.value || !profile.value || !isOwnProfile.value) {
     return
   }
 
   try {
     const response = await visionApi.updateCurrentAppUser({
-      email: profileEmail.value.trim(),
-      username: profileUsername.value.trim(),
-      profileDescription: profile.value.profileDescription ?? null,
-      profileAvatarDataUrl: profile.value.profileAvatarDataUrl ?? null,
+      email: profileEmailDraft.value.trim(),
+      username: profileUsernameDraft.value.trim(),
+      profileDescription: profileDescriptionDraft.value.trim() || null,
+      profileAvatarDataUrl: profileAvatarDraft.value || null,
       locationSettings: {
         mode: profileLocationMode.value,
-        defaultRadiusKm: 10,
+        defaultRadiusKm: profile.value.locationSettings?.defaultRadiusKm ?? 10,
         exactVisibilityScope: profileExactVisibilityScope.value,
         exactVisibleCircleIds: profileExactVisibleCircleIds.value,
         exactVisibleUserIds: profileExactVisibleUserIds.value,
@@ -408,30 +418,36 @@ const saveProfile = async () => {
       role: response.role ?? currentUser.value.role
     })
 
-    showMessage("Settings updated.", "success")
+    showMessage("Profile saved.", "success")
     await fetchProfile()
+    await router.push(`/vision/users/${response.id}`)
   } catch (requestError) {
-    showMessage(getApiErrorMessage(requestError, "Could not update settings."), "warning")
+    showMessage(getApiErrorMessage(requestError, "Could not save profile."), "warning")
   }
 }
 
-const discardChanges = () => {
-  syncDraft()
-}
-
-const closeSettings = async () => {
-  if (window.history.length > 1) {
-    await router.back()
-    return
-  }
-
-  if (currentUser.value?.id) {
-    await router.push(`/vision/users/${currentUser.value.id}`)
-    return
-  }
-
+const skipForNow = async () => {
   await router.push("/vision")
 }
+
+watch(() => activeUserId.value, () => {
+  void fetchProfile()
+  void loadSetupOptions()
+}, {immediate: true})
+
+watch(() => [profile.value?.id, isOwnProfile.value] as const, () => {
+  syncDraft()
+}, {immediate: true})
+
+watch(() => [isLoading.value, profile.value?.id, hasSavedLocation.value] as const, async () => {
+  if (isLoading.value || hasSavedLocation.value || locationAutoFocused.value) {
+    return
+  }
+
+  await nextTick()
+  locationSectionRef.value?.scrollIntoView({behavior: "smooth", block: "start"})
+  locationAutoFocused.value = true
+}, {immediate: true})
 
 useDebouncedWatch(locationSearchQuery, () => {
   if (profileLocationMode.value === "OFF") {
@@ -441,15 +457,6 @@ useDebouncedWatch(locationSearchQuery, () => {
   void searchLocations()
 }, 350)
 
-watch(() => activeUserId.value, () => {
-  void fetchProfile()
-  void loadSettingsOptions()
-}, {immediate: true})
-
-watch(() => [profile.value?.id, isOwnProfile.value] as const, () => {
-  syncDraft()
-}, {immediate: true})
-
 onBeforeUnmount(() => {
   clearProfile()
 })
@@ -457,35 +464,63 @@ onBeforeUnmount(() => {
 
 <template>
   <VisionDetailSurface
-    title="Settings"
-    @close="closeSettings"
+    eyebrow="Vision route"
+    title="Complete your profile"
+    subtitle="Set up the identity Vision will use when you talk, post, and join circles."
+    @close="skipForNow"
   >
     <div class="vision-terminal-feed">
       <p v-if="bannerMessage" :class="['vision-terminal-feed__line', `vision-terminal-feed__line--${bannerTone}`]">
         {{ bannerMessage }}
       </p>
-      <p class="vision-terminal-feed__line">> settings</p>
-      <p v-if="isLoading" class="vision-terminal-feed__line vision-terminal-feed__line--soft">Loading settings...</p>
+      <p class="vision-terminal-feed__line">> onboarding</p>
+      <p v-if="isLoading" class="vision-terminal-feed__line vision-terminal-feed__line--soft">Loading profile setup...</p>
       <p v-else-if="error" class="vision-terminal-feed__line vision-terminal-feed__line--error">{{ error }}</p>
       <p v-else-if="!profile || !isOwnProfile" class="vision-terminal-feed__line vision-terminal-feed__line--soft">
-        Settings are only available for your own account.
+        Profile setup is only available for your own account.
       </p>
 
       <template v-else>
         <section class="vision-terminal-feed__block">
           <p class="vision-terminal-feed__block-title">identity</p>
+          <div class="vision-terminal-feed__avatar-row">
+            <span class="profile-avatar" :style="profileAvatarStyle(88)">
+              <img
+                v-if="profileAvatarDraft"
+                class="profile-avatar__image"
+                :src="profileAvatarDraft"
+                :alt="`${profileUsernameDraft || 'User'} avatar`"
+              />
+              <span v-else class="profile-avatar__fallback">{{ getProfileInitials(profileUsernameDraft) }}</span>
+            </span>
+            <div class="vision-terminal-feed__action-row">
+              <button class="vision-terminal-feed__link-button" type="button" @click="openProfileImagePicker">
+                {{ profileAvatarDraft ? "Change picture" : "Add picture" }}
+              </button>
+              <button v-if="profileAvatarDraft" class="vision-terminal-feed__link-button" type="button" @click="clearProfileAvatar">
+                Remove
+              </button>
+            </div>
+          </div>
+
           <label class="vision-terminal-feed__field">
             <span>Email</span>
-            <input v-model="profileEmail" class="input" type="email" placeholder="name@example.com" />
+            <input v-model="profileEmailDraft" class="input" type="email" placeholder="name@example.com" />
           </label>
+
           <label class="vision-terminal-feed__field">
             <span>Username</span>
-            <input v-model="profileUsername" class="input" placeholder="Your display name" />
+            <input v-model="profileUsernameDraft" class="input" placeholder="Your display name" />
+          </label>
+
+          <label class="vision-terminal-feed__field">
+            <span>About you</span>
+            <textarea v-model="profileDescriptionDraft" class="input vision-terminal-feed__textarea" rows="5" placeholder="Say a little about what you do."></textarea>
           </label>
         </section>
 
-        <section class="vision-terminal-feed__block">
-          <p class="vision-terminal-feed__block-title">location</p>
+        <section ref="locationSectionRef" class="vision-terminal-feed__block">
+          <p class="vision-terminal-feed__block-title">{{ hasSavedLocation ? "location" : "location setup" }}</p>
           <label class="vision-terminal-feed__field">
             <span>Mode</span>
             <select v-model="profileLocationMode" class="input">
@@ -591,22 +626,32 @@ onBeforeUnmount(() => {
 
         <section class="vision-terminal-feed__block">
           <p class="vision-terminal-feed__block-title">summary</p>
-          <p class="vision-terminal-feed__line">Username: {{ profileUsername }}</p>
-          <p class="vision-terminal-feed__line">Location mode: {{ selectedLocationModeLabel }}</p>
-          <p class="vision-terminal-feed__line">Location visibility: {{ selectedVisibilityScopeLabel }}</p>
-          <p class="vision-terminal-feed__line">Selected location: {{ selectedLocationTitle }}</p>
-          <p v-if="selectedLocationMeta" class="vision-terminal-feed__line vision-terminal-feed__line--soft">{{ selectedLocationMeta }}</p>
-          <p v-else class="vision-terminal-feed__line vision-terminal-feed__line--soft">{{ selectedLocationStatus }}</p>
+          <p class="vision-terminal-feed__line">Username: {{ profileUsernameDraft }}</p>
+          <p class="vision-terminal-feed__line">Location mode: {{ profileLocationMode }}</p>
+          <p class="vision-terminal-feed__line">Location visibility: {{ profileExactVisibilityScope }}</p>
+          <p class="vision-terminal-feed__line">Selected location: {{ profileLocationLabel || "No location selected" }}</p>
         </section>
 
-        <section v-if="hasUnsavedChanges" class="vision-terminal-feed__block">
+        <section class="vision-terminal-feed__block">
           <p class="vision-terminal-feed__block-title">actions</p>
           <div class="vision-terminal-feed__action-row">
-            <button class="vision-terminal-feed__link-button" type="button" :disabled="isSaving" @click="saveProfile">Save changes</button>
-            <button class="vision-terminal-feed__link-button" type="button" :disabled="isSaving" @click="discardChanges">Discard</button>
+            <button class="vision-terminal-feed__link-button" type="button" :disabled="isSaving || !hasUnsavedChanges" @click="saveProfile">
+              Save profile
+            </button>
+            <button class="vision-terminal-feed__link-button" type="button" @click="skipForNow">
+              Skip for now
+            </button>
           </div>
         </section>
       </template>
+
+      <input
+        ref="profileImageInputRef"
+        class="visually-hidden"
+        type="file"
+        accept="image/*"
+        @change="updateProfileAvatarFromFile(($event.target as HTMLInputElement).files?.[0] ?? null); ($event.target as HTMLInputElement).value = ''"
+      />
     </div>
   </VisionDetailSurface>
 </template>

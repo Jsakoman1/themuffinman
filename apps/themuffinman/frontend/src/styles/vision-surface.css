@@ -504,3 +504,139 @@
     font-size: 2.6rem;
   }
 }
+
+.vision-terminal-feed {
+  display: grid;
+  gap: 1.1rem;
+  width: min(69rem, 100%);
+}
+
+.vision-terminal-feed__line {
+  margin: 0;
+  line-height: 1.62;
+  white-space: pre-wrap;
+}
+
+.vision-terminal-feed__line--soft {
+  color: var(--vision-surface-ink-soft);
+}
+
+.vision-terminal-feed__line--error {
+  color: #b04f43;
+}
+
+.vision-terminal-feed__block {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.vision-terminal-feed__block-title {
+  margin: 0;
+  color: var(--vision-surface-ink-muted);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.vision-terminal-feed__field {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--vision-surface-ink);
+}
+
+.vision-terminal-feed__field span {
+  color: var(--vision-surface-ink-soft);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.vision-terminal-feed__action-row,
+.vision-terminal-feed__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.vision-terminal-feed__link-button,
+.vision-terminal-feed__list-button {
+  appearance: none;
+  border: 0;
+  border-bottom: 1px solid rgba(24, 36, 47, 0.18);
+  background: transparent;
+  padding: 0.22rem 0;
+  color: var(--vision-surface-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.vision-terminal-feed__list-button {
+  display: grid;
+  gap: 0.12rem;
+  min-width: min(100%, 16rem);
+}
+
+.vision-terminal-feed__list-button span:last-child {
+  color: var(--vision-surface-ink-soft);
+  font-size: 0.8rem;
+}
+
+.vision-terminal-feed__list-button--active {
+  color: #244a7a;
+  border-bottom-color: #244a7a;
+}
+
+.vision-terminal-feed__entry {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.85rem;
+  align-items: start;
+}
+
+.vision-terminal-feed__entry-body {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.vision-terminal-feed__status {
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: 0.35rem;
+  border-radius: 999px;
+  background: rgba(24, 36, 47, 0.18);
+}
+
+.vision-terminal-feed__status--online {
+  background: #16734e;
+}
+
+.vision-terminal-feed__pulse {
+  color: #244a7a;
+}
+
+.vision-terminal-feed__avatar-row {
+  display: grid;
+  gap: 0.65rem;
+  align-items: start;
+}
+
+.vision-terminal-feed__textarea {
+  width: 100%;
+  min-height: 7rem;
+  resize: vertical;
+}
+
+@media (max-width: 720px) {
+  .vision-terminal-feed {
+    width: 100%;
+  }
+
+  .vision-terminal-feed__entry {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .vision-terminal-feed__entry > :last-child {
+    grid-column: 1 / -1;
+  }
+}

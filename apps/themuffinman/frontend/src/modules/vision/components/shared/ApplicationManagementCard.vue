@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import ProfileBio from "../../../../components/profile/ProfileBio.vue"
-import UiSurfaceSection from "../../../../components/ui/UiSurfaceSection.vue"
-import {richTextHasContent} from "../../../../shared/richText.ts"
 import type {QuestApplication} from "../../api/visionApi.ts"
 import {formatApplicationPrice} from "../../shared/pricing.ts"
 
@@ -20,28 +17,17 @@ defineEmits<{
 </script>
 
 <template>
-  <UiSurfaceSection :class="{ 'ui-selection-surface': selected }" compact>
-    <div class="surface-inline-spread">
-      <button class="ui-inline-link" type="button" @click="$emit('open-applicant')">
-        {{ application.applicantUsername }}
-      </button>
-      <span v-if="showStatus" :class="application.presentation.statusBadgeClass">
-        {{ application.presentation.statusLabel }}
-      </span>
-    </div>
-
-    <div v-if="application.proposedPrice !== null && application.proposedPrice !== undefined" class="surface-price">
+  <article class="vision-terminal-feed__block" :class="{ 'vision-terminal-feed__list-button--active': selected }">
+    <button class="vision-terminal-feed__link-button" type="button" @click="$emit('open-applicant')">
+      {{ application.applicantUsername }}
+    </button>
+    <p v-if="showStatus" class="vision-terminal-feed__line">{{ application.presentation.statusLabel }}</p>
+    <p v-if="application.proposedPrice !== null && application.proposedPrice !== undefined" class="vision-terminal-feed__line">
       {{ formatApplicationPrice(application.proposedPrice) }}
-    </div>
-
-    <ProfileBio
-      v-if="richTextHasContent(application.message)"
-      class="ui-copy-compact"
-      :text="application.message"
-    />
-
-    <div v-if="$slots.actions" class="surface-actions">
+    </p>
+    <p v-if="application.message" class="vision-terminal-feed__line">{{ application.message }}</p>
+    <div v-if="$slots.actions" class="vision-terminal-feed__action-row">
       <slot name="actions" />
     </div>
-  </UiSurfaceSection>
+  </article>
 </template>

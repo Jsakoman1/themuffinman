@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import {getProfileInitials} from "../../../../shared/profileFormatting.ts"
 import type {CircleCandidate, ProfilePrimaryAction} from "../../../../contracts/index.ts"
-import ProfileEntityCard from "../../../../components/profile/ProfileEntityCard.vue"
 
 const props = defineProps<{
   user: CircleCandidate
@@ -35,23 +35,36 @@ const meta = [
   props.user.locationLabel,
   props.user.email
 ].filter((value, index, values) => Boolean(value) && values.indexOf(value) === index).join(" • ")
+
+const profileAvatarStyle = (size: number) => ({
+  "--profile-avatar-size": `${size}px`
+})
 </script>
 
 <template>
-  <ProfileEntityCard
-    :username="props.user.username"
-    :avatar-data-url="props.user.profileAvatarDataUrl"
-    :meta="meta"
-    :description="''"
-    description-placeholder=""
-    @open="emit('openProfile', user.id)"
-  >
-    <template #badge>
-      <span :class="props.user.relationBadgeClass">
-        {{ props.user.relationLabel }}
-      </span>
-    </template>
-    <template #actions>
+  <article class="profile-entity-card">
+    <div class="profile-entity-card__top">
+      <button class="profile-link profile-link--button" type="button" @click="emit('openProfile', user.id)">
+        <span class="profile-avatar" :style="profileAvatarStyle(56)">
+          <img v-if="props.user.profileAvatarDataUrl" class="profile-avatar__image" :src="props.user.profileAvatarDataUrl" :alt="`${props.user.username || 'User'} avatar`" />
+          <span v-else class="profile-avatar__fallback">{{ getProfileInitials(props.user.username) }}</span>
+        </span>
+        <div class="stack profile-entity-card__identity">
+          <strong>{{ props.user.username }}</strong>
+          <div v-if="meta" class="muted">{{ meta }}</div>
+        </div>
+      </button>
+
+      <div class="profile-entity-card__badge">
+        <span :class="props.user.relationBadgeClass">
+          {{ props.user.relationLabel }}
+        </span>
+      </div>
+    </div>
+
+    <div class="profile-entity-card__body"></div>
+
+    <div class="profile-entity-card__actions">
       <button
         v-if="props.user.primaryAction?.label"
         class="button"
@@ -70,6 +83,6 @@ const meta = [
       >
         {{ props.user.secondaryAction?.label }}
       </button>
-    </template>
-  </ProfileEntityCard>
+    </div>
+  </article>
 </template>

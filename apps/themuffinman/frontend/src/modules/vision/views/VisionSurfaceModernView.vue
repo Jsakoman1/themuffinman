@@ -99,10 +99,10 @@ useMountedAsync(init)
     <main
       class="vision-surface__stage"
       :style="{
-        '--vision-surface-ambient-opacity': String(0.78 - (motionIntensity * 0.1)),
-        '--vision-surface-particle-opacity': String(0.82 - (motionIntensity * 0.08)),
-        '--vision-surface-motion-speed': `${Math.max(0.9, 1.15 - (motionIntensity * 0.18))}`,
-        '--vision-surface-motion-scale': `${1 + (motionIntensity * 0.05)}`
+        '--vision-surface-ambient-opacity': String(0.84 - (motionIntensity * 0.08)),
+        '--vision-surface-particle-opacity': String(0.74 - (motionIntensity * 0.06)),
+        '--vision-surface-motion-speed': `${Math.max(0.92, 1.12 - (motionIntensity * 0.16))}`,
+        '--vision-surface-motion-scale': `${1 + (motionIntensity * 0.045)}`
       }"
     >
       <div class="vision-surface__ambient" aria-hidden="true">
@@ -224,8 +224,8 @@ useMountedAsync(init)
 }
 
 .vision-surface__ambient :deep(.vision-agent) {
-  width: min(92rem, 132vw);
-  opacity: var(--vision-surface-ambient-opacity, 0.78);
+  width: min(96rem, 138vw);
+  opacity: var(--vision-surface-ambient-opacity, 0.84);
   filter: blur(0) saturate(1.22) brightness(1.06);
   animation-duration: calc(11s * var(--vision-surface-motion-speed, 1));
 }

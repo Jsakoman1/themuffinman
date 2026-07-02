@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {ref} from "vue"
-import ProfileAvatar from "../../../../components/profile/ProfileAvatar.vue"
-import UiFieldGroup from "../../../../components/ui/UiFieldGroup.vue"
+import {getProfileInitials} from "../../../../shared/profileFormatting.ts"
 
 const props = defineProps<{
   email?: string | null
@@ -30,14 +29,21 @@ const openProfileImagePicker = () => {
 const clearProfileImage = () => {
   emit("clear-image")
 }
+
+const profileAvatarStyle = (size: number) => ({
+  "--profile-avatar-size": `${size}px`
+})
 </script>
 
 <template>
-  <div class="dashboard-profile-edit-side">
-    <div v-if="showAvatar !== false" class="dashboard-profile-avatar-editor">
-      <ProfileAvatar :username="username" :avatar-data-url="avatarDataUrl" :size="96" />
+  <div class="vision-profile-edit-side">
+    <div v-if="showAvatar !== false" class="vision-profile-avatar-editor">
+      <span class="profile-avatar" :style="profileAvatarStyle(96)">
+        <img v-if="avatarDataUrl" class="profile-avatar__image" :src="avatarDataUrl" :alt="`${username || 'User'} avatar`" />
+        <span v-else class="profile-avatar__fallback">{{ getProfileInitials(username) }}</span>
+      </span>
       <button
-        class="button button--icon button--secondary button--icon-compact dashboard-profile-avatar-editor__trigger"
+        class="button button--icon button--secondary button--icon-compact vision-profile-avatar-editor__trigger"
         type="button"
         aria-label="Change profile picture"
         title="Change profile picture"
@@ -47,7 +53,7 @@ const clearProfileImage = () => {
       </button>
       <button
         v-if="avatarDataUrl"
-        class="button button--icon button--secondary button--icon-compact dashboard-profile-avatar-editor__remove"
+        class="button button--icon button--secondary button--icon-compact vision-profile-avatar-editor__remove"
         type="button"
         aria-label="Remove profile picture"
         title="Remove profile picture"
@@ -57,11 +63,11 @@ const clearProfileImage = () => {
       </button>
     </div>
 
-    <UiFieldGroup v-if="showEmail !== false" label="Email" field-class="ui-edit-field ui-edit-field--profile-email ui-edit-field--profile-inline">
-      <template #headerAction>
-        <button class="button button--icon button--secondary button--icon-compact" type="button" aria-label="Edit email" @click="editingEmail = !editingEmail">✎</button>
-      </template>
-
+    <div v-if="showEmail !== false" class="vision-terminal-feed__block">
+      <p class="vision-terminal-feed__block-title">email</p>
+      <button class="vision-terminal-feed__link-button" type="button" @click="editingEmail = !editingEmail">
+        {{ editingEmail ? "Close" : "Edit email" }}
+      </button>
       <input
         v-if="editingEmail"
         :value="email ?? ''"
@@ -70,13 +76,13 @@ const clearProfileImage = () => {
         @input="emit('update:email', ($event.target as HTMLInputElement).value)"
       />
       <div v-else class="ui-inline-readonly-text">{{ email || "-" }}</div>
-    </UiFieldGroup>
+    </div>
 
-    <UiFieldGroup v-if="showUsername !== false" label="Username" field-class="ui-edit-field ui-edit-field--profile-username ui-edit-field--profile-inline">
-      <template #headerAction>
-        <button class="button button--icon button--secondary button--icon-compact" type="button" aria-label="Edit username" @click="editingUsername = !editingUsername">✎</button>
-      </template>
-
+    <div v-if="showUsername !== false" class="vision-terminal-feed__block">
+      <p class="vision-terminal-feed__block-title">username</p>
+      <button class="vision-terminal-feed__link-button" type="button" @click="editingUsername = !editingUsername">
+        {{ editingUsername ? "Close" : "Edit username" }}
+      </button>
       <input
         v-if="editingUsername"
         :value="username ?? ''"
@@ -84,7 +90,7 @@ const clearProfileImage = () => {
         @input="emit('update:username', ($event.target as HTMLInputElement).value)"
       />
       <div v-else class="ui-inline-readonly-text">{{ username || "-" }}</div>
-    </UiFieldGroup>
+    </div>
 
     <input
       ref="profileImageInputRef"

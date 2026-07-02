@@ -385,7 +385,7 @@
   color: #b42318;
 }
 
-.dashboard-toast {
+.ui-toast {
   position: fixed;
   left: 50%;
   bottom: 72px;
@@ -401,12 +401,12 @@
   transform: translateX(-50%);
 }
 
-.dashboard-toast--success {
+.ui-toast--success {
   border-color: rgba(22, 101, 52, 0.18);
   color: var(--success);
 }
 
-.dashboard-toast--error {
+.ui-toast--error {
   border-color: rgba(185, 28, 28, 0.18);
   color: var(--danger);
 }

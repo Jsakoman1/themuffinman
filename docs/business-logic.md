@@ -681,8 +681,8 @@ Current covered modules:
 - `/vision` is the primary authenticated user surface.
 - Vision-native quest and application detail routes carry the main detail flows.
 - Vision-native profile, settings, circles, and chat routes carry the user-scoped continuation flows.
-- `/admin/work`, `/admin/quests`, `/admin/users`, `/admin/applications`, and `/admin/circles` are the admin workspaces.
-- Logged-in admins are redirected to the admin workspace, while normal users land on `/vision`.
+- Admin capability work is currently accessed through the Vision surface rather than a separate dedicated frontend route.
+- Logged-in users land on `/vision`.
 - Legacy route-era user entry routes such as `/work`, `/quests`, `/app-users`, `/business`, `/things`, and `/rides` are no longer active product entry points.
 
 ### API client model

@@ -82,8 +82,7 @@ Use it for tooling that should produce compact outputs Codex can consume instead
   - `ruby scripts/audits/audit-frontend-stale-surfaces.rb`
   - `make audit-frontend-stale-surfaces`
   Outputs:
-  - `docs/generated/local-tooling/frontend-stale-surface-audit.json`
-  - `docs/generated/local-tooling/frontend-stale-surface-audit-summary.md`
+  - retired
 
 - `CODEX-LOCAL-FRONTEND-STATE-LOGIC-DUPLICATION-AUDIT`
   Entrypoints:
@@ -114,8 +113,7 @@ Use it for tooling that should produce compact outputs Codex can consume instead
   - `ruby scripts/audits/audit-frontend-dead-code.rb`
   - `make audit-frontend-dead-code`
   Outputs:
-  - `docs/generated/dead-code-audit/frontend-unused.json`
-  - `docs/generated/dead-code-audit/frontend-unused-summary.md`
+  - retired
 
 - `CODEX-LOCAL-BACKEND-DEAD-CODE-AUDIT`
   Entrypoints:

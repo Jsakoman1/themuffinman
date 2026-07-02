@@ -41,16 +41,29 @@ const textareaRef = ref<HTMLTextAreaElement | null>(null)
 
 const username = computed(() => currentUser.value?.username ?? "there")
 const questionBlock = computed(() => props.displayBlocks.find((block) => block.type === "field_request") ?? null)
+const commandHintVisible = computed(() =>
+  !props.response
+  && !props.isLoading
+  && !props.error
+  && !props.inputText.trim()
+  && !props.lastTranscript.trim())
 
 const feedLines = computed(() => {
   const lines: Array<
-    | {kind: "greeting" | "system" | "error" | "user" | "agent" | "question"; text: string}
+    | {kind: "greeting" | "system" | "error" | "user" | "agent" | "question" | "hint"; text: string}
   > = []
 
   if (!props.response && !props.isLoading && !props.error) {
     lines.push({
       kind: "greeting",
       text: `Hello, ${username.value}. What do you want to create?`
+    })
+  }
+
+  if (commandHintVisible.value) {
+    lines.push({
+      kind: "hint",
+      text: "Try: create quest · profile · circles · applications · chat"
     })
   }
 
@@ -270,6 +283,10 @@ onMounted(() => {
 
 .vision-console__line--status {
   color: var(--vision-surface-ink-soft);
+}
+
+.vision-console__line--hint {
+  color: rgba(24, 36, 47, 0.46);
 }
 
 .vision-console__text {

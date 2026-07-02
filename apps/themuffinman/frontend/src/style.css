@@ -1,12 +1,6 @@
 @import "./styles/base.css";
 @import "./styles/profile.css";
 @import "./styles/forms-feedback.css";
-@import "./styles/calendar.css";
 @import "./styles/circles.css";
 @import "./styles/detail-surfaces.css";
-@import "./styles/dialogs.css";
-@import "./styles/dashboard-layout.css";
-@import "./styles/dashboard-components.css";
-@import "./styles/chat.css";
-@import "./styles/chat-module.css";
 @import "./styles/vision-surface.css";

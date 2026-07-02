@@ -351,7 +351,7 @@ Technical notes:
 - Workmarket and thing-sharing repositories now use named fetch profiles for their primary DTO read surfaces, with compatibility delegates retained only for older call sites and tests.
 - `docs/generated/local-tooling/endpoint-callsite-linker.json` and `endpoint-callsite-linker-summary.md` connect backend endpoints to frontend API client methods and importing pages, views, or composables so feature-entry navigation can start from one compact report.
 - `docs/generated/local-tooling/frontend-route-surface-inventory.json` and `frontend-route-surface-inventory-summary.md` invert that same navigation from the frontend side, listing each route surface, its primary composables, API clients, and linked backend endpoints.
-- `docs/generated/local-tooling/frontend-stale-surface-audit.json` and `frontend-stale-surface-audit-summary.md` classify frontend files into active, likely-unused, route-detached, callsite-detached, or review-needed buckets using import reachability plus route and endpoint context.
+- Older frontend stale-surface snapshot files have been retired; current local-tooling audits now rely on the active generated inventories instead of those deleted snapshots.
 - `docs/generated/local-tooling/frontend-state-logic-duplication-audit.json` and `frontend-state-logic-duplication-audit-summary.md` cluster repeated frontend mutation runners, workflow action names, dialog open-close helpers, and feedback-error patterns across active route-backed surfaces.
 - `docs/generated/local-tooling/duplicate-logic-audit.json` and `duplicate-logic-audit-summary.md` shortlist frontend-local status mapping, permission gating, and transition-eligibility helpers that may duplicate backend presentation or policy logic.
 - `docs/generated/local-tooling/permission-rule-duplication-audit.json` and `permission-rule-duplication-audit-summary.md` separate backend permission sources, backend presentation-flag derivation, frontend passthrough gates, and frontend-local permission gates so cross-layer action drift can be reviewed from one compact report.
@@ -1503,10 +1503,10 @@ Common-platform coupling:
 
 Route guards:
 - `/login` and `/register` are public routes
-- all workmarket, social, profile, and admin routes require auth
-- admin routes additionally require `isAdmin()`
-- `/work` is a legacy entry route that redirects to `/vision` for normal users and `/admin/work` for admins
-- logged-in users are redirected away from auth screens to their role-appropriate landing route, which is now `/vision` for normal users and `/admin/work` for admins
+- all workmarket, social, and profile routes require auth
+- admin-capability actions are surfaced through Vision rather than through a separate frontend route tree
+- `/work` is a legacy entry route that redirects to `/vision`
+- logged-in users are redirected away from auth screens to `/vision`
 
 Frontend transport contract:
 - `API_BASE_URL` defaults to `http://localhost:8080`
