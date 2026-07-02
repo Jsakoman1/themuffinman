@@ -3,6 +3,7 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
 import com.themuffinman.app.vision.dto.VisionCanvasBlockDTO;
+import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionExecutionCandidateDTO;
 import com.themuffinman.app.vision.dto.VisionOptionDTO;
@@ -35,7 +36,8 @@ public class VisionCanvasAssembler {
             VisionTurn turn,
             List<VisionConversationSummaryDTO> recentConversations,
             VisionExecutionCandidateDTO executionCandidate,
-            VisionQuestDiscoveryDTO questDiscovery
+            VisionQuestDiscoveryDTO questDiscovery,
+            VisionCapabilityPreviewDTO capabilityPreview
     ) {
         return VisionConversationTurnResponseDTO.builder()
                 .conversationId(conversation.getId())
@@ -52,7 +54,7 @@ public class VisionCanvasAssembler {
                 .executionEnabled(visionProperties.isExecutionEnabled())
                 .executionCandidate(executionCandidate)
                 .questDiscovery(questDiscovery)
-                .blocks(toBlocks(conversation, turn, questDiscovery))
+                .blocks(toBlocks(conversation, turn, questDiscovery, capabilityPreview))
                 .appliedSlotSummaries(toAppliedSlotSummaries(conversation.getSlotData(), turn.getAppliedSlotIds()))
                 .slotSummaries(toSlotSummaries(conversation.getSlotData()))
                 .review(toReview(conversation.getSlotData(), turn))
@@ -70,7 +72,12 @@ public class VisionCanvasAssembler {
         };
     }
 
-    private List<VisionCanvasBlockDTO> toBlocks(VisionConversation conversation, VisionTurn turn, VisionQuestDiscoveryDTO questDiscovery) {
+    private List<VisionCanvasBlockDTO> toBlocks(
+            VisionConversation conversation,
+            VisionTurn turn,
+            VisionQuestDiscoveryDTO questDiscovery,
+            VisionCapabilityPreviewDTO capabilityPreview
+    ) {
         List<VisionCanvasBlockDTO> blocks = new ArrayList<>();
         blocks.add(VisionCanvasBlockDTO.builder()
                 .type("agent_message")
@@ -100,6 +107,16 @@ public class VisionCanvasAssembler {
                     .body(questDiscovery.getSummary())
                     .questDiscovery(questDiscovery)
                     .tone("info")
+                    .build());
+        }
+
+        if (capabilityPreview != null) {
+            blocks.add(VisionCanvasBlockDTO.builder()
+                    .type("result_summary")
+                    .title(capabilityPreview.getTitle())
+                    .body(capabilityPreview.getSummary())
+                    .items(capabilityPreview.getItems())
+                    .tone(capabilityPreview.getTone())
                     .build());
         }
 
@@ -144,6 +161,127 @@ public class VisionCanvasAssembler {
         }
 
         if (turn.getNextAction() == com.themuffinman.app.vision.model.VisionNextAction.COMPLETE) {
+            if ("created_circle".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("Circle created")
+                        .body("Created circle " + conversation.getSlotData().get("circle_name") + ".")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
+            if ("created_circle_request".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("Circle request sent")
+                        .body("Sent a circle request to " + conversation.getSlotData().get("circle_request_target_username") + ".")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
+            if ("accepted_circle_request".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("Circle request accepted")
+                        .body("Accepted the circle request from " + conversation.getSlotData().get("circle_request_target_username") + ".")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
+            if ("deleted_circle_request".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                String direction = conversation.getSlotData().get("circle_request_direction");
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("incoming".equals(direction) ? "Circle request declined" : "Circle invite cancelled")
+                        .body(("incoming".equals(direction) ? "Removed the incoming request from " : "Cancelled the invite to ")
+                                + conversation.getSlotData().get("circle_request_target_username") + ".")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
+            if ("updated_circle".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("Circle updated")
+                        .body("Saved the new name for " + conversation.getSlotData().get("resolved_circle_name") + ".")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
+            if ("deleted_circle".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("Circle deleted")
+                        .body("Deleted circle " + conversation.getSlotData().get("resolved_circle_name") + ".")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
+            if ("created_application".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("Application sent")
+                        .body("Sent your application for " + conversation.getSlotData().get("application_quest_title") + ".")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
+            if ("updated_application".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("Application updated")
+                        .body("Saved the latest application changes for " + conversation.getSlotData().get("application_quest_title") + ".")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
+            if ("withdrawn_application".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("Application withdrawn")
+                        .body("Withdrew your pending application for " + conversation.getSlotData().get("application_quest_title") + ".")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
+            if ("approved_application".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("Application approved")
+                        .body("Approved " + conversation.getSlotData().get("managed_application_applicant_username")
+                                + " for " + conversation.getSlotData().get("managed_application_quest_title") + ".")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
+            if ("declined_application".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("Application declined")
+                        .body("Declined " + conversation.getSlotData().get("managed_application_applicant_username")
+                                + " for " + conversation.getSlotData().get("managed_application_quest_title") + ".")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
+            if ("updated_profile".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("Profile updated")
+                        .body("Saved the latest profile changes for " + conversation.getSlotData().get("profile_username") + ".")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
+            if ("updated_profile_location".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("success")
+                        .title("Profile location updated")
+                        .body("Saved the latest profile location settings.")
+                        .tone("success")
+                        .build());
+                return blocks;
+            }
             if ("cancelled".equals(conversation.getSlotData().get("conversation_outcome"))) {
                 blocks.add(VisionCanvasBlockDTO.builder()
                         .type("warning")
@@ -170,6 +308,25 @@ public class VisionCanvasAssembler {
 
     private List<VisionSlotSummaryDTO> toSlotSummaries(Map<String, String> slotData) {
         List<VisionSlotSummaryDTO> summaries = new ArrayList<>();
+        addSummary(summaries, "circle_name", "Circle name", slotData.get("circle_name"));
+        addSummary(summaries, "target_circle_query", "Circle", slotData.get("resolved_circle_name"));
+        addSummary(summaries, "target_user", "Person", firstNonBlank(
+                slotData.get("managed_application_applicant_username"),
+                slotData.get("circle_request_target_username"),
+                slotData.get("opened_chat_username"),
+                slotData.get("target_user")
+        ));
+        addSummary(summaries, "circle_request_direction", "Direction", slotData.get("circle_request_direction"));
+        addSummary(summaries, "target_quest_query", "Quest", slotData.get("application_quest_title"));
+        addSummary(summaries, "managed_application_quest_title", "Quest", slotData.get("managed_application_quest_title"));
+        addSummary(summaries, "application_existing_message", "Current message", slotData.get("application_existing_message"));
+        addSummary(summaries, "application_message", "Application message", slotData.get("application_message"));
+        addSummary(summaries, "application_existing_proposed_price", "Current price", slotData.get("application_existing_proposed_price"));
+        addSummary(summaries, "application_proposed_price", "Proposed price", slotData.get("application_proposed_price"));
+        addSummary(summaries, "profile_username", "Username", slotData.get("profile_username"));
+        addSummary(summaries, "profile_description", "Profile description", slotData.get("profile_description"));
+        addSummary(summaries, "profile_location_mode", "Location mode", slotData.get("profile_location_mode"));
+        addSummary(summaries, "profile_location_label", "Location", slotData.get("profile_location_label"));
         addSummary(summaries, "quest_title", "Title", slotData.get("quest_title"));
         addSummary(summaries, "quest_description", "Description", slotData.get("quest_description"));
         if ("true".equals(slotData.get("free_quest"))) {
@@ -264,6 +421,14 @@ public class VisionCanvasAssembler {
         if (!"SHOW_REVIEW".equals(turn.getNextAction().name())) {
             return null;
         }
+        if (slotData.get("quest_title") == null
+                && slotData.get("quest_description") == null
+                && slotData.get("reward_amount") == null
+                && slotData.get("visibility") == null
+                && slotData.get("schedule_mode") == null
+                && slotData.get("location_mode") == null) {
+            return null;
+        }
         String rewardLabel = "true".equals(slotData.get("free_quest"))
                 ? "Free"
                 : slotData.get("reward_amount");
@@ -295,12 +460,41 @@ public class VisionCanvasAssembler {
             case "scheduled_date" -> formatScheduledDate(slotData.get("scheduled_date"));
             case "scheduled_time" -> formatScheduledTime(slotData.get("scheduled_time"));
             case "location_mode" -> formatLocationSummary(slotData);
+            case "target_circle_query" -> slotData.get("resolved_circle_name");
+            case "target_user" -> firstNonBlank(
+                    slotData.get("managed_application_applicant_username"),
+                    slotData.get("circle_request_target_username"),
+                    slotData.get("opened_chat_username"),
+                    slotData.get("target_user")
+            );
+            case "circle_request_direction" -> {
+                if ("incoming".equals(slotData.get("circle_request_direction"))) {
+                    yield "Incoming request";
+                }
+                if ("outgoing".equals(slotData.get("circle_request_direction"))) {
+                    yield "Outgoing invite";
+                }
+                yield slotData.get("circle_request_direction");
+            }
             default -> slotData.get(slotId);
         };
     }
 
     private String labelForSlot(String slotId) {
         return switch (slotId) {
+            case "circle_name" -> "Circle name";
+            case "target_circle_query" -> "Circle";
+            case "target_quest_query" -> "Quest";
+            case "target_user" -> "Person";
+            case "circle_request_direction" -> "Direction";
+            case "application_existing_message" -> "Current message";
+            case "application_message" -> "Application message";
+            case "application_existing_proposed_price" -> "Current price";
+            case "application_proposed_price" -> "Proposed price";
+            case "profile_username" -> "Username";
+            case "profile_description" -> "Profile description";
+            case "profile_location_mode" -> "Location mode";
+            case "profile_location_label" -> "Location";
             case "quest_title" -> "Title";
             case "quest_description" -> "Description";
             case "reward_amount" -> "Reward";
@@ -317,10 +511,13 @@ public class VisionCanvasAssembler {
 
     private String kindForSlot(String slotId) {
         return switch (slotId) {
+            case "application_message" -> "long_text";
+            case "profile_description" -> "long_text";
             case "quest_description" -> "long_text";
             case "reward_amount" -> "money";
+            case "application_proposed_price" -> "money";
             case "visibility" -> "single_choice";
-            case "schedule_mode", "location_mode" -> "single_choice";
+            case "schedule_mode", "location_mode", "profile_location_mode" -> "single_choice";
             case "location_candidate_confirmation" -> "single_choice";
             case "scheduled_date" -> "date";
             case "scheduled_time" -> "time";
@@ -330,6 +527,16 @@ public class VisionCanvasAssembler {
 
     private String placeholderForSlot(String slotId) {
         return switch (slotId) {
+            case "circle_name" -> "Name the circle in a few words";
+            case "target_circle_query" -> "Say the exact circle name or circle id";
+            case "target_quest_query" -> "Say the exact quest title or quest id";
+            case "target_user" -> "Say the exact username, email, or name fragment";
+            case "application_message" -> "Write the message you want to send with the application";
+            case "application_proposed_price" -> "Example: 20 or 20.50";
+            case "profile_username" -> "Choose the username to show on your profile";
+            case "profile_description" -> "Write a short profile description or bio";
+            case "profile_location_mode" -> "Choose off, approximate, or exact";
+            case "profile_location_label" -> "Example: Zurich, Switzerland";
             case "quest_title" -> "Name the quest in a few words";
             case "quest_description" -> "Describe the task clearly";
             case "reward_amount" -> "Example: 20 euros or free";
@@ -358,6 +565,11 @@ public class VisionCanvasAssembler {
                     VisionOptionDTO.builder().id("profile").label("Use profile").value("profile").build(),
                     VisionOptionDTO.builder().id("off").label("Hide location").value("off").build(),
                     VisionOptionDTO.builder().id("custom").label("Custom place").value("custom").build()
+            );
+            case "profile_location_mode" -> List.of(
+                    VisionOptionDTO.builder().id("off").label("Off").value("OFF").build(),
+                    VisionOptionDTO.builder().id("approximate").label("Approximate").value("APPROXIMATE").build(),
+                    VisionOptionDTO.builder().id("exact").label("Exact").value("EXACT").build()
             );
             case "location_candidate_confirmation" -> locationCandidateOptions(slotData);
             default -> List.of();
@@ -392,6 +604,18 @@ public class VisionCanvasAssembler {
                 .value("keep typed location")
                 .build());
         return options;
+    }
+
+    private String firstNonBlank(String... values) {
+        if (values == null) {
+            return null;
+        }
+        for (String value : values) {
+            if (value != null && !value.isBlank()) {
+                return value;
+            }
+        }
+        return null;
     }
 
     private String formatScheduleSummary(Map<String, String> slotData) {

@@ -63,12 +63,28 @@ It should stay short, factual, and updated when a vision batch materially change
 - the legacy admin login handoff now redirects into Vision instead of pointing at a removed frontend route
 - the legacy admin frontend shell and its route-level entry pages have been removed from the active frontend tree
 - the `/vision/conversations/turns` request now carries a versioned client contract with input type, text, client capabilities, and client state version fields instead of relying only on legacy prompt semantics
+- OpenAI prompt understanding now receives a typed Vision semantic orchestration request that includes raw prompt, conversation context, user locale/location/timezone hints, backend-published allowed routes, and response contract metadata
+- the first semantic route catalog publishes current Vision routes for `create_quest`, `discover_quests`, and `open_chat` so model routing is constrained by backend-owned capabilities
+- the first user context pack derives available locale and timezone hints from profile location data, including `CH` to `de-CH` and `Europe/Zurich`
+- backend sanitization now hard-rejects model-selected capabilities, focus slot ids, and extracted slot payloads that fall outside the published Vision route catalog and slot schema
+- the semantic request now also carries runtime client locale/timezone hints and records which backend source supplied the final locale and timezone values
+- `/vision` now has terminal-first read-only semantic routes for self profile, circles, and applications inside the same conversation surface
+- `/vision` now also has a first request-style mutation pilot for `create_circle`, including one-slot draft collection, review-ready state, and explicit confirmation before execution
+- `/vision` now also has a first application mutation pilot for `create_application`, including deterministic applyable-quest resolution, message collection, price collection only for paid quests, and explicit confirmation before execution
+- `/vision` now also has narrow pending-application self-service mutation pilots for `update_application` and `withdraw_application`, including deterministic current-application resolution, textual previews of current and changed values, and explicit confirmation before execution
+- `/vision` now also has a safe self-profile mutation pilot for `update_profile`, with username and profile-description draft collection, review-ready state, explicit confirmation, and a backend adapter that preserves existing email, avatar, and location state
+- `/vision` now also has owner-side mutation pilots for `approve_application` and `decline_application`, with exact manageable-quest resolution, exact pending-applicant resolution, textual previews, and explicit confirmation before execution
+- `/vision` now also has circle-request mutation pilots for `create_circle_request`, `accept_circle_request`, and `delete_circle_request`, with exact person or pending-request resolution, textual previews, and explicit confirmation before execution
+- `/vision` now also has owned-circle mutation pilots for `update_circle` and `delete_circle`, with exact owned-circle resolution and explicit confirmation before execution
+- `/vision` now also has a safe `update_profile_location` pilot, with location-mode and location-label draft collection plus a backend adapter that preserves unrelated profile and sharing state
 
 ## In Progress
 
 - create-quest conversation hardening is still expanding around ambiguity wording, richer review editing, and executor confidence boundaries
 - additional capability expansion is being prepared behind the shared semantic boundary so it does not depend on raw string intent checks
 - open-chat resolution still needs broader prompt variants and a richer target-user disambiguation path before it feels as calm as create_quest
+- OpenAI semantic orchestration still needs broader route catalog coverage and integration tests against non-create_quest capability expansion
+- request-style and mutating capability expansion beyond `create_circle`, `create_circle_request`, `accept_circle_request`, `delete_circle_request`, `update_circle`, `delete_circle`, `create_application`, `update_application`, `withdraw_application`, `approve_application`, `decline_application`, `update_profile`, and `update_profile_location` still remains
 
 ## Deferred
 

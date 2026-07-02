@@ -57,6 +57,15 @@ masterPlans:
       - Creates a cleaner execution boundary where absolute timestamps are derived only when complete.
     cons:
       - Requires coordinated backend, API, frontend, docs, and test migration.
+  - id: vision-openai-semantic-orchestration
+    path: .agents/vision-openai-semantic-orchestration-master-plan.md
+    status: active
+    role: Introduce an OpenAI-backed semantic orchestration boundary above Vision conversation routing while keeping backend-owned route catalogs, DTO contracts, locale rules, and execution policy.
+    pros:
+      - Creates one reusable understanding layer for text and STT transcripts.
+      - Lets new capabilities plug into a shared route-and-slot contract instead of adding more intent heuristics.
+    cons:
+      - Adds prompt-contract and fallback complexity that must stay tightly validated.
   - id: legacy-frontend-decommission
     path: .agents/legacy-frontend-decommission-master-plan.md
     status: active
@@ -68,13 +77,13 @@ masterPlans:
       - Requires careful capability triage so dev-only workflows are not deleted before Vision replacement exists.
 implementationState:
   currentPhase: Phase 1 foundation is complete with create_quest conversation, open_chat conversation, review flow, voice input/output, adaptive canvas rendering, read-only quest discovery, shared prompt semantics, read-only execution planning, and a terminal-first Vision route shell.
-  nextPhase: Continue capability expansion and rollout hardening while reusing the shared semantic and policy boundary across Vision and Admin Playground, keep the new split date/time scheduling contract intact, and finish the remaining legacy route-based frontend contraction around a Vision-first runtime.
+  nextPhase: Continue capability expansion and rollout hardening while reusing the shared semantic and policy boundary across Vision and Admin Playground, introduce the OpenAI-backed semantic orchestrator above text and STT turns, keep the new split date/time scheduling contract intact, and finish the remaining legacy route-based frontend contraction around a Vision-first runtime.
   backend: Persisted conversation, turn state, create_quest slot collection, open_chat routing, review edit actions, execution boundary services, and execution adapters exist.
   api: Conversation turn, resume, recent, reset, cancel, blocks, slot summaries, and review DTOs exist.
   frontend: Modern vision route, reusable surface-state composable, canvas renderer, inline prompt composer, voice controls, transcript feedback, recent conversations, mode-specific hero states, compact in-shell context reveal, review summary, execution candidate surface, Vision detail route wrappers for quest/application continuity, inline capability hints inside the terminal feed, create_quest-shaped preview semantics, terminal/feed surfaces for chat, application detail, settings, onboarding, quest composer, and quest detail edit, a profile onboarding route with location setup, profiles without a saved location auto-focus the onboarding location section, and a redirect away from the removed `/admin/work` route exist.
   api: Versioned `/vision/conversations/turns` request contract now carries input type, text, client capabilities, state version, and optional choice/confirmation fields.
-  semanticMapping: Shared focus-slot mapper exists, shared prompt semantics support now covers both Vision and Admin Playground, and the understanding prompt also supports read-only discovery planning.
-  activeChildPlan: .agents/vision-adaptive-architecture-master-plan.md
+  semanticMapping: Shared focus-slot mapper exists, shared prompt semantics support now covers both Vision and Admin Playground, the understanding prompt supports read-only discovery planning, backend sanitization now rejects model-selected routes, focus slots, and extracted slot payloads that are outside the published Vision route catalog, semantic prompt understanding now also receives runtime locale/timezone hints with source-aware backend resolution, the first non-quest read-only capability expansion now routes self profile, circles, and applications through the main Vision conversation flow, the first request-style mutation pilot now creates circles through the same terminal-first boundary, a narrow self-profile mutation pilot now updates username and profile description through a preserving backend patch adapter, a narrow application-creation pilot now resolves one applyable quest before collecting message and conditional price slots, a narrow pending-application self-service pilot now resolves one exact current application before update or withdrawal, and the next mutation-expansion batch now covers owner-side application approval and decline, circle-request send/accept/delete, exact owned-circle rename or delete, and self profile-location updates through the same semantic review boundary.
+  activeChildPlan: .agents/vision-openai-semantic-orchestration-master-plan.md
 pros:
   - Backend state and review gating already match key vision decision records.
   - Frontend receives backend-prepared blocks instead of inventing workflow decisions locally.
@@ -82,8 +91,17 @@ pros:
   - Recent conversations and applied-slot summaries support resume-oriented UX.
   - Read-only discovery now shares the same backend-governed surface as create_quest.
   - The surface is converging on a single inline feed model instead of separate launch panels, which matches the create_quest interaction style more closely.
+  - The OpenAI semantic boundary is now fail-closed against the backend route catalog instead of trusting arbitrary model-selected capabilities and slot ids.
+  - Semantic understanding now receives explicit locale/timezone provenance so STT transcripts and relative dates can be interpreted in the correct user/runtime context.
+  - Profile, circles, and applications can now reuse the same terminal-first Vision conversation surface instead of depending on separate route views.
+  - The first request-style mutation capability now exists without reintroducing a popup or page-first workflow.
+  - Narrow self-profile mutation can now reuse the same terminal-first flow without risking sparse DTO writes that would clear unrelated identity or location fields.
+  - Application creation can now reuse the same terminal-first flow while still respecting backend quest visibility and paid-vs-free pricing rules.
+  - Pending-application self-service can now reuse the same terminal-first flow while still requiring exact target resolution and explicit confirmation before update or withdrawal.
+  - Owner-side application decisions, circle-request lifecycle, owned-circle mutations, and profile-location updates can now reuse the same terminal-first flow without reintroducing legacy dialogs or sparse DTO writes.
   cons:
   - Vision still needs broader capability coverage beyond create_quest and discovery.
+  - Request-style and mutating capability expansion beyond the first create-circle pilot, circle-request pilot, create-application pilot, pending-application self-service pilot, owner-side application-decision pilot, owned-circle mutation pilot, and the narrow profile/profile-location update pilots still remains.
   - No generic VisionExecutionPlanner or VisionExecutionService exists yet.
   - Context reveal and continuation behavior still need more tightening before the surface fully reads as one morphing canvas.
   - Memory/context hardening still needs more work before the surface can stay calm across longer sessions.
@@ -104,6 +122,9 @@ risks:
   - id: VISION-RISK-005
     description: Legacy frontend decommission can accidentally remove dev-critical routes before Vision or a temporary bridge covers the same workflow.
     mitigation: Use the dedicated legacy frontend decommission master plan with explicit parity thresholds and temporary-survivor decisions before any delete batch.
+  - id: VISION-RISK-006
+    description: The semantic orchestration layer can blur the backend authority boundary if the model is allowed to infer or invent unsupported routes, DTO fields, or execution permissions.
+    mitigation: Keep the route catalog backend-owned per turn, require structured semantic outputs, and reject any model output that references capabilities or fields outside the published contract.
 decisions:
   - id: VISION-DEC-001
     decision: Use God Plan > Master Plan > Plan > temporary work product as the coordination hierarchy for broad vision work.

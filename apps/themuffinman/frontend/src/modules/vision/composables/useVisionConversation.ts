@@ -12,8 +12,18 @@ export type VisionVoiceState = "idle" | "listening" | "processing" | "speaking"
 export type VisionAttentionState = "quiet" | "listening" | "processing" | "speaking" | "asking" | "discovering" | "review" | "complete" | "blocked"
 
 const slotLabels: Record<string, string> = {
+  circle_name: "Circle name",
+  target_circle_query: "Circle",
+  target_user: "Person",
   quest_title: "Title",
   quest_description: "Description",
+  target_quest_query: "Quest",
+  application_message: "Application message",
+  application_proposed_price: "Proposed price",
+  profile_username: "Username",
+  profile_description: "Profile description",
+  profile_location_mode: "Location mode",
+  profile_location_label: "Location",
   reward_amount: "Reward",
   visibility: "Visibility",
   schedule_mode: "Schedule",
@@ -25,8 +35,18 @@ const slotLabels: Record<string, string> = {
 }
 
 const slotPlaceholders: Record<string, string> = {
+  circle_name: "Name the circle in a few words",
+  target_circle_query: "Say the exact circle name or circle id",
+  target_user: "Say the exact username, email, or name fragment",
   quest_title: "Name the quest in a few words",
   quest_description: "Describe the task clearly",
+  target_quest_query: "Say the exact quest title or quest id",
+  application_message: "Write the message you want to send",
+  application_proposed_price: "Example: 20 or 20.50",
+  profile_username: "Choose the username to show on your profile",
+  profile_description: "Write a short profile description",
+  profile_location_mode: "Choose off, approximate, or exact",
+  profile_location_label: "Example: Zurich, Switzerland",
   reward_amount: "Example: 20 euros or free",
   visibility: "Example: public or circles",
   schedule_mode: "Example: fixed time or by agreement",
@@ -106,6 +126,18 @@ export const useVisionConversation = () => {
   const maxAudioBytes = computed(() => voiceConfig.value?.maxAudioBytes ?? 2_000_000)
   const maxSpeechTextLength = computed(() => voiceConfig.value?.maxSpeechTextLength ?? 1_000)
   const clientStateVersion = "vision-surface-v1"
+  const clientLocale = computed(() => {
+    if (typeof navigator !== "undefined" && navigator.language) {
+      return navigator.language
+    }
+    return voiceConfig.value?.preferredLocale?.trim() || "en"
+  })
+  const clientTimezone = computed(() => {
+    if (typeof Intl !== "undefined") {
+      return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC"
+    }
+    return "UTC"
+  })
 
   const clientCapabilities = computed(() => {
     const capabilities = ["text_input"]
@@ -309,6 +341,8 @@ export const useVisionConversation = () => {
         text: trimmedPrompt,
         clientCapabilities: clientCapabilities.value,
         clientStateVersion,
+        clientLocale: clientLocale.value,
+        clientTimezone: clientTimezone.value,
         selectedOptionId,
         fieldValue,
         confirmation,

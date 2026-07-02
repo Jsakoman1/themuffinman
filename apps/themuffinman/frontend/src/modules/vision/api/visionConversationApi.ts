@@ -15,6 +15,8 @@ export type VisionConversationTurnRequest = {
   text: string
   clientCapabilities: string[]
   clientStateVersion: string
+  clientLocale: string
+  clientTimezone: string
   selectedOptionId?: string | null
   fieldValue?: string | null
   confirmation?: boolean | null
@@ -147,6 +149,8 @@ export const visionConversationApi = {
       inputType: request.inputType,
       clientCapabilities: request.clientCapabilities,
       clientStateVersion: request.clientStateVersion,
+      clientLocale: request.clientLocale,
+      clientTimezone: request.clientTimezone,
       selectedOptionId: request.selectedOptionId ?? undefined,
       fieldValue: request.fieldValue ?? undefined,
       confirmation: request.confirmation ?? undefined,

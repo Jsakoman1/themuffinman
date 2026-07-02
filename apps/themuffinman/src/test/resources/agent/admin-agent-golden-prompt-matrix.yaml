@@ -31,7 +31,7 @@ cases:
       unresolvedInputs: [exact owned quest identity, destructive confirmation]
   - id: de_current_location
     prompt: "Ändere meinen Account-Standort auf meinen aktuellen Standort"
-    driftFingerprint: "lang=de|signals=current_location_update|workflows=resolve_current_location_input,set_profile_current_location|clarify=true|destructive=false|multi=false"
+    driftFingerprint: "lang=de|signals=shared_semantic_view_profile,current_location_update|workflows=resolve_current_location_input,set_profile_current_location|clarify=true|destructive=false|multi=false"
     providerTranslation:
       sourceLanguage: "de"
       translatedPrompt: "change my account location to my current location"
@@ -45,7 +45,7 @@ cases:
       destructiveConfirmationRequired: false
       multiActorContextRequired: false
       currentLocationCapabilityRequired: true
-      matchedSignals: [current_location_update]
+      matchedSignals: [shared_semantic_view_profile, current_location_update]
       suggestedWorkflows: [resolve_current_location_input, set_profile_current_location]
       unresolvedInputs: [current device coordinates]
   - id: zh_friend_request

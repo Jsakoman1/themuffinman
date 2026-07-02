@@ -20,6 +20,7 @@ public class PromptSemanticPlan {
     private String capabilityId;
     private String planningNote;
     private String searchQuery;
+    private String targetUserQuery;
 
     public static PromptSemanticPlan empty() {
         return PromptSemanticPlan.builder()
@@ -28,6 +29,7 @@ public class PromptSemanticPlan {
                 .capabilityId("unsupported")
                 .planningNote("")
                 .searchQuery("")
+                .targetUserQuery("")
                 .build();
     }
 
@@ -38,6 +40,150 @@ public class PromptSemanticPlan {
                 .capabilityId("create_quest")
                 .planningNote(note == null ? "" : note)
                 .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan createCircle(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("CREATE_CIRCLE")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("create_circle")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan createCircleRequest(double confidence, String note, String targetUserQuery) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("CREATE_CIRCLE_REQUEST")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("create_circle_request")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery(targetUserQuery == null ? "" : targetUserQuery)
+                .build();
+    }
+
+    public static PromptSemanticPlan acceptCircleRequest(double confidence, String note, String targetUserQuery) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("ACCEPT_CIRCLE_REQUEST")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("accept_circle_request")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery(targetUserQuery == null ? "" : targetUserQuery)
+                .build();
+    }
+
+    public static PromptSemanticPlan deleteCircleRequest(double confidence, String note, String targetUserQuery) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("DELETE_CIRCLE_REQUEST")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("delete_circle_request")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery(targetUserQuery == null ? "" : targetUserQuery)
+                .build();
+    }
+
+    public static PromptSemanticPlan createApplication(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("CREATE_APPLICATION")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("create_application")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan updateApplication(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("UPDATE_APPLICATION")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("update_application")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan withdrawApplication(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("WITHDRAW_APPLICATION")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("withdraw_application")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan approveApplication(double confidence, String note, String targetUserQuery) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("APPROVE_APPLICATION")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("approve_application")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery(targetUserQuery == null ? "" : targetUserQuery)
+                .build();
+    }
+
+    public static PromptSemanticPlan declineApplication(double confidence, String note, String targetUserQuery) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("DECLINE_APPLICATION")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("decline_application")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery(targetUserQuery == null ? "" : targetUserQuery)
+                .build();
+    }
+
+    public static PromptSemanticPlan updateCircle(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("UPDATE_CIRCLE")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("update_circle")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan deleteCircle(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("DELETE_CIRCLE")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("delete_circle")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan updateProfile(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("UPDATE_PROFILE")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("update_profile")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan updateProfileLocation(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("UPDATE_PROFILE_LOCATION")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("update_profile_location")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
                 .build();
     }
 
@@ -48,6 +194,51 @@ public class PromptSemanticPlan {
                 .capabilityId("discover_quests")
                 .planningNote(note == null ? "" : note)
                 .searchQuery(searchQuery == null ? "" : searchQuery)
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan openChat(double confidence, String note, String targetUserQuery) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("OPEN_CHAT")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("open_chat")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery(targetUserQuery == null ? "" : targetUserQuery)
+                .build();
+    }
+
+    public static PromptSemanticPlan viewProfile(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("VIEW_PROFILE")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("view_profile")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan viewCircles(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("VIEW_CIRCLES")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("view_circles")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan viewApplications(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("VIEW_APPLICATIONS")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("view_applications")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
                 .build();
     }
 

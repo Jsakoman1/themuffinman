@@ -22,6 +22,8 @@ public class VisionConversationTurnRequestDTO {
     @Builder.Default
     private List<String> clientCapabilities = List.of();
     private String clientStateVersion;
+    private String clientLocale;
+    private String clientTimezone;
     private String selectedOptionId;
     private String fieldValue;
     private Boolean confirmation;

@@ -29,6 +29,11 @@ Current covered modules:
 - `/vision` now inserts a dedicated semantic understanding step between speech transcription and slot merging so one prompt can fill multiple explicit quest fields without dumping everything into description or location by default.
 - `/vision` now also supports a read-only quest discovery path, so browse/search prompts can return ranked open quests inside the same adaptive surface without entering the create-quest execution flow.
 - `/vision` can now also open a chat with an existing circle contact when the user explicitly names the target, using the same adaptive surface instead of a separate chat launcher.
+- `/vision` can now also show the current user's profile, circles, and applications as read-only terminal snapshots inside the same main conversation surface instead of requiring separate route navigation.
+- `/vision` can now also create a circle through the same conversation flow by collecting the circle name, showing a short review, and requiring explicit confirmation before execution.
+- `/vision` can now also create a quest application through the same conversation flow by resolving one applyable quest, collecting the application message, collecting a proposed price only for paid quests, and requiring explicit confirmation before execution.
+- `/vision` can now also update or withdraw one of the current user's pending quest applications through the same conversation flow by resolving one exact pending application first, then requiring explicit confirmation before saving changes or withdrawing it.
+- `/vision` can now also update the current user's own profile username and profile description through the same conversation flow, while preserving the stored email, avatar, and location settings behind the backend mutation boundary.
 - Voice recording and speech playback use backend-provided limits so long recordings, oversized audio uploads, and overly long speech synthesis text fail early instead of exhausting local memory.
 - `/vision` now also has a dedicated persisted conversation backend foundation at `POST /vision/conversations/turns`, so the system can ask one missing field at a time and keep the same task state across turns.
 - `/vision/conversations/turns` now uses a versioned request shape with `inputType`, `text`, `clientCapabilities`, and `clientStateVersion`, so the frontend can declare what it can do instead of relying only on legacy prompt fields.
@@ -447,6 +452,13 @@ Current covered modules:
 - An approved worker can confirm or reject certain quest term changes.
 - Quest and application permissions are backend policy decisions, not frontend-only checks.
 
+### Circles and requests
+
+- Users can create named circles that they own.
+- Users can send circle requests to other users, accept incoming circle requests, and cancel or decline pending requests.
+- The terminal-first Vision surface can now send one exact circle request, accept one exact incoming circle request, or remove one exact pending circle request after review confirmation.
+- Circle-request removal may represent declining an incoming request or cancelling an outgoing invite, depending on who owns the pending request.
+
 ### Quest visibility
 
 - A quest can be visible to everyone or limited to circles.
@@ -459,6 +471,7 @@ Current covered modules:
 - Users apply to open quests with a message and a proposed price.
 - Only one application per user per quest is allowed.
 - Owners and admins can approve or decline pending applications.
+- The terminal-first Vision surface can now approve or decline one exact pending application by first resolving one manageable quest and then one exact applicant username before review confirmation.
 - Owner-side application views now expose deterministic pending-selection metadata so future automation can know whether pending applications exist and which pending application is the oldest.
 - Approved applications fill worker slots up to the quest assignee target.
 - If all spots are filled, the quest becomes `ASSIGNED` and remaining pending applications are declined automatically.
@@ -511,8 +524,15 @@ Current covered modules:
 - Owners can edit most quest fields.
 - Future automation must resolve exactly one owned quest before owner-side actions such as approve, decline, or delete.
 - The same read-before-write rule should be reused for owner-side quest update, owner-circle update or delete, outgoing circle-request cancellation, and chat read actions.
+- The terminal-first Vision surface can now rename or delete one exact owned circle after review confirmation instead of relying on legacy circle dialogs.
 - Deleting a quest is a destructive owner action and should require explicit confirmation after exact quest resolution.
 - Admins can additionally change quest ownership and perform broader status updates.
+
+### Profile location
+
+- Users can keep profile location off, approximate, or exact.
+- A terminal-first Vision profile-location update may change only the location mode and label while preserving the rest of the user's identity fields and existing visibility/radius settings.
+- When the location label changes, stored resolved provider and coordinate data should be cleared so backend location resolution can rebuild it from the new label.
 - Quest detail is not just raw data; it is assembled with viewer-specific actions and presentation fields.
 - Quest list is available both as free search and as backend-defined presets like available work, my visible quests, and my active quests.
 - Nearby search only works when the viewer has a usable saved location.

@@ -88,7 +88,7 @@ export type VisionConversationAction = typeof VISION_CONVERSATION_ACTION_VALUES[
 export const VISION_CONVERSATION_STATUS_VALUES = ["ACTIVE", "REVIEW_READY", "COMPLETED", "BLOCKED"] as const
 export type VisionConversationStatus = typeof VISION_CONVERSATION_STATUS_VALUES[number]
 
-export const VISION_INTENT_VALUES = ["CREATE_QUEST", "DISCOVER_QUESTS", "OPEN_CHAT", "UNSUPPORTED"] as const
+export const VISION_INTENT_VALUES = ["CREATE_QUEST", "CREATE_CIRCLE", "CREATE_CIRCLE_REQUEST", "ACCEPT_CIRCLE_REQUEST", "DELETE_CIRCLE_REQUEST", "CREATE_APPLICATION", "UPDATE_APPLICATION", "WITHDRAW_APPLICATION", "APPROVE_APPLICATION", "DECLINE_APPLICATION", "UPDATE_CIRCLE", "DELETE_CIRCLE", "UPDATE_PROFILE", "UPDATE_PROFILE_LOCATION", "DISCOVER_QUESTS", "OPEN_CHAT", "VIEW_PROFILE", "VIEW_CIRCLES", "VIEW_APPLICATIONS", "UNSUPPORTED"] as const
 export type VisionIntent = typeof VISION_INTENT_VALUES[number]
 
 export const VISION_NEXT_ACTION_VALUES = ["ASK_FOR_SLOT", "SHOW_RESULTS", "SHOW_REVIEW", "COMPLETE", "BLOCKED"] as const
@@ -1426,6 +1426,14 @@ export interface VisionCanvasBlockDTO {
   tone: string
 }
 
+export interface VisionCapabilityPreviewDTO {
+  capabilityId: string
+  title: string
+  summary: string
+  items: VisionSlotSummaryDTO[]
+  tone: string
+}
+
 export interface VisionConversationListResponseDTO {
   items: VisionConversationSummaryDTO[]
 }
@@ -1454,6 +1462,8 @@ export interface VisionConversationTurnRequestDTO {
   source: string
   inputType: string
   clientStateVersion: string
+  clientLocale: string
+  clientTimezone: string
   selectedOptionId: string
   fieldValue: string
   confirmation: boolean

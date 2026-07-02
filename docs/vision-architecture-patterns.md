@@ -74,6 +74,13 @@ Route-shell behavior should also stay blank-canvas oriented:
 - auto-reveal state context when the backend enters review, blocked, or complete modes, because those are the moments when the user needs summary context most
 - treat `create_quest` as the gold-standard interaction pattern for both the terminal feed and the preview model: reveal only the next useful line, keep capability entry points inline and contextual, and avoid separate launcher surfaces that compete with the primary canvas
 - extend the same terminal-first pattern to circles, applications, profile, chat, and request-style entity flows so they read like one evolving conversation surface rather than separate dashboard pages
+- keep narrow self-profile mutations on the same terminal-first path by using backend-owned patch adapters that preserve unchanged identity and location state instead of sending sparse DTOs directly into broader profile-update services
+- keep application creation on the same terminal-first path by resolving one backend-visible quest target before review, asking only for the next required slot, and letting quest pricing rules decide whether a proposed price slot is required
+- keep application self-service updates and withdrawals on the same terminal-first path by resolving one exact pending self application first, showing the current application state in the textual preview, and requiring explicit confirmation before save or withdraw execution
+- keep owner-side application approval and decline on the same terminal-first path by resolving one exact manageable quest and one exact pending applicant before review confirmation
+- keep circle-request send/accept/delete on the same terminal-first path by resolving one exact person or one exact pending request before review confirmation
+- keep owned-circle rename and delete on the same terminal-first path by resolving one exact owned circle before review confirmation and never reconstructing circle authority from frontend state
+- keep profile-location updates on the same terminal-first path by limiting the draft to location mode and label while backend patch adapters preserve unrelated identity and location-sharing fields
 - keep confirmations, debug details, and request review surfaces inline in the feed unless a native browser modal is explicitly required for a destructive cross-route boundary
 - when a route needs a preview, render it as a textual entity sketch that grows and reshapes with the current object instead of a modal, sheet, or split-pane shell
 - circles, applications, and profile routes should prefer one linear feed with inline actions and text-based entity summaries over card stacks, grids, or profile panels
@@ -208,7 +215,13 @@ When the conversation already has a requested slot, the backend should use that 
 Prefer one shared semantic-mapping service for prompt understanding, fallback focus, and review-edit follow-up routing so the same turn-level rules do not drift across services.
 Semantic understanding should also return a generic semantic plan before slot extraction becomes capability-specific. The current first slice carries `candidateIntent`, `candidateIntentConfidence`, `capabilityId`, and a short planning note above create_quest slots so intent routing can move away from raw prompt heuristics without expanding execution authority.
 The current discovery slice adds read-only `DISCOVER_QUESTS` routing and a quest-discovery canvas payload, but it still keeps mutation execution scoped to typed backend adapters.
+The first non-quest capability-expansion slice should follow the same pattern: route read-only profile, circles, and applications through the main conversation surface and render backend-prepared textual previews instead of navigating to separate route views.
 Shared prompt semantics should be reused across Vision and Admin Playground when the same normalization and intent-classification rules apply, so both surfaces consume one backend prompt-understanding boundary instead of maintaining separate local heuristics.
+OpenAI-backed semantic orchestration should receive a backend-owned request contract instead of a free-form prompt only. The request must include the raw prompt, current conversation context, user context, allowed route catalog, and expected response contract.
+The route catalog is published by backend services per turn. The model may select only routes, capabilities, DTO fields, and slots present in that catalog, and backend services must reject anything outside it.
+After parsing model output, backend services should sanitize the semantic payload against the same route catalog before intent routing, slot merging, or review planning continue.
+User context should carry available locale, language, country, locality, and timezone hints so STT transcripts and typed text can be interpreted in the user's real operating context. When only a country is known, the backend may provide a conservative timezone default, such as `Europe/Zurich` for `CH`, but final scheduling validation remains deterministic.
+Locale and timezone should be resolved by explicit backend precedence instead of whichever hint arrives first. Prefer explicit persisted user preferences when they exist, then durable user-specific history, then client runtime hints, and finally backend country defaults or global defaults. The chosen source should be included in the semantic request so later capability slices can reason about confidence.
 
 ## Clarification Pattern
 

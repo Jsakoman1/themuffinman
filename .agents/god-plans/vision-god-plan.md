@@ -31,6 +31,13 @@ The vision program now has a completed Phase 1 foundation and a completed semant
 - reusable route-shell surface state that keeps the view thinner while preserving the same adaptive behavior
 - shared prompt semantics across Vision and Admin Playground
 - versioned `/vision/conversations/turns` request contract with explicit client capabilities and state version fields
+- backend sanitization of model-selected routes, focus slots, and extracted slot payloads against the published Vision route catalog
+- source-aware locale/timezone context packing with runtime client hints and backend precedence
+- terminal-first read-only self profile, circles, and applications snapshots inside the main Vision conversation flow
+- first request-style mutation pilot for creating a circle through the main Vision conversation flow
+- narrow terminal-first application mutation pilot for applying to one resolved quest through the same review boundary
+- narrow terminal-first pending-application self-service pilots for updating or withdrawing one exact current application through the same review boundary
+- narrow terminal-first self-profile mutation pilot for updating username and profile description through the same review boundary
 - summary-first long-session continuity that reads compact backend resume state instead of replaying older transcript text
 - read-only execution planning above the create_quest review flow
 - a shared backend prompt-semantics support component reused by both surfaces
@@ -88,6 +95,9 @@ The program is not yet at the full master vision target:
 
 - `.agents/vision-adaptive-architecture-master-plan.md`
 - Goal: continue the main adaptive vision architecture program now that the memory and context hardening slice is complete.
+- `.agents/vision-openai-semantic-orchestration-master-plan.md`
+- Goal: insert an OpenAI-backed semantic orchestration layer between STT/text input and the current Vision conversation flow while keeping backend route, DTO, permission, and execution authority explicit.
+- Status note: the request contract, context-pack/locale slice, route-catalog hardening slices, first read-only profile/circles/applications capability batch, create-circle request-style pilot, create-application pilot, pending-application self-service pilot, narrow self-profile update pilot, and the next mutation-expansion batch for owner-side application decisions, circle-request lifecycle, owned-circle management, and profile-location updates are complete; broader request-style and mutation expansion still remains under this master plan.
 
 ## Closeout Rule
 
