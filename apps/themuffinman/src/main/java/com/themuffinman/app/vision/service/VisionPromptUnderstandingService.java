@@ -211,10 +211,13 @@ public class VisionPromptUnderstandingService {
                 If the user is looking for open work, browsing quests, or asking what they could do next, use DISCOVER_QUESTS and extract a short searchQuery.
                 If the user wants to open or start a chat with another person, use OPEN_CHAT and extract a short targetUserQuery with the person's username, email, or name fragment.
                 If the user asks to see their own profile, use VIEW_PROFILE.
+                If the user asks to see settings or account settings, use VIEW_SETTINGS.
                 If the user asks to see their own circles or network, use VIEW_CIRCLES.
+                If the user asks to inspect one exact circle, use VIEW_CIRCLE_DETAIL and extract only targetCircleQuery when the user stated it.
                 If the user asks to see their own applications, use VIEW_APPLICATIONS.
-                Supported candidateIntent values are CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, DISCOVER_QUESTS, OPEN_CHAT, VIEW_PROFILE, VIEW_CIRCLES, VIEW_APPLICATIONS, and UNSUPPORTED.
-                Supported capabilityId values are create_quest, create_circle, create_circle_request, accept_circle_request, delete_circle_request, update_circle, delete_circle, create_application, update_application, withdraw_application, approve_application, decline_application, update_profile, update_profile_location, discover_quests, open_chat, view_profile, view_circles, view_applications, and unsupported.
+                If the user asks to inspect one exact application, use VIEW_APPLICATION_DETAIL and extract only applicationTargetQuery when the user stated it.
+                Supported candidateIntent values are CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, DISCOVER_QUESTS, OPEN_CHAT, VIEW_PROFILE, VIEW_SETTINGS, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, and UNSUPPORTED.
+                Supported capabilityId values are create_quest, create_circle, create_circle_request, accept_circle_request, delete_circle_request, update_circle, delete_circle, create_application, update_application, withdraw_application, approve_application, decline_application, update_profile, update_profile_location, discover_quests, open_chat, view_chat_workspace, view_profile, view_settings, view_user_profile, view_circles, view_circle_detail, view_quest_detail, view_applications, view_application_detail, and unsupported.
                 Only extract values that are explicitly stated or strongly and directly implied by the user's words.
                 Keep the normalizedPrompt concise and in English when possible.
                 If the candidate intent is DISCOVER_QUESTS, use searchQuery to capture the concrete topic the user wants to browse, such as moving help, delivery, or odd jobs.
@@ -227,20 +230,25 @@ public class VisionPromptUnderstandingService {
                 If the candidate intent is UPDATE_CIRCLE, use targetCircleQuery for the existing circle target and circleName for the replacement name only when they are explicitly stated.
                 If the candidate intent is DELETE_CIRCLE, use targetCircleQuery only.
                 If the candidate intent is CREATE_APPLICATION, use applicationQuestQuery for the quest id or quest wording, applicationMessage for the applicant's message, and applicationProposedPrice only when the user explicitly gave a price.
+                If the candidate intent is VIEW_APPLICATION_DETAIL, use applicationTargetQuery for the application id or exact quest title.
+                If the candidate intent is VIEW_USER_PROFILE, use targetUserQuery for the profile target.
                 If the candidate intent is UPDATE_APPLICATION, use applicationQuestQuery for the quest id or quest wording, plus only the replacement applicationMessage or applicationProposedPrice values the user explicitly gave.
                 If the candidate intent is WITHDRAW_APPLICATION, use applicationQuestQuery for the quest id or quest wording only.
                 If the candidate intent is APPROVE_APPLICATION or DECLINE_APPLICATION, use applicationQuestQuery for the quest id or quest wording plus targetUserQuery for the applicant.
                 If the candidate intent is UPDATE_PROFILE, use profileUsername and profileDescription only when the user explicitly asks to change those values.
                 If the candidate intent is UPDATE_PROFILE_LOCATION, use profileLocationMode and profileLocationLabel only when the user explicitly asks to change them.
+                If the candidate intent is VIEW_CIRCLE_DETAIL, use targetCircleQuery only.
+                If the candidate intent is VIEW_QUEST_DETAIL, use applicationQuestQuery for the quest id or exact quest title.
                 Use these slot ids only when the user explicitly provided the information:
                 questTitle, questTitleConfidence, questDescription, questDescriptionConfidence, visibility, visibilityConfidence, reward.freeQuest, reward.freeQuestConfidence, reward.amount, reward.amountConfidence, schedule.mode, schedule.modeConfidence, schedule.scheduledDate, schedule.scheduledDateConfidence, schedule.scheduledTime, schedule.scheduledTimeConfidence, location.mode, location.modeConfidence, location.label, location.labelConfidence, location.candidateConfirmation, location.candidateConfirmationConfidence.
                 Also use circleName and circleNameConfidence only for CREATE_CIRCLE or UPDATE_CIRCLE.
-                Also use targetCircleQuery and targetCircleQueryConfidence only for UPDATE_CIRCLE or DELETE_CIRCLE.
+                Also use targetCircleQuery and targetCircleQueryConfidence only for UPDATE_CIRCLE, DELETE_CIRCLE, or VIEW_CIRCLE_DETAIL.
+                Also use applicationTargetQuery and applicationTargetQueryConfidence only for VIEW_APPLICATION_DETAIL.
                 Also use applicationQuestQuery, applicationQuestQueryConfidence, applicationMessage, applicationMessageConfidence, applicationProposedPrice, and applicationProposedPriceConfidence only for CREATE_APPLICATION or UPDATE_APPLICATION.
                 Also use profileUsername, profileUsernameConfidence, profileDescription, and profileDescriptionConfidence only for UPDATE_PROFILE.
                 Also use profileLocationMode, profileLocationModeConfidence, profileLocationLabel, and profileLocationLabelConfidence only for UPDATE_PROFILE_LOCATION.
                 Also choose exactly one focusSlotId when one slot is the main target of the turn, or null when the turn is only a general statement.
-                Use these focus slot ids only: circle_name, target_circle_query, target_quest_query, target_user, application_message, application_proposed_price, profile_username, profile_description, profile_location_mode, profile_location_label, quest_title, quest_description, reward_amount, visibility, schedule_mode, scheduled_date, scheduled_time, location_mode, location_label, location_candidate_confirmation.
+                Use these focus slot ids only: circle_name, target_circle_query, target_application_query, target_quest_query, target_user, application_message, application_proposed_price, profile_username, profile_description, profile_location_mode, profile_location_label, quest_title, quest_description, reward_amount, visibility, schedule_mode, scheduled_date, scheduled_time, location_mode, location_label, location_candidate_confirmation.
                 If the prompt says free, no pay, unpaid, or similar, set reward.freeQuest to true and reward.amount to "0".
                 If the prompt does not explicitly mention a reward amount, leave reward.amount null.
                 If the prompt does not explicitly mention a slot, leave that field null.
@@ -276,6 +284,8 @@ public class VisionPromptUnderstandingService {
                     "circleNameConfidence": 1.0,
                     "targetCircleQuery": "Family",
                     "targetCircleQueryConfidence": 1.0,
+                    "applicationTargetQuery": "application 42",
+                    "applicationTargetQueryConfidence": 1.0,
                     "applicationQuestQuery": "Move a sofa",
                     "applicationQuestQueryConfidence": 1.0,
                     "applicationMessage": "I can help tomorrow evening.",
@@ -346,9 +356,15 @@ public class VisionPromptUnderstandingService {
                 "UPDATE_PROFILE_LOCATION",
                 "DISCOVER_QUESTS",
                 "OPEN_CHAT",
+                "VIEW_CHAT_WORKSPACE",
                 "VIEW_PROFILE",
+                "VIEW_SETTINGS",
+                "VIEW_USER_PROFILE",
                 "VIEW_CIRCLES",
+                "VIEW_CIRCLE_DETAIL",
+                "VIEW_QUEST_DETAIL",
                 "VIEW_APPLICATIONS",
+                "VIEW_APPLICATION_DETAIL",
                 "UNSUPPORTED"
         ));
         responseContract.put("capabilityIds", java.util.List.of(
@@ -368,14 +384,21 @@ public class VisionPromptUnderstandingService {
                 "update_profile_location",
                 "discover_quests",
                 "open_chat",
+                "view_chat_workspace",
                 "view_profile",
+                "view_settings",
+                "view_user_profile",
                 "view_circles",
+                "view_circle_detail",
+                "view_quest_detail",
                 "view_applications",
+                "view_application_detail",
                 "unsupported"
         ));
         responseContract.put("focusSlotIds", java.util.List.of(
                 "circle_name",
                 "target_circle_query",
+                "target_application_query",
                 "target_quest_query",
                 "target_user",
                 "application_message",

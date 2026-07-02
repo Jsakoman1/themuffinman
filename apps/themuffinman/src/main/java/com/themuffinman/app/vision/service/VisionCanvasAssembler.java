@@ -310,14 +310,20 @@ public class VisionCanvasAssembler {
         List<VisionSlotSummaryDTO> summaries = new ArrayList<>();
         addSummary(summaries, "circle_name", "Circle name", slotData.get("circle_name"));
         addSummary(summaries, "target_circle_query", "Circle", slotData.get("resolved_circle_name"));
+        addSummary(summaries, "target_application_query", "Application", firstNonBlank(slotData.get("application_quest_title"), slotData.get("target_application_query")));
         addSummary(summaries, "target_user", "Person", firstNonBlank(
                 slotData.get("managed_application_applicant_username"),
                 slotData.get("circle_request_target_username"),
                 slotData.get("opened_chat_username"),
+                slotData.get("resolved_profile_username"),
                 slotData.get("target_user")
         ));
         addSummary(summaries, "circle_request_direction", "Direction", slotData.get("circle_request_direction"));
-        addSummary(summaries, "target_quest_query", "Quest", slotData.get("application_quest_title"));
+        addSummary(summaries, "target_quest_query", "Quest", firstNonBlank(
+                slotData.get("application_quest_title"),
+                slotData.get("resolved_quest_title"),
+                slotData.get("target_quest_query")
+        ));
         addSummary(summaries, "managed_application_quest_title", "Quest", slotData.get("managed_application_quest_title"));
         addSummary(summaries, "application_existing_message", "Current message", slotData.get("application_existing_message"));
         addSummary(summaries, "application_message", "Application message", slotData.get("application_message"));
@@ -460,11 +466,18 @@ public class VisionCanvasAssembler {
             case "scheduled_date" -> formatScheduledDate(slotData.get("scheduled_date"));
             case "scheduled_time" -> formatScheduledTime(slotData.get("scheduled_time"));
             case "location_mode" -> formatLocationSummary(slotData);
+            case "target_quest_query" -> firstNonBlank(
+                    slotData.get("application_quest_title"),
+                    slotData.get("resolved_quest_title"),
+                    slotData.get("target_quest_query")
+            );
             case "target_circle_query" -> slotData.get("resolved_circle_name");
+            case "target_application_query" -> firstNonBlank(slotData.get("application_quest_title"), slotData.get("target_application_query"));
             case "target_user" -> firstNonBlank(
                     slotData.get("managed_application_applicant_username"),
                     slotData.get("circle_request_target_username"),
                     slotData.get("opened_chat_username"),
+                    slotData.get("resolved_profile_username"),
                     slotData.get("target_user")
             );
             case "circle_request_direction" -> {
@@ -484,6 +497,7 @@ public class VisionCanvasAssembler {
         return switch (slotId) {
             case "circle_name" -> "Circle name";
             case "target_circle_query" -> "Circle";
+            case "target_application_query" -> "Application";
             case "target_quest_query" -> "Quest";
             case "target_user" -> "Person";
             case "circle_request_direction" -> "Direction";
@@ -529,6 +543,7 @@ public class VisionCanvasAssembler {
         return switch (slotId) {
             case "circle_name" -> "Name the circle in a few words";
             case "target_circle_query" -> "Say the exact circle name or circle id";
+            case "target_application_query" -> "Say the exact application id or exact quest title";
             case "target_quest_query" -> "Say the exact quest title or quest id";
             case "target_user" -> "Say the exact username, email, or name fragment";
             case "application_message" -> "Write the message you want to send with the application";

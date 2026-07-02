@@ -48,6 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
@@ -247,9 +248,249 @@ class VisionConversationServiceTest {
         assertEquals("VIEW_PROFILE", response.getIntent());
         assertEquals("SHOW_RESULTS", response.getNextAction());
         assertEquals("results", response.getCanvasMode());
+        assertTrue(response.getMessage().contains("change username to"));
+        assertTrue(response.getMessage().contains("set bio to"));
         assertTrue(response.getBlocks().stream().anyMatch(block ->
                 "result_summary".equals(block.getType())
                         && "Profile".equals(block.getTitle())));
+    }
+
+    @Test
+    void circlesPromptRoutesIntoReadOnlyCirclesPreviewWithWorkspaceGuidance() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewCircles(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_circles")
+                        .title("Circles")
+                        .summary("Showing your circles snapshot.")
+                        .items(List.of(
+                                com.themuffinman.app.vision.dto.VisionSlotSummaryDTO.builder()
+                                        .slotId("circles_count")
+                                        .label("Circles")
+                                        .value("2")
+                                        .build()
+                        ))
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show circles")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_CIRCLES", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertTrue(response.getMessage().contains("create a circle"));
+        assertTrue(response.getMessage().contains("accept a circle request"));
+        assertTrue(response.getMessage().contains("rename a circle"));
+    }
+
+    @Test
+    void applicationsPromptRoutesIntoReadOnlyApplicationsPreviewWithWorkspaceGuidance() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewApplications(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_applications")
+                        .title("Applications")
+                        .summary("Showing your applications snapshot.")
+                        .items(List.of(
+                                com.themuffinman.app.vision.dto.VisionSlotSummaryDTO.builder()
+                                        .slotId("applications_count")
+                                        .label("Applications")
+                                        .value("3")
+                                        .build()
+                        ))
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show applications")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_APPLICATIONS", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertTrue(response.getMessage().contains("apply to a quest"));
+        assertTrue(response.getMessage().contains("update an application"));
+        assertTrue(response.getMessage().contains("withdraw an application"));
+        assertTrue(response.getMessage().contains("approve an application"));
+        assertTrue(response.getMessage().contains("decline an application"));
+    }
+
+    @Test
+    void chatWorkspacePromptRoutesIntoReadOnlyChatPreview() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewChatWorkspace(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_chat_workspace")
+                        .title("Chat")
+                        .summary("Showing your chat workspace snapshot.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show chat")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_CHAT_WORKSPACE", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertTrue(response.getBlocks().stream().anyMatch(block ->
+                "result_summary".equals(block.getType())
+                        && "Chat".equals(block.getTitle())));
+    }
+
+    @Test
+    void settingsPromptRoutesIntoReadOnlySettingsPreview() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewSettings(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_settings")
+                        .title("Settings")
+                        .summary("Showing your account settings snapshot.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show settings")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_SETTINGS", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertTrue(response.getBlocks().stream().anyMatch(block ->
+                "result_summary".equals(block.getType())
+                        && "Settings".equals(block.getTitle())));
+    }
+
+    @Test
+    void userProfilePromptRoutesIntoReadOnlyUserProfilePreview() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.resolveUserProfileTarget(currentUser, "Josip"))
+                .thenReturn(VisionResolvedUserTarget.resolved(12L, "Josip"));
+        when(visionCapabilityPreviewService.previewUserProfile(currentUser, 12L)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_user_profile")
+                        .title("User profile")
+                        .summary("Showing the profile for Josip.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show user Josip")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_USER_PROFILE", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertTrue(response.getBlocks().stream().anyMatch(block ->
+                "result_summary".equals(block.getType())
+                        && "User profile".equals(block.getTitle())));
+    }
+
+    @Test
+    void circleDetailPromptRoutesIntoReadOnlyCirclePreview() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.resolveOwnedCircle(currentUser, "Family"))
+                .thenReturn(VisionResolvedCircleTarget.resolved(14L, "Family", "3"));
+        when(visionCapabilityPreviewService.previewCircleDetail(currentUser, 14L)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_circle_detail")
+                        .title("Circle")
+                        .summary("Showing the details for Family.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("open circle Family")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_CIRCLE_DETAIL", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertTrue(response.getBlocks().stream().anyMatch(block ->
+                "result_summary".equals(block.getType())
+                        && "Circle".equals(block.getTitle())));
+    }
+
+    @Test
+    void questDetailPromptRoutesIntoReadOnlyQuestPreview() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.resolveVisibleQuest(currentUser, "quest #42"))
+                .thenReturn(VisionResolvedQuestTarget.resolved(42L, "Move sofa", "quest-owner", false, "Free"));
+        when(visionCapabilityPreviewService.previewQuestDetail(currentUser, 42L)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_quest_detail")
+                        .title("Quest")
+                        .summary("Showing the details for Move sofa.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show quest #42")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_QUEST_DETAIL", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertTrue(response.getBlocks().stream().anyMatch(block ->
+                "result_summary".equals(block.getType())
+                        && "Quest".equals(block.getTitle())));
+    }
+
+    @Test
+    void applicationDetailPromptRoutesIntoReadOnlyApplicationPreview() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.resolveMyApplicationDetail(currentUser, "application #42"))
+                .thenReturn(VisionResolvedApplicationTarget.resolved(91L, "Move sofa", "quest-owner", false, "Free", "I can help", null, 42L));
+        when(visionCapabilityPreviewService.previewApplicationDetail(currentUser, 42L)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_application_detail")
+                        .title("Application")
+                        .summary("Showing the details for your application on Move sofa.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show application #42")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_APPLICATION_DETAIL", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertTrue(response.getBlocks().stream().anyMatch(block ->
+                "result_summary".equals(block.getType())
+                        && "Application".equals(block.getTitle())));
     }
 
     @Test
@@ -999,6 +1240,105 @@ class VisionConversationServiceTest {
         assertEquals("DISCOVER_QUESTS", response.getIntent());
         assertEquals("SHOW_RESULTS", response.getNextAction());
         assertNotEquals(88L, response.getConversationId());
+    }
+
+    @Test
+    void keepsSameConversationWhenProfileWorkspaceSwitchesFromViewToMutation() {
+        VisionConversation conversation = new VisionConversation();
+        conversation.setId(91L);
+        conversation.setOwner(currentUser);
+        conversation.setIntent(com.themuffinman.app.vision.model.VisionIntent.VIEW_PROFILE);
+        conversation.setStatus(VisionConversationStatus.ACTIVE);
+        conversation.setSlotData(new LinkedHashMap<>());
+        when(visionConversationRepository.findByIdAndOwner(91L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewProfileDraft(any(), any(), any())).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("update_profile")
+                        .title("Profile draft")
+                        .summary("Review the profile draft.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(91L)
+                        .prompt("change username to vision-josip")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals(91L, response.getConversationId());
+        assertEquals("UPDATE_PROFILE", response.getIntent());
+    }
+
+    @Test
+    void keepsSameConversationWhenCirclesWorkspaceSwitchesFromViewToMutation() {
+        VisionConversation conversation = new VisionConversation();
+        conversation.setId(92L);
+        conversation.setOwner(currentUser);
+        conversation.setIntent(com.themuffinman.app.vision.model.VisionIntent.VIEW_CIRCLES);
+        conversation.setStatus(VisionConversationStatus.ACTIVE);
+        conversation.setSlotData(new LinkedHashMap<>());
+        when(visionConversationRepository.findByIdAndOwner(92L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewCircleDraft(any())).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("create_circle")
+                        .title("Circle draft")
+                        .summary("Review the circle draft.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(92L)
+                        .prompt("create circle Neighbours")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals(92L, response.getConversationId());
+        assertEquals("CREATE_CIRCLE", response.getIntent());
+    }
+
+    @Test
+    void keepsSameConversationWhenApplicationsWorkspaceSwitchesFromViewToMutation() {
+        VisionConversation conversation = new VisionConversation();
+        conversation.setId(93L);
+        conversation.setOwner(currentUser);
+        conversation.setIntent(com.themuffinman.app.vision.model.VisionIntent.VIEW_APPLICATIONS);
+        conversation.setStatus(VisionConversationStatus.ACTIVE);
+        conversation.setSlotData(new LinkedHashMap<>());
+        when(visionConversationRepository.findByIdAndOwner(93L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewApplicationDraft(any(), any(), any(), anyBoolean(), any(), any())).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("create_application")
+                        .title("Application draft")
+                        .summary("Review the application draft.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+        when(visionCapabilityPreviewService.resolveApplicationQuest(any(), any())).thenReturn(
+                VisionResolvedQuestTarget.resolved(501L, "Move sofa", "quest-owner", true, "20 EUR")
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(93L)
+                        .prompt("apply to Move sofa")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals(93L, response.getConversationId());
+        assertEquals("CREATE_APPLICATION", response.getIntent());
     }
 
     @Test
@@ -1829,6 +2169,9 @@ class VisionConversationServiceTest {
         if (normalizedPrompt.toLowerCase().contains("delete circle")) {
             semanticPlan = VisionSemanticPlan.deleteCircle(0.95d, "mock delete circle");
         }
+        if (normalizedPrompt.toLowerCase().contains("open circle")) {
+            semanticPlan = VisionSemanticPlan.viewCircleDetail(0.95d, "mock view circle detail");
+        }
         if (normalizedPrompt.toLowerCase().contains("withdraw my application")) {
             semanticPlan = VisionSemanticPlan.withdrawApplication(0.95d, "mock withdraw application");
         }
@@ -1846,11 +2189,36 @@ class VisionConversationServiceTest {
         }
         if (normalizedPrompt.toLowerCase().contains("update my profile")
                 || normalizedPrompt.toLowerCase().contains("update my username")
+                || normalizedPrompt.toLowerCase().contains("change username")
                 || normalizedPrompt.toLowerCase().contains("set description")) {
             semanticPlan = VisionSemanticPlan.updateProfile(0.95d, "mock update profile");
         }
         if (normalizedPrompt.toLowerCase().contains("set my profile location")) {
             semanticPlan = VisionSemanticPlan.updateProfileLocation(0.95d, "mock update profile location");
+        }
+        if (normalizedPrompt.toLowerCase().contains("show settings")) {
+            semanticPlan = VisionSemanticPlan.viewSettings(0.95d, "mock view settings");
+        }
+        if (normalizedPrompt.toLowerCase().contains("show chat")) {
+            semanticPlan = VisionSemanticPlan.viewChatWorkspace(0.95d, "mock view chat workspace");
+        }
+        if (normalizedPrompt.toLowerCase().contains("show circles")) {
+            semanticPlan = VisionSemanticPlan.viewCircles(0.95d, "mock view circles");
+        }
+        if (normalizedPrompt.toLowerCase().contains("show applications")) {
+            semanticPlan = VisionSemanticPlan.viewApplications(0.95d, "mock view applications");
+        }
+        if (normalizedPrompt.toLowerCase().contains("show user")) {
+            semanticPlan = VisionSemanticPlan.viewUserProfile(0.95d, "mock view user profile", "Josip");
+        }
+        if (normalizedPrompt.toLowerCase().contains("show quest")) {
+            semanticPlan = VisionSemanticPlan.viewQuestDetail(0.95d, "mock view quest detail");
+        }
+        if (normalizedPrompt.toLowerCase().contains("show application ")) {
+            semanticPlan = VisionSemanticPlan.viewApplicationDetail(0.95d, "mock view application detail");
+        }
+        if (normalizedPrompt.toLowerCase().contains("show my profile")) {
+            semanticPlan = VisionSemanticPlan.viewProfile(0.95d, "mock view profile");
         }
         if (normalizedPrompt.equals("Create a structured quest")
                 || normalizedPrompt.toLowerCase().contains("create a quest")
@@ -1904,9 +2272,27 @@ class VisionConversationServiceTest {
                     .targetCircleQueryConfidence(1.0d)
                     .build();
         }
+        if ("open circle Family".equalsIgnoreCase(prompt)) {
+            return VisionPromptUnderstandingSlots.builder()
+                    .targetCircleQuery("Family")
+                    .targetCircleQueryConfidence(1.0d)
+                    .build();
+        }
         if ("update my application for Move a sofa".equalsIgnoreCase(prompt)) {
             return VisionPromptUnderstandingSlots.builder()
                     .applicationQuestQuery("Move a sofa")
+                    .applicationQuestQueryConfidence(1.0d)
+                    .build();
+        }
+        if ("show application #42".equalsIgnoreCase(prompt)) {
+            return VisionPromptUnderstandingSlots.builder()
+                    .applicationTargetQuery("application #42")
+                    .applicationTargetQueryConfidence(1.0d)
+                    .build();
+        }
+        if ("show quest #42".equalsIgnoreCase(prompt)) {
+            return VisionPromptUnderstandingSlots.builder()
+                    .applicationQuestQuery("quest #42")
                     .applicationQuestQueryConfidence(1.0d)
                     .build();
         }

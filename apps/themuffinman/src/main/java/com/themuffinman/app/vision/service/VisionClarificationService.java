@@ -34,6 +34,9 @@ public class VisionClarificationService {
             "target_quest_query",
             "target_user"
     );
+    private static final List<String> VIEW_APPLICATION_DETAIL_SLOT_ORDER = List.of(
+            "target_application_query"
+    );
     private static final List<String> UPDATE_CIRCLE_SLOT_ORDER = List.of(
             "target_circle_query",
             "circle_name"
@@ -122,6 +125,15 @@ public class VisionClarificationService {
         return null;
     }
 
+    public String nextMissingViewApplicationDetailSlot(Map<String, String> slotData) {
+        for (String slotId : VIEW_APPLICATION_DETAIL_SLOT_ORDER) {
+            if (!slotData.containsKey(slotId)) {
+                return slotId;
+            }
+        }
+        return null;
+    }
+
     public String buildQuestion(String slotId) {
         return switch (slotId) {
             case "quest_title" -> "What should the quest be called?";
@@ -136,6 +148,7 @@ public class VisionClarificationService {
             case "location_label" -> "What custom place or address should I use for this quest?";
             case "location_candidate_confirmation" -> "I found a more precise place match. Should I use the resolved place or keep the location exactly as you typed it?";
             case "target_user" -> "Who is the person I should use for this action?";
+            case "target_application_query" -> "What application should I open? Say the application id or the exact quest title.";
             case "target_quest_query" -> "What quest should I apply to? Say the quest title or quest id.";
             case "application_message" -> "What message should I send with your application?";
             case "application_proposed_price" -> "What proposed price should I send for this paid quest?";
@@ -157,6 +170,7 @@ public class VisionClarificationService {
             case "location_label" -> "I still need a real custom place or address, not just 'custom place'.";
             case "location_candidate_confirmation" -> "Choose one: use resolved place, or keep typed location.";
             case "target_user" -> "I still need one exact person target. Say a username, email, or name fragment.";
+            case "target_application_query" -> "I still need one exact application target. Say the application id or the exact quest title.";
             case "target_quest_query" -> "I still need one exact quest target. Say the exact quest title or quest id.";
             case "target_circle_query" -> "I still need one exact circle target. Say the exact circle name or circle id.";
             case "application_message" -> "I still need the application message you want to send.";

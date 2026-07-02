@@ -207,6 +207,38 @@ class VisionPromptUnderstandingServiceTest {
     }
 
     @Test
+    void buildsSettingsAndDetailSemanticPlansWithLocalFallback() {
+        AgentProperties agentProperties = new AgentProperties();
+        VisionPromptUnderstandingService service = service(agentProperties);
+
+        VisionPromptUnderstandingResult chatWorkspace = service.understandPrompt("show chat", null);
+        VisionPromptUnderstandingResult circles = service.understandPrompt("show circles", null);
+        VisionPromptUnderstandingResult applications = service.understandPrompt("show applications", null);
+        VisionPromptUnderstandingResult settings = service.understandPrompt("show settings", null);
+        VisionPromptUnderstandingResult userProfile = service.understandPrompt("show user Josip", null);
+        VisionPromptUnderstandingResult circleDetail = service.understandPrompt("open circle Family", null);
+        VisionPromptUnderstandingResult questDetail = service.understandPrompt("show quest #42", null);
+        VisionPromptUnderstandingResult applicationDetail = service.understandPrompt("show application #42", null);
+
+        assertEquals("VIEW_CHAT_WORKSPACE", chatWorkspace.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("view_chat_workspace", chatWorkspace.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("VIEW_CIRCLES", circles.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("view_circles", circles.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("VIEW_APPLICATIONS", applications.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("view_applications", applications.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("VIEW_SETTINGS", settings.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("view_settings", settings.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("VIEW_USER_PROFILE", userProfile.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("view_user_profile", userProfile.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("VIEW_CIRCLE_DETAIL", circleDetail.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("view_circle_detail", circleDetail.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("VIEW_QUEST_DETAIL", questDetail.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("view_quest_detail", questDetail.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("VIEW_APPLICATION_DETAIL", applicationDetail.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("view_application_detail", applicationDetail.semanticPlanOrEmpty().getCapabilityId());
+    }
+
+    @Test
     void defaultsSemanticPlanToUnsupportedWhenPromptHasNoSupportedIntent() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);

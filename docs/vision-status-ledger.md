@@ -58,6 +58,10 @@ It should stay short, factual, and updated when a vision batch materially change
 - circles, applications, and profile are now rendered as linear text feeds with inline actions instead of dashboard cards and sidebars
 - chat, application detail, settings, onboarding, quest composer, and quest detail edit now also use the same terminal/feed presentation instead of the old dialog-and-panel shell
 - the shared Vision feed styling now standardizes line-by-line blocks, inline actions, and textual summaries across the remaining Vision detail surfaces
+- the frontend Vision module has now been reduced to one active conversation route shell, one terminal renderer, one ambient orb, one floating preview overlay, and the shared voice/conversation API client; the older page-shell, card, dialog, composer, quest-detail, circles-detail, and chat-detail frontend layers have been removed from the active tree
+- login and registration now use the same minimal route-level shell approach as the Vision transition, and the leftover shared brand/component stylesheet layer has been reduced to a small global reset plus Vision color tokens
+- the floating Vision preview is no longer quest-hardcoded; it now renders backend-provided capability preview items so profile, circles, applications, chat, and detail snapshots can reuse the same changing-model surface
+- profile, circles, and applications now behave as same-thread workspace families, so switching from read-only snapshot prompts into related mutation prompts reuses the current Vision conversation instead of forcing a new thread
 - Vision now has a profile onboarding route for completing identity, avatar, and location setup before falling back to the fuller settings surface
 - profiles without a saved location auto-focus the onboarding location section so the first-time setup path opens on the missing piece
 - the legacy admin login handoff now redirects into Vision instead of pointing at a removed frontend route
@@ -69,6 +73,8 @@ It should stay short, factual, and updated when a vision batch materially change
 - backend sanitization now hard-rejects model-selected capabilities, focus slot ids, and extracted slot payloads that fall outside the published Vision route catalog and slot schema
 - the semantic request now also carries runtime client locale/timezone hints and records which backend source supplied the final locale and timezone values
 - `/vision` now has terminal-first read-only semantic routes for self profile, circles, and applications inside the same conversation surface
+- `/vision` now also has terminal-first read-only semantic routes for settings, user profile detail, circle detail, quest detail, and application detail, and the remaining route-level detail entry points now redirect into the shared conversation surface instead of dedicated page shells
+- `/vision/chat` now resolves through the shared conversation surface as a read-only chat workspace snapshot, while person-specific chat opening remains on the `open_chat` terminal flow
 - `/vision` now also has a first request-style mutation pilot for `create_circle`, including one-slot draft collection, review-ready state, and explicit confirmation before execution
 - `/vision` now also has a first application mutation pilot for `create_application`, including deterministic applyable-quest resolution, message collection, price collection only for paid quests, and explicit confirmation before execution
 - `/vision` now also has narrow pending-application self-service mutation pilots for `update_application` and `withdraw_application`, including deterministic current-application resolution, textual previews of current and changed values, and explicit confirmation before execution

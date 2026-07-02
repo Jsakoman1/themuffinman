@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {computed} from "vue"
-import {useMountedAsync} from "../../../composables/useMountedAsync.ts"
+import {computed, onMounted, ref, watch} from "vue"
+import {useRoute, useRouter} from "vue-router"
 import VisionAgentOrb from "../components/VisionAgentOrb.vue"
 import VisionCanvasRenderer from "../components/VisionCanvasRenderer.vue"
 import VisionIntentPreviewPanel from "../components/VisionIntentPreviewPanel.vue"
@@ -32,6 +32,10 @@ const {
   openComposer,
   cancelConversation
 } = useVisionConversation()
+
+const route = useRoute()
+const router = useRouter()
+const lastAutoPromptKey = ref("")
 
 const submitPrompt = async () => {
   await processPrompt(inputText.value, "text")
@@ -91,7 +95,57 @@ const motionParticles = computed(() => Array.from({length: 24}, (_, index) => ({
   blur: `${9 + (index % 4) * 3.5}px`
 })))
 
-useMountedAsync(init)
+const routePrompt = computed(() => {
+  const prompt = route.query.prompt
+  return typeof prompt === "string" ? prompt.trim() : ""
+})
+
+const shouldAutorunRoutePrompt = computed(() => route.query.autorun === "1" && routePrompt.value.length > 0)
+
+const clearRoutePrompt = async () => {
+  if (route.path !== "/vision") {
+    return
+  }
+  if (!("prompt" in route.query) && !("autorun" in route.query)) {
+    return
+  }
+  await router.replace({path: "/vision"})
+}
+
+const runRoutePromptIfNeeded = async () => {
+  if (!shouldAutorunRoutePrompt.value) {
+    return
+  }
+
+  const autoPromptKey = `${route.fullPath}::${routePrompt.value}`
+  if (lastAutoPromptKey.value === autoPromptKey) {
+    return
+  }
+
+  lastAutoPromptKey.value = autoPromptKey
+  inputText.value = routePrompt.value
+
+  try {
+    await processPrompt(routePrompt.value, "text")
+  } finally {
+    await clearRoutePrompt()
+  }
+}
+
+onMounted(async () => {
+  await init()
+  await runRoutePromptIfNeeded()
+})
+
+watch(
+  () => route.fullPath,
+  async () => {
+    if (isLoading.value) {
+      return
+    }
+    await runRoutePromptIfNeeded()
+  }
+)
 </script>
 
 <template>

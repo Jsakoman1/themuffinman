@@ -57,6 +57,7 @@ public class VisionPromptUnderstandingResult {
         putIfExplicit(flattened, "quest_description", slots.getQuestDescription(), slots.getQuestDescriptionConfidence());
         putIfExplicit(flattened, "circle_name", slots.getCircleName(), slots.getCircleNameConfidence());
         putIfExplicit(flattened, "target_circle_query", slots.getTargetCircleQuery(), slots.getTargetCircleQueryConfidence());
+        putIfExplicit(flattened, "target_application_query", slots.getApplicationTargetQuery(), slots.getApplicationTargetQueryConfidence());
         putIfExplicit(flattened, "target_quest_query", slots.getApplicationQuestQuery(), slots.getApplicationQuestQueryConfidence());
         putIfExplicit(flattened, "application_message", slots.getApplicationMessage(), slots.getApplicationMessageConfidence());
         putIfExplicit(flattened, "application_proposed_price", slots.getApplicationProposedPrice(), slots.getApplicationProposedPriceConfidence());
@@ -122,6 +123,8 @@ class VisionPromptUnderstandingSlots {
     private Double circleNameConfidence;
     private String targetCircleQuery;
     private Double targetCircleQueryConfidence;
+    private String applicationTargetQuery;
+    private Double applicationTargetQueryConfidence;
     private String applicationQuestQuery;
     private Double applicationQuestQueryConfidence;
     private String applicationMessage;

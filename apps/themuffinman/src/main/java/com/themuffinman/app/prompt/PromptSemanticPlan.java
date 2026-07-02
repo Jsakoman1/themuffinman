@@ -209,11 +209,44 @@ public class PromptSemanticPlan {
                 .build();
     }
 
+    public static PromptSemanticPlan viewChatWorkspace(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("VIEW_CHAT_WORKSPACE")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("view_chat_workspace")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
     public static PromptSemanticPlan viewProfile(double confidence, String note) {
         return PromptSemanticPlan.builder()
                 .candidateIntent("VIEW_PROFILE")
                 .candidateIntentConfidence(confidence)
                 .capabilityId("view_profile")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan viewUserProfile(double confidence, String note, String targetUserQuery) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("VIEW_USER_PROFILE")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("view_user_profile")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery(targetUserQuery == null ? "" : targetUserQuery)
+                .build();
+    }
+
+    public static PromptSemanticPlan viewSettings(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("VIEW_SETTINGS")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("view_settings")
                 .planningNote(note == null ? "" : note)
                 .searchQuery("")
                 .targetUserQuery("")
@@ -231,11 +264,44 @@ public class PromptSemanticPlan {
                 .build();
     }
 
+    public static PromptSemanticPlan viewCircleDetail(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("VIEW_CIRCLE_DETAIL")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("view_circle_detail")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan viewQuestDetail(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("VIEW_QUEST_DETAIL")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("view_quest_detail")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
     public static PromptSemanticPlan viewApplications(double confidence, String note) {
         return PromptSemanticPlan.builder()
                 .candidateIntent("VIEW_APPLICATIONS")
                 .candidateIntentConfidence(confidence)
                 .capabilityId("view_applications")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
+    public static PromptSemanticPlan viewApplicationDetail(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("VIEW_APPLICATION_DETAIL")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("view_application_detail")
                 .planningNote(note == null ? "" : note)
                 .searchQuery("")
                 .targetUserQuery("")

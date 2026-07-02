@@ -68,11 +68,29 @@ public class VisionIntentRouter {
         if (semanticIntent == VisionIntent.OPEN_CHAT) {
             return VisionIntent.OPEN_CHAT;
         }
+        if (semanticIntent == VisionIntent.VIEW_CHAT_WORKSPACE) {
+            return VisionIntent.VIEW_CHAT_WORKSPACE;
+        }
+        if (semanticIntent == VisionIntent.VIEW_SETTINGS) {
+            return VisionIntent.VIEW_SETTINGS;
+        }
+        if (semanticIntent == VisionIntent.VIEW_USER_PROFILE) {
+            return VisionIntent.VIEW_USER_PROFILE;
+        }
         if (semanticIntent == VisionIntent.VIEW_PROFILE) {
             return VisionIntent.VIEW_PROFILE;
         }
+        if (semanticIntent == VisionIntent.VIEW_CIRCLE_DETAIL) {
+            return VisionIntent.VIEW_CIRCLE_DETAIL;
+        }
+        if (semanticIntent == VisionIntent.VIEW_QUEST_DETAIL) {
+            return VisionIntent.VIEW_QUEST_DETAIL;
+        }
         if (semanticIntent == VisionIntent.VIEW_CIRCLES) {
             return VisionIntent.VIEW_CIRCLES;
+        }
+        if (semanticIntent == VisionIntent.VIEW_APPLICATION_DETAIL) {
+            return VisionIntent.VIEW_APPLICATION_DETAIL;
         }
         if (semanticIntent == VisionIntent.VIEW_APPLICATIONS) {
             return VisionIntent.VIEW_APPLICATIONS;
@@ -117,17 +135,35 @@ public class VisionIntentRouter {
         if (containsProfileUpdateSignals(lower)) {
             return VisionIntent.UPDATE_PROFILE;
         }
+        if (containsSettingsSignals(lower)) {
+            return VisionIntent.VIEW_SETTINGS;
+        }
+        if (containsUserProfileDetailSignals(lower)) {
+            return VisionIntent.VIEW_USER_PROFILE;
+        }
+        if (containsCircleDetailSignals(lower)) {
+            return VisionIntent.VIEW_CIRCLE_DETAIL;
+        }
+        if (containsQuestDetailSignals(lower)) {
+            return VisionIntent.VIEW_QUEST_DETAIL;
+        }
         if (containsProfileSignals(lower)) {
             return VisionIntent.VIEW_PROFILE;
         }
         if (containsCirclesSignals(lower)) {
             return VisionIntent.VIEW_CIRCLES;
         }
+        if (containsApplicationDetailSignals(lower)) {
+            return VisionIntent.VIEW_APPLICATION_DETAIL;
+        }
         if (containsApplicationsSignals(lower)) {
             return VisionIntent.VIEW_APPLICATIONS;
         }
         if (containsDiscoverySignals(lower)) {
             return VisionIntent.DISCOVER_QUESTS;
+        }
+        if (containsChatWorkspaceSignals(lower)) {
+            return VisionIntent.VIEW_CHAT_WORKSPACE;
         }
         if (containsChatSignals(lower)) {
             return VisionIntent.OPEN_CHAT;
@@ -202,6 +238,16 @@ public class VisionIntentRouter {
                 "talk to");
     }
 
+    private boolean containsChatWorkspaceSignals(String value) {
+        return containsAny(value,
+                "show chat",
+                "open chat workspace",
+                "chat workspace",
+                "my chat",
+                "chat inbox",
+                "messages");
+    }
+
     private boolean containsProfileSignals(String value) {
         return containsAny(value,
                 "my profile",
@@ -211,6 +257,25 @@ public class VisionIntentRouter {
                 "my account",
                 "show my account",
                 "who am i");
+    }
+
+    private boolean containsSettingsSignals(String value) {
+        return containsAny(value,
+                "settings",
+                "show settings",
+                "open settings",
+                "my settings",
+                "account settings");
+    }
+
+    private boolean containsUserProfileDetailSignals(String value) {
+        return containsAny(value,
+                "show user",
+                "open user",
+                "show profile for",
+                "open profile for",
+                "show profile of",
+                "open profile of");
     }
 
     private boolean containsProfileUpdateSignals(String value) {
@@ -235,6 +300,22 @@ public class VisionIntentRouter {
                 "open circles",
                 "circle list",
                 "my network");
+    }
+
+    private boolean containsQuestDetailSignals(String value) {
+        return containsAny(value,
+                "show quest ",
+                "open quest ",
+                "quest details",
+                "quest detail");
+    }
+
+    private boolean containsCircleDetailSignals(String value) {
+        return containsAny(value,
+                "show circle ",
+                "open circle ",
+                "circle details",
+                "circle detail");
     }
 
     private boolean containsCircleCreateSignals(String value) {
@@ -348,6 +429,14 @@ public class VisionIntentRouter {
                 "job applications",
                 "quest applications",
                 "applications status");
+    }
+
+    private boolean containsApplicationDetailSignals(String value) {
+        return containsAny(value,
+                "show application ",
+                "open application ",
+                "application details",
+                "application detail");
     }
 
     private boolean containsProfileLocationUpdateSignals(String value) {

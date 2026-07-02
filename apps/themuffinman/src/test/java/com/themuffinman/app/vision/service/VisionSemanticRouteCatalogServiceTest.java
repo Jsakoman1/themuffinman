@@ -18,7 +18,7 @@ class VisionSemanticRouteCatalogServiceTest {
 
         var routes = service.allowedRoutes(user);
 
-        assertEquals(19, routes.size());
+        assertEquals(25, routes.size());
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.create_circle")
                 && route.isMutating()
                 && route.isRequiresReview()
@@ -87,15 +87,33 @@ class VisionSemanticRouteCatalogServiceTest {
                 && !route.isMutating()));
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.open_chat")
                 && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("target_user"))));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_chat_workspace")
+                && !route.isMutating()
+                && route.getSlots().isEmpty()));
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_profile")
                 && !route.isMutating()
                 && route.getSlots().isEmpty()));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_settings")
+                && !route.isMutating()
+                && route.getSlots().isEmpty()));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_user_profile")
+                && !route.isMutating()
+                && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("target_user"))));
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_circles")
                 && !route.isMutating()
                 && route.getSlots().isEmpty()));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_circle_detail")
+                && !route.isMutating()
+                && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("target_circle_query"))));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_quest_detail")
+                && !route.isMutating()
+                && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("target_quest_query"))));
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_applications")
                 && !route.isMutating()
                 && route.getSlots().isEmpty()));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_application_detail")
+                && !route.isMutating()
+                && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("target_application_query"))));
     }
 
     @Test

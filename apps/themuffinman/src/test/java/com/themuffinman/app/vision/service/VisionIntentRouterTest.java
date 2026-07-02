@@ -61,4 +61,19 @@ class VisionIntentRouterTest {
 
         assertEquals(VisionIntent.OPEN_CHAT, router.detectIntent("chat with Josip", understanding));
     }
+
+    @Test
+    void routesSettingsAndDetailReadOnlyIntentsFromPromptHeuristics() {
+        VisionProperties visionProperties = new VisionProperties();
+        VisionIntentRouter router = new VisionIntentRouter(visionProperties);
+
+        assertEquals(VisionIntent.VIEW_CHAT_WORKSPACE, router.detectIntent("show chat"));
+        assertEquals(VisionIntent.VIEW_CIRCLES, router.detectIntent("show circles"));
+        assertEquals(VisionIntent.VIEW_APPLICATIONS, router.detectIntent("show applications"));
+        assertEquals(VisionIntent.VIEW_SETTINGS, router.detectIntent("show settings"));
+        assertEquals(VisionIntent.VIEW_USER_PROFILE, router.detectIntent("show user Josip"));
+        assertEquals(VisionIntent.VIEW_CIRCLE_DETAIL, router.detectIntent("open circle Family"));
+        assertEquals(VisionIntent.VIEW_QUEST_DETAIL, router.detectIntent("show quest #42"));
+        assertEquals(VisionIntent.VIEW_APPLICATION_DETAIL, router.detectIntent("show application #42"));
+    }
 }

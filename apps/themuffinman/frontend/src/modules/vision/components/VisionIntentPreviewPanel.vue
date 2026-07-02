@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed} from "vue"
-import type {VisionConversationTurnResponse} from "../api/visionConversationApi.ts"
+import type {VisionCanvasBlock, VisionConversationTurnResponse} from "../api/visionConversationApi.ts"
 import type {VisionExecutionCandidate} from "../api/visionConversationApi.ts"
 import VisionTypingText from "./VisionTypingText.vue"
 
@@ -11,23 +11,58 @@ const props = defineProps<{
 }>()
 
 type IntentField = {
+  slotId: string
   label: string
   value: string
 }
 
-const fieldValues = computed<IntentField[]>(() => {
-  const summaries = new Map(props.response?.slotSummaries.map((slot) => [slot.slotId, slot.value]) ?? [])
-  const review = props.response?.review
+const previewBlock = computed<VisionCanvasBlock | null>(() => {
+  if (!props.response) {
+    return null
+  }
 
-  return [
-    {label: "Title", value: review?.title ?? summaries.get("quest_title") ?? ""},
-    {label: "Description", value: review?.description ?? summaries.get("quest_description") ?? ""},
-    {label: "Reward", value: review?.rewardLabel ?? summaries.get("reward_amount") ?? ""},
-    {label: "Date", value: summaries.get("scheduled_date") ?? ""},
-    {label: "Time", value: summaries.get("scheduled_time") ?? ""},
-    {label: "Visibility", value: review?.visibility ?? summaries.get("visibility") ?? ""},
-    {label: "Location", value: review?.location ?? summaries.get("location_label") ?? ""}
-  ]
+  const preferredBlock = props.response.blocks.find((block) =>
+    block.items.length > 0
+    && block.type === "result_summary"
+    && block.title !== "Collected so far")
+
+  if (preferredBlock) {
+    return preferredBlock
+  }
+
+  const fallbackBlock = props.response.blocks.find((block) =>
+    block.items.length > 0
+    && (block.type === "result_summary" || block.type === "review_summary" || block.type === "success" || block.type === "info"))
+
+  return fallbackBlock ?? null
+})
+
+const fieldValues = computed<IntentField[]>(() => {
+  if (previewBlock.value?.items.length) {
+    return previewBlock.value.items.map((item) => ({
+      slotId: item.slotId,
+      label: item.label,
+      value: item.value ?? ""
+    }))
+  }
+
+  const review = props.response?.review
+  if (review) {
+    return [
+      {slotId: "quest_title", label: "Title", value: review.title ?? ""},
+      {slotId: "quest_description", label: "Description", value: review.description ?? ""},
+      {slotId: "reward_amount", label: "Reward", value: review.rewardLabel ?? ""},
+      {slotId: "visibility", label: "Visibility", value: review.visibility ?? ""},
+      {slotId: "scheduled_at", label: "Schedule", value: review.schedule ?? ""},
+      {slotId: "location_label", label: "Location", value: review.location ?? ""}
+    ].filter((field) => field.value.trim().length > 0)
+  }
+
+  return (props.response?.slotSummaries ?? []).map((item) => ({
+    slotId: item.slotId,
+    label: item.label,
+    value: item.value ?? ""
+  }))
 })
 
 const filledCount = computed(() => fieldValues.value.filter((field) => field.value.trim().length > 0).length)
@@ -41,16 +76,22 @@ const isComplete = computed(() => {
 
 const visibleFields = computed(() => fieldValues.value.filter((field) => field.value.trim().length > 0 || !isComplete.value))
 
+const previewSummary = computed(() => previewBlock.value?.body?.trim() ?? "")
+
 const previewLabel = computed(() => {
   if (!props.visible) {
     return ""
+  }
+
+  if (previewBlock.value?.title?.trim()) {
+    return previewBlock.value.title.trim()
   }
 
   if (props.response?.intent) {
     return props.response.intent.toLowerCase()
   }
 
-  return "create_quest style preview"
+  return "vision preview"
 })
 </script>
 
@@ -66,9 +107,12 @@ const previewLabel = computed(() => {
       <div v-if="previewLabel" class="vision-intent__label">
         {{ previewLabel }}
       </div>
+      <p v-if="previewSummary" class="vision-intent__summary">
+        {{ previewSummary }}
+      </p>
       <div
         v-for="field in visibleFields"
-        :key="field.label"
+        :key="field.slotId"
         class="vision-intent__line"
         :class="{ 'vision-intent__line--filled': field.value.trim().length > 0 }"
       >
@@ -182,6 +226,13 @@ const previewLabel = computed(() => {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+.vision-intent__summary {
+  margin: 0;
+  color: rgba(24, 36, 47, 0.62);
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
 .vision-intent__line--filled .vision-intent__value {

@@ -4,14 +4,6 @@ import {isLoggedIn} from "./auth.ts";
 const LoginView = () => import("./modules/identity/views/LoginView.vue");
 const RegisterView = () => import("./modules/identity/views/RegisterView.vue");
 const VisionSurfaceModernView = () => import("./modules/vision/views/VisionSurfaceModernView.vue");
-const VisionQuestDetailView = () => import("./modules/vision/views/VisionQuestDetailView.vue");
-const VisionApplicationDetailView = () => import("./modules/vision/views/VisionApplicationDetailView.vue");
-const VisionApplicationsView = () => import("./modules/vision/views/VisionApplicationsView.vue");
-const VisionProfileOnboardingView = () => import("./modules/vision/views/VisionProfileOnboardingView.vue");
-const VisionUserProfileView = () => import("./modules/vision/views/VisionUserProfileView.vue");
-const VisionUserSettingsView = () => import("./modules/vision/views/VisionUserSettingsView.vue");
-const VisionCirclesView = () => import("./modules/vision/views/VisionCirclesView.vue");
-const VisionChatWorkspaceView = () => import("./modules/vision/views/VisionChatWorkspaceView.vue");
 
 
 const routes = [
@@ -34,42 +26,42 @@ const routes = [
     },
     {
         path: '/vision/users/:id',
-        component: VisionUserProfileView,
+        redirect: (to: any) => ({path: '/vision', query: {prompt: `show user #${to.params.id}`, autorun: '1'}}),
         meta: {requiresAuth: true}
     },
     {
         path: '/vision/profile',
-        component: VisionProfileOnboardingView,
+        redirect: {path: '/vision', query: {prompt: 'show profile', autorun: '1'}},
         meta: {requiresAuth: true}
     },
     {
         path: '/vision/settings',
-        component: VisionUserSettingsView,
+        redirect: {path: '/vision', query: {prompt: 'show settings', autorun: '1'}},
         meta: {requiresAuth: true}
     },
     {
         path: '/vision/circles',
-        component: VisionCirclesView,
+        redirect: {path: '/vision', query: {prompt: 'show circles', autorun: '1'}},
         meta: {requiresAuth: true}
     },
     {
         path: '/vision/chat',
-        component: VisionChatWorkspaceView,
+        redirect: {path: '/vision', query: {prompt: 'show chat', autorun: '1'}},
         meta: {requiresAuth: true}
     },
     {
         path: '/vision/quests/:id',
-        component: VisionQuestDetailView,
+        redirect: (to: any) => ({path: '/vision', query: {prompt: `show quest #${to.params.id}`, autorun: '1'}}),
         meta: {requiresAuth: true}
     },
     {
         path: '/vision/applications/:id',
-        component: VisionApplicationDetailView,
+        redirect: (to: any) => ({path: '/vision', query: {prompt: `show application #${to.params.id}`, autorun: '1'}}),
         meta: {requiresAuth: true}
     },
     {
         path: '/vision/applications',
-        component: VisionApplicationsView,
+        redirect: {path: '/vision', query: {prompt: 'show applications', autorun: '1'}},
         meta: {requiresAuth: true}
     }
 ];

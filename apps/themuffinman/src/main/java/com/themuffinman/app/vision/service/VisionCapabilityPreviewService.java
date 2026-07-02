@@ -1,30 +1,42 @@
 package com.themuffinman.app.vision.service;
 
+import com.themuffinman.app.chat.dto.ChatConversationSummaryDTO;
+import com.themuffinman.app.chat.dto.ChatContactDTO;
+import com.themuffinman.app.chat.dto.ChatWorkspaceDTO;
+import com.themuffinman.app.chat.service.ChatService;
 import com.themuffinman.app.identity.dto.AppUserRequestDTO;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
+import com.themuffinman.app.identity.dto.UserProfileViewDTO;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.identity.service.AppUserService;
+import com.themuffinman.app.identity.service.UserProfileViewService;
 import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
 import com.themuffinman.app.location.dto.UserLocationSettingsDTO;
 import com.themuffinman.app.location.dto.UserLocationSettingsRequestDTO;
 import com.themuffinman.app.location.model.UserLocationMode;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
+import com.themuffinman.app.social.dto.CircleMemberDTO;
 import com.themuffinman.app.social.dto.CircleGroupRequestDTO;
 import com.themuffinman.app.social.dto.CircleRequestCreateDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.vision.dto.QuestApplicationDetailResponseDTO;
 import com.themuffinman.app.vision.dto.QuestAllowedActionDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationRequestDTO;
+import com.themuffinman.app.vision.dto.QuestDetailResponseDTO;
 import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -37,16 +49,24 @@ public class VisionCapabilityPreviewService {
     private final AppUserService appUserService;
     private final AppUserMgr appUserMgr;
     private final AppUserRepository appUserRepository;
+    private final UserProfileViewService userProfileViewService;
+    private final ChatService chatService;
     private final CircleService circleService;
     private final QuestService questService;
     private final QuestApplicationService questApplicationService;
     private static final Pattern QUEST_ID_PATTERN = Pattern.compile("(?i)(?:quest\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
+    private static final Pattern APPLICATION_ID_PATTERN = Pattern.compile("(?i)(?:application\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
     private static final Pattern CIRCLE_ID_PATTERN = Pattern.compile("(?i)(?:circle\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
+    private static final Pattern USER_ID_PATTERN = Pattern.compile("(?i)(?:user\\s*#?\\s*|profile\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")
+            .withZone(ZoneId.systemDefault());
 
     public VisionCapabilityPreviewService(
             AppUserService appUserService,
             AppUserMgr appUserMgr,
             AppUserRepository appUserRepository,
+            UserProfileViewService userProfileViewService,
+            ChatService chatService,
             CircleService circleService,
             QuestService questService,
             QuestApplicationService questApplicationService
@@ -54,6 +74,8 @@ public class VisionCapabilityPreviewService {
         this.appUserService = appUserService;
         this.appUserMgr = appUserMgr;
         this.appUserRepository = appUserRepository;
+        this.userProfileViewService = userProfileViewService;
+        this.chatService = chatService;
         this.circleService = circleService;
         this.questService = questService;
         this.questApplicationService = questApplicationService;
@@ -84,6 +106,93 @@ public class VisionCapabilityPreviewService {
                 .capabilityId("view_profile")
                 .title("Profile")
                 .summary(summary)
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewSettings(AppUser currentUser) {
+        if (currentUser == null) {
+            return null;
+        }
+
+        AppUserResponseDTO profile = appUserMgr.toDto(appUserService.getAppUser(currentUser.getId()));
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "profile_email", "Email", profile.getEmail());
+        addItem(items, "profile_username", "Username", profile.getUsername());
+        addItem(items, "profile_location_mode", "Location mode", profile.getLocationSettings() == null || profile.getLocationSettings().getMode() == null
+                ? null
+                : profile.getLocationSettings().getMode().name());
+        addItem(items, "profile_location_label", "Location", profile.getLocationSettings() == null ? null : profile.getLocationSettings().getLabel());
+
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_settings")
+                .title("Settings")
+                .summary("Showing your account settings snapshot.")
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewChatWorkspace(AppUser currentUser) {
+        if (currentUser == null) {
+            return null;
+        }
+
+        ChatWorkspaceDTO workspace = chatService.getWorkspace(currentUser);
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "chat_unread_conversations", "Unread conversations", String.valueOf(workspace.getUnreadConversationCount()));
+        addItem(items, "chat_online_contacts", "Online contacts", String.valueOf(workspace.getOnlineContactCount()));
+        addItem(items, "chat_contacts", "Contacts", String.valueOf(workspace.getContacts() == null ? 0 : workspace.getContacts().size()));
+
+        List<ChatConversationSummaryDTO> conversations = workspace.getConversations() == null ? List.of() : workspace.getConversations();
+        for (int index = 0; index < Math.min(conversations.size(), 4); index++) {
+            ChatConversationSummaryDTO conversation = conversations.get(index);
+            String value = conversation.getLastMessagePreview();
+            if (conversation.getUnreadCount() > 0) {
+                value = (value == null || value.isBlank() ? "" : value + " · ") + conversation.getUnreadCount() + " unread";
+            }
+            addItem(items, "chat_conversation_" + conversation.getConversationId(), conversation.getOtherUsername(), value);
+        }
+
+        List<ChatContactDTO> contacts = workspace.getContacts() == null ? List.of() : workspace.getContacts();
+        for (int index = 0; index < Math.min(contacts.size(), 3); index++) {
+            ChatContactDTO contact = contacts.get(index);
+            addItem(items, "chat_contact_" + contact.getUserId(), "Contact " + (index + 1),
+                    contact.getUsername() + (contact.isOnline() ? " · online" : ""));
+        }
+
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_chat_workspace")
+                .title("Chat")
+                .summary("Showing your chat workspace snapshot.")
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewUserProfile(AppUser currentUser, Long profileUserId) {
+        if (currentUser == null || profileUserId == null) {
+            return null;
+        }
+
+        UserProfileViewDTO profileView = userProfileViewService.getProfileView(profileUserId, currentUser);
+        if (profileView == null || profileView.getProfile() == null) {
+            return null;
+        }
+
+        AppUserResponseDTO profile = profileView.getProfile();
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "target_user", "Username", profile.getUsername());
+        addItem(items, "profile_description", "Profile description", profile.getProfileDescription());
+        addItem(items, "profile_location_label", "Location", profile.getLocationSettings() == null ? null : profile.getLocationSettings().getLabel());
+        addItem(items, "profile_open_quests", "Open quests", String.valueOf(profile.getOpenQuestCount()));
+        addItem(items, "profile_relation", "Relation", profileView.getRelation() == null ? null : profileView.getRelation().getRelationLabel());
+
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_user_profile")
+                .title("User profile")
+                .summary("Showing the profile for " + profile.getUsername() + ".")
                 .items(items)
                 .tone("info")
                 .build();
@@ -144,6 +253,106 @@ public class VisionCapabilityPreviewService {
                 .capabilityId("view_applications")
                 .title("Applications")
                 .summary(summary)
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewCircleDetail(AppUser currentUser, Long circleId) {
+        if (currentUser == null || circleId == null) {
+            return null;
+        }
+
+        CircleGroupResponseDTO circle = circleService.getCircles(currentUser).stream()
+                .filter(candidate -> circleId.equals(candidate.getId()))
+                .findFirst()
+                .orElse(null);
+        if (circle == null) {
+            return null;
+        }
+
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "target_circle_query", "Circle", circle.getName());
+        addItem(items, "circle_member_count", "Members", String.valueOf(circle.getMemberCount()));
+        List<CircleMemberDTO> members = circle.getMembers() == null ? List.of() : circle.getMembers();
+        for (int index = 0; index < Math.min(members.size(), 6); index++) {
+            CircleMemberDTO member = members.get(index);
+            addItem(items, "circle_member_" + (index + 1), "Member " + (index + 1), member.getUsername());
+        }
+
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_circle_detail")
+                .title("Circle")
+                .summary("Showing the details for " + circle.getName() + ".")
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewQuestDetail(AppUser currentUser, Long questId) {
+        if (currentUser == null || questId == null) {
+            return null;
+        }
+
+        QuestDetailResponseDTO detail = questService.getQuestDetailResponseById(questId, currentUser);
+        QuestResponseDTO quest = detail == null ? null : detail.getSummary();
+        if (quest == null) {
+            return null;
+        }
+
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "target_quest_query", "Quest", quest.getTitle());
+        addItem(items, "quest_description", "Description", quest.getDescription());
+        addItem(items, "reward_amount", "Reward", formatRewardLabel(quest));
+        addItem(items, "visibility", "Visibility", quest.getAudience() == null ? null : quest.getAudience().name());
+        addItem(items, "scheduled_at", "Schedule", quest.getScheduledAt() == null ? null : formatDateTime(quest.getScheduledAt()));
+        addItem(items, "location_label", "Location",
+                quest.getPresentation() == null ? quest.getLocationLabel() : quest.getPresentation().getLocationLabel());
+        addItem(items, "quest_status", "Status", quest.getPresentation() == null ? null : quest.getPresentation().getStatusLabel());
+        addItem(items, "quest_posted_by", "Posted by", quest.getCreatorUsername());
+
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_quest_detail")
+                .title("Quest")
+                .summary("Showing the details for " + quest.getTitle() + ".")
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewApplicationDetail(AppUser currentUser, Long applicationId) {
+        if (currentUser == null || applicationId == null) {
+            return null;
+        }
+
+        QuestApplicationDetailResponseDTO detail = questService.getApplicationDetailResponseById(applicationId, currentUser);
+        QuestApplicationResponseDTO application = detail == null ? null : detail.getSummary();
+        QuestResponseDTO quest = detail == null ? null : detail.getQuest();
+        if (application == null) {
+            return null;
+        }
+
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "target_application_query", "Application", "#" + application.getId());
+        addItem(items, "target_quest_query", "Quest", application.getQuestTitle());
+        addItem(items, "application_status", "Status", application.getPresentation() == null ? null : application.getPresentation().getStatusLabel());
+        addItem(items, "application_posted_by", "Posted by", application.getQuestCreatorUsername());
+        addItem(items, "application_message", "Message", application.getMessage());
+        addItem(items, "application_proposed_price", "Proposed price",
+                application.getProposedPrice() == null ? null : application.getProposedPrice().stripTrailingZeros().toPlainString());
+        addItem(items, "application_scheduled_at", "Schedule",
+                quest != null && quest.getScheduledAt() != null
+                        ? formatDateTime(quest.getScheduledAt())
+                        : application.getQuestScheduledAt() == null ? null : formatDateTime(application.getQuestScheduledAt()));
+        addItem(items, "application_location", "Location",
+                quest != null && quest.getPresentation() != null
+                        ? quest.getPresentation().getLocationLabel()
+                        : quest == null ? null : quest.getLocationLabel());
+
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_application_detail")
+                .title("Application")
+                .summary("Showing the details for your application on " + application.getQuestTitle() + ".")
                 .items(items)
                 .tone("info")
                 .build();
@@ -414,6 +623,138 @@ public class VisionCapabilityPreviewService {
                 .orElse("matching applications");
         return VisionResolvedApplicationTarget.unresolved("I found several pending applications matching \"" + query.trim() + "\": "
                 + suggestions + ". Say the exact quest title or quest id.");
+    }
+
+    public VisionResolvedApplicationTarget resolveMyApplicationDetail(AppUser currentUser, String query) {
+        if (!hasText(query)) {
+            return VisionResolvedApplicationTarget.unresolved("What application should I open? Say the application id or the exact quest title.");
+        }
+
+        Long applicationId = extractApplicationId(query);
+        List<QuestApplicationResponseDTO> applications = questApplicationService.getApplicationsForApplicant(currentUser);
+        if (applicationId != null) {
+            return applications.stream()
+                    .filter(application -> applicationId.equals(application.getId()))
+                    .findFirst()
+                    .map(this::toResolvedApplicationTarget)
+                    .orElseGet(() -> VisionResolvedApplicationTarget.unresolved(
+                            "I could not find one application with id " + applicationId + "."
+                    ));
+        }
+
+        List<QuestApplicationResponseDTO> candidates = applications.stream()
+                .filter(application -> matchesApplicationDetailQuery(application, query))
+                .toList();
+        if (candidates.isEmpty()) {
+            return VisionResolvedApplicationTarget.unresolved(
+                    "I could not find one application from \"" + query.trim() + "\". Say the exact quest title or application id."
+            );
+        }
+
+        List<QuestApplicationResponseDTO> exactTitleCandidates = candidates.stream()
+                .filter(application -> application.getQuestTitle() != null
+                        && application.getQuestTitle().trim().equalsIgnoreCase(query.trim()))
+                .toList();
+        if (exactTitleCandidates.size() == 1) {
+            return toResolvedApplicationTarget(exactTitleCandidates.get(0));
+        }
+        if (candidates.size() == 1) {
+            return toResolvedApplicationTarget(candidates.get(0));
+        }
+
+        String suggestions = candidates.stream()
+                .limit(3)
+                .map(application -> "#" + application.getId() + " " + application.getQuestTitle())
+                .reduce((left, right) -> left + ", " + right)
+                .orElse("matching applications");
+        return VisionResolvedApplicationTarget.unresolved(
+                "I found several applications matching \"" + query.trim() + "\": " + suggestions + ". Say the exact quest title or application id."
+        );
+    }
+
+    public VisionResolvedQuestTarget resolveVisibleQuest(AppUser currentUser, String query) {
+        if (!hasText(query)) {
+            return VisionResolvedQuestTarget.unresolved("What quest should I open? Say the quest title or quest id.");
+        }
+
+        Long questId = extractQuestId(query);
+        if (questId != null) {
+            try {
+                QuestResponseDTO quest = questService.getQuestResponseById(questId, currentUser);
+                return VisionResolvedQuestTarget.resolved(quest.getId(), quest.getTitle(), quest.getCreatorUsername(), requiresApplicationPrice(quest), formatRewardLabel(quest));
+            } catch (RuntimeException ignored) {
+                return VisionResolvedQuestTarget.unresolved("I could not find one visible quest with id " + questId + ".");
+            }
+        }
+
+        String normalizedQuery = SearchQueryNormalizer.normalize(query).toLowerCase(Locale.ROOT);
+        List<QuestResponseDTO> candidates = questService.getAllQuestResponses(currentUser).stream()
+                .filter(quest -> matchesQuestQuery(quest, normalizedQuery))
+                .toList();
+        if (candidates.isEmpty()) {
+            return VisionResolvedQuestTarget.unresolved("I could not find one visible quest from \"" + query.trim() + "\". Say the exact quest title or quest id.");
+        }
+
+        List<QuestResponseDTO> exactTitleCandidates = candidates.stream()
+                .filter(quest -> quest.getTitle() != null && quest.getTitle().trim().equalsIgnoreCase(query.trim()))
+                .toList();
+        if (exactTitleCandidates.size() == 1) {
+            QuestResponseDTO quest = exactTitleCandidates.get(0);
+            return VisionResolvedQuestTarget.resolved(quest.getId(), quest.getTitle(), quest.getCreatorUsername(), requiresApplicationPrice(quest), formatRewardLabel(quest));
+        }
+        if (candidates.size() == 1) {
+            QuestResponseDTO quest = candidates.get(0);
+            return VisionResolvedQuestTarget.resolved(quest.getId(), quest.getTitle(), quest.getCreatorUsername(), requiresApplicationPrice(quest), formatRewardLabel(quest));
+        }
+
+        String suggestions = candidates.stream()
+                .limit(3)
+                .map(quest -> "#" + quest.getId() + " " + quest.getTitle())
+                .reduce((left, right) -> left + ", " + right)
+                .orElse("matching quests");
+        return VisionResolvedQuestTarget.unresolved("I found several visible quests matching \"" + query.trim() + "\": " + suggestions + ". Say the exact quest title or quest id.");
+    }
+
+    public VisionResolvedUserTarget resolveUserProfileTarget(AppUser currentUser, String query) {
+        if (!hasText(query)) {
+            return VisionResolvedUserTarget.unresolved("What profile should I open? Say a username, email, or user id.");
+        }
+
+        Long userId = extractUserId(query);
+        if (userId != null) {
+            try {
+                AppUser user = appUserService.getAppUser(userId);
+                if (user == null) {
+                    return VisionResolvedUserTarget.unresolved("I could not find one profile with id " + userId + ".");
+                }
+                return VisionResolvedUserTarget.resolved(user.getId(), user.getUsername());
+            } catch (RuntimeException ignored) {
+                return VisionResolvedUserTarget.unresolved("I could not find one profile with id " + userId + ".");
+            }
+        }
+
+        String normalizedTargetQuery = SearchQueryNormalizer.normalize(query).toLowerCase(Locale.ROOT);
+        List<AppUser> matches = appUserRepository.searchByUsernameOrEmail(normalizedTargetQuery);
+        if (matches.isEmpty()) {
+            return VisionResolvedUserTarget.unresolved("I could not identify one profile for \"" + query.trim() + "\".");
+        }
+        List<AppUser> exactMatches = matches.stream()
+                .filter(candidate -> candidate.getUsername() != null && candidate.getUsername().equalsIgnoreCase(query.trim()))
+                .toList();
+        if (exactMatches.size() == 1) {
+            AppUser target = exactMatches.getFirst();
+            return VisionResolvedUserTarget.resolved(target.getId(), target.getUsername());
+        }
+        if (matches.size() == 1) {
+            AppUser target = matches.getFirst();
+            return VisionResolvedUserTarget.resolved(target.getId(), target.getUsername());
+        }
+        String suggestions = matches.stream()
+                .limit(3)
+                .map(AppUser::getUsername)
+                .reduce((left, right) -> left + ", " + right)
+                .orElse("matching users");
+        return VisionResolvedUserTarget.unresolved("I found several profiles matching \"" + query.trim() + "\": " + suggestions + ". Say the exact username or user id.");
     }
 
     public VisionResolvedManagedApplicationTarget resolveManagedPendingApplication(
@@ -842,6 +1183,36 @@ public class VisionCapabilityPreviewService {
         return Long.parseLong(direct);
     }
 
+    private Long extractApplicationId(String query) {
+        if (!hasText(query)) {
+            return null;
+        }
+        Matcher matcher = APPLICATION_ID_PATTERN.matcher(query.trim());
+        if (!matcher.find()) {
+            return null;
+        }
+        String direct = matcher.group(1) != null ? matcher.group(1) : matcher.group(2);
+        if (direct == null || direct.isBlank()) {
+            return null;
+        }
+        return Long.parseLong(direct);
+    }
+
+    private Long extractUserId(String query) {
+        if (!hasText(query)) {
+            return null;
+        }
+        Matcher matcher = USER_ID_PATTERN.matcher(query.trim());
+        if (!matcher.find()) {
+            return null;
+        }
+        String direct = matcher.group(1) != null ? matcher.group(1) : matcher.group(2);
+        if (direct == null || direct.isBlank()) {
+            return null;
+        }
+        return Long.parseLong(direct);
+    }
+
     private Long extractCircleId(String query) {
         if (!hasText(query)) {
             return null;
@@ -881,6 +1252,24 @@ public class VisionCapabilityPreviewService {
                 nullToEmpty(application.getQuestTitle()),
                 nullToEmpty(application.getQuestDescription()),
                 nullToEmpty(application.getQuestCreatorUsername()))
+                .toLowerCase(Locale.ROOT);
+        return haystack.contains(query);
+    }
+
+    private boolean matchesApplicationDetailQuery(QuestApplicationResponseDTO application, String rawQuery) {
+        if (application == null || !hasText(rawQuery)) {
+            return false;
+        }
+        Long applicationId = extractApplicationId(rawQuery);
+        if (applicationId != null) {
+            return applicationId.equals(application.getId());
+        }
+        String query = SearchQueryNormalizer.normalize(rawQuery).toLowerCase(Locale.ROOT);
+        String haystack = String.join(" ",
+                nullToEmpty(application.getQuestTitle()),
+                nullToEmpty(application.getQuestDescription()),
+                nullToEmpty(application.getQuestCreatorUsername()),
+                "#" + application.getId())
                 .toLowerCase(Locale.ROOT);
         return haystack.contains(query);
     }
@@ -1052,6 +1441,13 @@ public class VisionCapabilityPreviewService {
             return "Free";
         }
         return quest.getAwardAmount().stripTrailingZeros().toPlainString();
+    }
+
+    private String formatDateTime(Instant value) {
+        if (value == null) {
+            return null;
+        }
+        return DATE_TIME_FORMAT.format(value);
     }
 
     private void addItem(List<VisionSlotSummaryDTO> items, String slotId, String label, String value) {

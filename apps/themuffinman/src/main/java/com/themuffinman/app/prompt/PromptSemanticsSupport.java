@@ -53,17 +53,35 @@ public class PromptSemanticsSupport {
         if (containsProfileUpdateSignals(lower)) {
             return PromptSemanticPlan.updateProfile(0.8d, "Local prompt signals match update_profile.");
         }
+        if (containsSettingsSignals(lower)) {
+            return PromptSemanticPlan.viewSettings(0.8d, "Local prompt signals match view_settings.");
+        }
+        if (containsUserProfileDetailSignals(lower)) {
+            return PromptSemanticPlan.viewUserProfile(0.8d, "Local prompt signals match view_user_profile.", inferProfileTarget(normalizedPrompt));
+        }
+        if (containsCircleDetailSignals(lower)) {
+            return PromptSemanticPlan.viewCircleDetail(0.8d, "Local prompt signals match view_circle_detail.");
+        }
+        if (containsQuestDetailSignals(lower)) {
+            return PromptSemanticPlan.viewQuestDetail(0.8d, "Local prompt signals match view_quest_detail.");
+        }
         if (containsProfileSignals(lower)) {
             return PromptSemanticPlan.viewProfile(0.8d, "Local prompt signals match view_profile.");
         }
         if (containsCirclesSignals(lower)) {
             return PromptSemanticPlan.viewCircles(0.8d, "Local prompt signals match view_circles.");
         }
+        if (containsApplicationDetailSignals(lower)) {
+            return PromptSemanticPlan.viewApplicationDetail(0.8d, "Local prompt signals match view_application_detail.");
+        }
         if (containsApplicationsSignals(lower)) {
             return PromptSemanticPlan.viewApplications(0.8d, "Local prompt signals match view_applications.");
         }
         if (containsDiscoverySignals(lower)) {
             return PromptSemanticPlan.discoverQuests(0.8d, "Local prompt signals match discover_quests.", inferDiscoveryQuery(normalizedPrompt));
+        }
+        if (containsChatWorkspaceSignals(lower)) {
+            return PromptSemanticPlan.viewChatWorkspace(0.8d, "Local prompt signals match view_chat_workspace.");
         }
         if (containsChatSignals(lower)) {
             return PromptSemanticPlan.openChat(0.8d, "Local prompt signals match open_chat.", inferChatTarget(normalizedPrompt));
@@ -151,6 +169,25 @@ public class PromptSemanticsSupport {
                 "who am i");
     }
 
+    private boolean containsSettingsSignals(String value) {
+        return containsAny(value,
+                "settings",
+                "show settings",
+                "open settings",
+                "my settings",
+                "account settings");
+    }
+
+    private boolean containsUserProfileDetailSignals(String value) {
+        return containsAny(value,
+                "show user",
+                "open user",
+                "show profile for",
+                "open profile for",
+                "show profile of",
+                "open profile of");
+    }
+
     private boolean containsProfileUpdateSignals(String value) {
         return containsAny(value,
                 "update my profile",
@@ -173,6 +210,22 @@ public class PromptSemanticsSupport {
                 "open circles",
                 "circle list",
                 "my network");
+    }
+
+    private boolean containsCircleDetailSignals(String value) {
+        return containsAny(value,
+                "show circle ",
+                "open circle ",
+                "circle details",
+                "circle detail");
+    }
+
+    private boolean containsQuestDetailSignals(String value) {
+        return containsAny(value,
+                "show quest ",
+                "open quest ",
+                "quest details",
+                "quest detail");
     }
 
     private boolean containsCircleCreateSignals(String value) {
@@ -288,6 +341,14 @@ public class PromptSemanticsSupport {
                 "applications status");
     }
 
+    private boolean containsApplicationDetailSignals(String value) {
+        return containsAny(value,
+                "show application ",
+                "open application ",
+                "application details",
+                "application detail");
+    }
+
     private boolean containsProfileLocationUpdateSignals(String value) {
         return containsAny(value,
                 "update my location",
@@ -309,6 +370,16 @@ public class PromptSemanticsSupport {
                 "dm",
                 "direct message",
                 "talk to");
+    }
+
+    private boolean containsChatWorkspaceSignals(String value) {
+        return containsAny(value,
+                "show chat",
+                "open chat workspace",
+                "chat workspace",
+                "my chat",
+                "chat inbox",
+                "messages");
     }
 
     private String inferChatTarget(String prompt) {
@@ -334,6 +405,15 @@ public class PromptSemanticsSupport {
             return "";
         }
         return prompt.replaceAll("(?i)^.*?(send a circle request to|send circle request to|invite to my circle|invite to my circles|add to my circle|add to my circles|connect with|accept circle request from|accept connection request from|accept invite from|accept circle invite from|decline circle request from|reject circle request from|decline invite from|reject invite from|cancel circle request to|cancel invite to|delete circle request with|remove circle request with)\\s+", "")
+                .replaceAll("\\s+", " ")
+                .trim();
+    }
+
+    private String inferProfileTarget(String prompt) {
+        if (prompt == null) {
+            return "";
+        }
+        return prompt.replaceAll("(?i)^.*?(show user|open user|show profile for|open profile for|show profile of|open profile of)\\s+", "")
                 .replaceAll("\\s+", " ")
                 .trim();
     }

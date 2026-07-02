@@ -30,9 +30,15 @@ public class VisionSemanticRouteCatalogService {
                 updateProfileLocationRoute(),
                 discoverQuestsRoute(),
                 openChatRoute(),
+                viewChatWorkspaceRoute(),
                 viewProfileRoute(),
+                viewSettingsRoute(),
+                viewUserProfileRoute(),
                 viewCirclesRoute(),
-                viewApplicationsRoute()
+                viewCircleDetailRoute(),
+                viewQuestDetailRoute(),
+                viewApplicationsRoute(),
+                viewApplicationDetailRoute()
         );
     }
 
@@ -294,6 +300,19 @@ public class VisionSemanticRouteCatalogService {
                 .build();
     }
 
+    private VisionSemanticRouteDescriptor viewChatWorkspaceRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_chat_workspace")
+                .entityType("chat")
+                .intent("VIEW_CHAT_WORKSPACE")
+                .capabilityId("view_chat_workspace")
+                .purpose("Read-only summary of the authenticated user's chat workspace inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .slots(List.of())
+                .build();
+    }
+
     private VisionSemanticRouteDescriptor viewProfileRoute() {
         return VisionSemanticRouteDescriptor.builder()
                 .routeKey("vision.view_profile")
@@ -304,6 +323,34 @@ public class VisionSemanticRouteCatalogService {
                 .mutating(false)
                 .requiresReview(false)
                 .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewSettingsRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_settings")
+                .entityType("settings")
+                .intent("VIEW_SETTINGS")
+                .capabilityId("view_settings")
+                .purpose("Read-only account and location settings snapshot for the authenticated user inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewUserProfileRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_user_profile")
+                .entityType("profile")
+                .intent("VIEW_USER_PROFILE")
+                .capabilityId("view_user_profile")
+                .purpose("Read-only detailed snapshot of one user profile inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .slots(List.of(
+                        slot("target_user", "semanticPlan.targetUserQuery", "user_reference", true, "User id, username, or email that identifies one profile.", List.of())
+                ))
                 .build();
     }
 
@@ -320,6 +367,36 @@ public class VisionSemanticRouteCatalogService {
                 .build();
     }
 
+    private VisionSemanticRouteDescriptor viewCircleDetailRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_circle_detail")
+                .entityType("circle")
+                .intent("VIEW_CIRCLE_DETAIL")
+                .capabilityId("view_circle_detail")
+                .purpose("Read-only detailed snapshot of one owned circle inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .slots(List.of(
+                        slot("target_circle_query", "circleTarget.query", "circle_reference", true, "Circle id or circle name that identifies one circle.", List.of())
+                ))
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewQuestDetailRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_quest_detail")
+                .entityType("quest")
+                .intent("VIEW_QUEST_DETAIL")
+                .capabilityId("view_quest_detail")
+                .purpose("Read-only detailed snapshot of one visible quest inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .slots(List.of(
+                        slot("target_quest_query", "questTarget.query", "quest_reference", true, "Quest id or quest title that identifies one visible quest.", List.of())
+                ))
+                .build();
+    }
+
     private VisionSemanticRouteDescriptor viewApplicationsRoute() {
         return VisionSemanticRouteDescriptor.builder()
                 .routeKey("vision.view_applications")
@@ -330,6 +407,21 @@ public class VisionSemanticRouteCatalogService {
                 .mutating(false)
                 .requiresReview(false)
                 .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewApplicationDetailRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_application_detail")
+                .entityType("application")
+                .intent("VIEW_APPLICATION_DETAIL")
+                .capabilityId("view_application_detail")
+                .purpose("Read-only detailed snapshot of one application inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .slots(List.of(
+                        slot("target_application_query", "applicationTarget.query", "application_reference", true, "Application id or exact quest title that identifies one application.", List.of())
+                ))
                 .build();
     }
 
