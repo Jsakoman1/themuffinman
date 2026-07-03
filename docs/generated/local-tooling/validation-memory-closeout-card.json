@@ -1,7 +1,14 @@
 {
-  "generatedAt": "2026-06-30T13:51:52Z",
+  "generatedAt": "2026-07-03T10:04:33Z",
   "source": "docs/validation-memory.json",
   "purpose": "Ultra-short closeout command card derived from canonical validation memory.",
+  "recommendedReadOrder": [
+    "docs/codex-fast-path.md",
+    "docs/validation-memory.md",
+    "the active plan or master plan",
+    "the active manifest",
+    "docs/generated/local-tooling/audit-summary-index.md when a failure needs a smaller focused audit"
+  ],
   "closeout": [
     "make audit-todo",
     "make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"
@@ -21,6 +28,6 @@
     "make audit-agent-safety"
   ],
   "workflowExpansion": [
-    "./mvnw test -Dtest=AgentOperatingScenarioTest"
+    "./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest"
   ]
 }

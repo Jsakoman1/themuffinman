@@ -15,6 +15,9 @@ It extends the existing `.agents/*-plan.md`, master-plan, feature-manifest, vali
 - `Persistent backlog`: durable open-work registry for deferred implementation or control-system follow-ups.
 - `Living docs`: stable product, domain, workflow, and architecture references under `docs/`.
 
+When a planning fact can be represented machine-readably, prefer YAML or JSON over narrative-only notes so automation can
+reuse the same state without re-deriving it from prose.
+
 ## Hierarchy
 
 The hierarchy is:
@@ -116,4 +119,3 @@ When a completed plan leaves useful knowledge behind, move that knowledge into t
 - user-facing rules into `docs/business-logic.md`
 - workflow rules into agent-operating docs
 - deferred work into `docs/implementation-backlog.md` or `docs/agent-improvement-backlog.md`
-

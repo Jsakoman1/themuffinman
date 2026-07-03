@@ -1,9 +1,9 @@
 # API Contract Drift Audit
 
-- Generated at: `2026-07-01T14:49:22Z`
-- Backend DTOs scanned: `155`
+- Generated at: `2026-07-03T09:17:21Z`
+- Backend DTOs scanned: `153`
 - DTOs missing generated contracts: `9`
-- Zero-usage backend fields: `301`
+- Zero-usage backend fields: `596`
 
 ## `AdminAgentExecutionRequestDTO`
 
@@ -23,37 +23,18 @@
 - `targetUserLabel` -> `unused_in_frontend` | usage=`0`
 - ... 2 more drift fields
 
-## `AdminAgentPlaygroundResponseDTO`
+## `AdminApplicationsQueryDTO`
 
 - Generated contract present: `true`
-- `clarificationContract` -> `unused_in_frontend` | usage=`0`
-- `directExecutionAvailable` -> `unused_in_frontend` | usage=`0`
-- `directExecutionCapabilityId` -> `unused_in_frontend` | usage=`0`
-- `directExecutionSummary` -> `unused_in_frontend` | usage=`0`
-- `executionReadiness` -> `unused_in_frontend` | usage=`0`
-- `externalLlmConfigured` -> `unused_in_frontend` | usage=`0`
-- `nextSteps` -> `unused_in_frontend` | usage=`0`
-- `originalPrompt` -> `unused_in_frontend` | usage=`0`
-- ... 9 more drift fields
-
-## `AdminAgentSimulationResponseDTO`
-
-- Generated contract present: `true`
-- `blockingReasons` -> `unused_in_frontend` | usage=`0`
-- `capabilityAssessments` -> `unused_in_frontend` | usage=`0`
-- `clarificationContract` -> `unused_in_frontend` | usage=`0`
-- `endpointPlan` -> `unused_in_frontend` | usage=`0`
-- `executionReadiness` -> `unused_in_frontend` | usage=`0`
-- `intentLineage` -> `unused_in_frontend` | usage=`0`
-- `planningOnly` -> `unused_in_frontend` | usage=`0`
-- `promptSourceLanguage` -> `unused_in_frontend` | usage=`0`
-- ... 6 more drift fields
+- `q` -> `unused_in_frontend` | usage=`0`
 
 ## `AdminCircleGroupResponseDTO`
 
 - Generated contract present: `true`
+- `memberCount` -> `unused_in_frontend` | usage=`0`
 - `memberPreviewLabel` -> `unused_in_frontend` | usage=`0`
 - `members` -> `unused_in_frontend` | usage=`0`
+- `name` -> `unused_in_frontend` | usage=`0`
 - `ownerId` -> `unused_in_frontend` | usage=`0`
 - `ownerUsername` -> `unused_in_frontend` | usage=`0`
 
@@ -69,10 +50,19 @@
 - Generated contract present: `true`
 - `recipientUsername` -> `unused_in_frontend` | usage=`0`
 - `requesterUsername` -> `unused_in_frontend` | usage=`0`
+- `statusBadgeClass` -> `unused_in_frontend` | usage=`0`
+
+## `AdminQuestApplicationUpdateRequestDTO`
+
+- Generated contract present: `true`
+- `proposedPrice` -> `unused_in_frontend` | usage=`0`
 
 ## `AdminUserDetailDTO`
 
 - Generated contract present: `true`
 - `appUserRoles` -> `unused_in_frontend` | usage=`0`
+- `contacts` -> `unused_in_frontend` | usage=`0`
+- `exactLocationVisibilityScopes` -> `unused_in_frontend` | usage=`0`
+- `locationModes` -> `unused_in_frontend` | usage=`0`
 
-- ... 58 more DTOs
+- ... 99 more DTOs

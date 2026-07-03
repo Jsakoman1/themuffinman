@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-01T14:47:59Z",
-  "node_count": 391,
-  "edge_count": 1130,
+  "generated_at": "2026-07-03T09:18:03Z",
+  "node_count": 390,
+  "edge_count": 1140,
   "nodes": [
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/TheMuffinManApplication.java",
@@ -24,30 +24,6 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionResponseDTO.java",
       "class_name": "AdminAgentExecutionResponseDTO",
-      "category": "backend_dto",
-      "domain": "agent"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java",
-      "class_name": "AdminAgentPlaygroundRequestDTO",
-      "category": "backend_dto",
-      "domain": "agent"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java",
-      "class_name": "AdminAgentPlaygroundResponseDTO",
-      "category": "backend_dto",
-      "domain": "agent"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java",
-      "class_name": "AdminAgentSimulationRequestDTO",
-      "category": "backend_dto",
-      "domain": "agent"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java",
-      "class_name": "AdminAgentSimulationResponseDTO",
       "category": "backend_dto",
       "domain": "agent"
     },
@@ -112,26 +88,8 @@
       "domain": "agent"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java",
-      "class_name": "SandboxGenerationPlan",
-      "category": "other",
-      "domain": "agent"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java",
-      "class_name": "SandboxGenerationPlanner",
-      "category": "other",
-      "domain": "agent"
-    },
-    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentExecutionService.java",
       "class_name": "AdminAgentExecutionService",
-      "category": "backend_service",
-      "domain": "agent"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "class_name": "AdminAgentPlaygroundService",
       "category": "backend_service",
       "domain": "agent"
     },
@@ -166,12 +124,6 @@
       "domain": "agent"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTextProvider.java",
-      "class_name": "AdminAgentTextProvider",
-      "category": "backend_service",
-      "domain": "agent"
-    },
-    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlan.java",
       "class_name": "AdminSyntheticQuestExecutionPlan",
       "category": "backend_service",
@@ -184,20 +136,8 @@
       "domain": "agent"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AgentModelProfile.java",
-      "class_name": "AgentModelProfile",
-      "category": "backend_service",
-      "domain": "agent"
-    },
-    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java",
       "class_name": "LocalAdminAgentPromptTranslator",
-      "category": "backend_service",
-      "domain": "agent"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java",
-      "class_name": "OpenAiAdminAgentClient",
       "category": "backend_service",
       "domain": "agent"
     },
@@ -1300,14 +1240,416 @@
       "domain": "things"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java",
+      "class_name": "DashboardController",
+      "category": "backend_controller",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
+      "class_name": "QuestApplicationController",
+      "category": "backend_controller",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
+      "class_name": "QuestController",
+      "category": "backend_controller",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java",
+      "class_name": "QuestNewsController",
+      "category": "backend_controller",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java",
+      "class_name": "UserReviewController",
+      "category": "backend_controller",
+      "domain": "shared"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
       "class_name": "VisionConversationController",
       "category": "backend_controller",
       "domain": "shared"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminApplicationsQueryDTO.java",
+      "class_name": "AdminApplicationsQueryDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminQuestApplicationUpdateRequestDTO.java",
+      "class_name": "AdminQuestApplicationUpdateRequestDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AppUserRoleOptionDTO.java",
+      "class_name": "AppUserRoleOptionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/ApplicationAllowedActionDTO.java",
+      "class_name": "ApplicationAllowedActionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardApplicationGroupDTO.java",
+      "class_name": "DashboardApplicationGroupDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationItemDTO.java",
+      "class_name": "DashboardNavigationItemDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationSectionDTO.java",
+      "class_name": "DashboardNavigationSectionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationDestinationTypeDTO.java",
+      "class_name": "DashboardNotificationDestinationTypeDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationItemDTO.java",
+      "class_name": "DashboardNotificationItemDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationsSectionDTO.java",
+      "class_name": "DashboardNotificationsSectionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardOpenWorkSectionDTO.java",
+      "class_name": "DashboardOpenWorkSectionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardPlannerItemDTO.java",
+      "class_name": "DashboardPlannerItemDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardPlannerSectionDTO.java",
+      "class_name": "DashboardPlannerSectionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardQuestGroupDTO.java",
+      "class_name": "DashboardQuestGroupDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardResponseDTO.java",
+      "class_name": "DashboardResponseDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardSectionsDTO.java",
+      "class_name": "DashboardSectionsDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardSummaryDTO.java",
+      "class_name": "DashboardSummaryDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVisionPromptRequestDTO.java",
+      "class_name": "DashboardVisionPromptRequestDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVisionPromptResponseDTO.java",
+      "class_name": "DashboardVisionPromptResponseDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceConfigDTO.java",
+      "class_name": "DashboardVoiceConfigDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceSpeechRequestDTO.java",
+      "class_name": "DashboardVoiceSpeechRequestDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceTranscriptionDTO.java",
+      "class_name": "DashboardVoiceTranscriptionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAllowedActionDTO.java",
+      "class_name": "QuestAllowedActionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailContextSectionDTO.java",
+      "class_name": "QuestApplicationDetailContextSectionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailNavigationSectionDTO.java",
+      "class_name": "QuestApplicationDetailNavigationSectionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailResponseDTO.java",
+      "class_name": "QuestApplicationDetailResponseDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailSectionsDTO.java",
+      "class_name": "QuestApplicationDetailSectionsDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDraftRulesViewDTO.java",
+      "class_name": "QuestApplicationDraftRulesViewDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationListResponseDTO.java",
+      "class_name": "QuestApplicationListResponseDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationPresentationDTO.java",
+      "class_name": "QuestApplicationPresentationDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationRequestDTO.java",
+      "class_name": "QuestApplicationRequestDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationResponseDTO.java",
+      "class_name": "QuestApplicationResponseDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationStatusFilterOptionDTO.java",
+      "class_name": "QuestApplicationStatusFilterOptionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationsViewDTO.java",
+      "class_name": "QuestApplicationsViewDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAudienceFilterOptionDTO.java",
+      "class_name": "QuestAudienceFilterOptionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAudienceOptionDTO.java",
+      "class_name": "QuestAudienceOptionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailExecutionActionDTO.java",
+      "class_name": "QuestDetailExecutionActionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailExecutionSectionDTO.java",
+      "class_name": "QuestDetailExecutionSectionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailManagementSectionDTO.java",
+      "class_name": "QuestDetailManagementSectionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailNavigationSectionDTO.java",
+      "class_name": "QuestDetailNavigationSectionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailResponseDTO.java",
+      "class_name": "QuestDetailResponseDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailReviewSectionDTO.java",
+      "class_name": "QuestDetailReviewSectionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailReviewTargetDTO.java",
+      "class_name": "QuestDetailReviewTargetDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailSectionsDTO.java",
+      "class_name": "QuestDetailSectionsDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailTermChangeSectionDTO.java",
+      "class_name": "QuestDetailTermChangeSectionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestListPresetDTO.java",
+      "class_name": "QuestListPresetDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestListResponseDTO.java",
+      "class_name": "QuestListResponseDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestNewsDestinationTypeDTO.java",
+      "class_name": "QuestNewsDestinationTypeDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestNewsItemResponseDTO.java",
+      "class_name": "QuestNewsItemResponseDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestPresentationDTO.java",
+      "class_name": "QuestPresentationDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestRequestDTO.java",
+      "class_name": "QuestRequestDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestResponseDTO.java",
+      "class_name": "QuestResponseDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSearchDefaultsDTO.java",
+      "class_name": "QuestSearchDefaultsDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSearchRequestDTO.java",
+      "class_name": "QuestSearchRequestDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSortOptionDTO.java",
+      "class_name": "QuestSortOptionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestStatusFilterOptionDTO.java",
+      "class_name": "QuestStatusFilterOptionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestStatusOptionDTO.java",
+      "class_name": "QuestStatusOptionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestViewerRelationDTO.java",
+      "class_name": "QuestViewerRelationDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/UserRatingSummaryDTO.java",
+      "class_name": "UserRatingSummaryDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/UserReviewRequestDTO.java",
+      "class_name": "UserReviewRequestDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/UserReviewResponseDTO.java",
+      "class_name": "UserReviewResponseDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java",
       "class_name": "VisionCanvasBlockDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCapabilityPreviewDTO.java",
+      "class_name": "VisionCapabilityPreviewDTO",
       "category": "backend_dto",
       "domain": "shared"
     },
@@ -1342,8 +1684,20 @@
       "domain": "shared"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionMemoryTrailDTO.java",
+      "class_name": "VisionMemoryTrailDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionDTO.java",
       "class_name": "VisionOptionDTO",
+      "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java",
+      "class_name": "VisionOptionsDTO",
       "category": "backend_dto",
       "domain": "shared"
     },
@@ -1369,6 +1723,96 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionSlotSummaryDTO.java",
       "class_name": "VisionSlotSummaryDTO",
       "category": "backend_dto",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/event/QuestApplicationNewsEvent.java",
+      "class_name": "QuestApplicationNewsEvent",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/event/QuestApplicationNewsEventHandler.java",
+      "class_name": "QuestApplicationNewsEventHandler",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestApplicationMgr.java",
+      "class_name": "QuestApplicationMgr",
+      "category": "backend_mapper",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java",
+      "class_name": "QuestMgr",
+      "category": "backend_mapper",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestNewsMgr.java",
+      "class_name": "QuestNewsMgr",
+      "category": "backend_mapper",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/UserReviewMgr.java",
+      "class_name": "UserReviewMgr",
+      "category": "backend_mapper",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java",
+      "class_name": "Quest",
+      "category": "backend_model",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplication.java",
+      "class_name": "QuestApplication",
+      "category": "backend_model",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplicationStatus.java",
+      "class_name": "QuestApplicationStatus",
+      "category": "backend_model",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestAudience.java",
+      "class_name": "QuestAudience",
+      "category": "backend_model",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestNewsItem.java",
+      "class_name": "QuestNewsItem",
+      "category": "backend_model",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestNewsType.java",
+      "class_name": "QuestNewsType",
+      "category": "backend_model",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestStatus.java",
+      "class_name": "QuestStatus",
+      "category": "backend_model",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/ReviewRole.java",
+      "class_name": "ReviewRole",
+      "category": "backend_model",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/UserReview.java",
+      "class_name": "UserReview",
+      "category": "backend_model",
       "domain": "shared"
     },
     {
@@ -1432,6 +1876,30 @@
       "domain": "shared"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
+      "class_name": "QuestApplicationRepository",
+      "category": "backend_repository",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestNewsRepository.java",
+      "class_name": "QuestNewsRepository",
+      "category": "backend_repository",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
+      "class_name": "QuestRepository",
+      "category": "backend_repository",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/UserReviewRepository.java",
+      "class_name": "UserReviewRepository",
+      "category": "backend_repository",
+      "domain": "shared"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionConversationRepository.java",
       "class_name": "VisionConversationRepository",
       "category": "backend_repository",
@@ -1444,8 +1912,266 @@
       "domain": "shared"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplyForQuestUseCase.java",
+      "class_name": "ApplyForQuestUseCase",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApproveApplicationUseCase.java",
+      "class_name": "ApproveApplicationUseCase",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CompleteQuestUseCase.java",
+      "class_name": "CompleteQuestUseCase",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ConfirmQuestTermChangeUseCase.java",
+      "class_name": "ConfirmQuestTermChangeUseCase",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CreateQuestUseCase.java",
+      "class_name": "CreateQuestUseCase",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardNotificationAssembler.java",
+      "class_name": "DashboardNotificationAssembler",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardPlannerAssembler.java",
+      "class_name": "DashboardPlannerAssembler",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java",
+      "class_name": "DashboardSectionGrouper",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionsFactory.java",
+      "class_name": "DashboardSectionsFactory",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
+      "class_name": "DashboardService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSummaryAssembler.java",
+      "class_name": "DashboardSummaryAssembler",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVisionPromptService.java",
+      "class_name": "DashboardVisionPromptService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVoiceService.java",
+      "class_name": "DashboardVoiceService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DeclineApplicationUseCase.java",
+      "class_name": "DeclineApplicationUseCase",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DeleteQuestUseCase.java",
+      "class_name": "DeleteQuestUseCase",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/OpenAiVoiceClient.java",
+      "class_name": "OpenAiVoiceClient",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
+      "class_name": "QuestAccessPolicyService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminQueryService.java",
+      "class_name": "QuestApplicationAdminQueryService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminService.java",
+      "class_name": "QuestApplicationAdminService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssembler.java",
+      "class_name": "QuestApplicationPresentationAssembler",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
+      "class_name": "QuestApplicationReadService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+      "class_name": "QuestApplicationService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
+      "class_name": "QuestApplicationViewAssembler",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationWorkflowSupport.java",
+      "class_name": "QuestApplicationWorkflowSupport",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
+      "class_name": "QuestExecutionPrimitiveService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsRetentionService.java",
+      "class_name": "QuestNewsRetentionService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsService.java",
+      "class_name": "QuestNewsService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestPresentationAssembler.java",
+      "class_name": "QuestPresentationAssembler",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestQueryService.java",
+      "class_name": "QuestQueryService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
+      "class_name": "QuestReadService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
+      "class_name": "QuestService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
+      "class_name": "QuestStateTransitionService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestUpdateService.java",
+      "class_name": "QuestUpdateService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestValidationService.java",
+      "class_name": "QuestValidationService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+      "class_name": "QuestViewAssembler",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestVisibilityService.java",
+      "class_name": "QuestVisibilityService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestWorkflowNotificationService.java",
+      "class_name": "QuestWorkflowNotificationService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/RejectQuestTermChangeUseCase.java",
+      "class_name": "RejectQuestTermChangeUseCase",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/StartQuestUseCase.java",
+      "class_name": "StartQuestUseCase",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UpdateMyApplicationUseCase.java",
+      "class_name": "UpdateMyApplicationUseCase",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UpdateQuestUseCase.java",
+      "class_name": "UpdateQuestUseCase",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
+      "class_name": "UserReviewService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
       "class_name": "VisionCanvasAssembler",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "class_name": "VisionCapabilityPreviewService",
       "category": "backend_service",
       "domain": "shared"
     },
@@ -1516,6 +2242,18 @@
       "domain": "shared"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java",
+      "class_name": "VisionOptionsService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPresentationHelper.java",
+      "class_name": "VisionPresentationHelper",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingResult.java",
       "class_name": "VisionPromptUnderstandingResult",
       "category": "backend_service",
@@ -1540,14 +2278,50 @@
       "domain": "shared"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizer.java",
+      "class_name": "VisionSemanticContractSanitizer",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticMapper.java",
       "class_name": "VisionSemanticMapper",
       "category": "backend_service",
       "domain": "shared"
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
+      "class_name": "VisionSemanticOrchestrationContextService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java",
+      "class_name": "VisionSemanticOrchestrationRequest",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java",
       "class_name": "VisionSemanticPlan",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidator.java",
+      "class_name": "VisionSemanticResponseValidator",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java",
+      "class_name": "VisionSemanticRouteCatalogService",
+      "category": "backend_service",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRuntimeHints.java",
+      "class_name": "VisionSemanticRuntimeHints",
       "category": "backend_service",
       "domain": "shared"
     },
@@ -1564,811 +2338,16 @@
       "domain": "shared"
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java",
-      "class_name": "DashboardController",
-      "category": "backend_controller",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
-      "class_name": "QuestApplicationController",
-      "category": "backend_controller",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
-      "class_name": "QuestController",
-      "category": "backend_controller",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java",
-      "class_name": "QuestNewsController",
-      "category": "backend_controller",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java",
-      "class_name": "UserReviewController",
-      "category": "backend_controller",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminApplicationsQueryDTO.java",
-      "class_name": "AdminApplicationsQueryDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminQuestApplicationUpdateRequestDTO.java",
-      "class_name": "AdminQuestApplicationUpdateRequestDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AppUserRoleOptionDTO.java",
-      "class_name": "AppUserRoleOptionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/ApplicationAllowedActionDTO.java",
-      "class_name": "ApplicationAllowedActionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardApplicationGroupDTO.java",
-      "class_name": "DashboardApplicationGroupDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationItemDTO.java",
-      "class_name": "DashboardNavigationItemDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationSectionDTO.java",
-      "class_name": "DashboardNavigationSectionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationDestinationTypeDTO.java",
-      "class_name": "DashboardNotificationDestinationTypeDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationItemDTO.java",
-      "class_name": "DashboardNotificationItemDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationsSectionDTO.java",
-      "class_name": "DashboardNotificationsSectionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardOpenWorkSectionDTO.java",
-      "class_name": "DashboardOpenWorkSectionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardPlannerItemDTO.java",
-      "class_name": "DashboardPlannerItemDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardPlannerSectionDTO.java",
-      "class_name": "DashboardPlannerSectionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardQuestGroupDTO.java",
-      "class_name": "DashboardQuestGroupDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardResponseDTO.java",
-      "class_name": "DashboardResponseDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardSectionsDTO.java",
-      "class_name": "DashboardSectionsDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardSummaryDTO.java",
-      "class_name": "DashboardSummaryDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVisionPromptRequestDTO.java",
-      "class_name": "DashboardVisionPromptRequestDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVisionPromptResponseDTO.java",
-      "class_name": "DashboardVisionPromptResponseDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceConfigDTO.java",
-      "class_name": "DashboardVoiceConfigDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceSpeechRequestDTO.java",
-      "class_name": "DashboardVoiceSpeechRequestDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceTranscriptionDTO.java",
-      "class_name": "DashboardVoiceTranscriptionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAllowedActionDTO.java",
-      "class_name": "QuestAllowedActionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailContextSectionDTO.java",
-      "class_name": "QuestApplicationDetailContextSectionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailNavigationSectionDTO.java",
-      "class_name": "QuestApplicationDetailNavigationSectionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailResponseDTO.java",
-      "class_name": "QuestApplicationDetailResponseDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailSectionsDTO.java",
-      "class_name": "QuestApplicationDetailSectionsDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDraftRulesViewDTO.java",
-      "class_name": "QuestApplicationDraftRulesViewDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationListResponseDTO.java",
-      "class_name": "QuestApplicationListResponseDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationPresentationDTO.java",
-      "class_name": "QuestApplicationPresentationDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationRequestDTO.java",
-      "class_name": "QuestApplicationRequestDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationResponseDTO.java",
-      "class_name": "QuestApplicationResponseDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationStatusFilterOptionDTO.java",
-      "class_name": "QuestApplicationStatusFilterOptionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationsViewDTO.java",
-      "class_name": "QuestApplicationsViewDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAudienceFilterOptionDTO.java",
-      "class_name": "QuestAudienceFilterOptionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAudienceOptionDTO.java",
-      "class_name": "QuestAudienceOptionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailExecutionActionDTO.java",
-      "class_name": "QuestDetailExecutionActionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailExecutionSectionDTO.java",
-      "class_name": "QuestDetailExecutionSectionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailManagementSectionDTO.java",
-      "class_name": "QuestDetailManagementSectionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailNavigationSectionDTO.java",
-      "class_name": "QuestDetailNavigationSectionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailResponseDTO.java",
-      "class_name": "QuestDetailResponseDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailReviewSectionDTO.java",
-      "class_name": "QuestDetailReviewSectionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailReviewTargetDTO.java",
-      "class_name": "QuestDetailReviewTargetDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailSectionsDTO.java",
-      "class_name": "QuestDetailSectionsDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailTermChangeSectionDTO.java",
-      "class_name": "QuestDetailTermChangeSectionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestListPresetDTO.java",
-      "class_name": "QuestListPresetDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestListResponseDTO.java",
-      "class_name": "QuestListResponseDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestNewsDestinationTypeDTO.java",
-      "class_name": "QuestNewsDestinationTypeDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestNewsItemResponseDTO.java",
-      "class_name": "QuestNewsItemResponseDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestPresentationDTO.java",
-      "class_name": "QuestPresentationDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestRequestDTO.java",
-      "class_name": "QuestRequestDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestResponseDTO.java",
-      "class_name": "QuestResponseDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSearchDefaultsDTO.java",
-      "class_name": "QuestSearchDefaultsDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSearchRequestDTO.java",
-      "class_name": "QuestSearchRequestDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSortOptionDTO.java",
-      "class_name": "QuestSortOptionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestStatusFilterOptionDTO.java",
-      "class_name": "QuestStatusFilterOptionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestStatusOptionDTO.java",
-      "class_name": "QuestStatusOptionDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestViewerRelationDTO.java",
-      "class_name": "QuestViewerRelationDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/UserRatingSummaryDTO.java",
-      "class_name": "UserRatingSummaryDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/UserReviewRequestDTO.java",
-      "class_name": "UserReviewRequestDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/UserReviewResponseDTO.java",
-      "class_name": "UserReviewResponseDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java",
-      "class_name": "WorkmarketOptionsDTO",
-      "category": "backend_dto",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/event/QuestApplicationNewsEvent.java",
-      "class_name": "QuestApplicationNewsEvent",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/event/QuestApplicationNewsEventHandler.java",
-      "class_name": "QuestApplicationNewsEventHandler",
-      "category": "other",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestApplicationMgr.java",
-      "class_name": "QuestApplicationMgr",
-      "category": "backend_mapper",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java",
-      "class_name": "QuestMgr",
-      "category": "backend_mapper",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestNewsMgr.java",
-      "class_name": "QuestNewsMgr",
-      "category": "backend_mapper",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/UserReviewMgr.java",
-      "class_name": "UserReviewMgr",
-      "category": "backend_mapper",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java",
-      "class_name": "Quest",
-      "category": "backend_model",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplication.java",
-      "class_name": "QuestApplication",
-      "category": "backend_model",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplicationStatus.java",
-      "class_name": "QuestApplicationStatus",
-      "category": "backend_model",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestAudience.java",
-      "class_name": "QuestAudience",
-      "category": "backend_model",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestNewsItem.java",
-      "class_name": "QuestNewsItem",
-      "category": "backend_model",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestNewsType.java",
-      "class_name": "QuestNewsType",
-      "category": "backend_model",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestStatus.java",
-      "class_name": "QuestStatus",
-      "category": "backend_model",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/ReviewRole.java",
-      "class_name": "ReviewRole",
-      "category": "backend_model",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/UserReview.java",
-      "class_name": "UserReview",
-      "category": "backend_model",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "class_name": "QuestApplicationRepository",
-      "category": "backend_repository",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestNewsRepository.java",
-      "class_name": "QuestNewsRepository",
-      "category": "backend_repository",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "class_name": "QuestRepository",
-      "category": "backend_repository",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/UserReviewRepository.java",
-      "class_name": "UserReviewRepository",
-      "category": "backend_repository",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplyForQuestUseCase.java",
-      "class_name": "ApplyForQuestUseCase",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApproveApplicationUseCase.java",
-      "class_name": "ApproveApplicationUseCase",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CompleteQuestUseCase.java",
-      "class_name": "CompleteQuestUseCase",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ConfirmQuestTermChangeUseCase.java",
-      "class_name": "ConfirmQuestTermChangeUseCase",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CreateQuestUseCase.java",
-      "class_name": "CreateQuestUseCase",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardNotificationAssembler.java",
-      "class_name": "DashboardNotificationAssembler",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardPlannerAssembler.java",
-      "class_name": "DashboardPlannerAssembler",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java",
-      "class_name": "DashboardSectionGrouper",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionsFactory.java",
-      "class_name": "DashboardSectionsFactory",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
-      "class_name": "DashboardService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSummaryAssembler.java",
-      "class_name": "DashboardSummaryAssembler",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVisionPromptService.java",
-      "class_name": "DashboardVisionPromptService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVoiceService.java",
-      "class_name": "DashboardVoiceService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DeclineApplicationUseCase.java",
-      "class_name": "DeclineApplicationUseCase",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DeleteQuestUseCase.java",
-      "class_name": "DeleteQuestUseCase",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/OpenAiVoiceClient.java",
-      "class_name": "OpenAiVoiceClient",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
-      "class_name": "QuestAccessPolicyService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminQueryService.java",
-      "class_name": "QuestApplicationAdminQueryService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminService.java",
-      "class_name": "QuestApplicationAdminService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssembler.java",
-      "class_name": "QuestApplicationPresentationAssembler",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
-      "class_name": "QuestApplicationReadService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
-      "class_name": "QuestApplicationService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
-      "class_name": "QuestApplicationViewAssembler",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationWorkflowSupport.java",
-      "class_name": "QuestApplicationWorkflowSupport",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
-      "class_name": "QuestExecutionPrimitiveService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsRetentionService.java",
-      "class_name": "QuestNewsRetentionService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsService.java",
-      "class_name": "QuestNewsService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestPresentationAssembler.java",
-      "class_name": "QuestPresentationAssembler",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestQueryService.java",
-      "class_name": "QuestQueryService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
-      "class_name": "QuestReadService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
-      "class_name": "QuestService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
-      "class_name": "QuestStateTransitionService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestUpdateService.java",
-      "class_name": "QuestUpdateService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestValidationService.java",
-      "class_name": "QuestValidationService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
-      "class_name": "QuestViewAssembler",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestVisibilityService.java",
-      "class_name": "QuestVisibilityService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestWorkflowNotificationService.java",
-      "class_name": "QuestWorkflowNotificationService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/RejectQuestTermChangeUseCase.java",
-      "class_name": "RejectQuestTermChangeUseCase",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/StartQuestUseCase.java",
-      "class_name": "StartQuestUseCase",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UpdateMyApplicationUseCase.java",
-      "class_name": "UpdateMyApplicationUseCase",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UpdateQuestUseCase.java",
-      "class_name": "UpdateQuestUseCase",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
-      "class_name": "UserReviewService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WithdrawMyApplicationUseCase.java",
       "class_name": "WithdrawMyApplicationUseCase",
       "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
-      "class_name": "WorkmarketOptionsService",
-      "category": "backend_service",
-      "domain": "workmarket"
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java",
-      "class_name": "WorkmarketPresentationHelper",
-      "category": "backend_service",
-      "domain": "workmarket"
+      "domain": "shared"
     }
   ],
   "edges": [
     {
       "from": "AdminAgentController",
-      "to": "AdminAgentPlaygroundService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
-    },
-    {
-      "from": "AdminAgentController",
       "to": "AdminAgentExecutionService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
-    },
-    {
-      "from": "AdminAgentController",
-      "to": "AdminAgentPlaygroundRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
-    },
-    {
-      "from": "AdminAgentController",
-      "to": "AdminAgentPlaygroundResponseDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
     },
     {
@@ -2379,16 +2358,6 @@
     {
       "from": "AdminAgentController",
       "to": "AdminAgentExecutionResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
-    },
-    {
-      "from": "AdminAgentController",
-      "to": "AdminAgentSimulationRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
-    },
-    {
-      "from": "AdminAgentController",
-      "to": "AdminAgentSimulationResponseDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
     },
     {
@@ -2400,71 +2369,6 @@
       "from": "AdminAgentExecutionResponseDTO",
       "to": "AdminAgentExecutionResponseDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundRequestDTO",
-      "to": "AdminAgentPlaygroundRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundResponseDTO",
-      "to": "AdminAgentPlaygroundResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundResponseDTO",
-      "to": "AgentResolutionRequirementDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundResponseDTO",
-      "to": "AgentClarificationContractDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundResponseDTO",
-      "to": "AgentExecutionReadinessDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationRequestDTO",
-      "to": "AdminAgentSimulationRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AdminAgentSimulationResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AgentResolutionConfidenceDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AgentCapabilityAssessmentDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AgentIntentLineageDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AgentEndpointPlanDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AgentClarificationContractDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AgentExecutionReadinessDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
     },
     {
       "from": "AgentCapabilityAssessmentDTO",
@@ -2537,81 +2441,6 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentExecutionService.java"
     },
     {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentProperties",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AdminAgentPromptPreparationService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AdminAgentPlaygroundRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AdminAgentPlaygroundResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AdminAgentSimulationRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AdminAgentSimulationResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentCapabilityAssessmentDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentClarificationContractDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentEndpointPlanDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentExecutionReadinessDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentIntentLineageDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentResolutionConfidenceDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentResolutionRequirementDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AppUserRole",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPromptPreparationService",
-      "to": "AgentProperties",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptPreparationService.java"
-    },
-    {
       "from": "AdminAgentSurfacePolicy",
       "to": "AgentProperties",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentSurfacePolicy.java"
@@ -2620,26 +2449,6 @@
       "from": "AdminAgentTargetUserResolver",
       "to": "AppUserRepository",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTargetUserResolver.java"
-    },
-    {
-      "from": "OpenAiAdminAgentClient",
-      "to": "AgentProperties",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java"
-    },
-    {
-      "from": "OpenAiAdminAgentClient",
-      "to": "RestClient",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java"
-    },
-    {
-      "from": "OpenAiAdminAgentClient",
-      "to": "ObjectMapper",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java"
-    },
-    {
-      "from": "OpenAiAdminAgentClient",
-      "to": "MediaType",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java"
     },
     {
       "from": "BusinessProfileController",
@@ -3118,7 +2927,7 @@
     },
     {
       "from": "AppUserController",
-      "to": "WorkmarketOptionsService",
+      "to": "VisionOptionsService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java"
     },
     {
@@ -3148,7 +2957,7 @@
     },
     {
       "from": "AppUserController",
-      "to": "WorkmarketOptionsDTO",
+      "to": "VisionOptionsDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java"
     },
     {
@@ -3418,7 +3227,7 @@
     },
     {
       "from": "AdminUserDetailService",
-      "to": "WorkmarketOptionsService",
+      "to": "VisionOptionsService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java"
     },
     {
@@ -3438,7 +3247,7 @@
     },
     {
       "from": "AdminUserDetailService",
-      "to": "WorkmarketOptionsDTO",
+      "to": "VisionOptionsDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java"
     },
     {
@@ -4877,481 +4686,6 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
     },
     {
-      "from": "VisionConversationController",
-      "to": "VisionConversationService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java"
-    },
-    {
-      "from": "VisionConversationController",
-      "to": "VisionConversationListResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java"
-    },
-    {
-      "from": "VisionConversationController",
-      "to": "VisionConversationTurnRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java"
-    },
-    {
-      "from": "VisionConversationController",
-      "to": "VisionConversationTurnResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java"
-    },
-    {
-      "from": "VisionCanvasBlockDTO",
-      "to": "VisionCanvasBlockDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
-    },
-    {
-      "from": "VisionCanvasBlockDTO",
-      "to": "VisionOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
-    },
-    {
-      "from": "VisionCanvasBlockDTO",
-      "to": "VisionSlotSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
-    },
-    {
-      "from": "VisionCanvasBlockDTO",
-      "to": "VisionQuestDiscoveryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
-    },
-    {
-      "from": "VisionCanvasBlockDTO",
-      "to": "VisionQuestReviewDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
-    },
-    {
-      "from": "VisionConversationListResponseDTO",
-      "to": "VisionConversationListResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationListResponseDTO.java"
-    },
-    {
-      "from": "VisionConversationListResponseDTO",
-      "to": "VisionConversationSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationListResponseDTO.java"
-    },
-    {
-      "from": "VisionConversationSummaryDTO",
-      "to": "VisionConversationSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java"
-    },
-    {
-      "from": "VisionConversationSummaryDTO",
-      "to": "VisionSlotSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java"
-    },
-    {
-      "from": "VisionConversationTurnRequestDTO",
-      "to": "VisionConversationTurnRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java"
-    },
-    {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionConversationTurnResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
-    },
-    {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionExecutionCandidateDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
-    },
-    {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionQuestDiscoveryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
-    },
-    {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionCanvasBlockDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
-    },
-    {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionSlotSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
-    },
-    {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionQuestReviewDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
-    },
-    {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionConversationSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
-    },
-    {
-      "from": "VisionExecutionCandidateDTO",
-      "to": "VisionExecutionCandidateDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java"
-    },
-    {
-      "from": "VisionOptionDTO",
-      "to": "VisionOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionDTO.java"
-    },
-    {
-      "from": "VisionQuestDiscoveryDTO",
-      "to": "VisionQuestDiscoveryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryDTO.java"
-    },
-    {
-      "from": "VisionQuestDiscoveryDTO",
-      "to": "VisionQuestDiscoveryItemDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryDTO.java"
-    },
-    {
-      "from": "VisionQuestDiscoveryItemDTO",
-      "to": "VisionQuestDiscoveryItemDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryItemDTO.java"
-    },
-    {
-      "from": "VisionQuestReviewDTO",
-      "to": "VisionQuestReviewDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestReviewDTO.java"
-    },
-    {
-      "from": "VisionSlotSummaryDTO",
-      "to": "VisionSlotSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionSlotSummaryDTO.java"
-    },
-    {
-      "from": "VisionConversation",
-      "to": "EnumType",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java"
-    },
-    {
-      "from": "VisionConversation",
-      "to": "FetchType",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java"
-    },
-    {
-      "from": "VisionConversation",
-      "to": "GenerationType",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java"
-    },
-    {
-      "from": "VisionConversation",
-      "to": "VisionConversationStatus",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java"
-    },
-    {
-      "from": "VisionConversationStatus",
-      "to": "VisionConversationStatus",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversationStatus.java"
-    },
-    {
-      "from": "VisionTurn",
-      "to": "EnumType",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java"
-    },
-    {
-      "from": "VisionTurn",
-      "to": "FetchType",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java"
-    },
-    {
-      "from": "VisionTurn",
-      "to": "GenerationType",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java"
-    },
-    {
-      "from": "VisionCanvasAssembler",
-      "to": "VisionProperties",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
-    },
-    {
-      "from": "VisionCanvasAssembler",
-      "to": "VisionConversationTurnResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
-    },
-    {
-      "from": "VisionCanvasAssembler",
-      "to": "VisionCanvasBlockDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
-    },
-    {
-      "from": "VisionCanvasAssembler",
-      "to": "VisionConversationSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
-    },
-    {
-      "from": "VisionCanvasAssembler",
-      "to": "VisionExecutionCandidateDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
-    },
-    {
-      "from": "VisionCanvasAssembler",
-      "to": "VisionOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
-    },
-    {
-      "from": "VisionCanvasAssembler",
-      "to": "VisionQuestDiscoveryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
-    },
-    {
-      "from": "VisionCanvasAssembler",
-      "to": "VisionQuestReviewDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
-    },
-    {
-      "from": "VisionCanvasAssembler",
-      "to": "VisionSlotSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
-    },
-    {
-      "from": "VisionChatExecutionResult",
-      "to": "ChatConversationSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionResult.java"
-    },
-    {
-      "from": "VisionChatExecutionService",
-      "to": "ChatService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java"
-    },
-    {
-      "from": "VisionChatExecutionService",
-      "to": "AppUserRepository",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java"
-    },
-    {
-      "from": "VisionChatExecutionService",
-      "to": "ChatConversationSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java"
-    },
-    {
-      "from": "VisionChatExecutionService",
-      "to": "ChatOpenConversationRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionConversationRepository",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionTurnRepository",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionSlotService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionClarificationService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionCanvasAssembler",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionQuestDiscoveryService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionExecutionService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionChatExecutionService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionPromptUnderstandingService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionSemanticMapper",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionProperties",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionConversationTurnRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionConversationListResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionConversationSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionConversationTurnResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionSlotSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionQuestDiscoveryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionConversationService",
-      "to": "VisionConversationStatus",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
-    },
-    {
-      "from": "VisionCreateQuestExecutionAdapter",
-      "to": "QuestService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java"
-    },
-    {
-      "from": "VisionCreateQuestExecutionAdapter",
-      "to": "VisionScheduleParserService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java"
-    },
-    {
-      "from": "VisionCreateQuestExecutionAdapter",
-      "to": "QuestRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java"
-    },
-    {
-      "from": "VisionExecutionPlanner",
-      "to": "VisionClarificationService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java"
-    },
-    {
-      "from": "VisionExecutionPlanner",
-      "to": "VisionProperties",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java"
-    },
-    {
-      "from": "VisionExecutionPlanner",
-      "to": "VisionExecutionCandidateDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java"
-    },
-    {
-      "from": "VisionExecutionPlanner",
-      "to": "VisionConversationStatus",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java"
-    },
-    {
-      "from": "VisionExecutionService",
-      "to": "VisionConversationStatus",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java"
-    },
-    {
-      "from": "VisionIntentRouter",
-      "to": "VisionProperties",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java"
-    },
-    {
-      "from": "VisionLocationResolutionService",
-      "to": "VisionLocationParserService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLocationResolutionService.java"
-    },
-    {
-      "from": "VisionLocationResolutionService",
-      "to": "LocationLookupService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLocationResolutionService.java"
-    },
-    {
-      "from": "VisionLocationResolutionService",
-      "to": "LocationLookupCandidateDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLocationResolutionService.java"
-    },
-    {
-      "from": "VisionPromptUnderstandingService",
-      "to": "AgentProperties",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
-    },
-    {
-      "from": "VisionPromptUnderstandingService",
-      "to": "VisionSemanticMapper",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
-    },
-    {
-      "from": "VisionPromptUnderstandingService",
-      "to": "RestClient",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
-    },
-    {
-      "from": "VisionPromptUnderstandingService",
-      "to": "ObjectMapper",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
-    },
-    {
-      "from": "VisionPromptUnderstandingService",
-      "to": "MediaType",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
-    },
-    {
-      "from": "VisionQuestDiscoveryService",
-      "to": "QuestReadService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java"
-    },
-    {
-      "from": "VisionQuestDiscoveryService",
-      "to": "VisionQuestDiscoveryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java"
-    },
-    {
-      "from": "VisionQuestDiscoveryService",
-      "to": "VisionQuestDiscoveryItemDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java"
-    },
-    {
-      "from": "VisionQuestDiscoveryService",
-      "to": "QuestListPresetDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java"
-    },
-    {
-      "from": "VisionQuestDiscoveryService",
-      "to": "QuestListResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java"
-    },
-    {
-      "from": "VisionQuestDiscoveryService",
-      "to": "QuestResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java"
-    },
-    {
-      "from": "VisionSlotService",
-      "to": "VisionScheduleParserService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java"
-    },
-    {
-      "from": "VisionSlotService",
-      "to": "VisionLocationResolutionService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java"
-    },
-    {
-      "from": "VisionSlotService",
-      "to": "VisionSemanticMapper",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java"
-    },
-    {
-      "from": "VisionSurfacePolicy",
-      "to": "VisionProperties",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSurfacePolicy.java"
-    },
-    {
       "from": "DashboardController",
       "to": "DashboardService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java"
@@ -5532,6 +4866,26 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java"
     },
     {
+      "from": "VisionConversationController",
+      "to": "VisionConversationService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java"
+    },
+    {
+      "from": "VisionConversationController",
+      "to": "VisionConversationListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java"
+    },
+    {
+      "from": "VisionConversationController",
+      "to": "VisionConversationTurnRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java"
+    },
+    {
+      "from": "VisionConversationController",
+      "to": "VisionConversationTurnResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java"
+    },
+    {
       "from": "AdminApplicationsQueryDTO",
       "to": "QuestApplicationStatus",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminApplicationsQueryDTO.java"
@@ -5683,12 +5037,12 @@
     },
     {
       "from": "DashboardResponseDTO",
-      "to": "DashboardResponseDTO",
+      "to": "VisionOptionsDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardResponseDTO.java"
     },
     {
       "from": "DashboardResponseDTO",
-      "to": "WorkmarketOptionsDTO",
+      "to": "DashboardResponseDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardResponseDTO.java"
     },
     {
@@ -6222,64 +5576,204 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/UserReviewResponseDTO.java"
     },
     {
-      "from": "WorkmarketOptionsDTO",
+      "from": "VisionCanvasBlockDTO",
+      "to": "VisionCanvasBlockDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
+    },
+    {
+      "from": "VisionCanvasBlockDTO",
+      "to": "VisionOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
+    },
+    {
+      "from": "VisionCanvasBlockDTO",
+      "to": "VisionSlotSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
+    },
+    {
+      "from": "VisionCanvasBlockDTO",
+      "to": "VisionQuestDiscoveryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
+    },
+    {
+      "from": "VisionCanvasBlockDTO",
+      "to": "VisionQuestReviewDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewDTO",
+      "to": "VisionCapabilityPreviewDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCapabilityPreviewDTO.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewDTO",
+      "to": "VisionSlotSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCapabilityPreviewDTO.java"
+    },
+    {
+      "from": "VisionConversationListResponseDTO",
+      "to": "VisionConversationListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationListResponseDTO.java"
+    },
+    {
+      "from": "VisionConversationListResponseDTO",
+      "to": "VisionConversationSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationListResponseDTO.java"
+    },
+    {
+      "from": "VisionConversationSummaryDTO",
+      "to": "VisionConversationSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java"
+    },
+    {
+      "from": "VisionConversationSummaryDTO",
+      "to": "VisionSlotSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java"
+    },
+    {
+      "from": "VisionConversationTurnRequestDTO",
+      "to": "VisionConversationTurnRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java"
+    },
+    {
+      "from": "VisionConversationTurnResponseDTO",
+      "to": "VisionConversationTurnResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+    },
+    {
+      "from": "VisionConversationTurnResponseDTO",
+      "to": "VisionExecutionCandidateDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+    },
+    {
+      "from": "VisionConversationTurnResponseDTO",
+      "to": "VisionQuestDiscoveryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+    },
+    {
+      "from": "VisionConversationTurnResponseDTO",
+      "to": "VisionMemoryTrailDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+    },
+    {
+      "from": "VisionConversationTurnResponseDTO",
+      "to": "VisionCanvasBlockDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+    },
+    {
+      "from": "VisionConversationTurnResponseDTO",
+      "to": "VisionSlotSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+    },
+    {
+      "from": "VisionConversationTurnResponseDTO",
+      "to": "VisionQuestReviewDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+    },
+    {
+      "from": "VisionConversationTurnResponseDTO",
+      "to": "VisionConversationSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+    },
+    {
+      "from": "VisionExecutionCandidateDTO",
+      "to": "VisionExecutionCandidateDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java"
+    },
+    {
+      "from": "VisionMemoryTrailDTO",
+      "to": "VisionMemoryTrailDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionMemoryTrailDTO.java"
+    },
+    {
+      "from": "VisionOptionDTO",
+      "to": "VisionOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionDTO.java"
+    },
+    {
+      "from": "VisionOptionsDTO",
       "to": "ExactLocationVisibilityScopeOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java"
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
     },
     {
-      "from": "WorkmarketOptionsDTO",
+      "from": "VisionOptionsDTO",
       "to": "LocationModeOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java"
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
     },
     {
-      "from": "WorkmarketOptionsDTO",
+      "from": "VisionOptionsDTO",
       "to": "QuestLocationVisibilityOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java"
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
     },
     {
-      "from": "WorkmarketOptionsDTO",
-      "to": "WorkmarketOptionsDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java"
-    },
-    {
-      "from": "WorkmarketOptionsDTO",
+      "from": "VisionOptionsDTO",
       "to": "AppUserRoleOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java"
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
     },
     {
-      "from": "WorkmarketOptionsDTO",
-      "to": "QuestStatusFilterOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java"
-    },
-    {
-      "from": "WorkmarketOptionsDTO",
+      "from": "VisionOptionsDTO",
       "to": "QuestApplicationStatusFilterOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java"
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
     },
     {
-      "from": "WorkmarketOptionsDTO",
-      "to": "QuestStatusOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java"
-    },
-    {
-      "from": "WorkmarketOptionsDTO",
-      "to": "QuestAudienceOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java"
-    },
-    {
-      "from": "WorkmarketOptionsDTO",
+      "from": "VisionOptionsDTO",
       "to": "QuestAudienceFilterOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java"
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
     },
     {
-      "from": "WorkmarketOptionsDTO",
-      "to": "QuestSortOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java"
+      "from": "VisionOptionsDTO",
+      "to": "QuestAudienceOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
     },
     {
-      "from": "WorkmarketOptionsDTO",
+      "from": "VisionOptionsDTO",
       "to": "QuestSearchDefaultsDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/WorkmarketOptionsDTO.java"
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
+    },
+    {
+      "from": "VisionOptionsDTO",
+      "to": "QuestSortOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
+    },
+    {
+      "from": "VisionOptionsDTO",
+      "to": "QuestStatusFilterOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
+    },
+    {
+      "from": "VisionOptionsDTO",
+      "to": "QuestStatusOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
+    },
+    {
+      "from": "VisionOptionsDTO",
+      "to": "VisionOptionsDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
+    },
+    {
+      "from": "VisionQuestDiscoveryDTO",
+      "to": "VisionQuestDiscoveryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryDTO.java"
+    },
+    {
+      "from": "VisionQuestDiscoveryDTO",
+      "to": "VisionQuestDiscoveryItemDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryDTO.java"
+    },
+    {
+      "from": "VisionQuestDiscoveryItemDTO",
+      "to": "VisionQuestDiscoveryItemDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryItemDTO.java"
+    },
+    {
+      "from": "VisionQuestReviewDTO",
+      "to": "VisionQuestReviewDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestReviewDTO.java"
+    },
+    {
+      "from": "VisionSlotSummaryDTO",
+      "to": "VisionSlotSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionSlotSummaryDTO.java"
     },
     {
       "from": "QuestApplicationNewsEventHandler",
@@ -6500,6 +5994,46 @@
       "from": "UserReview",
       "to": "ReviewRole",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/UserReview.java"
+    },
+    {
+      "from": "VisionConversation",
+      "to": "EnumType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java"
+    },
+    {
+      "from": "VisionConversation",
+      "to": "FetchType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java"
+    },
+    {
+      "from": "VisionConversation",
+      "to": "GenerationType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java"
+    },
+    {
+      "from": "VisionConversation",
+      "to": "VisionConversationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java"
+    },
+    {
+      "from": "VisionConversationStatus",
+      "to": "VisionConversationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversationStatus.java"
+    },
+    {
+      "from": "VisionTurn",
+      "to": "EnumType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java"
+    },
+    {
+      "from": "VisionTurn",
+      "to": "FetchType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java"
+    },
+    {
+      "from": "VisionTurn",
+      "to": "GenerationType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java"
     },
     {
       "from": "QuestApplicationRepository",
@@ -6808,7 +6342,7 @@
     },
     {
       "from": "DashboardService",
-      "to": "WorkmarketOptionsService",
+      "to": "VisionOptionsService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java"
     },
     {
@@ -6913,12 +6447,7 @@
     },
     {
       "from": "DashboardVisionPromptService",
-      "to": "AdminAgentPlaygroundService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVisionPromptService.java"
-    },
-    {
-      "from": "DashboardVisionPromptService",
-      "to": "AdminAgentPlaygroundResponseDTO",
+      "to": "VisionPromptUnderstandingService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVisionPromptService.java"
     },
     {
@@ -7897,6 +7426,616 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java"
     },
     {
+      "from": "VisionCanvasAssembler",
+      "to": "VisionProperties",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+    },
+    {
+      "from": "VisionCanvasAssembler",
+      "to": "VisionConversationTurnResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+    },
+    {
+      "from": "VisionCanvasAssembler",
+      "to": "VisionCanvasBlockDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+    },
+    {
+      "from": "VisionCanvasAssembler",
+      "to": "VisionCapabilityPreviewDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+    },
+    {
+      "from": "VisionCanvasAssembler",
+      "to": "VisionConversationSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+    },
+    {
+      "from": "VisionCanvasAssembler",
+      "to": "VisionExecutionCandidateDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+    },
+    {
+      "from": "VisionCanvasAssembler",
+      "to": "VisionMemoryTrailDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+    },
+    {
+      "from": "VisionCanvasAssembler",
+      "to": "VisionOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+    },
+    {
+      "from": "VisionCanvasAssembler",
+      "to": "VisionQuestDiscoveryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+    },
+    {
+      "from": "VisionCanvasAssembler",
+      "to": "VisionQuestReviewDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+    },
+    {
+      "from": "VisionCanvasAssembler",
+      "to": "VisionSlotSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "AppUserService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "AppUserMgr",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "AppUserRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "UserProfileViewService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "ChatService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "CircleService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "QuestService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "QuestApplicationService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "ChatConversationSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "ChatContactDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "ChatWorkspaceDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "AppUserRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "AppUserResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "UserProfileViewDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "UserLocationSettingsDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "UserLocationSettingsRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "CircleGroupResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "CircleMemberDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "CircleGroupRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "CircleRequestCreateDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "CircleRequestResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "ApplicationAllowedActionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "QuestApplicationDetailResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "QuestAllowedActionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "QuestApplicationResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "QuestApplicationRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "QuestDetailResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "QuestResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "VisionCapabilityPreviewDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionCapabilityPreviewService",
+      "to": "VisionSlotSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+    },
+    {
+      "from": "VisionChatExecutionResult",
+      "to": "ChatConversationSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionResult.java"
+    },
+    {
+      "from": "VisionChatExecutionService",
+      "to": "ChatService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java"
+    },
+    {
+      "from": "VisionChatExecutionService",
+      "to": "AppUserRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java"
+    },
+    {
+      "from": "VisionChatExecutionService",
+      "to": "ChatConversationSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java"
+    },
+    {
+      "from": "VisionChatExecutionService",
+      "to": "ChatOpenConversationRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionConversationRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionTurnRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionSlotService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionClarificationService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionCanvasAssembler",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionQuestDiscoveryService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionExecutionService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionChatExecutionService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionCapabilityPreviewService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionPromptUnderstandingService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionSemanticOrchestrationContextService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionSemanticMapper",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionProperties",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionConversationTurnRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionConversationListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionConversationSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionConversationTurnResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionCapabilityPreviewDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "ApplicationAllowedActionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionMemoryTrailDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionSlotSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionQuestDiscoveryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionConversationService",
+      "to": "VisionConversationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "from": "VisionCreateQuestExecutionAdapter",
+      "to": "QuestService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java"
+    },
+    {
+      "from": "VisionCreateQuestExecutionAdapter",
+      "to": "VisionScheduleParserService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java"
+    },
+    {
+      "from": "VisionCreateQuestExecutionAdapter",
+      "to": "QuestRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java"
+    },
+    {
+      "from": "VisionExecutionPlanner",
+      "to": "VisionClarificationService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java"
+    },
+    {
+      "from": "VisionExecutionPlanner",
+      "to": "VisionProperties",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java"
+    },
+    {
+      "from": "VisionExecutionPlanner",
+      "to": "VisionExecutionCandidateDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java"
+    },
+    {
+      "from": "VisionExecutionPlanner",
+      "to": "VisionConversationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java"
+    },
+    {
+      "from": "VisionExecutionService",
+      "to": "VisionConversationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java"
+    },
+    {
+      "from": "VisionIntentRouter",
+      "to": "VisionProperties",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java"
+    },
+    {
+      "from": "VisionLocationResolutionService",
+      "to": "VisionLocationParserService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLocationResolutionService.java"
+    },
+    {
+      "from": "VisionLocationResolutionService",
+      "to": "LocationLookupService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLocationResolutionService.java"
+    },
+    {
+      "from": "VisionLocationResolutionService",
+      "to": "LocationLookupCandidateDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLocationResolutionService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "LocationGeoService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "AppUserRole",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "ExactLocationVisibilityScopeOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "LocationModeOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "QuestLocationVisibilityOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "AppUserRoleOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "QuestSearchDefaultsDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "QuestApplicationStatusFilterOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "QuestAudienceFilterOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "QuestAudienceOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "QuestSortOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "QuestStatusFilterOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "QuestStatusOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "VisionOptionsDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "QuestApplicationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionOptionsService",
+      "to": "QuestStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java"
+    },
+    {
+      "from": "VisionPresentationHelper",
+      "to": "QuestApplicationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPresentationHelper.java"
+    },
+    {
+      "from": "VisionPresentationHelper",
+      "to": "QuestNewsType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPresentationHelper.java"
+    },
+    {
+      "from": "VisionPresentationHelper",
+      "to": "QuestStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPresentationHelper.java"
+    },
+    {
+      "from": "VisionPromptUnderstandingService",
+      "to": "AgentProperties",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
+    },
+    {
+      "from": "VisionPromptUnderstandingService",
+      "to": "VisionSemanticMapper",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
+    },
+    {
+      "from": "VisionPromptUnderstandingService",
+      "to": "VisionSemanticOrchestrationContextService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
+    },
+    {
+      "from": "VisionPromptUnderstandingService",
+      "to": "VisionSemanticRouteCatalogService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
+    },
+    {
+      "from": "VisionPromptUnderstandingService",
+      "to": "VisionSemanticResponseValidator",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
+    },
+    {
+      "from": "VisionPromptUnderstandingService",
+      "to": "RestClient",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
+    },
+    {
+      "from": "VisionPromptUnderstandingService",
+      "to": "ObjectMapper",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
+    },
+    {
+      "from": "VisionPromptUnderstandingService",
+      "to": "MediaType",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
+    },
+    {
+      "from": "VisionQuestDiscoveryService",
+      "to": "QuestReadService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java"
+    },
+    {
+      "from": "VisionQuestDiscoveryService",
+      "to": "VisionQuestDiscoveryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java"
+    },
+    {
+      "from": "VisionQuestDiscoveryService",
+      "to": "VisionQuestDiscoveryItemDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java"
+    },
+    {
+      "from": "VisionQuestDiscoveryService",
+      "to": "QuestListPresetDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java"
+    },
+    {
+      "from": "VisionQuestDiscoveryService",
+      "to": "QuestListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java"
+    },
+    {
+      "from": "VisionQuestDiscoveryService",
+      "to": "QuestResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java"
+    },
+    {
+      "from": "VisionSemanticOrchestrationContextService",
+      "to": "VoiceProperties",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java"
+    },
+    {
+      "from": "VisionSemanticOrchestrationContextService",
+      "to": "VisionConversationRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java"
+    },
+    {
+      "from": "VisionSemanticOrchestrationContextService",
+      "to": "VisionTurnRepository",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java"
+    },
+    {
+      "from": "VisionSemanticOrchestrationContextService",
+      "to": "VisionConversationStatus",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java"
+    },
+    {
+      "from": "VisionSlotService",
+      "to": "VisionScheduleParserService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java"
+    },
+    {
+      "from": "VisionSlotService",
+      "to": "VisionLocationResolutionService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java"
+    },
+    {
+      "from": "VisionSlotService",
+      "to": "VisionSemanticMapper",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java"
+    },
+    {
+      "from": "VisionSurfacePolicy",
+      "to": "VisionProperties",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSurfacePolicy.java"
+    },
+    {
       "from": "WithdrawMyApplicationUseCase",
       "to": "QuestApplicationRepository",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WithdrawMyApplicationUseCase.java"
@@ -7905,101 +8044,6 @@
       "from": "WithdrawMyApplicationUseCase",
       "to": "QuestApplicationStatus",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WithdrawMyApplicationUseCase.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "LocationGeoService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "AppUserRole",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "ExactLocationVisibilityScopeOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "LocationModeOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "QuestLocationVisibilityOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "AppUserRoleOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "QuestSearchDefaultsDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "QuestApplicationStatusFilterOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "QuestAudienceFilterOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "QuestAudienceOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "QuestSortOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "QuestStatusFilterOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "QuestStatusOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "WorkmarketOptionsDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "QuestApplicationStatus",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketOptionsService",
-      "to": "QuestStatus",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java"
-    },
-    {
-      "from": "WorkmarketPresentationHelper",
-      "to": "QuestApplicationStatus",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java"
-    },
-    {
-      "from": "WorkmarketPresentationHelper",
-      "to": "QuestNewsType",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java"
-    },
-    {
-      "from": "WorkmarketPresentationHelper",
-      "to": "QuestStatus",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketPresentationHelper.java"
     }
   ]
 }

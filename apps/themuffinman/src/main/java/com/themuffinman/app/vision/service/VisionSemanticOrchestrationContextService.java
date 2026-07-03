@@ -3,9 +3,16 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.model.VisionConversation;
+import com.themuffinman.app.vision.model.VisionConversationStatus;
+import com.themuffinman.app.vision.model.VisionTurn;
+import com.themuffinman.app.vision.model.VisionTurnSource;
+import com.themuffinman.app.vision.repository.VisionConversationRepository;
+import com.themuffinman.app.vision.repository.VisionTurnRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -37,9 +44,22 @@ public class VisionSemanticOrchestrationContextService {
     );
 
     private final VoiceProperties voiceProperties;
+    private final VisionConversationRepository visionConversationRepository;
+    private final VisionTurnRepository visionTurnRepository;
 
     public VisionSemanticOrchestrationContextService(VoiceProperties voiceProperties) {
+        this(voiceProperties, null, null);
+    }
+
+    @Autowired
+    public VisionSemanticOrchestrationContextService(
+            VoiceProperties voiceProperties,
+            VisionConversationRepository visionConversationRepository,
+            VisionTurnRepository visionTurnRepository
+    ) {
         this.voiceProperties = voiceProperties;
+        this.visionConversationRepository = visionConversationRepository;
+        this.visionTurnRepository = visionTurnRepository;
     }
 
     public VisionSemanticUserContext buildUserContext(AppUser user) {
@@ -90,6 +110,14 @@ public class VisionSemanticOrchestrationContextService {
                 .currentIntent(conversation.getIntent() == null ? "" : conversation.getIntent().name())
                 .requestedSlot(clean(conversation.getRequestedSlot()))
                 .slotData(conversation.getSlotData() == null ? Map.of() : new LinkedHashMap<>(conversation.getSlotData()))
+                .build();
+    }
+
+    public VisionSemanticMemoryContext buildMemoryContext(AppUser user, VisionConversation conversation) {
+        return VisionSemanticMemoryContext.builder()
+                .userMemory(buildUserMemoryContext(user, conversation))
+                .sessionMemory(buildSessionMemoryContext(conversation))
+                .recentConversations(buildRecentConversationMemory(user))
                 .build();
     }
 
@@ -163,6 +191,330 @@ public class VisionSemanticOrchestrationContextService {
         }
         int separator = locale.indexOf('-');
         return separator > 0 ? locale.substring(0, separator) : locale;
+    }
+
+    private VisionSemanticUserMemoryContext buildUserMemoryContext(AppUser user, VisionConversation conversation) {
+        if (user == null) {
+            return VisionSemanticUserMemoryContext.builder()
+                    .preferredLocale(DEFAULT_LOCALE)
+                    .timezone(DEFAULT_TIMEZONE)
+                    .recentIntentTypes(List.of())
+                    .build();
+        }
+
+        List<String> recentIntentTypes = buildRecentIntentTypes(user, conversation);
+        String countryCode = normalizeCountryCode(user.getLocationCountryCode());
+        ResolvedLocale resolvedLocale = resolveLocale(countryCode, null);
+        ResolvedTimezone resolvedTimezone = resolveTimezone(countryCode, null);
+        return VisionSemanticUserMemoryContext.builder()
+                .userId(user.getId())
+                .username(user.getUsername())
+                .role(user.getRole() == null ? "" : user.getRole().name())
+                .preferredLocale(resolvedLocale.value())
+                .timezone(resolvedTimezone.value())
+                .countryCode(countryCode)
+                .country(clean(user.getLocationCountry()))
+                .locality(clean(user.getLocationLocality()))
+                .locationLabel(clean(user.getLocationLabel()))
+                .recentIntentTypes(recentIntentTypes)
+                .recentEntityFamilies(buildRecentEntityFamilies(user))
+                .build();
+    }
+
+    private VisionSemanticSessionMemoryContext buildSessionMemoryContext(VisionConversation conversation) {
+        if (conversation == null) {
+            return VisionSemanticSessionMemoryContext.builder()
+                    .slotData(Map.of())
+                    .recentTurns(List.of())
+                    .openQuestions(List.of())
+                    .recentActions(List.of())
+                    .build();
+        }
+
+        List<VisionSemanticTurnMemoryItem> recentTurns = buildRecentTurnMemory(conversation);
+        return VisionSemanticSessionMemoryContext.builder()
+                .conversationId(conversation.getId())
+                .currentIntent(conversation.getIntent() == null ? "" : conversation.getIntent().name())
+                .currentEntityFamily(entityFamilyFor(conversation.getIntent()))
+                .status(conversation.getStatus() == null ? "" : conversation.getStatus().name())
+                .requestedSlot(clean(conversation.getRequestedSlot()))
+                .sessionSummary(buildSessionSummary(conversation))
+                .lastUserPrompt(clean(conversation.getLastUserPrompt()))
+                .lastNormalizedPrompt(clean(conversation.getLastNormalizedPrompt()))
+                .lastAssistantMessage(clean(conversation.getLastAssistantMessage()))
+                .translationReliable(conversation.isLastTranslationReliable())
+                .sessionMemorySnapshot(clean(conversation.getSessionMemorySnapshot()))
+                .slotData(conversation.getSlotData() == null ? Map.of() : new LinkedHashMap<>(conversation.getSlotData()))
+                .openQuestions(buildOpenQuestions(conversation))
+                .recentActions(buildRecentActions(recentTurns))
+                .recentTurns(recentTurns)
+                .build();
+    }
+
+    private String buildSessionSummary(VisionConversation conversation) {
+        if (conversation == null) {
+            return "";
+        }
+
+        String assistantMessage = clean(conversation.getLastAssistantMessage());
+        if (assistantMessage != null) {
+            return assistantMessage;
+        }
+
+        String requestedSlot = clean(conversation.getRequestedSlot());
+        if (requestedSlot != null) {
+            return "Waiting for " + requestedSlot;
+        }
+
+        return switch (conversation.getStatus() == null ? VisionConversationStatus.ACTIVE : conversation.getStatus()) {
+            case REVIEW_READY -> "Review ready";
+            case COMPLETED -> "Conversation complete";
+            case BLOCKED -> "Conversation blocked";
+            case ACTIVE -> "Conversation active";
+        };
+    }
+
+    private List<String> buildOpenQuestions(VisionConversation conversation) {
+        if (conversation == null) {
+            return List.of();
+        }
+
+        String requestedSlot = clean(conversation.getRequestedSlot());
+        if (requestedSlot == null) {
+            return List.of();
+        }
+
+        String assistantMessage = clean(conversation.getLastAssistantMessage());
+        if (assistantMessage != null && assistantMessage.contains("?")) {
+            return List.of(assistantMessage);
+        }
+
+        return List.of("Waiting for " + requestedSlot);
+    }
+
+    private List<String> buildRecentActions(List<VisionSemanticTurnMemoryItem> recentTurns) {
+        if (recentTurns == null || recentTurns.isEmpty()) {
+            return List.of();
+        }
+
+        return recentTurns.stream()
+                .limit(3)
+                .map(this::describeRecentAction)
+                .filter(action -> action != null && !action.isBlank())
+                .toList();
+    }
+
+    private String describeRecentAction(VisionSemanticTurnMemoryItem turn) {
+        if (turn == null) {
+            return null;
+        }
+
+        String prompt = clean(turn.getNormalizedPrompt());
+        if (prompt == null) {
+            prompt = clean(turn.getPrompt());
+        }
+        String assistantMessage = clean(turn.getAssistantMessage());
+        if (prompt == null && assistantMessage == null) {
+            return null;
+        }
+        if (prompt == null) {
+            return assistantMessage;
+        }
+        if (assistantMessage == null) {
+            return prompt;
+        }
+        return prompt + " -> " + assistantMessage;
+    }
+
+    private List<VisionSemanticConversationMemoryItem> buildRecentConversationMemory(AppUser user) {
+        if (user == null || visionConversationRepository == null) {
+            return List.of();
+        }
+
+        return visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(user).stream()
+                .map(this::toConversationMemoryItem)
+                .toList();
+    }
+
+    private List<VisionSemanticTurnMemoryItem> buildRecentTurnMemory(VisionConversation conversation) {
+        if (conversation == null || visionTurnRepository == null) {
+            return List.of();
+        }
+
+        List<VisionTurn> turns = visionTurnRepository.findTop10ByConversationOrderByTurnIndexDesc(conversation);
+        if (turns == null || turns.isEmpty()) {
+            return List.of();
+        }
+
+        List<VisionSemanticTurnMemoryItem> items = new ArrayList<>();
+        for (int index = turns.size() - 1; index >= 0; index--) {
+            VisionTurn turn = turns.get(index);
+            items.add(VisionSemanticTurnMemoryItem.builder()
+                    .turnIndex(turn.getTurnIndex())
+                    .source(turn.getSource() == null ? VisionTurnSource.TEXT.name() : turn.getSource().name())
+                    .prompt(clean(turn.getPrompt()))
+                    .normalizedPrompt(clean(turn.getNormalizedPrompt()))
+                    .detectedIntent(turn.getDetectedIntent() == null ? "" : turn.getDetectedIntent().name())
+                    .requestedSlot(clean(turn.getRequestedSlot()))
+                    .assistantMessage(clean(turn.getAssistantMessage()))
+                    .build());
+        }
+        return items;
+    }
+
+    private List<String> buildRecentIntentTypes(AppUser user, VisionConversation currentConversation) {
+        if (user == null || visionConversationRepository == null) {
+            return List.of();
+        }
+
+        List<VisionConversation> conversations = visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(user);
+        if (conversations == null || conversations.isEmpty()) {
+            return List.of();
+        }
+
+        List<String> intentTypes = new ArrayList<>();
+        for (VisionConversation item : conversations) {
+            if (item == null || item.getIntent() == null) {
+                continue;
+            }
+            String intent = item.getIntent().name();
+            if (!intentTypes.contains(intent)) {
+                intentTypes.add(intent);
+            }
+        }
+        if (currentConversation != null && currentConversation.getIntent() != null) {
+            String currentIntent = currentConversation.getIntent().name();
+            if (!intentTypes.contains(currentIntent)) {
+                intentTypes.add(0, currentIntent);
+            }
+        }
+        return intentTypes;
+    }
+
+    private List<String> buildRecentEntityFamilies(AppUser user) {
+        if (user == null || visionConversationRepository == null) {
+            return List.of();
+        }
+
+        List<VisionConversation> conversations = visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(user);
+        if (conversations == null || conversations.isEmpty()) {
+            return List.of();
+        }
+
+        List<String> families = new ArrayList<>();
+        for (VisionConversation conversation : conversations) {
+            String family = entityFamilyFor(conversation == null ? null : conversation.getIntent());
+            if (family != null && !family.isBlank() && !families.contains(family)) {
+                families.add(family);
+            }
+        }
+        return families;
+    }
+
+    private VisionSemanticConversationMemoryItem toConversationMemoryItem(VisionConversation conversation) {
+        if (conversation == null) {
+            return null;
+        }
+
+        return VisionSemanticConversationMemoryItem.builder()
+                .conversationId(conversation.getId())
+                .intent(conversation.getIntent() == null ? "" : conversation.getIntent().name())
+                .status(conversation.getStatus() == null ? "" : conversation.getStatus().name())
+                .requestedSlot(clean(conversation.getRequestedSlot()))
+                .title(memoryTitle(conversation))
+                .subtitle(memorySubtitle(conversation))
+                .groupKey(memoryGroupKey(conversation))
+                .stageLabel(memoryStageLabel(conversation))
+                .progressLabel(memoryProgressLabel(conversation))
+                .updatedAt(conversation.getUpdatedAt())
+                .build();
+    }
+
+    private String memoryTitle(VisionConversation conversation) {
+        if (conversation == null || conversation.getSlotData() == null) {
+            return conversation == null || conversation.getIntent() == null ? "" : conversation.getIntent().name();
+        }
+
+        String title = conversation.getSlotData().get("quest_title");
+        if (title == null || title.isBlank()) {
+            title = conversation.getSlotData().get("circle_name");
+        }
+        if (title == null || title.isBlank()) {
+            title = conversation.getSlotData().get("profile_username");
+        }
+        if (title == null || title.isBlank()) {
+            title = conversation.getSlotData().get("search_query");
+        }
+        if (title == null || title.isBlank()) {
+            title = conversation.getIntent() == null ? "" : conversation.getIntent().name();
+        }
+        return title;
+    }
+
+    private String memorySubtitle(VisionConversation conversation) {
+        if (conversation == null) {
+            return "";
+        }
+        if (conversation.getLastAssistantMessage() != null && !conversation.getLastAssistantMessage().isBlank()) {
+            return conversation.getLastAssistantMessage();
+        }
+        return conversation.getRequestedSlot() == null
+                ? "No pending prompt"
+                : "Waiting for " + conversation.getRequestedSlot();
+    }
+
+    private String memoryGroupKey(VisionConversation conversation) {
+        if (conversation == null || conversation.getStatus() == null) {
+            return "active";
+        }
+        return switch (conversation.getStatus()) {
+            case ACTIVE -> "active";
+            case REVIEW_READY -> "review_ready";
+            case BLOCKED -> "blocked";
+            case COMPLETED -> "completed";
+        };
+    }
+
+    private String memoryStageLabel(VisionConversation conversation) {
+        if (conversation == null || conversation.getStatus() == null) {
+            return "In progress";
+        }
+        return switch (conversation.getStatus()) {
+            case ACTIVE -> conversation.getRequestedSlot() == null ? "In progress" : "Needs input";
+            case REVIEW_READY -> "Review ready";
+            case COMPLETED -> "Complete";
+            case BLOCKED -> "Blocked";
+        };
+    }
+
+    private String memoryProgressLabel(VisionConversation conversation) {
+        if (conversation == null || conversation.getStatus() == null) {
+            return "Conversation is active.";
+        }
+        return switch (conversation.getStatus()) {
+            case ACTIVE -> conversation.getRequestedSlot() == null
+                    ? "Conversation is active."
+                    : "Next step: " + conversation.getRequestedSlot();
+            case REVIEW_READY -> "Ready for review and confirmation.";
+            case COMPLETED -> "Task finished.";
+            case BLOCKED -> "Conversation stopped until the user starts a supported task.";
+        };
+    }
+
+    private String entityFamilyFor(com.themuffinman.app.vision.model.VisionIntent intent) {
+        if (intent == null) {
+            return null;
+        }
+        return switch (intent) {
+            case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> "profile";
+            case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
+                    DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
+            case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
+                    WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
+            case DISCOVER_QUESTS, CREATE_QUEST -> "quests";
+            case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> "chat";
+            default -> "other";
+        };
     }
 
     private String normalizeCountryCode(String countryCode) {

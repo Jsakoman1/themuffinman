@@ -7,22 +7,19 @@ metadata:
   - This file is intentionally procedural and machine-oriented.
   - If a safe branch is not defined here, the agent must stop instead of guessing.
   - Sandbox flows are modeled separately from production-like flows.
-  - Admin planning surfaces may use backend-managed LLM summaries, but deterministic
-    backend safety rules remain authoritative.
+  - Admin direct execution flows stay deterministic and local-only; backend safety
+    rules remain authoritative.
+  - For active operational state, planning state, validation state, and automation-facing
+    rules, read the machine-readable control files first and treat markdown as review
+    context unless a markdown doc is explicitly the canonical meaning layer.
 source_of_truth:
   files:
   - id: admin_agent_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java
-  - id: admin_agent_playground_request_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java
-  - id: admin_agent_playground_response_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java
   - id: admin_agent_execution_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionRequestDTO.java
   - id: admin_agent_execution_response_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionResponseDTO.java
-  - id: admin_agent_playground_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java
   - id: admin_agent_execution_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentExecutionService.java
   - id: admin_agent_surface_policy
@@ -39,18 +36,8 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslation.java
   - id: admin_agent_prompt_translator
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslator.java
-  - id: admin_agent_text_provider
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTextProvider.java
-  - id: agent_model_profile
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AgentModelProfile.java
   - id: local_admin_agent_prompt_translator
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java
-  - id: openai_admin_agent_client
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java
-  - id: sandbox_generation_plan
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java
-  - id: sandbox_generation_planner
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java
   - id: agent_surface_policy
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfacePolicy.java
   - id: agent_surface_id
@@ -493,16 +480,8 @@ source_of_truth:
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
   - id: quest_application_use_case_contract_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java
-  - id: admin_agent_playground_service_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java
-  - id: admin_agent_golden_prompt_matrix_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
   - id: vision_conversation_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
-  - id: admin_agent_capability_boundary_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
-  - id: sandbox_generation_planner_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java
   - id: auth_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
   - id: request_dto_validation_test
@@ -511,18 +490,16 @@ source_of_truth:
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java
   - id: quest_workflow_scenario_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
-  - id: agent_operating_scenario_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java
   - id: agent_operating_model_validation_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  - id: admin_agent_execution_service_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
+  - id: admin_synthetic_quest_execution_planner_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java
   - id: repository_fetch_profile_contract_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/RepositoryFetchProfileContractTest.java
   - id: workflow_state_machine_catalog_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/WorkflowStateMachineCatalogTest.java
-  - id: admin_agent_simulation_request_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java
-  - id: admin_agent_simulation_response_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java
   - id: agent_capability_assessment_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentCapabilityAssessmentDTO.java
   - id: agent_clarification_contract_dto
@@ -605,6 +582,7 @@ backend_audit_coverage:
     owner_id: agent_platform
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/agent/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/prompt/
     - apps/themuffinman/src/main/java/com/themuffinman/app/vision/
   - id: chat
     owner_id: chat_domain
@@ -902,6 +880,14 @@ backend_audit_coverage:
     tier: internal_support
     path_contains_any:
     - "/common/"
+  - id: internal_support_agent_runtime_surface
+    tier: internal_support
+    path_contains_any:
+    - "/agent/runtime/"
+  - id: internal_support_prompt_surface
+    tier: internal_support
+    path_contains_any:
+    - "/prompt/"
 policies:
   self_test_matrix:
     default_rule: Pick the cheapest validation tier that covers the workflow tier,
@@ -2443,28 +2429,6 @@ mutating_intent_contracts:
   - create_quest_use_case
   - quest_application_service
   - start_quest_use_case
-- intent_id: create_sandbox_user_with_circle_and_quest_flow
-  preconditions:
-  - admin or developer sandbox authority
-  - synthetic generation inputs
-  - sandbox isolation
-  state_changes:
-  - persist synthetic user
-  - circle
-  - applications
-  - and quest demo flow data
-  side_effects:
-  - mark generated flow as sandbox-only and keep it separated from production semantics
-  notifications:
-  - none
-  blocking_conditions:
-  - sandbox authority missing
-  - unsupported synthetic payload
-  - sandbox isolation rules violated
-  source_refs:
-  - admin_agent_playground_service
-  - app_user_service
-  - create_quest_use_case
 - intent_id: execute_admin_agent_capability
   preconditions:
   - admin authority
@@ -2555,8 +2519,6 @@ intent_safety_catalog:
   risk_groups:
     read_only:
     - open_auth_identity
-    - run_admin_agent_playground
-    - simulate_admin_agent_execution
     - open_current_user_account
     - open_app_user_options
     - open_user_record
@@ -2655,7 +2617,6 @@ intent_safety_catalog:
     - create_circle_only_quest_for_selected_people
     - prepare_circle_only_quest_flow_to_start
     - voice_prepare_scheduled_circle_only_quest_for_selected_people
-    - create_sandbox_user_with_circle_and_quest_flow
     - execute_admin_agent_capability
     admin_only_write:
     - create_user
@@ -2666,7 +2627,6 @@ intent_safety_catalog:
     - update_admin_application
     - delete_admin_application
     - create_user_with_quests
-    - create_sandbox_user_with_circle_and_quest_flow
   exact_target_resolution:
   - intent_id: update_user_as_admin
     resolution_workflows:
@@ -2770,7 +2730,6 @@ intent_safety_catalog:
   - create_circle_only_quest_for_selected_people
   - prepare_circle_only_quest_flow_to_start
   - voice_prepare_scheduled_circle_only_quest_for_selected_people
-  - create_sandbox_user_with_circle_and_quest_flow
   current_location_capability:
   - set_profile_current_location
 documentation_coverage:
@@ -2790,12 +2749,7 @@ documentation_coverage:
   required_source_ref_groups:
   - id: automation_services
     source_refs:
-    - admin_agent_playground_service
-    - sandbox_generation_plan
-    - sandbox_generation_planner
     - local_admin_agent_prompt_translator
-    - openai_admin_agent_client
-    - agent_model_profile
     - auth_service
     - auth_mgr
     - app_user_service
@@ -2848,10 +2802,6 @@ documentation_coverage:
     - agents_doc
   - id: automation_contract_dtos
     source_refs:
-    - admin_agent_playground_request_dto
-    - admin_agent_playground_response_dto
-    - admin_agent_simulation_request_dto
-    - admin_agent_simulation_response_dto
     - agent_capability_assessment_dto
     - agent_clarification_contract_dto
     - agent_endpoint_plan_dto
@@ -2859,6 +2809,8 @@ documentation_coverage:
     - agent_intent_lineage_dto
     - agent_resolution_confidence_dto
     - agent_resolution_requirement_dto
+    - admin_agent_execution_request_dto
+    - admin_agent_execution_response_dto
   - id: chat_contract_dtos
     source_refs:
     - chat_circle_option_dto
@@ -3029,8 +2981,9 @@ documentation_coverage:
     - quest_use_case_contract_test
     - quest_application_use_case_contract_test
     - quest_workflow_scenario_test
-    - agent_operating_scenario_test
     - agent_operating_model_validation_test
+    - admin_agent_execution_service_test
+    - admin_synthetic_quest_execution_planner_test
     - repository_fetch_profile_contract_test
     - workflow_state_machine_catalog_test
     - app_user_mgr_test
@@ -3039,11 +2992,7 @@ documentation_coverage:
     - quest_mgr_test
     - quest_news_mgr_test
     - quest_application_service_test
-    - admin_agent_playground_service_test
-    - admin_agent_golden_prompt_matrix_test
-    - admin_agent_capability_boundary_test
     - vision_conversation_service_test
-    - sandbox_generation_planner_test
 documentation_ownership:
   documentation_templates:
   - id: new_workflow
@@ -3317,61 +3266,47 @@ frontend_contract_generation:
   check_command: npm --prefix apps/themuffinman/frontend run validate:contracts
   generated_contract_file: apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
   required_aliases:
-  - AdminAgentPlaygroundRequest
-  - AdminAgentPlaygroundResponse
   - AdminAgentExecutionRequest
   - AdminAgentExecutionResponse
-  - AdminAgentSimulationRequest
-  - AdminAgentSimulationResponse
   - AgentIntentId
   - AgentEndpointId
   - AdminAgentSafetyFlagIdGenerated
   - AgentRequiredUnresolvedInput
 frontend_contracts:
-- id: admin_agent_playground_response_contract
-  backend_java_class: com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO
+- id: admin_agent_execution_response_contract
+  backend_java_class: com.themuffinman.app.agent.dto.AdminAgentExecutionResponseDTO
   frontend_contract_file: apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
   frontend_gate_file: apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts
-  frontend_type: AdminAgentPlaygroundResponse
+  frontend_type: AdminAgentExecutionResponse
   required_fields:
-  - provider
-  - externalLlmConfigured
-  - promptSourceLanguage
-  - promptTranslationProvider
-  - promptTranslationApplied
-  - promptTranslationReliable
-  - originalPrompt
-  - translatedPrompt
-  - title
+  - capabilityId
+  - executionEnabled
+  - executed
+  - confirmationRequired
   - summary
-  - resolutionRequirements
-  - clarificationContract
-  - executionReadiness
-  - matchedSignals
-  - unresolvedInputs
+  - targetUserLabel
+  - targetUserId
+  - requestedCount
+  - effectiveCount
+  - topic
+  - questTitles
+  - createdQuestIds
   - warnings
-  - suggestedWorkflows
-  - nextSteps
-  - directExecutionAvailable
-  - directExecutionCapabilityId
-  - directExecutionSummary
-frontend_feature_expectations:
-- id: admin_agent_frontend_surface
-  when_contract_ids:
-  - admin_agent_playground_response_contract
-  required_files:
-  - apps/themuffinman/frontend/src/modules/vision/api/contracts.ts
-  - apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts
+  - blockingReasons
 frontend_safety_regressions:
   validation_script: apps/themuffinman/frontend/scripts/validate-admin-agent-ui-scenarios.mjs
   fixture_file: apps/themuffinman/frontend/scripts/fixtures/admin-agent-ui-scenarios.json
   required_case_ids:
-  - planner_ambiguity
-  - planner_translation_unreliable
-  - simulation_destructive_confirmation
-  - simulation_multi_actor
-  - simulation_current_location
-  - simulation_safe_path
+  - execution_confirmation_required
+  - execution_batch_limit
+  - execution_target_resolution
+frontend_feature_expectations:
+- id: admin_agent_execution_surface
+  when_contract_ids:
+  - admin_agent_execution_response_contract
+  required_files:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts
 dead_path_tracker:
   critical_prompt_matrix_workflows:
   - create_circle_connection
@@ -3382,10 +3317,6 @@ dead_path_tracker:
   allow_source_refs_without_direct_workflow_usage:
   - admin_agent_prompt_translation
   - admin_agent_prompt_translator
-  - admin_agent_text_provider
-  - openai_admin_agent_client
-  - admin_agent_golden_prompt_matrix_test
-  - admin_agent_capability_boundary_test
   - circle_request_mgr
   - user_review_mgr
 capability_registry:
@@ -3393,21 +3324,17 @@ capability_registry:
   description: Authenticated admin authority to access admin-only planning and simulation
     surfaces.
   required_for_intents:
-  - run_admin_agent_playground
   - execute_admin_agent_capability
-  - simulate_admin_agent_execution
 - id: external_translation_provider
   description: Reliable provider-backed translation for prompts the local translator
     cannot safely normalize.
   required_for_intents:
-  - run_admin_agent_playground
-  - simulate_admin_agent_execution
+  - execute_admin_agent_capability
 - id: current_location
   description: Trusted device coordinates or reverse-lookup-backed current location
     capability.
   required_for_intents:
   - set_profile_current_location
-  - simulate_admin_agent_execution
 - id: second_actor_context
   description: Real second-actor authority, acceptance, or confirmation context for
     multi-actor workflows.
@@ -3420,8 +3347,6 @@ capability_registry:
   - create_circle_only_quest_for_selected_people
   - prepare_circle_only_quest_flow_to_start
   - voice_prepare_scheduled_circle_only_quest_for_selected_people
-  - create_sandbox_user_with_circle_and_quest_flow
-  - simulate_admin_agent_execution
 - id: destructive_confirmation
   description: Explicit destructive confirmation before destructive mutation endpoints.
   required_for_intents:
@@ -3430,7 +3355,6 @@ capability_registry:
   - delete_circle_as_admin
   - delete_admin_application
   - delete_quest
-  - simulate_admin_agent_execution
 intent_lineage:
 - intent_id: create_circle_connection
   source_prompt_examples:
@@ -3520,45 +3444,6 @@ prompt_drift_detection:
   - destructiveConfirmationRequired
   - multiActorContextRequired
 backend_contract_snapshots:
-- id: admin_agent_playground_response_snapshot
-  java_class: com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO
-  declared_fields:
-  - provider
-  - externalLlmConfigured
-  - promptSourceLanguage
-  - promptTranslationProvider
-  - promptTranslationApplied
-  - promptTranslationReliable
-  - originalPrompt
-  - translatedPrompt
-  - title
-  - summary
-  - resolutionRequirements
-  - clarificationContract
-  - executionReadiness
-  - matchedSignals
-  - unresolvedInputs
-  - warnings
-  - suggestedWorkflows
-  - nextSteps
-  - directExecutionAvailable
-  - directExecutionCapabilityId
-  - directExecutionSummary
-  semantic_required_fields:
-  - promptSourceLanguage
-  - promptTranslationReliable
-  - resolutionRequirements
-  - clarificationContract
-  - executionReadiness
-  - matchedSignals
-  - unresolvedInputs
-  - suggestedWorkflows
-  source_refs:
-  - admin_agent_playground_service
-  - admin_agent_playground_service_test
-  verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
 - id: admin_agent_execution_response_snapshot
   java_class: com.themuffinman.app.agent.dto.AdminAgentExecutionResponseDTO
   declared_fields:
@@ -3589,41 +3474,6 @@ backend_contract_snapshots:
   - admin_agent_execution_service
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
-- id: admin_agent_simulation_response_snapshot
-  java_class: com.themuffinman.app.agent.dto.AdminAgentSimulationResponseDTO
-  declared_fields:
-  - planningOnly
-  - safeToExecute
-  - promptSourceLanguage
-  - translatedPrompt
-  - selectedIntentId
-  - resolutionConfidence
-  - capabilityAssessments
-  - intentLineage
-  - endpointPlan
-  - clarificationContract
-  - executionReadiness
-  - matchedSignals
-  - unresolvedInputs
-  - blockingReasons
-  - suggestedWorkflows
-  semantic_required_fields:
-  - planningOnly
-  - safeToExecute
-  - selectedIntentId
-  - resolutionConfidence
-  - capabilityAssessments
-  - intentLineage
-  - endpointPlan
-  - clarificationContract
-  - executionReadiness
-  - blockingReasons
-  source_refs:
-  - admin_agent_playground_service
-  - admin_agent_playground_service_test
-  verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
 - id: app_user_response_snapshot
   java_class: com.themuffinman.app.identity.dto.AppUserResponseDTO
@@ -4271,7 +4121,6 @@ permission_matrix:
     - update_admin_application
     - delete_admin_application
     - create_user_with_quests
-    - create_sandbox_user_with_circle_and_quest_flow
     - execute_admin_agent_capability
     allowed_actors:
     - admin
@@ -4851,8 +4700,6 @@ documentation_sync:
   required_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
   rules:
   - id: tiered_feature_workflow_entrypoint
     description: Feature delivery starts from the compact fast path and escalates
@@ -5125,16 +4972,6 @@ api:
     path: "/news/me/unread-count"
     controller_class: com.themuffinman.app.vision.controller.QuestNewsController
     handler_method: getUnreadCount
-  - id: run_admin_agent_playground
-    method: POST
-    path: "/admin/agent/playground"
-    controller_class: com.themuffinman.app.agent.controller.AdminAgentController
-    handler_method: runPlaygroundPrompt
-  - id: run_admin_agent_simulation
-    method: POST
-    path: "/admin/agent/simulate"
-    controller_class: com.themuffinman.app.agent.controller.AdminAgentController
-    handler_method: runSimulation
   - id: run_admin_agent_execution
     method: POST
     path: "/admin/agent/execute"
@@ -5625,31 +5462,6 @@ intents:
     source_refs:
     - auth_controller
     - service_errors
-- id: run_admin_agent_playground
-  description: Run the admin-only planning playground for natural-language workflow
-    analysis.
-  mutating: false
-  required_inputs:
-  - authenticated_user
-  - prompt
-  optional_inputs: []
-  defaults: []
-  workflow:
-  - step: 1
-    action: Require admin authority and a non-blank prompt.
-    source_refs:
-    - admin_agent_controller
-    - admin_agent_playground_service
-    - service_errors
-    fail_if:
-    - authenticated user is not admin
-    - prompt is missing
-  - step: 2
-    action: Run the planning prompt through the admin playground endpoint.
-    endpoint_id: run_admin_agent_playground
-    source_refs:
-    - admin_agent_controller
-    - admin_agent_playground_service
 - id: execute_admin_agent_capability
   description: Run the first guarded admin-only direct execution slice, currently
     synthetic quest batch generation for one exact target user after explicit confirmation.
@@ -5681,7 +5493,6 @@ intents:
     source_refs:
     - admin_synthetic_quest_execution_planner
     - admin_agent_surface_policy
-    - sandbox_generation_planner
     fail_if:
     - prompt does not resolve to the supported direct execution capability
     - direct execution is disabled by policy
@@ -5706,36 +5517,6 @@ intents:
     - quest_service
     fail_if:
     - confirmation is missing
-- id: simulate_admin_agent_execution
-  description: Run an admin-only dry-run simulation through resolution, clarification,
-    safety-policy, and endpoint-selection logic without mutating anything.
-  mutating: false
-  required_inputs:
-  - authenticated_user
-  - prompt
-  optional_inputs: []
-  defaults: []
-  workflow:
-  - step: 1
-    action: Require admin authority, a non-blank prompt, and planning-only execution
-      mode.
-    source_refs:
-    - admin_agent_controller
-    - admin_agent_playground_service
-    - admin_agent_simulation_request_dto
-    - service_errors
-    fail_if:
-    - authenticated user is not admin
-    - prompt is missing
-  - step: 2
-    action: Run the prompt through the dry-run simulation endpoint and return selected
-      intent, capability assessments, lineage, and endpoint plan without mutating
-      backend state.
-    endpoint_id: run_admin_agent_simulation
-    source_refs:
-    - admin_agent_controller
-    - admin_agent_playground_service
-    - admin_agent_simulation_response_dto
 - id: open_current_user_account
   description: Read the current authenticated user's account profile view.
   mutating: false
@@ -8798,93 +8579,6 @@ intents:
     - user_review_controller
     - user_review_service
     - quest_application_service
-    - service_errors
-- id: create_sandbox_user_with_circle_and_quest_flow
-  description: Plan a synthetic admin-only test-data flow that creates users, circles,
-    quest applications, lifecycle transitions, and reviews without pretending it is
-    a production user path.
-  mutating: true
-  required_inputs:
-  - admin_actor
-  - environment_scope
-  - synthetic_user_batch
-  - sandbox_flow_plan
-  optional_inputs:
-  - synthetic_circle_plan
-  - synthetic_quest_plan
-  - synthetic_application_plan
-  - synthetic_execution_plan
-  - synthetic_review_plan
-  - synthetic_marker_strategy
-  defaults: []
-  workflow:
-  - step: 1
-    action: Read the authenticated admin identity and require explicit admin authority
-      plus developer-controlled environment scope before any synthetic flow is allowed.
-    intent_ref: open_auth_identity
-    source_refs:
-    - auth_controller
-    - agents_doc
-    - documentation_sync_policy_doc
-    - service_errors
-    fail_if:
-    - admin_actor is missing
-    - environment_scope is not explicitly sandbox-safe
-  - step: 2
-    action: Require an explicit synthetic marker strategy so sandbox entities can
-      later be distinguished from real data.
-    source_refs:
-    - business_logic_doc
-    - domain_technical_doc
-    fail_if:
-    - synthetic_marker_strategy is missing
-  - step: 3
-    action: Create the synthetic users and any required profile defaults.
-    intent_ref: create_user_with_quests
-    source_refs:
-    - auth_controller
-    - app_user_service
-    - app_user_controller
-  - step: 4
-    when: synthetic_circle_plan is provided
-    action: Create synthetic circles and memberships as part of the sandbox dataset.
-    intent_ref: create_circle
-    source_refs:
-    - circle_controller
-    - circle_service
-    - circle_membership_service
-  - step: 5
-    when: synthetic_quest_plan is provided
-    action: Create synthetic quests or selected-people quest flows from admin-controlled
-      sandbox input.
-    intent_ref: create_circle_only_quest_for_selected_people
-    source_refs:
-    - quest_controller
-    - quest_service
-    - circle_controller
-    - circle_service
-  - step: 6
-    when: synthetic_application_plan is provided
-    action: Allow synthetic multi-actor application creation only because this flow
-      is explicitly sandbox-only.
-    source_refs:
-    - quest_application_service
-    - documentation_sync_policy_doc
-  - step: 7
-    when: synthetic_execution_plan is provided
-    action: Allow synthetic approval, start, completion, and optional term-change
-      scenarios only inside the sandbox contract.
-    source_refs:
-    - quest_application_service
-    - quest_service
-    - quest_state_transition_service
-  - step: 8
-    when: synthetic_review_plan is provided
-    action: Allow synthetic review generation only after synthetic completion plan
-      reaches COMPLETED state.
-    source_refs:
-    - user_review_service
-    - quest_service
     - service_errors
 - id: browse_business_profiles
   description: Browse active business mini-site profiles.

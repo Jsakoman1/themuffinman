@@ -1,9 +1,9 @@
 # Changeset Risk
 
-- Decision: `low`
-- Why: frontend_contract_or_api_change +12; generated_artifact_churn +10
+- Decision: `high`
+- Why: controller_contract_change +20; dto_or_model_contract_change +18; migration_or_schema_change +18
 - Next action: `make audit-generated-commit-scope`, `make audit-router`
-- Evidence: changed files=294, score=22
+- Evidence: changed files=129, score=118
 
-- `frontend_contract_or_api_change` (`5` files)
-- `generated_artifact_churn` (`197` files)
+- `controller_contract_change` (`1` files)
+- `dto_or_model_contract_change` (`8` files)

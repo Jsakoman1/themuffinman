@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T14:49:32Z",
+  "generated_at": "2026-07-03T09:17:30Z",
   "mode": "report_first",
   "thresholds": {
     "service_lines": 420,
@@ -11,25 +11,9 @@
   },
   "backend_entries": [
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
-      "kind": "service",
-      "lines": 1036,
-      "public_methods": 3,
-      "responsibility_markers": [
-        "query",
-        "mutation",
-        "policy",
-        "notification"
-      ],
-      "flags": [
-        "oversized_service",
-        "mixed_responsibilities"
-      ]
-    },
-    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
       "kind": "service",
-      "lines": 907,
+      "lines": 4077,
       "public_methods": 5,
       "responsibility_markers": [
         "query",
@@ -38,13 +22,30 @@
       ],
       "flags": [
         "oversized_service",
+        "mixed_responsibilities"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "kind": "service",
+      "lines": 1632,
+      "public_methods": 44,
+      "responsibility_markers": [
+        "query",
+        "mutation",
+        "policy",
+        "mapping"
+      ],
+      "flags": [
+        "oversized_service",
+        "many_public_methods",
         "mixed_responsibilities"
       ]
     },
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
       "kind": "service",
-      "lines": 703,
+      "lines": 796,
       "public_methods": 3,
       "responsibility_markers": [
         "query",
@@ -57,12 +58,50 @@
       ]
     },
     {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
+      "kind": "service",
+      "lines": 559,
+      "public_methods": 5,
+      "responsibility_markers": [
+        "query",
+        "mutation"
+      ],
+      "flags": [
+        "oversized_service"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
+      "kind": "service",
+      "lines": 553,
+      "public_methods": 3,
+      "responsibility_markers": [
+        "query",
+        "mutation"
+      ],
+      "flags": [
+        "oversized_service"
+      ]
+    },
+    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionScheduleParserService.java",
       "kind": "service",
-      "lines": 441,
+      "lines": 550,
       "public_methods": 5,
       "responsibility_markers": [
         "query"
+      ],
+      "flags": [
+        "oversized_service"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java",
+      "kind": "service",
+      "lines": 445,
+      "public_methods": 1,
+      "responsibility_markers": [
+        "mutation"
       ],
       "flags": [
         "oversized_service"
@@ -73,20 +112,6 @@
       "kind": "service",
       "lines": 403,
       "public_methods": 8,
-      "responsibility_markers": [
-        "query",
-        "mutation",
-        "policy"
-      ],
-      "flags": [
-        "mixed_responsibilities"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
-      "kind": "service",
-      "lines": 292,
-      "public_methods": 1,
       "responsibility_markers": [
         "query",
         "mutation",
@@ -215,7 +240,7 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
       "kind": "service",
-      "lines": 193,
+      "lines": 194,
       "public_methods": 3,
       "responsibility_markers": [
         "query",
@@ -413,33 +438,7 @@
     }
   ],
   "frontend_entries": [
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-      "kind": "vue_view",
-      "lines": 729,
-      "product_logic_hits": 8,
-      "flags": [
-        "oversized_vue_view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
-      "kind": "vue_view",
-      "lines": 579,
-      "product_logic_hits": 0,
-      "flags": [
-        "oversized_vue_view"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-      "kind": "vue_view",
-      "lines": 407,
-      "product_logic_hits": 2,
-      "flags": [
-        "oversized_vue_view"
-      ]
-    }
+
   ],
   "doc_entries": [
     {
@@ -455,7 +454,16 @@
       "file": "docs/domain-technical.md",
       "section": "Control-System Technical Notes",
       "level": 2,
-      "lines": 141,
+      "lines": 142,
+      "flags": [
+        "oversized_doc_section"
+      ]
+    },
+    {
+      "file": "docs/domain-technical.md",
+      "section": "Domain Areas",
+      "level": 2,
+      "lines": 115,
       "flags": [
         "oversized_doc_section"
       ]

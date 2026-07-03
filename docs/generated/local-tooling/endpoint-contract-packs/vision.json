@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T14:47:53Z",
+  "generated_at": "2026-07-03T09:17:43Z",
   "endpoint_family": "vision",
   "endpoints": [
     {
@@ -55,18 +55,6 @@
   ],
   "frontend_callsites": [
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue",
-      "matched_paths": [
-        "cancel"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/composables/useDialogActionState.ts",
-      "matched_paths": [
-        "reset"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts",
       "matched_paths": [
         "reset"
@@ -87,37 +75,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
-      "matched_paths": [
-        "{conversationId}"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
-      "matched_paths": [
-        "reset"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/circleSelection.ts",
-      "matched_paths": [
-        "reset"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
-      "matched_paths": [
-        "reset"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
-      "matched_paths": [
-        "recent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
       "matched_paths": [
         "/vision/conversations/recent",
         "recent",
@@ -131,15 +89,13 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
       "matched_paths": [
-        "cancel",
-        "reset"
+        "cancel"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionPromptDock.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionVoiceControl.vue",
       "matched_paths": [
-        "cancel",
-        "reset"
+        "cancel"
       ]
     },
     {
@@ -152,108 +108,9 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-      "matched_paths": [
-        "reset"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurfaceState.ts",
-      "matched_paths": [
-        "recent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-      "matched_paths": [
-        "recent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-      "matched_paths": [
-        "reset"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-      "matched_paths": [
-        "cancel"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
       "matched_paths": [
-        "recent",
-        "cancel",
-        "reset"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-      "matched_paths": [
-        "recent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
-      "matched_paths": [
-        "reset"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
-      "matched_paths": [
-        "reset"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
-      "matched_paths": [
-        "reset"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
-      "matched_paths": [
-        "cancel",
-        "reset"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailEditForm.vue",
-      "matched_paths": [
         "cancel"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/questDetailStateHelpers.ts",
-      "matched_paths": [
-        "reset"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailDataActions.ts",
-      "matched_paths": [
-        "reset"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts",
-      "matched_paths": [
-        "cancel"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailUiActions.ts",
-      "matched_paths": [
-        "cancel"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestSearchResults.ts",
-      "matched_paths": [
-        "reset"
       ]
     }
   ],

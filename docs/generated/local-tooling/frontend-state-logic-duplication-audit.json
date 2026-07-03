@@ -1,31 +1,11 @@
 {
-  "generated_at": "2026-07-01T14:49:23Z",
-  "active_file_count": 16,
+  "generated_at": "2026-07-03T09:17:21Z",
+  "active_file_count": 4,
   "mutation_runner_overlap": [
 
   ],
   "workflow_action_overlap": [
-    {
-      "signal": "blockUser",
-      "files": [
-        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue"
-      ]
-    },
-    {
-      "signal": "createCircle",
-      "files": [
-        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue"
-      ]
-    },
-    {
-      "signal": "unblockUser",
-      "files": [
-        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue"
-      ]
-    }
+
   ],
   "dialog_state_overlap": [
 
@@ -36,29 +16,7 @@
       "files": [
         "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
         "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
-        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
-        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
-        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue"
-      ]
-    },
-    {
-      "signal": "getApiErrorMessage",
-      "files": [
-        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-      ]
-    },
-    {
-      "signal": "showMessage",
-      "files": [
-        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
-        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
+        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
       ]
     }
   ]

@@ -98,10 +98,9 @@ docs_as_contract_slices:
           - "## Internal sandbox notes"
     protected_claim: Sandbox generation must stay structurally separate from production-like user actions and must not execute real mutations through normal user-facing flows.
     test_files:
-      - apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java
       - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
     commands:
-      - cd apps/themuffinman && ./mvnw test -Dtest=SandboxGenerationPlannerTest,AgentOperatingModelValidationTest
+      - cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingModelValidationTest
   - id: shared-validation-rich-text-contract
     domain: common
     docs:

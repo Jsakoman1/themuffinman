@@ -46,10 +46,9 @@ class AdminAgentExecutionServiceTest {
         agentProperties.setAdminExecutionEnabled(true);
         agentProperties.setAdminQuestBatchLimit(3);
 
-        OpenAiAdminAgentClient provider = new OpenAiAdminAgentClient(agentProperties);
         LocalAdminAgentPromptTranslator translator = new LocalAdminAgentPromptTranslator();
         AdminAgentPromptPreparationService promptPreparationService =
-                new AdminAgentPromptPreparationService(agentProperties, provider, translator, new PromptSemanticsSupport());
+                new AdminAgentPromptPreparationService(translator, new PromptSemanticsSupport());
         AdminAgentSurfacePolicy adminAgentSurfacePolicy = new AdminAgentSurfacePolicy(agentProperties);
         AdminSyntheticQuestExecutionPlanner planner = new AdminSyntheticQuestExecutionPlanner();
         AdminAgentTargetUserResolver targetUserResolver = new AdminAgentTargetUserResolver(appUserRepository);

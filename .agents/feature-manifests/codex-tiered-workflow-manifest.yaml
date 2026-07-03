@@ -1,3 +1,4 @@
+---
 featureId: codex_tiered_workflow
 title: Codex Tiered Workflow
 workflowTier: tier4-agent-tooling-workflow
@@ -272,7 +273,6 @@ artifacts:
   - docs/generated/local-tooling/frontend-state-logic-duplication-audit-summary.md
   - docs/generated/local-tooling/frontend-state-logic-duplication-audit.json
   - docs/generated/local-tooling/manifest-decision-summary.md
-  - docs/generated/local-tooling/manifest-decision.json
   - docs/generated/local-tooling/permission-rule-duplication-audit-summary.md
   - docs/generated/local-tooling/permission-rule-duplication-audit.json
   - docs/generated/local-tooling/plan-completion/codex-tiered-workflow-plan-summary.md

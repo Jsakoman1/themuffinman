@@ -1,0 +1,489 @@
+{
+  "generated_at": "2026-07-03T09:17:21Z",
+  "file_count": 38,
+  "likely_unused_count": 5,
+  "route_detached_count": 0,
+  "callsite_detached_count": 7,
+  "review_needed_count": 1,
+  "files": [
+    {
+      "path": "apps/themuffinman/frontend/src/httpDebug.ts",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "likely_unused"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/lib/dialogFlow.ts",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "likely_unused"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/lib/searchQuery.ts",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "likely_unused"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "likely_unused"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/shared/clientMessages.ts",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "likely_unused"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
+      "category": "frontend_composable",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "callsite_detached"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/useAutoDismissFeedback.ts",
+      "category": "frontend_composable",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "callsite_detached"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts",
+      "category": "frontend_composable",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "callsite_detached"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/useMountedAsync.ts",
+      "category": "frontend_composable",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "callsite_detached"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts",
+      "category": "frontend_composable",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "callsite_detached"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/composables/useTimedBanner.ts",
+      "category": "frontend_composable",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "callsite_detached"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+      "category": "frontend_api",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "callsite_detached"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/styles/base.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "review_needed"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/App.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/main.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/api/apiErrors.ts",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/api/httpClient.ts",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+        "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+        "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/auth.ts",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/httpDebug.ts",
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/contracts/index.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/contracts/index.ts",
+      "category": "frontend_contract",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+        "apps/themuffinman/frontend/src/modules/vision/api/contracts.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/env.d.ts",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/lib/questListPagination.ts",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/main.ts",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+      "category": "frontend_api",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+        "apps/themuffinman/frontend/src/services/sessionService.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/identity/auth.ts",
+      "category": "other",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/auth.ts",
+        "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+        "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+      "category": "frontend_api",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/api/contracts.ts",
+      "category": "frontend_api",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+        "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+      "category": "frontend_api",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+        "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+        "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
+        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/components/VisionTypingText.vue",
+      "category": "other",
+      "importer_count": 2,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+        "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/components/VisionVoiceControl.vue",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "category": "frontend_composable",
+      "importer_count": 4,
+      "importers": [
+        "apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue",
+        "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+        "apps/themuffinman/frontend/src/modules/vision/components/VisionVoiceControl.vue",
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+      ],
+      "route_surface": false,
+      "route_support": true,
+      "endpoint_callsite": true,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "category": "frontend_view",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/router.ts"
+      ],
+      "route_surface": true,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/router.ts",
+      "category": "other",
+      "importer_count": 1,
+      "importers": [
+        "apps/themuffinman/frontend/src/main.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/services/sessionService.ts",
+      "category": "other",
+      "importer_count": 3,
+      "importers": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/modules/identity/auth.ts"
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/style.css",
+      "category": "other",
+      "importer_count": 0,
+      "importers": [
+
+      ],
+      "route_surface": false,
+      "route_support": false,
+      "endpoint_callsite": false,
+      "status": "active_entry"
+    }
+  ]
+}

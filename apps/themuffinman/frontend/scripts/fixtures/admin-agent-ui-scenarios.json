@@ -1,122 +1,40 @@
 {
   "cases": [
     {
-      "id": "planner_ambiguity",
-      "kind": "playground",
-      "response": {
-        "provider": "local",
-        "externalLlmConfigured": false,
-        "promptSourceLanguage": "en",
-        "promptTranslationProvider": "local",
-        "promptTranslationApplied": false,
-        "promptTranslationReliable": true,
-        "originalPrompt": "Delete my quest Garden Help",
-        "translatedPrompt": "Delete my quest Garden Help",
-        "title": "Quest deletion",
-        "summary": "Ambiguous target",
-        "resolutionRequirements": [],
-        "clarificationContract": {
-          "clarificationRequired": true,
-          "failClosedOnAmbiguity": true,
-          "reason": "Exact owned quest identity is still unresolved.",
-          "unresolvedFields": ["quest"]
-        },
-        "executionReadiness": {
-          "planningOnly": true,
-          "translationReady": true,
-          "requiresExternalTranslationProvider": false,
-          "currentLocationCapabilityRequired": false,
-          "currentLocationCapabilityStatus": "not_required",
-          "destructiveConfirmationRequired": false,
-          "multiActorContextRequired": false
-        },
-        "matchedSignals": ["quest_deletion"],
-        "unresolvedInputs": ["exact owned quest identity"],
-        "warnings": [],
-        "suggestedWorkflows": ["find_owned_quest_candidates", "delete_quest"],
-        "nextSteps": []
-      },
-      "expected": {
-        "executionBlocked": true,
-        "activeBlockingFlags": ["ambiguity"]
-      }
-    },
-    {
-      "id": "planner_translation_unreliable",
-      "kind": "playground",
-      "response": {
-        "provider": "local",
-        "externalLlmConfigured": false,
-        "promptSourceLanguage": "zh",
-        "promptTranslationProvider": "local",
-        "promptTranslationApplied": false,
-        "promptTranslationReliable": false,
-        "originalPrompt": "给 Tom 发送好友请求",
-        "translatedPrompt": "给 Tom 发送好友请求",
-        "title": "Translation blocked",
-        "summary": "Needs reliable translation.",
-        "resolutionRequirements": [],
-        "clarificationContract": {
-          "clarificationRequired": false,
-          "failClosedOnAmbiguity": true,
-          "reason": "Prompt meaning is not yet reliable enough for execution planning.",
-          "unresolvedFields": ["translation"]
-        },
-        "executionReadiness": {
-          "planningOnly": true,
-          "translationReady": false,
-          "requiresExternalTranslationProvider": true,
-          "currentLocationCapabilityRequired": false,
-          "currentLocationCapabilityStatus": "not_required",
-          "destructiveConfirmationRequired": false,
-          "multiActorContextRequired": false
-        },
-        "matchedSignals": [],
-        "unresolvedInputs": ["reliable English translation"],
-        "warnings": [],
-        "suggestedWorkflows": [],
-        "nextSteps": []
-      },
-      "expected": {
-        "executionBlocked": true,
-        "activeBlockingFlags": ["translation_unreliable"]
-      }
-    },
-    {
-      "id": "simulation_destructive_confirmation",
+      "id": "execution_confirmation_required",
       "kind": "simulation",
       "response": {
         "planningOnly": true,
         "safeToExecute": false,
         "promptSourceLanguage": "en",
-        "translatedPrompt": "Delete my quest Garden Help",
-        "selectedIntentId": "delete_quest",
+        "translatedPrompt": "Create a quest to move my sofa tomorrow evening",
+        "selectedIntentId": "create_quest",
         "resolutionConfidence": {
-          "score": 45,
-          "tier": "low",
-          "reasons": ["clarification is still required", "destructive confirmation is still missing"]
+          "score": 78,
+          "tier": "medium",
+          "reasons": ["destructive confirmation is still missing"]
         },
         "capabilityAssessments": [],
         "intentLineage": {
-          "intentId": "delete_quest",
-          "sourcePromptExamples": ["Delete my quest Garden Help"],
-          "resolutionWorkflows": ["find_owned_quest_candidates"],
-          "targetEndpoints": ["delete_quest"],
+          "intentId": "create_quest",
+          "sourcePromptExamples": ["Create a quest to move my sofa"],
+          "resolutionWorkflows": [],
+          "targetEndpoints": ["create_quest"],
           "safetyPolicies": ["destructive_confirmation"],
           "expectedReadModels": ["quest_resolution_view"]
         },
         "endpointPlan": [
           {
-            "endpointId": "delete_quest",
-            "method": "DELETE",
-            "path": "/quests/{id}"
+            "endpointId": "create_quest",
+            "method": "POST",
+            "path": "/quests"
           }
         ],
         "clarificationContract": {
-          "clarificationRequired": true,
+          "clarificationRequired": false,
           "failClosedOnAmbiguity": true,
-          "reason": "Exact owned quest identity is still unresolved.",
-          "unresolvedFields": ["quest"]
+          "reason": "All fields are resolved.",
+          "unresolvedFields": []
         },
         "executionReadiness": {
           "planningOnly": true,
@@ -127,44 +45,44 @@
           "destructiveConfirmationRequired": true,
           "multiActorContextRequired": false
         },
-        "matchedSignals": ["quest_deletion"],
-        "unresolvedInputs": ["exact owned quest identity", "destructive confirmation"],
+        "matchedSignals": ["quest_creation"],
+        "unresolvedInputs": ["destructive confirmation"],
         "blockingReasons": ["destructive confirmation"],
-        "suggestedWorkflows": ["find_owned_quest_candidates", "delete_quest"]
+        "suggestedWorkflows": ["create_quest"]
       },
       "expected": {
         "executionBlocked": true,
-        "activeBlockingFlags": ["ambiguity", "destructive_confirmation", "simulation_not_safe"]
+        "activeBlockingFlags": ["destructive_confirmation", "simulation_not_safe"]
       }
     },
     {
-      "id": "simulation_multi_actor",
+      "id": "execution_batch_limit",
       "kind": "simulation",
       "response": {
         "planningOnly": true,
         "safeToExecute": false,
-        "promptSourceLanguage": "hr",
-        "translatedPrompt": "approve the first applicant for my quest",
-        "selectedIntentId": "approve_application",
+        "promptSourceLanguage": "en",
+        "translatedPrompt": "Create 10 unique quests for Josip",
+        "selectedIntentId": "create_quest",
         "resolutionConfidence": {
-          "score": 55,
+          "score": 84,
           "tier": "medium",
-          "reasons": ["multi-actor context is required"]
+          "reasons": ["batch size exceeds current execution limit"]
         },
         "capabilityAssessments": [],
         "intentLineage": {
-          "intentId": "approve_application",
-          "sourcePromptExamples": ["Ako ima vise prijava approvaj onog tko se applicirao prvi"],
-          "resolutionWorkflows": ["find_owned_quest_candidates", "inspect_owned_quest_pending_applications", "select_oldest_pending_application"],
-          "targetEndpoints": ["approve_application"],
-          "safetyPolicies": ["multi_actor_authority"],
-          "expectedReadModels": ["quest_applications_selection_view"]
+          "intentId": "create_quest",
+          "sourcePromptExamples": ["Create 10 unique quests for Josip"],
+          "resolutionWorkflows": [],
+          "targetEndpoints": ["create_quest"],
+          "safetyPolicies": [],
+          "expectedReadModels": ["quest_resolution_view"]
         },
         "endpointPlan": [
           {
-            "endpointId": "approve_application",
-            "method": "PATCH",
-            "path": "/quests/{questId}/applications/{applicationId}/approve"
+            "endpointId": "create_quest",
+            "method": "POST",
+            "path": "/quests"
           }
         ],
         "clarificationContract": {
@@ -180,86 +98,31 @@
           "currentLocationCapabilityRequired": false,
           "currentLocationCapabilityStatus": "not_required",
           "destructiveConfirmationRequired": false,
-          "multiActorContextRequired": true
+          "multiActorContextRequired": false
         },
-        "matchedSignals": ["application_approval"],
+        "matchedSignals": ["quest_creation"],
         "unresolvedInputs": [],
-        "blockingReasons": ["multi-actor context"],
-        "suggestedWorkflows": ["approve_application"]
+        "blockingReasons": ["batch limit"],
+        "suggestedWorkflows": ["create_quest"]
       },
       "expected": {
         "executionBlocked": true,
-        "activeBlockingFlags": ["multi_actor", "simulation_not_safe"]
+        "activeBlockingFlags": ["simulation_not_safe"]
       }
     },
     {
-      "id": "simulation_current_location",
+      "id": "execution_target_resolution",
       "kind": "simulation",
       "response": {
         "planningOnly": true,
         "safeToExecute": false,
-        "promptSourceLanguage": "de",
-        "translatedPrompt": "change my account location to my current location",
-        "selectedIntentId": "set_profile_current_location",
-        "resolutionConfidence": {
-          "score": 55,
-          "tier": "medium",
-          "reasons": ["current-location capability is required"]
-        },
-        "capabilityAssessments": [],
-        "intentLineage": {
-          "intentId": "set_profile_current_location",
-          "sourcePromptExamples": ["Change my account location to my current location"],
-          "resolutionWorkflows": ["resolve_current_location_input"],
-          "targetEndpoints": ["update_current_user"],
-          "safetyPolicies": ["current_location_capability"],
-          "expectedReadModels": ["user_profile_resolution_view"]
-        },
-        "endpointPlan": [
-          {
-            "endpointId": "update_current_user",
-            "method": "PUT",
-            "path": "/app_users/me"
-          }
-        ],
-        "clarificationContract": {
-          "clarificationRequired": false,
-          "failClosedOnAmbiguity": true,
-          "reason": "Only trusted coordinates are missing.",
-          "unresolvedFields": []
-        },
-        "executionReadiness": {
-          "planningOnly": true,
-          "translationReady": true,
-          "requiresExternalTranslationProvider": false,
-          "currentLocationCapabilityRequired": true,
-          "currentLocationCapabilityStatus": "requires_device_coordinates_or_reverse_lookup",
-          "destructiveConfirmationRequired": false,
-          "multiActorContextRequired": false
-        },
-        "matchedSignals": ["current_location_update"],
-        "unresolvedInputs": ["current device coordinates"],
-        "blockingReasons": ["current location capability"],
-        "suggestedWorkflows": ["resolve_current_location_input", "set_profile_current_location"]
-      },
-      "expected": {
-        "executionBlocked": true,
-        "activeBlockingFlags": ["current_location", "simulation_not_safe"]
-      }
-    },
-    {
-      "id": "simulation_safe_path",
-      "kind": "simulation",
-      "response": {
-        "planningOnly": true,
-        "safeToExecute": true,
         "promptSourceLanguage": "en",
-        "translatedPrompt": "send friend request to Tom",
+        "translatedPrompt": "Create a quest for Tom",
         "selectedIntentId": "create_circle_connection",
         "resolutionConfidence": {
-          "score": 90,
-          "tier": "high",
-          "reasons": ["selected intent: create_circle_connection"]
+          "score": 61,
+          "tier": "medium",
+          "reasons": ["target user is still unresolved"]
         },
         "capabilityAssessments": [],
         "intentLineage": {
@@ -278,10 +141,10 @@
           }
         ],
         "clarificationContract": {
-          "clarificationRequired": false,
+          "clarificationRequired": true,
           "failClosedOnAmbiguity": true,
-          "reason": "All fields are resolved.",
-          "unresolvedFields": []
+          "reason": "Exact recipient is unresolved.",
+          "unresolvedFields": ["targetUser"]
         },
         "executionReadiness": {
           "planningOnly": true,
@@ -293,13 +156,13 @@
           "multiActorContextRequired": false
         },
         "matchedSignals": ["connection_request"],
-        "unresolvedInputs": [],
-        "blockingReasons": [],
+        "unresolvedInputs": ["exact recipient"],
+        "blockingReasons": ["ambiguity"],
         "suggestedWorkflows": ["resolve_circle_recipient", "create_circle_connection"]
       },
       "expected": {
-        "executionBlocked": false,
-        "activeBlockingFlags": []
+        "executionBlocked": true,
+        "activeBlockingFlags": ["ambiguity", "simulation_not_safe"]
       }
     }
   ]

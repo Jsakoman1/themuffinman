@@ -25,8 +25,23 @@ Current covered modules:
 - Large result sets should be summarized and filtered by default, then expanded only when the user asks for more detail.
 - Complex information should be shown visually when that is clearer than explaining it only through audio.
 - The authenticated frontend now also includes an experimental `/vision` screen that demonstrates this direction with a centered animated agent and an inline prompt surface inside the same adaptive canvas.
-- `/vision` now uses backend-managed OpenAI speech transcription, speech synthesis, prompt decoding, and agent planning so typed text and voice input can feed the same backend processing path.
+- `/vision` now uses backend-managed speech transcription, speech synthesis, and prompt decoding so typed text and voice input can feed the same backend processing path, while prompt understanding defaults to the low-cost `gpt-4o-mini` semantic model unless an explicit upgrade flag is enabled.
+- `/vision` now carries separate user memory, session memory, and turn memory into semantic understanding so the system can keep stable preferences, current thread state, and recent turns apart when users switch topics mid-conversation.
+- `/vision` now also tracks recent entity families in memory, so short or vague follow-up turns can stay anchored to the active topic unless the user clearly opens a different one.
+- `/vision` now keeps weak ambiguous follow-up turns inside the active conversation thread instead of switching topics too eagerly, while still allowing clear new-topic requests to open a new thread when they are explicit enough.
+- `/vision` now avoids reusing the previous requested slot as fallback focus when the new prompt clearly switches entity families, so fresh circles, applications, profile, or chat requests are not pinned back to an old quest slot.
+- `/vision` now exposes a compact memory trail in its turn response so the frontend can show the active entity family, recent families, and the last remembered turn state when that context is useful.
+- `/vision` now also exposes a topic-switch hint when the active entity family changes, so the preview can make a quest-to-circle or profile-to-chat transition visible instead of hiding it in debug text.
+- `/vision` now also marks recent conversation summaries with their entity family and a short topic-switch hint, so the resume rail reads like one evolving conversation history instead of a list of unrelated tasks.
+- `/vision` now also surfaces those recent conversation summaries as a clickable resume strip in the main shell, so the next task is visible before the user opens any detail panel.
+- `/vision` now also exposes a compact hidden memory sheet with session summary, open questions, and recent actions so the frontend can stay calm while still showing the durable context when needed.
+- `/vision` now also persists a compact session memory snapshot on the conversation row, so the backend can carry the current thread context forward even when the live turn object is not on screen.
+- `/vision` now feeds that persisted session memory snapshot back into prompt understanding as the durable session rail for the next turn, with structured summary, open-question, and recent-action fields instead of one opaque blob.
 - `/vision` now inserts a dedicated semantic understanding step between speech transcription and slot merging so one prompt can fill multiple explicit quest fields without dumping everything into description or location by default.
+- `/vision` now treats the backend semantic model as the primary interpreter for prompt understanding across quests, circles, applications, profiles, and chat, while the deterministic local parser only rescues turns when the semantic result comes back unsupported.
+- `/vision` now fail-closes any OpenAI semantic response that selects a capability or focus slot outside the backend-published response contract before routing continues.
+- `/vision` now rejects any OpenAI semantic response that tries to extract slots or generic semantic fields not exposed by the selected backend route, so model output stays aligned with the actual route contract before sanitization.
+- `/vision` now keeps create-quest descriptions as a core task summary and strips reward, schedule, and location noise from the fallback description so the preview stays readable.
 - `/vision` now also supports a read-only quest discovery path, so browse/search prompts can return ranked open quests inside the same adaptive surface without entering the create-quest execution flow.
 - `/vision` can now also open a chat with an existing circle contact when the user explicitly names the target, using the same adaptive surface instead of a separate chat launcher.
 - `/vision` can now also show the current user's profile, circles, and applications as read-only terminal snapshots inside the same main conversation surface instead of requiring separate route navigation.
@@ -43,6 +58,12 @@ Current covered modules:
 - The first real `/vision` quest flow now collects title, description, reward, visibility, schedule choice, and location choice step by step instead of pushing the user into one big form.
 - The same `/vision` quest flow now understands a wider set of date and time phrases such as ISO date-time, European date-time, tomorrow, tonight, next week, next weekday, am/pm, noon, midnight, and a small spoken-time vocabulary, while collecting the day and time as separate conversation details when the user does not provide both at once.
 - When the user gives a custom quest location on `/vision`, the backend may suggest one or more more precise matched places, but the surface must ask whether to use one of those resolved candidates or keep the typed location before the quest review continues.
+- `/vision` now rejects location labels that look like full prompts or task descriptions, while still accepting short place-like labels such as city names, square names, and address fragments.
+- `/vision` now also understands simple postal-code-plus-locality and locality-plus-postal-code location fragments, so short Swiss-style place labels can stay structured without needing a full picker.
+- `/vision` now parses explicit `am` / `pm` phrases before the generic hour-only fallback, so combined weekday-and-time input stays on the day/time split instead of drifting into the wrong hour.
+- `/vision` now also understands explicit evening phrasing such as `in the evening` and `navečer` when the hour is already present.
+- `/vision` now also understands a plain weekday reference such as `this Friday` or `ovaj petak` without requiring the user to say `next Friday` first.
+- `/vision` now also understands a small German weekday and day-period set such as `morgen`, `heute`, `freitag`, and `um 5 am abend` for Swiss-style English/German turn handling.
 - The same `/vision` review state can now send the user back to one named field such as reward, schedule, or location, so corrections stay conversational instead of reopening a legacy edit surface.
 - The `/vision` conversation turn API now accepts explicit backend actions for review-to-execution confirmation and review-field correction targets, while reset and cancel still have dedicated lifecycle endpoints and also accept the common shortcut phrases `cancel`, `stop`, and `reset` during an active conversation.
 - When `app.vision.execution-enabled` is on, the same persisted `/vision` conversation may create the quest after the review state and an explicit confirmation from the user.
@@ -254,9 +275,8 @@ Current covered modules:
 - The same agent-safe pattern is now expected across quest updates, application self-service, circle-group management, outgoing request cancellation, and chat read actions.
 - The same agent-safe pattern now also covers profile self-update, notification read actions, and admin-side application correction or deletion.
 - The operating model now also explicitly covers common read surfaces such as dashboard, circle overview, quest detail, application detail, chat history, and admin debug status instead of leaving them implicit.
-- When configured, the same admin endpoint can ask a backend-managed OpenAI provider for a concise planning summary.
-- Routine planning summary calls default to `gpt-5.4-mini`, while only the heaviest or most creative planning slices escalate to `gpt-5.4-medium`.
-- If OpenAI is not configured or fails, the playground falls back to the deterministic local planner instead of blocking the admin UI.
+- The admin agent playground now stays deterministic and local-only for planning and translation; it no longer calls OpenAI for planning summaries.
+- Admin playground prompt handling still translates and classifies prompts into backend planning language, but it does so through local deterministic rules rather than a live provider hop.
 - The response should separate the free-form summary from deterministic planner output such as matched signals, unresolved inputs, warnings, and suggested workflows.
 - The provider-written summary should stay bounded by the deterministic planner output instead of inventing new workflow ids or missing-input requirements.
 

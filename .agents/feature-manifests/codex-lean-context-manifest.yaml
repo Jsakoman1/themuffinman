@@ -180,7 +180,6 @@ generatedArtifacts:
     - docs/generated/local-tooling/audit-summary-index.md
     - docs/generated/local-tooling/changeset-risk-summary.md
     - docs/generated/local-tooling/generated-artifact-freshness-summary.md
-    - docs/generated/local-tooling/generated-commit-scope-summary.md
     - docs/generated/local-tooling/duplicate-logic-audit.json
     - docs/generated/local-tooling/duplicate-logic-audit-summary.md
     - docs/generated/local-tooling/permission-rule-duplication-audit.json
@@ -193,8 +192,6 @@ generatedArtifacts:
     - docs/generated/local-tooling/test-history-summary.md
     - docs/generated/local-tooling/codebase-capsule.json
     - docs/generated/local-tooling/codebase-capsule.md
-    - docs/generated/local-tooling/change-impact-preflight.json
-    - docs/generated/local-tooling/change-impact-preflight-summary.md
     - docs/generated/local-tooling/architecture-decision-index.json
     - docs/generated/local-tooling/architecture-decision-index-summary.md
     - docs/generated/local-tooling/audit-summary-index.json
@@ -263,7 +260,6 @@ artifacts:
     - docs/agent-operating-model.yaml
     - docs/generated/local-tooling/changeset-risk-summary.md
     - docs/generated/local-tooling/generated-artifact-freshness-summary.md
-    - docs/generated/local-tooling/generated-commit-scope-summary.md
     - docs/generated/local-tooling/duplicate-logic-audit.json
     - docs/generated/local-tooling/duplicate-logic-audit-summary.md
     - docs/generated/local-tooling/permission-rule-duplication-audit.json
@@ -276,8 +272,6 @@ artifacts:
     - docs/generated/local-tooling/test-history-summary.md
     - docs/generated/local-tooling/codebase-capsule.json
     - docs/generated/local-tooling/codebase-capsule.md
-    - docs/generated/local-tooling/change-impact-preflight.json
-    - docs/generated/local-tooling/change-impact-preflight-summary.md
     - docs/generated/local-tooling/architecture-decision-index.json
     - docs/generated/local-tooling/architecture-decision-index-summary.md
     - docs/generated/local-tooling/audit-summary-index.json

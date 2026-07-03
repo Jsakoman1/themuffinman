@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T14:49:47Z",
+  "generated_at": "2026-07-03T09:17:48Z",
   "workflow": "quest-application",
   "state_machine": {
     "id": "quest_application_lifecycle",
@@ -85,14 +85,44 @@
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationWorkflowSupport.java",
       "category": "backend_service",
-      "domain": "workmarket",
+      "domain": "shared",
       "lines": 128
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/prompt/PromptSemanticPlan.java",
+      "category": "other",
+      "domain": "shared",
+      "lines": 318
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/prompt/PromptSemanticsSupport.java",
+      "category": "other",
+      "domain": "shared",
+      "lines": 462
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
       "category": "backend_service",
-      "domain": "agent",
-      "lines": 1036
+      "domain": "shared",
+      "lines": 4077
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 553
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 297
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 445
     }
   ],
   "tests": [
@@ -101,16 +131,19 @@
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java",
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+    "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java"
   ],
   "frontend_actions": [
     {
       "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "lines": 1637
+      "lines": 1616
     }
   ],
   "docs_refs": [
@@ -122,7 +155,7 @@
     "docs/workflow-state-machines.yaml"
   ],
   "recommended_commands": [
-    "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest,QuestApplicationUseCaseContractTest,QuestApplicationServiceTest,DashboardServiceTest,AdminAgentPlaygroundServiceTest,AgentOperatingScenarioTest,AgentOperatingModelValidationTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest,QuestApplicationUseCaseContractTest,QuestApplicationServiceTest,DashboardServiceTest,AgentOperatingModelValidationTest,VisionConversationServiceTest,VisionPromptUnderstandingServiceTest",
     "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest",
     "cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest",
     "cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest"

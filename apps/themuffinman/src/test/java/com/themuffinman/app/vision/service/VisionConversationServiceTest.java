@@ -106,6 +106,8 @@ class VisionConversationServiceTest {
         VisionCanvasAssembler visionCanvasAssembler = new VisionCanvasAssembler(visionProperties);
         VisionExecutionPlanner visionExecutionPlanner = new VisionExecutionPlanner(visionClarificationService, visionProperties);
         VisionQuestDiscoveryService visionQuestDiscoveryService = new VisionQuestDiscoveryService(questReadService);
+        VisionSemanticOrchestrationContextService visionSemanticOrchestrationContextService =
+                new VisionSemanticOrchestrationContextService(new com.themuffinman.app.config.VoiceProperties(), visionConversationRepository, visionTurnRepository);
         VisionSurfacePolicy visionSurfacePolicy = new VisionSurfacePolicy(visionProperties);
         VisionExecutionService visionExecutionService = new VisionExecutionService(
                 visionSurfacePolicy,
@@ -183,6 +185,7 @@ class VisionConversationServiceTest {
                 visionChatExecutionService,
                 visionCapabilityPreviewService,
                 visionPromptUnderstandingService,
+                visionSemanticOrchestrationContextService,
                 visionSemanticMapper,
                 visionSurfacePolicy,
                 visionProperties
@@ -253,6 +256,12 @@ class VisionConversationServiceTest {
         assertTrue(response.getBlocks().stream().anyMatch(block ->
                 "result_summary".equals(block.getType())
                         && "Profile".equals(block.getTitle())));
+        assertNotNull(response.getMemoryTrail());
+        assertNotNull(response.getMemoryTrail().getSessionSummary());
+        assertNotNull(response.getMemoryTrail().getOpenQuestions());
+        assertTrue(savedConversations.values().stream()
+                .anyMatch(conversation -> conversation.getSessionMemorySnapshot() != null
+                        && conversation.getSessionMemorySnapshot().contains("\"currentIntent\":\"VIEW_PROFILE\"")));
     }
 
     @Test
@@ -286,6 +295,28 @@ class VisionConversationServiceTest {
         assertTrue(response.getMessage().contains("create a circle"));
         assertTrue(response.getMessage().contains("accept a circle request"));
         assertTrue(response.getMessage().contains("rename a circle"));
+    }
+
+    @Test
+    void memoryTrailShowsEntityFamilySwitchWhenPromptMovesFromQuestToCircle() {
+        VisionConversation priorQuestConversation = VisionConversationTestBuilder.createQuest(21L, currentUser)
+                .slot("quest_title", "Move a sofa")
+                .build();
+        priorQuestConversation.setUpdatedAt(java.time.Instant.parse("2026-07-03T10:00:00Z"));
+        savedConversations.put(priorQuestConversation.getId(), priorQuestConversation);
+
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("create circle Neighbours")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("CREATE_CIRCLE", response.getIntent());
+        assertEquals("quests", response.getMemoryTrail().getPreviousEntityFamily());
+        assertEquals("Switched from quests to circles.", response.getMemoryTrail().getTopicSwitchHint());
     }
 
     @Test
@@ -1243,6 +1274,39 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void keepsExistingConversationWhenDetectedIntentIsAWeakAmbiguousFollowUp() {
+        VisionConversation conversation = createQuestConversation(94L, "quest_title");
+        when(visionConversationRepository.findByIdAndOwner(94L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionPromptUnderstandingService.understandPrompt(
+                org.mockito.ArgumentMatchers.eq("and"),
+                any(),
+                any(),
+                any()
+        )).thenReturn(VisionPromptUnderstandingResult.builder()
+                .sourceLanguage("en")
+                .originalPrompt("and")
+                .normalizedPrompt("and")
+                .translationProvider("mock")
+                .translationApplied(false)
+                .translationReliable(true)
+                .semanticPlan(VisionSemanticPlan.viewCircles(0.4d, "weak ambiguous follow-up"))
+                .slots(new VisionPromptUnderstandingSlots())
+                .build());
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(94L)
+                        .prompt("and")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals(94L, response.getConversationId());
+        assertEquals("CREATE_QUEST", response.getIntent());
+    }
+
+    @Test
     void keepsSameConversationWhenProfileWorkspaceSwitchesFromViewToMutation() {
         VisionConversation conversation = new VisionConversation();
         conversation.setId(91L);
@@ -2101,6 +2165,33 @@ class VisionConversationServiceTest {
         assertEquals(1, response.getItems().size());
         assertTrue(response.getItems().getFirst().isStale());
         assertEquals("active", response.getItems().getFirst().getGroupKey());
+    }
+
+    @Test
+    void recentConversationSummaryShowsTopicSwitchHintsAcrossFamilies() {
+        VisionConversation circlesConversation = VisionConversationTestBuilder.createQuest(130L, currentUser)
+                .build();
+        circlesConversation.setIntent(com.themuffinman.app.vision.model.VisionIntent.CREATE_CIRCLE);
+        circlesConversation.setUpdatedAt(java.time.Instant.parse("2026-07-03T11:00:00Z"));
+        circlesConversation.setSlotData(new LinkedHashMap<>(java.util.Map.of("circle_name", "Neighbours")));
+
+        VisionConversation questConversation = VisionConversationTestBuilder.createQuest(129L, currentUser)
+                .slot("quest_title", "Move a sofa")
+                .build();
+        questConversation.setUpdatedAt(java.time.Instant.parse("2026-07-03T10:00:00Z"));
+
+        when(visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(currentUser))
+                .thenReturn(List.of(circlesConversation, questConversation));
+
+        VisionConversationListResponseDTO response = visionConversationService.listRecentConversations(currentUser);
+
+        assertEquals(2, response.getItems().size());
+        assertEquals("circles", response.getItems().getFirst().getEntityFamily());
+        assertNull(response.getItems().getFirst().getPreviousEntityFamily());
+        assertNull(response.getItems().getFirst().getTopicSwitchHint());
+        assertEquals("quests", response.getItems().get(1).getEntityFamily());
+        assertEquals("circles", response.getItems().get(1).getPreviousEntityFamily());
+        assertEquals("Switched from circles to quests.", response.getItems().get(1).getTopicSwitchHint());
     }
 
     @Test

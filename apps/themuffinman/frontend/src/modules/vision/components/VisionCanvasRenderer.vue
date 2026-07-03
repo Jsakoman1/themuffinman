@@ -15,9 +15,14 @@ const props = defineProps<{
   inputText: string
   promptComposerVisible: boolean
   currentSlotLabel: string
+  currentSlotValue: string
   transcriptTargetLabel: string
+  transcriptTargetDetail: string
   currentFieldKind: string
   currentPlaceholder: string
+  activeEntityFamilyLabel: string
+  activeEntityContextLabel: string
+  speechStatusLabel: string
   voiceEnabled: boolean
   speechToTextEnabled: boolean
   speechRecognitionSupported: boolean
@@ -41,29 +46,37 @@ const textareaRef = ref<HTMLTextAreaElement | null>(null)
 
 const username = computed(() => currentUser.value?.username ?? "there")
 const questionBlock = computed(() => props.displayBlocks.find((block) => block.type === "field_request") ?? null)
-const commandHintVisible = computed(() =>
-  !props.response
-  && !props.isLoading
-  && !props.error
-  && !props.inputText.trim()
-  && !props.lastTranscript.trim())
+const activeFlowLabel = computed(() => props.activeEntityContextLabel.trim() || props.activeEntityFamilyLabel.trim())
+
+const headerLine = computed(() => {
+  const segments: string[] = []
+  if (activeFlowLabel.value) {
+    segments.push(activeFlowLabel.value)
+  }
+  if (props.currentSlotLabel.trim()) {
+    segments.push(props.currentSlotValue.trim()
+      ? `next ${props.currentSlotLabel.trim()}: ${props.currentSlotValue.trim()}`
+      : `next ${props.currentSlotLabel.trim()}`)
+  }
+  return segments.join(" · ")
+})
 
 const feedLines = computed(() => {
   const lines: Array<
-    | {kind: "greeting" | "system" | "error" | "user" | "agent" | "question" | "hint"; text: string}
+    | {kind: "greeting" | "system" | "error" | "user" | "agent" | "question"; text: string}
   > = []
 
   if (!props.response && !props.isLoading && !props.error) {
     lines.push({
       kind: "greeting",
-      text: `Hello, ${username.value}. What do you want to create?`
+      text: `Hello, ${username.value}. What do you want to do?`
     })
   }
 
-  if (commandHintVisible.value) {
+  if (headerLine.value) {
     lines.push({
-      kind: "hint",
-      text: "Try: create quest · profile · circles · applications · chat"
+      kind: "system",
+      text: headerLine.value
     })
   }
 
@@ -98,7 +111,7 @@ const feedLines = computed(() => {
   return lines
 })
 
-const greetingTypingText = computed(() => `Hello, ${username.value}. What do you want to create?`)
+const greetingTypingText = computed(() => `Hello, ${username.value}. What do you want to do?`)
 const updateInputText = (event: Event) => {
   const target = event.target as HTMLTextAreaElement
   emit("update:inputText", target.value)
@@ -195,7 +208,8 @@ onMounted(() => {
           </span>
         </p>
 
-        <div v-if="questionBlock && questionBlock.options.length" class="vision-console__choices">
+        <p v-if="questionBlock && questionBlock.options.length" class="vision-console__line vision-console__line--choices">
+          <span class="vision-console__text vision-console__choices-prefix">&gt;</span>
           <button
             v-for="option in questionBlock.options"
             :key="option.id"
@@ -205,7 +219,7 @@ onMounted(() => {
           >
             {{ option.label }}
           </button>
-        </div>
+        </p>
       </div>
     </div>
   </section>
@@ -281,14 +295,6 @@ onMounted(() => {
   color: #244a7a;
 }
 
-.vision-console__line--status {
-  color: var(--vision-surface-ink-soft);
-}
-
-.vision-console__line--hint {
-  color: rgba(24, 36, 47, 0.46);
-}
-
 .vision-console__text {
   white-space: pre-wrap;
 }
@@ -305,23 +311,28 @@ onMounted(() => {
   min-width: 0;
 }
 
-.vision-console__choices {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  padding-left: 0.35rem;
-}
-
 .vision-console__choice {
   appearance: none;
   border: 0;
   background: transparent;
   padding: 0;
+  border-radius: 0;
   color: #244a7a;
   font: inherit;
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 0.18em;
+  pointer-events: auto;
+}
+
+.vision-console__line--choices {
+  gap: 0.55rem;
+  color: rgba(24, 36, 47, 0.52);
+  align-items: center;
+}
+
+.vision-console__choices-prefix {
+  color: rgba(24, 36, 47, 0.4);
 }
 
 .vision-console__input {

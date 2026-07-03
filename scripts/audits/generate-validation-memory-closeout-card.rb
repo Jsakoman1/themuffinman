@@ -27,6 +27,7 @@ report = {
   generatedAt: Time.now.utc.iso8601,
   source: "docs/validation-memory.json",
   purpose: "Ultra-short closeout command card derived from canonical validation memory.",
+  recommendedReadOrder: Array(payload["recommendedReadOrder"]),
   closeout: Array(canonical["closeout"]),
   backendLogic: Array(canonical["backendLogic"]),
   frontendContract: Array(canonical["frontendContract"]),
@@ -39,6 +40,11 @@ lines << "# Validation Memory Closeout Card"
 lines << ""
 lines << "- Source: `docs/validation-memory.json`"
 lines << "- Generated at: `#{report[:generatedAt]}`"
+lines << ""
+lines << "## Recommended Read Order During Closeout"
+report[:recommendedReadOrder].each_with_index do |item, index|
+  lines << "#{index + 1}. #{item}"
+end
 lines << ""
 lines << "## Default Closeout"
 report[:closeout].each { |command| lines << "- `#{command}`" }

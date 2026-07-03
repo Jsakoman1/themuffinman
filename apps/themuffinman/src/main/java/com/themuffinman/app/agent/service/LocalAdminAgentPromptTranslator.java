@@ -44,6 +44,11 @@ public class LocalAdminAgentPromptTranslator implements AdminAgentPromptTranslat
         CROATIAN_TO_ENGLISH.put("sutra", "tomorrow");
         CROATIAN_TO_ENGLISH.put("samo za prijatelje", "only for friends");
         CROATIAN_TO_ENGLISH.put("samo za krug", "circle only");
+        CROATIAN_TO_ENGLISH.put("ändere meinen account-standort auf meinen aktuellen standort", "change my account location to my current location");
+        CROATIAN_TO_ENGLISH.put("ändere meinen account standort auf meinen aktuellen standort", "change my account location to my current location");
+        CROATIAN_TO_ENGLISH.put("change my account location to my current location", "change my account location to my current location");
+        CROATIAN_TO_ENGLISH.put("给 tom 发送好友请求", "send friend request to Tom");
+        CROATIAN_TO_ENGLISH.put("发送好友请求", "send friend request");
     }
 
     @Override
@@ -74,6 +79,12 @@ public class LocalAdminAgentPromptTranslator implements AdminAgentPromptTranslat
         if (containsCroatianMarkers(normalizedPrompt)) {
             return "hr";
         }
+        if (containsGermanMarkers(normalizedPrompt)) {
+            return "de";
+        }
+        if (containsChineseMarkers(normalizedPrompt)) {
+            return "zh";
+        }
         if (isLikelyEnglish(normalizedPrompt)) {
             return "en";
         }
@@ -97,5 +108,18 @@ public class LocalAdminAgentPromptTranslator implements AdminAgentPromptTranslat
                 || normalizedPrompt.contains("obriši")
                 || normalizedPrompt.contains("sutra")
                 || normalizedPrompt.contains("prijav");
+    }
+
+    private boolean containsGermanMarkers(String normalizedPrompt) {
+        return normalizedPrompt.contains("ändere")
+                || normalizedPrompt.contains("endere")
+                || normalizedPrompt.contains("standort")
+                || normalizedPrompt.contains("aktuellen");
+    }
+
+    private boolean containsChineseMarkers(String normalizedPrompt) {
+        return normalizedPrompt.contains("好友请求")
+                || normalizedPrompt.contains("发送")
+                || normalizedPrompt.contains("给");
     }
 }

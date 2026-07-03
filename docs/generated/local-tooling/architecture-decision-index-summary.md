@@ -1,6 +1,6 @@
 # Architecture Decision Index
 
-- Generated at: `2026-07-01T14:49:32Z`
+- Generated at: `2026-07-03T09:17:30Z`
 - Decisions: `10`
 
 ## `backend-centric-domain-logic`

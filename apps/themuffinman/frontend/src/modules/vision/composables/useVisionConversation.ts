@@ -57,6 +57,33 @@ const slotPlaceholders: Record<string, string> = {
   location_candidate_confirmation: "Choose resolved place or keep typed location"
 }
 
+const intentFamilyLabels: Record<string, string> = {
+  CREATE_QUEST: "quest",
+  DISCOVER_QUESTS: "quest discovery",
+  VIEW_QUEST_DETAIL: "quest detail",
+  CREATE_CIRCLE: "circle",
+  CREATE_CIRCLE_REQUEST: "circle request",
+  ACCEPT_CIRCLE_REQUEST: "circle request",
+  DELETE_CIRCLE_REQUEST: "circle request",
+  UPDATE_CIRCLE: "circle",
+  DELETE_CIRCLE: "circle",
+  CREATE_APPLICATION: "application",
+  UPDATE_APPLICATION: "application",
+  WITHDRAW_APPLICATION: "application",
+  APPROVE_APPLICATION: "application",
+  DECLINE_APPLICATION: "application",
+  UPDATE_PROFILE: "profile",
+  UPDATE_PROFILE_LOCATION: "profile location",
+  VIEW_PROFILE: "profile",
+  VIEW_SETTINGS: "settings",
+  VIEW_CIRCLES: "circles",
+  VIEW_CIRCLE_DETAIL: "circle detail",
+  VIEW_APPLICATIONS: "applications",
+  VIEW_APPLICATION_DETAIL: "application detail",
+  OPEN_CHAT: "chat",
+  VIEW_CHAT_WORKSPACE: "chat"
+}
+
 const supportedRecordingMimeTypes = [
   "audio/webm;codecs=opus",
   "audio/webm",
@@ -173,7 +200,11 @@ export const useVisionConversation = () => {
     if (slotId) {
       return fieldRequestBlock.value?.placeholder ?? slotPlaceholders[slotId] ?? "Type the next detail"
     }
-    return `Tell "Create new job" or "I'm looking for a job"`
+    const family = response.value?.memoryTrail?.activeEntityFamily?.trim()?.toLowerCase()
+    if (family) {
+      return `Type or speak the next ${family} detail. Enter sends.`
+    }
+    return "Type or speak what you want to do. Enter sends."
   })
 
   const currentFieldKind = computed(() => fieldRequestBlock.value?.fieldKind ?? "short_text")
@@ -220,6 +251,30 @@ export const useVisionConversation = () => {
     }
 
     return "The current turn is being routed into the active slot."
+  })
+
+  const activeEntityFamilyLabel = computed(() => {
+    const family = response.value?.memoryTrail?.activeEntityFamily?.trim()
+    if (family) {
+      return family
+    }
+    const intent = response.value?.intent?.trim()
+    if (intent && intentFamilyLabels[intent]) {
+      return intentFamilyLabels[intent]
+    }
+    return ""
+  })
+
+  const activeEntityContextLabel = computed(() => {
+    const familyLabel = activeEntityFamilyLabel.value
+    const intent = response.value?.intent?.trim()
+    if (!familyLabel && !intent) {
+      return ""
+    }
+    if (familyLabel && intent) {
+      return `${familyLabel} · ${intent.toLowerCase().replaceAll("_", " ")}`
+    }
+    return familyLabel || (intent ? intent.toLowerCase().replaceAll("_", " ") : "")
   })
 
   const currentMessage = computed(() => response.value?.message ?? "The agent is waiting for a prompt.")
@@ -656,6 +711,8 @@ export const useVisionConversation = () => {
     currentSlotSummary,
     currentSlotValue,
     currentPlaceholder,
+    activeEntityFamilyLabel,
+    activeEntityContextLabel,
     currentFieldKind,
     transcriptTargetLabel,
     transcriptTargetDetail,

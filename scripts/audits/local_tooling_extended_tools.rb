@@ -19,7 +19,7 @@ module LocalToolingExtendedTools
     ["audit-change-impact-preflight", "scripts/audits/audit-change-impact-preflight.rb", "docs/generated/local-tooling/change-impact-preflight-summary.md"],
     ["changeset-risk", "scripts/audits/score-changeset-risk.rb", "docs/generated/local-tooling/changeset-risk-summary.md"],
     ["audit-router", "scripts/audits/audit-router.rb", "docs/generated/local-tooling/audit-router-summary.md"],
-    ["codex-context", "scripts/audits/codex-context.rb", "docs/generated/local-tooling/codex-context/latest.human.md"],
+    ["codex-context", "scripts/audits/codex-context.rb", "docs/generated/local-tooling/codex-context/latest.review.md"],
     ["codex-context-explain", "scripts/audits/codex-context.rb", "docs/generated/local-tooling/codex-context/latest.explain.md"],
     ["codex-context-clean", "scripts/audits/codex-context.rb", "docs/generated/local-tooling/codex-context/"],
     ["clean-text-noise", "scripts/audits/clean-text-noise.rb", "docs/generated/local-tooling/clean-text-noise-summary.md"],
@@ -776,7 +776,41 @@ module LocalToolingExtendedTools
     registry = AUDIT_REGISTRY.map do |target, script, output|
       {target: target, script: script, output: output, output_exists: File.exist?(abs(output))}
     end
-    write_report("audit-summary-index", "Audit Summary Index", {generated_at: now, registry: registry, summaries: summaries}, summary_path: "#{OUT}/audit-summary-index.md")
+    payload = {generated_at: now, registry: registry, summaries: summaries}
+    write_report("audit-summary-index", "Audit Summary Index", payload, summary_path: "#{OUT}/audit-summary-index.md")
+    LocalToolingCommon.write_text("#{OUT}/audit-summary-index.md", audit_summary_index_markdown(payload))
+  end
+
+  def audit_summary_index_markdown(payload)
+    registry = Array(payload[:registry])
+    summaries = Array(payload[:summaries])
+    tracked = registry.count { |entry| entry[:output_exists] }
+    missing = registry.count - tracked
+    lines = []
+    lines << "# Audit Summary Index"
+    lines << ""
+    lines << "- Registry entries: #{registry.size}"
+    lines << "- Tracked outputs: #{tracked}"
+    lines << "- Missing outputs: #{missing}"
+    lines << "- Summary files: #{summaries.size}"
+    lines << ""
+    lines << "## Registry"
+    lines << ""
+    registry.first(12).each do |entry|
+      status = entry[:output_exists] ? "tracked" : "missing"
+      lines << "- `#{entry[:target]}` -> `#{entry[:output]}` (`#{status}`)"
+    end
+    lines << "- ... and #{registry.size - 12} more" if registry.size > 12
+    lines << ""
+    lines << "## Summary Files"
+    lines << ""
+    summaries.first(12).each do |entry|
+      lines << "- `#{entry[:path]}` | #{entry[:mtime]} | #{entry[:bytes]} bytes"
+    end
+    lines << "- ... and #{summaries.size - 12} more" if summaries.size > 12
+    lines << ""
+    lines << "_Routing aid only. Use the underlying generated report or source file for current state._"
+    lines.join("\n")
   end
 
   def run_audit_registry_artifacts(_argv)
@@ -2670,7 +2704,7 @@ module LocalToolingExtendedTools
   def required_generated_artifacts_for(path, category)
     artifacts = []
     artifacts << "docs/generated/local-tooling/codex-context/latest.machine.json" if path.start_with?("scripts/") || path.include?("codex-context")
-    artifacts << "docs/generated/local-tooling/codex-context/latest.human.md" if path.start_with?("scripts/") || path.include?("codex-context")
+    artifacts << "docs/generated/local-tooling/codex-context/latest.review.md" if path.start_with?("scripts/") || path.include?("codex-context")
     artifacts << "docs/tooling/codex-local-audits.yml" if path.start_with?("scripts/") || path == "Makefile"
     artifacts << "docs/generated/local-tooling/manifest-path-resolution.json" if category == "docs" || path.start_with?(".agents/")
     artifacts.uniq

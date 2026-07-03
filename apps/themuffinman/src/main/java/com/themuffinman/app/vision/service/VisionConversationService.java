@@ -3,12 +3,16 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.identity.model.AppUser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO;
 import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
 import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.vision.dto.VisionMemoryTrailDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.model.VisionAgentState;
@@ -27,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -34,6 +39,9 @@ import java.util.Map;
 
 @Service
 public class VisionConversationService {
+
+    private static final double MIN_TOPIC_SWITCH_CONFIDENCE = 0.60d;
+    private static final ObjectMapper OBJECT_MAPPER = JsonMapper.builder().findAndAddModules().build();
 
     private final VisionConversationRepository visionConversationRepository;
     private final VisionTurnRepository visionTurnRepository;
@@ -47,6 +55,7 @@ public class VisionConversationService {
     private final VisionChatExecutionService visionChatExecutionService;
     private final VisionCapabilityPreviewService visionCapabilityPreviewService;
     private final VisionPromptUnderstandingService visionPromptUnderstandingService;
+    private final VisionSemanticOrchestrationContextService visionSemanticOrchestrationContextService;
     private final VisionSemanticMapper visionSemanticMapper;
     private final VisionSurfacePolicy visionSurfacePolicy;
     private final VisionProperties visionProperties;
@@ -64,6 +73,7 @@ public class VisionConversationService {
             VisionChatExecutionService visionChatExecutionService,
             VisionCapabilityPreviewService visionCapabilityPreviewService,
             VisionPromptUnderstandingService visionPromptUnderstandingService,
+            VisionSemanticOrchestrationContextService visionSemanticOrchestrationContextService,
             VisionSemanticMapper visionSemanticMapper,
             VisionSurfacePolicy visionSurfacePolicy,
             VisionProperties visionProperties
@@ -80,6 +90,7 @@ public class VisionConversationService {
         this.visionChatExecutionService = visionChatExecutionService;
         this.visionCapabilityPreviewService = visionCapabilityPreviewService;
         this.visionPromptUnderstandingService = visionPromptUnderstandingService;
+        this.visionSemanticOrchestrationContextService = visionSemanticOrchestrationContextService;
         this.visionSemanticMapper = visionSemanticMapper;
         this.visionSurfacePolicy = visionSurfacePolicy;
         this.visionProperties = visionProperties;
@@ -168,7 +179,8 @@ public class VisionConversationService {
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation, understanding),
                 visionQuestDiscoveryService.discover(conversation, understanding, currentUser),
-                capabilityPreview(conversation, currentUser)
+                capabilityPreview(conversation, currentUser),
+                buildMemoryTrail(currentUser, conversation)
         );
     }
 
@@ -204,7 +216,8 @@ public class VisionConversationService {
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation),
                 visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
-                capabilityPreview(conversation, currentUser)
+                capabilityPreview(conversation, currentUser),
+                buildMemoryTrail(currentUser, conversation)
         );
     }
 
@@ -220,7 +233,8 @@ public class VisionConversationService {
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation),
                 visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
-                capabilityPreview(conversation, currentUser)
+                capabilityPreview(conversation, currentUser),
+                buildMemoryTrail(currentUser, conversation)
         );
     }
 
@@ -236,7 +250,8 @@ public class VisionConversationService {
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation),
                 visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
-                capabilityPreview(conversation, currentUser)
+                capabilityPreview(conversation, currentUser),
+                buildMemoryTrail(currentUser, conversation)
         );
     }
 
@@ -259,6 +274,9 @@ public class VisionConversationService {
         VisionIntent semanticIntent = understanding == null
                 ? VisionIntent.UNSUPPORTED
                 : understanding.semanticPlanOrEmpty().candidateIntentOrUnsupported();
+        double semanticIntentConfidence = understanding == null || understanding.semanticPlanOrEmpty().getCandidateIntentConfidence() == null
+                ? 0.0d
+                : understanding.semanticPlanOrEmpty().getCandidateIntentConfidence();
         VisionIntent detectedIntent = existingConversation != null
                 && action == VisionConversationAction.SUBMIT_PROMPT
                 && semanticIntent == VisionIntent.UNSUPPORTED
@@ -274,6 +292,9 @@ public class VisionConversationService {
                             ? VisionConversationStatus.BLOCKED
                             : VisionConversationStatus.ACTIVE);
                     return visionConversationRepository.save(existingConversation);
+                }
+                if (shouldKeepExistingConversation(normalizedPrompt, detectedIntent, semanticIntentConfidence)) {
+                    return existingConversation;
                 }
                 VisionConversation switchedConversation = new VisionConversation();
                 switchedConversation.setOwner(currentUser);
@@ -303,6 +324,71 @@ public class VisionConversationService {
         return visionConversationRepository.save(conversation);
     }
 
+    private boolean shouldKeepExistingConversation(String normalizedPrompt, VisionIntent detectedIntent, double semanticIntentConfidence) {
+        if (semanticIntentConfidence >= MIN_TOPIC_SWITCH_CONFIDENCE) {
+            return false;
+        }
+        if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
+            return true;
+        }
+        String lower = normalizedPrompt.toLowerCase(java.util.Locale.ROOT);
+        if (containsExplicitEntityFamilySignal(lower, detectedIntent)) {
+            return false;
+        }
+        return isLikelyFollowUpPrompt(lower);
+    }
+
+    private boolean containsAny(String value, String... candidates) {
+        if (value == null) {
+            return false;
+        }
+        for (String candidate : candidates) {
+            if (candidate != null && !candidate.isBlank() && value.contains(candidate)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean containsExplicitEntityFamilySignal(String value, VisionIntent intent) {
+        if (value == null || value.isBlank() || intent == null) {
+            return false;
+        }
+        return switch (intent) {
+            case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL -> containsAny(value, "quest", "quests", "job", "jobs", "work");
+            case CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
+                 UPDATE_CIRCLE, DELETE_CIRCLE, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL -> containsAny(value, "circle", "circles");
+            case CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION,
+                 DECLINE_APPLICATION, VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL -> containsAny(value, "application", "applications");
+            case UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, VIEW_PROFILE, VIEW_USER_PROFILE -> containsAny(value, "profile", "username", "bio", "location", "settings");
+            case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> containsAny(value, "chat", "message", "dm", "talk");
+            default -> false;
+        };
+    }
+
+    private boolean isLikelyFollowUpPrompt(String value) {
+        if (value == null || value.isBlank()) {
+            return true;
+        }
+        String normalized = value.trim();
+        int wordCount = normalized.split("\\s+").length;
+        if (wordCount <= 2) {
+            return true;
+        }
+        return containsAny(normalized,
+                "and ",
+                "also ",
+                "what about",
+                "same ",
+                "that ",
+                "this ",
+                "instead",
+                "change it",
+                "switch it",
+                "continue",
+                "keep going");
+    }
+
     private boolean sameIntentWorkspaceFamily(VisionIntent left, VisionIntent right) {
         return workspaceFamily(left) != null && workspaceFamily(left).equals(workspaceFamily(right));
     }
@@ -324,12 +410,86 @@ public class VisionConversationService {
     }
 
     private List<VisionConversationSummaryDTO> recentConversationSummaries(AppUser currentUser) {
-        return visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(currentUser).stream()
-                .map(this::toConversationSummary)
-                .toList();
+        List<VisionConversation> recentConversations = visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(currentUser);
+        List<VisionConversationSummaryDTO> summaries = new ArrayList<>();
+        String previousEntityFamily = null;
+        for (VisionConversation conversation : recentConversations) {
+            String entityFamily = entityFamilyFor(conversation == null ? null : conversation.getIntent());
+            summaries.add(toConversationSummary(conversation, entityFamily, previousEntityFamily));
+            if (entityFamily != null && !entityFamily.isBlank()) {
+                previousEntityFamily = entityFamily;
+            }
+        }
+        return summaries;
     }
 
-    private VisionConversationSummaryDTO toConversationSummary(VisionConversation conversation) {
+    private VisionMemoryTrailDTO buildMemoryTrail(AppUser currentUser, VisionConversation conversation) {
+        VisionSemanticMemoryContext memoryContext =
+                visionSemanticOrchestrationContextService.buildMemoryContext(currentUser, conversation);
+        String activeEntityFamily = memoryContext.getSessionMemory() == null ? null : memoryContext.getSessionMemory().getCurrentEntityFamily();
+        String previousEntityFamily = previousEntityFamily(memoryContext.getUserMemory() == null ? List.of() : memoryContext.getUserMemory().getRecentEntityFamilies(), activeEntityFamily);
+        return VisionMemoryTrailDTO.builder()
+                .activeEntityFamily(activeEntityFamily)
+                .previousEntityFamily(previousEntityFamily)
+                .topicSwitchHint(topicSwitchHint(activeEntityFamily, previousEntityFamily))
+                .currentIntent(memoryContext.getSessionMemory() == null ? null : memoryContext.getSessionMemory().getCurrentIntent())
+                .currentRequestedSlot(memoryContext.getSessionMemory() == null ? null : memoryContext.getSessionMemory().getRequestedSlot())
+                .currentStatus(memoryContext.getSessionMemory() == null ? null : memoryContext.getSessionMemory().getStatus())
+                .sessionSummary(memoryContext.getSessionMemory() == null ? null : memoryContext.getSessionMemory().getSessionSummary())
+                .lastUserPrompt(memoryContext.getSessionMemory() == null ? null : memoryContext.getSessionMemory().getLastUserPrompt())
+                .lastNormalizedPrompt(memoryContext.getSessionMemory() == null ? null : memoryContext.getSessionMemory().getLastNormalizedPrompt())
+                .lastAssistantMessage(memoryContext.getSessionMemory() == null ? null : memoryContext.getSessionMemory().getLastAssistantMessage())
+                .sessionMemorySnapshot(memoryContext.getSessionMemory() == null ? null : memoryContext.getSessionMemory().getSessionMemorySnapshot())
+                .openQuestions(memoryContext.getSessionMemory() == null ? List.of() : memoryContext.getSessionMemory().getOpenQuestions())
+                .recentActions(memoryContext.getSessionMemory() == null ? List.of() : memoryContext.getSessionMemory().getRecentActions())
+                .recentEntityFamilies(memoryContext.getUserMemory() == null ? List.of() : memoryContext.getUserMemory().getRecentEntityFamilies())
+                .recentIntentTypes(memoryContext.getUserMemory() == null ? List.of() : memoryContext.getUserMemory().getRecentIntentTypes())
+                .build();
+    }
+
+    private String entityFamilyFor(VisionIntent intent) {
+        if (intent == null) {
+            return null;
+        }
+        return switch (intent) {
+            case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, VIEW_USER_PROFILE -> "profile";
+            case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
+                    DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
+            case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
+                    WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
+            case DISCOVER_QUESTS, CREATE_QUEST -> "quests";
+            case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> "chat";
+            default -> null;
+        };
+    }
+
+    private String previousEntityFamily(List<String> recentEntityFamilies, String activeEntityFamily) {
+        if (recentEntityFamilies == null || recentEntityFamilies.isEmpty()) {
+            return null;
+        }
+
+        for (String family : recentEntityFamilies) {
+            if (family == null || family.isBlank()) {
+                continue;
+            }
+            if (activeEntityFamily == null || !family.equals(activeEntityFamily)) {
+                return family;
+            }
+        }
+        return null;
+    }
+
+    private String topicSwitchHint(String activeEntityFamily, String previousEntityFamily) {
+        if (activeEntityFamily == null || activeEntityFamily.isBlank() || previousEntityFamily == null || previousEntityFamily.isBlank()) {
+            return null;
+        }
+        if (activeEntityFamily.equals(previousEntityFamily)) {
+            return null;
+        }
+        return "Switched from " + previousEntityFamily + " to " + activeEntityFamily + ".";
+    }
+
+    private VisionConversationSummaryDTO toConversationSummary(VisionConversation conversation, String entityFamily, String previousEntityFamily) {
         String title = conversation.getSlotData().get("quest_title");
         if (title == null || title.isBlank()) {
             title = conversation.getSlotData().get("circle_name");
@@ -379,12 +539,16 @@ public class VisionConversationService {
         boolean completed = conversation.getStatus() == VisionConversationStatus.COMPLETED;
         boolean resumable = conversation.getStatus() != VisionConversationStatus.COMPLETED;
         boolean stale = isStale(conversation);
+        String topicSwitchHint = topicSwitchHint(entityFamily, previousEntityFamily);
         List<VisionSlotSummaryDTO> appliedSlotSummaries = visionTurnRepository.findTopByConversationOrderByTurnIndexDesc(conversation)
                 .map(this::appliedSlotSummariesForTurn)
                 .orElseGet(List::of);
         return VisionConversationSummaryDTO.builder()
                 .conversationId(conversation.getId())
                 .intent(conversation.getIntent().name())
+                .entityFamily(entityFamily)
+                .previousEntityFamily(previousEntityFamily)
+                .topicSwitchHint(topicSwitchHint)
                 .status(conversation.getStatus().name())
                 .title(title)
                 .subtitle(subtitle)
@@ -3825,8 +3989,27 @@ public class VisionConversationService {
         conversation.setLastNormalizedPrompt(normalizedPrompt);
         conversation.setLastAssistantMessage(assistantMessage);
         conversation.setLastTranslationReliable(translationReliable);
+        conversation.setSessionMemorySnapshot(serializeSessionMemorySnapshot(conversation));
         conversation.setUpdatedAt(now);
         conversation.setLastTurnAt(now);
+    }
+
+    private String serializeSessionMemorySnapshot(VisionConversation conversation) {
+        if (conversation == null || conversation.getOwner() == null) {
+            return null;
+        }
+
+        VisionSemanticMemoryContext memoryContext = visionSemanticOrchestrationContextService.buildMemoryContext(conversation.getOwner(), conversation);
+        VisionSemanticSessionMemoryContext sessionMemory = memoryContext == null ? null : memoryContext.getSessionMemory();
+        if (sessionMemory == null) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.writeValueAsString(sessionMemory);
+        } catch (JsonProcessingException exception) {
+            throw new IllegalStateException("Could not serialize vision session memory snapshot", exception);
+        }
     }
 
     private List<String> appliedSlotIds(Map<String, String> beforeSlots, Map<String, String> afterSlots) {

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-01T14:47:54Z",
+  "generated_at": "2026-07-03T09:17:48Z",
   "dto": "DashboardSectionsDTO",
   "dto_files": [
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardSectionsDTO.java",
       "category": "backend_dto",
-      "domain": "workmarket",
+      "domain": "shared",
       "lines": 30
     }
   ],
@@ -16,26 +16,26 @@
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardResponseDTO.java",
       "category": "backend_dto",
-      "domain": "workmarket",
-      "lines": 29
+      "domain": "shared",
+      "lines": 30
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardSectionsDTO.java",
       "category": "backend_dto",
-      "domain": "workmarket",
+      "domain": "shared",
       "lines": 30
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionsFactory.java",
       "category": "backend_service",
-      "domain": "workmarket",
+      "domain": "shared",
       "lines": 243
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
       "category": "backend_service",
-      "domain": "workmarket",
-      "lines": 193
+      "domain": "shared",
+      "lines": 194
     }
   ],
   "frontend_refs": [
@@ -43,7 +43,7 @@
       "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "lines": 1637
+      "lines": 1616
     }
   ],
   "tests": [

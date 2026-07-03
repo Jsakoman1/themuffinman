@@ -1,7 +1,7 @@
 # Audit Delta diff-summary
 
-- Why: History snapshots are created automatically when a report changes.
+- Why: Run the target audit at least twice to build a richer delta history.; History snapshots are created automatically when a report changes.
 
 ## Details
 
-- Notes: History snapshots are created automatically when a report changes.
+- Notes: Run the target audit at least twice to build a richer delta history. | History snapshots are created automatically when a report changes.

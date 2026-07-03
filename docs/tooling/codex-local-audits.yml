@@ -11,7 +11,7 @@ audits:
   primaryOutput: docs/generated/local-tooling/audit-router-summary.md
 - target: codex-context
   script: scripts/audits/codex-context.rb
-  primaryOutput: docs/generated/local-tooling/codex-context/latest.human.md
+  primaryOutput: docs/generated/local-tooling/codex-context/latest.review.md
 - target: codex-context-explain
   script: scripts/audits/codex-context.rb
   primaryOutput: docs/generated/local-tooling/codex-context/latest.explain.md

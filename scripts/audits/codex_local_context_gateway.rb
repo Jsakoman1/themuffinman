@@ -20,7 +20,8 @@ module CodexLocalContextGateway
   PAYLOAD_CACHE_ROOT = File.join(CACHE_ROOT, "payloads")
   HISTORY_ROOT = File.join(CONTEXT_ROOT, ".history")
   LATEST_MACHINE_PATH = File.join(CONTEXT_ROOT, "latest.machine.json")
-  LATEST_HUMAN_PATH = File.join(CONTEXT_ROOT, "latest.human.md")
+  LATEST_REVIEW_PATH = File.join(CONTEXT_ROOT, "latest.review.md")
+  LEGACY_HUMAN_PATH = File.join(CONTEXT_ROOT, "latest.human.md")
   LATEST_EXECUTION_PATH = File.join(CONTEXT_ROOT, "latest.execution.json")
   CONFIG_PATH = File.join(CONTEXT_ROOT, "config.json")
   PLAN_PATH = File.join(REPO_ROOT, ".agents/codex-local-context-gateway-master-plan.md")
@@ -153,7 +154,7 @@ module CodexLocalContextGateway
   def explain(argv)
     options = parse_options(argv)
     latest = read_json_file(LATEST_MACHINE_PATH)
-    human_path = File.exist?(LATEST_HUMAN_PATH) ? "docs/generated/local-tooling/codex-context/latest.human.md" : nil
+    review_path = File.exist?(LATEST_REVIEW_PATH) ? "docs/generated/local-tooling/codex-context/latest.review.md" : nil
     explanation = []
     explanation << "# CODEX Local Context Explain"
     explanation << ""
@@ -162,7 +163,7 @@ module CodexLocalContextGateway
     explanation << "- Mode: `#{latest.fetch("mode", "implementation")}`"
     explanation << "- Budget Tokens: `#{latest.fetch("budgetTokens", 0)}`"
     explanation << "- Included Packs: `#{latest.fetch("includedPackCount", 0)}`"
-    explanation << "- Human Summary: `#{human_path || 'missing'}`"
+    explanation << "- Review Summary: `#{review_path || 'missing'}`"
     explanation << ""
     explanation << "## Included Packs"
     explanation << ""
@@ -187,12 +188,13 @@ module CodexLocalContextGateway
     end
     explanation_path = File.join(CONTEXT_ROOT, "latest.explain.md")
     File.write(explanation_path, explanation.join("\n") + "\n")
-    puts "CODEX Local Context Explain\n  summary: docs/generated/local-tooling/codex-context/latest.explain.md\n  human: #{human_path || 'missing'}\n  machine: docs/generated/local-tooling/codex-context/latest.machine.json"
+    puts "CODEX Local Context Explain\n  summary: docs/generated/local-tooling/codex-context/latest.explain.md\n  review: #{review_path || 'missing'}\n  machine: docs/generated/local-tooling/codex-context/latest.machine.json"
   end
 
   def clean
     FileUtils.rm_f(LATEST_MACHINE_PATH)
-    FileUtils.rm_f(LATEST_HUMAN_PATH)
+    FileUtils.rm_f(LATEST_REVIEW_PATH)
+    FileUtils.rm_f(LEGACY_HUMAN_PATH)
     FileUtils.rm_f(LATEST_EXECUTION_PATH)
     FileUtils.rm_f(File.join(CONTEXT_ROOT, "latest.explain.md"))
     FileUtils.rm_rf(PACK_ROOT)
@@ -826,9 +828,10 @@ module CodexLocalContextGateway
       pack_path = File.join(PACK_ROOT, "#{pack.fetch("id")}.json")
       File.write(pack_path, JSON.pretty_generate(pack) + "\n")
     end
-    File.write(LATEST_HUMAN_PATH, human_markdown(latest_payload))
+    FileUtils.rm_f(LEGACY_HUMAN_PATH)
+    File.write(LATEST_REVIEW_PATH, review_markdown(latest_payload))
     store_cached_context_payload(latest_payload["cacheKey"], latest_payload) if store_cache && latest_payload["cacheKey"]
-    puts "CODEX Local Context Gateway\n  machine: docs/generated/local-tooling/codex-context/latest.machine.json\n  human: docs/generated/local-tooling/codex-context/latest.human.md\n  packs: docs/generated/local-tooling/codex-context/packs/"
+    puts "CODEX Local Context Gateway\n  machine: docs/generated/local-tooling/codex-context/latest.machine.json\n  review: docs/generated/local-tooling/codex-context/latest.review.md\n  packs: docs/generated/local-tooling/codex-context/packs/"
   end
 
   def archive_latest_machine(latest_payload)
@@ -842,7 +845,7 @@ module CodexLocalContextGateway
     File.write(File.join(HISTORY_ROOT, "#{timestamp}.json"), current_content)
   end
 
-  def human_markdown(latest_payload)
+  def review_markdown(latest_payload)
     lines = []
     lines << "# CODEX Local Context"
     lines << ""
@@ -1515,7 +1518,7 @@ module CodexLocalContextGateway
       "nextAction" => next_action_for(latest_payload),
       "outputPaths" => {
         "machine" => relative_path(LATEST_MACHINE_PATH),
-        "human" => relative_path(LATEST_HUMAN_PATH),
+        "review" => relative_path(LATEST_REVIEW_PATH),
         "execution" => relative_path(LATEST_EXECUTION_PATH),
         "packs" => relative_path(PACK_ROOT)
       }

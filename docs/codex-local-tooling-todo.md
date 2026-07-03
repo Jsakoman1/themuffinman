@@ -949,7 +949,7 @@ Use it for tooling that should produce compact outputs Codex can consume instead
   - `make codex-context-clean`
   Outputs:
   - `docs/generated/local-tooling/codex-context/latest.machine.json`
-  - `docs/generated/local-tooling/codex-context/latest.human.md`
+  - `docs/generated/local-tooling/codex-context/latest.review.md`
   - `docs/generated/local-tooling/codex-context/latest.explain.md`
   - `docs/generated/local-tooling/codex-context/packs/*.json`
   Notes:

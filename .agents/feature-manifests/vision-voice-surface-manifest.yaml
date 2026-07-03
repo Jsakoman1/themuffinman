@@ -1,3 +1,4 @@
+---
 featureId: vision_voice_surface
 title: Vision voice surface backend-first STT/TTS
 workflowTier: tier4-agent-tooling-workflow
@@ -7,114 +8,139 @@ riskTier: medium
 changeMode: major-change
 changeImpact: logic-drift
 changeProfiles:
-  - backend-logic
-  - frontend-contract
-  - agent-contract
-  - workflow-expansion
-planFile: .agents/vision-voice-master-plan.md
+- backend-logic
+- frontend-contract
+- agent-contract
+- workflow-expansion
+planFile: ".agents/vision-voice-master-plan.md"
 summary:
-  - "Add a backend voice capability contract and connect `/vision` to browser-native STT/TTS through that source of truth."
+- Add a backend voice capability contract and connect `/vision` to browser-native
+  STT/TTS through that source of truth.
 validationEvidence:
   commands:
-    - command: "./mvnw test -Dtest=DashboardServiceTest"
-      scope: backend
-      result: passed
-      summary: Covers backend voice properties mapping and fail-closed anonymous voice-config behavior in DashboardService.
-    - command: "npm --prefix apps/themuffinman/frontend run generate:contracts"
-      scope: frontend
-      result: passed
-      summary: Refreshed frontend contracts after adding the dashboard voice-config DTO endpoint.
-    - command: "npm run validate:contracts"
-      scope: frontend
-      result: passed
-      summary: Confirmed the generated workmarket frontend contract is fresh from the frontend workspace.
-    - command: "npm run type-check"
-      scope: frontend
-      result: passed
-      summary: Validated `/vision` voice integration types from the frontend workspace using the canonical command string.
-    - command: "npm run build"
-      scope: frontend
-      result: passed
-      summary: Confirmed the production frontend build from the frontend workspace using the canonical command string.
-    - command: "npm --prefix apps/themuffinman/frontend run type-check"
-      scope: frontend
-      result: passed
-      summary: Validated `/vision` STT/TTS composable and UI integration against regenerated contracts.
-    - command: "npm --prefix apps/themuffinman/frontend run build"
-      scope: frontend
-      result: passed
-      summary: Confirmed production build for the adaptive `/vision` surface after browser-native voice integration.
-    - command: "./mvnw test -Dtest=AgentOperatingModelValidationTest"
-      scope: agent-safety
-      result: passed
-      summary: Validated machine-readable operating model, intent safety catalog, and feature manifest structure after voice-config additions.
-    - command: "make generate-agent-operating-model"
-      scope: generated-artifact
-      result: passed
-      summary: Regenerated the combined machine-readable agent operating model after adding the voice-config endpoint and intent coverage.
-    - command: "make generate-agent-artifacts"
-      scope: generated-artifact
-      result: passed
-      summary: Refreshed generated endpoint, read-model, backend-inventory, and source-of-truth artifacts after the voice surface change.
-    - command: "make audit-documentation"
-      scope: docs
-      result: passed
-      summary: Checked source-of-truth documentation coverage after the backend-first voice surface update.
-    - command: "make audit-doc-canonical-phrases"
-      scope: docs
-      result: passed
-      summary: Confirmed protected canonical wording remained valid after doc synchronization.
-    - command: "make audit-summary-index"
-      scope: generated-artifact
-      result: passed
-      summary: Refreshed generated audit summary index after the voice surface closeout.
-    - command: "make audit-todo"
-      scope: manifest
-      result: passed
-      summary: Confirmed no open backlog items, inline TODO drift, or unfinished plan tasks remained at closeout.
-    - command: "make audit-agent-safety"
-      scope: agent-safety
-      result: passed
-      summary: Confirmed canonical backend and agent-contract validation bundle after manifest audit commands and evidence were fully aligned.
-    - command: "./mvnw test -Dtest=AgentOperatingScenarioTest"
-      scope: backend
-      result: passed
-      summary: Confirmed scenario-level agent workflow coverage remained valid after adding the dashboard voice-config read surface.
+  - command: "./mvnw test -Dtest=DashboardServiceTest"
+    scope: backend
+    result: passed
+    summary: Covers backend voice properties mapping and fail-closed anonymous voice-config
+      behavior in DashboardService.
+  - command: npm --prefix apps/themuffinman/frontend run generate:contracts
+    scope: frontend
+    result: passed
+    summary: Refreshed frontend contracts after adding the dashboard voice-config
+      DTO endpoint.
+  - command: npm run validate:contracts
+    scope: frontend
+    result: passed
+    summary: Confirmed the generated workmarket frontend contract is fresh from the
+      frontend workspace.
+  - command: npm run type-check
+    scope: frontend
+    result: passed
+    summary: Validated `/vision` voice integration types from the frontend workspace
+      using the canonical command string.
+  - command: npm run build
+    scope: frontend
+    result: passed
+    summary: Confirmed the production frontend build from the frontend workspace using
+      the canonical command string.
+  - command: npm --prefix apps/themuffinman/frontend run type-check
+    scope: frontend
+    result: passed
+    summary: Validated `/vision` STT/TTS composable and UI integration against regenerated
+      contracts.
+  - command: npm --prefix apps/themuffinman/frontend run build
+    scope: frontend
+    result: passed
+    summary: Confirmed production build for the adaptive `/vision` surface after browser-native
+      voice integration.
+  - command: "./mvnw test -Dtest=AgentOperatingModelValidationTest"
+    scope: agent-safety
+    result: passed
+    summary: Validated machine-readable operating model, intent safety catalog, and
+      feature manifest structure after voice-config additions.
+  - command: make generate-agent-operating-model
+    scope: generated-artifact
+    result: passed
+    summary: Regenerated the combined machine-readable agent operating model after
+      adding the voice-config endpoint and intent coverage.
+  - command: make generate-agent-artifacts
+    scope: generated-artifact
+    result: passed
+    summary: Refreshed generated endpoint, read-model, backend-inventory, and source-of-truth
+      artifacts after the voice surface change.
+  - command: make audit-documentation
+    scope: docs
+    result: passed
+    summary: Checked source-of-truth documentation coverage after the backend-first
+      voice surface update.
+  - command: make audit-doc-canonical-phrases
+    scope: docs
+    result: passed
+    summary: Confirmed protected canonical wording remained valid after doc synchronization.
+  - command: make audit-summary-index
+    scope: generated-artifact
+    result: passed
+    summary: Refreshed generated audit summary index after the voice surface closeout.
+  - command: make audit-todo
+    scope: manifest
+    result: passed
+    summary: Confirmed no open backlog items, inline TODO drift, or unfinished plan
+      tasks remained at closeout.
+  - command: make audit-agent-safety
+    scope: agent-safety
+    result: passed
+    summary: Confirmed canonical backend and agent-contract validation bundle after
+      manifest audit commands and evidence were fully aligned.
+  - command: "./mvnw test -Dtest=AdminAgentExecutionServiceTest"
+    scope: backend
+    result: passed
+    summary: Confirmed scenario-level agent workflow coverage remained valid after
+      adding the dashboard voice-config read surface.
+  - command: "./mvnw test -Dtest=QuestWorkflowScenarioTest"
+    scope: backend
+    result: passed
+    summary: Confirmed scenario-level workflow coverage remained valid after the voice-config
+      surface update.
 generatedArtifacts:
   refreshedPaths:
-    - docs/agent-operating-model.yaml
-    - docs/generated/backend-audit-inventory.json
-    - docs/generated/agent-endpoint-inventory.json
-    - docs/generated/automation-read-model-inventory.json
-    - docs/generated/source-of-truth-audit.json
-    - docs/generated/local-tooling/audit-summary-index.json
-    - docs/generated/local-tooling/audit-summary-index.md
-  notApplicableReason: Refreshed artifact paths are recorded, so no not-applicable case applies.
+  - docs/agent-operating-model.yaml
+  - docs/generated/backend-audit-inventory.json
+  - docs/generated/agent-endpoint-inventory.json
+  - docs/generated/automation-read-model-inventory.json
+  - docs/generated/source-of-truth-audit.json
+  - docs/generated/local-tooling/audit-summary-index.json
+  - docs/generated/local-tooling/audit-summary-index.md
+  notApplicableReason: Refreshed artifact paths are recorded, so no not-applicable
+    case applies.
 planCompletion:
   reviewed: true
   openTasks: 0
-  summary: Master plan and all three child plans completed with backend, frontend, docs, generated-artifact, and validation evidence recorded.
+  summary: Master plan and all three child plans completed with backend, frontend,
+    docs, generated-artifact, and validation evidence recorded.
 closeoutDecision:
   status: ready
-  reason: Backend-first voice config, `/vision` STT/TTS integration, docs sync, agent-model sync, and validation are complete.
+  reason: Backend-first voice config, `/vision` STT/TTS integration, docs sync, agent-model
+    sync, and validation are complete.
 docDelta:
   behaviorChanged:
-    - "Authenticated users can now read backend-governed voice capability defaults from `/dashboard/me/voice-config`."
-    - "The experimental `/vision` surface now uses browser-native speech recognition and speech synthesis behind backend capability defaults and browser support checks."
+  - Authenticated users can now read backend-governed voice capability defaults from
+    `/dashboard/me/voice-config`.
+  - The experimental `/vision` surface now uses browser-native speech recognition
+    and speech synthesis behind backend capability defaults and browser support checks.
   docsUpdated:
-    - .agents/vision-voice-master-plan.md
-    - .agents/todo-plans/126-vision-voice-backend-contract.md
-    - .agents/todo-plans/127-vision-voice-frontend-integration.md
-    - .agents/todo-plans/128-vision-voice-docs-closeout.md
-    - docs/business-logic.md
-    - docs/domain-technical.md
-    - docs/product-memory.md
-    - docs/product-vision.md
-    - docs/agent-operating-model.md
-    - docs/agent-operating-model.yaml
-    - docs/agent-operating-model/sections/intent_safety_catalog.yaml
+  - ".agents/vision-voice-master-plan.md"
+  - ".agents/todo-plans/126-vision-voice-backend-contract.md"
+  - ".agents/todo-plans/127-vision-voice-frontend-integration.md"
+  - ".agents/todo-plans/128-vision-voice-docs-closeout.md"
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/product-vision.md
+  - docs/agent-operating-model.md
+  - docs/agent-operating-model.yaml
+  - docs/agent-operating-model/sections/intent_safety_catalog.yaml
   intentionallyUnchanged:
-    - "Legacy workmarket routes remain active while `/vision` evolves in parallel."
+  - Legacy workmarket routes remain active while `/vision` evolves in parallel.
 backlog:
   reviewed: true
   createdIds: []
@@ -130,48 +156,48 @@ checklist:
   multilingualCoverageChecked: true
 artifacts:
   codePaths:
-    - apps/themuffinman/src/main/java/com/themuffinman/app/config/VoiceProperties.java
-    - apps/themuffinman/src/main/resources/application.properties
-    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceConfigDTO.java
-    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java
-    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java
-    - apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts
-    - apps/themuffinman/frontend/src/modules/vision/api/contracts.ts
-    - apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts
-    - apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
-    - apps/themuffinman/frontend/src/styles/vision-surface.css
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/VoiceProperties.java
+  - apps/themuffinman/src/main/resources/application.properties
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceConfigDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java
+  - apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/contracts.ts
+  - apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts
+  - apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
   docPaths:
-    - .agents/vision-voice-master-plan.md
-    - .agents/todo-plans/126-vision-voice-backend-contract.md
-    - .agents/todo-plans/127-vision-voice-frontend-integration.md
-    - .agents/todo-plans/128-vision-voice-docs-closeout.md
-    - docs/business-logic.md
-    - docs/domain-technical.md
-    - docs/product-memory.md
-    - docs/product-vision.md
-    - docs/agent-operating-model.md
-    - docs/agent-operating-model.yaml
-    - docs/agent-operating-model/sections/source_of_truth.yaml
-    - docs/agent-operating-model/sections/api.yaml
-    - docs/agent-operating-model/sections/intents.yaml
-    - docs/agent-operating-model/sections/intent_safety_catalog.yaml
+  - ".agents/vision-voice-master-plan.md"
+  - ".agents/todo-plans/126-vision-voice-backend-contract.md"
+  - ".agents/todo-plans/127-vision-voice-frontend-integration.md"
+  - ".agents/todo-plans/128-vision-voice-docs-closeout.md"
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/product-vision.md
+  - docs/agent-operating-model.md
+  - docs/agent-operating-model.yaml
+  - docs/agent-operating-model/sections/source_of_truth.yaml
+  - docs/agent-operating-model/sections/api.yaml
+  - docs/agent-operating-model/sections/intents.yaml
+  - docs/agent-operating-model/sections/intent_safety_catalog.yaml
   testPaths:
-    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java
-    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
-    - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   generatorCommands:
-    - make generate-agent-operating-model
-    - make generate-agent-artifacts
-    - npm --prefix apps/themuffinman/frontend run generate:contracts
+  - make generate-agent-operating-model
+  - make generate-agent-artifacts
+  - npm --prefix apps/themuffinman/frontend run generate:contracts
   auditCommands:
-    - ./mvnw test -Dtest=DashboardServiceTest
-    - ./mvnw test -Dtest=AgentOperatingModelValidationTest
-    - make audit-agent-safety
-    - npm run validate:contracts
-    - npm run type-check
-    - npm run build
-    - npm --prefix apps/themuffinman/frontend run type-check
-    - npm --prefix apps/themuffinman/frontend run build
-    - make audit-documentation
-    - make audit-doc-canonical-phrases
-    - make audit-summary-index
+  - "./mvnw test -Dtest=DashboardServiceTest"
+  - "./mvnw test -Dtest=AgentOperatingModelValidationTest"
+  - make audit-agent-safety
+  - npm run validate:contracts
+  - npm run type-check
+  - npm run build
+  - npm --prefix apps/themuffinman/frontend run type-check
+  - npm --prefix apps/themuffinman/frontend run build
+  - make audit-documentation
+  - make audit-doc-canonical-phrases
+  - make audit-summary-index

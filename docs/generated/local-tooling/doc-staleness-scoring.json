@@ -1,90 +1,69 @@
 {
-  "generated_at": "2026-07-01T14:49:32Z",
+  "generated_at": "2026-07-03T09:17:30Z",
   "mode": "report_first",
-  "changed_files_considered": 87,
-  "sections_scored": 200,
-  "candidate_count": 159,
+  "changed_files_considered": 62,
+  "sections_scored": 202,
+  "candidate_count": 126,
   "top_candidates": [
     {
-      "doc_path": "docs/agent-operating-model.md",
-      "section": "Current Scope",
-      "score": 70,
+      "doc_path": "docs/change-completion-checklist.md",
+      "section": "Checklist",
+      "score": 45,
       "reasons": [
-        "DTO source files are newer than this documentation section",
         "workflow or state-transition source files are newer than this documentation section",
-        "current changed files share tokens: admin, chat, circles, clients, dashboard, modules"
+        "current changed files share tokens: audit, contracts, json, memory, prompt, truth"
       ],
-      "doc_mtime": "2026-07-01T10:28:26Z"
+      "doc_mtime": "2026-07-01T16:45:03Z"
+    },
+    {
+      "doc_path": "docs/documentation-sync-policy.md",
+      "section": "Mandatory Files",
+      "score": 45,
+      "reasons": [
+        "workflow or state-transition source files are newer than this documentation section",
+        "current changed files share tokens: json, memory, prompt, vision, yaml"
+      ],
+      "doc_mtime": "2026-07-01T16:45:03Z"
     },
     {
       "doc_path": "docs/documentation-sync-policy.md",
       "section": "Core Rules",
-      "score": 60,
-      "reasons": [
-        "endpoint inventory is newer than this documentation section",
-        "workflow or state-transition source files are newer than this documentation section",
-        "current changed files share tokens: admin"
-      ],
-      "doc_mtime": "2026-07-01T06:52:32Z"
-    },
-    {
-      "doc_path": "docs/agent-operating-model.md",
-      "section": "Chat Safety Notes",
       "score": 40,
       "reasons": [
         "workflow or state-transition source files are newer than this documentation section",
-        "current changed files share tokens: chat"
+        "current changed files share tokens: admin, contracts, sandbox"
       ],
-      "doc_mtime": "2026-07-01T10:28:26Z"
+      "doc_mtime": "2026-07-01T16:45:03Z"
     },
     {
-      "doc_path": "docs/agent-operating-model.md",
-      "section": "Current Voice-Agent Boundary",
-      "score": 35,
+      "doc_path": "docs/documentation-sync-policy.md",
+      "section": "Maintenance Propagation",
+      "score": 40,
       "reasons": [
         "workflow or state-transition source files are newer than this documentation section",
-        "current changed files share tokens: admin, chat"
+        "current changed files share tokens: json, memory, yaml"
       ],
-      "doc_mtime": "2026-07-01T10:28:26Z"
+      "doc_mtime": "2026-07-01T16:45:03Z"
     },
     {
-      "doc_path": "docs/agent-operating-model.md",
-      "section": "Modeling Rule",
-      "score": 35,
-      "reasons": [
-        "workflow or state-transition source files are newer than this documentation section"
-      ],
-      "doc_mtime": "2026-07-01T10:28:26Z"
-    },
-    {
-      "doc_path": "docs/agent-operating-model.md",
-      "section": "New Workmarket Execution Notes",
-      "score": 35,
+      "doc_path": "docs/documentation-sync-policy.md",
+      "section": "Tier 4: Agent, tooling, or workflow change",
+      "score": 40,
       "reasons": [
         "workflow or state-transition source files are newer than this documentation section",
-        "current changed files share tokens: admin, workmarket"
+        "current changed files share tokens: audit"
       ],
-      "doc_mtime": "2026-07-01T10:28:26Z"
-    },
-    {
-      "doc_path": "docs/agent-operating-model.md",
-      "section": "Operating Rules",
-      "score": 35,
-      "reasons": [
-        "workflow or state-transition source files are newer than this documentation section",
-        "current changed files share tokens: social, vision"
-      ],
-      "doc_mtime": "2026-07-01T10:28:26Z"
+      "doc_mtime": "2026-07-01T16:45:03Z"
     },
     {
       "doc_path": "docs/change-completion-checklist.md",
-      "section": "Checklist",
+      "section": "Document",
       "score": 35,
       "reasons": [
         "workflow or state-transition source files are newer than this documentation section",
-        "current changed files share tokens: social, vision"
+        "current changed files share tokens: json, yaml"
       ],
-      "doc_mtime": "2026-07-01T06:52:32Z"
+      "doc_mtime": "2026-07-01T16:45:03Z"
     },
     {
       "doc_path": "docs/documentation-sync-policy.md",
@@ -93,113 +72,132 @@
       "reasons": [
         "workflow or state-transition source files are newer than this documentation section"
       ],
-      "doc_mtime": "2026-07-01T06:52:32Z"
+      "doc_mtime": "2026-07-01T16:45:03Z"
     },
     {
       "doc_path": "docs/documentation-sync-policy.md",
-      "section": "Tier 4: Agent, tooling, or workflow change",
+      "section": "Workflow Entry",
       "score": 35,
       "reasons": [
-        "workflow or state-transition source files are newer than this documentation section"
+        "workflow or state-transition source files are newer than this documentation section",
+        "current changed files share tokens: json, memory"
       ],
-      "doc_mtime": "2026-07-01T06:52:32Z"
+      "doc_mtime": "2026-07-01T16:45:03Z"
     },
     {
-      "doc_path": "docs/agent-operating-model.md",
-      "section": "Maintenance Rule",
+      "doc_path": "docs/change-completion-checklist.md",
+      "section": "Tier 4: Agent, tooling, or workflow change",
       "score": 30,
       "reasons": [
         "workflow or state-transition source files are newer than this documentation section",
-        "current changed files share tokens: admin"
+        "current changed files share tokens: audit"
       ],
-      "doc_mtime": "2026-07-01T10:28:26Z"
-    },
-    {
-      "doc_path": "docs/business-logic.md",
-      "section": "Cross-module role",
-      "score": 30,
-      "reasons": [
-        "current changed files share tokens: chat, circles, social, workmarket"
-      ],
-      "doc_mtime": "2026-07-01T12:38:40Z"
-    },
-    {
-      "doc_path": "docs/business-logic.md",
-      "section": "What the module does",
-      "score": 30,
-      "reasons": [
-        "current changed files share tokens: admin, modules, profile, shared"
-      ],
-      "doc_mtime": "2026-07-01T12:38:40Z"
+      "doc_mtime": "2026-07-01T16:45:03Z"
     },
     {
       "doc_path": "docs/documentation-sync-policy.md",
-      "section": "Mandatory Files",
+      "section": "Manifest Rule",
       "score": 30,
       "reasons": [
         "workflow or state-transition source files are newer than this documentation section",
-        "current changed files share tokens: vision"
+        "current changed files share tokens: audit"
       ],
-      "doc_mtime": "2026-07-01T06:52:32Z"
-    },
-    {
-      "doc_path": "docs/domain-technical.md",
-      "section": "Admin Social Views",
-      "score": 30,
-      "reasons": [
-        "current changed files share tokens: admin, circles, social, views"
-      ],
-      "doc_mtime": "2026-07-01T14:49:09Z"
-    },
-    {
-      "doc_path": "docs/business-logic.md",
-      "section": "Chat",
-      "score": 25,
-      "reasons": [
-        "current changed files share tokens: chat, social, users"
-      ],
-      "doc_mtime": "2026-07-01T12:38:40Z"
-    },
-    {
-      "doc_path": "docs/business-logic.md",
-      "section": "Circle",
-      "score": 25,
-      "reasons": [
-        "current changed files share tokens: chat, circles, users"
-      ],
-      "doc_mtime": "2026-07-01T12:38:40Z"
+      "doc_mtime": "2026-07-01T16:45:03Z"
     },
     {
       "doc_path": "docs/business-logic.md",
       "section": "Main surfaces",
       "score": 25,
       "reasons": [
-        "current changed files share tokens: admin, circles, users"
+        "current changed files share tokens: admin, main, session"
       ],
-      "doc_mtime": "2026-07-01T12:38:40Z"
+      "doc_mtime": "2026-07-03T08:31:43Z"
     },
     {
       "doc_path": "docs/business-logic.md",
-      "section": "Operational rules",
+      "section": "Main surfaces",
       "score": 25,
       "reasons": [
-        "current changed files share tokens: admin, chat, users"
+        "current changed files share tokens: application, main, views"
       ],
-      "doc_mtime": "2026-07-01T12:38:40Z"
+      "doc_mtime": "2026-07-03T08:31:43Z"
     },
     {
       "doc_path": "docs/business-logic.md",
-      "section": "Scope",
+      "section": "What it is for",
       "score": 25,
       "reasons": [
-        "current changed files share tokens: chat, circles, modules"
+        "current changed files share tokens: admin, sandbox, scenarios"
       ],
-      "doc_mtime": "2026-07-01T12:38:40Z"
+      "doc_mtime": "2026-07-03T08:31:43Z"
+    },
+    {
+      "doc_path": "docs/documentation-sync-policy.md",
+      "section": "Document",
+      "score": 25,
+      "reasons": [
+        "workflow or state-transition source files are newer than this documentation section"
+      ],
+      "doc_mtime": "2026-07-01T16:45:03Z"
+    },
+    {
+      "doc_path": "docs/documentation-sync-policy.md",
+      "section": "Plan Rule",
+      "score": 25,
+      "reasons": [
+        "workflow or state-transition source files are newer than this documentation section"
+      ],
+      "doc_mtime": "2026-07-01T16:45:03Z"
+    },
+    {
+      "doc_path": "docs/agent-operating-model.md",
+      "section": "Current Scope",
+      "score": 20,
+      "reasons": [
+        "current changed files share tokens: admin, application, audit, config, contracts, conversation"
+      ],
+      "doc_mtime": "2026-07-03T08:32:18Z"
+    },
+    {
+      "doc_path": "docs/agent-operating-model.md",
+      "section": "Current Voice-Agent Boundary",
+      "score": 20,
+      "reasons": [
+        "current changed files share tokens: admin, application, audit, contracts, golden, json"
+      ],
+      "doc_mtime": "2026-07-03T08:32:18Z"
+    },
+    {
+      "doc_path": "docs/agent-operating-model.md",
+      "section": "Generic Contracts",
+      "score": 20,
+      "reasons": [
+        "current changed files share tokens: admin, application, audit, contracts, conversation, memory"
+      ],
+      "doc_mtime": "2026-07-03T08:32:18Z"
+    },
+    {
+      "doc_path": "docs/agent-operating-model.md",
+      "section": "Operating Rules",
+      "score": 20,
+      "reasons": [
+        "current changed files share tokens: contracts, json, memory, prompt, vision, yaml"
+      ],
+      "doc_mtime": "2026-07-03T08:32:18Z"
+    },
+    {
+      "doc_path": "docs/business-logic.md",
+      "section": "API client model",
+      "score": 20,
+      "reasons": [
+        "current changed files share tokens: application, conversation, session, vision, visionapi"
+      ],
+      "doc_mtime": "2026-07-03T08:31:43Z"
     }
   ],
   "signal_mtimes": {
-    "endpoint_inventory": "2026-07-01T09:00:02Z",
-    "dto_sources": "2026-07-01T10:49:02Z",
-    "workflow_sources": "2026-07-01T12:04:43Z"
+    "endpoint_inventory": "2026-07-01T16:45:03Z",
+    "dto_sources": "2026-07-03T06:38:23Z",
+    "workflow_sources": "2026-07-03T08:26:56Z"
   }
 }

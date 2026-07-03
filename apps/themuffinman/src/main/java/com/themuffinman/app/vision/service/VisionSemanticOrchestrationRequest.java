@@ -3,6 +3,7 @@ package com.themuffinman.app.vision.service;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ public class VisionSemanticOrchestrationRequest {
     private String contractVersion;
     private String rawPrompt;
     private VisionSemanticUserContext userContext;
+    private VisionSemanticMemoryContext memoryContext;
     private VisionSemanticConversationContext conversationContext;
     private VisionSemanticRuntimeContext runtimeContext;
     private List<VisionSemanticRouteDescriptor> allowedRoutes;
@@ -43,6 +45,77 @@ class VisionSemanticConversationContext {
     private String currentIntent;
     private String requestedSlot;
     private Map<String, String> slotData;
+}
+
+@Getter
+@Builder
+class VisionSemanticMemoryContext {
+    private VisionSemanticUserMemoryContext userMemory;
+    private VisionSemanticSessionMemoryContext sessionMemory;
+    private List<VisionSemanticConversationMemoryItem> recentConversations;
+}
+
+@Getter
+@Builder
+class VisionSemanticUserMemoryContext {
+    private Long userId;
+    private String username;
+    private String role;
+    private String preferredLocale;
+    private String timezone;
+    private String countryCode;
+    private String country;
+    private String locality;
+    private String locationLabel;
+    private List<String> recentIntentTypes;
+    private List<String> recentEntityFamilies;
+}
+
+@Getter
+@Builder
+class VisionSemanticSessionMemoryContext {
+    private Long conversationId;
+    private String currentIntent;
+    private String currentEntityFamily;
+    private String status;
+    private String requestedSlot;
+    private String sessionSummary;
+    private String lastUserPrompt;
+    private String lastNormalizedPrompt;
+    private String lastAssistantMessage;
+    private boolean translationReliable;
+    private String sessionMemorySnapshot;
+    private List<String> openQuestions;
+    private List<String> recentActions;
+    private Map<String, String> slotData;
+    private List<VisionSemanticTurnMemoryItem> recentTurns;
+}
+
+@Getter
+@Builder
+class VisionSemanticConversationMemoryItem {
+    private Long conversationId;
+    private String intent;
+    private String status;
+    private String requestedSlot;
+    private String title;
+    private String subtitle;
+    private String groupKey;
+    private String stageLabel;
+    private String progressLabel;
+    private Instant updatedAt;
+}
+
+@Getter
+@Builder
+class VisionSemanticTurnMemoryItem {
+    private int turnIndex;
+    private String source;
+    private String prompt;
+    private String normalizedPrompt;
+    private String detectedIntent;
+    private String requestedSlot;
+    private String assistantMessage;
 }
 
 @Getter

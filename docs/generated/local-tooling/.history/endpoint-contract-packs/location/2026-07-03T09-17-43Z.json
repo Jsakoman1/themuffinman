@@ -1,0 +1,200 @@
+{
+  "generated_at": "2026-07-01T14:47:52Z",
+  "endpoint_family": "location",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/location/admin/status",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
+      "dtos": [
+        "LocationDebugStatusViewDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/location/lookup",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
+      "dtos": [
+        "LocationLookupResponseDTO",
+        "LocationLookupRequestDTO",
+        "LocationLookupCandidateDTO",
+        "LocationReverseLookupRequestDTO",
+        "LocationDebugStatusViewDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/location/reverse-lookup",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
+      "dtos": [
+        "LocationLookupResponseDTO",
+        "LocationLookupRequestDTO",
+        "LocationLookupCandidateDTO",
+        "LocationReverseLookupRequestDTO",
+        "LocationDebugStatusViewDTO"
+      ]
+    }
+  ],
+  "dto_files": [
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusViewDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupCandidateDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationReverseLookupRequestDTO.java"
+  ],
+  "frontend_callsites": [
+    {
+      "file": "apps/themuffinman/frontend/src/App.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/api/httpClient.ts",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/components/profile/ProfileOpenQuestItem.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/components/ui/UiStatusBanner.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "matched_paths": [
+        "status",
+        "lookup"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/httpDebug.ts",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionQuestDiscoveryBlock.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
+      "matched_paths": [
+        "lookup"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
+      "matched_paths": [
+        "/location/admin/status",
+        "status",
+        "/location/lookup",
+        "lookup",
+        "/location/reverse-lookup",
+        "reverse-lookup"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationManagementCard.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationSummaryCard.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileLocationEditor.vue",
+      "matched_paths": [
+        "status",
+        "lookup"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
+      "matched_paths": [
+        "status",
+        "lookup"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailDataActions.ts",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts",
+      "matched_paths": [
+        "status"
+      ]
+    }
+  ],
+  "docs": [
+    "docs/business-logic.md",
+    "docs/domain-technical.md",
+    "docs/location-services.md",
+    "docs/agent-operating-model.md",
+    "docs/agent-operating-model.yaml"
+  ]
+}

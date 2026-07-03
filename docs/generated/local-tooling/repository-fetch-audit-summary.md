@@ -1,12 +1,15 @@
 # Repository Fetch Audit
 
-- Generated at: `2026-07-01T14:49:22Z`
-- Repository methods scanned: `104`
-- High risk: `0`
+- Generated at: `2026-07-03T09:17:21Z`
+- Repository methods scanned: `105`
+- High risk: `1`
 - Medium risk: `10`
 
 ## High-risk and medium-risk methods
 
+- `AppUserRepository.searchByUsernameOrEmail` | risk=`high` | query=`jpql_query` | fetch=none | lazy=`username`
+  - `VisionCapabilityPreviewService.resolveUserProfileTarget` in `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java` | helper=none | lazy=`username`
+  - `VisionCapabilityPreviewService.resolveCircleRequestRecipient` in `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java` | helper=none | lazy=`username`
 - `AppUserRepository.findByEmail` | risk=`medium` | query=`jpql_query` | fetch=none | lazy=`role`, `servletRequest`
 - `BusinessProfileRepository.findByOwnerId` | risk=`medium` | query=`jpql_query` | fetch=`owner` | lazy=`slug`
 - `ChatConversationRepository.findByLeftParticipantIdAndRightParticipantId` | risk=`medium` | query=`derived_query` | fetch=none | lazy=none
@@ -18,7 +21,8 @@
 - `QuestNewsRepository.findByRecipientUserIdOrderByCreatedAtDesc` | risk=`medium` | query=`derived_query` | fetch=none | lazy=none
 - `UserReviewRepository.findByQuestIdAndReviewerIdAndReviewedUserId` | risk=`medium` | query=`derived_query` | fetch=none | lazy=none
 - `AppUserRepository.countByLocationLatitudeIsNotNullAndLocationLongitudeIsNotNull` | risk=`low` | query=`derived_query` | fetch=none | lazy=none
-- `AppUserRepository.countByLocationProviderPlaceIdIsNotNull` | risk=`low` | query=`derived_query` | fetch=none | lazy=none
-- ... 92 more methods
+- ... 93 more methods
 
 ## High-risk sample
+
+- `AppUserRepository.searchByUsernameOrEmail` -> `AppUser`

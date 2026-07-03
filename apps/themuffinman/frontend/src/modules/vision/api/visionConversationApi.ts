@@ -74,6 +74,9 @@ export type VisionOption = {
 export type VisionConversationSummary = {
   conversationId: number
   intent: string
+  entityFamily: string | null
+  previousEntityFamily: string | null
+  topicSwitchHint: string | null
   status: string
   title: string
   subtitle: string
@@ -95,6 +98,24 @@ export type VisionQuestReview = {
   visibility: string
   schedule: string | null
   location: string | null
+}
+
+export type VisionMemoryTrail = {
+  activeEntityFamily: string | null
+  previousEntityFamily: string | null
+  topicSwitchHint: string | null
+  currentIntent: string | null
+  currentRequestedSlot: string | null
+  currentStatus: string | null
+  sessionSummary: string | null
+  lastUserPrompt: string | null
+  lastNormalizedPrompt: string | null
+  lastAssistantMessage: string | null
+  sessionMemorySnapshot: string | null
+  openQuestions: string[]
+  recentActions: string[]
+  recentEntityFamilies: string[]
+  recentIntentTypes: string[]
 }
 
 export type VisionCanvasBlock = {
@@ -127,6 +148,7 @@ export type VisionConversationTurnResponse = {
   executionEnabled: boolean
   executionCandidate: VisionExecutionCandidate | null
   questDiscovery: VisionQuestDiscovery | null
+  memoryTrail: VisionMemoryTrail | null
   blocks: VisionCanvasBlock[]
   appliedSlotSummaries: VisionSlotSummary[]
   slotSummaries: VisionSlotSummary[]

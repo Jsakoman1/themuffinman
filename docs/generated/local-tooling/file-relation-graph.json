@@ -1,17 +1,7 @@
 {
-  "generated_at": "2026-07-01T14:49:41Z",
-  "edge_count": 1365,
+  "generated_at": "2026-07-03T09:17:38Z",
+  "edge_count": 1048,
   "edges": [
-    {
-      "from": "AdminAgentController",
-      "to": "AdminAgentPlaygroundRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
-    },
-    {
-      "from": "AdminAgentController",
-      "to": "AdminAgentPlaygroundResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
-    },
     {
       "from": "AdminAgentController",
       "to": "AdminAgentExecutionRequestDTO",
@@ -24,22 +14,7 @@
     },
     {
       "from": "AdminAgentController",
-      "to": "AdminAgentSimulationRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
-    },
-    {
-      "from": "AdminAgentController",
-      "to": "AdminAgentSimulationResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
-    },
-    {
-      "from": "AdminAgentController",
       "to": "AdminAgentExecutionService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
-    },
-    {
-      "from": "AdminAgentController",
-      "to": "AdminAgentPlaygroundService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
     },
     {
@@ -51,71 +26,6 @@
       "from": "AdminAgentExecutionResponseDTO",
       "to": "AdminAgentExecutionResponseDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundRequestDTO",
-      "to": "AdminAgentPlaygroundRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundResponseDTO",
-      "to": "AdminAgentPlaygroundResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundResponseDTO",
-      "to": "AgentResolutionRequirementDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundResponseDTO",
-      "to": "AgentClarificationContractDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundResponseDTO",
-      "to": "AgentExecutionReadinessDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationRequestDTO",
-      "to": "AdminAgentSimulationRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AdminAgentSimulationResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AgentResolutionConfidenceDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AgentCapabilityAssessmentDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AgentIntentLineageDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AgentEndpointPlanDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AgentClarificationContractDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
-    },
-    {
-      "from": "AdminAgentSimulationResponseDTO",
-      "to": "AgentExecutionReadinessDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
     },
     {
       "from": "AgentCapabilityAssessmentDTO",
@@ -181,71 +91,6 @@
       "from": "AdminAgentExecutionService",
       "to": "AdminAgentPromptPreparationService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentExecutionService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AdminAgentPlaygroundRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AdminAgentPlaygroundResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AdminAgentSimulationRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AdminAgentSimulationResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentCapabilityAssessmentDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentClarificationContractDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentEndpointPlanDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentExecutionReadinessDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentIntentLineageDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentResolutionConfidenceDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AgentResolutionRequirementDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AdminAgentPlaygroundService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
-    },
-    {
-      "from": "AdminAgentPlaygroundService",
-      "to": "AdminAgentPromptPreparationService",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
     },
     {
       "from": "AdminAgentPromptPreparationService",
@@ -709,12 +554,12 @@
     },
     {
       "from": "AppUserController",
-      "to": "WorkmarketOptionsDTO",
+      "to": "VisionOptionsDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java"
     },
     {
       "from": "AppUserController",
-      "to": "WorkmarketOptionsService",
+      "to": "VisionOptionsService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java"
     },
     {
@@ -954,12 +799,12 @@
     },
     {
       "from": "AdminUserDetailService",
-      "to": "WorkmarketOptionsDTO",
+      "to": "VisionOptionsDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java"
     },
     {
       "from": "AdminUserDetailService",
-      "to": "WorkmarketOptionsService",
+      "to": "VisionOptionsService",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java"
     },
     {
@@ -2368,6 +2213,181 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
     },
     {
+      "from": "DashboardController",
+      "to": "DashboardResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java"
+    },
+    {
+      "from": "DashboardController",
+      "to": "DashboardSummaryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java"
+    },
+    {
+      "from": "DashboardController",
+      "to": "DashboardVisionPromptRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java"
+    },
+    {
+      "from": "DashboardController",
+      "to": "DashboardVisionPromptResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java"
+    },
+    {
+      "from": "DashboardController",
+      "to": "DashboardVoiceConfigDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java"
+    },
+    {
+      "from": "DashboardController",
+      "to": "DashboardVoiceSpeechRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java"
+    },
+    {
+      "from": "DashboardController",
+      "to": "DashboardVoiceTranscriptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java"
+    },
+    {
+      "from": "DashboardController",
+      "to": "DashboardService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java"
+    },
+    {
+      "from": "DashboardController",
+      "to": "DashboardVisionPromptService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java"
+    },
+    {
+      "from": "DashboardController",
+      "to": "DashboardVoiceService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java"
+    },
+    {
+      "from": "QuestApplicationController",
+      "to": "ActionResultDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java"
+    },
+    {
+      "from": "QuestApplicationController",
+      "to": "AdminApplicationsQueryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java"
+    },
+    {
+      "from": "QuestApplicationController",
+      "to": "AdminQuestApplicationUpdateRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java"
+    },
+    {
+      "from": "QuestApplicationController",
+      "to": "QuestApplicationRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java"
+    },
+    {
+      "from": "QuestApplicationController",
+      "to": "QuestApplicationDetailResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java"
+    },
+    {
+      "from": "QuestApplicationController",
+      "to": "QuestApplicationListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java"
+    },
+    {
+      "from": "QuestApplicationController",
+      "to": "QuestApplicationResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java"
+    },
+    {
+      "from": "QuestApplicationController",
+      "to": "QuestApplicationsViewDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java"
+    },
+    {
+      "from": "QuestApplicationController",
+      "to": "QuestService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java"
+    },
+    {
+      "from": "QuestApplicationController",
+      "to": "QuestApplicationService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java"
+    },
+    {
+      "from": "QuestController",
+      "to": "ActionResultDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java"
+    },
+    {
+      "from": "QuestController",
+      "to": "QuestDetailResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java"
+    },
+    {
+      "from": "QuestController",
+      "to": "QuestListPresetDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java"
+    },
+    {
+      "from": "QuestController",
+      "to": "QuestListResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java"
+    },
+    {
+      "from": "QuestController",
+      "to": "QuestRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java"
+    },
+    {
+      "from": "QuestController",
+      "to": "QuestResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java"
+    },
+    {
+      "from": "QuestController",
+      "to": "QuestSearchRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java"
+    },
+    {
+      "from": "QuestController",
+      "to": "QuestService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java"
+    },
+    {
+      "from": "QuestNewsController",
+      "to": "ActionResultDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java"
+    },
+    {
+      "from": "QuestNewsController",
+      "to": "QuestNewsItemResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java"
+    },
+    {
+      "from": "QuestNewsController",
+      "to": "QuestNewsMgr",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java"
+    },
+    {
+      "from": "QuestNewsController",
+      "to": "QuestNewsService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java"
+    },
+    {
+      "from": "UserReviewController",
+      "to": "UserReviewRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java"
+    },
+    {
+      "from": "UserReviewController",
+      "to": "UserReviewResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java"
+    },
+    {
+      "from": "UserReviewController",
+      "to": "UserReviewService",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java"
+    },
+    {
       "from": "VisionConversationController",
       "to": "VisionConversationListResponseDTO",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java"
@@ -2388,119 +2408,99 @@
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java"
     },
     {
-      "from": "VisionCanvasBlockDTO",
-      "to": "VisionCanvasBlockDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
+      "from": "AdminApplicationsQueryDTO",
+      "to": "AdminApplicationsQueryDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminApplicationsQueryDTO.java"
     },
     {
-      "from": "VisionCanvasBlockDTO",
-      "to": "VisionOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
+      "from": "AdminQuestApplicationUpdateRequestDTO",
+      "to": "AdminQuestApplicationUpdateRequestDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminQuestApplicationUpdateRequestDTO.java"
     },
     {
-      "from": "VisionCanvasBlockDTO",
-      "to": "VisionSlotSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
+      "from": "AppUserRoleOptionDTO",
+      "to": "AppUserRoleOptionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AppUserRoleOptionDTO.java"
     },
     {
-      "from": "VisionCanvasBlockDTO",
-      "to": "VisionQuestDiscoveryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
+      "from": "ApplicationAllowedActionDTO",
+      "to": "ApplicationAllowedActionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/ApplicationAllowedActionDTO.java"
     },
     {
-      "from": "VisionCanvasBlockDTO",
-      "to": "VisionQuestReviewDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java"
+      "from": "DashboardApplicationGroupDTO",
+      "to": "DashboardApplicationGroupDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardApplicationGroupDTO.java"
     },
     {
-      "from": "VisionConversationListResponseDTO",
-      "to": "VisionConversationListResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationListResponseDTO.java"
+      "from": "DashboardApplicationGroupDTO",
+      "to": "QuestApplicationResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardApplicationGroupDTO.java"
     },
     {
-      "from": "VisionConversationListResponseDTO",
-      "to": "VisionConversationSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationListResponseDTO.java"
+      "from": "DashboardNavigationItemDTO",
+      "to": "DashboardNavigationItemDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationItemDTO.java"
     },
     {
-      "from": "VisionConversationSummaryDTO",
-      "to": "VisionConversationSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java"
+      "from": "DashboardNavigationSectionDTO",
+      "to": "DashboardNavigationSectionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationSectionDTO.java"
     },
     {
-      "from": "VisionConversationSummaryDTO",
-      "to": "VisionSlotSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java"
+      "from": "DashboardNavigationSectionDTO",
+      "to": "DashboardNavigationItemDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationSectionDTO.java"
     },
     {
-      "from": "VisionConversationTurnRequestDTO",
-      "to": "VisionConversationTurnRequestDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java"
+      "from": "DashboardNotificationDestinationTypeDTO",
+      "to": "DashboardNotificationDestinationTypeDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationDestinationTypeDTO.java"
     },
     {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionConversationTurnResponseDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+      "from": "DashboardNotificationItemDTO",
+      "to": "NavigationTargetDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationItemDTO.java"
     },
     {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionExecutionCandidateDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+      "from": "DashboardNotificationItemDTO",
+      "to": "DashboardNotificationItemDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationItemDTO.java"
     },
     {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionQuestDiscoveryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+      "from": "DashboardNotificationItemDTO",
+      "to": "DashboardNotificationDestinationTypeDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationItemDTO.java"
     },
     {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionCanvasBlockDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+      "from": "DashboardNotificationsSectionDTO",
+      "to": "DashboardNotificationsSectionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationsSectionDTO.java"
     },
     {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionSlotSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+      "from": "DashboardNotificationsSectionDTO",
+      "to": "DashboardNotificationItemDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationsSectionDTO.java"
     },
     {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionQuestReviewDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+      "from": "DashboardOpenWorkSectionDTO",
+      "to": "DashboardOpenWorkSectionDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardOpenWorkSectionDTO.java"
     },
     {
-      "from": "VisionConversationTurnResponseDTO",
-      "to": "VisionConversationSummaryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+      "from": "DashboardOpenWorkSectionDTO",
+      "to": "QuestResponseDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardOpenWorkSectionDTO.java"
     },
     {
-      "from": "VisionExecutionCandidateDTO",
-      "to": "VisionExecutionCandidateDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java"
+      "from": "DashboardPlannerItemDTO",
+      "to": "NavigationTargetDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardPlannerItemDTO.java"
     },
     {
-      "from": "VisionOptionDTO",
-      "to": "VisionOptionDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionDTO.java"
-    },
-    {
-      "from": "VisionQuestDiscoveryDTO",
-      "to": "VisionQuestDiscoveryDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryDTO.java"
-    },
-    {
-      "from": "VisionQuestDiscoveryDTO",
-      "to": "VisionQuestDiscoveryItemDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryDTO.java"
-    },
-    {
-      "from": "VisionQuestDiscoveryItemDTO",
-      "to": "VisionQuestDiscoveryItemDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryItemDTO.java"
-    },
-    {
-      "from": "VisionQuestReviewDTO",
-      "to": "VisionQuestReviewDTO",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestReviewDTO.java"
+      "from": "DashboardPlannerItemDTO",
+      "to": "DashboardPlannerItemDTO",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardPlannerItemDTO.java"
     }
   ]
 }

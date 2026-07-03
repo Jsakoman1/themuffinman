@@ -1,6 +1,6 @@
 # Make Target Index
 
-- Generated At: `2026-07-01T14:49:44Z`
+- Generated At: `2026-07-03T09:17:42Z`
 ## `targets`
 
 - `api-contract-snapshot`

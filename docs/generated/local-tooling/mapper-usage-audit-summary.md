@@ -1,7 +1,18 @@
 # Mapper Usage Audit
 
-- Generated at: `2026-07-01T14:49:21Z`
+- Generated at: `2026-07-03T09:17:20Z`
 - Mappers scanned: `10`
+
+## `AppUserMgr`
+
+- Risk flags: `navigation_logic`, `relation_dereference`, `rich_text_sanitization`, `service_backed`
+- Usage count: `13`
+- `AppUserController.getAppUser` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java` -> `withProfileStats` (`controller_facing`)
+- `IdentityUserSummaryAssembler.buildProfileSummary` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java` -> `toDto` (`read_oriented`)
+- `IdentityUserSummaryAssembler.buildProfileSummary` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java` -> `withProfileStats` (`read_oriented`)
+- `VisionCapabilityPreviewService.previewProfile` in `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java` -> `toDto` (`supporting`)
+- `VisionCapabilityPreviewService.previewProfile` in `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java` -> `withProfileStats` (`supporting`)
+- ... 8 more callers
 
 ## `QuestApplicationMgr`
 
@@ -20,14 +31,6 @@
 - `ThingSharingService.getMyListings` in `apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java` -> `toListingDto` (`read_oriented`)
 - `ThingSharingService.requestBorrow` in `apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java` -> `toBorrowRequestDto` (`supporting`)
 - `ThingSharingService.saveMyListing` in `apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java` -> `toListingDto` (`supporting`)
-
-## `AppUserMgr`
-
-- Risk flags: `navigation_logic`, `relation_dereference`, `rich_text_sanitization`, `service_backed`
-- Usage count: `3`
-- `AppUserController.getAppUser` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java` -> `withProfileStats` (`controller_facing`)
-- `IdentityUserSummaryAssembler.buildProfileSummary` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java` -> `toDto` (`read_oriented`)
-- `IdentityUserSummaryAssembler.buildProfileSummary` in `apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java` -> `withProfileStats` (`read_oriented`)
 
 ## `AuthMgr`
 

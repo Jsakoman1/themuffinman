@@ -1,7 +1,7 @@
 # Docs As Tests
 
-- Generated at: `2026-07-01T14:49:43Z`
-- Statements scanned: `168`
+- Generated at: `2026-07-03T09:17:41Z`
+- Statements scanned: `179`
 - Protected phrases scanned: `0`
 - Review needed: `0`
 - High priority: `0`

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T14:49:39Z",
+  "generated_at": "2026-07-03T09:17:36Z",
   "entities": [
     {
       "entity": "ActionResult",
@@ -11,22 +11,6 @@
     },
     {
       "entity": "AdminAgentExecutionResponse",
-      "sandbox_or_synthetic_mentioned": true
-    },
-    {
-      "entity": "AdminAgentPlaygroundRequest",
-      "sandbox_or_synthetic_mentioned": true
-    },
-    {
-      "entity": "AdminAgentPlaygroundResponse",
-      "sandbox_or_synthetic_mentioned": true
-    },
-    {
-      "entity": "AdminAgentSimulationRequest",
-      "sandbox_or_synthetic_mentioned": true
-    },
-    {
-      "entity": "AdminAgentSimulationResponse",
       "sandbox_or_synthetic_mentioned": true
     },
     {
@@ -578,6 +562,10 @@
       "sandbox_or_synthetic_mentioned": true
     },
     {
+      "entity": "VisionCapabilityPreview",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
       "entity": "VisionConversationListResponse",
       "sandbox_or_synthetic_mentioned": true
     },
@@ -598,7 +586,15 @@
       "sandbox_or_synthetic_mentioned": true
     },
     {
+      "entity": "VisionMemoryTrail",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
       "entity": "VisionOption",
+      "sandbox_or_synthetic_mentioned": true
+    },
+    {
+      "entity": "VisionOptions",
       "sandbox_or_synthetic_mentioned": true
     },
     {
@@ -615,10 +611,6 @@
     },
     {
       "entity": "VisionSlotSummary",
-      "sandbox_or_synthetic_mentioned": true
-    },
-    {
-      "entity": "WorkmarketOptions",
       "sandbox_or_synthetic_mentioned": true
     }
   ],

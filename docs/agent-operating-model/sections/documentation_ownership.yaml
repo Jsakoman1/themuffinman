@@ -3,7 +3,7 @@ documentation_ownership:
   documentation_templates:
   - id: new_workflow
     label: New workflow
-    template_path: .agents/templates/docs/new-workflow.template.md
+    template_path: ".agents/templates/docs/new-workflow.template.md"
     required_living_docs:
     - docs/business-logic.md
     - docs/domain-technical.md
@@ -17,7 +17,7 @@ documentation_ownership:
     - Validation Evidence
   - id: new_endpoint
     label: New endpoint
-    template_path: .agents/templates/docs/new-endpoint.template.md
+    template_path: ".agents/templates/docs/new-endpoint.template.md"
     required_living_docs:
     - docs/domain-technical.md
     - docs/business-logic.md
@@ -31,7 +31,7 @@ documentation_ownership:
     - Validation Evidence
   - id: new_dto_contract
     label: New DTO contract
-    template_path: .agents/templates/docs/new-dto-contract.template.md
+    template_path: ".agents/templates/docs/new-dto-contract.template.md"
     required_living_docs:
     - docs/domain-technical.md
     - docs/business-logic.md
@@ -45,7 +45,7 @@ documentation_ownership:
     - Validation Evidence
   - id: new_module
     label: New module
-    template_path: .agents/templates/docs/new-module.template.md
+    template_path: ".agents/templates/docs/new-module.template.md"
     required_living_docs:
     - docs/business-logic.md
     - docs/domain-technical.md
@@ -59,7 +59,7 @@ documentation_ownership:
     - Validation Evidence
   - id: new_permission_rule
     label: New permission rule
-    template_path: .agents/templates/docs/new-permission-rule.template.md
+    template_path: ".agents/templates/docs/new-permission-rule.template.md"
     required_living_docs:
     - docs/business-logic.md
     - docs/domain-technical.md
@@ -73,7 +73,7 @@ documentation_ownership:
     - Validation Evidence
   - id: schema_migration
     label: Schema migration
-    template_path: .agents/templates/docs/schema-migration.template.md
+    template_path: ".agents/templates/docs/schema-migration.template.md"
     required_living_docs:
     - docs/domain-technical.md
     - docs/business-logic.md
@@ -198,7 +198,7 @@ documentation_ownership:
     generated_artifacts:
     - docs/generated/backend-audit-inventory.json
     validation_commands:
-    - ./mvnw test
+    - "./mvnw test"
   - id: frontend_contract
     required_living_docs:
     - docs/domain-technical.md
@@ -219,14 +219,14 @@ documentation_ownership:
     - docs/generated/automation-read-model-inventory.json
     validation_commands:
     - make audit-agent-safety
-    - ./mvnw test
+    - "./mvnw test"
   - id: schema_migration
     required_living_docs:
     - docs/domain-technical.md
     generated_artifacts:
     - docs/generated/backend-audit-inventory.json
     validation_commands:
-    - ./mvnw test
+    - "./mvnw test"
   - id: agent_contract
     required_living_docs:
     - docs/codex-fast-path.md
@@ -249,7 +249,7 @@ documentation_ownership:
     - docs/agent-operating-model.yaml
     validation_commands:
     - make audit-agent-safety
-    - ./mvnw test
+    - "./mvnw test"
   - id: local_tooling
     required_living_docs:
     - docs/codex-fast-path.md

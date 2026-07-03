@@ -13,12 +13,19 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 - prevent silent drift between logic and docs
 - preserve strong closeout for high-risk and workflow changes
 - avoid forcing every small task through the heaviest workflow
+- make machine-readable operational sources the first place to look for active state, with human docs serving as
+  canonical meaning layers or curated summaries where appropriate
 
 ## Core Rules
 
 - A logic change is not complete when only code and tests are updated.
 - When business rules, domain models, permissions, validations, workflows, endpoint contracts, or automation assumptions change, update all affected living docs in the same change.
 - No logic-only change is complete until the affected docs, agent artifacts, and validation tests are updated together.
+- For active control state, planning state, validation state, and automation-facing rules, treat machine-readable files as
+  the primary source of truth and markdown as supporting narrative unless the markdown file is explicitly the canonical
+  business or domain reference.
+- Generated review artifacts are review aids for the machine-readable source; they should stay compact and should not
+  become the place where current control state is maintained.
 - For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file.
 - Do not paraphrase, shorten, reorder, or partially restate protected canonical wording.
 - If a change introduces or expands entity capabilities, generation inputs, workflow branches, or edge cases that matter for admin or sandbox data generation, review and extend affected admin or sandbox generation flows in the same change.
@@ -29,6 +36,8 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 
 - Read `AGENTS.md` first.
 - Use `docs/codex-fast-path.md` as the default compact workflow entrypoint for feature implementation.
+- When a task touches active behavior or control state, start from the machine-readable source surfaces listed in
+  `docs/control-surface-map.md` before broadening into human-readable summaries.
 - Use `docs/validation-memory.md` and `docs/validation-memory.json` when manifest-backed validation or closeout evidence is in scope so canonical command and evidence rules are applied consistently.
 - Use `make codex-context topic=<topic> intent='<intent>'` as the one-shot local context chain before broad repository search.
 - When `codex-context` changes, keep the workflow docs, `docs/generated/local-tooling/codex-context/latest.execution.json`, and `docs/codex-context-execution-manifest.schema.json` aligned so the machine-readable batch manifest remains discoverable.

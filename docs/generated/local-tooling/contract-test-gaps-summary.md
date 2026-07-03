@@ -1,17 +1,32 @@
 # Contract Test Gaps
 
-- Generated at: `2026-07-01T14:49:51Z`
-- Endpoints scanned: `99`
-- Review needed: `10`
+- Generated at: `2026-07-03T09:18:03Z`
+- Endpoints scanned: `97`
+- Review needed: `47`
 - High priority: `0`
 
+- `medium` `DELETE /admin/applications/{applicationId}` QuestApplicationController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `DELETE /app_users/{id}` AppUserController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `DELETE /circles/admin/groups/{id}` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `DELETE /circles/blocks/{userId}` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `DELETE /circles/groups/{id}` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `DELETE /circles/requests/{id}` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `DELETE /quests/{id}` QuestController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /app_users` AppUserController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /app_users/{id}` AppUserController gaps=missing_frontend_or_contract_usage_signal
 - `medium` `GET /app_users/{id}/admin-detail` AppUserController gaps=missing_frontend_or_contract_usage_signal
-- `medium` `GET /rides/offers` RideOfferController gaps=missing_frontend_or_contract_usage_signal
-- `medium` `GET /things/listings` ThingSharingController gaps=missing_frontend_or_contract_usage_signal
-- `medium` `POST /admin/agent/playground` AdminAgentController gaps=missing_frontend_or_contract_usage_signal
-- `medium` `POST /admin/agent/simulate` AdminAgentController gaps=missing_frontend_or_contract_usage_signal
-- `medium` `POST /rides/offers` RideOfferController gaps=missing_frontend_or_contract_usage_signal
-- `medium` `POST /things/listings` ThingSharingController gaps=missing_frontend_or_contract_usage_signal
-- `medium` `POST /things/listings/{listingId}/borrow-requests` ThingSharingController gaps=missing_frontend_or_contract_usage_signal
-- `low` `GET /business/profiles` BusinessProfileController gaps=missing_frontend_or_contract_usage_signal
-- `low` `GET /business/profiles/{slug}` BusinessProfileController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /app_users/{id}/profile-view` AppUserController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /chat/conversations/{conversationId}/messages` ChatController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /chat/workspace` ChatController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /circles/admin/overview` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /circles/candidates` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /circles/connections` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /circles/groups` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /circles/me/overview` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /circles/nearby` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /circles/relations/{userId}` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /circles/requests/incoming` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /circles/requests/outgoing` CircleController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /news/me/unread-count` QuestNewsController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /quests/presets/{preset}` QuestController gaps=missing_frontend_or_contract_usage_signal
+- `medium` `GET /quests/{id}` QuestController gaps=missing_frontend_or_contract_usage_signal

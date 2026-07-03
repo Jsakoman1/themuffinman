@@ -26,12 +26,33 @@ Frontend vision surface note:
 - The `/vision` route is the focused adaptive surface for text and voice prompt intake, and the older vision shell has been removed from the app.
 - The surface now keeps its prompt composer and canvas content in one inline flow instead of a separate floating dock, so the adaptive stage can expand or contract around the current state.
 - The `/vision` route shell should prefer contextual reveal controls for state and recent-task memory instead of permanent page-level chrome, so the blank-canvas default stays visually quiet.
-- `/vision` uses backend-managed OpenAI prompt decoding, transcription, speech synthesis, and agent planning through `POST /dashboard/me/vision/prompt`, `GET /dashboard/me/voice-config`, `POST /dashboard/me/voice/transcribe`, and `POST /dashboard/me/voice/speak`, while typed `app.voice.*` config still controls whether the frontend may record or play voice.
+- `/vision` uses backend-managed prompt decoding, transcription, speech synthesis, and agent planning through `POST /dashboard/me/vision/prompt`, `GET /dashboard/me/voice-config`, `POST /dashboard/me/voice/transcribe`, and `POST /dashboard/me/voice/speak`, while typed `app.voice.*` config still controls whether the frontend may record or play voice. Prompt understanding defaults to `gpt-4o-mini`, with an explicit upgrade flag for heavier semantic interpretation when needed.
 - `app.voice.max-recording-millis`, `app.voice.max-audio-bytes`, and `app.voice.max-speech-text-length` are included in the dashboard voice config; the frontend applies them before upload/playback and `DashboardVoiceService` enforces audio and speech-text size limits before calling OpenAI.
 - Phase 1 `/vision` orchestration now also exposes `POST /vision/conversations/turns`, backed by persisted `vision_conversation` and `vision_turn` records, for stepwise backend-owned conversation state.
 - The `/vision/conversations/turns` request is versioned with `inputType`, `text`, `clientCapabilities`, `clientStateVersion`, and optional choice/confirmation fields so the frontend can keep the canvas contract explicit while the backend still understands the legacy prompt path during transition.
 - The first persisted `/vision` orchestration scope is `create_quest`: collect title, description, reward/free, visibility, `schedule_mode`, optional `scheduled_date`, optional `scheduled_time`, `location_mode`, and optional `location_label` one slot at a time while execution stays behind `app.vision.execution-enabled`.
-- A dedicated `VisionPromptUnderstandingService` now sits between prompt transcription and slot merging so the backend can use OpenAI, when configured, to extract explicit structured quest fields before deterministic slot validation takes over.
+- The backend semantic model is the primary semantic interpreter for `/vision` prompt understanding across quests, circles, applications, profiles, and chat; the deterministic local parser only rescues unsupported semantic results instead of competing with the model-first route selection.
+- A dedicated `VisionPromptUnderstandingService` now sits between prompt transcription and slot merging so the backend can use the configured semantic model to extract explicit structured quest fields before deterministic slot validation takes over.
+- `VisionSemanticResponseValidator` now rejects any semantic response that extracts slots or generic semantic fields outside the selected route contract before sanitization runs, so route ownership stays backend-defined.
+- `VisionSemanticOrchestrationContextService` now builds a backend memory pack with user memory, session memory, and recent turn snapshots so semantic understanding can keep stable preferences separate from the current conversation thread.
+- The same memory pack also carries recent entity families and the current session entity family so ambiguous follow-ups can stay within the active topic unless the semantic route clearly changes.
+- Conversation routing now keeps a weak ambiguous follow-up inside the current thread when the semantic confidence is low and the prompt does not clearly signal a different entity family; explicit topic changes still switch or open a new conversation.
+- Fallback focus resolution now skips the previous requested slot when the new prompt clearly belongs to a different entity family, so a stale quest slot does not hijack a fresh circles, applications, profile, or chat turn.
+- The vision turn response now includes a compact `memoryTrail` DTO with active entity family, current intent, current requested slot, current session status, session summary, open questions, recent actions, last prompts, and recent family/intent lists for frontend debug and adaptive preview use.
+- The vision turn response also exposes `previousEntityFamily` and `topicSwitchHint` inside `memoryTrail`, so the frontend can render a visible topic transition when the active entity family changes.
+- `VisionConversationSummaryDTO` now also carries `entityFamily`, `previousEntityFamily`, and `topicSwitchHint`, so the recent-conversation rail can show topic transitions across resumable threads.
+- The Vision shell now renders recent conversation summaries as a clickable resume strip above the main terminal surface, using the summary DTO without rebuilding task state on the client.
+- `vision_conversation` now also persists a compact `session_memory_snapshot` JSON blob so the backend can retain the current session memory outside the live turn row.
+- The prompt-understanding request now reads that persisted session snapshot back into the semantic memory pack so the next turn can use the durable session rail as context, with explicit summary, open-question, and recent-action fields.
+- `VisionSemanticResponseValidator` now fail-closes any semantic response whose candidate intent, capability id, or focus slot falls outside the published backend response contract before sanitization and routing continue.
+- Create-quest slot merging now prefers a cleaned core task summary for fallback title and description values, and it only treats numbers as reward candidates when the prompt carries reward-like cues instead of every date or time numeral.
+- `VisionSemanticContractSanitizer` now rejects prompt-like location labels and profile-location labels that look like full commands or task descriptions, while still allowing short place-like labels and address fragments.
+- `VisionLocationParserService` now parses short place labels and simple city-country pairs more carefully instead of assuming every comma-separated label begins with a street line.
+- `VisionScheduleParserService` now checks explicit `am` / `pm` time phrases before hour-only fallback, so combined weekday-and-time voice turns do not misread `next Tuesday at 7 pm` as a morning appointment.
+- `VisionLocationParserService` now also understands simple postal-code-plus-locality and locality-plus-postal-code fragments, which helps Swiss-style location input stay structured before any lookup candidate resolution.
+- `VisionScheduleParserService` now also recognizes explicit evening phrasing such as `in the evening` and `navečer` when an hour is already present.
+- `VisionScheduleParserService` now also resolves a plain weekday reference such as `this Friday` or `ovaj petak` into the next matching calendar day, even when the user does not say `next`.
+- `VisionScheduleParserService` now also recognizes a small German weekday and day-period set such as `morgen`, `heute`, `freitag`, and `um 5 am abend` so Swiss-style English/German schedule turns stay deterministic.
 - `VisionPromptUnderstandingService` now also returns a generic `VisionSemanticPlan` with candidate intent, confidence, capability id, and planning note before create_quest slot extraction, while deterministic backend routing and services still decide supported execution.
 - `VisionIntentRouter` now recognizes both `CREATE_QUEST` and `DISCOVER_QUESTS` so read-only browse/search prompts can be routed without depending on the create-quest flag.
 - `VisionConversationService` now switches to a new persisted conversation when the prompt clearly changes intent, so discovery and creation can coexist on the same adaptive surface without forcing one thread to masquerade as another.
@@ -226,7 +247,8 @@ Primary files:
 - `apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java`
 - `scripts/local_tooling_common.rb`
 - `scripts/audits/audit-change-impact-preflight.rb`
@@ -607,10 +629,10 @@ Technical notes:
 - It accepts free-form prompts and returns structured warnings, suggested workflows, and next steps from deterministic backend classification.
 - The deterministic payload should keep structured planner fields separate from provider-written summary text, including matched signals and unresolved required inputs.
 - Provider-written summary text should be constrained to the deterministic workflow ids, signals, and unresolved inputs already classified by the backend.
-- The OpenAI-backed summary path now uses `gpt-5.4-mini` by default and escalates to `gpt-5.4-medium` only for the heaviest or most creative planning slices.
-- `AgentProperties` now carries separate default and creative model settings plus a shared reasoning-effort default for the Responses API payload.
-- If `app.agent.provider=openai` and a backend API key is configured, the service also requests a concise planning summary from OpenAI through the Responses API.
-- If the provider is missing or the external call fails, the service falls back to the deterministic local planner and keeps the same response contract.
+- The admin playground summary path now stays deterministic and local-only.
+- `AgentProperties` now carries separate default, semantic-upgrade, and creative model settings plus a shared reasoning-effort default for the Responses API payload.
+- If an explicit semantic-upgrade flag is enabled and a heavier model is configured, the vision semantic path can temporarily use that model; otherwise it stays on the low-cost default.
+- The admin playground no longer requests a live OpenAI planning summary; it falls back to deterministic local planning and keeps the same response contract.
 - Provider credentials stay on the server side and are never exposed through frontend configuration.
 
 ## Social Source Map

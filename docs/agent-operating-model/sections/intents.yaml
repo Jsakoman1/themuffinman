@@ -32,8 +32,7 @@ intents:
     source_refs:
     - auth_controller
   - step: 3
-    action: If profile or location enrichment is requested, use the authenticated
-      self-update flow after registration.
+    action: If profile or location enrichment is requested, use the authenticated self-update flow after registration.
     endpoint_id: update_current_user
     source_refs:
     - app_user_controller
@@ -57,8 +56,7 @@ intents:
     value: USER
   workflow:
   - step: 1
-    action: Reuse backend account validation, uniqueness checks, optional profile
-      enrichment, and optional explicit role assignment.
+    action: Reuse backend account validation, uniqueness checks, optional profile enrichment, and optional explicit role assignment.
     source_refs:
     - app_user_request_dto
     - app_user_service
@@ -89,31 +87,6 @@ intents:
     source_refs:
     - auth_controller
     - service_errors
-- id: run_admin_agent_playground
-  description: Run the admin-only planning playground for natural-language workflow
-    analysis.
-  mutating: false
-  required_inputs:
-  - authenticated_user
-  - prompt
-  optional_inputs: []
-  defaults: []
-  workflow:
-  - step: 1
-    action: Require admin authority and a non-blank prompt.
-    source_refs:
-    - admin_agent_controller
-    - admin_agent_playground_service
-    - service_errors
-    fail_if:
-    - authenticated user is not admin
-    - prompt is missing
-  - step: 2
-    action: Run the planning prompt through the admin playground endpoint.
-    endpoint_id: run_admin_agent_playground
-    source_refs:
-    - admin_agent_controller
-    - admin_agent_playground_service
 - id: execute_admin_agent_capability
   description: Run the first guarded admin-only direct execution slice, currently synthetic quest batch generation for one exact target user after explicit confirmation.
   mutating: true
@@ -142,7 +115,6 @@ intents:
     source_refs:
     - admin_synthetic_quest_execution_planner
     - admin_agent_surface_policy
-    - sandbox_generation_planner
     fail_if:
     - prompt does not resolve to the supported direct execution capability
     - direct execution is disabled by policy
@@ -164,36 +136,6 @@ intents:
     - quest_service
     fail_if:
     - confirmation is missing
-- id: simulate_admin_agent_execution
-  description: Run an admin-only dry-run simulation through resolution, clarification,
-    safety-policy, and endpoint-selection logic without mutating anything.
-  mutating: false
-  required_inputs:
-  - authenticated_user
-  - prompt
-  optional_inputs: []
-  defaults: []
-  workflow:
-  - step: 1
-    action: Require admin authority, a non-blank prompt, and planning-only execution
-      mode.
-    source_refs:
-    - admin_agent_controller
-    - admin_agent_playground_service
-    - admin_agent_simulation_request_dto
-    - service_errors
-    fail_if:
-    - authenticated user is not admin
-    - prompt is missing
-  - step: 2
-    action: Run the prompt through the dry-run simulation endpoint and return selected
-      intent, capability assessments, lineage, and endpoint plan without mutating
-      backend state.
-    endpoint_id: run_admin_agent_simulation
-    source_refs:
-    - admin_agent_controller
-    - admin_agent_playground_service
-    - admin_agent_simulation_response_dto
 - id: open_current_user_account
   description: Read the current authenticated user's account profile view.
   mutating: false
@@ -233,8 +175,7 @@ intents:
     source_refs:
     - auth_controller
 - id: open_app_user_options
-  description: Open the current user's backend-prepared option sets for workmarket
-    and related forms.
+  description: Open the current user's backend-prepared option sets for workmarket and related forms.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -271,8 +212,7 @@ intents:
     - app_user_controller
     - app_user_service
 - id: set_profile_location
-  description: Set or clear the authenticated user's profile location through the
-    self-update flow.
+  description: Set or clear the authenticated user's profile location through the self-update flow.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -304,8 +244,7 @@ intents:
     value: NOBODY
   workflow:
   - step: 1
-    action: Build a self-update payload that includes the current authenticated user's
-      required email and username plus nested locationSettings.
+    action: Build a self-update payload that includes the current authenticated user's required email and username plus nested locationSettings.
     source_refs:
     - app_user_controller
     - app_user_request_dto
@@ -328,10 +267,8 @@ intents:
     - location_settings_service
     - location_reverse_lookup_request_dto
   - step: 4
-    when: location_mode != OFF and latitude+longitude are provided and human-readable
-      address fields are missing
-    action: Optionally resolve the nearest address through reverse lookup before saving
-      the profile.
+    when: location_mode != OFF and latitude+longitude are provided and human-readable address fields are missing
+    action: Optionally resolve the nearest address through reverse lookup before saving the profile.
     endpoint_id: reverse_lookup_location
     source_refs:
     - location_lookup_controller
@@ -339,8 +276,7 @@ intents:
     - location_settings_service
   - step: 5
     when: location_mode != OFF and lookup_query is provided
-    action: Resolve a candidate address through lookup and use a selected result to
-      fill label, address parts, coordinates, provider, and resolvedAt.
+    action: Resolve a candidate address through lookup and use a selected result to fill label, address parts, coordinates, provider, and resolvedAt.
     endpoint_id: lookup_location
     source_refs:
     - location_lookup_controller
@@ -350,8 +286,7 @@ intents:
     - lookup returns no acceptable candidate and no coordinates are available
   - step: 6
     when: location_mode != OFF and only manual address fields are provided
-    action: Allow save only if the backend can auto-resolve the manual address into
-      usable coordinates.
+    action: Allow save only if the backend can auto-resolve the manual address into usable coordinates.
     source_refs:
     - location_settings_service
     - service_errors
@@ -383,8 +318,7 @@ intents:
     - app_user_request_dto
     - location_settings_service
 - id: set_profile_details
-  description: Update the authenticated user's profile fields through the self-update
-    flow.
+  description: Update the authenticated user's profile fields through the self-update flow.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -398,8 +332,7 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require a complete self-update payload because the current endpoint uses
-      full-update semantics.
+    action: Require a complete self-update payload because the current endpoint uses full-update semantics.
     source_refs:
     - app_user_request_dto
     - app_user_service
@@ -408,8 +341,7 @@ intents:
     - email is missing
     - username is missing
   - step: 2
-    action: Reuse backend validation for email, username, password shape, avatar payload
-      shape, and nested location settings.
+    action: Reuse backend validation for email, username, password shape, avatar payload shape, and nested location settings.
     source_refs:
     - app_user_request_dto
     - app_user_service
@@ -427,8 +359,7 @@ intents:
     - app_user_service
     - location_settings_service
 - id: open_admin_user_detail
-  description: Open one user account through the admin detail view after exact user
-    resolution.
+  description: Open one user account through the admin detail view after exact user resolution.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -475,8 +406,7 @@ intents:
     - user_id is missing
     - acting user is not admin
   - step: 2
-    action: Reuse backend full-update validation for email, username, optional password,
-      profile fields, location settings, and role.
+    action: Reuse backend full-update validation for email, username, optional password, profile fields, location settings, and role.
     source_refs:
     - app_user_request_dto
     - app_user_service
@@ -492,8 +422,7 @@ intents:
     - app_user_controller
     - app_user_service
 - id: delete_user_as_admin
-  description: Delete one exact user account through the admin endpoint only after
-    explicit destructive confirmation.
+  description: Delete one exact user account through the admin endpoint only after explicit destructive confirmation.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -532,8 +461,7 @@ intents:
     - app_user_controller
     - app_user_service
 - id: resolve_circle_recipient
-  description: Resolve one social recipient from natural-language or partial-name
-    input before invite or accept flows.
+  description: Resolve one social recipient from natural-language or partial-name input before invite or accept flows.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -558,8 +486,7 @@ intents:
     - circle_service
     - circle_relation_service
   - step: 3
-    action: Stop unless exactly one concrete recipient can be selected safely from
-      the returned candidates.
+    action: Stop unless exactly one concrete recipient can be selected safely from the returned candidates.
     source_refs:
     - circle_service
     - circle_relation_service
@@ -569,8 +496,7 @@ intents:
     - multiple user candidates still match the intended recipient
   - step: 4
     when: expected_relation_state == incoming_request
-    action: If the next workflow expects an incoming request, confirm the resolved
-      recipient actually maps to an incoming pending request for the acting user.
+    action: If the next workflow expects an incoming request, confirm the resolved recipient actually maps to an incoming pending request for the acting user.
     endpoint_id: get_incoming_circle_requests
     source_refs:
     - circle_controller
@@ -578,11 +504,9 @@ intents:
     - circle_relation_service
     - service_errors
     fail_if:
-    - the resolved recipient does not have an incoming pending request for the acting
-      user
+    - the resolved recipient does not have an incoming pending request for the acting user
 - id: resolve_user_candidate
-  description: Resolve one user target from natural-language input before profile,
-    social, or chat actions.
+  description: Resolve one user target from natural-language input before profile, social, or chat actions.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -612,8 +536,7 @@ intents:
     - circle_relation_service
   - step: 3
     when: scope == accepted_contact
-    action: Restrict user resolution to current accepted contacts through the connections
-      endpoint.
+    action: Restrict user resolution to current accepted contacts through the connections endpoint.
     endpoint_id: get_circle_connections
     source_refs:
     - circle_controller
@@ -645,8 +568,7 @@ intents:
     - no user candidate matches the intended target
     - multiple user candidates still match the intended target
 - id: resolve_outgoing_circle_request
-  description: Resolve one outgoing pending circle request from natural-language input
-    before cancellation.
+  description: Resolve one outgoing pending circle request from natural-language input before cancellation.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -670,8 +592,7 @@ intents:
     - circle_service
     - circle_relation_service
   - step: 3
-    action: Stop unless exactly one outgoing pending request matches the intended
-      counterpart.
+    action: Stop unless exactly one outgoing pending request matches the intended counterpart.
     source_refs:
     - circle_service
     - circle_relation_service
@@ -680,8 +601,7 @@ intents:
     - no outgoing pending request matches the intended counterpart
     - multiple outgoing pending requests still match the intended counterpart
 - id: resolve_news_item_candidate
-  description: Resolve one notification item from the authenticated user's current
-    news feed before item-specific read actions.
+  description: Resolve one notification item from the authenticated user's current news feed before item-specific read actions.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -765,16 +685,14 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require authenticated context and load the current user's accepted circle
-      relations.
+    action: Require authenticated context and load the current user's accepted circle relations.
     endpoint_id: get_my_circle_relations
     source_refs:
     - circle_controller
     - circle_service
     - service_errors
 - id: open_circle_relation
-  description: Open the authenticated user's current relation state with one exact
-    other user.
+  description: Open the authenticated user's current relation state with one exact other user.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -806,8 +724,7 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require authenticated context and current location prerequisites supported
-      by nearby discovery.
+    action: Require authenticated context and current location prerequisites supported by nearby discovery.
     source_refs:
     - circle_controller
     - location_settings_service
@@ -883,9 +800,7 @@ intents:
     - dashboard_vision_prompt_response_dto
     - service_errors
 - id: process_vision_conversation_turn
-  description: Advance one persisted `/vision` conversation turn through backend-owned
-    stepwise orchestration, including review-to-execution when the flag is enabled
-    and the user explicitly confirms.
+  description: Advance one persisted `/vision` conversation turn through backend-owned stepwise orchestration, including review-to-execution when the flag is enabled and the user explicitly confirms.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -898,8 +813,7 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require authenticated context and load or create one persisted vision
-      conversation.
+    action: Require authenticated context and load or create one persisted vision conversation.
     endpoint_id: process_vision_conversation_turn
     source_refs:
     - vision_conversation_controller
@@ -910,15 +824,7 @@ intents:
     - vision_quest_review_dto
     - service_errors
   - step: 2
-    action: Keep the turn read-only while the backend collects one missing quest slot
-      at a time, including reward, visibility, schedule, and location decisions; require
-      explicit confirmation when a custom location lookup proposes a more precise
-      candidate before review may continue; route `OPEN_CHAT` through the existing
-      chat-open boundary when the semantic plan resolves a target contact; require
-      typed review-edit actions with one explicit review target whenever the client
-      requests a review correction; keep reset and cancel on dedicated lifecycle
-      endpoints; execute the first real quest creation only when the execution flag
-      is enabled and the user explicitly confirms.
+    action: Keep the turn read-only while the backend collects one missing quest slot at a time, including reward, visibility, schedule, and location decisions; require explicit confirmation when a custom location lookup proposes a more precise candidate before review may continue; route `OPEN_CHAT` through the existing chat-open boundary when the semantic plan resolves a target contact; require typed review-edit actions with one explicit review target whenever the client requests a review correction; keep reset and cancel on dedicated lifecycle endpoints; execute the first real quest creation only when the execution flag is enabled and the user explicitly confirms.
     source_refs:
     - vision_conversation_service
     - vision_create_quest_execution_adapter
@@ -1129,8 +1035,7 @@ intents:
     - quest_controller
     - quest_service
 - id: resolve_circle_candidate
-  description: Resolve one owned circle target from natural-language input before
-    circle-scoped actions.
+  description: Resolve one owned circle target from natural-language input before circle-scoped actions.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -1161,8 +1066,7 @@ intents:
     - no owned circle matches the intended target
     - multiple owned circles still match the intended target
 - id: resolve_current_location_input
-  description: Resolve current-location input into a trusted profile-location payload
-    before location mutation.
+  description: Resolve current-location input into a trusted profile-location payload before location mutation.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -1191,8 +1095,7 @@ intents:
     - location_settings_service
     - location_reverse_lookup_request_dto
   - step: 3
-    action: Require the resolved location payload to be usable by the profile location
-      update flow.
+    action: Require the resolved location payload to be usable by the profile location update flow.
     source_refs:
     - location_settings_service
     - service_errors
@@ -1217,8 +1120,7 @@ intents:
     - recipient_id is missing
     - recipient_id equals the authenticated user id
   - step: 2
-    action: Reject the invite if any relation already exists or if one side has blocked
-      the other.
+    action: Reject the invite if any relation already exists or if one side has blocked the other.
     source_refs:
     - circle_relation_service
     - service_errors
@@ -1263,8 +1165,7 @@ intents:
     - circle_controller
     - circle_relation_service
 - id: cancel_circle_request
-  description: Cancel one outgoing pending circle request owned by the authenticated
-    user.
+  description: Cancel one outgoing pending circle request owned by the authenticated user.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -1352,8 +1253,7 @@ intents:
     - circle_service
     - service_errors
     fail_if:
-    - the authenticated user already owns another circle with the same normalized
-      name
+    - the authenticated user already owns another circle with the same normalized name
   - step: 4
     action: Persist the change through the owner update-circle endpoint.
     endpoint_id: update_circle
@@ -1362,8 +1262,7 @@ intents:
     - circle_group_request_dto
     - circle_service
 - id: delete_circle
-  description: Delete one owner-owned circle only after exact target resolution and
-    explicit destructive confirmation.
+  description: Delete one owner-owned circle only after exact target resolution and explicit destructive confirmation.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -1381,8 +1280,7 @@ intents:
     - circle_id is missing
     - the target circle is not owned by the authenticated user
   - step: 2
-    action: Require explicit destructive confirmation instead of treating free-text
-      delete phrasing as final authorization.
+    action: Require explicit destructive confirmation instead of treating free-text delete phrasing as final authorization.
     source_refs:
     - circle_service
     - service_errors
@@ -1395,8 +1293,7 @@ intents:
     - circle_controller
     - circle_service
 - id: delete_circle_as_admin
-  description: Delete one exact circle through the admin endpoint only after explicit
-    destructive confirmation.
+  description: Delete one exact circle through the admin endpoint only after explicit destructive confirmation.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -1474,8 +1371,7 @@ intents:
     - circle_controller
     - circle_relation_service
 - id: assign_circle_members
-  description: Assign one or more existing connected users into circles owned by the
-    authenticated user.
+  description: Assign one or more existing connected users into circles owned by the authenticated user.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -1492,8 +1388,7 @@ intents:
   workflow:
   - step: 1
     when: assignment_mode == single_sync
-    action: Require one target_user_id and a replacement set of owner-owned circle
-      ids.
+    action: Require one target_user_id and a replacement set of owner-owned circle ids.
     source_refs:
     - connection_circle_update_dto
     - circle_service
@@ -1512,8 +1407,7 @@ intents:
     - target user is not an accepted circle connection
   - step: 3
     when: assignment_mode == single_sync
-    action: Replace the target contact's current owner-side circle assignments with
-      the requested set.
+    action: Replace the target contact's current owner-side circle assignments with the requested set.
     endpoint_id: update_connection_circles
     source_refs:
     - circle_controller
@@ -1522,8 +1416,7 @@ intents:
     - circle_membership_service
   - step: 4
     when: assignment_mode == bulk_add_or_remove
-    action: Require one owner-owned circle_id, one or more target_user_ids, and a
-      bulk action of ADD or REMOVE.
+    action: Require one owner-owned circle_id, one or more target_user_ids, and a bulk action of ADD or REMOVE.
     source_refs:
     - bulk_circle_membership_update_dto
     - circle_service
@@ -1535,8 +1428,7 @@ intents:
     - bulk_action is missing
   - step: 5
     when: assignment_mode == bulk_add_or_remove
-    action: Reject any target user who is not an accepted circle connection of the
-      acting owner.
+    action: Reject any target user who is not an accepted circle connection of the acting owner.
     source_refs:
     - circle_service
     - service_errors
@@ -1552,8 +1444,7 @@ intents:
     - circle_service
     - circle_membership_service
 - id: find_owned_quest_candidates
-  description: Resolve one owned quest candidate from natural-language quest references
-    before owner-side actions.
+  description: Resolve one owned quest candidate from natural-language quest references before owner-side actions.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -1578,8 +1469,7 @@ intents:
     - quest_service
     - quest_query_service
   - step: 3
-    action: Keep only quests owned by the authenticated user and matching any requested
-      status constraint.
+    action: Keep only quests owned by the authenticated user and matching any requested status constraint.
     source_refs:
     - quest_service
     - quest_access_policy_service
@@ -1595,16 +1485,14 @@ intents:
     fail_if:
     - multiple owned quests still match the requested query
   - step: 5
-    action: Load the final owner-visible detail view for the resolved quest id before
-      any owner-side mutation.
+    action: Load the final owner-visible detail view for the resolved quest id before any owner-side mutation.
     endpoint_id: get_quest_detail
     source_refs:
     - quest_controller
     - quest_service
     - quest_access_policy_service
 - id: inspect_owned_quest_pending_applications
-  description: Inspect one owned quest and expose deterministic pending-application
-    selection data before approval or decline.
+  description: Inspect one owned quest and expose deterministic pending-application selection data before approval or decline.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -1629,16 +1517,14 @@ intents:
     - quest_application_service
     - quest_access_policy_service
   - step: 3
-    action: Require at least one pending application in the returned deterministic
-      view metadata.
+    action: Require at least one pending application in the returned deterministic view metadata.
     source_refs:
     - quest_application_service
     - service_errors
     fail_if:
     - pending application count is zero
 - id: select_oldest_pending_application
-  description: Select the oldest pending application for an owned quest using deterministic
-    backend view metadata.
+  description: Select the oldest pending application for an owned quest using deterministic backend view metadata.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -1654,8 +1540,7 @@ intents:
     - quest_application_service
     - service_errors
   - step: 2
-    action: Read the oldest pending application id from the backend applications view
-      metadata instead of relying on incidental UI ordering.
+    action: Read the oldest pending application id from the backend applications view metadata instead of relying on incidental UI ordering.
     endpoint_id: get_quest_applications_view
     source_refs:
     - quest_application_service
@@ -1664,8 +1549,7 @@ intents:
     fail_if:
     - oldest pending application id is missing
 - id: find_my_pending_application_candidates
-  description: Resolve one of the acting user's pending applications from natural-language
-    quest references.
+  description: Resolve one of the acting user's pending applications from natural-language quest references.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -1702,8 +1586,7 @@ intents:
     fail_if:
     - multiple pending applications still match the intended quest reference
 - id: find_admin_application_candidates
-  description: Resolve one application from the admin application search surface before
-    admin-side correction or deletion.
+  description: Resolve one application from the admin application search surface before admin-side correction or deletion.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -1727,8 +1610,7 @@ intents:
     - quest_application_controller
     - quest_application_service
   - step: 3
-    action: Keep only applications matching the intended query and any explicit status
-      constraint.
+    action: Keep only applications matching the intended query and any explicit status constraint.
     source_refs:
     - quest_application_service
     - service_errors
@@ -1822,8 +1704,7 @@ intents:
     value: PROFILE
   workflow:
   - step: 1
-    action: Build a quest request payload and validate quest core fields, term flags,
-      assignee target, image limits, and rich-text content.
+    action: Build a quest request payload and validate quest core fields, term flags, assignee target, image limits, and rich-text content.
     source_refs:
     - quest_request_dto
     - quest_validation_service
@@ -1841,16 +1722,14 @@ intents:
     - an image is not a data URL
   - step: 2
     when: audience == EVERYONE
-    action: Clear or ignore selected circle visibility because public quests do not
-      keep circle restrictions.
+    action: Clear or ignore selected circle visibility because public quests do not keep circle restrictions.
     source_refs:
     - quest_validation_service
     - quest_visibility_service
     - service_errors
   - step: 3
     when: audience == CIRCLES and selected_circle_ids are provided
-    action: Validate each selected circle id against circles owned by the authenticated
-      quest owner.
+    action: Validate each selected circle id against circles owned by the authenticated quest owner.
     source_refs:
     - quest_validation_service
     - quest_visibility_service
@@ -1859,15 +1738,13 @@ intents:
     - audience is CIRCLES and selected circles are invalid for the owner
   - step: 4
     when: audience == CIRCLES and selected_circle_ids are omitted or empty
-    action: Allow the fallback visibility model where quest access is later resolved
-      from the creator's accepted circle relation with the viewer.
+    action: Allow the fallback visibility model where quest access is later resolved from the creator's accepted circle relation with the viewer.
     source_refs:
     - quest_visibility_service
     - quest_validation_service
   - step: 5
     when: location_visibility == OFF
-    action: Clear quest location data and skip profile-location or custom-location
-      requirements.
+    action: Clear quest location data and skip profile-location or custom-location requirements.
     source_refs:
     - location_settings_service
     - service_errors
@@ -1878,19 +1755,15 @@ intents:
     - location_settings_service
     - service_errors
     fail_if:
-    - location_source is PROFILE with visible location but the user profile location
-      is unusable
+    - location_source is PROFILE with visible location but the user profile location is unusable
   - step: 7
-    when: location_visibility == INHERIT and location_source == PROFILE and creator
-      profile location mode == OFF
-    action: Allow inherited profile location to collapse to no quest location instead
-      of forcing visible location.
+    when: location_visibility == INHERIT and location_source == PROFILE and creator profile location mode == OFF
+    action: Allow inherited profile location to collapse to no quest location instead of forcing visible location.
     source_refs:
     - location_settings_service
   - step: 8
     when: location_visibility != OFF and location_source == CUSTOM
-    action: Require at least one custom address field and rely on backend auto-resolution
-      to obtain usable coordinates.
+    action: Require at least one custom address field and rely on backend auto-resolution to obtain usable coordinates.
     source_refs:
     - quest_request_dto
     - quest_validation_service
@@ -1959,8 +1832,7 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require the target quest to resolve as an owner-visible or admin-visible
-      quest.
+    action: Require the target quest to resolve as an owner-visible or admin-visible quest.
     source_refs:
     - quest_service
     - quest_access_policy_service
@@ -1969,8 +1841,7 @@ intents:
     - quest_id is missing
     - acting user is neither quest owner nor admin
   - step: 2
-    action: Build an update payload and reuse backend quest validation, visibility,
-      location, and term-transition rules.
+    action: Build an update payload and reuse backend quest validation, visibility, location, and term-transition rules.
     source_refs:
     - quest_request_dto
     - quest_validation_service
@@ -2000,8 +1871,7 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require an application payload with meaningful message content and a proposed-price
-      shape that matches the target quest pricing mode.
+    action: Require an application payload with meaningful message content and a proposed-price shape that matches the target quest pricing mode.
     source_refs:
     - quest_application_request_dto
     - quest_application_service
@@ -2013,8 +1883,7 @@ intents:
     - target quest is paid and proposed_price is below 0.01
     - target quest is free and proposed_price is provided
   - step: 2
-    action: Require the target quest to be visible to the acting user and currently
-      OPEN.
+    action: Require the target quest to be visible to the acting user and currently OPEN.
     source_refs:
     - quest_application_service
     - quest_visibility_service
@@ -2049,8 +1918,7 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require the acting user to already own one pending application for the
-      target quest.
+    action: Require the acting user to already own one pending application for the target quest.
     source_refs:
     - quest_application_service
     - service_errors
@@ -2058,8 +1926,7 @@ intents:
     - quest_id is missing
     - the acting user has no pending application for the target quest
   - step: 2
-    action: Reuse the same backend message and price validation rules as application
-      creation.
+    action: Reuse the same backend message and price validation rules as application creation.
     source_refs:
     - quest_application_request_dto
     - quest_application_service
@@ -2085,8 +1952,7 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require the acting user to already own one pending application for the
-      target quest.
+    action: Require the acting user to already own one pending application for the target quest.
     source_refs:
     - quest_application_service
     - service_errors
@@ -2100,8 +1966,7 @@ intents:
     - quest_application_controller
     - quest_application_service
 - id: update_admin_application
-  description: Update one exact application through the admin application-management
-    surface.
+  description: Update one exact application through the admin application-management surface.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -2121,8 +1986,7 @@ intents:
     - application_id is missing
     - acting user is not admin
   - step: 2
-    action: Reuse backend admin validation rules for message, proposed price, and
-      optional status transition.
+    action: Reuse backend admin validation rules for message, proposed price, and optional status transition.
     source_refs:
     - quest_application_service
     - rich_text_validator
@@ -2136,8 +2000,7 @@ intents:
     - quest_application_controller
     - quest_application_service
 - id: delete_admin_application
-  description: Delete one exact application through the admin surface only after explicit
-    destructive confirmation.
+  description: Delete one exact application through the admin surface only after explicit destructive confirmation.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -2155,8 +2018,7 @@ intents:
     - application_id is missing
     - acting user is not admin
   - step: 2
-    action: Require explicit destructive confirmation before calling the admin delete
-      endpoint.
+    action: Require explicit destructive confirmation before calling the admin delete endpoint.
     source_refs:
     - quest_application_service
     - service_errors
@@ -2169,8 +2031,7 @@ intents:
     - quest_application_controller
     - quest_application_service
 - id: approve_application
-  description: Approve one pending application for an open quest as quest owner or
-    admin.
+  description: Approve one pending application for an open quest as quest owner or admin.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -2208,17 +2069,14 @@ intents:
     fail_if:
     - approved application count is already at or above assignee target
   - step: 5
-    action: Approve the application through the approval endpoint and let the backend
-      update quest status and decline other pending applications when all spots are
-      filled.
+    action: Approve the application through the approval endpoint and let the backend update quest status and decline other pending applications when all spots are filled.
     endpoint_id: approve_application
     source_refs:
     - quest_application_controller
     - quest_application_service
     - quest_state_transition_service
 - id: decline_application
-  description: Decline one pending application for an open quest as quest owner or
-    admin.
+  description: Decline one pending application for an open quest as quest owner or admin.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -2255,8 +2113,7 @@ intents:
     - quest_application_controller
     - quest_application_service
 - id: delete_quest
-  description: Delete one owned quest only after exact target resolution and explicit
-    destructive confirmation.
+  description: Delete one owned quest only after exact target resolution and explicit destructive confirmation.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -2266,8 +2123,7 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require the target quest to resolve as one exact owner-visible quest before
-      deletion.
+    action: Require the target quest to resolve as one exact owner-visible quest before deletion.
     source_refs:
     - quest_service
     - quest_access_policy_service
@@ -2276,8 +2132,7 @@ intents:
     - quest_id is missing
     - acting user is neither quest owner nor admin
   - step: 2
-    action: Require explicit destructive confirmation instead of treating free-text
-      delete intent as final authorization.
+    action: Require explicit destructive confirmation instead of treating free-text delete intent as final authorization.
     source_refs:
     - quest_service
     - service_errors
@@ -2314,8 +2169,7 @@ intents:
     - app_user_service
     - circle_service
 - id: set_profile_current_location
-  description: Update the authenticated user's profile location from current device
-    coordinates.
+  description: Update the authenticated user's profile location from current device coordinates.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -2339,8 +2193,7 @@ intents:
     - app_user_controller
     - location_settings_service
 - id: resolve_chat_conversation
-  description: Resolve one currently accessible chat conversation from natural-language
-    target input.
+  description: Resolve one currently accessible chat conversation from natural-language target input.
   mutating: false
   required_inputs:
   - authenticated_user
@@ -2364,8 +2217,7 @@ intents:
     - chat_service
     - circle_relation_service
   - step: 3
-    action: Stop unless exactly one currently accessible conversation matches the
-      intended target.
+    action: Stop unless exactly one currently accessible conversation matches the intended target.
     source_refs:
     - chat_service
     - service_errors
@@ -2408,8 +2260,7 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require a current accessible conversation and meaningful text-or-image
-      message content.
+    action: Require a current accessible conversation and meaningful text-or-image message content.
     source_refs:
     - chat_service
     - service_errors
@@ -2478,8 +2329,7 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require authenticated context and publish the current user's chat presence
-      heartbeat.
+    action: Require authenticated context and publish the current user's chat presence heartbeat.
     endpoint_id: chat_presence_heartbeat
     source_refs:
     - chat_controller
@@ -2494,8 +2344,7 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Require authenticated user context because the mutation is scoped only
-      to the caller's own feed.
+    action: Require authenticated user context because the mutation is scoped only to the caller's own feed.
     source_refs:
     - quest_news_service
     - service_errors
@@ -2636,8 +2485,7 @@ intents:
     - no pending term change exists
     - the backend cannot restore the previous quest status
   - step: 3
-    action: Confirm the term change through the dedicated endpoint and restore the
-      previous active quest status.
+    action: Confirm the term change through the dedicated endpoint and restore the previous active quest status.
     endpoint_id: confirm_quest_term_change
     source_refs:
     - quest_controller
@@ -2661,8 +2509,7 @@ intents:
     fail_if:
     - acting user is neither admin nor approved applicant
   - step: 2
-    action: Require the quest to be in WAITING_CONFIRMATION and have a restorable
-      previous status.
+    action: Require the quest to be in WAITING_CONFIRMATION and have a restorable previous status.
     source_refs:
     - quest_state_transition_service
     - quest_service
@@ -2671,8 +2518,7 @@ intents:
     - quest is not waiting for confirmation
     - the backend cannot restore the previous quest status
   - step: 3
-    action: Reject the term change through the dedicated endpoint and restore the
-      previous active quest status without applying pending term fields.
+    action: Reject the term change through the dedicated endpoint and restore the previous active quest status without applying pending term fields.
     endpoint_id: reject_quest_term_change
     source_refs:
     - quest_controller
@@ -2709,8 +2555,7 @@ intents:
     - ends_at is invalid for the requested schedule
   - step: 3
     when: quest status is OPEN or CANCELLED
-    action: Apply the term directly through quest update without waiting for worker
-      confirmation.
+    action: Apply the term directly through quest update without waiting for worker confirmation.
     endpoint_id: update_quest
     source_refs:
     - quest_controller
@@ -2727,8 +2572,7 @@ intents:
     - quest_update_service
     - quest_state_transition_service
 - id: create_review
-  description: Create or update a post-completion review for the employer or approved
-    worker.
+  description: Create or update a post-completion review for the employer or approved worker.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -2776,8 +2620,7 @@ intents:
     - user_review_service
     - user_review_request_dto
 - id: create_user_with_quests
-  description: Create one normal user and then create a caller-defined number of distinct
-    quests owned by that user.
+  description: Create one normal user and then create a caller-defined number of distinct quests owned by that user.
   mutating: true
   required_inputs:
   - base_email
@@ -2795,8 +2638,7 @@ intents:
     value: 1
   workflow:
   - step: 1
-    action: Read the authenticated caller identity and require admin-controlled batch
-      input validation before creating the user or any quests.
+    action: Read the authenticated caller identity and require admin-controlled batch input validation before creating the user or any quests.
     intent_ref: open_auth_identity
     source_refs:
     - auth_controller
@@ -2815,8 +2657,7 @@ intents:
     - app_user_service
     - app_user_controller
   - step: 3
-    action: If quest defaults require visible profile-backed location, ensure the
-      user profile location is configured before quest creation.
+    action: If quest defaults require visible profile-backed location, ensure the user profile location is configured before quest creation.
     intent_ref: set_profile_location
     endpoint_id: update_current_user
     source_refs:
@@ -2824,8 +2665,7 @@ intents:
     - app_user_controller
     - service_errors
   - step: 4
-    when: shared_quest_defaults or templates require selected circle ids that do not
-      yet exist
+    when: shared_quest_defaults or templates require selected circle ids that do not yet exist
     action: Create missing owner circles before quest creation.
     intent_ref: create_circle
     endpoint_id: create_circle
@@ -2843,8 +2683,7 @@ intents:
     - circle_membership_service
     - service_errors
   - step: 6
-    action: Ensure the requested batch count is at least 1 and that enough meaningfully
-      distinct quest payloads can be produced.
+    action: Ensure the requested batch count is at least 1 and that enough meaningfully distinct quest payloads can be produced.
     source_refs:
     - quest_validation_service
     - rich_text_validator
@@ -2852,8 +2691,7 @@ intents:
     - quest_count is below 1
     - not enough unique quest payloads are available for the requested batch
   - step: 7
-    action: Create quests one by one using the create_quest workflow and stop on the
-      first unsafe validation failure.
+    action: Create quests one by one using the create_quest workflow and stop on the first unsafe validation failure.
     intent_ref: create_quest
     endpoint_id: create_quest
     source_refs:
@@ -2862,8 +2700,7 @@ intents:
     - quest_update_service
     - location_settings_service
 - id: create_circle_only_quest_for_selected_people
-  description: Prepare a circle-limited quest for selected people by ensuring connection,
-    circle membership, and then quest creation.
+  description: Prepare a circle-limited quest for selected people by ensuring connection, circle membership, and then quest creation.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -2879,8 +2716,7 @@ intents:
     value: false
   workflow:
   - step: 1
-    action: Require at least one selected person and a quest payload that uses audience
-      CIRCLES.
+    action: Require at least one selected person and a quest payload that uses audience CIRCLES.
     source_refs:
     - quest_request_dto
     - circle_service
@@ -2905,10 +2741,8 @@ intents:
     - circle_service
     - circle_membership_service
   - step: 4
-    when: some selected people are not accepted connections and auto_invite_missing_people
-      == true
-    action: Send invites to the missing people, but do not treat them as connected
-      yet.
+    when: some selected people are not accepted connections and auto_invite_missing_people == true
+    action: Send invites to the missing people, but do not treat them as connected yet.
     intent_ref: create_circle_connection
     endpoint_id: create_circle_request
     source_refs:
@@ -2916,10 +2750,8 @@ intents:
     - circle_relation_service
     - service_errors
   - step: 5
-    when: some selected people are not accepted connections and multi_actor_accept_context
-      is provided
-    action: Allow recipient-side acceptance only through explicit multi-actor execution
-      context.
+    when: some selected people are not accepted connections and multi_actor_accept_context is provided
+    action: Allow recipient-side acceptance only through explicit multi-actor execution context.
     intent_ref: accept_circle_connection
     endpoint_id: accept_circle_request
     source_refs:
@@ -2927,10 +2759,8 @@ intents:
     - circle_relation_service
     - service_errors
   - step: 6
-    when: after connection checks and optional accept flow, some selected people are
-      still not accepted connections
-    action: Stop instead of creating a misleading circle-only quest for people who
-      cannot actually be added.
+    when: after connection checks and optional accept flow, some selected people are still not accepted connections
+    action: Stop instead of creating a misleading circle-only quest for people who cannot actually be added.
     source_refs:
     - circle_service
     - circle_relation_service
@@ -2947,8 +2777,7 @@ intents:
     - quest_visibility_service
     - service_errors
 - id: prepare_circle_only_quest_flow_to_start
-  description: Prepare a selected-people circle quest all the way to ASSIGNED or STARTED,
-    but only when each actor-side prerequisite is available.
+  description: Prepare a selected-people circle quest all the way to ASSIGNED or STARTED, but only when each actor-side prerequisite is available.
   mutating: true
   required_inputs:
   - owner_user
@@ -2972,8 +2801,7 @@ intents:
     value: false
   workflow:
   - step: 1
-    action: Read the authenticated owner context before preparing the selected-people
-      quest flow.
+    action: Read the authenticated owner context before preparing the selected-people quest flow.
     intent_ref: open_auth_identity
     source_refs:
     - auth_controller
@@ -2993,8 +2821,7 @@ intents:
     - quest_service
   - step: 3
     when: applicant_payloads are provided
-    action: Require one applicant-side payload per intended worker and execute applications
-      only in the authenticated context of each applicant.
+    action: Require one applicant-side payload per intended worker and execute applications only in the authenticated context of each applicant.
     source_refs:
     - quest_application_request_dto
     - quest_application_service
@@ -3013,8 +2840,7 @@ intents:
     - quest_visibility_service
   - step: 5
     when: auto_approve_applicants == true
-    action: Approve the target applications only from owner or admin context, respecting
-      assignee_target capacity.
+    action: Approve the target applications only from owner or admin context, respecting assignee_target capacity.
     intent_ref: approve_application
     endpoint_id: approve_application
     source_refs:
@@ -3032,8 +2858,7 @@ intents:
     - no real applications exist to approve
   - step: 7
     when: auto_start_when_assigned == true
-    action: Require the quest to already be ASSIGNED and require an execution actor
-      that is owner, admin, or approved worker.
+    action: Require the quest to already be ASSIGNED and require an execution actor that is owner, admin, or approved worker.
     source_refs:
     - quest_service
     - quest_state_transition_service
@@ -3052,8 +2877,7 @@ intents:
     - quest_service
     - quest_state_transition_service
 - id: voice_prepare_scheduled_circle_only_quest_for_selected_people
-  description: Resolve a voice instruction for a scheduled circle-only quest and prepare
-    it toward ASSIGNED or STARTED without guessing missing actor-side context.
+  description: Resolve a voice instruction for a scheduled circle-only quest and prepare it toward ASSIGNED or STARTED without guessing missing actor-side context.
   mutating: true
   required_inputs:
   - owner_user
@@ -3087,8 +2911,7 @@ intents:
     value: false
   workflow:
   - step: 1
-    action: Read the authenticated caller identity and resolve the voice scheduling
-      request into an absolute quest timestamp in the caller's timezone before mutation.
+    action: Read the authenticated caller identity and resolve the voice scheduling request into an absolute quest timestamp in the caller's timezone before mutation.
     intent_ref: open_auth_identity
     source_refs:
     - auth_controller
@@ -3101,8 +2924,7 @@ intents:
     - scheduling_request cannot be resolved into an absolute scheduled_at
     - resolved scheduled_at is invalid for quest creation
   - step: 2
-    action: Resolve selected people into concrete user ids and reject ambiguous or
-      unresolved matches.
+    action: Resolve selected people into concrete user ids and reject ambiguous or unresolved matches.
     source_refs:
     - app_user_lookup_service
     - circle_service
@@ -3112,8 +2934,7 @@ intents:
     - selected_people is empty
     - one or more selected people cannot be resolved safely
   - step: 3
-    action: Build a quest payload that forces audience CIRCLES and injects the resolved
-      absolute schedule.
+    action: Build a quest payload that forces audience CIRCLES and injects the resolved absolute schedule.
     source_refs:
     - quest_request_dto
     - quest_validation_service
@@ -3122,8 +2943,7 @@ intents:
     - quest_payload_template is missing required quest fields
     - the resolved payload does not use audience CIRCLES
   - step: 4
-    action: Prepare the selected-people circle and create the scheduled circle-only
-      quest.
+    action: Prepare the selected-people circle and create the scheduled circle-only quest.
     intent_ref: create_circle_only_quest_for_selected_people
     source_refs:
     - circle_controller
@@ -3132,8 +2952,7 @@ intents:
     - quest_service
   - step: 5
     when: selected_applicant_payloads are provided
-    action: Require one applicant-authenticated payload per intended worker and keep
-      the applicant set inside the resolved selected people set.
+    action: Require one applicant-authenticated payload per intended worker and keep the applicant set inside the resolved selected people set.
     source_refs:
     - quest_application_request_dto
     - quest_application_service
@@ -3141,12 +2960,10 @@ intents:
     fail_if:
     - an applicant payload is missing for a selected worker who must apply
     - an applicant-side authenticated context is missing
-    - an applicant payload belongs to someone outside the resolved selected people
-      set
+    - an applicant payload belongs to someone outside the resolved selected people set
   - step: 6
     when: selected_applicant_payloads are provided
-    action: Create the selected workers' applications through applicant-side execution
-      only.
+    action: Create the selected workers' applications through applicant-side execution only.
     intent_ref: apply_to_quest
     endpoint_id: apply_to_quest
     source_refs:
@@ -3155,8 +2972,7 @@ intents:
     - quest_visibility_service
   - step: 7
     when: auto_approve_selected_applicants == true
-    action: Approve only the intended selected pending applications from owner or
-      admin context and stop when assignee_target capacity is reached.
+    action: Approve only the intended selected pending applications from owner or admin context and stop when assignee_target capacity is reached.
     intent_ref: approve_application
     endpoint_id: approve_application
     source_refs:
@@ -3165,10 +2981,8 @@ intents:
     - quest_state_transition_service
     - service_errors
   - step: 8
-    when: auto_approve_selected_applicants == true and selected_applicant_payloads
-      are missing
-    action: Stop because selected approvals cannot happen before real selected applications
-      exist.
+    when: auto_approve_selected_applicants == true and selected_applicant_payloads are missing
+    action: Stop because selected approvals cannot happen before real selected applications exist.
     source_refs:
     - quest_application_service
     - service_errors
@@ -3176,8 +2990,7 @@ intents:
     - no real selected applications exist to approve
   - step: 9
     when: auto_decline_unexpected_applicants == true
-    action: Decline only pending applications from users outside the resolved selected
-      people set through owner or admin context.
+    action: Decline only pending applications from users outside the resolved selected people set through owner or admin context.
     intent_ref: decline_application
     endpoint_id: decline_application
     source_refs:
@@ -3187,8 +3000,7 @@ intents:
     - service_errors
   - step: 10
     when: term_change_request is provided after the quest reaches ASSIGNED or IN_PROGRESS
-    action: Request the owner-side term change and expect WAITING_CONFIRMATION until
-      approved-worker or admin decision completes.
+    action: Request the owner-side term change and expect WAITING_CONFIRMATION until approved-worker or admin decision completes.
     intent_ref: request_owner_term_change
     endpoint_id: update_quest
     source_refs:
@@ -3198,8 +3010,7 @@ intents:
     - quest_state_transition_service
   - step: 11
     when: auto_start_when_assigned == true
-    action: Require the quest to already be ASSIGNED and require an execution actor
-      that is owner, admin, or approved worker.
+    action: Require the quest to already be ASSIGNED and require an execution actor that is owner, admin, or approved worker.
     source_refs:
     - quest_service
     - quest_state_transition_service
@@ -3219,8 +3030,7 @@ intents:
     - quest_state_transition_service
   - step: 13
     when: auto_complete_after_execution == true
-    action: Complete the quest only after it has reached IN_PROGRESS and an execution-authorized
-      actor is present.
+    action: Complete the quest only after it has reached IN_PROGRESS and an execution-authorized actor is present.
     intent_ref: complete_quest
     endpoint_id: complete_quest
     source_refs:
@@ -3229,101 +3039,13 @@ intents:
     - quest_state_transition_service
   - step: 14
     when: review_handoff_plan is provided and the quest is COMPLETED
-    action: Hand off to post-completion review creation only for valid employer-worker
-      review pairs.
+    action: Hand off to post-completion review creation only for valid employer-worker review pairs.
     intent_ref: create_review
     endpoint_id: create_or_update_review
     source_refs:
     - user_review_controller
     - user_review_service
     - quest_application_service
-    - service_errors
-- id: create_sandbox_user_with_circle_and_quest_flow
-  description: Plan a synthetic admin-only test-data flow that creates users, circles,
-    quest applications, lifecycle transitions, and reviews without pretending it is
-    a production user path.
-  mutating: true
-  required_inputs:
-  - admin_actor
-  - environment_scope
-  - synthetic_user_batch
-  - sandbox_flow_plan
-  optional_inputs:
-  - synthetic_circle_plan
-  - synthetic_quest_plan
-  - synthetic_application_plan
-  - synthetic_execution_plan
-  - synthetic_review_plan
-  - synthetic_marker_strategy
-  defaults: []
-  workflow:
-  - step: 1
-    action: Read the authenticated admin identity and require explicit admin authority
-      plus developer-controlled environment scope before any synthetic flow is allowed.
-    intent_ref: open_auth_identity
-    source_refs:
-    - auth_controller
-    - agents_doc
-    - documentation_sync_policy_doc
-    - service_errors
-    fail_if:
-    - admin_actor is missing
-    - environment_scope is not explicitly sandbox-safe
-  - step: 2
-    action: Require an explicit synthetic marker strategy so sandbox entities can
-      later be distinguished from real data.
-    source_refs:
-    - business_logic_doc
-    - domain_technical_doc
-    fail_if:
-    - synthetic_marker_strategy is missing
-  - step: 3
-    action: Create the synthetic users and any required profile defaults.
-    intent_ref: create_user_with_quests
-    source_refs:
-    - auth_controller
-    - app_user_service
-    - app_user_controller
-  - step: 4
-    when: synthetic_circle_plan is provided
-    action: Create synthetic circles and memberships as part of the sandbox dataset.
-    intent_ref: create_circle
-    source_refs:
-    - circle_controller
-    - circle_service
-    - circle_membership_service
-  - step: 5
-    when: synthetic_quest_plan is provided
-    action: Create synthetic quests or selected-people quest flows from admin-controlled
-      sandbox input.
-    intent_ref: create_circle_only_quest_for_selected_people
-    source_refs:
-    - quest_controller
-    - quest_service
-    - circle_controller
-    - circle_service
-  - step: 6
-    when: synthetic_application_plan is provided
-    action: Allow synthetic multi-actor application creation only because this flow
-      is explicitly sandbox-only.
-    source_refs:
-    - quest_application_service
-    - documentation_sync_policy_doc
-  - step: 7
-    when: synthetic_execution_plan is provided
-    action: Allow synthetic approval, start, completion, and optional term-change
-      scenarios only inside the sandbox contract.
-    source_refs:
-    - quest_application_service
-    - quest_service
-    - quest_state_transition_service
-  - step: 8
-    when: synthetic_review_plan is provided
-    action: Allow synthetic review generation only after synthetic completion plan
-      reaches COMPLETED state.
-    source_refs:
-    - user_review_service
-    - quest_service
     - service_errors
 - id: browse_business_profiles
   description: Browse active business mini-site profiles.

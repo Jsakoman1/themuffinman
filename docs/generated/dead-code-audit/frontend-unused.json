@@ -1,0 +1,106 @@
+{
+  "generated_at": "2026-07-03T09:17:21Z",
+  "files_scanned": 28,
+  "likely_unused_files": [
+    {
+      "file": "apps/themuffinman/frontend/src/httpDebug.ts",
+      "basename": "httpDebug",
+      "refs": 0,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/lib/dialogFlow.ts",
+      "basename": "dialogFlow",
+      "refs": 0,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/lib/searchQuery.ts",
+      "basename": "searchQuery",
+      "refs": 0,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue",
+      "basename": "VisionAgentOrb",
+      "refs": 0,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/shared/clientMessages.ts",
+      "basename": "clientMessages",
+      "refs": 0,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
+      "basename": "createFeedbackMutationRunner",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/composables/useAutoDismissFeedback.ts",
+      "basename": "useAutoDismissFeedback",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts",
+      "basename": "useDebouncedWatch",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/composables/useMountedAsync.ts",
+      "basename": "useMountedAsync",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts",
+      "basename": "usePaginatedResults",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/composables/useTimedBanner.ts",
+      "basename": "useTimedBanner",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/lib/questListPagination.ts",
+      "basename": "questListPagination",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/styles/base.css",
+      "basename": "base",
+      "refs": 1,
+      "route_refs": 0,
+      "status": "likely_unused"
+    }
+  ],
+  "unused_dependencies": [
+    "@tiptap/extension-image",
+    "@tiptap/extension-link",
+    "@tiptap/extension-placeholder",
+    "@tiptap/extension-underline",
+    "@tiptap/starter-kit",
+    "@tiptap/vue-3",
+    "yaml"
+  ]
+}

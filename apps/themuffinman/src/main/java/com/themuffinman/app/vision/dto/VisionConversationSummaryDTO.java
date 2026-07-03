@@ -17,6 +17,9 @@ import java.time.Instant;
 public class VisionConversationSummaryDTO {
     private Long conversationId;
     private String intent;
+    private String entityFamily;
+    private String previousEntityFamily;
+    private String topicSwitchHint;
     private String status;
     private String title;
     private String subtitle;

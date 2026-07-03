@@ -24,10 +24,15 @@ public class VisionScheduleParserService {
     private static final Pattern TIME_PATTERN = Pattern.compile("\\b(\\d{1,2}:\\d{2})\\b");
     private static final Pattern HOUR_ONLY_PATTERN = Pattern.compile("\\b(?:at|u)\\s+(\\d{1,2})(?:\\s*(?:o'clock|sati))?\\b", Pattern.CASE_INSENSITIVE);
     private static final Pattern AM_PM_TIME_PATTERN = Pattern.compile("\\b(\\d{1,2})(?::(\\d{2}))?\\s*(am|pm)\\b", Pattern.CASE_INSENSITIVE);
+    private static final Pattern GERMAN_HOUR_PATTERN = Pattern.compile("\\bum\\s+(\\d{1,2})(?:\\s*uhr)?\\b", Pattern.CASE_INSENSITIVE);
     private static final Pattern HALF_PAST_PATTERN = Pattern.compile("\\bhalf past\\s+([a-z]+|\\d{1,2})\\b", Pattern.CASE_INSENSITIVE);
     private static final Pattern QUARTER_PAST_PATTERN = Pattern.compile("\\bquarter past\\s+([a-z]+|\\d{1,2})\\b", Pattern.CASE_INSENSITIVE);
     private static final Pattern QUARTER_TO_PATTERN = Pattern.compile("\\bquarter to\\s+([a-z]+|\\d{1,2})\\b", Pattern.CASE_INSENSITIVE);
     private static final Pattern CROATIAN_HALF_PAST_PATTERN = Pattern.compile("\\bpola\\s+([a-zčćšđž]+|\\d{1,2})\\b", Pattern.CASE_INSENSITIVE);
+    private static final Pattern WEEKDAY_PATTERN = Pattern.compile(
+            "\\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday|ponedjeljak|utorak|srijeda|srijedu|četvrtak|cetvrtak|petak|subota|nedjelja|montag|dienstag|mittwoch|donnerstag|freitag|samstag|sonntag)\\b",
+            Pattern.CASE_INSENSITIVE
+    );
     private static final DateTimeFormatter ISO_DATE_TIME = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter EURO_DOT_DATE = DateTimeFormatter.ofPattern("d.M.yyyy");
     private static final DateTimeFormatter EURO_SLASH_DATE = DateTimeFormatter.ofPattern("d/M/yyyy");
@@ -60,6 +65,8 @@ public class VisionScheduleParserService {
                 || lower.contains("next sunday")
                 || lower.contains("day after tomorrow")
                 || lower.contains("prekosutra")
+                || lower.contains("übermorgen")
+                || lower.contains("uebermorgen")
                 || lower.contains("sljedeci ponedjeljak")
                 || lower.contains("sljedeći ponedjeljak")
                 || lower.contains("sljedeci utorak")
@@ -77,6 +84,8 @@ public class VisionScheduleParserService {
                 || lower.contains("sljedeću nedjelju")
                 || lower.contains("sutra")
                 || lower.contains("danas")
+                || lower.contains("heute")
+                || lower.contains("morgen")
                 || lower.contains("ujutro")
                 || lower.contains("popodne")
                 || lower.contains("navecer")
@@ -89,6 +98,24 @@ public class VisionScheduleParserService {
                 || lower.contains("podne")
                 || lower.contains("ponoc")
                 || lower.contains("ponoć")
+                || lower.contains("in the morning")
+                || lower.contains("in the afternoon")
+                || lower.contains("in the evening")
+                || lower.contains("in the night")
+                || lower.contains("today morning")
+                || lower.contains("today afternoon")
+                || lower.contains("today evening")
+                || lower.contains("this morning")
+                || lower.contains("this afternoon")
+                || lower.contains("this evening")
+                || lower.contains("am morgen")
+                || lower.contains("am nachmittag")
+                || lower.contains("am abend")
+                || lower.contains("ujutro")
+                || lower.contains("popodne")
+                || lower.contains("navecer")
+                || lower.contains("navečer")
+                || WEEKDAY_PATTERN.matcher(lower).find()
                 || ISO_DATE_TIME_PATTERN.matcher(lower).find()
                 || ISO_DATE_PATTERN.matcher(lower).find()
                 || EURO_DATE_PATTERN.matcher(lower).find()
@@ -144,16 +171,25 @@ public class VisionScheduleParserService {
         if (resolvedTime != null) {
             return resolvedTime;
         }
-        if (containsAny(lower, "tonight", "veceras", "večeras")) {
+        if (containsAny(lower, "tonight", "veceras", "večeras", "heute abend")) {
             return "20:00";
         }
-        if (containsAny(lower, "morning", "ujutro")) {
+        if (containsAny(lower, "morning", "ujutro", "morgen")) {
             return "09:00";
         }
-        if (containsAny(lower, "afternoon", "popodne")) {
+        if (containsAny(lower, "afternoon", "popodne", "nachmittag")) {
             return "14:00";
         }
-        if (containsAny(lower, "evening", "navecer", "navečer")) {
+        if (containsAny(lower, "evening", "navecer", "navečer", "abend")) {
+            return "18:00";
+        }
+        if (containsAny(lower, "in the morning", "today morning", "this morning", "am morgen")) {
+            return "09:00";
+        }
+        if (containsAny(lower, "in the afternoon", "today afternoon", "this afternoon", "am nachmittag")) {
+            return "14:00";
+        }
+        if (containsAny(lower, "in the evening", "today evening", "this evening", "am abend")) {
             return "18:00";
         }
         if (containsAny(lower, "noon", "midday", "podne")) {
@@ -178,11 +214,11 @@ public class VisionScheduleParserService {
             return explicitTime.group(1);
         }
 
-        Matcher hourOnlyMatcher = HOUR_ONLY_PATTERN.matcher(lower);
-        if (hourOnlyMatcher.find()) {
-            Integer hour = parseSpokenHour(hourOnlyMatcher.group(1));
+        Matcher germanHourMatcher = GERMAN_HOUR_PATTERN.matcher(lower);
+        if (germanHourMatcher.find()) {
+            Integer hour = parseSpokenHour(germanHourMatcher.group(1));
             if (hour != null) {
-                Integer adjustedHour = adjustSpokenHourForContext(hour, lower);
+                Integer adjustedHour = adjustGermanHourForContext(hour, lower);
                 if (adjustedHour != null) {
                     return "%02d:00".formatted(normalizeHour(adjustedHour));
                 }
@@ -200,6 +236,17 @@ public class VisionScheduleParserService {
                 hour += 12;
             }
             return "%02d:%02d".formatted(hour, minute);
+        }
+
+        Matcher hourOnlyMatcher = HOUR_ONLY_PATTERN.matcher(lower);
+        if (hourOnlyMatcher.find()) {
+            Integer hour = parseSpokenHour(hourOnlyMatcher.group(1));
+            if (hour != null) {
+                Integer adjustedHour = adjustSpokenHourForContext(hour, lower);
+                if (adjustedHour != null) {
+                    return "%02d:00".formatted(normalizeHour(adjustedHour));
+                }
+            }
         }
 
         Matcher halfPastMatcher = HALF_PAST_PATTERN.matcher(lower);
@@ -251,13 +298,13 @@ public class VisionScheduleParserService {
 
     private LocalDate resolveRelativeDate(String lower) {
         LocalDate today = LocalDate.now(clock);
-        if (containsAny(lower, "day after tomorrow", "prekosutra")) {
+        if (containsAny(lower, "day after tomorrow", "prekosutra", "übermorgen", "uebermorgen")) {
             return today.plusDays(2);
         }
-        if (containsAny(lower, "tomorrow", "sutra")) {
+        if (containsAny(lower, "tomorrow", "sutra", "morgen")) {
             return today.plusDays(1);
         }
-        if (containsAny(lower, "today", "danas", "tonight", "veceras", "večeras")) {
+        if (containsAny(lower, "today", "danas", "tonight", "veceras", "večeras", "heute")) {
             return today;
         }
         if (lower.contains("next week")) {
@@ -304,6 +351,49 @@ public class VisionScheduleParserService {
         }
         if (containsAny(lower, "sljedecu nedjelju", "sljedeću nedjelju")) {
             return today.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+        }
+        LocalDate weekdayDate = resolveWeekdayReference(lower, today);
+        if (weekdayDate != null) {
+            return weekdayDate;
+        }
+        return null;
+    }
+
+    private LocalDate resolveWeekdayReference(String lower, LocalDate today) {
+        DayOfWeek weekday = resolveDayOfWeek(lower);
+        if (weekday == null) {
+            return null;
+        }
+        if (containsAny(lower, "next ", "sljedeci ", "sljedeći ", "sljedecu ", "sljedeću ")) {
+            return today.with(TemporalAdjusters.next(weekday));
+        }
+        if (containsAny(lower, "this ", "ovaj ", "ova ", "ovog ", "ovu ")) {
+            return today.with(TemporalAdjusters.nextOrSame(weekday));
+        }
+        return today.with(TemporalAdjusters.nextOrSame(weekday));
+    }
+
+    private DayOfWeek resolveDayOfWeek(String lower) {
+        if (containsAny(lower, "monday", "ponedjeljak")) {
+            return DayOfWeek.MONDAY;
+        }
+        if (containsAny(lower, "tuesday", "utorak")) {
+            return DayOfWeek.TUESDAY;
+        }
+        if (containsAny(lower, "wednesday", "srijeda", "srijedu")) {
+            return DayOfWeek.WEDNESDAY;
+        }
+        if (containsAny(lower, "thursday", "četvrtak", "cetvrtak")) {
+            return DayOfWeek.THURSDAY;
+        }
+        if (containsAny(lower, "friday", "petak", "freitag")) {
+            return DayOfWeek.FRIDAY;
+        }
+        if (containsAny(lower, "saturday", "subota", "samstag")) {
+            return DayOfWeek.SATURDAY;
+        }
+        if (containsAny(lower, "sunday", "nedjelja", "sonntag")) {
+            return DayOfWeek.SUNDAY;
         }
         return null;
     }
@@ -419,10 +509,16 @@ public class VisionScheduleParserService {
     }
 
     private Integer adjustSpokenHourForContext(int hour, String lower) {
-        if (containsAny(lower, "afternoon", "evening", "tonight", "popodne", "navecer", "navečer", "veceras", "večeras")) {
+        if (containsAny(lower, "afternoon", "evening", "tonight", "popodne", "navecer", "navečer", "veceras", "večeras", "nachmittag", "abend", "heute abend")) {
             return hour >= 12 ? hour : hour + 12;
         }
-        if (containsAny(lower, "morning", "ujutro")) {
+        if (containsAny(lower, "in the afternoon", "in the evening", "today afternoon", "today evening", "this afternoon", "this evening", "am nachmittag", "am abend")) {
+            return hour >= 12 ? hour : hour + 12;
+        }
+        if (containsAny(lower, "morning", "ujutro", "morgen", "today morning", "this morning")) {
+            return hour;
+        }
+        if (containsAny(lower, "in the morning", "am morgen")) {
             return hour;
         }
         if (hour >= 7 && hour <= 11) {
@@ -437,5 +533,18 @@ public class VisionScheduleParserService {
             targetHour = 12;
         }
         return adjustSpokenHourForContext(targetHour, lower);
+    }
+
+    private Integer adjustGermanHourForContext(int hour, String lower) {
+        if (containsAny(lower, "morgen", "today morning", "this morning", "am morgen")) {
+            return hour;
+        }
+        if (containsAny(lower, "nachmittag", "heute nachmittag", "today afternoon", "this afternoon", "am nachmittag")) {
+            return hour >= 12 ? hour : hour + 12;
+        }
+        if (containsAny(lower, "abend", "heute abend", "today evening", "this evening", "am abend")) {
+            return hour >= 12 ? hour : hour + 12;
+        }
+        return adjustSpokenHourForContext(hour, lower);
     }
 }

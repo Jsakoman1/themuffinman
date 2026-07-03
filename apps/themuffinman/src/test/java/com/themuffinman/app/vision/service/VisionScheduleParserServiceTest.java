@@ -55,6 +55,11 @@ class VisionScheduleParserServiceTest {
     }
 
     @Test
+    void parsesNextTuesdayWithExplicitEveningTime() {
+        assertEquals("2026-07-07T17:00:00Z", parserService.extractScheduledAt("next Tuesday at 7 pm"));
+    }
+
+    @Test
     void extractsFixedNextTuesdayDateWithoutExplicitTime() {
         assertEquals("2026-07-07", parserService.extractScheduledDate(VisionSchedulePhrasePresets.FIXED_NEXT_TUESDAY));
         assertNull(parserService.extractScheduledTime(VisionSchedulePhrasePresets.FIXED_NEXT_TUESDAY));
@@ -99,6 +104,36 @@ class VisionScheduleParserServiceTest {
         assertEquals("2026-07-06T10:00:00Z", parserService.extractScheduledAt(
                 VisionSchedulePhrasePresets.SLJEDECI_PONEDJELJAK_U_PODNE
         ));
+    }
+
+    @Test
+    void parsesThisFridayWithExplicitTime() {
+        assertEquals("2026-07-03T15:00:00Z", parserService.extractScheduledAt("this Friday at 5 pm"));
+    }
+
+    @Test
+    void parsesCroatianWeekdayWithPopodneSignal() {
+        assertEquals("2026-07-03T15:00:00Z", parserService.extractScheduledAt("ovaj petak u 5 popodne"));
+    }
+
+    @Test
+    void parsesEnglishInTheEveningPhrase() {
+        assertEquals("2026-07-01T15:00:00Z", parserService.extractScheduledAt("tomorrow at 5 in the evening"));
+    }
+
+    @Test
+    void parsesCroatianEveningPhraseWithHourOnly() {
+        assertEquals("2026-07-01T15:00:00Z", parserService.extractScheduledAt("sutra u 5 navečer"));
+    }
+
+    @Test
+    void parsesGermanTomorrowWord() {
+        assertEquals("2026-07-01T07:00:00Z", parserService.extractScheduledAt("morgen"));
+    }
+
+    @Test
+    void parsesGermanWeekdayWithEveningTime() {
+        assertEquals("2026-07-03T15:00:00Z", parserService.extractScheduledAt("freitag um 5 am abend"));
     }
 
     @Test

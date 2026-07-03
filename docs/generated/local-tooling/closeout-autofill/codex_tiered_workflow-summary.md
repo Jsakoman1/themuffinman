@@ -43,7 +43,7 @@
 
 ## `required_generated_artifacts`
 
-- `docs/generated/local-tooling/codex-context/latest.human.md`
+- `docs/generated/local-tooling/codex-context/latest.review.md`
 - `docs/generated/local-tooling/codex-context/latest.machine.json`
 - `docs/generated/local-tooling/manifest-path-resolution.json`
 - `docs/tooling/codex-local-audits.yml`

@@ -133,7 +133,7 @@ generatedArtifacts:
   ranAt: '2026-06-29T15:50:02Z'
   summary: Regenerated local tooling registry, required-surface report, and gateway
     context artifacts.
-- path: docs/generated/local-tooling/codex-context/latest.human.md
+- path: docs/generated/local-tooling/codex-context/latest.review.md
   action: refreshed
   result: passed
   ranAt: '2026-06-29T15:50:02Z'

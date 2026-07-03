@@ -1,18 +1,18 @@
 # Manual Cleanup Candidate Report
 
-- Generated At: `2026-07-01T14:49:40Z`
+- Generated At: `2026-07-03T09:17:38Z`
 ## `shortlist`
 
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/composables/useDialogActionState.ts"}`
 - `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/httpDebug.ts"}`
 - `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/lib/dialogFlow.ts"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/lib/questListPagination.ts"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/social/composables/circles/circlePagination.ts"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/social/composables/circles/circleSelection.ts"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersDataState.ts"}`
-- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersFormState.ts"}`
-- `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java"}`
-- `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/lib/searchQuery.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/shared/clientMessages.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/composables/useAutoDismissFeedback.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/composables/useMountedAsync.ts"}`
+- `{:source: "frontend-dead", :file: "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts"}`
+- `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentCapabilityAssessmentDTO.java"}`
+- `{:source: "backend-dead", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentClarificationContractDTO.java"}`
 

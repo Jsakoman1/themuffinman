@@ -38,7 +38,7 @@ cases:
       reliable: true
     expected:
       promptSourceLanguage: "de"
-      translationProvider: "openai"
+      translationProvider: "local"
       translationApplied: true
       translationReliable: true
       clarificationRequired: true
@@ -57,7 +57,7 @@ cases:
       reliable: true
     expected:
       promptSourceLanguage: "zh"
-      translationProvider: "openai"
+      translationProvider: "local"
       translationApplied: true
       translationReliable: true
       clarificationRequired: true

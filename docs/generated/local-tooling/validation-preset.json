@@ -1,0 +1,290 @@
+{
+  "preset": "manifest-required",
+  "reasons": [
+    "Manifest decision is `required`.",
+    "Changed files span 11 categories.",
+    "Changed files span 4 domains.",
+    "Preset `manifest-required` keeps validation selection deterministic for 93 files."
+  ],
+  "commands": [
+    "make recommend-targeted-tests",
+    "make closeout-bundle manifest=.agents/feature-manifests/<feature-id>-manifest.yaml",
+    "make feature-closeout-audit manifest=.agents/feature-manifests/<feature-id>-manifest.yaml",
+    "cd apps/themuffinman && ./mvnw test -Dtest=TheMuffinManApplicationTests,AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest,CoreConceptsTest,GlobalExceptionHandlerTest,RichTextInputValidatorTest,AgentOperatingModelValidationTest,AuthControllerTest",
+    "npm --prefix apps/themuffinman/frontend run type-check",
+    "npm --prefix apps/themuffinman/frontend run build",
+    "make audit-documentation",
+    "make audit-doc-canonical-phrases",
+    "make audit-agent-safety",
+    "npm run validate:contracts",
+    "npm run type-check",
+    "npm run build",
+    "./mvnw test",
+    "make generate-agent-operating-model",
+    "make generate-agent-artifacts",
+    "./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest",
+    "make audit-todo",
+    "make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"
+  ],
+  "supporting_reports": [
+    "docs/generated/local-tooling/targeted-tests-summary.md",
+    "docs/generated/local-tooling/audit-router-summary.md",
+    "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+    "docs/generated/local-tooling/closeout-bundle-summary.md"
+  ],
+  "manifest_decision": "required",
+  "manifest_resolution": {
+    "decision": "review",
+    "manifest_path": null,
+    "feature_id": null,
+    "title": null,
+    "confidence": "low",
+    "reasons": [
+      "More than one manifest candidate matched the current files. Review the candidate list before closeout."
+    ],
+    "candidates": [
+      {
+        "manifest_path": ".agents/feature-manifests/codex-tiered-workflow-manifest.yaml",
+        "feature_id": "codex_tiered_workflow",
+        "title": "Codex Tiered Workflow",
+        "plan_file": ".agents/codex-tiered-workflow-plan.md",
+        "score": 24,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Changed files overlap manifest artifact lists (.agents/feature-manifests/codex-tiered-workflow-manifest.yaml, docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml, docs/agent-operating-model/sections/documentation_ownership.yaml).",
+          "Changed paths include feature/plan tokens: manifest, codex, tiered, workflow, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/executor-readiness-program-manifest.yaml",
+        "feature_id": "executor_readiness_program",
+        "title": "Executor readiness program",
+        "plan_file": ".agents/executor-readiness-program-plan.md",
+        "score": 24,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Changed files overlap manifest artifact lists (apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java, apps/themuffinman/frontend/scripts/fixtures/admin-agent-ui-scenarios.json, apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts, docs/agent-operating-model.md, docs/agent-operating-model.yaml).",
+          "Changed paths include feature/plan tokens: manifest, executor, readiness, program, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/vision-voice-surface-manifest.yaml",
+        "feature_id": "vision_voice_surface",
+        "title": "Vision voice surface backend-first STT/TTS",
+        "plan_file": ".agents/vision-voice-master-plan.md",
+        "score": 24,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Changed files overlap manifest artifact lists (apps/themuffinman/src/main/resources/application.properties, apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts, apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue, docs/business-logic.md, docs/domain-technical.md).",
+          "Changed paths include feature/plan tokens: manifest, backend, vision, voice, surface, master."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+        "feature_id": "backend_audit_manifest_cleanup",
+        "title": "Backend audit manifest cleanup",
+        "plan_file": ".agents/backend-audit-manifest-cleanup-plan.md",
+        "score": 23,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, .agents/feature-manifests/backend-audit-tiering-manifest.yaml, .agents/feature-manifests/backend-audit-tightening-manifest.yaml, .agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml).",
+          "Changed paths include feature/plan tokens: manifest, backend, audit, cleanup, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+        "feature_id": "backend_audit_domain_tagging",
+        "title": "Backend audit domain tagging",
+        "plan_file": ".agents/backend-audit-domain-tagging-plan.md",
+        "score": 22,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/backend_audit_coverage.yaml, docs/agent-operating-model/sections/source_of_truth.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml).",
+          "Changed paths include feature/plan tokens: manifest, backend, audit, domain, tagging, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+        "feature_id": "backend_audit_identity_dto_tightening",
+        "title": "Backend audit identity dto tightening",
+        "plan_file": ".agents/backend-audit-identity-dto-tightening-plan.md",
+        "score": 22,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/backend_audit_coverage.yaml, docs/agent-operating-model/sections/source_of_truth.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml).",
+          "Changed paths include feature/plan tokens: manifest, backend, audit, identity, dto, tightening."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+        "feature_id": "backend_audit_location_dto_tightening",
+        "title": "Backend audit location dto tightening",
+        "plan_file": ".agents/backend-audit-location-dto-tightening-plan.md",
+        "score": 22,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/backend_audit_coverage.yaml, docs/agent-operating-model/sections/source_of_truth.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml).",
+          "Changed paths include feature/plan tokens: manifest, backend, audit, dto, tightening, location."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+        "feature_id": "backend_audit_tightening",
+        "title": "Backend audit tightening",
+        "plan_file": ".agents/backend-audit-tightening-plan.md",
+        "score": 22,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/backend_audit_coverage.yaml, docs/agent-operating-model/sections/source_of_truth.yaml, docs/agent-operating-model/sections/documentation_coverage.yaml).",
+          "Changed paths include feature/plan tokens: manifest, backend, audit, tightening, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/agent-control-phase-two-manifest.yaml",
+        "feature_id": "agent_control_phase_two",
+        "title": "Agent Control Phase Two",
+        "plan_file": ".agents/agent-control-phase-two-plan.md",
+        "score": 21,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Changed files overlap manifest artifact lists (apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts, docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/domain-technical.md, apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java).",
+          "Changed paths include feature/plan tokens: agent, control, phase, two, manifest, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml",
+        "feature_id": "agent_safety_upgrade",
+        "title": "Agent safety upgrade",
+        "plan_file": ".agents/agent-safety-upgrade-plan.md",
+        "score": 21,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/domain-technical.md, apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java, apps/themuffinman/src/test/resources/agent/admin-agent-golden-prompt-matrix.yaml).",
+          "Changed paths include feature/plan tokens: agent, manifest, safety, upgrade, plan."
+        ]
+      }
+    ]
+  },
+  "categories": [
+    "backend_controller",
+    "backend_dto",
+    "backend_model",
+    "backend_repository",
+    "backend_service",
+    "docs",
+    "frontend_api",
+    "frontend_composable",
+    "frontend_script",
+    "frontend_view",
+    "other"
+  ],
+  "domains": [
+    "agent",
+    "common",
+    "identity",
+    "shared"
+  ],
+  "changed_file_count": 93,
+  "generated_at": "2026-07-03T09:17:56Z",
+  "original_file_count": 93,
+  "filtered_file_count": 0,
+  "excluded_file_count": 0,
+  "excluded_files_sample": [
+
+  ],
+  "files_considered": [
+    ".agents/feature-manifests/agent-control-phase-two-manifest.yaml",
+    ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
+    ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml",
+    ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml",
+    ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+    ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+    ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+    ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+    ".agents/feature-manifests/backend-audit-tiering-manifest.yaml",
+    ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+    ".agents/feature-manifests/codex-lean-context-manifest.yaml",
+    ".agents/feature-manifests/codex-tiered-workflow-manifest.yaml",
+    ".agents/feature-manifests/executor-readiness-program-manifest.yaml",
+    ".agents/feature-manifests/persistent-backlog-system-manifest.yaml",
+    ".agents/feature-manifests/vision-voice-surface-manifest.yaml",
+    "apps/themuffinman/frontend/scripts/fixtures/admin-agent-ui-scenarios.json",
+    "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+    "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+    "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
+    "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+    "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptPreparationService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/config/AgentProperties.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/prompt/PromptSemanticsSupport.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionTurnRepository.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVisionPromptService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLocationParserService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionScheduleParserService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizer.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticMapper.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+    "apps/themuffinman/src/main/resources/application.properties",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/prompt/PromptSemanticsSupportTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationParserServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionScheduleParserServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticMapperTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java",
+    "apps/themuffinman/src/test/resources/agent/admin-agent-golden-prompt-matrix.yaml",
+    "docs/agent-operating-model.md",
+    "docs/agent-operating-model.yaml",
+    "docs/agent-operating-model/sections/api.yaml",
+    "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+    "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
+    "docs/agent-operating-model/sections/capability_registry.yaml",
+    "docs/agent-operating-model/sections/dead_path_tracker.yaml",
+    "docs/agent-operating-model/sections/documentation_coverage.yaml",
+    "docs/agent-operating-model/sections/documentation_ownership.yaml",
+    "docs/agent-operating-model/sections/documentation_sync.yaml",
+    "docs/agent-operating-model/sections/frontend_contract_generation.yaml",
+    "docs/agent-operating-model/sections/frontend_contracts.yaml",
+    "docs/agent-operating-model/sections/frontend_feature_expectations.yaml",
+    "docs/agent-operating-model/sections/frontend_safety_regressions.yaml",
+    "docs/agent-operating-model/sections/intent_safety_catalog.yaml",
+    "docs/agent-operating-model/sections/intents.yaml",
+    "docs/agent-operating-model/sections/metadata.yaml",
+    "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+    "docs/agent-operating-model/sections/permission_matrix.yaml",
+    "docs/agent-operating-model/sections/policies.yaml",
+    "docs/agent-operating-model/sections/source_of_truth.yaml",
+    "docs/business-logic.md",
+    "docs/docs-as-contract-slices.yaml",
+    "docs/domain-technical.md",
+    "docs/product-memory.md",
+    "docs/regression-scenario-catalog.yaml",
+    "docs/validation-memory.json",
+    "docs/validation-memory.md",
+    "docs/vision-architecture-patterns.md",
+    "docs/vision-context-gateway.md",
+    "docs/vision-status-ledger.md",
+    ".agents/tmp/vision-context-user-session-inventory.yaml",
+    "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionMemoryTrailDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidator.java",
+    "apps/themuffinman/src/main/resources/db/migration/V35__add_vision_conversation_session_memory_snapshot.sql",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidatorTest.java",
+    "docs/control-surface-map.md"
+  ]
+}

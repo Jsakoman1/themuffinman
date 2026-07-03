@@ -5,10 +5,10 @@ regression_scenarios:
     risk: high
     scenario: Admin-agent mutating prompts must fail closed until exact target resolution and required confirmation exist.
     test_files:
-      - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java
-      - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java
     commands:
-      - cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingScenarioTest,AdminAgentCapabilityBoundaryTest
+      - cd apps/themuffinman && ./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest
   - id: workmarket-quest-lifecycle
     domain: workmarket
     risk: high

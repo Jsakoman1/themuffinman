@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T14:49:45Z",
+  "generated_at": "2026-07-03T09:17:43Z",
   "endpoint_family": "circles",
   "endpoints": [
     {
@@ -263,19 +263,6 @@
   ],
   "frontend_callsites": [
     {
-      "file": "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue",
-      "matched_paths": [
-        "incoming",
-        "accept"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiSearchableMultiSelect.vue",
-      "matched_paths": [
-        "search"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "matched_paths": [
         "circles",
@@ -289,115 +276,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
-      "matched_paths": [
-        "circles",
-        "search"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
-      "matched_paths": [
-        "circles",
-        "overview",
-        "connections",
-        "bulk"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesDirectoryPanel.vue",
-      "matched_paths": [
-        "circles"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
-      "matched_paths": [
-        "circles",
-        "requests",
-        "incoming",
-        "outgoing",
-        "accept"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
-      "matched_paths": [
-        "circles",
-        "overview",
-        "blocked",
-        "connections",
-        "nearby",
-        "incoming",
-        "outgoing",
-        "search"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
-      "matched_paths": [
-        "circles",
-        "overview",
-        "blocked",
-        "connections",
-        "nearby",
-        "incoming",
-        "outgoing",
-        "search"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
-      "matched_paths": [
-        "circles",
-        "overview",
-        "blocked",
-        "connections",
-        "nearby",
-        "requests",
-        "incoming",
-        "outgoing"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
-      "matched_paths": [
-        "circles",
-        "blocked",
-        "bulk",
-        "accept",
-        "search"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesPagination.ts",
-      "matched_paths": [
-        "connections",
-        "incoming",
-        "outgoing"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
-      "matched_paths": [
-        "/circles",
-        "circles",
-        "overview",
-        "blocked",
-        "connections",
-        "bulk",
-        "nearby",
-        "incoming"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
-      "matched_paths": [
-        "blocked"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
       "matched_paths": [
         "blocked",
         "blocks"
@@ -410,6 +289,14 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
+      "matched_paths": [
+        "circles",
+        "blocks",
+        "search"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
       "matched_paths": [
         "circles",
@@ -418,182 +305,10 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-      "matched_paths": [
-        "nearby"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurfaceState.ts",
-      "matched_paths": [
-        "blocked",
-        "groups"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-      "matched_paths": [
-        "accept",
-        "search"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-      "matched_paths": [
-        "/circles",
-        "circles",
-        "overview",
-        "blocked",
-        "{userId}",
-        "connections",
-        "bulk",
-        "nearby"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-      "matched_paths": [
-        "overview",
-        "groups"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
       "matched_paths": [
         "blocked",
         "blocks"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-      "matched_paths": [
-        "/circles",
-        "circles",
-        "overview",
-        "blocked",
-        "accept"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
-      "matched_paths": [
-        "search"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-      "matched_paths": [
-        "/circles",
-        "circles",
-        "{id}",
-        "overview",
-        "/circles/blocked",
-        "blocked",
-        "/circles/blocks",
-        "blocks"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-      "matched_paths": [
-        "nearby"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
-      "matched_paths": [
-        "{id}"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
-      "matched_paths": [
-        "{id}",
-        "search"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
-      "matched_paths": [
-        "{id}"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
-      "matched_paths": [
-        "/circles",
-        "circles"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationSummaryCard.vue",
-      "matched_paths": [
-        "overview"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/InlineEditableField.vue",
-      "matched_paths": [
-        "circles"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileIdentityEditor.vue",
-      "matched_paths": [
-        "accept"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileLocationEditor.vue",
-      "matched_paths": [
-        "circles",
-        "search"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
-      "matched_paths": [
-        "circles",
-        "accept",
-        "search"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
-      "matched_paths": [
-        "circles",
-        "overview"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue",
-      "matched_paths": [
-        "overview"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailEditForm.vue",
-      "matched_paths": [
-        "circles"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts",
-      "matched_paths": [
-        "circles"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
-      "matched_paths": [
-        "overview"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/navigationTargets.ts",
-      "matched_paths": [
-        "/circles",
-        "circles"
       ]
     },
     {

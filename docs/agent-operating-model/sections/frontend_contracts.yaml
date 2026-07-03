@@ -1,29 +1,22 @@
 ---
 frontend_contracts:
-- id: admin_agent_playground_response_contract
-  backend_java_class: com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO
+- id: admin_agent_execution_response_contract
+  backend_java_class: com.themuffinman.app.agent.dto.AdminAgentExecutionResponseDTO
   frontend_contract_file: apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
   frontend_gate_file: apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts
-  frontend_type: AdminAgentPlaygroundResponse
+  frontend_type: AdminAgentExecutionResponse
   required_fields:
-  - provider
-  - externalLlmConfigured
-  - promptSourceLanguage
-  - promptTranslationProvider
-  - promptTranslationApplied
-  - promptTranslationReliable
-  - originalPrompt
-  - translatedPrompt
-  - title
+  - capabilityId
+  - executionEnabled
+  - executed
+  - confirmationRequired
   - summary
-  - resolutionRequirements
-  - clarificationContract
-  - executionReadiness
-  - matchedSignals
-  - unresolvedInputs
+  - targetUserLabel
+  - targetUserId
+  - requestedCount
+  - effectiveCount
+  - topic
+  - questTitles
+  - createdQuestIds
   - warnings
-  - suggestedWorkflows
-  - nextSteps
-  - directExecutionAvailable
-  - directExecutionCapabilityId
-  - directExecutionSummary
+  - blockingReasons

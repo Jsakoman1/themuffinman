@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-01T14:47:58Z",
-  "migration_count": 34,
+  "generated_at": "2026-07-03T09:18:01Z",
+  "migration_count": 35,
   "entities": [
     {
       "entity": "BusinessProfile",
@@ -112,24 +112,6 @@
       ]
     },
     {
-      "entity": "VisionConversation",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java",
-      "table": "vision_conversation",
-      "table_in_migration": true,
-      "fields_without_obvious_migration_match": [
-
-      ]
-    },
-    {
-      "entity": "VisionTurn",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java",
-      "table": "vision_turn",
-      "table_in_migration": true,
-      "fields_without_obvious_migration_match": [
-        "appliedSlotIds"
-      ]
-    },
-    {
       "entity": "Quest",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java",
       "table": "quest",
@@ -165,6 +147,24 @@
       "fields_without_obvious_migration_match": [
 
       ]
+    },
+    {
+      "entity": "VisionConversation",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java",
+      "table": "vision_conversation",
+      "table_in_migration": true,
+      "fields_without_obvious_migration_match": [
+
+      ]
+    },
+    {
+      "entity": "VisionTurn",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java",
+      "table": "vision_turn",
+      "table_in_migration": true,
+      "fields_without_obvious_migration_match": [
+        "appliedSlotIds"
+      ]
     }
   ],
   "review_needed": [
@@ -197,15 +197,6 @@
       ]
     },
     {
-      "entity": "VisionTurn",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java",
-      "table": "vision_turn",
-      "table_in_migration": true,
-      "fields_without_obvious_migration_match": [
-        "appliedSlotIds"
-      ]
-    },
-    {
       "entity": "Quest",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java",
       "table": "quest",
@@ -213,6 +204,15 @@
       "fields_without_obvious_migration_match": [
         "images",
         "visibleToCircles"
+      ]
+    },
+    {
+      "entity": "VisionTurn",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java",
+      "table": "vision_turn",
+      "table_in_migration": true,
+      "fields_without_obvious_migration_match": [
+        "appliedSlotIds"
       ]
     }
   ]

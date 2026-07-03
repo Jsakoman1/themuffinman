@@ -86,16 +86,6 @@ api:
     path: "/news/me/unread-count"
     controller_class: com.themuffinman.app.vision.controller.QuestNewsController
     handler_method: getUnreadCount
-  - id: run_admin_agent_playground
-    method: POST
-    path: "/admin/agent/playground"
-    controller_class: com.themuffinman.app.agent.controller.AdminAgentController
-    handler_method: runPlaygroundPrompt
-  - id: run_admin_agent_simulation
-    method: POST
-    path: "/admin/agent/simulate"
-    controller_class: com.themuffinman.app.agent.controller.AdminAgentController
-    handler_method: runSimulation
   - id: run_admin_agent_execution
     method: POST
     path: "/admin/agent/execute"

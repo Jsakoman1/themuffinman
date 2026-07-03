@@ -1,0 +1,107 @@
+{
+  "generated_at": "2026-07-03T09:17:28Z",
+  "frontend_likely_unused_count": 13,
+  "backend_high_confidence_count": 12,
+  "shortlist": [
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/httpDebug.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/lib/dialogFlow.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/lib/searchQuery.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/shared/clientMessages.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/composables/useAutoDismissFeedback.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/composables/useMountedAsync.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/composables/useTimedBanner.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/lib/questListPagination.ts"
+    },
+    {
+      "kind": "frontend",
+      "file": "apps/themuffinman/frontend/src/styles/base.css"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentCapabilityAssessmentDTO.java"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentClarificationContractDTO.java"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentEndpointPlanDTO.java"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentExecutionReadinessDTO.java"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentIntentLineageDTO.java"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionConfidenceDTO.java"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionRequirementDTO.java"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/security/RepositoryUserDetailsService.java"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleCandidateDTO.java"
+    },
+    {
+      "kind": "backend",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsRetentionService.java"
+    }
+  ]
+}

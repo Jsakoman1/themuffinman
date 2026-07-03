@@ -12,6 +12,6 @@ Purpose: store analysis context, document the architecture decision, and record 
 ## Completion Evidence
 
 - Status: complete
-- Changed files: `.agents/codex-local-context-gateway-analysis-context.md`, `.agents/codex-local-context-gateway-master-plan.md`, `docs/codex-local-tooling-todo.md`, `docs/generated/local-tooling/codex-context/latest.machine.json`, `docs/generated/local-tooling/codex-context/latest.human.md`, `docs/generated/local-tooling/codex-context/latest.explain.md`
+- Changed files: `.agents/codex-local-context-gateway-analysis-context.md`, `.agents/codex-local-context-gateway-master-plan.md`, `docs/codex-local-tooling-todo.md`, `docs/generated/local-tooling/codex-context/latest.machine.json`, `docs/generated/local-tooling/codex-context/latest.review.md`, `docs/generated/local-tooling/codex-context/latest.explain.md`
 - Validation evidence: `make codex-context`, `make codex-context-explain`
 - Residual risk: generated validation-support artifacts changed as part of integration verification.

@@ -30,7 +30,7 @@ repository/
       ...
   .codex/
     context/
-      latest.human.md
+      latest.review.md
       latest.machine.json
       packs/
 
@@ -189,7 +189,7 @@ Context Composer
         +-- provenance metadata
         |
         v
-.codex/context/latest.human.md
+.codex/context/latest.review.md
 .codex/context/latest.machine.json
 .codex/context/packs/*.json
 
@@ -252,7 +252,7 @@ If the existing tools use JSON schemas already, reuse those conventions.
 Required output artifacts
 The gateway should eventually produce two main outputs:
 .codex/context/latest.machine.json
-.codex/context/latest.human.md
+.codex/context/latest.review.md
 
 Additionally, it should write individual provider packs:
 .codex/context/packs/git-diff.json
@@ -265,7 +265,7 @@ Additionally, it should write individual provider packs:
 
 Names can be adjusted to fit existing conventions.
 latest.machine.json should be stable and machine-readable.
-latest.human.md should be optimized for Codex prompts and human inspection.
+latest.review.md should be optimized for Codex prompts and reviewer inspection.
 Proposed CLI shape
 Inspect existing scripts first. If compatible, propose something like:
 codex-context collect --budget 6000 --mode implementation
@@ -564,7 +564,7 @@ Milestone 2: AST diff and token budget
 - AST diff isolation
 - deterministic distillation
 - budget downgrade full -> compact -> indexOnly
-- latest.human.md and latest.machine.json
+- latest.review.md and latest.machine.json
 
 Milestone 3: Existing context stack integration
 - repo-map
@@ -606,7 +606,7 @@ It should probably include:
 - wrapper around existing repo-map/context-pack/symbol-index if present
 - wrapper around recommend-targeted-tests if present
 - TokenBudgetComposer
-- latest.human.md
+- latest.review.md
 - latest.machine.json
 
 But verify against the repo.
@@ -861,7 +861,7 @@ Additional top-level gateway payload fields:
 ### Output Artifacts
 
 - `docs/generated/local-tooling/codex-context/latest.machine.json`
-- `docs/generated/local-tooling/codex-context/latest.human.md`
+- `docs/generated/local-tooling/codex-context/latest.review.md`
 - `docs/generated/local-tooling/codex-context/latest.explain.md`
 - `docs/generated/local-tooling/codex-context/packs/*.json`
 

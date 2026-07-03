@@ -3,9 +3,9 @@
 
 ## Details
 
-- Changed File Count: 19
-- Original File Count: 19
+- Changed File Count: 93
+- Original File Count: 93
 - Filtered File Count: 0
 - Excluded File Count: 0
-- Files: .agents/god-plans/vision-god-plan.yaml | apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts
-- Files more: 17
+- Files: .agents/feature-manifests/agent-control-phase-two-manifest.yaml | .agents/feature-manifests/agent-operating-refactor-manifest.yaml
+- Files more: 91

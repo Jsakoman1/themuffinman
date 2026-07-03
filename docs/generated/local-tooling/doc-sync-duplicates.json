@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T14:49:50Z",
+  "generated_at": "2026-07-03T09:18:00Z",
   "docs_scanned": [
     "AGENTS.md",
     "docs/agent-operating-model.md",
@@ -85,7 +85,7 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5001,
+          "line": 4738,
           "text": "- update all affected living docs in the same change"
         },
         {
@@ -134,7 +134,7 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5004,
+          "line": 4741,
           "text": "- A logic change is not complete when only code and tests are updated."
         },
         {
@@ -335,7 +335,7 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5065,
+          "line": 4802,
           "text": "- review and extend affected admin or sandbox generation flows"
         },
         {
@@ -362,7 +362,7 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5066,
+          "line": 4803,
           "text": "- admin-generation or sandbox-generation coverage for entities and workflows"
         },
         {
@@ -406,7 +406,7 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5084,
+          "line": 4821,
           "text": "- Pending circle requests do not create chat eligibility."
         },
         {
@@ -416,12 +416,12 @@
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 1305,
+          "line": 1339,
           "text": "- Pending circle requests do not create chat eligibility."
         },
         {
           "path": "docs/business-logic.md",
-          "line": 291,
+          "line": 316,
           "text": "- Pending circle requests do not create chat eligibility."
         }
       ]
@@ -438,7 +438,7 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5085,
+          "line": 4822,
           "text": "- Chat workspace only includes current accepted circle contacts."
         },
         {
@@ -448,12 +448,12 @@
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 1351,
+          "line": 1385,
           "text": "- Chat workspace only includes current accepted circle contacts."
         },
         {
           "path": "docs/business-logic.md",
-          "line": 307,
+          "line": 332,
           "text": "- Chat workspace only includes current accepted circle contacts."
         }
       ]
@@ -475,12 +475,12 @@
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 1308,
+          "line": 1342,
           "text": "- Existing conversation history does not preserve chat access after the accepted relation is lost."
         },
         {
           "path": "docs/business-logic.md",
-          "line": 294,
+          "line": 319,
           "text": "- Existing conversation history does not preserve chat access after the accepted relation is lost."
         }
       ]
@@ -497,17 +497,17 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5100,
+          "line": 4837,
           "text": "- Sandbox flow must stay separate from real-life product flow."
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 556,
+          "line": 583,
           "text": "- Sandbox flow must stay separate from real-life product flow."
         },
         {
           "path": "docs/business-logic.md",
-          "line": 223,
+          "line": 249,
           "text": "- Sandbox flow must stay separate from real-life product flow."
         }
       ]
@@ -524,17 +524,17 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5101,
+          "line": 4838,
           "text": "- sandbox behavior must stay separate from production mutation semantics"
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 558,
+          "line": 585,
           "text": "- sandbox behavior must stay separate from production mutation semantics"
         },
         {
           "path": "docs/business-logic.md",
-          "line": 224,
+          "line": 250,
           "text": "- sandbox behavior must stay separate from production mutation semantics"
         }
       ]
@@ -551,17 +551,17 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5102,
+          "line": 4839,
           "text": "- Internal sandbox flow is a separate capability from production-like voice flow."
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 557,
+          "line": 584,
           "text": "- Internal sandbox flow is a separate capability from production-like voice flow."
         },
         {
           "path": "docs/business-logic.md",
-          "line": 217,
+          "line": 243,
           "text": "- Internal sandbox flow is a separate capability from production-like voice flow."
         }
       ]
@@ -570,13 +570,13 @@
   "fragment_only_policy_bullets": [
     {
       "path": "docs/agent-operating-model.yaml",
-      "line": 5005,
+      "line": 4742,
       "text": "- For protected documentation-sync phrases, copy the exact canonical sentence",
       "recommendation": "Review whether this fragment should point at the canonical documentation_sync rule instead of restating partial policy wording."
     },
     {
       "path": "docs/agent-operating-model.yaml",
-      "line": 5007,
+      "line": 4744,
       "text": "- Do not paraphrase, shorten, reorder, or partially restate protected canonical",
       "recommendation": "Review whether this fragment should point at the canonical documentation_sync rule instead of restating partial policy wording."
     }
@@ -584,7 +584,7 @@
   "conflict_groups": [
     {
       "id": "sandbox_production_separation",
-      "variant_count": 12,
+      "variant_count": 11,
       "occurrences": [
         {
           "path": "AGENTS.md",
@@ -613,37 +613,32 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 1487,
+          "line": 1470,
           "text": "resolution: Reject the sandbox flow instead of falling back to production mutation"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 2457,
-          "text": "- mark generated flow as sandbox-only and keep it separated from production semantics"
-        },
-        {
-          "path": "docs/agent-operating-model.yaml",
-          "line": 5088,
+          "line": 4825,
           "text": "- id: sandbox_flow_stays_separate_from_production_flow"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5089,
+          "line": 4826,
           "text": "description: Sandbox and synthetic flows must stay explicitly separated from production-like"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5100,
+          "line": 4837,
           "text": "- Sandbox flow must stay separate from real-life product flow."
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5101,
+          "line": 4838,
           "text": "- sandbox behavior must stay separate from production mutation semantics"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5102,
+          "line": 4839,
           "text": "- Internal sandbox flow is a separate capability from production-like voice flow."
         },
         {
@@ -653,42 +648,42 @@
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 556,
+          "line": 583,
           "text": "- Sandbox flow must stay separate from real-life product flow."
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 557,
+          "line": 584,
           "text": "- Internal sandbox flow is a separate capability from production-like voice flow."
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 558,
+          "line": 585,
           "text": "- sandbox behavior must stay separate from production mutation semantics"
-        },
-        {
-          "path": "docs/business-logic.md",
-          "line": 217,
-          "text": "- Internal sandbox flow is a separate capability from production-like voice flow."
-        },
-        {
-          "path": "docs/business-logic.md",
-          "line": 223,
-          "text": "- Sandbox flow must stay separate from real-life product flow."
-        },
-        {
-          "path": "docs/business-logic.md",
-          "line": 224,
-          "text": "- sandbox behavior must stay separate from production mutation semantics"
-        },
-        {
-          "path": "docs/business-logic.md",
-          "line": 229,
-          "text": "- Sandbox-generation planning is kept in a separate backend package from production admin planning, and it still only contributes safe planning warnings and workflows rather than executing mutations."
         },
         {
           "path": "docs/business-logic.md",
           "line": 243,
+          "text": "- Internal sandbox flow is a separate capability from production-like voice flow."
+        },
+        {
+          "path": "docs/business-logic.md",
+          "line": 249,
+          "text": "- Sandbox flow must stay separate from real-life product flow."
+        },
+        {
+          "path": "docs/business-logic.md",
+          "line": 250,
+          "text": "- sandbox behavior must stay separate from production mutation semantics"
+        },
+        {
+          "path": "docs/business-logic.md",
+          "line": 255,
+          "text": "- Sandbox-generation planning is kept in a separate backend package from production admin planning, and it still only contributes safe planning warnings and workflows rather than executing mutations."
+        },
+        {
+          "path": "docs/business-logic.md",
+          "line": 269,
           "text": "- Production admin prompt planning and sandbox-generation planning are structurally separate so synthetic test-data rules stay auditable."
         }
       ],
@@ -715,12 +710,12 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 4989,
+          "line": 4726,
           "text": "description: Logical changes must propagate into the living docs and agent-safety"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5002,
+          "line": 4739,
           "text": "- No logic-only change is complete until the affected docs, agent artifacts, and"
         },
         {
@@ -740,7 +735,7 @@
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 313,
+          "line": 340,
           "text": "- `policies.closeout_doc_delta` requires logic-drift closeout summaries to name behavior changed, docs updated, and related surfaces intentionally left unchanged."
         }
       ],
@@ -817,27 +812,27 @@
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 270,
+          "line": 297,
           "text": "- Feature manifests are now classified by `changeMode`, `changeImpact`, and `changeProfiles` so required docs, tests, generator commands, and close-out audits can be enforced in validation."
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 275,
+          "line": 302,
           "text": "- Feature completion manifests embed structured closeout evidence under `validationEvidence`, `generatedArtifacts`, `planCompletion`, and `closeoutDecision`; `make feature-closeout-audit manifest=<manifest-file>` hard-fails completed manifests that lack required command evidence, skipped-check reasons, profile-specific validation, completed plan evidence, or clean artifact bucket ownership."
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 276,
+          "line": 303,
           "text": "- Feature closeout enforcement is also available through `make enforce-feature-closeout manifest=<manifest-file>`, which writes machine-readable closeout-enforcement reports while hard-failing missing complete status, checklist evidence, required profile validation, generated artifact paths, duplicate artifact buckets, backlog links, or plan completion evidence."
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 296,
+          "line": 323,
           "text": "- Manifest path resolution is available through `make resolve-manifest-path [files=<csv>]`, which scores existing feature manifests against changed files, related plans, and artifact overlap and returns either one resolved manifest path or a review-required candidate list."
         },
         {
           "path": "docs/domain-technical.md",
-          "line": 303,
+          "line": 330,
           "text": "- Validation preset recommendations are available through `make recommend-validation-preset [files=<csv>]`, which classifies the current changeset into deterministic presets such as `fast`, `standard-backend`, `standard-frontend`, `full-closeout`, or `manifest-required` and emits the associated command set."
         }
       ],
@@ -869,12 +864,12 @@
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5048,
+          "line": 4785,
           "text": "- Record new deferred implementation or control-system work in the appropriate"
         },
         {
           "path": "docs/agent-operating-model.yaml",
-          "line": 5051,
+          "line": 4788,
           "text": "- When a backlog item is implemented, remove it from the open backlog and clear"
         },
         {

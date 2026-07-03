@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-06-29T15:47:48Z",
+  "domain": "agent",
+  "file_count": 20,
+  "categories": [
+    "backend_controller",
+    "backend_dto",
+    "backend_service",
+    "other"
+  ],
+  "key_services": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "lines": 971
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslation.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "lines": 15
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslator.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "lines": 6
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTextProvider.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "lines": 29
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "lines": 100
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "lines": 226
+    }
+  ],
+  "key_controllers": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java",
+      "category": "backend_controller",
+      "domain": "agent",
+      "lines": 39
+    }
+  ],
+  "key_repositories": [
+
+  ],
+  "key_models": [
+
+  ],
+  "dto_groups": [
+    {
+      "group": "other",
+      "count": 7,
+      "files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentCapabilityAssessmentDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentClarificationContractDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentEndpointPlanDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentExecutionReadinessDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentIntentLineageDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionConfidenceDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionRequirementDTO.java"
+      ]
+    },
+    {
+      "group": "request-response",
+      "count": 4,
+      "files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
+      ]
+    }
+  ],
+  "frontend_surfaces": [
+
+  ],
+  "workflows": [
+
+  ],
+  "docs": [
+    "docs/agent-operating-model.md",
+    "docs/agent-operating-model.yaml",
+    "docs/domain-technical.md"
+  ],
+  "tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+  ],
+  "scenario_catalog": [
+    {
+      "id": "agent-exact-target-fail-closed",
+      "risk": "high",
+      "scenario": "Admin-agent mutating prompts must fail closed until exact target resolution and required confirmation exist.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingScenarioTest,AdminAgentCapabilityBoundaryTest"
+      ]
+    }
+  ],
+  "first_commands": [
+    "./mvnw test",
+    "make audit-read-surface-inventory",
+    "make audit-repository-fetch",
+    "cd apps/themuffinman && ./mvnw test -Dtest=SandboxGenerationPlannerTest,AdminAgentCapabilityBoundaryTest,AdminAgentGoldenPromptMatrixTest,AdminAgentPlaygroundServiceTest,AgentOperatingScenarioTest,AgentOperatingModelValidationTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingScenarioTest,AdminAgentCapabilityBoundaryTest",
+    "make audit-doc-sync-preflight files=apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java,apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java,apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java,apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java,apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java,apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentCapabilityAssessmentDTO.java,apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentClarificationContractDTO.java,apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentEndpointPlanDTO.java"
+  ],
+  "residual_risk": [
+
+  ]
+}

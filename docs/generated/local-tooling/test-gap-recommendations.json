@@ -1,0 +1,1680 @@
+{
+  "generated_at": "2026-07-03T09:18:03Z",
+  "files": [
+    {
+      "file": ".agents/feature-manifests/agent-control-phase-two-manifest.yaml",
+      "category": "other",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/agent-operating-refactor-manifest.yaml",
+      "category": "other",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml",
+      "category": "other",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml",
+      "category": "other",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-tiering-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/codex-lean-context-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/codex-tiered-workflow-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/executor-readiness-program-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/persistent-backlog-system-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/vision-voice-surface-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/scripts/fixtures/admin-agent-ui-scenarios.json",
+      "category": "frontend_script",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+      "category": "frontend_api",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-api-contract-drift"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "category": "frontend_composable",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-async-mutation-flow"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java",
+      "category": "backend_controller",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make generate-agent-artifacts",
+        "make audit-api-contract-drift"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptPreparationService.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/config/AgentProperties.java",
+      "category": "other",
+      "domain": "common",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/common/concepts/CoreConceptsTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/common/validation/RichTextInputValidatorTest.java"
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/prompt/PromptSemanticsSupport.java",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/prompt/PromptSemanticsSupportTest.java"
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java",
+      "category": "backend_model",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionConversationTestBuilder.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-migration-entity-drift"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionTurnRepository.java",
+      "category": "backend_repository",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVisionPromptService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionConversationTestBuilder.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLocationParserService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationParserServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionScheduleParserService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionScheduleParserServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizer.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizerTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticMapper.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticMapperTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidatorTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionSlotStatePresets.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/resources/application.properties",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/TheMuffinManApplicationTests.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/event/QuestApplicationNewsEventHandlerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java"
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+      "category": "backend_service",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/prompt/PromptSemanticsSupportTest.java",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/prompt/PromptSemanticsSupportTest.java"
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationParserServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationParserServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionScheduleParserServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionScheduleParserServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizerTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizerTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticMapperTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticMapperTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/resources/agent/admin-agent-golden-prompt-matrix.yaml",
+      "category": "other",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model.md",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/api.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/backend_audit_coverage.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/capability_registry.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/dead_path_tracker.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/documentation_coverage.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/documentation_ownership.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/documentation_sync.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/frontend_contract_generation.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/frontend_contracts.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/frontend_feature_expectations.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/frontend_safety_regressions.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/intent_safety_catalog.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/intents.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/metadata.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/permission_matrix.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/policies.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/source_of_truth.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/business-logic.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/docs-as-contract-slices.yaml",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/domain-technical.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/product-memory.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/regression-scenario-catalog.yaml",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/validation-memory.json",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/validation-memory.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/vision-architecture-patterns.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/vision-context-gateway.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/vision-status-ledger.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": ".agents/tmp/vision-context-user-session-inventory.yaml",
+      "category": "other",
+      "domain": "identity",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssemblerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java"
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+      "category": "frontend_api",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-api-contract-drift"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionMemoryTrailDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidator.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidatorTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/resources/db/migration/V35__add_vision_conversation_session_memory_snapshot.sql",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidatorTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidatorTest.java"
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "docs/control-surface-map.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    }
+  ],
+  "missing_direct_tests": [
+    {
+      "file": ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-tiering-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/backend-audit-tightening-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/codex-lean-context-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/codex-tiered-workflow-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/executor-readiness-program-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/persistent-backlog-system-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/vision-voice-surface-manifest.yaml",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+      "category": "frontend_api",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-api-contract-drift"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "category": "frontend_composable",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-async-mutation-flow"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionTurnRepository.java",
+      "category": "backend_repository",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ]
+    },
+    {
+      "file": "docs/business-logic.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/docs-as-contract-slices.yaml",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/domain-technical.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/product-memory.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/regression-scenario-catalog.yaml",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/validation-memory.json",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/validation-memory.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/vision-architecture-patterns.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/vision-context-gateway.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "docs/vision-status-ledger.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+      "category": "frontend_api",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-api-contract-drift"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionMemoryTrailDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/resources/db/migration/V35__add_vision_conversation_session_memory_snapshot.sql",
+      "category": "other",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+
+      ]
+    },
+    {
+      "file": "docs/control-surface-map.md",
+      "category": "docs",
+      "domain": "shared",
+      "nearest_tests": [
+
+      ],
+      "suggested_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ]
+    }
+  ]
+}

@@ -76,7 +76,7 @@ When the manifest declares `workflow-expansion`:
 
 - include at least one `*ScenarioTest` in `testPaths`
 - record passed evidence for a scenario or use-case contract command, for example:
-  - `./mvnw test -Dtest=AgentOperatingScenarioTest`
+  - `./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest`
 
 ### Closeout and backlog hygiene
 
@@ -153,7 +153,8 @@ Fix:
 2. this file
 3. the active plan or master plan
 4. the active manifest
-5. `docs/generated/local-tooling/audit-summary-index.md` when a failure needs a smaller focused audit
+5. `docs/generated/local-tooling/audit-summary-index.md` when a failure needs a smaller focused audit; treat it as a
+   routing aid, not as authoritative current state
 
 ## Related Files
 

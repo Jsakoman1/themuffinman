@@ -1,8 +1,8 @@
 # Docs To Code Drift Audit
 
-- Generated At: `2026-07-01T14:49:32Z`
-- Endpoint Count: `90`
-- Doc Endpoint Mentions: `331`
+- Generated At: `2026-07-03T09:17:30Z`
+- Endpoint Count: `88`
+- Doc Endpoint Mentions: `294`
 ## `undocumented_endpoints`
 
 
@@ -19,5 +19,5 @@
 - `APPLICATION_CREATED`
 - `APPLICATION_DECLINED`
 - `APPLICATION_DETAIL`
-- `APPLICATION_JSON`
+- `APPLICATION_ID_PATTERN`
 

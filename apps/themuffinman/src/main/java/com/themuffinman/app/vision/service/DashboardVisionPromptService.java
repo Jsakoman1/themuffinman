@@ -1,7 +1,5 @@
 package com.themuffinman.app.vision.service;
 
-import com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO;
-import com.themuffinman.app.agent.service.AdminAgentPlaygroundService;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.dto.DashboardVisionPromptRequestDTO;
@@ -16,10 +14,10 @@ import java.util.Set;
 @Service
 public class DashboardVisionPromptService {
 
-    private final AdminAgentPlaygroundService adminAgentPlaygroundService;
+    private final VisionPromptUnderstandingService visionPromptUnderstandingService;
 
-    public DashboardVisionPromptService(AdminAgentPlaygroundService adminAgentPlaygroundService) {
-        this.adminAgentPlaygroundService = adminAgentPlaygroundService;
+    public DashboardVisionPromptService(VisionPromptUnderstandingService visionPromptUnderstandingService) {
+        this.visionPromptUnderstandingService = visionPromptUnderstandingService;
     }
 
     public DashboardVisionPromptResponseDTO process(DashboardVisionPromptRequestDTO dto, AppUser currentUser) {
@@ -30,27 +28,34 @@ public class DashboardVisionPromptService {
         }
 
         String prompt = dto.getPrompt().trim();
-        AdminAgentPlaygroundResponseDTO agentResponse = adminAgentPlaygroundService.analyzePrompt(prompt);
-        String normalizedPrompt = agentResponse.getTranslatedPrompt() != null && !agentResponse.getTranslatedPrompt().isBlank()
-                ? agentResponse.getTranslatedPrompt().trim()
+        VisionPromptUnderstandingResult understanding = visionPromptUnderstandingService.understandPrompt(prompt, null, currentUser);
+        String normalizedPrompt = understanding.getNormalizedPrompt() != null && !understanding.getNormalizedPrompt().isBlank()
+                ? understanding.getNormalizedPrompt().trim()
                 : prompt;
 
         Set<String> matchedSignals = new LinkedHashSet<>();
         String activeFilter = deriveActiveFilter(normalizedPrompt, matchedSignals);
         String surfaceMode = deriveSurfaceMode(normalizedPrompt, matchedSignals);
-        matchedSignals.addAll(agentResponse.getMatchedSignals());
 
-        String assistantNote = agentResponse.getSummary() != null && !agentResponse.getSummary().isBlank()
-                ? agentResponse.getSummary()
+        VisionSemanticPlan semanticPlan = understanding.semanticPlanOrEmpty();
+        if (semanticPlan.candidateIntentOrUnsupported() != com.themuffinman.app.vision.model.VisionIntent.UNSUPPORTED) {
+            matchedSignals.add("semantic_intent_" + semanticPlan.candidateIntentOrUnsupported().name().toLowerCase(Locale.ROOT));
+            if (semanticPlan.getCapabilityId() != null && !semanticPlan.getCapabilityId().isBlank()) {
+                matchedSignals.add("semantic_capability_" + semanticPlan.getCapabilityId());
+            }
+        }
+
+        String assistantNote = semanticPlan.getPlanningNote() != null && !semanticPlan.getPlanningNote().isBlank()
+                ? semanticPlan.getPlanningNote()
                 : buildAssistantNote(normalizedPrompt, activeFilter, surfaceMode);
 
         return DashboardVisionPromptResponseDTO.builder()
                 .prompt(prompt)
                 .normalizedPrompt(normalizedPrompt)
                 .source(dto.getSource() != null && !dto.getSource().isBlank() ? dto.getSource().trim() : "text")
-                .translationProvider(agentResponse.getPromptTranslationProvider())
-                .translationApplied(agentResponse.isPromptTranslationApplied())
-                .translationReliable(agentResponse.isPromptTranslationReliable())
+                .translationProvider(understanding.getTranslationProvider())
+                .translationApplied(understanding.isTranslationApplied())
+                .translationReliable(understanding.isTranslationReliable())
                 .activeFilter(activeFilter)
                 .surfaceMode(surfaceMode)
                 .assistantNote(assistantNote)

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T14:49:41Z",
+  "generated_at": "2026-07-03T09:17:38Z",
   "services": [
     {
       "service": "AdminAgentExecutionService",
@@ -10,24 +10,9 @@
       "has_contract": false
     },
     {
-      "service": "AdminAgentPlaygroundService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java"
-      ],
-      "has_scenario": true,
-      "has_contract": false
-    },
-    {
       "service": "AdminAgentPromptPreparationService",
       "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java"
       ],
       "has_scenario": false,
       "has_contract": false
@@ -172,7 +157,7 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/WorkmarketOptionsServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionOptionsServiceTest.java"
       ],
       "has_scenario": false,
       "has_contract": false
@@ -287,101 +272,6 @@
       "service": "ThingSharingService",
       "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionChatExecutionService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionClarificationService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionPlannerTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionConversationService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionConversationTestBuilder.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionExecutionService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionPlannerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionLocationParserService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationParserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationResolutionServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionLocationResolutionService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationResolutionServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionPromptUnderstandingService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionQuestDiscoveryService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionScheduleParserService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionScheduleParserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionSlotService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionSlotStatePresets.java"
       ],
       "has_scenario": false,
       "has_contract": false
@@ -506,8 +396,8 @@
     {
       "service": "QuestReadService",
       "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
       ],
       "has_scenario": false,
       "has_contract": false
@@ -592,12 +482,142 @@
       "has_contract": false
     },
     {
-      "service": "WorkmarketOptionsService",
+      "service": "VisionCapabilityPreviewService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionChatExecutionService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionClarificationService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionPlannerTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionConversationService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionConversationTestBuilder.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionExecutionService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionLocationParserService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationParserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationResolutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionLocationResolutionService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationResolutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionOptionsService",
       "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/WorkmarketOptionsServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionOptionsServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionPromptUnderstandingService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionQuestDiscoveryService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionScheduleParserService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionScheduleParserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionSemanticOrchestrationContextService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionSemanticRouteCatalogService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidatorTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": true
+    },
+    {
+      "service": "VisionSlotService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionSlotStatePresets.java"
       ],
       "has_scenario": false,
       "has_contract": false
@@ -613,24 +633,9 @@
       "has_contract": false
     },
     {
-      "service": "AdminAgentPlaygroundService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java"
-      ],
-      "has_scenario": true,
-      "has_contract": false
-    },
-    {
       "service": "AdminAgentPromptPreparationService",
       "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java"
       ],
       "has_scenario": false,
       "has_contract": false
@@ -775,7 +780,7 @@
         "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/WorkmarketOptionsServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionOptionsServiceTest.java"
       ],
       "has_scenario": false,
       "has_contract": false
@@ -895,101 +900,6 @@
       "has_contract": false
     },
     {
-      "service": "VisionChatExecutionService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionClarificationService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionPlannerTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionConversationService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionConversationTestBuilder.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionExecutionService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionPlannerTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionLocationParserService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationParserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationResolutionServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionLocationResolutionService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationResolutionServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionPromptUnderstandingService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionQuestDiscoveryService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionScheduleParserService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionScheduleParserServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
-      "service": "VisionSlotService",
-      "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionSlotStatePresets.java"
-      ],
-      "has_scenario": false,
-      "has_contract": false
-    },
-    {
       "service": "DashboardService",
       "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
@@ -1094,8 +1004,8 @@
     {
       "service": "QuestReadService",
       "test_files": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
       ],
       "has_scenario": false,
       "has_contract": false
@@ -1156,12 +1066,142 @@
       "has_contract": false
     },
     {
-      "service": "WorkmarketOptionsService",
+      "service": "VisionCapabilityPreviewService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionChatExecutionService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionClarificationService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionPlannerTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionConversationService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionConversationTestBuilder.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionExecutionService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionPlannerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionLocationParserService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationParserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationResolutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionLocationResolutionService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationResolutionServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionOptionsService",
       "test_files": [
         "apps/themuffinman/src/test/java/com/themuffinman/app/config/ServiceTransactionConfigurationTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
         "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/WorkmarketOptionsServiceTest.java"
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionOptionsServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionPromptUnderstandingService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionQuestDiscoveryService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionScheduleParserService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionScheduleParserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionSemanticOrchestrationContextService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": false
+    },
+    {
+      "service": "VisionSemanticRouteCatalogService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizerTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidatorTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java"
+      ],
+      "has_scenario": false,
+      "has_contract": true
+    },
+    {
+      "service": "VisionSlotService",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/VisionSlotStatePresets.java"
       ],
       "has_scenario": false,
       "has_contract": false

@@ -13,22 +13,26 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 - Start feature work with the smallest useful context.
 - Pick the lightest safe workflow tier before loading deeper process docs.
 - Route Codex toward existing local audits instead of carrying the whole workflow in prompt context.
+- Prefer machine-readable control and validation sources first when the task touches active behavior, workflow state,
+  or automation-facing facts; use human-readable docs as the next layer of context or explanation.
 
 ## Default Startup
 
 1. Read `AGENTS.md`.
 2. Read this file.
-3. If the task is product-direction, UX, interaction design, or Social Useful Network vision work, read `docs/product-memory.md` and `docs/product-vision.md` before broad discovery so you start from stable lessons and the canonical direction layer.
-4. If the task implements or changes `/vision`, read `docs/vision-architecture-patterns.md` before backend orchestration, API, frontend canvas, prompt-handling, or executor decisions.
-5. If the task implements or changes `/vision`, also read the compact vision memory set before broad repo search:
+3. If the task touches active control state, planning state, or automation-facing rules, open the machine-readable
+   sources listed in `docs/control-surface-map.md` before broad narrative docs.
+4. If the task is product-direction, UX, interaction design, or Social Useful Network vision work, read `docs/product-memory.md` and `docs/product-vision.md` before broad discovery so you start from stable lessons and the canonical direction layer.
+5. If the task implements or changes `/vision`, read `docs/vision-architecture-patterns.md` before backend orchestration, API, frontend canvas, prompt-handling, or executor decisions.
+6. If the task implements or changes `/vision`, also read the compact vision memory set before broad repo search:
    - `docs/vision-context-gateway.md`
    - `docs/vision-decision-record.md`
    - `docs/vision-feature-slice-checklist.md`
    - `docs/vision-generated-artifact-policy.md` when contracts, generated docs, or agent-operating surfaces may change
    - `docs/vision-failure-memory.md` when the work is validation-heavy or similar drift already appeared
    - `docs/vision-status-ledger.md` for current done, deferred, and design-blocked capability state
-5. If the task is manifest-backed, closeout-sensitive, or agent/workflow-heavy, read `docs/validation-memory.md` and `docs/validation-memory.json` before broad validation so canonical command strings and manifest evidence expectations are explicit up front.
-6. Run compact context first:
+7. If the task is manifest-backed, closeout-sensitive, or agent/workflow-heavy, read `docs/validation-memory.md` and `docs/validation-memory.json` before broad validation so canonical command strings and manifest evidence expectations are explicit up front.
+8. Run compact context first:
    - `make codex-context topic=<topic> intent='<intent>'`
    - `make recommend-targeted-tests`
    - `make clean-text-noise max_lines=80` when you need to strip Maven, audit, or generated log noise before summarizing evidence.

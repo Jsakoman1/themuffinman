@@ -86,21 +86,7 @@ public class PromptSemanticsSupport {
         if (containsChatSignals(lower)) {
             return PromptSemanticPlan.openChat(0.8d, "Local prompt signals match open_chat.", inferChatTarget(normalizedPrompt));
         }
-        if (containsAny(lower,
-                "create quest",
-                "create quests",
-                "new quest",
-                "new quests",
-                "post a quest",
-                "post quest",
-                "post quests",
-                "need someone",
-                "looking for someone",
-                "i need help",
-                "can someone",
-                "task for someone",
-                "help me with",
-                "quests")) {
+        if (containsCreateQuestSignals(lower)) {
             return PromptSemanticPlan.createQuest(0.8d, "Local prompt signals match create_quest.");
         }
         return PromptSemanticPlan.empty();
@@ -193,6 +179,8 @@ public class PromptSemanticsSupport {
                 "update my profile",
                 "edit my profile",
                 "change my profile",
+                "edit profile",
+                "change profile",
                 "change my username",
                 "update my username",
                 "set my username",
@@ -233,7 +221,11 @@ public class PromptSemanticsSupport {
                 "create circle",
                 "new circle",
                 "make a circle",
-                "start a circle");
+                "start a circle",
+                "create group",
+                "new group",
+                "make a group",
+                "start a group");
     }
 
     private boolean containsCircleRequestCreateSignals(String value) {
@@ -287,6 +279,8 @@ public class PromptSemanticsSupport {
                 "apply for quest",
                 "apply to job",
                 "apply for job",
+                "submit application",
+                "send my application",
                 "send application",
                 "create application",
                 "i want to apply",
@@ -366,6 +360,7 @@ public class PromptSemanticsSupport {
                 "start chat",
                 "chat with",
                 "message",
+                "send message",
                 "send a message",
                 "dm",
                 "direct message",
@@ -380,6 +375,44 @@ public class PromptSemanticsSupport {
                 "my chat",
                 "chat inbox",
                 "messages");
+    }
+
+    private boolean containsCreateQuestSignals(String value) {
+        if (containsAny(value,
+                "create quest",
+                "create quests",
+                "create a quest",
+                "create a new quest",
+                "create a paid quest",
+                "new quest",
+                "new quests",
+                "post a quest",
+                "post quest",
+                "post quests",
+                "need someone",
+                "need somebody",
+                "need somebody to help",
+                "need somebody to move",
+                "looking for someone",
+                "i need help",
+                "i need somebody",
+                "can someone",
+                "can somebody",
+                "task for someone",
+                "help me with",
+                "help me move",
+                "help moving",
+                "move my sofa",
+                "move my couch",
+                "move furniture",
+                "moving sofa",
+                "quests")) {
+            return true;
+        }
+
+        return value.contains("create")
+                && value.contains("quest")
+                && !value.contains("circle");
     }
 
     private String inferChatTarget(String prompt) {

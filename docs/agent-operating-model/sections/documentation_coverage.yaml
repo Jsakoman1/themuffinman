@@ -16,12 +16,7 @@ documentation_coverage:
   required_source_ref_groups:
   - id: automation_services
     source_refs:
-    - admin_agent_playground_service
-    - sandbox_generation_plan
-    - sandbox_generation_planner
     - local_admin_agent_prompt_translator
-    - openai_admin_agent_client
-    - agent_model_profile
     - auth_service
     - auth_mgr
     - app_user_service
@@ -74,10 +69,6 @@ documentation_coverage:
     - agents_doc
   - id: automation_contract_dtos
     source_refs:
-    - admin_agent_playground_request_dto
-    - admin_agent_playground_response_dto
-    - admin_agent_simulation_request_dto
-    - admin_agent_simulation_response_dto
     - agent_capability_assessment_dto
     - agent_clarification_contract_dto
     - agent_endpoint_plan_dto
@@ -85,6 +76,8 @@ documentation_coverage:
     - agent_intent_lineage_dto
     - agent_resolution_confidence_dto
     - agent_resolution_requirement_dto
+    - admin_agent_execution_request_dto
+    - admin_agent_execution_response_dto
   - id: chat_contract_dtos
     source_refs:
     - chat_circle_option_dto
@@ -255,8 +248,9 @@ documentation_coverage:
     - quest_use_case_contract_test
     - quest_application_use_case_contract_test
     - quest_workflow_scenario_test
-    - agent_operating_scenario_test
     - agent_operating_model_validation_test
+    - admin_agent_execution_service_test
+    - admin_synthetic_quest_execution_planner_test
     - repository_fetch_profile_contract_test
     - workflow_state_machine_catalog_test
     - app_user_mgr_test
@@ -265,8 +259,4 @@ documentation_coverage:
     - quest_mgr_test
     - quest_news_mgr_test
     - quest_application_service_test
-    - admin_agent_playground_service_test
-    - admin_agent_golden_prompt_matrix_test
-    - admin_agent_capability_boundary_test
     - vision_conversation_service_test
-    - sandbox_generation_planner_test

@@ -3,8 +3,6 @@ intent_safety_catalog:
   risk_groups:
     read_only:
     - open_auth_identity
-    - run_admin_agent_playground
-    - simulate_admin_agent_execution
     - open_current_user_account
     - open_app_user_options
     - open_user_record
@@ -103,7 +101,6 @@ intent_safety_catalog:
     - create_circle_only_quest_for_selected_people
     - prepare_circle_only_quest_flow_to_start
     - voice_prepare_scheduled_circle_only_quest_for_selected_people
-    - create_sandbox_user_with_circle_and_quest_flow
     - execute_admin_agent_capability
     admin_only_write:
     - create_user
@@ -114,7 +111,6 @@ intent_safety_catalog:
     - update_admin_application
     - delete_admin_application
     - create_user_with_quests
-    - create_sandbox_user_with_circle_and_quest_flow
   exact_target_resolution:
   - intent_id: update_user_as_admin
     resolution_workflows:
@@ -218,6 +214,5 @@ intent_safety_catalog:
   - create_circle_only_quest_for_selected_people
   - prepare_circle_only_quest_flow_to_start
   - voice_prepare_scheduled_circle_only_quest_for_selected_people
-  - create_sandbox_user_with_circle_and_quest_flow
   current_location_capability:
   - set_profile_current_location

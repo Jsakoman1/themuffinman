@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T14:47:52Z",
+  "generated_at": "2026-07-03T09:17:43Z",
   "endpoint_family": "admin",
   "endpoints": [
     {
@@ -45,75 +45,13 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
       "matched_paths": [
         "applications"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
-      "matched_paths": [
-        "/admin/applications",
-        "applications",
-        "{applicationId}"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/applyQuestDetailState.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDataState.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/questDetailStateHelpers.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/domain/workmarketDomain.ts",
-      "matched_paths": [
-        "applications"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/navigationTargets.ts",
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
       "matched_paths": [
         "applications"
       ]

@@ -1,10 +1,6 @@
 {
-  "generated_at": "2026-07-01T14:49:40Z",
+  "generated_at": "2026-07-03T09:17:38Z",
   "shortlist": [
-    {
-      "source": "frontend-dead",
-      "file": "apps/themuffinman/frontend/src/composables/useDialogActionState.ts"
-    },
     {
       "source": "frontend-dead",
       "file": "apps/themuffinman/frontend/src/httpDebug.ts"
@@ -15,31 +11,63 @@
     },
     {
       "source": "frontend-dead",
-      "file": "apps/themuffinman/frontend/src/lib/questListPagination.ts"
+      "file": "apps/themuffinman/frontend/src/lib/searchQuery.ts"
     },
     {
       "source": "frontend-dead",
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/circlePagination.ts"
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue"
     },
     {
       "source": "frontend-dead",
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/circleSelection.ts"
+      "file": "apps/themuffinman/frontend/src/shared/clientMessages.ts"
     },
     {
       "source": "frontend-dead",
-      "file": "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts"
+      "file": "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts"
     },
     {
       "source": "frontend-dead",
-      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts"
+      "file": "apps/themuffinman/frontend/src/composables/useAutoDismissFeedback.ts"
     },
     {
       "source": "frontend-dead",
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersDataState.ts"
+      "file": "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts"
     },
     {
       "source": "frontend-dead",
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersFormState.ts"
+      "file": "apps/themuffinman/frontend/src/composables/useMountedAsync.ts"
+    },
+    {
+      "source": "frontend-dead",
+      "file": "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts"
+    },
+    {
+      "source": "backend-dead",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentCapabilityAssessmentDTO.java"
+    },
+    {
+      "source": "backend-dead",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentClarificationContractDTO.java"
+    },
+    {
+      "source": "backend-dead",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentEndpointPlanDTO.java"
+    },
+    {
+      "source": "backend-dead",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentExecutionReadinessDTO.java"
+    },
+    {
+      "source": "backend-dead",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentIntentLineageDTO.java"
+    },
+    {
+      "source": "backend-dead",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionConfidenceDTO.java"
+    },
+    {
+      "source": "backend-dead",
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionRequirementDTO.java"
     },
     {
       "source": "backend-dead",
@@ -52,14 +80,6 @@
     {
       "source": "backend-dead",
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/security/RepositoryUserDetailsService.java"
-    },
-    {
-      "source": "backend-dead",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleCandidateDTO.java"
-    },
-    {
-      "source": "backend-dead",
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsRetentionService.java"
     }
   ]
 }

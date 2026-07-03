@@ -49,6 +49,9 @@ public class VisionConversation {
     @Column(name = "slot_data", nullable = false, columnDefinition = "TEXT")
     private Map<String, String> slotData = new LinkedHashMap<>();
 
+    @Column(name = "session_memory_snapshot", columnDefinition = "TEXT")
+    private String sessionMemorySnapshot;
+
     @Column(name = "last_user_prompt")
     private String lastUserPrompt;
 

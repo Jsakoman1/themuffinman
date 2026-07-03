@@ -29,6 +29,24 @@ class VisionPromptUnderstandingServiceTest {
     }
 
     @Test
+    void doesNotReuseConversationRequestedSlotWhenPromptClearlySwitchesEntityFamily() {
+        AgentProperties agentProperties = new AgentProperties();
+        VisionPromptUnderstandingService service = service(agentProperties);
+        AppUser user = new AppUser();
+        user.setId(7L);
+        var conversation = VisionConversationTestBuilder.createQuest(1L, user)
+                .requestedSlot("reward_amount")
+                .build();
+
+        VisionPromptUnderstandingResult result = service.understandPrompt("create circle Neighbours", conversation);
+
+        assertEquals("CREATE_CIRCLE", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("create_circle", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals(null, result.getFocusSlotId());
+        assertEquals(null, result.getFocusSlotConfidence());
+    }
+
+    @Test
     void buildsCreateQuestSemanticPlanWithLocalFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
@@ -38,6 +56,20 @@ class VisionPromptUnderstandingServiceTest {
         assertEquals("CREATE_QUEST", result.semanticPlanOrEmpty().getCandidateIntent());
         assertEquals("create_quest", result.semanticPlanOrEmpty().getCapabilityId());
         assertEquals(0.8d, result.semanticPlanOrEmpty().getCandidateIntentConfidence());
+    }
+
+    @Test
+    void buildsCreateQuestSemanticPlanWithFurnitureMovingFallbackSignals() {
+        AgentProperties agentProperties = new AgentProperties();
+        VisionPromptUnderstandingService service = service(agentProperties);
+
+        VisionPromptUnderstandingResult result = service.understandPrompt(
+                "i need somebody to help me mova my sofa in my apartment. maybe on weekend, saturday, in the evening, around 8 oclock ? i can pay 20 dollars.",
+                null
+        );
+
+        assertEquals("CREATE_QUEST", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("create_quest", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
@@ -257,7 +289,8 @@ class VisionPromptUnderstandingServiceTest {
                 new PromptSemanticsSupport(),
                 new VisionSemanticOrchestrationContextService(new VoiceProperties()),
                 new VisionSemanticRouteCatalogService(),
-                new VisionSemanticContractSanitizer()
+                new VisionSemanticContractSanitizer(),
+                new VisionSemanticResponseValidator()
         );
     }
 }

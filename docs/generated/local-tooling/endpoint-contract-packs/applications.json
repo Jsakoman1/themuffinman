@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T14:47:52Z",
+  "generated_at": "2026-07-03T09:17:43Z",
   "endpoint_family": "applications",
   "endpoints": [
     {
@@ -18,25 +18,19 @@
   ],
   "frontend_callsites": [
     {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiRequestError.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiWorkspace.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "matched_paths": [
         "detail"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionDetailSurface.vue",
+      "file": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+      "matched_paths": [
+        "detail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
       "matched_paths": [
         "detail"
       ]
@@ -48,145 +42,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DetailDialogFrame.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailEditForm.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailHero.vue",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/applyQuestDetailState.ts",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDataState.ts",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDebugState.ts",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/questDetailStateHelpers.ts",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailMutationActions.ts",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailUiActions.ts",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageActions.ts",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageState.ts",
-      "matched_paths": [
-        "detail"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
       "matched_paths": [
         "detail"
       ]

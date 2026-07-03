@@ -13,7 +13,7 @@ Make the context-entry summaries shorter while keeping the read-next list and th
 - `docs/generated/local-tooling/session-handoffs/gitignore-summary.md`
 - `docs/generated/local-tooling/session-handoffs/current-change-summary.md`
 - `docs/generated/local-tooling/feature-slices/todo-master-plan-summary.md`
-- `docs/generated/local-tooling/codex-context/latest.human.md`
+- `docs/generated/local-tooling/codex-context/latest.review.md`
 - `docs/generated/local-tooling/diff-summary.md`
 - `docs/generated/local-tooling/audit-deltas/diff-summary-summary.md`
 

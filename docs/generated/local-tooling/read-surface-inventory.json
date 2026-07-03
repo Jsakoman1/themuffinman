@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-01T14:49:21Z",
-  "service_count": 111,
-  "read_surface_count": 160,
+  "generated_at": "2026-07-03T09:17:20Z",
+  "service_count": 114,
+  "read_surface_count": 176,
   "read_surfaces": [
     {
       "service": "AdminAgentTargetUserResolver",
@@ -2262,6 +2262,1794 @@
       ]
     },
     {
+      "service": "DashboardPlannerAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardPlannerAssembler.java",
+      "domain": "vision",
+      "method": "buildPlannerSection",
+      "return_type": "DashboardPlannerSectionDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "DashboardPlannerSectionDTO"
+      ],
+      "line_hints": [
+        "public DashboardPlannerSectionDTO buildPlannerSection(",
+        "List<QuestResponseDTO> incomingWorkQuests,"
+      ]
+    },
+    {
+      "service": "DashboardSectionGrouper",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java",
+      "domain": "vision",
+      "method": "buildQuestGroups",
+      "return_type": "List<DashboardQuestGroupDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<DashboardQuestGroupDTO>"
+      ],
+      "line_hints": [
+        "public List<DashboardQuestGroupDTO> buildQuestGroups(List<QuestResponseDTO> quests) {",
+        "return List.of("
+      ]
+    },
+    {
+      "service": "DashboardSectionGrouper",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java",
+      "domain": "vision",
+      "method": "buildApplicationGroups",
+      "return_type": "List<DashboardApplicationGroupDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<DashboardApplicationGroupDTO>"
+      ],
+      "line_hints": [
+        "public List<DashboardApplicationGroupDTO> buildApplicationGroups(List<QuestApplicationResponseDTO> applications) {",
+        "return List.of("
+      ]
+    },
+    {
+      "service": "DashboardService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
+      "domain": "vision",
+      "method": "getMyDashboard",
+      "return_type": "DashboardResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "AppUserRepository",
+        "QuestApplicationRepository"
+      ],
+      "helper_types": [
+        "DashboardSummaryAssembler"
+      ],
+      "dto_types": [
+        "DashboardResponseDTO",
+        "DashboardSummaryDTO"
+      ],
+      "line_hints": [
+        "public DashboardResponseDTO getMyDashboard(AppUser currentUser) {",
+        "if (currentUser == null) {"
+      ]
+    },
+    {
+      "service": "DashboardService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
+      "domain": "vision",
+      "method": "getMySummary",
+      "return_type": "DashboardSummaryDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "AppUserRepository",
+        "QuestApplicationRepository"
+      ],
+      "helper_types": [
+        "DashboardSummaryAssembler"
+      ],
+      "dto_types": [
+        "DashboardSummaryDTO"
+      ],
+      "line_hints": [
+        "public DashboardSummaryDTO getMySummary(AppUser currentUser) {",
+        "if (currentUser == null) {"
+      ]
+    },
+    {
+      "service": "DashboardService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
+      "domain": "vision",
+      "method": "getMyVoiceConfig",
+      "return_type": "DashboardVoiceConfigDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": true,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "DashboardVoiceConfigDTO"
+      ],
+      "line_hints": [
+        "public DashboardVoiceConfigDTO getMyVoiceConfig(AppUser currentUser) {",
+        "boolean authenticated = currentUser != null;"
+      ]
+    },
+    {
+      "service": "DashboardSummaryAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSummaryAssembler.java",
+      "domain": "vision",
+      "method": "buildSummary",
+      "return_type": "DashboardSummaryDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "DashboardSummaryDTO"
+      ],
+      "line_hints": [
+        "public DashboardSummaryDTO buildSummary(",
+        "AppUser currentUser,"
+      ]
+    },
+    {
+      "service": "OpenAiVoiceClient",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/OpenAiVoiceClient.java",
+      "domain": "vision",
+      "method": "getFilename",
+      "return_type": "String",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public String getFilename() {",
+        "return filename;"
+      ]
+    },
+    {
+      "service": "QuestAccessPolicyService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
+      "domain": "vision",
+      "method": "resolveViewerRelation",
+      "return_type": "QuestViewerRelationDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestViewerRelationDTO"
+      ],
+      "line_hints": [
+        "public QuestViewerRelationDTO resolveViewerRelation(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {",
+        "if (currentUser == null) {"
+      ]
+    },
+    {
+      "service": "QuestAccessPolicyService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
+      "domain": "vision",
+      "method": "resolveAllowedActions",
+      "return_type": "List<QuestAllowedActionDTO>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<QuestAllowedActionDTO>"
+      ],
+      "line_hints": [
+        "public List<QuestAllowedActionDTO> resolveAllowedActions(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {",
+        "List<QuestAllowedActionDTO> allowedActions = new ArrayList<>();"
+      ]
+    },
+    {
+      "service": "QuestApplicationAdminQueryService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminQueryService.java",
+      "domain": "vision",
+      "method": "getAllApplicationsForAdmin",
+      "return_type": "List<QuestApplicationResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestApplicationRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<QuestApplicationResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<QuestApplicationResponseDTO> getAllApplicationsForAdmin(AppUser currentUser) {",
+        "workflowSupport.validateAdmin(currentUser);"
+      ]
+    },
+    {
+      "service": "QuestApplicationAdminQueryService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminQueryService.java",
+      "domain": "vision",
+      "method": "searchApplicationsForAdmin",
+      "return_type": "QuestApplicationListResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestApplicationRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationListResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationListResponseDTO searchApplicationsForAdmin(",
+        "AppUser currentUser,"
+      ]
+    },
+    {
+      "service": "QuestApplicationPresentationAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssembler.java",
+      "domain": "vision",
+      "method": "resolveApplicantActions",
+      "return_type": "List<ApplicationAllowedActionDTO>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<ApplicationAllowedActionDTO>"
+      ],
+      "line_hints": [
+        "public List<ApplicationAllowedActionDTO> resolveApplicantActions(QuestApplication application) {",
+        "if (application == null || application.getStatus() != QuestApplicationStatus.PENDING) {"
+      ]
+    },
+    {
+      "service": "QuestApplicationPresentationAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssembler.java",
+      "domain": "vision",
+      "method": "resolveManagementActions",
+      "return_type": "List<ApplicationAllowedActionDTO>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<ApplicationAllowedActionDTO>"
+      ],
+      "line_hints": [
+        "public List<ApplicationAllowedActionDTO> resolveManagementActions(QuestApplication application) {",
+        "if (application == null || application.getStatus() != QuestApplicationStatus.PENDING) {"
+      ]
+    },
+    {
+      "service": "QuestApplicationReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
+      "domain": "vision",
+      "method": "getApplicationsForQuest",
+      "return_type": "List<QuestApplicationResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestApplicationRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<QuestApplicationResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<QuestApplicationResponseDTO> getApplicationsForQuest(Long questId, AppUser currentUser) {",
+        "workflowSupport.validateQuestOwnerOrAdmin(workflowSupport.requireQuest(questId), currentUser);"
+      ]
+    },
+    {
+      "service": "QuestApplicationReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
+      "domain": "vision",
+      "method": "getApplicationsViewForQuest",
+      "return_type": "QuestApplicationsViewDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestApplicationRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationsViewDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationsViewDTO getApplicationsViewForQuest(Long questId, AppUser currentUser, boolean showAll) {",
+        "Quest quest = workflowSupport.requireQuest(questId);"
+      ]
+    },
+    {
+      "service": "QuestApplicationReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
+      "domain": "vision",
+      "method": "getPublicApprovedApplicationsViewForQuest",
+      "return_type": "QuestApplicationsViewDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestApplicationRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationsViewDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationsViewDTO getPublicApprovedApplicationsViewForQuest(Long questId) {",
+        "List<QuestApplicationResponseDTO> approvedApplications = questApplicationRepository.findForQuestApplicationsByStatus(questId, QuestApplicationStatus.APPROVED).stream()"
+      ]
+    },
+    {
+      "service": "QuestApplicationReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
+      "domain": "vision",
+      "method": "getApplicationsForApplicant",
+      "return_type": "List<QuestApplicationResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestApplicationRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<QuestApplicationResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<QuestApplicationResponseDTO> getApplicationsForApplicant(AppUser currentUser) {",
+        "return questApplicationRepository.findForApplicantDashboard(currentUser.getId())"
+      ]
+    },
+    {
+      "service": "QuestApplicationReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
+      "domain": "vision",
+      "method": "toApplicantResponse",
+      "return_type": "QuestApplicationResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+        "QuestApplicationViewAssembler"
+      ],
+      "dto_types": [
+        "QuestApplicationResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationResponseDTO toApplicantResponse(QuestApplication application) {",
+        "return applicationViewAssembler.toApplicantResponse(application);"
+      ]
+    },
+    {
+      "service": "QuestApplicationReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
+      "domain": "vision",
+      "method": "toViewerResponse",
+      "return_type": "QuestApplicationResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+        "QuestApplicationViewAssembler"
+      ],
+      "dto_types": [
+        "QuestApplicationResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationResponseDTO toViewerResponse(QuestApplication application, AppUser currentUser) {",
+        "return applicationViewAssembler.toViewerResponse(application, currentUser);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+      "domain": "vision",
+      "method": "getApplicationsForQuest",
+      "return_type": "List<QuestApplicationResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<QuestApplicationResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<QuestApplicationResponseDTO> getApplicationsForQuest(Long questId, AppUser currentUser) {",
+        "return questApplicationReadService.getApplicationsForQuest(questId, currentUser);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+      "domain": "vision",
+      "method": "getApplicationsViewForQuest",
+      "return_type": "QuestApplicationsViewDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationsViewDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationsViewDTO getApplicationsViewForQuest(Long questId, AppUser currentUser, boolean showAll) {",
+        "return questApplicationReadService.getApplicationsViewForQuest(questId, currentUser, showAll);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+      "domain": "vision",
+      "method": "getPublicApprovedApplicationsViewForQuest",
+      "return_type": "QuestApplicationsViewDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationsViewDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationsViewDTO getPublicApprovedApplicationsViewForQuest(Long questId) {",
+        "return questApplicationReadService.getPublicApprovedApplicationsViewForQuest(questId);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+      "domain": "vision",
+      "method": "getApplicationsForApplicant",
+      "return_type": "List<QuestApplicationResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<QuestApplicationResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<QuestApplicationResponseDTO> getApplicationsForApplicant(AppUser currentUser) {",
+        "return questApplicationReadService.getApplicationsForApplicant(currentUser);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+      "domain": "vision",
+      "method": "toApplicantResponse",
+      "return_type": "QuestApplicationResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationResponseDTO toApplicantResponse(QuestApplication application) {",
+        "return questApplicationReadService.toApplicantResponse(application);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+      "domain": "vision",
+      "method": "toViewerResponse",
+      "return_type": "QuestApplicationResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationResponseDTO toViewerResponse(QuestApplication application, AppUser currentUser) {",
+        "return questApplicationReadService.toViewerResponse(application, currentUser);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+      "domain": "vision",
+      "method": "getAllApplicationsForAdmin",
+      "return_type": "List<QuestApplicationResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<QuestApplicationResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<QuestApplicationResponseDTO> getAllApplicationsForAdmin(AppUser currentUser) {",
+        "return questApplicationAdminQueryService.getAllApplicationsForAdmin(currentUser);"
+      ]
+    },
+    {
+      "service": "QuestApplicationService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
+      "domain": "vision",
+      "method": "searchApplicationsForAdmin",
+      "return_type": "QuestApplicationListResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationListResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationListResponseDTO searchApplicationsForAdmin(",
+        "AppUser currentUser,"
+      ]
+    },
+    {
+      "service": "QuestApplicationViewAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
+      "domain": "vision",
+      "method": "toApplicantResponse",
+      "return_type": "QuestApplicationResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+        "QuestApplicationMgr",
+        "QuestApplicationPresentationAssembler"
+      ],
+      "dto_types": [
+        "QuestApplicationResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationResponseDTO toApplicantResponse(QuestApplication application) {",
+        "return questApplicationPresentationAssembler.withAllowedActions("
+      ]
+    },
+    {
+      "service": "QuestApplicationViewAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
+      "domain": "vision",
+      "method": "toManagementResponse",
+      "return_type": "QuestApplicationResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+        "QuestApplicationMgr",
+        "QuestApplicationPresentationAssembler"
+      ],
+      "dto_types": [
+        "QuestApplicationResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationResponseDTO toManagementResponse(QuestApplication application) {",
+        "return questApplicationPresentationAssembler.withAllowedActions("
+      ]
+    },
+    {
+      "service": "QuestApplicationViewAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
+      "domain": "vision",
+      "method": "toPublicResponse",
+      "return_type": "QuestApplicationResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+        "QuestApplicationMgr",
+        "QuestApplicationPresentationAssembler"
+      ],
+      "dto_types": [
+        "QuestApplicationResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationResponseDTO toPublicResponse(QuestApplication application) {",
+        "return questApplicationPresentationAssembler.withAllowedActions(questApplicationMgr.toDto(application), java.util.List.of());"
+      ]
+    },
+    {
+      "service": "QuestApplicationViewAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
+      "domain": "vision",
+      "method": "toViewerResponse",
+      "return_type": "QuestApplicationResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationResponseDTO toViewerResponse(QuestApplication application, AppUser currentUser) {",
+        "if (application == null) {"
+      ]
+    },
+    {
+      "service": "QuestExecutionPrimitiveService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
+      "domain": "vision",
+      "method": "resolveTarget",
+      "return_type": "Quest",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public Quest resolveTarget(Long questId) {",
+        "return questRepository.findForQuestDetail(questId)"
+      ]
+    },
+    {
+      "service": "QuestExecutionPrimitiveService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
+      "domain": "vision",
+      "method": "resolveTargetForTermDecision",
+      "return_type": "Quest",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public Quest resolveTargetForTermDecision(Long questId, AppUser actor) {",
+        "Quest quest = resolveTarget(questId);"
+      ]
+    },
+    {
+      "service": "QuestExecutionPrimitiveService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
+      "domain": "vision",
+      "method": "resolveCreator",
+      "return_type": "AppUser",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public AppUser resolveCreator(QuestRequestDTO dto, AppUser actor) {",
+        "if (questAccessPolicyService.isAdmin(actor) && dto.getCreatorId() != null) {"
+      ]
+    },
+    {
+      "service": "QuestNewsService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsService.java",
+      "domain": "vision",
+      "method": "getMyNews",
+      "return_type": "List<QuestNewsItem>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestNewsRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public List<QuestNewsItem> getMyNews(AppUser currentUser) {",
+        "return questNewsRepository.findByRecipientUserIdOrderByCreatedAtDesc(currentUser.getId(), PageRequest.of(0, DEFAULT_LIMIT));"
+      ]
+    },
+    {
+      "service": "QuestNewsService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsService.java",
+      "domain": "vision",
+      "method": "getUnreadCount",
+      "return_type": "long",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestNewsRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public long getUnreadCount(AppUser currentUser) {",
+        "return questNewsRepository.countByRecipientUserIdAndReadAtIsNull(currentUser.getId());"
+      ]
+    },
+    {
+      "service": "QuestPresentationAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestPresentationAssembler.java",
+      "domain": "vision",
+      "method": "buildDefaultPresentation",
+      "return_type": "QuestPresentationDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestPresentationDTO"
+      ],
+      "line_hints": [
+        "public QuestPresentationDTO buildDefaultPresentation(Quest quest) {",
+        "return baseBuilder(quest, null)"
+      ]
+    },
+    {
+      "service": "QuestPresentationAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestPresentationAssembler.java",
+      "domain": "vision",
+      "method": "buildPresentation",
+      "return_type": "QuestPresentationDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestPresentationDTO"
+      ],
+      "line_hints": [
+        "public QuestPresentationDTO buildPresentation(Quest quest, QuestResponseDTO questResponse, AppUser currentUser) {",
+        "boolean canStart = questResponse.getAllowedActions().contains(QuestAllowedActionDTO.START);"
+      ]
+    },
+    {
+      "service": "QuestQueryService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestQueryService.java",
+      "domain": "vision",
+      "method": "buildQuestPage",
+      "return_type": "PageWindow<Quest>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public PageWindow<Quest> buildQuestPage(",
+        "List<Quest> sourceQuests,"
+      ]
+    },
+    {
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
+      "domain": "vision",
+      "method": "getAllQuests",
+      "return_type": "List<Quest>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public List<Quest> getAllQuests(AppUser currentUser) {",
+        "return questRepository.findForQuestList().stream()"
+      ]
+    },
+    {
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
+      "domain": "vision",
+      "method": "getAllQuestResponses",
+      "return_type": "List<QuestResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<QuestResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<QuestResponseDTO> getAllQuestResponses(AppUser currentUser) {",
+        "return toResponses(getAllQuests(currentUser), currentUser);"
+      ]
+    },
+    {
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
+      "domain": "vision",
+      "method": "searchQuests",
+      "return_type": "QuestListResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestListResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestListResponseDTO searchQuests(",
+        "AppUser currentUser,"
+      ]
+    },
+    {
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
+      "domain": "vision",
+      "method": "getQuestListPreset",
+      "return_type": "QuestListResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestListResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestListResponseDTO getQuestListPreset(",
+        "QuestListPresetDTO preset,"
+      ]
+    },
+    {
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
+      "domain": "vision",
+      "method": "getQuestById",
+      "return_type": "Quest",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public Quest getQuestById(Long id, AppUser currentUser) {",
+        "Quest quest = requireQuest(id);"
+      ]
+    },
+    {
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
+      "domain": "vision",
+      "method": "getQuestResponseById",
+      "return_type": "QuestResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestResponseDTO getQuestResponseById(Long id, AppUser currentUser) {",
+        "return toResponse(getQuestById(id, currentUser), currentUser);"
+      ]
+    },
+    {
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
+      "domain": "vision",
+      "method": "getQuestDetailResponseById",
+      "return_type": "QuestDetailResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+        "QuestViewAssembler"
+      ],
+      "dto_types": [
+        "NavigationTargetDTO",
+        "QuestDetailNavigationSectionDTO",
+        "QuestDetailResponseDTO",
+        "QuestDetailSectionsDTO"
+      ],
+      "line_hints": [
+        "public QuestDetailResponseDTO getQuestDetailResponseById(Long id, AppUser currentUser) {",
+        "Map<Long, QuestApplication> applicationsByQuestId = getCurrentUserApplicationsByQuestId(currentUser);"
+      ]
+    },
+    {
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
+      "domain": "vision",
+      "method": "getApplicationDetailResponseById",
+      "return_type": "QuestApplicationDetailResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestApplicationRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestApplicationDetailContextSectionDTO",
+        "QuestApplicationDetailNavigationSectionDTO",
+        "QuestApplicationDetailResponseDTO",
+        "QuestApplicationDetailSectionsDTO"
+      ],
+      "line_hints": [
+        "public QuestApplicationDetailResponseDTO getApplicationDetailResponseById(Long applicationId, AppUser currentUser) {",
+        "QuestApplication application = questApplicationRepository.findForApplicationDetail(applicationId)"
+      ]
+    },
+    {
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
+      "domain": "vision",
+      "method": "toResponse",
+      "return_type": "QuestResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestResponseDTO toResponse(Quest quest, AppUser currentUser) {",
+        "return toResponse(quest, currentUser, getCurrentUserApplicationsByQuestId(currentUser));"
+      ]
+    },
+    {
+      "service": "QuestReadService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
+      "domain": "vision",
+      "method": "toResponses",
+      "return_type": "List<QuestResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<QuestResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<QuestResponseDTO> toResponses(List<Quest> quests, AppUser currentUser) {",
+        "Map<Long, QuestApplication> applicationsByQuestId = getCurrentUserApplicationsByQuestId(currentUser);"
+      ]
+    },
+    {
+      "service": "QuestService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
+      "domain": "vision",
+      "method": "getQuestById",
+      "return_type": "Quest",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public Quest getQuestById(Long id, AppUser currentUser) {",
+        "return questReadService.getQuestById(id, currentUser);"
+      ]
+    },
+    {
+      "service": "QuestService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
+      "domain": "vision",
+      "method": "getQuestResponseById",
+      "return_type": "QuestResponseDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestResponseDTO getQuestResponseById(Long id, AppUser currentUser) {",
+        "return questReadService.getQuestResponseById(id, currentUser);"
+      ]
+    },
+    {
+      "service": "QuestService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
+      "domain": "vision",
+      "method": "toResponse",
+      "return_type": "QuestResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestResponseDTO toResponse(Quest quest, AppUser currentUser) {",
+        "return questReadService.toResponse(quest, currentUser);"
+      ]
+    },
+    {
+      "service": "QuestViewAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+      "domain": "vision",
+      "method": "toResponse",
+      "return_type": "QuestResponseDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "QuestApplicationRepository"
+      ],
+      "helper_types": [
+        "QuestMgr",
+        "QuestPresentationAssembler"
+      ],
+      "dto_types": [
+        "QuestResponseDTO"
+      ],
+      "line_hints": [
+        "public QuestResponseDTO toResponse(Quest quest, AppUser currentUser, Map<Long, QuestApplication> applicationsByQuestId) {",
+        "QuestResponseDTO dto = questMgr.toDto(quest);"
+      ]
+    },
+    {
+      "service": "QuestViewAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+      "domain": "vision",
+      "method": "buildQuestDetailReviewSection",
+      "return_type": "QuestDetailReviewSectionDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "UserReviewRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestDetailReviewSectionDTO"
+      ],
+      "line_hints": [
+        "public QuestDetailReviewSectionDTO buildQuestDetailReviewSection(",
+        "Quest quest,"
+      ]
+    },
+    {
+      "service": "QuestViewAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+      "domain": "vision",
+      "method": "buildQuestDetailExecutionSection",
+      "return_type": "QuestDetailExecutionSectionDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestDetailExecutionSectionDTO"
+      ],
+      "line_hints": [
+        "public QuestDetailExecutionSectionDTO buildQuestDetailExecutionSection(QuestResponseDTO questResponse) {",
+        "boolean canStart = questResponse.getAllowedActions().contains(QuestAllowedActionDTO.START);"
+      ]
+    },
+    {
+      "service": "QuestViewAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+      "domain": "vision",
+      "method": "buildQuestDetailTermChangeSection",
+      "return_type": "QuestDetailTermChangeSectionDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "QuestDetailTermChangeSectionDTO"
+      ],
+      "line_hints": [
+        "public QuestDetailTermChangeSectionDTO buildQuestDetailTermChangeSection(Quest quest, List<QuestAllowedActionDTO> allowedActions) {",
+        "return QuestDetailTermChangeSectionDTO.builder()"
+      ]
+    },
+    {
+      "service": "QuestViewAssembler",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
+      "domain": "vision",
+      "method": "buildQuestDetailManagementSection",
+      "return_type": "QuestDetailManagementSectionDTO",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+        "VisionPresentationHelper"
+      ],
+      "dto_types": [
+        "QuestDetailManagementSectionDTO"
+      ],
+      "line_hints": [
+        "public QuestDetailManagementSectionDTO buildQuestDetailManagementSection(QuestResponseDTO questResponse) {",
+        "boolean canManageQuest = questResponse.getViewerRelation() == QuestViewerRelationDTO.OWNER;"
+      ]
+    },
+    {
+      "service": "QuestVisibilityService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestVisibilityService.java",
+      "domain": "vision",
+      "method": "getVisibleCircles",
+      "return_type": "List<CircleGroup>",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public List<CircleGroup> getVisibleCircles(AppUser owner, List<Long> circleIds) {",
+        "return circleService.getOwnedCirclesByIds(owner, circleIds);"
+      ]
+    },
+    {
+      "service": "UserReviewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
+      "domain": "vision",
+      "method": "getRatingSummary",
+      "return_type": "UserRatingSummaryDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "UserRatingSummaryDTO"
+      ],
+      "line_hints": [
+        "public UserRatingSummaryDTO getRatingSummary(Long reviewedUserId, ReviewRole reviewedRole) {",
+        "UserReviewRepository.UserRatingSummaryProjection summary = userReviewRepository"
+      ]
+    },
+    {
+      "service": "UserReviewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
+      "domain": "vision",
+      "method": "getRecentReviewsForProfile",
+      "return_type": "List<UserReviewResponseDTO>",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "method",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "UserReviewRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "List<UserReviewResponseDTO>"
+      ],
+      "line_hints": [
+        "public List<UserReviewResponseDTO> getRecentReviewsForProfile(Long reviewedUserId) {",
+        "return userReviewRepository.findRecentByReviewedUserId(reviewedUserId, PageRequest.of(0, PROFILE_REVIEW_LIMIT))"
+      ]
+    },
+    {
+      "service": "VisionCapabilityPreviewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "domain": "vision",
+      "method": "resolveApplicationQuest",
+      "return_type": "VisionResolvedQuestTarget",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionResolvedQuestTarget resolveApplicationQuest(AppUser currentUser, String query) {",
+        "if (!hasText(query)) {"
+      ]
+    },
+    {
+      "service": "VisionCapabilityPreviewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "domain": "vision",
+      "method": "resolveMyPendingApplication",
+      "return_type": "VisionResolvedApplicationTarget",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionResolvedApplicationTarget resolveMyPendingApplication(",
+        "AppUser currentUser,"
+      ]
+    },
+    {
+      "service": "VisionCapabilityPreviewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "domain": "vision",
+      "method": "resolveMyApplicationDetail",
+      "return_type": "VisionResolvedApplicationTarget",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionResolvedApplicationTarget resolveMyApplicationDetail(AppUser currentUser, String query) {",
+        "if (!hasText(query)) {"
+      ]
+    },
+    {
+      "service": "VisionCapabilityPreviewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "domain": "vision",
+      "method": "resolveVisibleQuest",
+      "return_type": "VisionResolvedQuestTarget",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionResolvedQuestTarget resolveVisibleQuest(AppUser currentUser, String query) {",
+        "if (!hasText(query)) {"
+      ]
+    },
+    {
+      "service": "VisionCapabilityPreviewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "domain": "vision",
+      "method": "resolveUserProfileTarget",
+      "return_type": "VisionResolvedUserTarget",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "AppUserRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionResolvedUserTarget resolveUserProfileTarget(AppUser currentUser, String query) {",
+        "if (!hasText(query)) {"
+      ]
+    },
+    {
+      "service": "VisionCapabilityPreviewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "domain": "vision",
+      "method": "resolveManagedPendingApplication",
+      "return_type": "VisionResolvedManagedApplicationTarget",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionResolvedManagedApplicationTarget resolveManagedPendingApplication(",
+        "AppUser currentUser,"
+      ]
+    },
+    {
+      "service": "VisionCapabilityPreviewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "domain": "vision",
+      "method": "resolveCircleRequestRecipient",
+      "return_type": "VisionResolvedUserTarget",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+        "AppUserRepository"
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionResolvedUserTarget resolveCircleRequestRecipient(AppUser currentUser, String query) {",
+        "if (!hasText(query)) {"
+      ]
+    },
+    {
+      "service": "VisionCapabilityPreviewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "domain": "vision",
+      "method": "resolveIncomingCircleRequest",
+      "return_type": "VisionResolvedCircleRequestTarget",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionResolvedCircleRequestTarget resolveIncomingCircleRequest(AppUser currentUser, String query) {",
+        "return resolveCircleRequest(currentUser, query, true);"
+      ]
+    },
+    {
+      "service": "VisionCapabilityPreviewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "domain": "vision",
+      "method": "resolveAccessiblePendingCircleRequest",
+      "return_type": "VisionResolvedCircleRequestTarget",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionResolvedCircleRequestTarget resolveAccessiblePendingCircleRequest(AppUser currentUser, String query) {",
+        "if (!hasText(query)) {"
+      ]
+    },
+    {
+      "service": "VisionCapabilityPreviewService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "domain": "vision",
+      "method": "resolveOwnedCircle",
+      "return_type": "VisionResolvedCircleTarget",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionResolvedCircleTarget resolveOwnedCircle(AppUser currentUser, String query) {",
+        "if (!hasText(query)) {"
+      ]
+    },
+    {
       "service": "VisionChatExecutionService",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java",
       "domain": "vision",
@@ -2412,6 +4200,42 @@
       ]
     },
     {
+      "service": "VisionOptionsService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java",
+      "domain": "vision",
+      "method": "getOptions",
+      "return_type": "VisionOptionsDTO",
+      "read_like": true,
+      "transaction_relevant": true,
+      "transaction_read_only": true,
+      "transaction_source": "class",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+        "AppUserRoleOptionDTO",
+        "ExactLocationVisibilityScopeOptionDTO",
+        "LocationModeOptionDTO",
+        "QuestApplicationStatusFilterOptionDTO",
+        "QuestAudienceFilterOptionDTO",
+        "QuestAudienceOptionDTO",
+        "QuestLocationVisibilityOptionDTO",
+        "QuestSearchDefaultsDTO",
+        "QuestSortOptionDTO",
+        "QuestStatusFilterOptionDTO",
+        "QuestStatusOptionDTO",
+        "VisionOptionsDTO"
+      ],
+      "line_hints": [
+        "public VisionOptionsDTO getOptions(AppUser currentUser) {",
+        "boolean hasViewerLocation = currentUser != null"
+      ]
+    },
+    {
       "service": "VisionPromptUnderstandingResult",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingResult.java",
       "domain": "vision",
@@ -2434,6 +4258,156 @@
       "line_hints": [
         "public Map<String, String> toExtractedSlotMap() {",
         "Map<String, String> flattened = new LinkedHashMap<>();"
+      ]
+    },
+    {
+      "service": "VisionSemanticOrchestrationContextService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
+      "domain": "vision",
+      "method": "buildUserContext",
+      "return_type": "VisionSemanticUserContext",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionSemanticUserContext buildUserContext(AppUser user) {",
+        "return buildUserContext(user, null);"
+      ]
+    },
+    {
+      "service": "VisionSemanticOrchestrationContextService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
+      "domain": "vision",
+      "method": "buildUserContext",
+      "return_type": "VisionSemanticUserContext",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionSemanticUserContext buildUserContext(AppUser user, VisionSemanticRuntimeHints runtimeHints) {",
+        "if (user == null) {"
+      ]
+    },
+    {
+      "service": "VisionSemanticOrchestrationContextService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
+      "domain": "vision",
+      "method": "buildConversationContext",
+      "return_type": "VisionSemanticConversationContext",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionSemanticConversationContext buildConversationContext(VisionConversation conversation) {",
+        "if (conversation == null) {"
+      ]
+    },
+    {
+      "service": "VisionSemanticOrchestrationContextService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
+      "domain": "vision",
+      "method": "buildMemoryContext",
+      "return_type": "VisionSemanticMemoryContext",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionSemanticMemoryContext buildMemoryContext(AppUser user, VisionConversation conversation) {",
+        "return VisionSemanticMemoryContext.builder()"
+      ]
+    },
+    {
+      "service": "VisionSemanticOrchestrationContextService",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
+      "domain": "vision",
+      "method": "buildRuntimeContext",
+      "return_type": "VisionSemanticRuntimeContext",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public VisionSemanticRuntimeContext buildRuntimeContext(VisionSemanticRuntimeHints runtimeHints) {",
+        "if (runtimeHints == null) {"
+      ]
+    },
+    {
+      "service": "VisionSemanticPlan",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java",
+      "domain": "vision",
+      "method": "openChat",
+      "return_type": "static VisionSemanticPlan",
+      "read_like": true,
+      "transaction_relevant": false,
+      "transaction_read_only": false,
+      "transaction_source": "none",
+      "mixed_side_effect_flow": false,
+      "repositories": [
+
+      ],
+      "helper_types": [
+
+      ],
+      "dto_types": [
+
+      ],
+      "line_hints": [
+        "public static VisionSemanticPlan openChat(double confidence, String note, String targetUserQuery) {",
+        "return VisionSemanticPlan.builder()"
       ]
     },
     {
@@ -2460,1582 +4434,8 @@
         "public String searchQueryOrEmpty() {",
         "return searchQuery == null ? \"\" : searchQuery.trim();"
       ]
-    },
-    {
-      "service": "DashboardPlannerAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardPlannerAssembler.java",
-      "domain": "workmarket",
-      "method": "buildPlannerSection",
-      "return_type": "DashboardPlannerSectionDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "DashboardPlannerSectionDTO"
-      ],
-      "line_hints": [
-        "public DashboardPlannerSectionDTO buildPlannerSection(",
-        "List<QuestResponseDTO> incomingWorkQuests,"
-      ]
-    },
-    {
-      "service": "DashboardSectionGrouper",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java",
-      "domain": "workmarket",
-      "method": "buildQuestGroups",
-      "return_type": "List<DashboardQuestGroupDTO>",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<DashboardQuestGroupDTO>"
-      ],
-      "line_hints": [
-        "public List<DashboardQuestGroupDTO> buildQuestGroups(List<QuestResponseDTO> quests) {",
-        "return List.of("
-      ]
-    },
-    {
-      "service": "DashboardSectionGrouper",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java",
-      "domain": "workmarket",
-      "method": "buildApplicationGroups",
-      "return_type": "List<DashboardApplicationGroupDTO>",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<DashboardApplicationGroupDTO>"
-      ],
-      "line_hints": [
-        "public List<DashboardApplicationGroupDTO> buildApplicationGroups(List<QuestApplicationResponseDTO> applications) {",
-        "return List.of("
-      ]
-    },
-    {
-      "service": "DashboardService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
-      "domain": "workmarket",
-      "method": "getMyDashboard",
-      "return_type": "DashboardResponseDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "AppUserRepository",
-        "QuestApplicationRepository"
-      ],
-      "helper_types": [
-        "DashboardSummaryAssembler"
-      ],
-      "dto_types": [
-        "DashboardResponseDTO",
-        "DashboardSummaryDTO"
-      ],
-      "line_hints": [
-        "public DashboardResponseDTO getMyDashboard(AppUser currentUser) {",
-        "if (currentUser == null) {"
-      ]
-    },
-    {
-      "service": "DashboardService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
-      "domain": "workmarket",
-      "method": "getMySummary",
-      "return_type": "DashboardSummaryDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "AppUserRepository",
-        "QuestApplicationRepository"
-      ],
-      "helper_types": [
-        "DashboardSummaryAssembler"
-      ],
-      "dto_types": [
-        "DashboardSummaryDTO"
-      ],
-      "line_hints": [
-        "public DashboardSummaryDTO getMySummary(AppUser currentUser) {",
-        "if (currentUser == null) {"
-      ]
-    },
-    {
-      "service": "DashboardService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
-      "domain": "workmarket",
-      "method": "getMyVoiceConfig",
-      "return_type": "DashboardVoiceConfigDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": true,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "DashboardVoiceConfigDTO"
-      ],
-      "line_hints": [
-        "public DashboardVoiceConfigDTO getMyVoiceConfig(AppUser currentUser) {",
-        "boolean authenticated = currentUser != null;"
-      ]
-    },
-    {
-      "service": "DashboardSummaryAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSummaryAssembler.java",
-      "domain": "workmarket",
-      "method": "buildSummary",
-      "return_type": "DashboardSummaryDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "DashboardSummaryDTO"
-      ],
-      "line_hints": [
-        "public DashboardSummaryDTO buildSummary(",
-        "AppUser currentUser,"
-      ]
-    },
-    {
-      "service": "OpenAiVoiceClient",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/OpenAiVoiceClient.java",
-      "domain": "workmarket",
-      "method": "getFilename",
-      "return_type": "String",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-
-      ],
-      "line_hints": [
-        "public String getFilename() {",
-        "return filename;"
-      ]
-    },
-    {
-      "service": "QuestAccessPolicyService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
-      "domain": "workmarket",
-      "method": "resolveViewerRelation",
-      "return_type": "QuestViewerRelationDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestViewerRelationDTO"
-      ],
-      "line_hints": [
-        "public QuestViewerRelationDTO resolveViewerRelation(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {",
-        "if (currentUser == null) {"
-      ]
-    },
-    {
-      "service": "QuestAccessPolicyService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
-      "domain": "workmarket",
-      "method": "resolveAllowedActions",
-      "return_type": "List<QuestAllowedActionDTO>",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<QuestAllowedActionDTO>"
-      ],
-      "line_hints": [
-        "public List<QuestAllowedActionDTO> resolveAllowedActions(Quest quest, AppUser currentUser, QuestApplication viewerApplication) {",
-        "List<QuestAllowedActionDTO> allowedActions = new ArrayList<>();"
-      ]
-    },
-    {
-      "service": "QuestApplicationAdminQueryService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminQueryService.java",
-      "domain": "workmarket",
-      "method": "getAllApplicationsForAdmin",
-      "return_type": "List<QuestApplicationResponseDTO>",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "QuestApplicationRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<QuestApplicationResponseDTO>"
-      ],
-      "line_hints": [
-        "public List<QuestApplicationResponseDTO> getAllApplicationsForAdmin(AppUser currentUser) {",
-        "workflowSupport.validateAdmin(currentUser);"
-      ]
-    },
-    {
-      "service": "QuestApplicationAdminQueryService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminQueryService.java",
-      "domain": "workmarket",
-      "method": "searchApplicationsForAdmin",
-      "return_type": "QuestApplicationListResponseDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "QuestApplicationRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestApplicationListResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationListResponseDTO searchApplicationsForAdmin(",
-        "AppUser currentUser,"
-      ]
-    },
-    {
-      "service": "QuestApplicationPresentationAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssembler.java",
-      "domain": "workmarket",
-      "method": "resolveApplicantActions",
-      "return_type": "List<ApplicationAllowedActionDTO>",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<ApplicationAllowedActionDTO>"
-      ],
-      "line_hints": [
-        "public List<ApplicationAllowedActionDTO> resolveApplicantActions(QuestApplication application) {",
-        "if (application == null || application.getStatus() != QuestApplicationStatus.PENDING) {"
-      ]
-    },
-    {
-      "service": "QuestApplicationPresentationAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssembler.java",
-      "domain": "workmarket",
-      "method": "resolveManagementActions",
-      "return_type": "List<ApplicationAllowedActionDTO>",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<ApplicationAllowedActionDTO>"
-      ],
-      "line_hints": [
-        "public List<ApplicationAllowedActionDTO> resolveManagementActions(QuestApplication application) {",
-        "if (application == null || application.getStatus() != QuestApplicationStatus.PENDING) {"
-      ]
-    },
-    {
-      "service": "QuestApplicationReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
-      "domain": "workmarket",
-      "method": "getApplicationsForQuest",
-      "return_type": "List<QuestApplicationResponseDTO>",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "QuestApplicationRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<QuestApplicationResponseDTO>"
-      ],
-      "line_hints": [
-        "public List<QuestApplicationResponseDTO> getApplicationsForQuest(Long questId, AppUser currentUser) {",
-        "workflowSupport.validateQuestOwnerOrAdmin(workflowSupport.requireQuest(questId), currentUser);"
-      ]
-    },
-    {
-      "service": "QuestApplicationReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
-      "domain": "workmarket",
-      "method": "getApplicationsViewForQuest",
-      "return_type": "QuestApplicationsViewDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "QuestApplicationRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestApplicationsViewDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationsViewDTO getApplicationsViewForQuest(Long questId, AppUser currentUser, boolean showAll) {",
-        "Quest quest = workflowSupport.requireQuest(questId);"
-      ]
-    },
-    {
-      "service": "QuestApplicationReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
-      "domain": "workmarket",
-      "method": "getPublicApprovedApplicationsViewForQuest",
-      "return_type": "QuestApplicationsViewDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "QuestApplicationRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestApplicationsViewDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationsViewDTO getPublicApprovedApplicationsViewForQuest(Long questId) {",
-        "List<QuestApplicationResponseDTO> approvedApplications = questApplicationRepository.findForQuestApplicationsByStatus(questId, QuestApplicationStatus.APPROVED).stream()"
-      ]
-    },
-    {
-      "service": "QuestApplicationReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
-      "domain": "workmarket",
-      "method": "getApplicationsForApplicant",
-      "return_type": "List<QuestApplicationResponseDTO>",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "QuestApplicationRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<QuestApplicationResponseDTO>"
-      ],
-      "line_hints": [
-        "public List<QuestApplicationResponseDTO> getApplicationsForApplicant(AppUser currentUser) {",
-        "return questApplicationRepository.findForApplicantDashboard(currentUser.getId())"
-      ]
-    },
-    {
-      "service": "QuestApplicationReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
-      "domain": "workmarket",
-      "method": "toApplicantResponse",
-      "return_type": "QuestApplicationResponseDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-        "QuestApplicationViewAssembler"
-      ],
-      "dto_types": [
-        "QuestApplicationResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationResponseDTO toApplicantResponse(QuestApplication application) {",
-        "return applicationViewAssembler.toApplicantResponse(application);"
-      ]
-    },
-    {
-      "service": "QuestApplicationReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
-      "domain": "workmarket",
-      "method": "toViewerResponse",
-      "return_type": "QuestApplicationResponseDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-        "QuestApplicationViewAssembler"
-      ],
-      "dto_types": [
-        "QuestApplicationResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationResponseDTO toViewerResponse(QuestApplication application, AppUser currentUser) {",
-        "return applicationViewAssembler.toViewerResponse(application, currentUser);"
-      ]
-    },
-    {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
-      "domain": "workmarket",
-      "method": "getApplicationsForQuest",
-      "return_type": "List<QuestApplicationResponseDTO>",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<QuestApplicationResponseDTO>"
-      ],
-      "line_hints": [
-        "public List<QuestApplicationResponseDTO> getApplicationsForQuest(Long questId, AppUser currentUser) {",
-        "return questApplicationReadService.getApplicationsForQuest(questId, currentUser);"
-      ]
-    },
-    {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
-      "domain": "workmarket",
-      "method": "getApplicationsViewForQuest",
-      "return_type": "QuestApplicationsViewDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestApplicationsViewDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationsViewDTO getApplicationsViewForQuest(Long questId, AppUser currentUser, boolean showAll) {",
-        "return questApplicationReadService.getApplicationsViewForQuest(questId, currentUser, showAll);"
-      ]
-    },
-    {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
-      "domain": "workmarket",
-      "method": "getPublicApprovedApplicationsViewForQuest",
-      "return_type": "QuestApplicationsViewDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestApplicationsViewDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationsViewDTO getPublicApprovedApplicationsViewForQuest(Long questId) {",
-        "return questApplicationReadService.getPublicApprovedApplicationsViewForQuest(questId);"
-      ]
-    },
-    {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
-      "domain": "workmarket",
-      "method": "getApplicationsForApplicant",
-      "return_type": "List<QuestApplicationResponseDTO>",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<QuestApplicationResponseDTO>"
-      ],
-      "line_hints": [
-        "public List<QuestApplicationResponseDTO> getApplicationsForApplicant(AppUser currentUser) {",
-        "return questApplicationReadService.getApplicationsForApplicant(currentUser);"
-      ]
-    },
-    {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
-      "domain": "workmarket",
-      "method": "toApplicantResponse",
-      "return_type": "QuestApplicationResponseDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestApplicationResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationResponseDTO toApplicantResponse(QuestApplication application) {",
-        "return questApplicationReadService.toApplicantResponse(application);"
-      ]
-    },
-    {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
-      "domain": "workmarket",
-      "method": "toViewerResponse",
-      "return_type": "QuestApplicationResponseDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestApplicationResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationResponseDTO toViewerResponse(QuestApplication application, AppUser currentUser) {",
-        "return questApplicationReadService.toViewerResponse(application, currentUser);"
-      ]
-    },
-    {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
-      "domain": "workmarket",
-      "method": "getAllApplicationsForAdmin",
-      "return_type": "List<QuestApplicationResponseDTO>",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<QuestApplicationResponseDTO>"
-      ],
-      "line_hints": [
-        "public List<QuestApplicationResponseDTO> getAllApplicationsForAdmin(AppUser currentUser) {",
-        "return questApplicationAdminQueryService.getAllApplicationsForAdmin(currentUser);"
-      ]
-    },
-    {
-      "service": "QuestApplicationService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
-      "domain": "workmarket",
-      "method": "searchApplicationsForAdmin",
-      "return_type": "QuestApplicationListResponseDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestApplicationListResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationListResponseDTO searchApplicationsForAdmin(",
-        "AppUser currentUser,"
-      ]
-    },
-    {
-      "service": "QuestApplicationViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
-      "domain": "workmarket",
-      "method": "toApplicantResponse",
-      "return_type": "QuestApplicationResponseDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-        "QuestApplicationMgr",
-        "QuestApplicationPresentationAssembler"
-      ],
-      "dto_types": [
-        "QuestApplicationResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationResponseDTO toApplicantResponse(QuestApplication application) {",
-        "return questApplicationPresentationAssembler.withAllowedActions("
-      ]
-    },
-    {
-      "service": "QuestApplicationViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
-      "domain": "workmarket",
-      "method": "toManagementResponse",
-      "return_type": "QuestApplicationResponseDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-        "QuestApplicationMgr",
-        "QuestApplicationPresentationAssembler"
-      ],
-      "dto_types": [
-        "QuestApplicationResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationResponseDTO toManagementResponse(QuestApplication application) {",
-        "return questApplicationPresentationAssembler.withAllowedActions("
-      ]
-    },
-    {
-      "service": "QuestApplicationViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
-      "domain": "workmarket",
-      "method": "toPublicResponse",
-      "return_type": "QuestApplicationResponseDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-        "QuestApplicationMgr",
-        "QuestApplicationPresentationAssembler"
-      ],
-      "dto_types": [
-        "QuestApplicationResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationResponseDTO toPublicResponse(QuestApplication application) {",
-        "return questApplicationPresentationAssembler.withAllowedActions(questApplicationMgr.toDto(application), java.util.List.of());"
-      ]
-    },
-    {
-      "service": "QuestApplicationViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
-      "domain": "workmarket",
-      "method": "toViewerResponse",
-      "return_type": "QuestApplicationResponseDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestApplicationResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationResponseDTO toViewerResponse(QuestApplication application, AppUser currentUser) {",
-        "if (application == null) {"
-      ]
-    },
-    {
-      "service": "QuestExecutionPrimitiveService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
-      "domain": "workmarket",
-      "method": "resolveTarget",
-      "return_type": "Quest",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "method",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "QuestRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-
-      ],
-      "line_hints": [
-        "public Quest resolveTarget(Long questId) {",
-        "return questRepository.findForQuestDetail(questId)"
-      ]
-    },
-    {
-      "service": "QuestExecutionPrimitiveService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
-      "domain": "workmarket",
-      "method": "resolveTargetForTermDecision",
-      "return_type": "Quest",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "method",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-
-      ],
-      "line_hints": [
-        "public Quest resolveTargetForTermDecision(Long questId, AppUser actor) {",
-        "Quest quest = resolveTarget(questId);"
-      ]
-    },
-    {
-      "service": "QuestExecutionPrimitiveService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
-      "domain": "workmarket",
-      "method": "resolveCreator",
-      "return_type": "AppUser",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "method",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-
-      ],
-      "line_hints": [
-        "public AppUser resolveCreator(QuestRequestDTO dto, AppUser actor) {",
-        "if (questAccessPolicyService.isAdmin(actor) && dto.getCreatorId() != null) {"
-      ]
-    },
-    {
-      "service": "QuestNewsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsService.java",
-      "domain": "workmarket",
-      "method": "getMyNews",
-      "return_type": "List<QuestNewsItem>",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "QuestNewsRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-
-      ],
-      "line_hints": [
-        "public List<QuestNewsItem> getMyNews(AppUser currentUser) {",
-        "return questNewsRepository.findByRecipientUserIdOrderByCreatedAtDesc(currentUser.getId(), PageRequest.of(0, DEFAULT_LIMIT));"
-      ]
-    },
-    {
-      "service": "QuestNewsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsService.java",
-      "domain": "workmarket",
-      "method": "getUnreadCount",
-      "return_type": "long",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "QuestNewsRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-
-      ],
-      "line_hints": [
-        "public long getUnreadCount(AppUser currentUser) {",
-        "return questNewsRepository.countByRecipientUserIdAndReadAtIsNull(currentUser.getId());"
-      ]
-    },
-    {
-      "service": "QuestPresentationAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestPresentationAssembler.java",
-      "domain": "workmarket",
-      "method": "buildDefaultPresentation",
-      "return_type": "QuestPresentationDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestPresentationDTO"
-      ],
-      "line_hints": [
-        "public QuestPresentationDTO buildDefaultPresentation(Quest quest) {",
-        "return baseBuilder(quest, null)"
-      ]
-    },
-    {
-      "service": "QuestPresentationAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestPresentationAssembler.java",
-      "domain": "workmarket",
-      "method": "buildPresentation",
-      "return_type": "QuestPresentationDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestPresentationDTO"
-      ],
-      "line_hints": [
-        "public QuestPresentationDTO buildPresentation(Quest quest, QuestResponseDTO questResponse, AppUser currentUser) {",
-        "boolean canStart = questResponse.getAllowedActions().contains(QuestAllowedActionDTO.START);"
-      ]
-    },
-    {
-      "service": "QuestQueryService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestQueryService.java",
-      "domain": "workmarket",
-      "method": "buildQuestPage",
-      "return_type": "PageWindow<Quest>",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-
-      ],
-      "line_hints": [
-        "public PageWindow<Quest> buildQuestPage(",
-        "List<Quest> sourceQuests,"
-      ]
-    },
-    {
-      "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
-      "domain": "workmarket",
-      "method": "getAllQuests",
-      "return_type": "List<Quest>",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "QuestRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-
-      ],
-      "line_hints": [
-        "public List<Quest> getAllQuests(AppUser currentUser) {",
-        "return questRepository.findForQuestList().stream()"
-      ]
-    },
-    {
-      "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
-      "domain": "workmarket",
-      "method": "getAllQuestResponses",
-      "return_type": "List<QuestResponseDTO>",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<QuestResponseDTO>"
-      ],
-      "line_hints": [
-        "public List<QuestResponseDTO> getAllQuestResponses(AppUser currentUser) {",
-        "return toResponses(getAllQuests(currentUser), currentUser);"
-      ]
-    },
-    {
-      "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
-      "domain": "workmarket",
-      "method": "searchQuests",
-      "return_type": "QuestListResponseDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestListResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestListResponseDTO searchQuests(",
-        "AppUser currentUser,"
-      ]
-    },
-    {
-      "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
-      "domain": "workmarket",
-      "method": "getQuestListPreset",
-      "return_type": "QuestListResponseDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestListResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestListResponseDTO getQuestListPreset(",
-        "QuestListPresetDTO preset,"
-      ]
-    },
-    {
-      "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
-      "domain": "workmarket",
-      "method": "getQuestById",
-      "return_type": "Quest",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-
-      ],
-      "line_hints": [
-        "public Quest getQuestById(Long id, AppUser currentUser) {",
-        "Quest quest = requireQuest(id);"
-      ]
-    },
-    {
-      "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
-      "domain": "workmarket",
-      "method": "getQuestResponseById",
-      "return_type": "QuestResponseDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestResponseDTO getQuestResponseById(Long id, AppUser currentUser) {",
-        "return toResponse(getQuestById(id, currentUser), currentUser);"
-      ]
-    },
-    {
-      "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
-      "domain": "workmarket",
-      "method": "getQuestDetailResponseById",
-      "return_type": "QuestDetailResponseDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-        "QuestViewAssembler"
-      ],
-      "dto_types": [
-        "NavigationTargetDTO",
-        "QuestDetailNavigationSectionDTO",
-        "QuestDetailResponseDTO",
-        "QuestDetailSectionsDTO"
-      ],
-      "line_hints": [
-        "public QuestDetailResponseDTO getQuestDetailResponseById(Long id, AppUser currentUser) {",
-        "Map<Long, QuestApplication> applicationsByQuestId = getCurrentUserApplicationsByQuestId(currentUser);"
-      ]
-    },
-    {
-      "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
-      "domain": "workmarket",
-      "method": "getApplicationDetailResponseById",
-      "return_type": "QuestApplicationDetailResponseDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "QuestApplicationRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestApplicationDetailContextSectionDTO",
-        "QuestApplicationDetailNavigationSectionDTO",
-        "QuestApplicationDetailResponseDTO",
-        "QuestApplicationDetailSectionsDTO"
-      ],
-      "line_hints": [
-        "public QuestApplicationDetailResponseDTO getApplicationDetailResponseById(Long applicationId, AppUser currentUser) {",
-        "QuestApplication application = questApplicationRepository.findForApplicationDetail(applicationId)"
-      ]
-    },
-    {
-      "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
-      "domain": "workmarket",
-      "method": "toResponse",
-      "return_type": "QuestResponseDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestResponseDTO toResponse(Quest quest, AppUser currentUser) {",
-        "return toResponse(quest, currentUser, getCurrentUserApplicationsByQuestId(currentUser));"
-      ]
-    },
-    {
-      "service": "QuestReadService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
-      "domain": "workmarket",
-      "method": "toResponses",
-      "return_type": "List<QuestResponseDTO>",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<QuestResponseDTO>"
-      ],
-      "line_hints": [
-        "public List<QuestResponseDTO> toResponses(List<Quest> quests, AppUser currentUser) {",
-        "Map<Long, QuestApplication> applicationsByQuestId = getCurrentUserApplicationsByQuestId(currentUser);"
-      ]
-    },
-    {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
-      "domain": "workmarket",
-      "method": "getQuestById",
-      "return_type": "Quest",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-
-      ],
-      "line_hints": [
-        "public Quest getQuestById(Long id, AppUser currentUser) {",
-        "return questReadService.getQuestById(id, currentUser);"
-      ]
-    },
-    {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
-      "domain": "workmarket",
-      "method": "getQuestResponseById",
-      "return_type": "QuestResponseDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestResponseDTO getQuestResponseById(Long id, AppUser currentUser) {",
-        "return questReadService.getQuestResponseById(id, currentUser);"
-      ]
-    },
-    {
-      "service": "QuestService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
-      "domain": "workmarket",
-      "method": "toResponse",
-      "return_type": "QuestResponseDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestResponseDTO toResponse(Quest quest, AppUser currentUser) {",
-        "return questReadService.toResponse(quest, currentUser);"
-      ]
-    },
-    {
-      "service": "QuestViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
-      "domain": "workmarket",
-      "method": "toResponse",
-      "return_type": "QuestResponseDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "QuestApplicationRepository"
-      ],
-      "helper_types": [
-        "QuestMgr",
-        "QuestPresentationAssembler"
-      ],
-      "dto_types": [
-        "QuestResponseDTO"
-      ],
-      "line_hints": [
-        "public QuestResponseDTO toResponse(Quest quest, AppUser currentUser, Map<Long, QuestApplication> applicationsByQuestId) {",
-        "QuestResponseDTO dto = questMgr.toDto(quest);"
-      ]
-    },
-    {
-      "service": "QuestViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
-      "domain": "workmarket",
-      "method": "buildQuestDetailReviewSection",
-      "return_type": "QuestDetailReviewSectionDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "UserReviewRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestDetailReviewSectionDTO"
-      ],
-      "line_hints": [
-        "public QuestDetailReviewSectionDTO buildQuestDetailReviewSection(",
-        "Quest quest,"
-      ]
-    },
-    {
-      "service": "QuestViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
-      "domain": "workmarket",
-      "method": "buildQuestDetailExecutionSection",
-      "return_type": "QuestDetailExecutionSectionDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestDetailExecutionSectionDTO"
-      ],
-      "line_hints": [
-        "public QuestDetailExecutionSectionDTO buildQuestDetailExecutionSection(QuestResponseDTO questResponse) {",
-        "boolean canStart = questResponse.getAllowedActions().contains(QuestAllowedActionDTO.START);"
-      ]
-    },
-    {
-      "service": "QuestViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
-      "domain": "workmarket",
-      "method": "buildQuestDetailTermChangeSection",
-      "return_type": "QuestDetailTermChangeSectionDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "QuestDetailTermChangeSectionDTO"
-      ],
-      "line_hints": [
-        "public QuestDetailTermChangeSectionDTO buildQuestDetailTermChangeSection(Quest quest, List<QuestAllowedActionDTO> allowedActions) {",
-        "return QuestDetailTermChangeSectionDTO.builder()"
-      ]
-    },
-    {
-      "service": "QuestViewAssembler",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
-      "domain": "workmarket",
-      "method": "buildQuestDetailManagementSection",
-      "return_type": "QuestDetailManagementSectionDTO",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-        "WorkmarketPresentationHelper"
-      ],
-      "dto_types": [
-        "QuestDetailManagementSectionDTO"
-      ],
-      "line_hints": [
-        "public QuestDetailManagementSectionDTO buildQuestDetailManagementSection(QuestResponseDTO questResponse) {",
-        "boolean canManageQuest = questResponse.getViewerRelation() == QuestViewerRelationDTO.OWNER;"
-      ]
-    },
-    {
-      "service": "QuestVisibilityService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestVisibilityService.java",
-      "domain": "workmarket",
-      "method": "getVisibleCircles",
-      "return_type": "List<CircleGroup>",
-      "read_like": true,
-      "transaction_relevant": false,
-      "transaction_read_only": false,
-      "transaction_source": "none",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-
-      ],
-      "line_hints": [
-        "public List<CircleGroup> getVisibleCircles(AppUser owner, List<Long> circleIds) {",
-        "return circleService.getOwnedCirclesByIds(owner, circleIds);"
-      ]
-    },
-    {
-      "service": "UserReviewService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
-      "domain": "workmarket",
-      "method": "getRatingSummary",
-      "return_type": "UserRatingSummaryDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "method",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "UserRatingSummaryDTO"
-      ],
-      "line_hints": [
-        "public UserRatingSummaryDTO getRatingSummary(Long reviewedUserId, ReviewRole reviewedRole) {",
-        "UserReviewRepository.UserRatingSummaryProjection summary = userReviewRepository"
-      ]
-    },
-    {
-      "service": "UserReviewService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
-      "domain": "workmarket",
-      "method": "getRecentReviewsForProfile",
-      "return_type": "List<UserReviewResponseDTO>",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "method",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-        "UserReviewRepository"
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "List<UserReviewResponseDTO>"
-      ],
-      "line_hints": [
-        "public List<UserReviewResponseDTO> getRecentReviewsForProfile(Long reviewedUserId) {",
-        "return userReviewRepository.findRecentByReviewedUserId(reviewedUserId, PageRequest.of(0, PROFILE_REVIEW_LIMIT))"
-      ]
-    },
-    {
-      "service": "WorkmarketOptionsService",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WorkmarketOptionsService.java",
-      "domain": "workmarket",
-      "method": "getOptions",
-      "return_type": "WorkmarketOptionsDTO",
-      "read_like": true,
-      "transaction_relevant": true,
-      "transaction_read_only": true,
-      "transaction_source": "class",
-      "mixed_side_effect_flow": false,
-      "repositories": [
-
-      ],
-      "helper_types": [
-
-      ],
-      "dto_types": [
-        "AppUserRoleOptionDTO",
-        "ExactLocationVisibilityScopeOptionDTO",
-        "LocationModeOptionDTO",
-        "QuestApplicationStatusFilterOptionDTO",
-        "QuestAudienceFilterOptionDTO",
-        "QuestAudienceOptionDTO",
-        "QuestLocationVisibilityOptionDTO",
-        "QuestSearchDefaultsDTO",
-        "QuestSortOptionDTO",
-        "QuestStatusFilterOptionDTO",
-        "QuestStatusOptionDTO",
-        "WorkmarketOptionsDTO"
-      ],
-      "line_hints": [
-        "public WorkmarketOptionsDTO getOptions(AppUser currentUser) {",
-        "boolean hasViewerLocation = currentUser != null"
-      ]
     }
   ],
-  "transaction_relevant_read_surface_count": 90,
-  "missing_read_only_transaction_count": 4
+  "transaction_relevant_read_surface_count": 92,
+  "missing_read_only_transaction_count": 6
 }

@@ -1,6 +1,10 @@
 # Source of Truth Inventory
 
-This file is a compact map of the main backend domains and the files that should be treated as the primary sources of truth when documenting the product.
+This file is a compact map of the main backend domains and the files that should be treated as the primary sources of
+truth when documenting the product.
+
+For automation-facing state, prefer the machine-readable source itself first. Use this inventory as an index to the
+canonical files rather than as the authoritative content layer.
 
 ## Primary Domains
 

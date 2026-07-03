@@ -29,7 +29,7 @@ Reduce future token spend by making `make codex-context` emit one compact execut
 ## Closeout Rules
 
 - Keep the implementation narrow and local-tooling-only.
-- Preserve the current `latest.machine.json` and `latest.human.md` outputs.
+- Preserve the current `latest.machine.json` and `latest.review.md` outputs.
 - Record any deferred remainder in `docs/agent-improvement-backlog.md` before closing the master plan.
 
 ## Completion Evidence

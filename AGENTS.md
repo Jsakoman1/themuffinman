@@ -96,6 +96,17 @@ Planned modules:
 - Maintain two living documentation files in `docs/`:
     - `docs/business-logic.md` for product behavior, rules, and FAQ-style explanations
     - `docs/domain-technical.md` for entities, relations, validations, permissions, workflows, and invariants
+- For active operational state, planning state, validation state, and automation-facing rules, prefer machine-readable
+  sources first:
+    - `docs/agent-operating-model.yaml`
+    - `docs/regression-scenario-catalog.yaml`
+    - `docs/validation-memory.json`
+    - `docs/source-of-truth-inventory.md`
+    - `.agents/god-plans/*.yaml`
+    - active `.agents/feature-manifests/*.yaml`
+    - generated inventories and audit outputs when they mirror the current control surface
+- Use human-readable docs as canonical only when they define product meaning, domain meaning, or the curated narrative
+  around that state; do not let markdown summaries become the only durable record of active control facts.
 - Maintain the agent-operation documentation set in `docs/`:
     - `docs/codex-fast-path.md` for the compact execution entrypoint and tier decision guide for most Codex feature work
     - `docs/agent-operating-model.md` for human review of agent-safe workflows

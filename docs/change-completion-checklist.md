@@ -123,6 +123,8 @@ Default path:
 - Update `docs/business-logic.md` if user-facing behavior, permissions, or workflow meaning changed.
 - Update `docs/product-vision.md` if the change clarifies the long-term interaction model, app feel, or Social Useful Network direction.
 - Update `docs/vision-architecture-patterns.md` if the change alters `/vision` backend orchestration, API contracts, frontend canvas rendering, prompt handling, or executor patterns.
+- If the change introduces or clarifies authoritative operational state, update the machine-readable source first and then
+  mirror the explanation into the relevant human-readable docs.
 
 5. Technical meaning
 - Update `docs/domain-technical.md` if entities, DTOs, relations, validations, permissions, workflows, or invariants changed.
@@ -133,6 +135,7 @@ Default path:
 
 7. Workflow docs
 - Update `AGENTS.md`, `docs/codex-fast-path.md`, `docs/feature-delivery-workflow.md`, `docs/documentation-sync-policy.md`, and this file when startup routing, manifest policy, tier policy, or closeout flow changed.
+- Keep `docs/control-surface-map.md` aligned with the active hierarchy when a file moves between live truth, generated control, or archive.
 
 8. Generated artifacts and schema
 - Regenerate affected generated artifacts when source-of-truth or machine-operational docs changed.

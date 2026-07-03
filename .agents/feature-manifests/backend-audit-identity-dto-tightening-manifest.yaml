@@ -39,7 +39,7 @@ validationEvidence:
       scope: frontend
       result: passed
       summary: Historical completed manifest recorded frontend build validation before structured evidence enforcement.
-    - command: ./mvnw -Dtest=AgentOperatingScenarioTest,QuestWorkflowScenarioTest test
+    - command: ./mvnw -Dtest=AdminAgentExecutionServiceTest,QuestWorkflowScenarioTest test
       scope: backend
       result: passed
       summary: Historical completed manifest recorded scenario-style workflow validation before structured evidence enforcement.

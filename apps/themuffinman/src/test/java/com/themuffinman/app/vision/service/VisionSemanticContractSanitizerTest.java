@@ -357,6 +357,57 @@ class VisionSemanticContractSanitizerTest {
         assertEquals("profile_location_label", understanding.getFocusSlotId());
     }
 
+    @Test
+    void dropsPromptLikeLocationLabelsThatDoNotLookLikePlaces() {
+        VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
+                .semanticPlan(VisionSemanticPlan.builder()
+                        .candidateIntent("CREATE_QUEST")
+                        .candidateIntentConfidence(0.9d)
+                        .capabilityId("create_quest")
+                        .build())
+                .slots(VisionPromptUnderstandingSlots.builder()
+                        .questTitle("Move my sofa")
+                        .questTitleConfidence(1.0d)
+                        .location(VisionPromptUnderstandingLocationSlots.builder()
+                                .mode("custom")
+                                .modeConfidence(1.0d)
+                                .label("Create a quest to move my sofa next Tuesday at 14:30 for 20 euros")
+                                .labelConfidence(1.0d)
+                                .build())
+                        .build())
+                .build();
+
+        sanitizer.sanitize(understanding, allowedRoutes());
+
+        assertNull(understanding.toExtractedSlotMap().get("location_label"));
+        assertEquals("custom", understanding.toExtractedSlotMap().get("location_mode"));
+    }
+
+    @Test
+    void keepsShortPlaceLikeLocationLabels() {
+        VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
+                .semanticPlan(VisionSemanticPlan.builder()
+                        .candidateIntent("CREATE_QUEST")
+                        .candidateIntentConfidence(0.9d)
+                        .capabilityId("create_quest")
+                        .build())
+                .slots(VisionPromptUnderstandingSlots.builder()
+                        .questTitle("Move my sofa")
+                        .questTitleConfidence(1.0d)
+                        .location(VisionPromptUnderstandingLocationSlots.builder()
+                                .mode("custom")
+                                .modeConfidence(1.0d)
+                                .label("Zurich, Switzerland")
+                                .labelConfidence(1.0d)
+                                .build())
+                        .build())
+                .build();
+
+        sanitizer.sanitize(understanding, allowedRoutes());
+
+        assertEquals("Zurich, Switzerland", understanding.toExtractedSlotMap().get("location_label"));
+    }
+
     private List<VisionSemanticRouteDescriptor> allowedRoutes() {
         AppUser user = new AppUser();
         user.setId(7L);

@@ -84,6 +84,8 @@ Route-shell behavior should also stay blank-canvas oriented:
 - keep confirmations, debug details, and request review surfaces inline in the feed unless a native browser modal is explicitly required for a destructive cross-route boundary
 - when a route needs a preview, render it as a textual entity sketch that grows and reshapes with the current object instead of a modal, sheet, or split-pane shell
 - circles, applications, and profile routes should prefer one linear feed with inline actions and text-based entity summaries over card stacks, grids, or profile panels
+- keep prompt understanding on the low-cost semantic model by default, and reserve the heavier semantic model behind an explicit backend flag when a batch needs it
+- keep the admin playground deterministic and local-only so OpenAI usage is reserved for the user-facing semantic and voice paths
 
 Animated agent motion should feel layered and ambient:
 - use slow field drift, halo breathing, and subtle spark motion instead of flat pulsing
@@ -219,9 +221,12 @@ The first non-quest capability-expansion slice should follow the same pattern: r
 Shared prompt semantics should be reused across Vision and Admin Playground when the same normalization and intent-classification rules apply, so both surfaces consume one backend prompt-understanding boundary instead of maintaining separate local heuristics.
 OpenAI-backed semantic orchestration should receive a backend-owned request contract instead of a free-form prompt only. The request must include the raw prompt, current conversation context, user context, allowed route catalog, and expected response contract.
 The route catalog is published by backend services per turn. The model may select only routes, capabilities, DTO fields, and slots present in that catalog, and backend services must reject anything outside it.
-After parsing model output, backend services should sanitize the semantic payload against the same route catalog before intent routing, slot merging, or review planning continue.
+After parsing model output, backend services should first fail-close any capability or focus-slot selection outside the published response contract, then sanitize the semantic payload against the same route catalog before intent routing, slot merging, or review planning continue.
+Maintain a semantic audit matrix with representative quest, circle, application, profile, chat, and detail prompts so route drift and fallback regressions surface in tests instead of user sessions.
 User context should carry available locale, language, country, locality, and timezone hints so STT transcripts and typed text can be interpreted in the user's real operating context. When only a country is known, the backend may provide a conservative timezone default, such as `Europe/Zurich` for `CH`, but final scheduling validation remains deterministic.
 Locale and timezone should be resolved by explicit backend precedence instead of whichever hint arrives first. Prefer explicit persisted user preferences when they exist, then durable user-specific history, then client runtime hints, and finally backend country defaults or global defaults. The chosen source should be included in the semantic request so later capability slices can reason about confidence.
+The semantic request should also carry a compact memory pack split into user memory, session memory, and recent turn snapshots, because multi-topic conversations are easier to orchestrate when stable preferences stay separate from the active thread. That memory pack should also expose recent entity families so vague follow-ups can stay anchored to the active topic unless the user clearly switches domains. Low-confidence ambiguous follow-ups should stay in the current thread unless the prompt clearly signals a different entity family. The turn response should also carry a compact memory trail for frontend debug and adaptive preview use.
+Fallback focus should not override a clearly switched entity family, because stale requested-slot memory can otherwise pin the user back to the previous topic even after the new prompt clearly changes domain.
 
 ## Clarification Pattern
 

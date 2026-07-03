@@ -16,6 +16,60 @@ type IntentField = {
   value: string
 }
 
+const fieldOrderByFamily: Record<string, string[]> = {
+  quest: ["quest_title", "quest_description", "reward_amount", "visibility", "schedule_mode", "scheduled_date", "scheduled_time", "location_mode", "location_label"],
+  "quest discovery": ["target_quest_query", "search_query"],
+  "quest detail": ["target_quest_query"],
+  circle: ["circle_name", "target_circle_query"],
+  "circle request": ["target_user"],
+  application: ["target_quest_query", "application_message", "application_proposed_price"],
+  "application detail": ["application_target_query"],
+  profile: ["profile_username", "profile_description", "profile_location_mode", "profile_location_label"],
+  "profile location": ["profile_location_mode", "profile_location_label"],
+  settings: ["profile_location_mode", "profile_location_label"],
+  circles: ["target_circle_query", "circle_name"],
+  chat: ["target_user"]
+}
+
+const intentFamilyLabels: Record<string, string> = {
+  CREATE_QUEST: "quest",
+  DISCOVER_QUESTS: "quest discovery",
+  VIEW_QUEST_DETAIL: "quest detail",
+  CREATE_CIRCLE: "circle",
+  CREATE_CIRCLE_REQUEST: "circle request",
+  ACCEPT_CIRCLE_REQUEST: "circle request",
+  DELETE_CIRCLE_REQUEST: "circle request",
+  UPDATE_CIRCLE: "circle",
+  DELETE_CIRCLE: "circle",
+  CREATE_APPLICATION: "application",
+  UPDATE_APPLICATION: "application",
+  WITHDRAW_APPLICATION: "application",
+  APPROVE_APPLICATION: "application",
+  DECLINE_APPLICATION: "application",
+  UPDATE_PROFILE: "profile",
+  UPDATE_PROFILE_LOCATION: "profile location",
+  VIEW_PROFILE: "profile",
+  VIEW_SETTINGS: "settings",
+  VIEW_CIRCLES: "circles",
+  VIEW_CIRCLE_DETAIL: "circles",
+  VIEW_APPLICATIONS: "applications",
+  VIEW_APPLICATION_DETAIL: "application detail",
+  OPEN_CHAT: "chat",
+  VIEW_CHAT_WORKSPACE: "chat"
+}
+
+const normalizeFamilyLabel = (value: string) => {
+  const trimmed = value.trim().toLowerCase()
+  const aliases: Record<string, string> = {
+    quests: "quest",
+    circles: "circle",
+    applications: "application",
+    profiles: "profile",
+    chats: "chat"
+  }
+  return aliases[trimmed] ?? trimmed
+}
+
 const previewBlock = computed<VisionCanvasBlock | null>(() => {
   if (!props.response) {
     return null
@@ -74,59 +128,161 @@ const isComplete = computed(() => {
   return mode === "review" || mode === "complete" || mode === "results"
 })
 
-const visibleFields = computed(() => fieldValues.value.filter((field) => field.value.trim().length > 0 || !isComplete.value))
+const activeEntityFamily = computed(() => {
+  const memoryTrailFamily = props.response?.memoryTrail?.activeEntityFamily?.trim().toLowerCase()
+  if (memoryTrailFamily) {
+    return normalizeFamilyLabel(memoryTrailFamily)
+  }
+  const intent = props.response?.intent?.trim()
+  if (intent && intentFamilyLabels[intent]) {
+    return intentFamilyLabels[intent]
+  }
+  return ""
+})
+
+const previewVariant = computed(() => {
+  if (!activeEntityFamily.value) {
+    return "generic"
+  }
+  return activeEntityFamily.value
+})
+
+const previewVariantClass = computed(() => previewVariant.value.replaceAll(" ", "-"))
+
+const primaryFieldIdsByVariant: Record<string, string[]> = {
+  quest: ["quest_title", "quest_description", "reward_amount"],
+  "quest discovery": ["target_quest_query", "search_query"],
+  "quest detail": ["target_quest_query"],
+  circle: ["circle_name", "target_circle_query"],
+  "circle request": ["target_user"],
+  application: ["target_quest_query", "application_message", "application_proposed_price"],
+  "application detail": ["application_target_query"],
+  profile: ["profile_username", "profile_description"],
+  "profile location": ["profile_location_mode", "profile_location_label"],
+  settings: ["profile_location_mode", "profile_location_label"],
+  circles: ["target_circle_query", "circle_name"],
+  chat: ["target_user"]
+}
+
+const secondaryFieldIdsByVariant: Record<string, string[]> = {
+  quest: ["visibility", "schedule_mode", "scheduled_date", "scheduled_time", "location_mode", "location_label"],
+  "quest discovery": [],
+  "quest detail": [],
+  circle: [],
+  "circle request": [],
+  application: [],
+  "application detail": [],
+  profile: ["profile_location_mode", "profile_location_label"],
+  "profile location": [],
+  settings: [],
+  circles: [],
+  chat: []
+}
+
+const orderedFieldValues = computed(() => {
+  const family = activeEntityFamily.value
+  const order = family ? fieldOrderByFamily[family] ?? [] : []
+  const rank = new Map(order.map((slotId, index) => [slotId, index]))
+  return [...fieldValues.value].sort((left, right) => {
+    const leftRank = rank.get(left.slotId) ?? 999
+    const rightRank = rank.get(right.slotId) ?? 999
+    if (leftRank !== rightRank) {
+      return leftRank - rightRank
+    }
+    return left.label.localeCompare(right.label)
+  })
+})
+
+const fieldBySlotId = computed(() => new Map(fieldValues.value.map((field) => [field.slotId, field])))
+
+const fieldsForIds = (slotIds: string[]) => slotIds
+  .map((slotId) => fieldBySlotId.value.get(slotId))
+  .filter((field): field is IntentField => Boolean(field))
+
+const visibleFields = computed(() => orderedFieldValues.value.filter((field) => field.value.trim().length > 0 || !isComplete.value))
 
 const previewSummary = computed(() => previewBlock.value?.body?.trim() ?? "")
 
-const previewLabel = computed(() => {
-  if (!props.visible) {
-    return ""
-  }
+const variantPrimaryFields = computed(() => fieldsForIds(primaryFieldIdsByVariant[previewVariant.value] ?? []).slice(0, 4))
 
-  if (previewBlock.value?.title?.trim()) {
-    return previewBlock.value.title.trim()
-  }
+const variantSecondaryFields = computed(() => fieldsForIds(secondaryFieldIdsByVariant[previewVariant.value] ?? []).slice(0, 1))
 
-  if (props.response?.intent) {
-    return props.response.intent.toLowerCase()
-  }
-
-  return "vision preview"
-})
+const hasVariantCard = computed(() => previewVariant.value !== "generic")
 </script>
 
 <template>
   <section class="vision-intent" :class="{
     'vision-intent--visible': visible,
     'vision-intent--ready': filledCount === totalCount,
-    'vision-intent--done': isComplete
+    'vision-intent--done': isComplete,
+    [`vision-intent--${previewVariantClass}`]: previewVariant !== 'generic'
   }">
     <div class="vision-intent__orb" aria-hidden="true"></div>
 
     <article class="vision-intent__ghost">
-      <div v-if="previewLabel" class="vision-intent__label">
-        {{ previewLabel }}
-      </div>
       <p v-if="previewSummary" class="vision-intent__summary">
         {{ previewSummary }}
       </p>
-      <div
-        v-for="field in visibleFields"
-        :key="field.slotId"
-        class="vision-intent__line"
-        :class="{ 'vision-intent__line--filled': field.value.trim().length > 0 }"
-      >
-        <span class="vision-intent__key">{{ field.label }}:</span>
-        <span v-if="field.value.trim().length > 0" class="vision-intent__value">
-          <VisionTypingText
-            :text="field.value"
-            :active="visible && !isComplete"
-            :speed="38"
-          />
-        </span>
-        <span v-else class="vision-intent__placeholder">
-          <span class="vision-intent__placeholder-ink"></span>
-        </span>
+      <div v-if="hasVariantCard" class="vision-intent__entity-sheet">
+        <div class="vision-intent__entity-card vision-intent__entity-card--compact">
+          <div class="vision-intent__entity-card-main">
+            <div class="vision-intent__entity-card-kicker">{{ previewVariant }}</div>
+          </div>
+          <div v-for="field in variantPrimaryFields" :key="field.slotId" class="vision-intent__line vision-intent__line--compact">
+            <span class="vision-intent__key">{{ field.label }}:</span>
+            <span v-if="field.value.trim().length > 0" class="vision-intent__value">
+              <VisionTypingText
+                :text="field.value"
+                :active="visible && !isComplete"
+                :speed="32"
+              />
+            </span>
+            <span v-else class="vision-intent__placeholder">
+              <span class="vision-intent__placeholder-ink"></span>
+            </span>
+          </div>
+          <div v-if="variantSecondaryFields.length" class="vision-intent__entity-secondary">
+            <div
+              v-for="field in variantSecondaryFields"
+              :key="`secondary-${field.slotId}`"
+              class="vision-intent__line vision-intent__line--compact vision-intent__line--secondary"
+              :class="{ 'vision-intent__line--filled': field.value.trim().length > 0 }"
+            >
+              <span class="vision-intent__key">{{ field.label }}:</span>
+              <span v-if="field.value.trim().length > 0" class="vision-intent__value">
+                <VisionTypingText
+                  :text="field.value"
+                  :active="visible && !isComplete"
+                  :speed="30"
+                />
+              </span>
+              <span v-else class="vision-intent__placeholder">
+                <span class="vision-intent__placeholder-ink"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div v-else class="vision-intent__field-stack">
+        <div
+          v-for="field in visibleFields"
+          :key="field.slotId"
+          class="vision-intent__line"
+          :class="{ 'vision-intent__line--filled': field.value.trim().length > 0 }"
+        >
+          <span class="vision-intent__key">{{ field.label }}:</span>
+          <span v-if="field.value.trim().length > 0" class="vision-intent__value">
+            <VisionTypingText
+              :text="field.value"
+              :active="visible && !isComplete"
+              :speed="38"
+            />
+          </span>
+          <span v-else class="vision-intent__placeholder">
+            <span class="vision-intent__placeholder-ink"></span>
+          </span>
+        </div>
       </div>
     </article>
   </section>
@@ -189,6 +345,11 @@ const previewLabel = computed(() => {
   transition: opacity 220ms ease, transform 220ms ease;
 }
 
+.vision-intent__header {
+  display: grid;
+  gap: 0.25rem;
+}
+
 .vision-intent--visible .vision-intent__ghost {
   opacity: 1;
   transform: translateY(0) scale(1);
@@ -212,14 +373,6 @@ const previewLabel = computed(() => {
   border-top: 1px solid rgba(24, 36, 47, 0.04);
 }
 
-.vision-intent__label {
-  color: rgba(24, 36, 47, 0.42);
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding-bottom: 0.12rem;
-}
-
 .vision-intent__key {
   color: rgba(24, 36, 47, 0.48);
   font-size: 0.78rem;
@@ -235,8 +388,144 @@ const previewLabel = computed(() => {
   line-height: 1.5;
 }
 
+.vision-intent__entity-sheet {
+  display: grid;
+  gap: 0.45rem;
+  padding-top: 0.1rem;
+}
+
+.vision-intent__entity-card {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.6rem 0.65rem;
+  border-radius: 0.95rem;
+  border: 1px solid rgba(24, 36, 47, 0.04);
+  background: rgba(255, 255, 255, 0.34);
+}
+
+.vision-intent__entity-card--compact {
+  gap: 0.22rem;
+}
+
+.vision-intent__entity-card-main {
+  display: grid;
+  gap: 0.12rem;
+}
+
+.vision-intent__entity-card-kicker {
+  color: rgba(24, 36, 47, 0.4);
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.vision-intent__entity-card-label {
+  color: rgba(24, 36, 47, 0.72);
+  font-size: 0.78rem;
+  line-height: 1.28;
+}
+
+.vision-intent__line--compact {
+  min-height: 1.8rem;
+}
+
+.vision-intent__entity-secondary {
+  display: grid;
+  gap: 0.12rem;
+}
+
+.vision-intent__memory-sheet {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.42);
+  width: fit-content;
+}
+
+.vision-intent__memory-sheet-title {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(24, 36, 47, 0.08);
+  background: rgba(255, 255, 255, 0.68);
+  color: rgba(24, 36, 47, 0.46);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+.vision-intent__memory-sheet-body {
+  display: none;
+  gap: 0.26rem;
+}
+
+.vision-intent__memory-sheet[open] .vision-intent__memory-sheet-body {
+  display: grid;
+}
+
+.vision-intent__memory-sheet-line {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.45rem;
+  align-items: start;
+}
+
+.vision-intent__memory-sheet-key {
+  color: rgba(24, 36, 47, 0.42);
+  font-size: 0.64rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.vision-intent__memory-sheet-value {
+  color: rgba(24, 36, 47, 0.76);
+  font-size: 0.76rem;
+  line-height: 1.25;
+}
+
+.vision-intent__resume-rail {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.vision-intent__resume-line {
+  display: grid;
+  gap: 0.1rem;
+  padding-top: 0.22rem;
+  border-top: 1px solid rgba(24, 36, 47, 0.04);
+}
+
+.vision-intent__resume-title {
+  color: rgba(24, 36, 47, 0.68);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.vision-intent__resume-subtitle {
+  color: rgba(24, 36, 47, 0.52);
+  font-size: 0.72rem;
+  line-height: 1.3;
+}
+
 .vision-intent__line--filled .vision-intent__value {
   text-shadow: 0 0 18px rgba(127, 203, 255, 0.14);
+}
+
+.vision-intent__line--secondary {
+  min-height: 2.15rem;
+}
+
+.vision-intent__line--secondary .vision-intent__key,
+.vision-intent__line--compact .vision-intent__key {
+  font-size: 0.7rem;
 }
 
 .vision-intent__value {

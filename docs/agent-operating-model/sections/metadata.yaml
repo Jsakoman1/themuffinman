@@ -7,5 +7,7 @@ metadata:
   - This file is intentionally procedural and machine-oriented.
   - If a safe branch is not defined here, the agent must stop instead of guessing.
   - Sandbox flows are modeled separately from production-like flows.
-  - Admin planning surfaces may use backend-managed LLM summaries, but deterministic
-    backend safety rules remain authoritative.
+  - Admin direct execution flows stay deterministic and local-only; backend safety rules remain authoritative.
+  - For active operational state, planning state, validation state, and automation-facing rules, read the machine-readable
+    control files first and treat markdown as review context unless a markdown doc is explicitly the canonical meaning
+    layer.

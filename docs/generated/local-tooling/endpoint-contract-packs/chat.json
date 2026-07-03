@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T14:47:52Z",
+  "generated_at": "2026-07-03T09:17:43Z",
   "endpoint_family": "chat",
   "endpoints": [
     {
@@ -76,54 +76,6 @@
   ],
   "frontend_callsites": [
     {
-      "file": "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/app/useAppTopbarState.ts",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/editor/RichTextEditor.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/profile/ProfileEntityCard.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/profile/ProfileOpenQuestItem.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiConfirmDialog.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiDialog.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/components/ui/UiWorkspace.vue",
-      "matched_paths": [
-        "workspace"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "matched_paths": [
         "open",
@@ -140,26 +92,9 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
+      "file": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
       "matched_paths": [
-        "/chat/conversations/open",
-        "open",
-        "messages",
-        "read",
-        "/chat/presence/heartbeat",
-        "heartbeat",
-        "/chat/workspace",
-        "workspace"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
-      "matched_paths": [
-        "open",
-        "messages",
-        "read",
-        "heartbeat",
-        "workspace"
+        "open"
       ]
     },
     {
@@ -169,19 +104,7 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
       "matched_paths": [
         "open"
       ]
@@ -193,70 +116,14 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionExecutionCandidateBlock.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
       "matched_paths": [
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionPromptDock.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionQuestDiscoveryBlock.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionReviewSummaryBlock.vue",
-      "matched_paths": [
+        "open",
         "read"
       ]
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-      "matched_paths": [
-        "open",
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-      "matched_paths": [
-        "open",
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurfaceState.ts",
-      "matched_paths": [
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-      "matched_paths": [
-        "read",
-        "workspace"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
       "matched_paths": [
         "open",
         "read"
@@ -269,115 +136,9 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
-      "matched_paths": [
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationEditFields.vue",
-      "matched_paths": [
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationManagementCard.vue",
-      "matched_paths": [
-        "open",
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationSummaryCard.vue",
-      "matched_paths": [
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/InlineEditableField.vue",
-      "matched_paths": [
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileIdentityEditor.vue",
-      "matched_paths": [
-        "open",
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileLocationEditor.vue",
-      "matched_paths": [
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
-      "matched_paths": [
-        "open",
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersUiState.ts",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/domain/workmarketDomain.ts",
-      "matched_paths": [
-        "open",
-        "read"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/shared/clientMessages.ts",
       "matched_paths": [
         "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/shared/imageCompression.ts",
-      "matched_paths": [
-        "read"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/shared/profileFormatting.ts",
-      "matched_paths": [
-        "open"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/shared/richText.ts",
-      "matched_paths": [
-        "open"
       ]
     }
   ],

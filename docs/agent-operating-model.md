@@ -20,6 +20,9 @@ The machine-readable source of truth is:
 ## Operating Rules
 
 - Treat backend code as the final execution authority.
+- For active operational state, planning state, validation state, and automation-facing rules, read the machine-readable
+  control files first and treat markdown as review context unless a markdown doc is explicitly the canonical meaning
+  layer.
 - Treat `docs/codex-fast-path.md` as the compact execution entrypoint for most feature work.
 - `docs/codex-fast-path.md` is the compact execution entrypoint for most feature work.
 - For product-direction, UX, adaptive-surface, or Social Useful Network sessions, read `docs/product-memory.md` and `docs/product-vision.md` first so future reasoning starts from durable lessons and the canonical product direction instead of from backlog noise.
@@ -163,7 +166,7 @@ Related admin tooling:
 - an admin agent playground may help classify prompts and surface workflow warnings
 - that playground should translate prompts into a stable planning language before deterministic workflow classification
 - that playground stays planning-first, but the first guarded direct execution slice may create synthetic quest batches for one exact target user only after explicit admin confirmation
-- when configured, the same admin endpoint may request a backend-managed OpenAI planning summary and still fall back to deterministic backend rules
+- the same admin endpoint now stays deterministic and local-only for planning summaries while still falling back to deterministic backend rules
 - planner responses should keep deterministic matched signals and unresolved inputs separate from provider-authored summary text
 - the dedicated `/vision/conversations/turns` backend is the persisted prompt-bearing path for stepwise adaptive orchestration, `GET /vision/conversations/recent` and `GET /vision/conversations/{conversationId}` provide resume state, dedicated `/vision/conversations/{conversationId}/reset` and `/vision/conversations/{conversationId}/cancel` endpoints own lifecycle control, and dashboard prompt decoding remains a lighter planning surface
 - the first persisted `/vision` quest conversation now stepwise-collects reward, visibility, schedule, and location decisions, pauses for explicit candidate choice when a custom location lookup finds one or more more precise matches, accepts a broader deterministic HR/EN spoken-time vocabulary while still rejecting ambiguous spoken times without a day-period signal, and can route a review correction back to one named field instead of reopening a legacy form
@@ -234,7 +237,8 @@ Tiered workflow routing:
 
 Context-first session workflow:
 - start with `docs/generated/local-tooling/diff-summary.md` to understand the changed-file shape before broad repository exploration
-- read `docs/generated/local-tooling/audit-summary-index.md` to choose the smallest relevant generated report
+- read `docs/generated/local-tooling/audit-summary-index.md` to choose the smallest relevant generated report; treat
+  it as a routing aid, not as the source of truth for current behavior
 - generate or read a topic context pack with `make codex-context topic=<topic> intent='<intent>'` when the task has a clear feature, domain, or changed-file focus; it now chains the diff summary, audit summary index, the most relevant audit, targeted tests, and a concise evidence bundle
 - treat `docs/generated/local-tooling/codex-context/latest.execution.json` as the canonical machine-readable manifest for the current context batch and `docs/codex-context-execution-manifest.schema.json` as its contract
 - for product-direction sessions, prepend `docs/product-memory.md` and `docs/product-vision.md` before broader business or technical docs so stable lessons and vision anchor the rest of the search

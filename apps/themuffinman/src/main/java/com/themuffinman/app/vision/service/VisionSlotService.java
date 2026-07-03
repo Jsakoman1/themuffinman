@@ -47,9 +47,10 @@ public class VisionSlotService {
         if ("quest_title".equals(requestedSlot) && !merged.containsKey("quest_title")) {
             merged.put("quest_title", normalizeTitleAnswer(normalizedPrompt));
         } else if ("quest_description".equals(requestedSlot) && !merged.containsKey("quest_description")) {
-            merged.put("quest_description", normalizedPrompt.trim());
+            String description = deriveDescriptionFromPrompt(normalizedPrompt, requestedSlot, focusSlotId);
+            merged.put("quest_description", description == null ? normalizedPrompt.trim() : description);
         } else if ("reward_amount".equals(requestedSlot) && !merged.containsKey("reward_amount") && !merged.containsKey("free_quest")) {
-            applyRewardAnswer(merged, normalizedPrompt);
+            applyRewardAnswer(merged, normalizedPrompt, requestedSlot, focusSlotId);
         } else if ("visibility".equals(requestedSlot) && !merged.containsKey("visibility")) {
             String visibility = extractVisibility(normalizedPrompt);
             if (visibility != null) {
@@ -136,8 +137,16 @@ public class VisionSlotService {
         if (isGenericCreateQuestCommand(prompt)) {
             return;
         }
-        if (!merged.containsKey("quest_description") && shouldAutoFillDescription(prompt, requestedSlot, focusSlotId)) {
-            merged.put("quest_description", prompt);
+        if ("reward_amount".equals(requestedSlot)
+                || "reward_amount".equals(focusSlotId)
+                || "free_quest".equals(requestedSlot)) {
+            return;
+        }
+        if (!merged.containsKey("quest_description")) {
+            String description = deriveDescriptionFromPrompt(prompt, requestedSlot, focusSlotId);
+            if (description != null) {
+                merged.put("quest_description", description);
+            }
         }
 
         if (!merged.containsKey("quest_title")) {
@@ -148,7 +157,7 @@ public class VisionSlotService {
         }
 
         if (!merged.containsKey("reward_amount") && !merged.containsKey("free_quest") && shouldAutoFillReward(prompt, requestedSlot, focusSlotId)) {
-            applyRewardAnswer(merged, prompt);
+            applyRewardAnswer(merged, prompt, requestedSlot, focusSlotId);
         }
 
         if (!merged.containsKey("visibility")) {
@@ -211,7 +220,8 @@ public class VisionSlotService {
         if (description == null || description.isBlank()) {
             return;
         }
-        merged.put("quest_description", description.trim());
+        String cleaned = deriveTaskCoreFromPrompt(description);
+        merged.put("quest_description", cleaned == null ? capitalize(description.trim()) : capitalize(cleaned));
     }
 
     private void applySemanticReward(Map<String, String> merged, Map<String, String> extractedSlots, String normalizedPrompt, String focusSlotId) {
@@ -302,17 +312,6 @@ public class VisionSlotService {
         }
     }
 
-    private boolean shouldAutoFillDescription(String normalizedPrompt, String requestedSlot, String focusSlotId) {
-        if (focusSlotId != null && "quest_description".equals(focusSlotId)) {
-            return true;
-        }
-        if ("quest_description".equals(requestedSlot)) {
-            return true;
-        }
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
-        return containsAny(lower, "need", "looking for", "help", "task", "description", "quest", "i want", "i need");
-    }
-
     private boolean shouldAutoFillReward(String normalizedPrompt, String requestedSlot, String focusSlotId) {
         if (focusSlotId != null && "reward_amount".equals(focusSlotId)) {
             return true;
@@ -320,8 +319,7 @@ public class VisionSlotService {
         if ("reward_amount".equals(requestedSlot)) {
             return true;
         }
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
-        return containsAny(lower, "free", "no pay", "without pay", "unpaid", "reward", "euros", "euro", "eur", "kn", "pay", "compensation", "amount", "price");
+        return containsRewardSignals(normalizedPrompt);
     }
 
     private boolean shouldAutoFillVisibility(String normalizedPrompt, String focusSlotId) {
@@ -352,24 +350,56 @@ public class VisionSlotService {
         )) {
             return true;
         }
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
-        return containsAny(lower, "location", "address", "current location", "my location", "profile", "hide location", "hide", "place", "street", "square", "near", "at ");
+        return containsLocationSignals(normalizedPrompt);
     }
 
-    private void applyRewardAnswer(Map<String, String> merged, String normalizedPrompt) {
+    private void applyRewardAnswer(Map<String, String> merged, String normalizedPrompt, String requestedSlot, String focusSlotId) {
         String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        if (!containsRewardSignals(lower)
+                && (focusSlotId == null || !"reward_amount".equals(focusSlotId))
+                && (requestedSlot == null || !"reward_amount".equals(requestedSlot))) {
+            return;
+        }
         if (containsAny(lower, "free", "no pay", "without pay", "volunteer", "unpaid")) {
             merged.put("free_quest", "true");
             merged.put("reward_amount", "0");
             return;
         }
 
-        Matcher matcher = AMOUNT_PATTERN.matcher(lower);
-        if (matcher.find()) {
-            BigDecimal amount = new BigDecimal(matcher.group(1).replace(',', '.'));
+        String rewardAmount = extractRewardAmount(lower, requestedSlot, focusSlotId);
+        if (rewardAmount != null) {
+            BigDecimal amount = new BigDecimal(rewardAmount.replace(',', '.'));
             merged.put("free_quest", "false");
             merged.put("reward_amount", amount.stripTrailingZeros().toPlainString());
         }
+    }
+
+    private String extractRewardAmount(String lower, String requestedSlot, String focusSlotId) {
+        Pattern[] prioritizedPatterns = new Pattern[] {
+                Pattern.compile("(?i)(?:reward|price|pay|paid|amount|compensation|cost|for)\\D{0,12}(\\d{1,5}(?:[.,]\\d{1,2})?)\\s*(?:eur|euro|euros|kn)?"),
+                Pattern.compile("(?i)(\\d{1,5}(?:[.,]\\d{1,2})?)\\s*(?:eur|euro|euros|kn)\\b")
+        };
+
+        for (Pattern pattern : prioritizedPatterns) {
+            Matcher matcher = pattern.matcher(lower);
+            if (matcher.find()) {
+                return matcher.group(1);
+            }
+        }
+
+        if (focusSlotId != null && "reward_amount".equals(focusSlotId)) {
+            Matcher matcher = AMOUNT_PATTERN.matcher(lower);
+            if (matcher.find()) {
+                return matcher.group(1);
+            }
+        }
+        if ("reward_amount".equals(requestedSlot)) {
+            Matcher matcher = AMOUNT_PATTERN.matcher(lower);
+            if (matcher.find()) {
+                return matcher.group(1);
+            }
+        }
+        return null;
     }
 
     private String extractVisibility(String normalizedPrompt) {
@@ -500,14 +530,18 @@ public class VisionSlotService {
         if (containsAny(lower, "profile", "my location", "use my location", "saved location")) {
             return "profile";
         }
-        if (containsAny(lower, "custom", "different place", "other place", "address", "at ")) {
+        if (containsAny(lower, "custom", "different place", "other place", "address") || containsLocationAtSignal(lower)) {
             return "custom";
         }
         return null;
     }
 
     private String deriveLocationLabel(String prompt) {
-        String cleaned = prompt
+        String source = prompt == null ? "" : prompt.trim();
+        Matcher trailingLocation = Pattern.compile("(?i).*(?:\\b(?:at|in|near|address)\\s+)([\\p{L}][^.!?]*)$").matcher(source);
+        String cleaned = trailingLocation.matches()
+                ? trailingLocation.group(1).trim()
+                : source
                 .replaceAll("(?i)^custom\\s+", "")
                 .replaceAll("(?i)^custom place\\s+", "")
                 .replaceAll("(?i)^custom address\\s+", "")
@@ -617,7 +651,38 @@ public class VisionSlotService {
     }
 
     private String deriveTitleFromPrompt(String prompt) {
-        if (prompt.isBlank()) {
+        String core = deriveTaskCoreFromPrompt(prompt);
+        if (core == null || isGenericCreateQuestCommand(core)) {
+            return null;
+        }
+        if (core.length() > 80) {
+            core = core.substring(0, 80).trim();
+        }
+        if (core.length() < 4) {
+            return null;
+        }
+        return capitalize(core);
+    }
+
+    private String deriveDescriptionFromPrompt(String prompt, String requestedSlot, String focusSlotId) {
+        String core = deriveTaskCoreFromPrompt(prompt);
+        if (core == null) {
+            return null;
+        }
+        if (focusSlotId != null && "quest_description".equals(focusSlotId)) {
+            return capitalize(core);
+        }
+        if ("quest_description".equals(requestedSlot)) {
+            return capitalize(core);
+        }
+        if (isGenericCreateQuestCommand(core)) {
+            return null;
+        }
+        return capitalize(core);
+    }
+
+    private String deriveTaskCoreFromPrompt(String prompt) {
+        if (prompt == null || prompt.isBlank()) {
             return null;
         }
 
@@ -639,17 +704,45 @@ public class VisionSlotService {
 
         String firstSentence = cleaned.split("[.!?\\n]")[0].trim();
         int rewardMarker = indexOfAny(firstSentence.toLowerCase(Locale.ROOT), " for ", " with ", " paying ", " pay ");
-        if (rewardMarker > 10) {
-            firstSentence = firstSentence.substring(0, rewardMarker).trim();
+        int scheduleMarker = indexOfAny(firstSentence.toLowerCase(Locale.ROOT), " next ", " tomorrow", " today", " tonight");
+        int locationMarker = indexOfAny(firstSentence.toLowerCase(Locale.ROOT), " at ", " near ", " address ", " location ");
+        int boundary = earliestPositiveIndex(rewardMarker, scheduleMarker, locationMarker);
+        if (boundary > 10) {
+            firstSentence = firstSentence.substring(0, boundary).trim();
         }
 
-        if (firstSentence.length() > 80) {
-            firstSentence = firstSentence.substring(0, 80).trim();
-        }
         if (firstSentence.length() < 4) {
             return null;
         }
-        return capitalize(firstSentence);
+        return firstSentence;
+    }
+
+    private boolean containsRewardSignals(String normalizedPrompt) {
+        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        return containsAny(lower, "free", "no pay", "without pay", "unpaid", "reward", "euros", "euro", "eur", "kn", "pay", "compensation", "amount", "price");
+    }
+
+    private boolean containsLocationSignals(String normalizedPrompt) {
+        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        return containsAny(lower, "location", "address", "current location", "my location", "hide location", "place", "street", "square", "near")
+                || containsLocationAtSignal(lower);
+    }
+
+    private boolean containsLocationAtSignal(String lower) {
+        return Pattern.compile("\\bat\\s+[\\p{L}]").matcher(lower).find();
+    }
+
+    private int earliestPositiveIndex(int... indexes) {
+        int best = -1;
+        for (int index : indexes) {
+            if (index < 0) {
+                continue;
+            }
+            if (best < 0 || index < best) {
+                best = index;
+            }
+        }
+        return best;
     }
 
     private String normalizeTitleAnswer(String prompt) {

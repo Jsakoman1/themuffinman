@@ -33,4 +33,41 @@ class VisionLocationParserServiceTest {
         assertEquals("Zagreb", parsed.get("location_locality"));
         assertNull(parsed.get("location_country"));
     }
+
+    @Test
+    void parsesCityCountryLocationIntoLocalityAndCountry() {
+        Map<String, String> parsed = parserService.parseCustomLocation("Zurich, Switzerland");
+
+        assertEquals("Zurich, Switzerland", parsed.get("location_label"));
+        assertEquals("Zurich", parsed.get("location_locality"));
+        assertEquals("Switzerland", parsed.get("location_country"));
+        assertNull(parsed.get("location_street"));
+    }
+
+    @Test
+    void parsesAddressWithoutCommaAsStreetAndHouseNumber() {
+        Map<String, String> parsed = parserService.parseCustomLocation("Ilica 10");
+
+        assertEquals("Ilica 10", parsed.get("location_label"));
+        assertEquals("Ilica", parsed.get("location_street"));
+        assertEquals("10", parsed.get("location_house_number"));
+    }
+
+    @Test
+    void parsesPostalCodeFollowedByLocality() {
+        Map<String, String> parsed = parserService.parseCustomLocation("8000 Zurich");
+
+        assertEquals("8000 Zurich", parsed.get("location_label"));
+        assertEquals("8000", parsed.get("location_postal_code"));
+        assertEquals("Zurich", parsed.get("location_locality"));
+    }
+
+    @Test
+    void parsesLocalityFollowedByPostalCode() {
+        Map<String, String> parsed = parserService.parseCustomLocation("Zurich 8000");
+
+        assertEquals("Zurich 8000", parsed.get("location_label"));
+        assertEquals("8000", parsed.get("location_postal_code"));
+        assertEquals("Zurich", parsed.get("location_locality"));
+    }
 }

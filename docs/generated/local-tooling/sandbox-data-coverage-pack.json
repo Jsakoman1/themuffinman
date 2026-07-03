@@ -1,45 +1,25 @@
 {
-  "generated_at": "2026-07-01T14:49:52Z",
+  "generated_at": "2026-07-03T09:18:06Z",
   "rows": [
     {
       "entity_or_contract": "ActionResultDTO",
       "code_refs": 38,
-      "sandbox_docs_refs": 192
+      "sandbox_docs_refs": 223
     },
     {
       "entity_or_contract": "AdminAgentExecutionRequestDTO",
       "code_refs": 5,
-      "sandbox_docs_refs": 44
+      "sandbox_docs_refs": 43
     },
     {
       "entity_or_contract": "AdminAgentExecutionResponseDTO",
       "code_refs": 9,
-      "sandbox_docs_refs": 43
-    },
-    {
-      "entity_or_contract": "AdminAgentPlaygroundRequestDTO",
-      "code_refs": 7,
-      "sandbox_docs_refs": 52
-    },
-    {
-      "entity_or_contract": "AdminAgentPlaygroundResponseDTO",
-      "code_refs": 12,
-      "sandbox_docs_refs": 70
-    },
-    {
-      "entity_or_contract": "AdminAgentSimulationRequestDTO",
-      "code_refs": 5,
-      "sandbox_docs_refs": 39
-    },
-    {
-      "entity_or_contract": "AdminAgentSimulationResponseDTO",
-      "code_refs": 6,
-      "sandbox_docs_refs": 75
+      "sandbox_docs_refs": 45
     },
     {
       "entity_or_contract": "AdminApplicationsQueryDTO",
       "code_refs": 3,
-      "sandbox_docs_refs": 25
+      "sandbox_docs_refs": 28
     },
     {
       "entity_or_contract": "AdminCircleGroupResponseDTO",
@@ -59,7 +39,7 @@
     {
       "entity_or_contract": "AdminQuestApplicationUpdateRequestDTO",
       "code_refs": 7,
-      "sandbox_docs_refs": 31
+      "sandbox_docs_refs": 35
     },
     {
       "entity_or_contract": "AdminUserDetailDTO",
@@ -68,38 +48,38 @@
     },
     {
       "entity_or_contract": "AgentCapabilityAssessmentDTO",
-      "code_refs": 7,
-      "sandbox_docs_refs": 32
+      "code_refs": 1,
+      "sandbox_docs_refs": 37
     },
     {
       "entity_or_contract": "AgentClarificationContractDTO",
-      "code_refs": 6,
-      "sandbox_docs_refs": 34
+      "code_refs": 1,
+      "sandbox_docs_refs": 36
     },
     {
       "entity_or_contract": "AgentEndpointPlanDTO",
-      "code_refs": 5,
-      "sandbox_docs_refs": 31
+      "code_refs": 1,
+      "sandbox_docs_refs": 35
     },
     {
       "entity_or_contract": "AgentExecutionReadinessDTO",
-      "code_refs": 7,
-      "sandbox_docs_refs": 29
+      "code_refs": 1,
+      "sandbox_docs_refs": 31
     },
     {
       "entity_or_contract": "AgentIntentLineageDTO",
-      "code_refs": 5,
-      "sandbox_docs_refs": 28
+      "code_refs": 1,
+      "sandbox_docs_refs": 32
     },
     {
       "entity_or_contract": "AgentResolutionConfidenceDTO",
-      "code_refs": 5,
-      "sandbox_docs_refs": 28
+      "code_refs": 1,
+      "sandbox_docs_refs": 32
     },
     {
       "entity_or_contract": "AgentResolutionRequirementDTO",
-      "code_refs": 7,
-      "sandbox_docs_refs": 25
+      "code_refs": 1,
+      "sandbox_docs_refs": 30
     },
     {
       "entity_or_contract": "ApiErrorResponseDTO",
@@ -113,23 +93,23 @@
     },
     {
       "entity_or_contract": "AppUserRequestDTO",
-      "code_refs": 13,
-      "sandbox_docs_refs": 69
+      "code_refs": 18,
+      "sandbox_docs_refs": 83
     },
     {
       "entity_or_contract": "AppUserResponseDTO",
-      "code_refs": 25,
-      "sandbox_docs_refs": 92
+      "code_refs": 31,
+      "sandbox_docs_refs": 96
     },
     {
       "entity_or_contract": "AppUserRoleOptionDTO",
-      "code_refs": 7,
-      "sandbox_docs_refs": 28
+      "code_refs": 8,
+      "sandbox_docs_refs": 29
     },
     {
       "entity_or_contract": "ApplicationAllowedActionDTO",
-      "code_refs": 17,
-      "sandbox_docs_refs": 31
+      "code_refs": 32,
+      "sandbox_docs_refs": 34
     },
     {
       "entity_or_contract": "AuthResponseDTO",
@@ -159,7 +139,7 @@
     {
       "entity_or_contract": "BusinessProfileResponseDTO",
       "code_refs": 13,
-      "sandbox_docs_refs": 63
+      "sandbox_docs_refs": 61
     },
     {
       "entity_or_contract": "ChatCircleOptionDTO",
@@ -168,13 +148,13 @@
     },
     {
       "entity_or_contract": "ChatContactDTO",
-      "code_refs": 7,
-      "sandbox_docs_refs": 29
+      "code_refs": 10,
+      "sandbox_docs_refs": 31
     },
     {
       "entity_or_contract": "ChatConversationSummaryDTO",
-      "code_refs": 15,
-      "sandbox_docs_refs": 51
+      "code_refs": 18,
+      "sandbox_docs_refs": 53
     },
     {
       "entity_or_contract": "ChatMessageDTO",
@@ -203,8 +183,8 @@
     },
     {
       "entity_or_contract": "ChatWorkspaceDTO",
-      "code_refs": 6,
-      "sandbox_docs_refs": 49
+      "code_refs": 8,
+      "sandbox_docs_refs": 50
     },
     {
       "entity_or_contract": "CircleBlockCreateDTO",
@@ -214,7 +194,7 @@
     {
       "entity_or_contract": "CircleCandidateDTO",
       "code_refs": 1,
-      "sandbox_docs_refs": 28
+      "sandbox_docs_refs": 27
     },
     {
       "entity_or_contract": "CircleConnectionsQueryDTO",
@@ -233,18 +213,18 @@
     },
     {
       "entity_or_contract": "CircleGroupRequestDTO",
-      "code_refs": 7,
-      "sandbox_docs_refs": 61
+      "code_refs": 10,
+      "sandbox_docs_refs": 62
     },
     {
       "entity_or_contract": "CircleGroupResponseDTO",
-      "code_refs": 21,
-      "sandbox_docs_refs": 104
+      "code_refs": 32,
+      "sandbox_docs_refs": 105
     },
     {
       "entity_or_contract": "CircleMemberDTO",
-      "code_refs": 10,
-      "sandbox_docs_refs": 29
+      "code_refs": 13,
+      "sandbox_docs_refs": 30
     },
     {
       "entity_or_contract": "CircleOverviewDTO",
@@ -263,8 +243,8 @@
     },
     {
       "entity_or_contract": "CircleRequestCreateDTO",
-      "code_refs": 7,
-      "sandbox_docs_refs": 26
+      "code_refs": 9,
+      "sandbox_docs_refs": 27
     },
     {
       "entity_or_contract": "CircleRequestListResponseDTO",
@@ -273,8 +253,8 @@
     },
     {
       "entity_or_contract": "CircleRequestResponseDTO",
-      "code_refs": 42,
-      "sandbox_docs_refs": 82
+      "code_refs": 51,
+      "sandbox_docs_refs": 83
     },
     {
       "entity_or_contract": "CircleSearchResultDTO",
@@ -299,47 +279,47 @@
     {
       "entity_or_contract": "DashboardApplicationGroupDTO",
       "code_refs": 9,
-      "sandbox_docs_refs": 29
+      "sandbox_docs_refs": 32
     },
     {
       "entity_or_contract": "DashboardNavigationItemDTO",
       "code_refs": 5,
-      "sandbox_docs_refs": 25
+      "sandbox_docs_refs": 28
     },
     {
       "entity_or_contract": "DashboardNavigationSectionDTO",
       "code_refs": 5,
-      "sandbox_docs_refs": 26
+      "sandbox_docs_refs": 29
     },
     {
       "entity_or_contract": "DashboardNotificationDestinationTypeDTO",
       "code_refs": 7,
-      "sandbox_docs_refs": 22
+      "sandbox_docs_refs": 23
     },
     {
       "entity_or_contract": "DashboardNotificationItemDTO",
       "code_refs": 11,
-      "sandbox_docs_refs": 32
+      "sandbox_docs_refs": 39
     },
     {
       "entity_or_contract": "DashboardNotificationsSectionDTO",
       "code_refs": 6,
-      "sandbox_docs_refs": 23
+      "sandbox_docs_refs": 27
     },
     {
       "entity_or_contract": "DashboardOpenWorkSectionDTO",
       "code_refs": 5,
-      "sandbox_docs_refs": 23
+      "sandbox_docs_refs": 27
     },
     {
       "entity_or_contract": "DashboardPlannerItemDTO",
       "code_refs": 17,
-      "sandbox_docs_refs": 24
+      "sandbox_docs_refs": 28
     },
     {
       "entity_or_contract": "DashboardPlannerSectionDTO",
       "code_refs": 8,
-      "sandbox_docs_refs": 27
+      "sandbox_docs_refs": 26
     },
     {
       "entity_or_contract": "DashboardQuestGroupDTO",
@@ -354,12 +334,12 @@
     {
       "entity_or_contract": "DashboardSectionsDTO",
       "code_refs": 9,
-      "sandbox_docs_refs": 71
+      "sandbox_docs_refs": 58
     },
     {
       "entity_or_contract": "DashboardSummaryDTO",
       "code_refs": 12,
-      "sandbox_docs_refs": 41
+      "sandbox_docs_refs": 40
     },
     {
       "entity_or_contract": "DashboardVisionPromptRequestDTO",
@@ -374,7 +354,7 @@
     {
       "entity_or_contract": "DashboardVoiceConfigDTO",
       "code_refs": 6,
-      "sandbox_docs_refs": 31
+      "sandbox_docs_refs": 32
     },
     {
       "entity_or_contract": "DashboardVoiceSpeechRequestDTO",
@@ -384,7 +364,7 @@
     {
       "entity_or_contract": "DashboardVoiceTranscriptionDTO",
       "code_refs": 6,
-      "sandbox_docs_refs": 25
+      "sandbox_docs_refs": 26
     },
     {
       "entity_or_contract": "DatabaseTableStatusViewDTO",
@@ -399,7 +379,7 @@
     {
       "entity_or_contract": "LabelValueDTO",
       "code_refs": 1,
-      "sandbox_docs_refs": 28
+      "sandbox_docs_refs": 27
     },
     {
       "entity_or_contract": "LocationDebugStatusViewDTO",
@@ -439,7 +419,7 @@
     {
       "entity_or_contract": "NavigationTargetDTO",
       "code_refs": 45,
-      "sandbox_docs_refs": 46
+      "sandbox_docs_refs": 48
     },
     {
       "entity_or_contract": "PageQueryDTO",
@@ -453,28 +433,28 @@
     },
     {
       "entity_or_contract": "QuestAllowedActionDTO",
-      "code_refs": 35,
-      "sandbox_docs_refs": 38
+      "code_refs": 39,
+      "sandbox_docs_refs": 39
     },
     {
       "entity_or_contract": "QuestApplicationDetailContextSectionDTO",
       "code_refs": 4,
-      "sandbox_docs_refs": 23
+      "sandbox_docs_refs": 21
     },
     {
       "entity_or_contract": "QuestApplicationDetailNavigationSectionDTO",
       "code_refs": 4,
-      "sandbox_docs_refs": 25
+      "sandbox_docs_refs": 23
     },
     {
       "entity_or_contract": "QuestApplicationDetailResponseDTO",
-      "code_refs": 7,
-      "sandbox_docs_refs": 32
+      "code_refs": 9,
+      "sandbox_docs_refs": 33
     },
     {
       "entity_or_contract": "QuestApplicationDetailSectionsDTO",
       "code_refs": 4,
-      "sandbox_docs_refs": 28
+      "sandbox_docs_refs": 27
     },
     {
       "entity_or_contract": "QuestApplicationDraftRulesViewDTO",
@@ -493,73 +473,73 @@
     },
     {
       "entity_or_contract": "QuestApplicationRequestDTO",
-      "code_refs": 15,
-      "sandbox_docs_refs": 41
+      "code_refs": 18,
+      "sandbox_docs_refs": 42
     },
     {
       "entity_or_contract": "QuestApplicationResponseDTO",
-      "code_refs": 98,
-      "sandbox_docs_refs": 135
+      "code_refs": 120,
+      "sandbox_docs_refs": 137
     },
     {
       "entity_or_contract": "QuestApplicationStatus",
       "code_refs": 102,
-      "sandbox_docs_refs": 62
+      "sandbox_docs_refs": 63
     },
     {
       "entity_or_contract": "QuestApplicationStatusFilterOptionDTO",
-      "code_refs": 8,
-      "sandbox_docs_refs": 23
-    },
-    {
-      "entity_or_contract": "QuestApplicationsViewDTO",
-      "code_refs": 18,
-      "sandbox_docs_refs": 71
-    },
-    {
-      "entity_or_contract": "QuestAudienceFilterOptionDTO",
-      "code_refs": 6,
-      "sandbox_docs_refs": 22
-    },
-    {
-      "entity_or_contract": "QuestAudienceOptionDTO",
-      "code_refs": 5,
-      "sandbox_docs_refs": 23
-    },
-    {
-      "entity_or_contract": "QuestDetailExecutionActionDTO",
       "code_refs": 9,
       "sandbox_docs_refs": 21
     },
     {
+      "entity_or_contract": "QuestApplicationsViewDTO",
+      "code_refs": 18,
+      "sandbox_docs_refs": 72
+    },
+    {
+      "entity_or_contract": "QuestAudienceFilterOptionDTO",
+      "code_refs": 7,
+      "sandbox_docs_refs": 21
+    },
+    {
+      "entity_or_contract": "QuestAudienceOptionDTO",
+      "code_refs": 6,
+      "sandbox_docs_refs": 22
+    },
+    {
+      "entity_or_contract": "QuestDetailExecutionActionDTO",
+      "code_refs": 9,
+      "sandbox_docs_refs": 20
+    },
+    {
       "entity_or_contract": "QuestDetailExecutionSectionDTO",
       "code_refs": 5,
-      "sandbox_docs_refs": 28
+      "sandbox_docs_refs": 25
     },
     {
       "entity_or_contract": "QuestDetailManagementSectionDTO",
       "code_refs": 5,
-      "sandbox_docs_refs": 24
+      "sandbox_docs_refs": 23
     },
     {
       "entity_or_contract": "QuestDetailNavigationSectionDTO",
       "code_refs": 4,
-      "sandbox_docs_refs": 24
+      "sandbox_docs_refs": 23
     },
     {
       "entity_or_contract": "QuestDetailResponseDTO",
-      "code_refs": 7,
-      "sandbox_docs_refs": 34
+      "code_refs": 9,
+      "sandbox_docs_refs": 35
     },
     {
       "entity_or_contract": "QuestDetailReviewSectionDTO",
       "code_refs": 7,
-      "sandbox_docs_refs": 31
+      "sandbox_docs_refs": 28
     },
     {
       "entity_or_contract": "QuestDetailReviewTargetDTO",
       "code_refs": 7,
-      "sandbox_docs_refs": 21
+      "sandbox_docs_refs": 20
     },
     {
       "entity_or_contract": "QuestDetailSectionsDTO",
@@ -574,12 +554,12 @@
     {
       "entity_or_contract": "QuestListPresetDTO",
       "code_refs": 8,
-      "sandbox_docs_refs": 21
+      "sandbox_docs_refs": 22
     },
     {
       "entity_or_contract": "QuestListResponseDTO",
       "code_refs": 13,
-      "sandbox_docs_refs": 48
+      "sandbox_docs_refs": 49
     },
     {
       "entity_or_contract": "QuestLocationVisibilityOptionDTO",
@@ -589,12 +569,12 @@
     {
       "entity_or_contract": "QuestNewsDestinationTypeDTO",
       "code_refs": 7,
-      "sandbox_docs_refs": 19
+      "sandbox_docs_refs": 18
     },
     {
       "entity_or_contract": "QuestNewsItemResponseDTO",
       "code_refs": 15,
-      "sandbox_docs_refs": 40
+      "sandbox_docs_refs": 41
     },
     {
       "entity_or_contract": "QuestPresentationDTO",
@@ -604,42 +584,42 @@
     {
       "entity_or_contract": "QuestRequestDTO",
       "code_refs": 35,
-      "sandbox_docs_refs": 55
+      "sandbox_docs_refs": 56
     },
     {
       "entity_or_contract": "QuestResponseDTO",
-      "code_refs": 82,
-      "sandbox_docs_refs": 149
+      "code_refs": 103,
+      "sandbox_docs_refs": 158
     },
     {
       "entity_or_contract": "QuestSearchDefaultsDTO",
-      "code_refs": 4,
+      "code_refs": 5,
       "sandbox_docs_refs": 21
     },
     {
       "entity_or_contract": "QuestSearchRequestDTO",
       "code_refs": 4,
-      "sandbox_docs_refs": 37
+      "sandbox_docs_refs": 38
     },
     {
       "entity_or_contract": "QuestSortOptionDTO",
-      "code_refs": 6,
-      "sandbox_docs_refs": 22
+      "code_refs": 7,
+      "sandbox_docs_refs": 21
     },
     {
       "entity_or_contract": "QuestStatus",
       "code_refs": 142,
-      "sandbox_docs_refs": 79
+      "sandbox_docs_refs": 80
     },
     {
       "entity_or_contract": "QuestStatusFilterOptionDTO",
-      "code_refs": 10,
-      "sandbox_docs_refs": 22
+      "code_refs": 11,
+      "sandbox_docs_refs": 21
     },
     {
       "entity_or_contract": "QuestStatusOptionDTO",
-      "code_refs": 9,
-      "sandbox_docs_refs": 24
+      "code_refs": 10,
+      "sandbox_docs_refs": 23
     },
     {
       "entity_or_contract": "QuestViewerRelationDTO",
@@ -703,18 +683,18 @@
     },
     {
       "entity_or_contract": "UserLocationSettingsDTO",
-      "code_refs": 6,
-      "sandbox_docs_refs": 30
+      "code_refs": 11,
+      "sandbox_docs_refs": 31
     },
     {
       "entity_or_contract": "UserLocationSettingsRequestDTO",
-      "code_refs": 6,
-      "sandbox_docs_refs": 26
+      "code_refs": 12,
+      "sandbox_docs_refs": 27
     },
     {
       "entity_or_contract": "UserProfileViewDTO",
-      "code_refs": 6,
-      "sandbox_docs_refs": 53
+      "code_refs": 8,
+      "sandbox_docs_refs": 54
     },
     {
       "entity_or_contract": "UserRatingSummaryDTO",
@@ -724,37 +704,42 @@
     {
       "entity_or_contract": "UserReviewRequestDTO",
       "code_refs": 6,
-      "sandbox_docs_refs": 23
+      "sandbox_docs_refs": 26
     },
     {
       "entity_or_contract": "UserReviewResponseDTO",
       "code_refs": 12,
-      "sandbox_docs_refs": 33
+      "sandbox_docs_refs": 36
     },
     {
       "entity_or_contract": "VisionCanvasBlockDTO",
-      "code_refs": 19,
-      "sandbox_docs_refs": 38
+      "code_refs": 33,
+      "sandbox_docs_refs": 25
+    },
+    {
+      "entity_or_contract": "VisionCapabilityPreviewDTO",
+      "code_refs": 49,
+      "sandbox_docs_refs": 21
     },
     {
       "entity_or_contract": "VisionConversationListResponseDTO",
       "code_refs": 6,
-      "sandbox_docs_refs": 34
+      "sandbox_docs_refs": 28
     },
     {
       "entity_or_contract": "VisionConversationStatus",
-      "code_refs": 34,
-      "sandbox_docs_refs": 49
+      "code_refs": 110,
+      "sandbox_docs_refs": 62
     },
     {
       "entity_or_contract": "VisionConversationSummaryDTO",
-      "code_refs": 9,
-      "sandbox_docs_refs": 33
+      "code_refs": 10,
+      "sandbox_docs_refs": 40
     },
     {
       "entity_or_contract": "VisionConversationTurnRequestDTO",
       "code_refs": 7,
-      "sandbox_docs_refs": 35
+      "sandbox_docs_refs": 33
     },
     {
       "entity_or_contract": "VisionConversationTurnResponseDTO",
@@ -764,37 +749,42 @@
     {
       "entity_or_contract": "VisionExecutionCandidateDTO",
       "code_refs": 10,
-      "sandbox_docs_refs": 22
+      "sandbox_docs_refs": 19
+    },
+    {
+      "entity_or_contract": "VisionMemoryTrailDTO",
+      "code_refs": 7,
+      "sandbox_docs_refs": 25
     },
     {
       "entity_or_contract": "VisionOptionDTO",
-      "code_refs": 15,
-      "sandbox_docs_refs": 20
+      "code_refs": 18,
+      "sandbox_docs_refs": 16
+    },
+    {
+      "entity_or_contract": "VisionOptionsDTO",
+      "code_refs": 10,
+      "sandbox_docs_refs": 57
     },
     {
       "entity_or_contract": "VisionQuestDiscoveryDTO",
       "code_refs": 11,
-      "sandbox_docs_refs": 27
+      "sandbox_docs_refs": 22
     },
     {
       "entity_or_contract": "VisionQuestDiscoveryItemDTO",
       "code_refs": 6,
-      "sandbox_docs_refs": 18
+      "sandbox_docs_refs": 16
     },
     {
       "entity_or_contract": "VisionQuestReviewDTO",
       "code_refs": 7,
-      "sandbox_docs_refs": 23
+      "sandbox_docs_refs": 18
     },
     {
       "entity_or_contract": "VisionSlotSummaryDTO",
-      "code_refs": 18,
-      "sandbox_docs_refs": 22
-    },
-    {
-      "entity_or_contract": "WorkmarketOptionsDTO",
-      "code_refs": 9,
-      "sandbox_docs_refs": 68
+      "code_refs": 43,
+      "sandbox_docs_refs": 21
     }
   ],
   "review_needed": [

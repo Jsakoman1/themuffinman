@@ -1,9 +1,9 @@
 # Automation Readiness Gap Audit
 
-- Generated At: `2026-07-01T14:49:32Z`
+- Generated At: `2026-07-03T09:17:30Z`
 ## `features`
 
-- `{:feature: "AdminAgent", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: true}`
+- `{:feature: "AdminAgent", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: false}`
 - `{:feature: "AppUser", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: true}`
 - `{:feature: "Auth", :endpoint_mapping: true, :read_model: true, :intent_safety: true, :scenario_verification: false}`
 - `{:feature: "BusinessProfile", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: false}`
@@ -18,7 +18,7 @@
 
 ## `gaps`
 
-- `{:feature: "AdminAgent", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: true}`
+- `{:feature: "AdminAgent", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: false}`
 - `{:feature: "AppUser", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: true}`
 - `{:feature: "Auth", :endpoint_mapping: true, :read_model: true, :intent_safety: true, :scenario_verification: false}`
 - `{:feature: "BusinessProfile", :endpoint_mapping: true, :read_model: true, :intent_safety: false, :scenario_verification: false}`

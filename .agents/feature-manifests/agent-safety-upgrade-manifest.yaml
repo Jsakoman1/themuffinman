@@ -41,7 +41,7 @@ validationEvidence:
       scope: frontend
       result: passed
       summary: Historical completed manifest recorded frontend build validation before structured evidence enforcement.
-    - command: ./mvnw -Dtest=AgentOperatingScenarioTest,QuestWorkflowScenarioTest test
+    - command: ./mvnw -Dtest=AdminAgentExecutionServiceTest,QuestWorkflowScenarioTest test
       scope: backend
       result: passed
       summary: Historical completed manifest recorded scenario-style workflow validation before structured evidence enforcement.
@@ -84,7 +84,7 @@ artifacts:
     - docs/change-completion-checklist.md
   testPaths:
     - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
-    - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
     - apps/themuffinman/src/test/resources/agent/admin-agent-golden-prompt-matrix.yaml
   generatorCommands:
     - make generate-agent-operating-model

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T14:49:21Z",
+  "generated_at": "2026-07-03T09:17:20Z",
   "mapper_count": 10,
   "mapper_usages": [
     {
@@ -45,7 +45,7 @@
         "rich_text_sanitization",
         "service_backed"
       ],
-      "usage_count": 3,
+      "usage_count": 13,
       "callers": [
         {
           "file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
@@ -66,6 +66,76 @@
           "caller_class": "IdentityUserSummaryAssembler",
           "caller_method": "buildProfileSummary",
           "classification": "read_oriented",
+          "mapper_method": "withProfileStats"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "caller_class": "VisionCapabilityPreviewService",
+          "caller_method": "previewProfile",
+          "classification": "supporting",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "caller_class": "VisionCapabilityPreviewService",
+          "caller_method": "previewProfile",
+          "classification": "supporting",
+          "mapper_method": "withProfileStats"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "caller_class": "VisionCapabilityPreviewService",
+          "caller_method": "previewProfileLocationDraft",
+          "classification": "supporting",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "caller_class": "VisionCapabilityPreviewService",
+          "caller_method": "previewSettings",
+          "classification": "supporting",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "caller_class": "VisionCapabilityPreviewService",
+          "caller_method": "updateProfile",
+          "classification": "mutating",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "caller_class": "VisionCapabilityPreviewService",
+          "caller_method": "updateProfile",
+          "classification": "mutating",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "caller_class": "VisionCapabilityPreviewService",
+          "caller_method": "updateProfile",
+          "classification": "mutating",
+          "mapper_method": "withProfileStats"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "caller_class": "VisionCapabilityPreviewService",
+          "caller_method": "updateProfileLocation",
+          "classification": "mutating",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "caller_class": "VisionCapabilityPreviewService",
+          "caller_method": "updateProfileLocation",
+          "classification": "mutating",
+          "mapper_method": "toDto"
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "caller_class": "VisionCapabilityPreviewService",
+          "caller_method": "updateProfileLocation",
+          "classification": "mutating",
           "mapper_method": "withProfileStats"
         }
       ]
@@ -211,7 +281,7 @@
     {
       "mapper": "QuestApplicationMgr",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestApplicationMgr.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "methods": [
         "toDto",
         "toEntity"
@@ -256,7 +326,7 @@
     {
       "mapper": "QuestMgr",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "methods": [
         "toDto",
         "toEntity",
@@ -295,7 +365,7 @@
     {
       "mapper": "QuestNewsMgr",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestNewsMgr.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "methods": [
         "toDto"
       ],
@@ -310,7 +380,7 @@
     {
       "mapper": "UserReviewMgr",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/UserReviewMgr.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "methods": [
         "toDto"
       ],

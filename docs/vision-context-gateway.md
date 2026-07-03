@@ -28,6 +28,7 @@ Key surfaces:
 - `service/VisionConversationService.java`: top-level orchestration facade
 - `service/VisionClarificationService.java`: deterministic next-question selection
 - `service/VisionSlotService.java`: slot extraction, normalization, and merge behavior
+- `service/VisionSemanticOrchestrationContextService.java`: user, session, runtime, and memory pack assembly for semantic understanding
 - `service/VisionScheduleParserService.java`: deterministic spoken and typed schedule parsing
 - `service/VisionLocationParserService.java`: custom-place parsing
 - `service/VisionLocationResolutionService.java`: lookup-backed location candidate handling

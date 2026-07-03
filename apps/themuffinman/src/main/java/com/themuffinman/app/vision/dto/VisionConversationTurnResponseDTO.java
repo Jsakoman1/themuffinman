@@ -28,6 +28,7 @@ public class VisionConversationTurnResponseDTO {
     private boolean executionEnabled;
     private VisionExecutionCandidateDTO executionCandidate;
     private VisionQuestDiscoveryDTO questDiscovery;
+    private VisionMemoryTrailDTO memoryTrail;
     private List<VisionCanvasBlockDTO> blocks;
     private List<VisionSlotSummaryDTO> appliedSlotSummaries;
     private List<VisionSlotSummaryDTO> slotSummaries;

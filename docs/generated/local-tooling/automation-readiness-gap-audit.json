@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-01T14:49:32Z",
+  "generated_at": "2026-07-03T09:17:30Z",
   "features": [
     {
       "feature": "AdminAgent",
       "endpoint_mapping": true,
       "read_model": true,
       "intent_safety": false,
-      "scenario_verification": true
+      "scenario_verification": false
     },
     {
       "feature": "AppUser",
@@ -113,7 +113,7 @@
       "endpoint_mapping": true,
       "read_model": true,
       "intent_safety": false,
-      "scenario_verification": true
+      "scenario_verification": false
     },
     {
       "feature": "AppUser",

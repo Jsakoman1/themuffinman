@@ -1,24 +1,7 @@
 {
-  "generated_at": "2026-07-01T14:49:32Z",
-  "surfaces_scanned": 106,
+  "generated_at": "2026-07-03T09:17:30Z",
+  "surfaces_scanned": 30,
   "gaps": [
-    {
-      "file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
-      "feature": "chatApi",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
-      "feature": "useAppChat",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
     {
       "file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
       "feature": "authApi",
@@ -34,128 +17,10 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
-      "feature": "CircleCandidateCard",
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+      "feature": "dashboardApi",
       "missing_docs": [
         "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
-      "feature": "CirclesConnectionsPanel",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesDirectoryPanel.vue",
-      "feature": "CirclesDirectoryPanel",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
-      "feature": "CirclesInboxPanel",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/circlePagination.ts",
-      "feature": "circlePagination",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/circleSelection.ts",
-      "feature": "circleSelection",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
-      "feature": "createCirclesPageState",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
-      "feature": "createCirclesViewState",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
-      "feature": "useCirclesDataLoader",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
-      "feature": "useCirclesMutationActions",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesPagination.ts",
-      "feature": "useCirclesPagination",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
-      "feature": "useCircles",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
-      "feature": "useUserProfile",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts",
-      "feature": "socialActions",
-      "missing_docs": [
-        "business",
-        "technical",
         "agent"
       ]
     },
@@ -163,8 +28,14 @@
       "file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
       "feature": "visionApi",
       "missing_docs": [
+        "agent"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+      "feature": "visionConversationApi",
+      "missing_docs": [
         "business",
-        "technical",
         "agent"
       ]
     },
@@ -187,8 +58,8 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasSection.vue",
-      "feature": "VisionCanvasSection",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
+      "feature": "VisionIntentPreviewPanel",
       "missing_docs": [
         "business",
         "technical",
@@ -196,8 +67,8 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionDetailSurface.vue",
-      "feature": "VisionDetailSurface",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionTypingText.vue",
+      "feature": "VisionTypingText",
       "missing_docs": [
         "business",
         "technical",
@@ -205,53 +76,8 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionExecutionCandidateBlock.vue",
-      "feature": "VisionExecutionCandidateBlock",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionFieldRequestBlock.vue",
-      "feature": "VisionFieldRequestBlock",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionPromptDock.vue",
-      "feature": "VisionPromptDock",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionQuestDiscoveryBlock.vue",
-      "feature": "VisionQuestDiscoveryBlock",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionResultSummaryBlock.vue",
-      "feature": "VisionResultSummaryBlock",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionReviewSummaryBlock.vue",
-      "feature": "VisionReviewSummaryBlock",
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionVoiceControl.vue",
+      "feature": "VisionVoiceControl",
       "missing_docs": [
         "business",
         "technical",
@@ -268,496 +94,10 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-      "feature": "useVisionSurface",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurfaceState.ts",
-      "feature": "useVisionSurfaceState",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-      "feature": "VisionApplicationDetail",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-      "feature": "VisionChatWorkspace",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-      "feature": "VisionCircles",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-      "feature": "VisionQuestDetail",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
       "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
       "feature": "VisionSurfaceModern",
       "missing_docs": [
         "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-      "feature": "VisionUserProfile",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
-      "feature": "VisionUserSettings",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
-      "feature": "applicationsApi",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-      "feature": "circlesApi",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-      "feature": "dashboardApi",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
-      "feature": "locationApi",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
-      "feature": "newsApi",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
-      "feature": "questsApi",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
-      "feature": "usersApi",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/shared/queryParams.ts",
-      "feature": "queryParams",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/api/workmarketApi.ts",
-      "feature": "workmarketApi",
-      "missing_docs": [
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardEditSheet.vue",
-      "feature": "DashboardEditSheet",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue",
-      "feature": "ApplicationDetailSections",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationEditFields.vue",
-      "feature": "ApplicationEditFields",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationManagementCard.vue",
-      "feature": "ApplicationManagementCard",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationSummaryCard.vue",
-      "feature": "ApplicationSummaryCard",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DetailDialogFrame.vue",
-      "feature": "DetailDialogFrame",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DetailUtilitySection.vue",
-      "feature": "DetailUtilitySection",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/InlineEditableField.vue",
-      "feature": "InlineEditableField",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileDescriptionEditor.vue",
-      "feature": "ProfileDescriptionEditor",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileIdentityEditor.vue",
-      "feature": "ProfileIdentityEditor",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ProfileLocationEditor.vue",
-      "feature": "ProfileLocationEditor",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestApplyForm.vue",
-      "feature": "QuestApplyForm",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestComposerForm.vue",
-      "feature": "QuestComposerForm",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailAsidePanels.vue",
-      "feature": "QuestDetailAsidePanels",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailContent.vue",
-      "feature": "QuestDetailContent",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailEditForm.vue",
-      "feature": "QuestDetailEditForm",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/components/shared/QuestDetailHero.vue",
-      "feature": "QuestDetailHero",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersDataState.ts",
-      "feature": "createAppUsersDataState",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersFormState.ts",
-      "feature": "createAppUsersFormState",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersSearchState.ts",
-      "feature": "createAppUsersSearchState",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersUiState.ts",
-      "feature": "createAppUsersUiState",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/applyQuestDetailState.ts",
-      "feature": "applyQuestDetailState",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDataState.ts",
-      "feature": "createQuestDetailDataState",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDebugState.ts",
-      "feature": "createQuestDetailDebugState",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailMutationRunner.ts",
-      "feature": "createQuestDetailMutationRunner",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailViewState.ts",
-      "feature": "createQuestDetailViewState",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/questDetailStateHelpers.ts",
-      "feature": "questDetailStateHelpers",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailDataActions.ts",
-      "feature": "useQuestDetailDataActions",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailEdit.ts",
-      "feature": "useQuestDetailEdit",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailMutationActions.ts",
-      "feature": "useQuestDetailMutationActions",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/useQuestDetailUiActions.ts",
-      "feature": "useQuestDetailUiActions",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPage.ts",
-      "feature": "useQuestDetail",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageActions.ts",
-      "feature": "useQuestDetailPageActions",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailPageState.ts",
-      "feature": "useQuestDetailPageState",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts",
-      "feature": "useQuestDetail",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestSearchResults.ts",
-      "feature": "useQuestSearchResults",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/domain/workmarketDomain.ts",
-      "feature": "workmarketDomain",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/applicationDraft.ts",
-      "feature": "applicationDraft",
-      "missing_docs": [
-        "business",
-        "technical",
-        "agent"
-      ]
-    },
-    {
-      "file": "apps/themuffinman/frontend/src/modules/workmarket/shared/navigationTargets.ts",
-      "feature": "navigationTargets",
-      "missing_docs": [
-        "business",
-        "technical",
         "agent"
       ]
     },
@@ -809,14 +149,6 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
-      "feature": "VisionConversation",
-      "missing_docs": [
-        "business",
-        "agent"
-      ]
-    },
-    {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
       "feature": "QuestApplication",
       "missing_docs": [
@@ -835,6 +167,14 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java",
       "feature": "UserReview",
+      "missing_docs": [
+        "business",
+        "agent"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
+      "feature": "VisionConversation",
       "missing_docs": [
         "business",
         "agent"

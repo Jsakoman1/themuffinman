@@ -1,25 +1,16 @@
 {
-  "generated_at": "2026-07-01T14:49:52Z",
+  "generated_at": "2026-07-03T09:18:05Z",
   "audit": "diff-summary",
   "current_output": "docs/generated/local-tooling/diff-summary.json",
   "current_exists": true,
-  "previous_output": "docs/generated/local-tooling/.history/diff-summary/2026-07-01T14-49-52Z.json",
-  "previous_exists": true,
+  "previous_output": null,
+  "previous_exists": false,
   "history_entries": [
-    "docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-06-49Z.json",
-    "docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-27-24Z.json",
-    "docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-31-11Z.json",
-    "docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-34-46Z.json",
-    "docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-44-26Z.json",
-    "docs/generated/local-tooling/.history/diff-summary/2026-06-29T12-47-34Z.json",
-    "docs/generated/local-tooling/.history/diff-summary/2026-06-29T19-55-21Z.json",
-    "docs/generated/local-tooling/.history/diff-summary/2026-06-30T11-20-21Z.json",
-    "docs/generated/local-tooling/.history/diff-summary/2026-07-01T14-47-59Z.json",
-    "docs/generated/local-tooling/.history/diff-summary/2026-07-01T14-49-52Z.json"
+
   ],
-  "changed": true,
-  "current_generated_at": "2026-07-01T14:49:52Z",
-  "previous_generated_at": "2026-07-01T14:47:59Z",
+  "changed": null,
+  "current_generated_at": "2026-07-03T09:18:05Z",
+  "previous_generated_at": null,
   "introduced_risks": [
 
   ],
@@ -28,47 +19,212 @@
   ],
   "count_deltas": [
     {
+      "field": "changed_file_count",
+      "previous": 0,
+      "current": 93,
+      "delta": 93
+    },
+    {
       "field": "excluded_file_count",
-      "previous": 184,
-      "current": 217,
-      "delta": 33
+      "previous": 0,
+      "current": 157,
+      "delta": 157
+    },
+    {
+      "field": "excluded_files_sample",
+      "previous": 0,
+      "current": 25,
+      "delta": 25
     },
     {
       "field": "filtered_file_count",
-      "previous": 184,
-      "current": 217,
-      "delta": 33
+      "previous": 0,
+      "current": 157,
+      "delta": 157
+    },
+    {
+      "field": "groups",
+      "previous": 0,
+      "current": 16,
+      "delta": 16
+    },
+    {
+      "field": "groups.0.count",
+      "previous": 0,
+      "current": 5,
+      "delta": 5
+    },
+    {
+      "field": "groups.0.files",
+      "previous": 0,
+      "current": 5,
+      "delta": 5
+    },
+    {
+      "field": "groups.1.count",
+      "previous": 0,
+      "current": 17,
+      "delta": 17
+    },
+    {
+      "field": "groups.1.files",
+      "previous": 0,
+      "current": 17,
+      "delta": 17
+    },
+    {
+      "field": "groups.2.count",
+      "previous": 0,
+      "current": 1,
+      "delta": 1
+    },
+    {
+      "field": "groups.2.files",
+      "previous": 0,
+      "current": 1,
+      "delta": 1
+    },
+    {
+      "field": "groups.3.count",
+      "previous": 0,
+      "current": 2,
+      "delta": 2
+    },
+    {
+      "field": "groups.3.files",
+      "previous": 0,
+      "current": 2,
+      "delta": 2
+    },
+    {
+      "field": "groups.4.count",
+      "previous": 0,
+      "current": 1,
+      "delta": 1
+    },
+    {
+      "field": "groups.4.files",
+      "previous": 0,
+      "current": 1,
+      "delta": 1
+    },
+    {
+      "field": "groups.5.count",
+      "previous": 0,
+      "current": 1,
+      "delta": 1
+    },
+    {
+      "field": "groups.5.files",
+      "previous": 0,
+      "current": 1,
+      "delta": 1
+    },
+    {
+      "field": "groups.6.count",
+      "previous": 0,
+      "current": 1,
+      "delta": 1
+    },
+    {
+      "field": "groups.6.files",
+      "previous": 0,
+      "current": 1,
+      "delta": 1
+    },
+    {
+      "field": "groups.7.count",
+      "previous": 0,
+      "current": 3,
+      "delta": 3
+    },
+    {
+      "field": "groups.7.files",
+      "previous": 0,
+      "current": 3,
+      "delta": 3
+    },
+    {
+      "field": "groups.8.count",
+      "previous": 0,
+      "current": 1,
+      "delta": 1
+    },
+    {
+      "field": "groups.8.files",
+      "previous": 0,
+      "current": 1,
+      "delta": 1
+    },
+    {
+      "field": "groups.9.count",
+      "previous": 0,
+      "current": 3,
+      "delta": 3
+    },
+    {
+      "field": "groups.9.files",
+      "previous": 0,
+      "current": 3,
+      "delta": 3
     },
     {
       "field": "original_file_count",
-      "previous": 203,
-      "current": 236,
-      "delta": 33
+      "previous": 0,
+      "current": 250,
+      "delta": 250
+    },
+    {
+      "field": "recommended_audits",
+      "previous": 0,
+      "current": 16,
+      "delta": 16
     }
   ],
   "field_deltas": [
     {
       "field": "generated_at",
-      "previous": "2026-07-01T14:47:59Z",
-      "current": "2026-07-01T14:49:52Z"
+      "previous": null,
+      "current": "2026-07-03T09:18:05Z"
     },
     {
       "field": "original_file_count",
-      "previous": 203,
-      "current": 236
+      "previous": null,
+      "current": 250
     },
     {
       "field": "filtered_file_count",
-      "previous": 184,
-      "current": 217
+      "previous": null,
+      "current": 157
     },
     {
       "field": "excluded_file_count",
-      "previous": 184,
-      "current": 217
+      "previous": null,
+      "current": 157
+    },
+    {
+      "field": "excluded_files_sample",
+      "previous": null,
+      "current": "array(size=25)"
+    },
+    {
+      "field": "changed_file_count",
+      "previous": null,
+      "current": 93
+    },
+    {
+      "field": "groups",
+      "previous": null,
+      "current": "array(size=16)"
+    },
+    {
+      "field": "recommended_audits",
+      "previous": null,
+      "current": "array(size=16)"
     }
   ],
   "notes": [
+    "Run the target audit at least twice to build a richer delta history.",
     "History snapshots are created automatically when a report changes."
   ]
 }

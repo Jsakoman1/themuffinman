@@ -1,18 +1,6 @@
 [
   {
     "controllerClass": "com.themuffinman.app.agent.controller.AdminAgentController",
-    "handlerMethod": "runPlaygroundPrompt",
-    "httpMethod": "POST",
-    "path": "/admin/agent/playground"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.agent.controller.AdminAgentController",
-    "handlerMethod": "runSimulation",
-    "httpMethod": "POST",
-    "path": "/admin/agent/simulate"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.agent.controller.AdminAgentController",
     "handlerMethod": "runExecution",
     "httpMethod": "POST",
     "path": "/admin/agent/execute"
@@ -354,36 +342,6 @@
     "path": "/things/listings/{listingId}/borrow-requests"
   },
   {
-    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
-    "handlerMethod": "processTurn",
-    "httpMethod": "POST",
-    "path": "/vision/conversations/turns"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
-    "handlerMethod": "resetConversation",
-    "httpMethod": "POST",
-    "path": "/vision/conversations/{conversationId}/reset"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
-    "handlerMethod": "cancelConversation",
-    "httpMethod": "POST",
-    "path": "/vision/conversations/{conversationId}/cancel"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
-    "handlerMethod": "getRecentConversations",
-    "httpMethod": "GET",
-    "path": "/vision/conversations/recent"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
-    "handlerMethod": "getConversation",
-    "httpMethod": "GET",
-    "path": "/vision/conversations/{conversationId}"
-  },
-  {
     "controllerClass": "com.themuffinman.app.vision.controller.DashboardController",
     "handlerMethod": "getMyDashboard",
     "httpMethod": "GET",
@@ -592,5 +550,35 @@
     "handlerMethod": "createOrUpdateReview",
     "httpMethod": "POST",
     "path": "/quests/{questId}/reviews"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
+    "handlerMethod": "processTurn",
+    "httpMethod": "POST",
+    "path": "/vision/conversations/turns"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
+    "handlerMethod": "resetConversation",
+    "httpMethod": "POST",
+    "path": "/vision/conversations/{conversationId}/reset"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
+    "handlerMethod": "cancelConversation",
+    "httpMethod": "POST",
+    "path": "/vision/conversations/{conversationId}/cancel"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
+    "handlerMethod": "getRecentConversations",
+    "httpMethod": "GET",
+    "path": "/vision/conversations/recent"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.vision.controller.VisionConversationController",
+    "handlerMethod": "getConversation",
+    "httpMethod": "GET",
+    "path": "/vision/conversations/{conversationId}"
   }
 ]

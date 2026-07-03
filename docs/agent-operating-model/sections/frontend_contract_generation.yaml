@@ -4,12 +4,8 @@ frontend_contract_generation:
   check_command: npm --prefix apps/themuffinman/frontend run validate:contracts
   generated_contract_file: apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
   required_aliases:
-  - AdminAgentPlaygroundRequest
-  - AdminAgentPlaygroundResponse
   - AdminAgentExecutionRequest
   - AdminAgentExecutionResponse
-  - AdminAgentSimulationRequest
-  - AdminAgentSimulationResponse
   - AgentIntentId
   - AgentEndpointId
   - AdminAgentSafetyFlagIdGenerated

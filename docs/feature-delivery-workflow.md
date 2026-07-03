@@ -13,6 +13,8 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 - keep one maintained end-to-end process for feature delivery
 - preserve strong closeout and documentation guarantees for high-risk work
 - let small and normal changes use a smaller startup path
+- read machine-readable control and validation sources first when the task touches active behavior, workflow state, or
+  automation-facing facts; use human-readable docs as the next layer of context or explanation
 
 ## Workflow Tiers
 
@@ -180,6 +182,8 @@ This tier is intentionally strict:
 - `make codex-context budget=<tokens> mode=<mode> topic=<topic> intent='<intent>'` keeps the same chain but lets you tune the budget
 - `make codex-context` also writes `docs/generated/local-tooling/codex-context/latest.execution.json`, the canonical machine-readable batch manifest for read order, evidence, and next actions, with schema `docs/codex-context-execution-manifest.schema.json`.
 - When the resolver shape is manifest-backed or closeout-sensitive, `make codex-context` should also surface validation memory so command and evidence expectations are present before the first closeout pass.
+- If the task touches active control state, planning state, or automation-facing rules, open the machine-readable source
+  surfaces listed in `docs/control-surface-map.md` before broad narrative docs.
 - For product-direction, UX, interaction design, or Social Useful Network vision work, start by reading `docs/product-memory.md` and `docs/product-vision.md` before broadening into implementation docs.
 - For `/vision` implementation work, read `docs/vision-architecture-patterns.md` before backend orchestration, API, frontend canvas, prompt-handling, or executor decisions.
 - For work that spans several master plans, read `docs/program-planning-model.md` and update or create the relevant `.agents/god-plans/*.yaml` file before changing child master plans.

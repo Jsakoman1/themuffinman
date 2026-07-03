@@ -1,0 +1,578 @@
+{
+  "generated_at": "2026-07-03T09:17:20Z",
+  "policy": "docs/generated/artifact-policy.yaml",
+  "source_changes": [
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/agent-control-phase-two-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/agent-operating-refactor-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/agent-safety-enforcement-round2-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/agent-safety-upgrade-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/backend-audit-domain-tagging-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/backend-audit-identity-dto-tightening-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/backend-audit-location-dto-tightening-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/backend-audit-manifest-cleanup-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/backend-audit-tiering-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/backend-audit-tightening-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/codex-lean-context-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/codex-tiered-workflow-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/executor-readiness-program-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/persistent-backlog-system-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": ".agents/feature-manifests/vision-voice-surface-manifest.yaml"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/frontend/scripts/fixtures/admin-agent-ui-scenarios.json"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptPreparationService.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTextProvider.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AgentModelProfile.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/config/AgentProperties.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/prompt/PromptSemanticsSupport.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionTurnRepository.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVisionPromptService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLocationParserService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionScheduleParserService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizer.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticMapper.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSlotService.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/main/resources/application.properties"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java"
+    },
+    {
+      "status": "D",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/prompt/PromptSemanticsSupportTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLocationParserServiceTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionScheduleParserServiceTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizerTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticMapperTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextServiceTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotServiceTest.java"
+    },
+    {
+      "status": "M",
+      "path": "apps/themuffinman/src/test/resources/agent/admin-agent-golden-prompt-matrix.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model.md"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/api.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/backend_audit_coverage.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/capability_registry.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/dead_path_tracker.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/documentation_coverage.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/documentation_ownership.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/documentation_sync.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/frontend_contract_generation.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/frontend_contracts.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/frontend_feature_expectations.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/frontend_safety_regressions.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/intent_safety_catalog.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/intents.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/metadata.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/permission_matrix.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/policies.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model/sections/source_of_truth.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/business-logic.md"
+    },
+    {
+      "status": "M",
+      "path": "docs/docs-as-contract-slices.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/domain-technical.md"
+    },
+    {
+      "status": "M",
+      "path": "docs/product-memory.md"
+    },
+    {
+      "status": "M",
+      "path": "docs/regression-scenario-catalog.yaml"
+    },
+    {
+      "status": "M",
+      "path": "docs/validation-memory.json"
+    },
+    {
+      "status": "M",
+      "path": "docs/validation-memory.md"
+    },
+    {
+      "status": "M",
+      "path": "docs/vision-architecture-patterns.md"
+    },
+    {
+      "status": "M",
+      "path": "docs/vision-context-gateway.md"
+    },
+    {
+      "status": "M",
+      "path": "docs/vision-status-ledger.md"
+    },
+    {
+      "status": "??",
+      "path": ".agents/tmp/vision-context-user-session-inventory.yaml"
+    },
+    {
+      "status": "??",
+      "path": ".agents/vision-context-memory-expansion-master-plan.md"
+    },
+    {
+      "status": "??",
+      "path": ".agents/vision-context-memory-user-session-plan.md"
+    },
+    {
+      "status": "??",
+      "path": ".agents/vision-semantic-slot-guardrails-plan.md"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionMemoryTrailDTO.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidator.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/main/resources/db/migration/V35__add_vision_conversation_session_memory_snapshot.sql"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java"
+    },
+    {
+      "status": "??",
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidatorTest.java"
+    },
+    {
+      "status": "??",
+      "path": "docs/control-surface-map.md"
+    }
+  ],
+  "generated_changes": [
+    {
+      "status": "M",
+      "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "recommendation": "task_required",
+      "reason": "source-of-truth generated artifact tracked by policy"
+    },
+    {
+      "status": "M",
+      "path": "docs/agent-operating-model.yaml",
+      "recommendation": "task_required",
+      "reason": "source-of-truth generated artifact tracked by policy"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/backend-audit-inventory.json",
+      "recommendation": "task_required",
+      "reason": "source-of-truth generated artifact tracked by policy"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/changeset-risk-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/generated-artifact-freshness.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/mapper-usage-audit-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/mapper-usage-audit.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/read-surface-inventory-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/local-tooling/read-surface-inventory.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "M",
+      "path": "docs/generated/source-of-truth-audit.json",
+      "recommendation": "task_required",
+      "reason": "source-of-truth generated artifact tracked by policy"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/audit-summary-index.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/audit-summary-index.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/change-impact-preflight-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/change-impact-preflight.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/changeset-risk.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/hotspots.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-code-maps/codex-local-context-gateway-master-plan-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/plan-code-maps/codex-local-context-gateway-master-plan.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/targeted-tests-summary.md",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    },
+    {
+      "status": "??",
+      "path": "docs/generated/local-tooling/targeted-tests.json",
+      "recommendation": "supporting_context",
+      "reason": "tracked review context; commit only when refreshed for the task"
+    }
+  ],
+  "summary": {
+    "task_required": 4,
+    "supporting_context": 17
+  }
+}

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-01T14:49:39Z",
-  "file_count": 482,
+  "generated_at": "2026-07-03T09:17:36Z",
+  "file_count": 405,
   "groups": [
     {
       "domain": "chat",
@@ -37,18 +37,6 @@
       "owner": "backend",
       "layer": "service",
       "file_count": 4
-    },
-    {
-      "domain": "chat",
-      "owner": "frontend",
-      "layer": "composable",
-      "file_count": 1
-    },
-    {
-      "domain": "chat",
-      "owner": "frontend",
-      "layer": "other",
-      "file_count": 1
     },
     {
       "domain": "identity",
@@ -138,25 +126,25 @@
       "domain": "shared",
       "owner": "backend",
       "layer": "controller",
-      "file_count": 6
+      "file_count": 11
     },
     {
       "domain": "shared",
       "owner": "backend",
       "layer": "dto",
-      "file_count": 42
+      "file_count": 102
     },
     {
       "domain": "shared",
       "owner": "backend",
       "layer": "mapper",
-      "file_count": 3
+      "file_count": 7
     },
     {
       "domain": "shared",
       "owner": "backend",
       "layer": "model",
-      "file_count": 15
+      "file_count": 24
     },
     {
       "domain": "shared",
@@ -168,37 +156,37 @@
       "domain": "shared",
       "owner": "backend",
       "layer": "repository",
-      "file_count": 6
+      "file_count": 10
     },
     {
       "domain": "shared",
       "owner": "backend",
       "layer": "service",
-      "file_count": 36
+      "file_count": 84
     },
     {
       "domain": "shared",
       "owner": "frontend",
       "layer": "component",
-      "file_count": 10
+      "file_count": 5
     },
     {
       "domain": "shared",
       "owner": "frontend",
       "layer": "composable",
-      "file_count": 3
-    },
-    {
-      "domain": "shared",
-      "owner": "frontend",
-      "layer": "other",
       "file_count": 1
     },
     {
       "domain": "shared",
       "owner": "frontend",
+      "layer": "other",
+      "file_count": 4
+    },
+    {
+      "domain": "shared",
+      "owner": "frontend",
       "layer": "view",
-      "file_count": 7
+      "file_count": 1
     },
     {
       "domain": "social",
@@ -235,84 +223,6 @@
       "owner": "backend",
       "layer": "service",
       "file_count": 9
-    },
-    {
-      "domain": "social",
-      "owner": "frontend",
-      "layer": "component",
-      "file_count": 4
-    },
-    {
-      "domain": "social",
-      "owner": "frontend",
-      "layer": "composable",
-      "file_count": 9
-    },
-    {
-      "domain": "social",
-      "owner": "frontend",
-      "layer": "other",
-      "file_count": 1
-    },
-    {
-      "domain": "workmarket",
-      "owner": "backend",
-      "layer": "controller",
-      "file_count": 5
-    },
-    {
-      "domain": "workmarket",
-      "owner": "backend",
-      "layer": "dto",
-      "file_count": 62
-    },
-    {
-      "domain": "workmarket",
-      "owner": "backend",
-      "layer": "mapper",
-      "file_count": 4
-    },
-    {
-      "domain": "workmarket",
-      "owner": "backend",
-      "layer": "model",
-      "file_count": 9
-    },
-    {
-      "domain": "workmarket",
-      "owner": "backend",
-      "layer": "other",
-      "file_count": 2
-    },
-    {
-      "domain": "workmarket",
-      "owner": "backend",
-      "layer": "repository",
-      "file_count": 4
-    },
-    {
-      "domain": "workmarket",
-      "owner": "backend",
-      "layer": "service",
-      "file_count": 45
-    },
-    {
-      "domain": "workmarket",
-      "owner": "frontend",
-      "layer": "component",
-      "file_count": 17
-    },
-    {
-      "domain": "workmarket",
-      "owner": "frontend",
-      "layer": "composable",
-      "file_count": 19
-    },
-    {
-      "domain": "workmarket",
-      "owner": "frontend",
-      "layer": "other",
-      "file_count": 14
     }
   ]
 }

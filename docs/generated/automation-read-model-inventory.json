@@ -26,64 +26,6 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.agent.dto.AdminAgentPlaygroundRequestDTO",
-    "fields": [
-      "prompt"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.agent.dto.AdminAgentPlaygroundResponseDTO",
-    "fields": [
-      "provider",
-      "externalLlmConfigured",
-      "promptSourceLanguage",
-      "promptTranslationProvider",
-      "promptTranslationApplied",
-      "promptTranslationReliable",
-      "originalPrompt",
-      "translatedPrompt",
-      "title",
-      "summary",
-      "resolutionRequirements",
-      "clarificationContract",
-      "executionReadiness",
-      "matchedSignals",
-      "unresolvedInputs",
-      "warnings",
-      "suggestedWorkflows",
-      "nextSteps",
-      "directExecutionAvailable",
-      "directExecutionCapabilityId",
-      "directExecutionSummary"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.agent.dto.AdminAgentSimulationRequestDTO",
-    "fields": [
-      "prompt"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.agent.dto.AdminAgentSimulationResponseDTO",
-    "fields": [
-      "planningOnly",
-      "safeToExecute",
-      "promptSourceLanguage",
-      "translatedPrompt",
-      "selectedIntentId",
-      "resolutionConfidence",
-      "capabilityAssessments",
-      "intentLineage",
-      "endpointPlan",
-      "clarificationContract",
-      "executionReadiness",
-      "matchedSignals",
-      "unresolvedInputs",
-      "blockingReasons",
-      "suggestedWorkflows"
-    ]
-  },
-  {
     "javaClass": "com.themuffinman.app.agent.dto.AgentCapabilityAssessmentDTO",
     "fields": [
       "capabilityId",
@@ -901,150 +843,6 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.vision.dto.VisionCanvasBlockDTO",
-    "fields": [
-      "type",
-      "title",
-      "body",
-      "fieldId",
-      "fieldKind",
-      "required",
-      "placeholder",
-      "options",
-      "items",
-      "questDiscovery",
-      "review",
-      "tone"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.vision.dto.VisionConversationListResponseDTO",
-    "fields": [
-      "items"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.vision.dto.VisionConversationSummaryDTO",
-    "fields": [
-      "conversationId",
-      "intent",
-      "status",
-      "title",
-      "subtitle",
-      "stageLabel",
-      "progressLabel",
-      "groupKey",
-      "requestedSlot",
-      "appliedSlotSummaries",
-      "resumable",
-      "completed",
-      "stale",
-      "updatedAt"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO",
-    "fields": [
-      "conversationId",
-      "prompt",
-      "source",
-      "action",
-      "reviewTarget"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO",
-    "fields": [
-      "conversationId",
-      "turnId",
-      "intent",
-      "agentState",
-      "canvasMode",
-      "nextAction",
-      "message",
-      "requestedSlot",
-      "normalizedPrompt",
-      "translationApplied",
-      "translationReliable",
-      "executionEnabled",
-      "executionCandidate",
-      "questDiscovery",
-      "blocks",
-      "appliedSlotSummaries",
-      "slotSummaries",
-      "review",
-      "recentConversations"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.vision.dto.VisionExecutionCandidateDTO",
-    "fields": [
-      "candidateIntent",
-      "capabilityId",
-      "confidence",
-      "reviewReady",
-      "executionReady",
-      "confirmationRequired",
-      "nextRequiredSlot",
-      "blockingReason",
-      "planningNote",
-      "summary"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.vision.dto.VisionOptionDTO",
-    "fields": [
-      "id",
-      "label",
-      "value"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO",
-    "fields": [
-      "capabilityId",
-      "query",
-      "sort",
-      "summary",
-      "totalItems",
-      "items"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.vision.dto.VisionQuestDiscoveryItemDTO",
-    "fields": [
-      "questId",
-      "rank",
-      "title",
-      "description",
-      "creatorUsername",
-      "rewardLabel",
-      "statusLabel",
-      "locationLabel",
-      "scheduledAt",
-      "matchSummary"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.vision.dto.VisionQuestReviewDTO",
-    "fields": [
-      "title",
-      "description",
-      "rewardLabel",
-      "visibility",
-      "schedule",
-      "location"
-    ]
-  },
-  {
-    "javaClass": "com.themuffinman.app.vision.dto.VisionSlotSummaryDTO",
-    "fields": [
-      "slotId",
-      "label",
-      "value"
-    ]
-  },
-  {
     "javaClass": "com.themuffinman.app.vision.dto.AdminApplicationsQueryDTO",
     "fields": [
       "q",
@@ -1732,7 +1530,148 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.vision.dto.WorkmarketOptionsDTO",
+    "javaClass": "com.themuffinman.app.vision.dto.VisionCanvasBlockDTO",
+    "fields": [
+      "type",
+      "title",
+      "body",
+      "fieldId",
+      "fieldKind",
+      "required",
+      "placeholder",
+      "options",
+      "items",
+      "questDiscovery",
+      "review",
+      "tone"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO",
+    "fields": [
+      "capabilityId",
+      "title",
+      "summary",
+      "items",
+      "tone"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionConversationListResponseDTO",
+    "fields": [
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionConversationSummaryDTO",
+    "fields": [
+      "conversationId",
+      "intent",
+      "entityFamily",
+      "previousEntityFamily",
+      "topicSwitchHint",
+      "status",
+      "title",
+      "subtitle",
+      "stageLabel",
+      "progressLabel",
+      "groupKey",
+      "requestedSlot",
+      "appliedSlotSummaries",
+      "resumable",
+      "completed",
+      "stale",
+      "updatedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO",
+    "fields": [
+      "conversationId",
+      "prompt",
+      "text",
+      "source",
+      "inputType",
+      "clientStateVersion",
+      "clientLocale",
+      "clientTimezone",
+      "selectedOptionId",
+      "fieldValue",
+      "confirmation",
+      "action",
+      "reviewTarget"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO",
+    "fields": [
+      "conversationId",
+      "turnId",
+      "intent",
+      "agentState",
+      "canvasMode",
+      "nextAction",
+      "message",
+      "requestedSlot",
+      "normalizedPrompt",
+      "translationApplied",
+      "translationReliable",
+      "executionEnabled",
+      "executionCandidate",
+      "questDiscovery",
+      "memoryTrail",
+      "blocks",
+      "appliedSlotSummaries",
+      "slotSummaries",
+      "review",
+      "recentConversations"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionExecutionCandidateDTO",
+    "fields": [
+      "candidateIntent",
+      "capabilityId",
+      "confidence",
+      "reviewReady",
+      "executionReady",
+      "confirmationRequired",
+      "nextRequiredSlot",
+      "blockingReason",
+      "planningNote",
+      "summary"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionMemoryTrailDTO",
+    "fields": [
+      "activeEntityFamily",
+      "previousEntityFamily",
+      "topicSwitchHint",
+      "currentIntent",
+      "currentRequestedSlot",
+      "currentStatus",
+      "sessionSummary",
+      "lastUserPrompt",
+      "lastNormalizedPrompt",
+      "lastAssistantMessage",
+      "sessionMemorySnapshot",
+      "openQuestions",
+      "recentActions",
+      "recentEntityFamilies",
+      "recentIntentTypes"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionOptionDTO",
+    "fields": [
+      "id",
+      "label",
+      "value"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionOptionsDTO",
     "fields": [
       "appUserRoles",
       "questStatusFilters",
@@ -1745,6 +1684,127 @@
       "locationModes",
       "exactLocationVisibilityScopes",
       "questLocationVisibilities"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO",
+    "fields": [
+      "capabilityId",
+      "query",
+      "sort",
+      "summary",
+      "totalItems",
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionQuestDiscoveryItemDTO",
+    "fields": [
+      "questId",
+      "rank",
+      "title",
+      "description",
+      "creatorUsername",
+      "rewardLabel",
+      "statusLabel",
+      "locationLabel",
+      "scheduledAt",
+      "matchSummary"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionQuestReviewDTO",
+    "fields": [
+      "title",
+      "description",
+      "rewardLabel",
+      "visibility",
+      "schedule",
+      "location"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionSlotSummaryDTO",
+    "fields": [
+      "slotId",
+      "label",
+      "value"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.service.VisionSemanticOrchestrationRequest",
+    "fields": [
+      "contractVersion",
+      "rawPrompt",
+      "userContext",
+      "memoryContext",
+      "conversationContext",
+      "runtimeContext",
+      "allowedRoutes",
+      "responseContract",
+      "userId",
+      "username",
+      "role",
+      "preferredLocale",
+      "preferredLocaleSource",
+      "preferredLanguage",
+      "timezone",
+      "timezoneSource",
+      "countryCode",
+      "country",
+      "locality",
+      "locationLabel",
+      "conversationId",
+      "currentIntent",
+      "requestedSlot",
+      "slotData",
+      "userMemory",
+      "sessionMemory",
+      "recentConversations",
+      "recentIntentTypes",
+      "recentEntityFamilies",
+      "currentEntityFamily",
+      "status",
+      "sessionSummary",
+      "lastUserPrompt",
+      "lastNormalizedPrompt",
+      "lastAssistantMessage",
+      "translationReliable",
+      "sessionMemorySnapshot",
+      "openQuestions",
+      "recentActions",
+      "recentTurns",
+      "intent",
+      "title",
+      "subtitle",
+      "groupKey",
+      "stageLabel",
+      "progressLabel",
+      "updatedAt",
+      "turnIndex",
+      "source",
+      "prompt",
+      "normalizedPrompt",
+      "detectedIntent",
+      "assistantMessage",
+      "inputType",
+      "clientLocale",
+      "clientTimezone",
+      "clientCapabilities",
+      "clientStateVersion",
+      "routeKey",
+      "entityType",
+      "capabilityId",
+      "purpose",
+      "mutating",
+      "requiresReview",
+      "slots",
+      "slotId",
+      "fieldName",
+      "kind",
+      "required",
+      "description",
+      "allowedValues"
     ]
   }
 ]

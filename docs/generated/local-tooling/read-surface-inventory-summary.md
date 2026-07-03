@@ -1,9 +1,9 @@
 # Read Surface Inventory
 
-- Generated at: `2026-07-01T14:49:21Z`
-- Read surfaces: `160`
-- Transaction-relevant read surfaces: `90`
-- Missing explicit or inherited read-only coverage: `4`
+- Generated at: `2026-07-03T09:17:20Z`
+- Read surfaces: `176`
+- Transaction-relevant read surfaces: `92`
+- Missing explicit or inherited read-only coverage: `6`
 
 ## Top services
 
@@ -23,6 +23,10 @@
   - `getAllQuests` -> `List<Quest>` | tx=`class` | repos=QuestRepository | dto=none
   - `getAllQuestResponses` -> `List<QuestResponseDTO>` | tx=`class` | repos=none | dto=List<QuestResponseDTO>
   - `searchQuests` -> `QuestListResponseDTO` | tx=`class` | repos=none | dto=QuestListResponseDTO
+- `VisionCapabilityPreviewService`: `10` surfaces, tx-relevant=`2`
+  - `resolveApplicationQuest` -> `VisionResolvedQuestTarget` | tx=`none` | repos=none | dto=none
+  - `resolveMyPendingApplication` -> `VisionResolvedApplicationTarget` | tx=`none` | repos=none | dto=none
+  - `resolveMyApplicationDetail` -> `VisionResolvedApplicationTarget` | tx=`none` | repos=none | dto=none
 - `QuestApplicationService`: `8` surfaces, tx-relevant=`6`
   - `getApplicationsForQuest` -> `List<QuestApplicationResponseDTO>` | tx=`class` | repos=none | dto=List<QuestApplicationResponseDTO>
   - `getApplicationsViewForQuest` -> `QuestApplicationsViewDTO` | tx=`class` | repos=none | dto=QuestApplicationsViewDTO
@@ -35,11 +39,7 @@
   - `getApplicationsForQuest` -> `List<QuestApplicationResponseDTO>` | tx=`class` | repos=QuestApplicationRepository | dto=List<QuestApplicationResponseDTO>
   - `getApplicationsViewForQuest` -> `QuestApplicationsViewDTO` | tx=`class` | repos=QuestApplicationRepository | dto=QuestApplicationsViewDTO
   - `getPublicApprovedApplicationsViewForQuest` -> `QuestApplicationsViewDTO` | tx=`class` | repos=QuestApplicationRepository | dto=QuestApplicationsViewDTO
-- `QuestViewAssembler`: `5` surfaces, tx-relevant=`0`
-  - `toResponse` -> `QuestResponseDTO` | tx=`class` | repos=QuestApplicationRepository | dto=QuestResponseDTO
-  - `buildQuestDetailReviewSection` -> `QuestDetailReviewSectionDTO` | tx=`class` | repos=UserReviewRepository | dto=QuestDetailReviewSectionDTO
-  - `buildQuestDetailExecutionSection` -> `QuestDetailExecutionSectionDTO` | tx=`class` | repos=none | dto=QuestDetailExecutionSectionDTO
-- ... 44 more services
+- ... 46 more services
 
 ## Read surface sample
 

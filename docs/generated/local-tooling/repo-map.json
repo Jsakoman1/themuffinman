@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-01T14:49:44Z",
-  "total_files": 896,
+  "generated_at": "2026-07-03T09:17:42Z",
+  "total_files": 787,
   "groups": [
     {
       "domain": "agent",
@@ -13,31 +13,31 @@
     {
       "domain": "agent",
       "category": "backend_dto",
-      "count": 13,
+      "count": 9,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionRequestDTO.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionResponseDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentCapabilityAssessmentDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentClarificationContractDTO.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentClarificationContractDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentEndpointPlanDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentExecutionReadinessDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentIntentLineageDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionConfidenceDTO.java"
       ]
     },
     {
       "domain": "agent",
       "category": "backend_service",
-      "count": 13,
+      "count": 9,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentExecutionService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptPreparationService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslation.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslator.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentSurfacePolicy.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTargetUserResolver.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTextProvider.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlan.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlanner.java"
       ]
     },
     {
@@ -58,13 +58,11 @@
     {
       "domain": "agent",
       "category": "other",
-      "count": 5,
+      "count": 3,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfaceAuthority.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfaceId.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfacePolicy.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfacePolicy.java"
       ]
     },
     {
@@ -179,22 +177,6 @@
         "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRealtimeService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java"
-      ]
-    },
-    {
-      "domain": "chat",
-      "category": "frontend_api",
-      "count": 1,
-      "sample_paths": [
-        "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts"
-      ]
-    },
-    {
-      "domain": "chat",
-      "category": "frontend_composable",
-      "count": 1,
-      "sample_paths": [
-        "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts"
       ]
     },
     {
@@ -453,46 +435,66 @@
     {
       "domain": "shared",
       "category": "backend_controller",
-      "count": 1,
+      "count": 6,
       "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java"
       ]
     },
     {
       "domain": "shared",
       "category": "backend_dto",
-      "count": 13,
+      "count": 77,
       "sample_paths": [
         "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiErrorResponseDTO.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiFieldErrorDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationListResponseDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminApplicationsQueryDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminQuestApplicationUpdateRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AppUserRoleOptionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/ApplicationAllowedActionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardApplicationGroupDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationItemDTO.java"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_mapper",
+      "count": 4,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestApplicationMgr.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestNewsMgr.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/UserReviewMgr.java"
       ]
     },
     {
       "domain": "shared",
       "category": "backend_model",
-      "count": 10,
+      "count": 19,
       "sample_paths": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionAgentState.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversationAction.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversationStatus.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionNextAction.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionReviewTarget.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionSlotDataConverter.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplication.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplicationStatus.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestAudience.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestNewsItem.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestNewsType.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestStatus.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/ReviewRole.java"
       ]
     },
     {
       "domain": "shared",
       "category": "backend_repository",
-      "count": 2,
+      "count": 6,
       "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestNewsRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/UserReviewRepository.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionConversationRepository.java",
         "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionTurnRepository.java"
       ]
@@ -500,50 +502,52 @@
     {
       "domain": "shared",
       "category": "backend_service",
-      "count": 20,
+      "count": 72,
       "sample_paths": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionResult.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionResult.java"
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplyForQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApproveApplicationUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CompleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ConfirmQuestTermChangeUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CreateQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardNotificationAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardPlannerAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java"
       ]
     },
     {
       "domain": "shared",
       "category": "docs",
-      "count": 232,
+      "count": 236,
       "sample_paths": [
         "docs/business-logic.md",
         "docs/change-completion-checklist.md",
         "docs/codex-fast-path.md",
         "docs/codex-local-tooling-todo.md",
+        "docs/control-surface-map.md",
         "docs/cross-domain-glossary.md",
         "docs/docs-as-contract-slices.md",
-        "docs/documentation-sync-policy.md",
-        "docs/domain-technical.md"
+        "docs/documentation-sync-policy.md"
       ]
     },
     {
       "domain": "shared",
       "category": "frontend_api",
-      "count": 1,
+      "count": 4,
       "sample_paths": [
-        "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts"
+        "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+        "apps/themuffinman/frontend/src/modules/vision/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+        "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts"
       ]
     },
     {
       "domain": "shared",
       "category": "frontend_composable",
-      "count": 10,
+      "count": 7,
       "sample_paths": [
         "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
         "apps/themuffinman/frontend/src/composables/useAutoDismissFeedback.ts",
         "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts",
-        "apps/themuffinman/frontend/src/composables/useDialogActionState.ts",
         "apps/themuffinman/frontend/src/composables/useMountedAsync.ts",
         "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts",
         "apps/themuffinman/frontend/src/composables/useTimedBanner.ts",
@@ -562,30 +566,24 @@
     {
       "domain": "shared",
       "category": "frontend_view",
-      "count": 7,
+      "count": 1,
       "sample_paths": [
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-        "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
       ]
     },
     {
       "domain": "shared",
       "category": "other",
-      "count": 61,
+      "count": 23,
       "sample_paths": [
         "apps/themuffinman/frontend/src/App.vue",
         "apps/themuffinman/frontend/src/api/apiErrors.ts",
         "apps/themuffinman/frontend/src/api/httpClient.ts",
         "apps/themuffinman/frontend/src/auth.ts",
-        "apps/themuffinman/frontend/src/components/app/AppBrand.vue",
-        "apps/themuffinman/frontend/src/components/app/AppPageHeader.vue",
-        "apps/themuffinman/frontend/src/components/app/AppTopbar.vue",
-        "apps/themuffinman/frontend/src/components/app/topbar/useTopbarMenus.ts"
+        "apps/themuffinman/frontend/src/env.d.ts",
+        "apps/themuffinman/frontend/src/httpDebug.ts",
+        "apps/themuffinman/frontend/src/lib/dialogFlow.ts",
+        "apps/themuffinman/frontend/src/lib/questListPagination.ts"
       ]
     },
     {
@@ -678,33 +676,6 @@
       ]
     },
     {
-      "domain": "social",
-      "category": "frontend_composable",
-      "count": 9,
-      "sample_paths": [
-        "apps/themuffinman/frontend/src/modules/social/composables/circles/circlePagination.ts",
-        "apps/themuffinman/frontend/src/modules/social/composables/circles/circleSelection.ts",
-        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesPageState.ts",
-        "apps/themuffinman/frontend/src/modules/social/composables/circles/createCirclesViewState.ts",
-        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesDataLoader.ts",
-        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesMutationActions.ts",
-        "apps/themuffinman/frontend/src/modules/social/composables/circles/useCirclesPagination.ts",
-        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts"
-      ]
-    },
-    {
-      "domain": "social",
-      "category": "other",
-      "count": 5,
-      "sample_paths": [
-        "apps/themuffinman/frontend/src/modules/social/components/circles/CircleCandidateCard.vue",
-        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesConnectionsPanel.vue",
-        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesDirectoryPanel.vue",
-        "apps/themuffinman/frontend/src/modules/social/components/circles/CirclesInboxPanel.vue",
-        "apps/themuffinman/frontend/src/modules/social/shared/socialActions.ts"
-      ]
-    },
-    {
       "domain": "things",
       "category": "backend_controller",
       "count": 1,
@@ -761,135 +732,11 @@
     },
     {
       "domain": "workmarket",
-      "category": "backend_controller",
-      "count": 5,
-      "sample_paths": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java"
-      ]
-    },
-    {
-      "domain": "workmarket",
-      "category": "backend_dto",
-      "count": 62,
-      "sample_paths": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminApplicationsQueryDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminQuestApplicationUpdateRequestDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AppUserRoleOptionDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/ApplicationAllowedActionDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardApplicationGroupDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationItemDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationSectionDTO.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationDestinationTypeDTO.java"
-      ]
-    },
-    {
-      "domain": "workmarket",
-      "category": "backend_mapper",
-      "count": 4,
-      "sample_paths": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestApplicationMgr.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestNewsMgr.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/UserReviewMgr.java"
-      ]
-    },
-    {
-      "domain": "workmarket",
-      "category": "backend_model",
-      "count": 9,
-      "sample_paths": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplication.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplicationStatus.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestAudience.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestNewsItem.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestNewsType.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestStatus.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/ReviewRole.java"
-      ]
-    },
-    {
-      "domain": "workmarket",
-      "category": "backend_repository",
-      "count": 4,
-      "sample_paths": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestNewsRepository.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/UserReviewRepository.java"
-      ]
-    },
-    {
-      "domain": "workmarket",
-      "category": "backend_service",
-      "count": 45,
-      "sample_paths": [
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplyForQuestUseCase.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApproveApplicationUseCase.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CompleteQuestUseCase.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ConfirmQuestTermChangeUseCase.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CreateQuestUseCase.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardNotificationAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardPlannerAssembler.java",
-        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java"
-      ]
-    },
-    {
-      "domain": "workmarket",
       "category": "docs",
       "count": 2,
       "sample_paths": [
         "docs/generated/local-tooling/domain-packs/workmarket-summary.md",
         "docs/generated/local-tooling/plan-completion/94-backend-hotspot-reduction-workmarket-social-summary.md"
-      ]
-    },
-    {
-      "domain": "workmarket",
-      "category": "frontend_api",
-      "count": 10,
-      "sample_paths": [
-        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/newsApi.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/api/contracts.ts"
-      ]
-    },
-    {
-      "domain": "workmarket",
-      "category": "frontend_composable",
-      "count": 19,
-      "sample_paths": [
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersDataState.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersFormState.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersSearchState.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/app-users/createAppUsersUiState.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/applyQuestDetailState.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDataState.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailDebugState.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/quest-detail/createQuestDetailMutationRunner.ts"
-      ]
-    },
-    {
-      "domain": "workmarket",
-      "category": "other",
-      "count": 23,
-      "sample_paths": [
-        "apps/themuffinman/frontend/src/modules/workmarket/components/dashboard/DashboardEditSheet.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationDetailSections.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationEditFields.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationManagementCard.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/ApplicationSummaryCard.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DetailDialogFrame.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/DetailUtilitySection.vue",
-        "apps/themuffinman/frontend/src/modules/workmarket/components/shared/InlineEditableField.vue"
       ]
     }
   ],

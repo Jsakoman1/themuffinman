@@ -129,7 +129,7 @@ public class VisionSemanticContractSanitizer {
                 sanitized::setProfileDescription, sanitized::setProfileDescriptionConfidence);
         copyEnumSlot(schema.get("profile_location_mode"), source.getProfileLocationMode(), source.getProfileLocationModeConfidence(),
                 sanitized::setProfileLocationMode, sanitized::setProfileLocationModeConfidence);
-        copyTextSlot(schema.get("profile_location_label"), source.getProfileLocationLabel(), source.getProfileLocationLabelConfidence(),
+        copyLocationSlot(schema.get("profile_location_label"), source.getProfileLocationLabel(), source.getProfileLocationLabelConfidence(),
                 sanitized::setProfileLocationLabel, sanitized::setProfileLocationLabelConfidence);
         copyTextSlot(schema.get("quest_title"), source.getQuestTitle(), source.getQuestTitleConfidence(),
                 sanitized::setQuestTitle, sanitized::setQuestTitleConfidence);
@@ -163,7 +163,7 @@ public class VisionSemanticContractSanitizer {
         copyEnumSlot(schema.get("location_mode"), source.getLocation() == null ? null : source.getLocation().getMode(),
                 source.getLocation() == null ? null : source.getLocation().getModeConfidence(),
                 location::setMode, location::setModeConfidence);
-        copyTextSlot(schema.get("location_label"), source.getLocation() == null ? null : source.getLocation().getLabel(),
+        copyLocationSlot(schema.get("location_label"), source.getLocation() == null ? null : source.getLocation().getLabel(),
                 source.getLocation() == null ? null : source.getLocation().getLabelConfidence(),
                 location::setLabel, location::setLabelConfidence);
         copyEnumSlot(schema.get("location_candidate_confirmation"),
@@ -187,6 +187,24 @@ public class VisionSemanticContractSanitizer {
         }
         String normalized = trimToNull(value);
         if (normalized == null) {
+            return;
+        }
+        valueConsumer.accept(normalized);
+        confidenceConsumer.accept(normalizeConfidence(confidence));
+    }
+
+    private void copyLocationSlot(
+            VisionSemanticSlotDescriptor descriptor,
+            String value,
+            Double confidence,
+            Consumer<String> valueConsumer,
+            Consumer<Double> confidenceConsumer
+    ) {
+        if (descriptor == null) {
+            return;
+        }
+        String normalized = trimToNull(value);
+        if (normalized == null || !looksLikeLocationValue(normalized)) {
             return;
         }
         valueConsumer.accept(normalized);
@@ -236,6 +254,41 @@ public class VisionSemanticContractSanitizer {
     private String trimToNull(String value) {
         String normalized = normalizeBlank(value);
         return normalized == null ? null : normalized.trim();
+    }
+
+    private boolean looksLikeLocationValue(String value) {
+        String normalized = value.trim();
+        if (normalized.length() > 120) {
+            return false;
+        }
+
+        String lower = normalized.toLowerCase();
+        if (containsAny(lower, "create a quest", "create quest", "reward", "schedule", "tomorrow", "today", "tonight",
+                "application", "profile", "circle", "chat", "quest", "move my sofa", "help me", "looking for")) {
+            return false;
+        }
+
+        if (normalized.matches(".*\\d.*")) {
+            return true;
+        }
+        if (normalized.contains(",")) {
+            return true;
+        }
+        if (containsAny(lower, "street", "st.", "road", "rd.", "avenue", "ave.", "square", "plaza", "place", "ulica", "trg", "ul.") ) {
+            return true;
+        }
+
+        String[] words = normalized.split("\\s+");
+        return words.length <= 4 && normalized.length() <= 48;
+    }
+
+    private boolean containsAny(String value, String... candidates) {
+        for (String candidate : candidates) {
+            if (value.contains(candidate)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private String normalizeBlank(String value) {

@@ -1,0 +1,12 @@
+# Style Token Usage Audit
+
+- Generated At: `2026-07-03T09:17:42Z`
+## `files`
+
+- `{:file: "apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue", :token_refs: 8, :inline_style_refs: 1}`
+- `{:file: "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue", :token_refs: 4, :inline_style_refs: 0}`
+- `{:file: "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue", :token_refs: 1, :inline_style_refs: 0}`
+- `{:file: "apps/themuffinman/frontend/src/modules/vision/components/VisionVoiceControl.vue", :token_refs: 2, :inline_style_refs: 0}`
+- `{:file: "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue", :token_refs: 1, :inline_style_refs: 0}`
+- `{:file: "apps/themuffinman/frontend/src/styles/base.css", :token_refs: 3, :inline_style_refs: 0}`
+

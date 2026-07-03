@@ -1,10 +1,94 @@
 {
-  "generated_at": "2026-07-01T14:49:22Z",
+  "generated_at": "2026-07-03T09:17:21Z",
   "repository_count": 18,
-  "repository_method_count": 104,
-  "high_risk_count": 0,
+  "repository_method_count": 105,
+  "high_risk_count": 1,
   "medium_risk_count": 10,
   "repository_methods": [
+    {
+      "repository": "AppUserRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java",
+      "domain": "identity",
+      "method": "searchByUsernameOrEmail",
+      "return_type": "List<AppUser>",
+      "returned_entity": "AppUser",
+      "query_style": "jpql_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 2,
+      "likely_lazy_relations_touched_downstream": [
+        "username"
+      ],
+      "risk_level": "high",
+      "high_risk_call_chains": [
+        {
+          "caller": "VisionCapabilityPreviewService.resolveUserProfileTarget",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "likely_lazy_relations": [
+            "username"
+          ],
+          "body_signals": [
+            "relation_dereference",
+            "stream_mapping"
+          ]
+        },
+        {
+          "caller": "VisionCapabilityPreviewService.resolveCircleRequestRecipient",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "likely_lazy_relations": [
+            "username"
+          ],
+          "body_signals": [
+            "relation_dereference",
+            "stream_mapping"
+          ]
+        }
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "caller_class": "VisionCapabilityPreviewService",
+          "caller_method": "resolveCircleRequestRecipient",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "username"
+          ],
+          "body_signals": [
+            "relation_dereference",
+            "stream_mapping"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+          "caller_class": "VisionCapabilityPreviewService",
+          "caller_method": "resolveUserProfileTarget",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+            "username"
+          ],
+          "body_signals": [
+            "relation_dereference",
+            "stream_mapping"
+          ]
+        }
+      ]
+    },
     {
       "repository": "AppUserRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java",
@@ -382,7 +466,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForApplicationDetail",
       "return_type": "Optional<QuestApplication>",
       "returned_entity": "QuestApplication",
@@ -454,7 +538,7 @@
     {
       "repository": "QuestNewsRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestNewsRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findByRecipientUserIdOrderByCreatedAtDesc",
       "return_type": "List<QuestNewsItem>",
       "returned_entity": "QuestNewsItem",
@@ -492,7 +576,7 @@
     {
       "repository": "UserReviewRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/UserReviewRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findByQuestIdAndReviewerIdAndReviewedUserId",
       "return_type": "Optional<UserReview>",
       "returned_entity": "UserReview",
@@ -691,30 +775,6 @@
       "method": "existsByEmailAndIdNot",
       "return_type": "boolean",
       "returned_entity": null,
-      "query_style": "jpql_query",
-      "fetch_relations": [
-
-      ],
-      "fetch_coverage": "none_detected",
-      "caller_count": 0,
-      "likely_lazy_relations_touched_downstream": [
-
-      ],
-      "risk_level": "low",
-      "high_risk_call_chains": [
-
-      ],
-      "callers": [
-
-      ]
-    },
-    {
-      "repository": "AppUserRepository",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java",
-      "domain": "identity",
-      "method": "searchByUsernameOrEmail",
-      "return_type": "List<AppUser>",
-      "returned_entity": "AppUser",
       "query_style": "jpql_query",
       "fetch_relations": [
 
@@ -1786,7 +1846,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "countByApplicantId",
       "return_type": "long",
       "returned_entity": null,
@@ -1810,7 +1870,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "countByQuestIdAndStatus",
       "return_type": "long",
       "returned_entity": null,
@@ -1878,7 +1938,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "deleteByQuestId",
       "return_type": "void",
       "returned_entity": null,
@@ -1916,7 +1976,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "existsByQuestId",
       "return_type": "boolean",
       "returned_entity": null,
@@ -1940,7 +2000,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "existsByQuestIdAndApplicantId",
       "return_type": "boolean",
       "returned_entity": null,
@@ -1978,7 +2038,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForAdminApplicationList",
       "return_type": "List<QuestApplication>",
       "returned_entity": "QuestApplication",
@@ -2034,7 +2094,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForAdminApplicationList",
       "return_type": "return",
       "returned_entity": null,
@@ -2088,7 +2148,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForApplicantDashboard",
       "return_type": "List<QuestApplication>",
       "returned_entity": "QuestApplication",
@@ -2161,7 +2221,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForApplicantDashboard",
       "return_type": "return",
       "returned_entity": null,
@@ -2232,7 +2292,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForApplicationDetail",
       "return_type": "return",
       "returned_entity": null,
@@ -2317,45 +2377,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
-      "method": "findForQuestApplicationDetail",
-      "return_type": "return",
-      "returned_entity": null,
-      "query_style": "derived_query",
-      "fetch_relations": [
-
-      ],
-      "fetch_coverage": "none_detected",
-      "caller_count": 1,
-      "likely_lazy_relations_touched_downstream": [
-
-      ],
-      "risk_level": "low",
-      "high_risk_call_chains": [
-
-      ],
-      "callers": [
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationWorkflowSupport.java",
-          "caller_class": "QuestApplicationWorkflowSupport",
-          "caller_method": "requirePendingApplication",
-          "caller_classification": "supporting",
-          "helper_types": [
-
-          ],
-          "relation_dereferences": [
-
-          ],
-          "body_signals": [
-
-          ]
-        }
-      ]
-    },
-    {
-      "repository": "QuestApplicationRepository",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForQuestApplicationDetail",
       "return_type": "Optional<QuestApplication>",
       "returned_entity": "QuestApplication",
@@ -2395,7 +2417,130 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
+      "method": "findForQuestApplicationDetail",
+      "return_type": "return",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 1,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationWorkflowSupport.java",
+          "caller_class": "QuestApplicationWorkflowSupport",
+          "caller_method": "requirePendingApplication",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
+      "domain": "vision",
+      "method": "findForQuestApplicationManagement",
+      "return_type": "return",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 4,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
+          "caller_class": "QuestApplicationReadService",
+          "caller_method": "getApplicationsForQuest",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "stream_mapping"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
+          "caller_class": "QuestApplicationReadService",
+          "caller_method": "getApplicationsViewForQuest",
+          "caller_classification": "read_oriented",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+            "dto_builder",
+            "relation_dereference",
+            "stream_mapping"
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestWorkflowNotificationService.java",
+          "caller_class": "QuestWorkflowNotificationService",
+          "caller_method": "notifyQuestApplicants",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        },
+        {
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestWorkflowNotificationService.java",
+          "caller_class": "QuestWorkflowNotificationService",
+          "caller_method": "notifyQuestDeleted",
+          "caller_classification": "supporting",
+          "helper_types": [
+
+          ],
+          "relation_dereferences": [
+
+          ],
+          "body_signals": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "QuestApplicationRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
+      "domain": "vision",
       "method": "findForQuestApplicationManagement",
       "return_type": "List<QuestApplication>",
       "returned_entity": "QuestApplication",
@@ -2482,8 +2627,8 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
-      "method": "findForQuestApplicationManagement",
+      "domain": "vision",
+      "method": "findForQuestApplicationsByStatus",
       "return_type": "return",
       "returned_entity": null,
       "query_style": "derived_query",
@@ -2491,7 +2636,7 @@
 
       ],
       "fetch_coverage": "none_detected",
-      "caller_count": 4,
+      "caller_count": 2,
       "likely_lazy_relations_touched_downstream": [
 
       ],
@@ -2503,22 +2648,7 @@
         {
           "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
           "caller_class": "QuestApplicationReadService",
-          "caller_method": "getApplicationsForQuest",
-          "caller_classification": "read_oriented",
-          "helper_types": [
-
-          ],
-          "relation_dereferences": [
-
-          ],
-          "body_signals": [
-            "stream_mapping"
-          ]
-        },
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
-          "caller_class": "QuestApplicationReadService",
-          "caller_method": "getApplicationsViewForQuest",
+          "caller_method": "getPublicApprovedApplicationsViewForQuest",
           "caller_classification": "read_oriented",
           "helper_types": [
 
@@ -2535,22 +2665,7 @@
         {
           "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestWorkflowNotificationService.java",
           "caller_class": "QuestWorkflowNotificationService",
-          "caller_method": "notifyQuestApplicants",
-          "caller_classification": "supporting",
-          "helper_types": [
-
-          ],
-          "relation_dereferences": [
-
-          ],
-          "body_signals": [
-
-          ]
-        },
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestWorkflowNotificationService.java",
-          "caller_class": "QuestWorkflowNotificationService",
-          "caller_method": "notifyQuestDeleted",
+          "caller_method": "notifyApprovedApplicant",
           "caller_classification": "supporting",
           "helper_types": [
 
@@ -2567,7 +2682,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForQuestApplicationsByStatus",
       "return_type": "List<QuestApplication>",
       "returned_entity": "QuestApplication",
@@ -2624,8 +2739,8 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
-      "method": "findForQuestApplicationsByStatus",
+      "domain": "vision",
+      "method": "findForViewerApplication",
       "return_type": "return",
       "returned_entity": null,
       "query_style": "derived_query",
@@ -2633,7 +2748,7 @@
 
       ],
       "fetch_coverage": "none_detected",
-      "caller_count": 2,
+      "caller_count": 1,
       "likely_lazy_relations_touched_downstream": [
 
       ],
@@ -2643,26 +2758,9 @@
       ],
       "callers": [
         {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java",
-          "caller_class": "QuestApplicationReadService",
-          "caller_method": "getPublicApprovedApplicationsViewForQuest",
-          "caller_classification": "read_oriented",
-          "helper_types": [
-
-          ],
-          "relation_dereferences": [
-
-          ],
-          "body_signals": [
-            "dto_builder",
-            "relation_dereference",
-            "stream_mapping"
-          ]
-        },
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestWorkflowNotificationService.java",
-          "caller_class": "QuestWorkflowNotificationService",
-          "caller_method": "notifyApprovedApplicant",
+          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationWorkflowSupport.java",
+          "caller_class": "QuestApplicationWorkflowSupport",
+          "caller_method": "requirePendingMyApplication",
           "caller_classification": "supporting",
           "helper_types": [
 
@@ -2679,7 +2777,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForViewerApplication",
       "return_type": "Optional<QuestApplication>",
       "returned_entity": "QuestApplication",
@@ -2719,45 +2817,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
-      "method": "findForViewerApplication",
-      "return_type": "return",
-      "returned_entity": null,
-      "query_style": "derived_query",
-      "fetch_relations": [
-
-      ],
-      "fetch_coverage": "none_detected",
-      "caller_count": 1,
-      "likely_lazy_relations_touched_downstream": [
-
-      ],
-      "risk_level": "low",
-      "high_risk_call_chains": [
-
-      ],
-      "callers": [
-        {
-          "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationWorkflowSupport.java",
-          "caller_class": "QuestApplicationWorkflowSupport",
-          "caller_method": "requirePendingMyApplication",
-          "caller_classification": "supporting",
-          "helper_types": [
-
-          ],
-          "relation_dereferences": [
-
-          ],
-          "body_signals": [
-
-          ]
-        }
-      ]
-    },
-    {
-      "repository": "QuestApplicationRepository",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForViewerApplicationWithStatus",
       "return_type": "Optional<QuestApplication>",
       "returned_entity": "QuestApplication",
@@ -2812,7 +2872,7 @@
     {
       "repository": "QuestApplicationRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForViewerApplicationWithStatus",
       "return_type": "return",
       "returned_entity": null,
@@ -2865,7 +2925,7 @@
     {
       "repository": "QuestNewsRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestNewsRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "countByRecipientUserIdAndReadAtIsNull",
       "return_type": "long",
       "returned_entity": null,
@@ -2903,7 +2963,7 @@
     {
       "repository": "QuestNewsRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestNewsRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "deleteByCreatedAtBefore",
       "return_type": "int",
       "returned_entity": null,
@@ -2941,7 +3001,7 @@
     {
       "repository": "QuestNewsRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestNewsRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findByIdAndRecipientUserId",
       "return_type": "Optional<QuestNewsItem>",
       "returned_entity": "QuestNewsItem",
@@ -2979,7 +3039,7 @@
     {
       "repository": "QuestNewsRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestNewsRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "markAllAsRead",
       "return_type": "int",
       "returned_entity": null,
@@ -3017,7 +3077,7 @@
     {
       "repository": "QuestRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "countByCreatorId",
       "return_type": "long",
       "returned_entity": null,
@@ -3041,7 +3101,7 @@
     {
       "repository": "QuestRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "countByCreatorIdAndStatus",
       "return_type": "long",
       "returned_entity": null,
@@ -3079,7 +3139,7 @@
     {
       "repository": "QuestRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "countByLocationLatitudeIsNotNullAndLocationLongitudeIsNotNull",
       "return_type": "long",
       "returned_entity": null,
@@ -3103,7 +3163,7 @@
     {
       "repository": "QuestRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "countByLocationProviderPlaceIdIsNotNull",
       "return_type": "long",
       "returned_entity": null,
@@ -3127,7 +3187,31 @@
     {
       "repository": "QuestRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
+      "method": "findForOwnerStatusList",
+      "return_type": "return",
+      "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "QuestRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
+      "domain": "vision",
       "method": "findForOwnerStatusList",
       "return_type": "List<Quest>",
       "returned_entity": "Quest",
@@ -3153,31 +3237,7 @@
     {
       "repository": "QuestRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "domain": "workmarket",
-      "method": "findForOwnerStatusList",
-      "return_type": "return",
-      "returned_entity": null,
-      "query_style": "derived_query",
-      "fetch_relations": [
-
-      ],
-      "fetch_coverage": "none_detected",
-      "caller_count": 0,
-      "likely_lazy_relations_touched_downstream": [
-
-      ],
-      "risk_level": "low",
-      "high_risk_call_chains": [
-
-      ],
-      "callers": [
-
-      ]
-    },
-    {
-      "repository": "QuestRepository",
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForQuestDetail",
       "return_type": "return",
       "returned_entity": null,
@@ -3230,7 +3290,7 @@
     {
       "repository": "QuestRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForQuestDetail",
       "return_type": "Optional<Quest>",
       "returned_entity": "Quest",
@@ -3285,7 +3345,7 @@
     {
       "repository": "QuestRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForQuestList",
       "return_type": "List<Quest>",
       "returned_entity": "Quest",
@@ -3325,7 +3385,7 @@
     {
       "repository": "QuestRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForQuestList",
       "return_type": "return",
       "returned_entity": null,
@@ -3363,17 +3423,15 @@
     {
       "repository": "QuestRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForQuestListByIds",
-      "return_type": "List<Quest>",
-      "returned_entity": "Quest",
-      "query_style": "jpql_query",
+      "return_type": "return",
+      "returned_entity": null,
+      "query_style": "derived_query",
       "fetch_relations": [
-        "creator",
-        "images",
-        "visibleToCircles"
+
       ],
-      "fetch_coverage": "explicit_fetch",
+      "fetch_coverage": "none_detected",
       "caller_count": 0,
       "likely_lazy_relations_touched_downstream": [
 
@@ -3389,15 +3447,17 @@
     {
       "repository": "QuestRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findForQuestListByIds",
-      "return_type": "return",
-      "returned_entity": null,
-      "query_style": "derived_query",
+      "return_type": "List<Quest>",
+      "returned_entity": "Quest",
+      "query_style": "jpql_query",
       "fetch_relations": [
-
+        "creator",
+        "images",
+        "visibleToCircles"
       ],
-      "fetch_coverage": "none_detected",
+      "fetch_coverage": "explicit_fetch",
       "caller_count": 0,
       "likely_lazy_relations_touched_downstream": [
 
@@ -3584,15 +3644,13 @@
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingBorrowRequestRepository.java",
       "domain": "things",
       "method": "findPendingForCatalogViewer",
-      "return_type": "List<ThingBorrowRequest>",
-      "returned_entity": "ThingBorrowRequest",
-      "query_style": "jpql_query",
+      "return_type": "return",
+      "returned_entity": null,
+      "query_style": "derived_query",
       "fetch_relations": [
-        "borrower",
-        "listing",
-        "owner"
+
       ],
-      "fetch_coverage": "explicit_fetch",
+      "fetch_coverage": "none_detected",
       "caller_count": 0,
       "likely_lazy_relations_touched_downstream": [
 
@@ -3610,13 +3668,15 @@
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingBorrowRequestRepository.java",
       "domain": "things",
       "method": "findPendingForCatalogViewer",
-      "return_type": "return",
-      "returned_entity": null,
-      "query_style": "derived_query",
+      "return_type": "List<ThingBorrowRequest>",
+      "returned_entity": "ThingBorrowRequest",
+      "query_style": "jpql_query",
       "fetch_relations": [
-
+        "borrower",
+        "listing",
+        "owner"
       ],
-      "fetch_coverage": "none_detected",
+      "fetch_coverage": "explicit_fetch",
       "caller_count": 0,
       "likely_lazy_relations_touched_downstream": [
 
@@ -3870,7 +3930,7 @@
     {
       "repository": "UserReviewRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/UserReviewRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "findRecentByReviewedUserId",
       "return_type": "List<UserReview>",
       "returned_entity": "UserReview",
@@ -3910,7 +3970,7 @@
     {
       "repository": "UserReviewRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/UserReviewRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "getAverageStars",
       "return_type": "Double",
       "returned_entity": null,
@@ -3934,7 +3994,7 @@
     {
       "repository": "UserReviewRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/UserReviewRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "getReviewCount",
       "return_type": "long",
       "returned_entity": null,
@@ -3958,7 +4018,7 @@
     {
       "repository": "UserReviewRepository",
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/UserReviewRepository.java",
-      "domain": "workmarket",
+      "domain": "vision",
       "method": "summarizeByReviewedUserIdAndReviewedRole",
       "return_type": "UserRatingSummaryProjection",
       "returned_entity": "UserRatingSummaryProjection",
@@ -4034,6 +4094,30 @@
       "method": "countByConversation",
       "return_type": "long",
       "returned_entity": null,
+      "query_style": "derived_query",
+      "fetch_relations": [
+
+      ],
+      "fetch_coverage": "none_detected",
+      "caller_count": 0,
+      "likely_lazy_relations_touched_downstream": [
+
+      ],
+      "risk_level": "low",
+      "high_risk_call_chains": [
+
+      ],
+      "callers": [
+
+      ]
+    },
+    {
+      "repository": "VisionTurnRepository",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionTurnRepository.java",
+      "domain": "vision",
+      "method": "findTop10ByConversationOrderByTurnIndexDesc",
+      "return_type": "List<VisionTurn>",
+      "returned_entity": "VisionTurn",
       "query_style": "derived_query",
       "fetch_relations": [
 

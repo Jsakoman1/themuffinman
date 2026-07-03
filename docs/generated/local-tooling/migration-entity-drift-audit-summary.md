@@ -1,7 +1,7 @@
 # Migration Entity Drift Audit
 
-- Generated At: `2026-07-01T14:47:58Z`
-- Migration Count: `34`
+- Generated At: `2026-07-03T09:18:01Z`
+- Migration Count: `35`
 ## `entities`
 
 - `{:entity: "BusinessProfile", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java", :table: "business_profile", :table_in_migration: true, :fields_without_obvious_migration_match: []}`
@@ -19,6 +19,6 @@
 - `{:entity: "AppUser", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/AppUser.java", :table: "app_user", :table_in_migration: true, :fields_without_obvious_migration_match: ["exactLocationVisibleToCircles", "exactLocationVisibleToUsers"]}`
 - `{:entity: "RideOffer", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java", :table: "ride_offer", :table_in_migration: true, :fields_without_obvious_migration_match: ["visibleCircles"]}`
 - `{:entity: "CircleGroup", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/social/model/CircleGroup.java", :table: "circle_group", :table_in_migration: true, :fields_without_obvious_migration_match: ["memberships"]}`
-- `{:entity: "VisionTurn", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java", :table: "vision_turn", :table_in_migration: true, :fields_without_obvious_migration_match: ["appliedSlotIds"]}`
 - `{:entity: "Quest", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java", :table: "quest", :table_in_migration: true, :fields_without_obvious_migration_match: ["images", "visibleToCircles"]}`
+- `{:entity: "VisionTurn", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionTurn.java", :table: "vision_turn", :table_in_migration: true, :fields_without_obvious_migration_match: ["appliedSlotIds"]}`
 

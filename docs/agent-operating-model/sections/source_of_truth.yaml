@@ -3,16 +3,10 @@ source_of_truth:
   files:
   - id: admin_agent_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java
-  - id: admin_agent_playground_request_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundRequestDTO.java
-  - id: admin_agent_playground_response_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentPlaygroundResponseDTO.java
   - id: admin_agent_execution_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionRequestDTO.java
   - id: admin_agent_execution_response_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionResponseDTO.java
-  - id: admin_agent_playground_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundService.java
   - id: admin_agent_execution_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentExecutionService.java
   - id: admin_agent_surface_policy
@@ -29,18 +23,8 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslation.java
   - id: admin_agent_prompt_translator
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslator.java
-  - id: admin_agent_text_provider
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTextProvider.java
-  - id: agent_model_profile
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AgentModelProfile.java
   - id: local_admin_agent_prompt_translator
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java
-  - id: openai_admin_agent_client
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/OpenAiAdminAgentClient.java
-  - id: sandbox_generation_plan
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlan.java
-  - id: sandbox_generation_planner
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlanner.java
   - id: agent_surface_policy
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfacePolicy.java
   - id: agent_surface_id
@@ -483,16 +467,8 @@ source_of_truth:
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
   - id: quest_application_use_case_contract_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java
-  - id: admin_agent_playground_service_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPlaygroundServiceTest.java
-  - id: admin_agent_golden_prompt_matrix_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentGoldenPromptMatrixTest.java
   - id: vision_conversation_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
-  - id: admin_agent_capability_boundary_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentCapabilityBoundaryTest.java
-  - id: sandbox_generation_planner_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/sandbox/SandboxGenerationPlannerTest.java
   - id: auth_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
   - id: request_dto_validation_test
@@ -501,18 +477,16 @@ source_of_truth:
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java
   - id: quest_workflow_scenario_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
-  - id: agent_operating_scenario_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AgentOperatingScenarioTest.java
   - id: agent_operating_model_validation_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  - id: admin_agent_execution_service_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
+  - id: admin_synthetic_quest_execution_planner_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java
   - id: repository_fetch_profile_contract_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/RepositoryFetchProfileContractTest.java
   - id: workflow_state_machine_catalog_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/WorkflowStateMachineCatalogTest.java
-  - id: admin_agent_simulation_request_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationRequestDTO.java
-  - id: admin_agent_simulation_response_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentSimulationResponseDTO.java
   - id: agent_capability_assessment_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentCapabilityAssessmentDTO.java
   - id: agent_clarification_contract_dto

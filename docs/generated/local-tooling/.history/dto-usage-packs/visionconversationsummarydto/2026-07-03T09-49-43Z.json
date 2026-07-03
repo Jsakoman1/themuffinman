@@ -1,0 +1,92 @@
+{
+  "generated_at": "2026-07-03T09:39:11Z",
+  "dto": "VisionConversationSummaryDTO",
+  "dto_files": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "lines": 35
+    }
+  ],
+  "controller_methods": [
+
+  ],
+  "backend_refs": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationListResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "lines": 18
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "lines": 35
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "lines": 37
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 731
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 4077
+    }
+  ],
+  "frontend_refs": [
+    {
+      "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "lines": 1616
+    }
+  ],
+  "tests": [
+
+  ],
+  "docs_refs": [
+    "docs/domain-technical.md",
+    "docs/vision-context-gateway.md",
+    "docs/vision-status-ledger.md"
+  ],
+  "generated_contract_refs": [
+    "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+    "docs/generated/automation-read-model-inventory.json",
+    "docs/generated/backend-audit-inventory.json",
+    "docs/generated/local-tooling/api-contract-drift.json",
+    "docs/generated/local-tooling/backend-dependency-graph.json",
+    "docs/generated/local-tooling/change-impact-preflight.json",
+    "docs/generated/local-tooling/changeset-playbook.json",
+    "docs/generated/local-tooling/changeset-risk.json",
+    "docs/generated/local-tooling/diff-summary.json",
+    "docs/generated/local-tooling/doc-sync-preflight.json",
+    "docs/generated/local-tooling/doc-template-coverage.json",
+    "docs/generated/local-tooling/generated-commit-scope.json",
+    "docs/generated/local-tooling/manifest-decision.json",
+    "docs/generated/local-tooling/manifest-path-resolution.json",
+    "docs/generated/local-tooling/sandbox-data-coverage-pack.json",
+    "docs/generated/local-tooling/symbol-index.json",
+    "docs/generated/local-tooling/targeted-tests.json",
+    "docs/generated/local-tooling/test-gap-recommendations.json",
+    "docs/generated/local-tooling/validation-preset.json"
+  ],
+  "recommended_commands": [
+    "npm --prefix apps/themuffinman/frontend run type-check",
+    "npm --prefix apps/themuffinman/frontend run build"
+  ],
+  "residual_risk": [
+    "No controller method was found using this DTO directly.",
+    "No test references were found for this DTO."
+  ]
+}

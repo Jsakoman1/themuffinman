@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-01T14:49:22Z",
-  "route_count": 10,
-  "surface_route_count": 9,
+  "generated_at": "2026-07-03T09:17:21Z",
+  "route_count": 12,
+  "surface_route_count": 3,
   "redirect_route_count": 1,
   "placeholder_route_count": 0,
   "routes": [
@@ -103,19 +103,17 @@
       "placeholder_module": false,
       "module_key": null,
       "primary_composables": [
-        "apps/themuffinman/frontend/src/composables/useMountedAsync.ts",
-        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurfaceState.ts"
+        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
       ],
       "api_clients": [
         "dashboardApi.getDashboardVoiceConfig",
         "dashboardApi.speakVoiceText",
         "dashboardApi.transcribeVoiceAudio",
-        "visionApi.cancelConversation",
-        "visionApi.getConversation",
-        "visionApi.getRecentConversations",
-        "visionApi.processConversationTurn",
-        "visionApi.resetConversation"
+        "visionConversationApi.cancelConversation",
+        "visionConversationApi.getConversation",
+        "visionConversationApi.getRecentConversations",
+        "visionConversationApi.processConversationTurn",
+        "visionConversationApi.resetConversation"
       ],
       "backend_endpoints": [
         "GET /dashboard/me/voice-config",
@@ -129,103 +127,13 @@
       ],
       "endpoint_links": [
         {
-          "endpoint_id": "POST /vision/conversations/:param/cancel",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "cancelConversation",
-          "client_object": "visionApi",
-          "client_method": "cancelConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/:param",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getConversation",
-          "client_object": "visionApi",
-          "client_method": "getConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/recent",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getRecentConversations",
-          "client_object": "visionApi",
-          "client_method": "getRecentConversations",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/turns",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "processTurn",
-          "client_object": "visionApi",
-          "client_method": "processConversationTurn",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/:param/reset",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "resetConversation",
-          "client_object": "visionApi",
-          "client_method": "resetConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
           "endpoint_id": "GET /dashboard/me/voice-config",
           "backend_controller": "DashboardController",
           "backend_method": "getMyVoiceConfig",
           "client_object": "dashboardApi",
           "client_method": "getDashboardVoiceConfig",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+          "caller_file": null,
           "ui_surfaces": [
 
           ]
@@ -236,8 +144,8 @@
           "backend_method": "speakVoice",
           "client_object": "dashboardApi",
           "client_method": "speakVoiceText",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+          "caller_file": null,
           "ui_surfaces": [
 
           ]
@@ -248,10 +156,70 @@
           "backend_method": "transcribeVoice",
           "client_object": "dashboardApi",
           "client_method": "transcribeVoiceAudio",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+          "caller_file": null,
           "ui_surfaces": [
 
+          ]
+        },
+        {
+          "endpoint_id": "POST /vision/conversations/:param/cancel",
+          "backend_controller": "VisionConversationController",
+          "backend_method": "cancelConversation",
+          "client_object": "visionConversationApi",
+          "client_method": "cancelConversation",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "GET /vision/conversations/:param",
+          "backend_controller": "VisionConversationController",
+          "backend_method": "getConversation",
+          "client_object": "visionConversationApi",
+          "client_method": "getConversation",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "GET /vision/conversations/recent",
+          "backend_controller": "VisionConversationController",
+          "backend_method": "getRecentConversations",
+          "client_object": "visionConversationApi",
+          "client_method": "getRecentConversations",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "POST /vision/conversations/turns",
+          "backend_controller": "VisionConversationController",
+          "backend_method": "processTurn",
+          "client_object": "visionConversationApi",
+          "client_method": "processConversationTurn",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "POST /vision/conversations/:param/reset",
+          "backend_controller": "VisionConversationController",
+          "backend_method": "resetConversation",
+          "client_object": "visionConversationApi",
+          "client_method": "resetConversation",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
           ]
         }
       ]
@@ -259,1629 +227,177 @@
     {
       "route_path": "/vision/users/:id",
       "redirect": null,
-      "surface_file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-      "component_symbol": "VisionUserProfileView",
+      "surface_file": null,
+      "component_symbol": null,
       "requires_auth": true,
       "requires_admin": false,
       "placeholder_module": false,
       "module_key": null,
       "primary_composables": [
-        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
-        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
+
       ],
       "api_clients": [
-        "circlesApi.blockCircleUser",
-        "circlesApi.createCircleRequest",
-        "circlesApi.unblockCircleUser",
-        "dashboardApi.getDashboardVoiceConfig",
-        "dashboardApi.speakVoiceText",
-        "dashboardApi.transcribeVoiceAudio",
-        "usersApi.getUserProfileView",
-        "usersApi.updateCurrentAppUser",
-        "visionApi.cancelConversation",
-        "visionApi.getConversation",
-        "visionApi.getRecentConversations",
-        "visionApi.processConversationTurn",
-        "visionApi.resetConversation"
+
       ],
       "backend_endpoints": [
-        "DELETE /circles/blocks/:param",
-        "GET /app_users/:param/profile-view",
-        "GET /dashboard/me/voice-config",
-        "GET /vision/conversations/:param",
-        "GET /vision/conversations/recent",
-        "POST /circles/blocks",
-        "POST /circles/requests",
-        "POST /dashboard/me/voice/speak",
-        "POST /dashboard/me/voice/transcribe",
-        "POST /vision/conversations/:param/cancel",
-        "POST /vision/conversations/:param/reset",
-        "POST /vision/conversations/turns",
-        "PUT /app_users/me"
+
       ],
       "endpoint_links": [
-        {
-          "endpoint_id": "POST /vision/conversations/:param/cancel",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "cancelConversation",
-          "client_object": "visionApi",
-          "client_method": "cancelConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/:param",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getConversation",
-          "client_object": "visionApi",
-          "client_method": "getConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/recent",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getRecentConversations",
-          "client_object": "visionApi",
-          "client_method": "getRecentConversations",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/turns",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "processTurn",
-          "client_object": "visionApi",
-          "client_method": "processConversationTurn",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/:param/reset",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "resetConversation",
-          "client_object": "visionApi",
-          "client_method": "resetConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /circles/blocks",
-          "backend_controller": "CircleController",
-          "backend_method": "blockCircleUser",
-          "client_object": "circlesApi",
-          "client_method": "blockCircleUser",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
 
-          ]
-        },
-        {
-          "endpoint_id": "POST /circles/requests",
-          "backend_controller": "CircleController",
-          "backend_method": "createCircleRequest",
-          "client_object": "circlesApi",
-          "client_method": "createCircleRequest",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
+      ]
+    },
+    {
+      "route_path": "/vision/profile",
+      "redirect": null,
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
 
-          ]
-        },
-        {
-          "endpoint_id": "DELETE /circles/blocks/:param",
-          "backend_controller": "CircleController",
-          "backend_method": "unblockCircleUser",
-          "client_object": "circlesApi",
-          "client_method": "unblockCircleUser",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
+      ],
+      "api_clients": [
 
-          ]
-        },
-        {
-          "endpoint_id": "GET /dashboard/me/voice-config",
-          "backend_controller": "DashboardController",
-          "backend_method": "getMyVoiceConfig",
-          "client_object": "dashboardApi",
-          "client_method": "getDashboardVoiceConfig",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
+      ],
+      "backend_endpoints": [
 
-          ]
-        },
-        {
-          "endpoint_id": "POST /dashboard/me/voice/speak",
-          "backend_controller": "DashboardController",
-          "backend_method": "speakVoice",
-          "client_object": "dashboardApi",
-          "client_method": "speakVoiceText",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
+      ],
+      "endpoint_links": [
 
-          ]
-        },
-        {
-          "endpoint_id": "POST /dashboard/me/voice/transcribe",
-          "backend_controller": "DashboardController",
-          "backend_method": "transcribeVoice",
-          "client_object": "dashboardApi",
-          "client_method": "transcribeVoiceAudio",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /app_users/:param/profile-view",
-          "backend_controller": "AppUserController",
-          "backend_method": "getProfileView",
-          "client_object": "usersApi",
-          "client_method": "getUserProfileView",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "PUT /app_users/me",
-          "backend_controller": "AppUserController",
-          "backend_method": "updateCurrentAppUser",
-          "client_object": "usersApi",
-          "client_method": "updateCurrentAppUser",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        }
       ]
     },
     {
       "route_path": "/vision/settings",
       "redirect": null,
-      "surface_file": "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue",
-      "component_symbol": "VisionUserSettingsView",
+      "surface_file": null,
+      "component_symbol": null,
       "requires_auth": true,
       "requires_admin": false,
       "placeholder_module": false,
       "module_key": null,
       "primary_composables": [
-        "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts",
-        "apps/themuffinman/frontend/src/modules/social/composables/useUserProfileView.ts",
-        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
+
       ],
       "api_clients": [
-        "circlesApi.blockCircleUser",
-        "circlesApi.createCircleRequest",
-        "circlesApi.getCircleConnectionsPage",
-        "circlesApi.unblockCircleUser",
-        "dashboardApi.getDashboardVoiceConfig",
-        "dashboardApi.speakVoiceText",
-        "dashboardApi.transcribeVoiceAudio",
-        "locationApi.lookupLocation",
-        "locationApi.reverseLookupLocation",
-        "usersApi.getAppUserOptions",
-        "usersApi.getUserProfileView",
-        "usersApi.updateCurrentAppUser",
-        "visionApi.cancelConversation",
-        "visionApi.getConversation",
-        "visionApi.getRecentConversations",
-        "visionApi.processConversationTurn",
-        "visionApi.resetConversation"
+
       ],
       "backend_endpoints": [
-        "DELETE /circles/blocks/:param",
-        "GET /app_users/:param/profile-view",
-        "GET /app_users/options",
-        "GET /circles/connections",
-        "GET /dashboard/me/voice-config",
-        "GET /vision/conversations/:param",
-        "GET /vision/conversations/recent",
-        "POST /circles/blocks",
-        "POST /circles/requests",
-        "POST /dashboard/me/voice/speak",
-        "POST /dashboard/me/voice/transcribe",
-        "POST /location/lookup",
-        "POST /location/reverse-lookup",
-        "POST /vision/conversations/:param/cancel",
-        "POST /vision/conversations/:param/reset",
-        "POST /vision/conversations/turns",
-        "PUT /app_users/me"
+
       ],
       "endpoint_links": [
-        {
-          "endpoint_id": "POST /vision/conversations/:param/cancel",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "cancelConversation",
-          "client_object": "visionApi",
-          "client_method": "cancelConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/:param",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getConversation",
-          "client_object": "visionApi",
-          "client_method": "getConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/recent",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getRecentConversations",
-          "client_object": "visionApi",
-          "client_method": "getRecentConversations",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/turns",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "processTurn",
-          "client_object": "visionApi",
-          "client_method": "processConversationTurn",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/:param/reset",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "resetConversation",
-          "client_object": "visionApi",
-          "client_method": "resetConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /circles/blocks",
-          "backend_controller": "CircleController",
-          "backend_method": "blockCircleUser",
-          "client_object": "circlesApi",
-          "client_method": "blockCircleUser",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
 
-          ]
-        },
-        {
-          "endpoint_id": "POST /circles/requests",
-          "backend_controller": "CircleController",
-          "backend_method": "createCircleRequest",
-          "client_object": "circlesApi",
-          "client_method": "createCircleRequest",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /circles/connections",
-          "backend_controller": "CircleController",
-          "backend_method": "getConnections",
-          "client_object": "circlesApi",
-          "client_method": "getCircleConnectionsPage",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "DELETE /circles/blocks/:param",
-          "backend_controller": "CircleController",
-          "backend_method": "unblockCircleUser",
-          "client_object": "circlesApi",
-          "client_method": "unblockCircleUser",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /dashboard/me/voice-config",
-          "backend_controller": "DashboardController",
-          "backend_method": "getMyVoiceConfig",
-          "client_object": "dashboardApi",
-          "client_method": "getDashboardVoiceConfig",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /dashboard/me/voice/speak",
-          "backend_controller": "DashboardController",
-          "backend_method": "speakVoice",
-          "client_object": "dashboardApi",
-          "client_method": "speakVoiceText",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /dashboard/me/voice/transcribe",
-          "backend_controller": "DashboardController",
-          "backend_method": "transcribeVoice",
-          "client_object": "dashboardApi",
-          "client_method": "transcribeVoiceAudio",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /location/lookup",
-          "backend_controller": "LocationLookupController",
-          "backend_method": "lookup",
-          "client_object": "locationApi",
-          "client_method": "lookupLocation",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /location/reverse-lookup",
-          "backend_controller": "LocationLookupController",
-          "backend_method": "reverseLookup",
-          "client_object": "locationApi",
-          "client_method": "reverseLookupLocation",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /app_users/options",
-          "backend_controller": "AppUserController",
-          "backend_method": "getAppUserOptions",
-          "client_object": "usersApi",
-          "client_method": "getAppUserOptions",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /app_users/:param/profile-view",
-          "backend_controller": "AppUserController",
-          "backend_method": "getProfileView",
-          "client_object": "usersApi",
-          "client_method": "getUserProfileView",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "PUT /app_users/me",
-          "backend_controller": "AppUserController",
-          "backend_method": "updateCurrentAppUser",
-          "client_object": "usersApi",
-          "client_method": "updateCurrentAppUser",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        }
       ]
     },
     {
       "route_path": "/vision/circles",
       "redirect": null,
-      "surface_file": "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-      "component_symbol": "VisionCirclesView",
+      "surface_file": null,
+      "component_symbol": null,
       "requires_auth": true,
       "requires_admin": false,
       "placeholder_module": false,
       "module_key": null,
       "primary_composables": [
-        "apps/themuffinman/frontend/src/modules/social/composables/useCirclesView.ts",
-        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
+
       ],
       "api_clients": [
-        "circlesApi.acceptCircleRequest",
-        "circlesApi.blockCircleUser",
-        "circlesApi.createCircle",
-        "circlesApi.createCircleRequest",
-        "circlesApi.deleteCircle",
-        "circlesApi.deleteCircleRequest",
-        "circlesApi.getBlockedCircleUsersPage",
-        "circlesApi.getCircleConnectionsPage",
-        "circlesApi.getCircleOverview",
-        "circlesApi.getIncomingCircleRequestsPage",
-        "circlesApi.getInviteCandidatesPage",
-        "circlesApi.getNearbyCircleUsersPage",
-        "circlesApi.getOutgoingCircleRequestsPage",
-        "circlesApi.searchCircleUsersPage",
-        "circlesApi.unblockCircleUser",
-        "circlesApi.updateCircle",
-        "circlesApi.updateConnectionCircles",
-        "circlesApi.updateConnectionCirclesBulk",
-        "dashboardApi.getDashboardVoiceConfig",
-        "dashboardApi.speakVoiceText",
-        "dashboardApi.transcribeVoiceAudio",
-        "visionApi.cancelConversation",
-        "visionApi.getConversation",
-        "visionApi.getRecentConversations",
-        "visionApi.processConversationTurn",
-        "visionApi.resetConversation"
+
       ],
       "backend_endpoints": [
-        "DELETE /circles/blocks/:param",
-        "DELETE /circles/groups/:param",
-        "DELETE /circles/requests/:param",
-        "GET /circles/blocked",
-        "GET /circles/candidates",
-        "GET /circles/connections",
-        "GET /circles/me/overview",
-        "GET /circles/nearby",
-        "GET /circles/requests/incoming",
-        "GET /circles/requests/outgoing",
-        "GET /circles/search",
-        "GET /dashboard/me/voice-config",
-        "GET /vision/conversations/:param",
-        "GET /vision/conversations/recent",
-        "PATCH /circles/requests/:param/accept",
-        "POST /circles/blocks",
-        "POST /circles/groups",
-        "POST /circles/requests",
-        "POST /dashboard/me/voice/speak",
-        "POST /dashboard/me/voice/transcribe",
-        "POST /vision/conversations/:param/cancel",
-        "POST /vision/conversations/:param/reset",
-        "POST /vision/conversations/turns",
-        "PUT /circles/connections/:param/circles",
-        "PUT /circles/connections/circles/bulk",
-        "PUT /circles/groups/:param"
+
       ],
       "endpoint_links": [
-        {
-          "endpoint_id": "POST /vision/conversations/:param/cancel",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "cancelConversation",
-          "client_object": "visionApi",
-          "client_method": "cancelConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/:param",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getConversation",
-          "client_object": "visionApi",
-          "client_method": "getConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/recent",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getRecentConversations",
-          "client_object": "visionApi",
-          "client_method": "getRecentConversations",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/turns",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "processTurn",
-          "client_object": "visionApi",
-          "client_method": "processConversationTurn",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/:param/reset",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "resetConversation",
-          "client_object": "visionApi",
-          "client_method": "resetConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "PATCH /circles/requests/:param/accept",
-          "backend_controller": "CircleController",
-          "backend_method": "acceptCircleRequest",
-          "client_object": "circlesApi",
-          "client_method": "acceptCircleRequest",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
 
-          ]
-        },
-        {
-          "endpoint_id": "POST /circles/blocks",
-          "backend_controller": "CircleController",
-          "backend_method": "blockCircleUser",
-          "client_object": "circlesApi",
-          "client_method": "blockCircleUser",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /circles/groups",
-          "backend_controller": "CircleController",
-          "backend_method": "createCircle",
-          "client_object": "circlesApi",
-          "client_method": "createCircle",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /circles/requests",
-          "backend_controller": "CircleController",
-          "backend_method": "createCircleRequest",
-          "client_object": "circlesApi",
-          "client_method": "createCircleRequest",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "DELETE /circles/groups/:param",
-          "backend_controller": "CircleController",
-          "backend_method": "deleteCircle",
-          "client_object": "circlesApi",
-          "client_method": "deleteCircle",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "DELETE /circles/requests/:param",
-          "backend_controller": "CircleController",
-          "backend_method": "deleteCircleRequest",
-          "client_object": "circlesApi",
-          "client_method": "deleteCircleRequest",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /circles/blocked",
-          "backend_controller": "CircleController",
-          "backend_method": "getBlockedUsers",
-          "client_object": "circlesApi",
-          "client_method": "getBlockedCircleUsersPage",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /circles/connections",
-          "backend_controller": "CircleController",
-          "backend_method": "getConnections",
-          "client_object": "circlesApi",
-          "client_method": "getCircleConnectionsPage",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /circles/me/overview",
-          "backend_controller": "CircleController",
-          "backend_method": "getOverview",
-          "client_object": "circlesApi",
-          "client_method": "getCircleOverview",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /circles/requests/incoming",
-          "backend_controller": "CircleController",
-          "backend_method": "getIncomingRequests",
-          "client_object": "circlesApi",
-          "client_method": "getIncomingCircleRequestsPage",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /circles/candidates",
-          "backend_controller": "CircleController",
-          "backend_method": "getInviteCandidates",
-          "client_object": "circlesApi",
-          "client_method": "getInviteCandidatesPage",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /circles/nearby",
-          "backend_controller": "CircleController",
-          "backend_method": "getNearbyUsers",
-          "client_object": "circlesApi",
-          "client_method": "getNearbyCircleUsersPage",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /circles/requests/outgoing",
-          "backend_controller": "CircleController",
-          "backend_method": "getOutgoingRequests",
-          "client_object": "circlesApi",
-          "client_method": "getOutgoingCircleRequestsPage",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /circles/search",
-          "backend_controller": "CircleController",
-          "backend_method": "searchCircleUsers",
-          "client_object": "circlesApi",
-          "client_method": "searchCircleUsersPage",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "DELETE /circles/blocks/:param",
-          "backend_controller": "CircleController",
-          "backend_method": "unblockCircleUser",
-          "client_object": "circlesApi",
-          "client_method": "unblockCircleUser",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "PUT /circles/groups/:param",
-          "backend_controller": "CircleController",
-          "backend_method": "updateCircle",
-          "client_object": "circlesApi",
-          "client_method": "updateCircle",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "PUT /circles/connections/:param/circles",
-          "backend_controller": "CircleController",
-          "backend_method": "updateConnectionCircles",
-          "client_object": "circlesApi",
-          "client_method": "updateConnectionCircles",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "PUT /circles/connections/circles/bulk",
-          "backend_controller": "CircleController",
-          "backend_method": "updateConnectionCirclesBulk",
-          "client_object": "circlesApi",
-          "client_method": "updateConnectionCirclesBulk",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/circlesApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /dashboard/me/voice-config",
-          "backend_controller": "DashboardController",
-          "backend_method": "getMyVoiceConfig",
-          "client_object": "dashboardApi",
-          "client_method": "getDashboardVoiceConfig",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /dashboard/me/voice/speak",
-          "backend_controller": "DashboardController",
-          "backend_method": "speakVoice",
-          "client_object": "dashboardApi",
-          "client_method": "speakVoiceText",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /dashboard/me/voice/transcribe",
-          "backend_controller": "DashboardController",
-          "backend_method": "transcribeVoice",
-          "client_object": "dashboardApi",
-          "client_method": "transcribeVoiceAudio",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        }
       ]
     },
     {
       "route_path": "/vision/chat",
       "redirect": null,
-      "surface_file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-      "component_symbol": "VisionChatWorkspaceView",
+      "surface_file": null,
+      "component_symbol": null,
       "requires_auth": true,
       "requires_admin": false,
       "placeholder_module": false,
       "module_key": null,
       "primary_composables": [
-        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
+
       ],
       "api_clients": [
-        "chatApi.getWorkspace",
-        "dashboardApi.getDashboardVoiceConfig",
-        "dashboardApi.speakVoiceText",
-        "dashboardApi.transcribeVoiceAudio",
-        "visionApi.cancelConversation",
-        "visionApi.getConversation",
-        "visionApi.getRecentConversations",
-        "visionApi.processConversationTurn",
-        "visionApi.resetConversation"
+
       ],
       "backend_endpoints": [
-        "GET /chat/workspace",
-        "GET /dashboard/me/voice-config",
-        "GET /vision/conversations/:param",
-        "GET /vision/conversations/recent",
-        "POST /dashboard/me/voice/speak",
-        "POST /dashboard/me/voice/transcribe",
-        "POST /vision/conversations/:param/cancel",
-        "POST /vision/conversations/:param/reset",
-        "POST /vision/conversations/turns"
+
       ],
       "endpoint_links": [
-        {
-          "endpoint_id": "GET /chat/workspace",
-          "backend_controller": "ChatController",
-          "backend_method": "getWorkspace",
-          "client_object": "chatApi",
-          "client_method": "getWorkspace",
-          "client_file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /chat/workspace",
-          "backend_controller": "ChatController",
-          "backend_method": "getWorkspace",
-          "client_object": "chatApi",
-          "client_method": "getWorkspace",
-          "client_file": "apps/themuffinman/frontend/src/modules/chat/api/chatApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/chat/composables/useAppChat.ts",
-          "ui_surfaces": [
 
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/:param/cancel",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "cancelConversation",
-          "client_object": "visionApi",
-          "client_method": "cancelConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/:param",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getConversation",
-          "client_object": "visionApi",
-          "client_method": "getConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/recent",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getRecentConversations",
-          "client_object": "visionApi",
-          "client_method": "getRecentConversations",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/turns",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "processTurn",
-          "client_object": "visionApi",
-          "client_method": "processConversationTurn",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/:param/reset",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "resetConversation",
-          "client_object": "visionApi",
-          "client_method": "resetConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /dashboard/me/voice-config",
-          "backend_controller": "DashboardController",
-          "backend_method": "getMyVoiceConfig",
-          "client_object": "dashboardApi",
-          "client_method": "getDashboardVoiceConfig",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /dashboard/me/voice/speak",
-          "backend_controller": "DashboardController",
-          "backend_method": "speakVoice",
-          "client_object": "dashboardApi",
-          "client_method": "speakVoiceText",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /dashboard/me/voice/transcribe",
-          "backend_controller": "DashboardController",
-          "backend_method": "transcribeVoice",
-          "client_object": "dashboardApi",
-          "client_method": "transcribeVoiceAudio",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        }
       ]
     },
     {
       "route_path": "/vision/quests/:id",
       "redirect": null,
-      "surface_file": "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-      "component_symbol": "VisionQuestDetailView",
+      "surface_file": null,
+      "component_symbol": null,
       "requires_auth": true,
       "requires_admin": false,
       "placeholder_module": false,
       "module_key": null,
       "primary_composables": [
-        "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts",
-        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-        "apps/themuffinman/frontend/src/modules/workmarket/composables/useQuestDetailView.ts"
+
       ],
       "api_clients": [
-        "applicationsApi.applyForQuest",
-        "applicationsApi.createQuestReview",
-        "applicationsApi.withdrawMyApplication",
-        "dashboardApi.getDashboardVoiceConfig",
-        "dashboardApi.speakVoiceText",
-        "dashboardApi.transcribeVoiceAudio",
-        "locationApi.lookupLocation",
-        "questsApi.completeQuest",
-        "questsApi.confirmQuestTermChange",
-        "questsApi.deleteQuest",
-        "questsApi.getQuestDetail",
-        "questsApi.rejectQuestTermChange",
-        "questsApi.startQuest",
-        "questsApi.updateQuest",
-        "usersApi.getAppUserOptions",
-        "visionApi.cancelConversation",
-        "visionApi.getConversation",
-        "visionApi.getRecentConversations",
-        "visionApi.processConversationTurn",
-        "visionApi.resetConversation"
+
       ],
       "backend_endpoints": [
-        "DELETE /quests/:param",
-        "GET /app_users/options",
-        "GET /dashboard/me/voice-config",
-        "GET /quests/:param/detail",
-        "GET /vision/conversations/:param",
-        "GET /vision/conversations/recent",
-        "PATCH /quests/:param/applications/me/withdraw",
-        "PATCH /quests/:param/complete",
-        "PATCH /quests/:param/start",
-        "PATCH /quests/:param/term/confirm",
-        "PATCH /quests/:param/term/reject",
-        "POST /dashboard/me/voice/speak",
-        "POST /dashboard/me/voice/transcribe",
-        "POST /location/lookup",
-        "POST /quests/:param/applications",
-        "POST /quests/:param/reviews",
-        "POST /vision/conversations/:param/cancel",
-        "POST /vision/conversations/:param/reset",
-        "POST /vision/conversations/turns",
-        "PUT /quests/:param"
+
       ],
       "endpoint_links": [
-        {
-          "endpoint_id": "POST /vision/conversations/:param/cancel",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "cancelConversation",
-          "client_object": "visionApi",
-          "client_method": "cancelConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/:param",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getConversation",
-          "client_object": "visionApi",
-          "client_method": "getConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/recent",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getRecentConversations",
-          "client_object": "visionApi",
-          "client_method": "getRecentConversations",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/turns",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "processTurn",
-          "client_object": "visionApi",
-          "client_method": "processConversationTurn",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/:param/reset",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "resetConversation",
-          "client_object": "visionApi",
-          "client_method": "resetConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /quests/:param/applications",
-          "backend_controller": "QuestApplicationController",
-          "backend_method": "applyForQuest",
-          "client_object": "applicationsApi",
-          "client_method": "applyForQuest",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
 
-          ]
-        },
-        {
-          "endpoint_id": "POST /quests/:param/reviews",
-          "backend_controller": "UserReviewController",
-          "backend_method": "createOrUpdateReview",
-          "client_object": "applicationsApi",
-          "client_method": "createQuestReview",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "PATCH /quests/:param/applications/me/withdraw",
-          "backend_controller": "QuestApplicationController",
-          "backend_method": "withdrawMyApplication",
-          "client_object": "applicationsApi",
-          "client_method": "withdrawMyApplication",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /dashboard/me/voice-config",
-          "backend_controller": "DashboardController",
-          "backend_method": "getMyVoiceConfig",
-          "client_object": "dashboardApi",
-          "client_method": "getDashboardVoiceConfig",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /dashboard/me/voice/speak",
-          "backend_controller": "DashboardController",
-          "backend_method": "speakVoice",
-          "client_object": "dashboardApi",
-          "client_method": "speakVoiceText",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /dashboard/me/voice/transcribe",
-          "backend_controller": "DashboardController",
-          "backend_method": "transcribeVoice",
-          "client_object": "dashboardApi",
-          "client_method": "transcribeVoiceAudio",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "POST /location/lookup",
-          "backend_controller": "LocationLookupController",
-          "backend_method": "lookup",
-          "client_object": "locationApi",
-          "client_method": "lookupLocation",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/locationApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "PATCH /quests/:param/complete",
-          "backend_controller": "QuestController",
-          "backend_method": "completeQuest",
-          "client_object": "questsApi",
-          "client_method": "completeQuest",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "PATCH /quests/:param/term/confirm",
-          "backend_controller": "QuestController",
-          "backend_method": "confirmQuestTermChange",
-          "client_object": "questsApi",
-          "client_method": "confirmQuestTermChange",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "DELETE /quests/:param",
-          "backend_controller": "QuestController",
-          "backend_method": "deleteQuest",
-          "client_object": "questsApi",
-          "client_method": "deleteQuest",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /quests/:param/detail",
-          "backend_controller": "QuestController",
-          "backend_method": "getQuestDetailById",
-          "client_object": "questsApi",
-          "client_method": "getQuestDetail",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "PATCH /quests/:param/term/reject",
-          "backend_controller": "QuestController",
-          "backend_method": "rejectQuestTermChange",
-          "client_object": "questsApi",
-          "client_method": "rejectQuestTermChange",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "PATCH /quests/:param/start",
-          "backend_controller": "QuestController",
-          "backend_method": "startQuest",
-          "client_object": "questsApi",
-          "client_method": "startQuest",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "PUT /quests/:param",
-          "backend_controller": "QuestController",
-          "backend_method": "updateQuest",
-          "client_object": "questsApi",
-          "client_method": "updateQuest",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/questsApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        },
-        {
-          "endpoint_id": "GET /app_users/options",
-          "backend_controller": "AppUserController",
-          "backend_method": "getAppUserOptions",
-          "client_object": "usersApi",
-          "client_method": "getAppUserOptions",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/usersApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
-
-          ]
-        }
       ]
     },
     {
       "route_path": "/vision/applications/:id",
       "redirect": null,
-      "surface_file": "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-      "component_symbol": "VisionApplicationDetailView",
+      "surface_file": null,
+      "component_symbol": null,
       "requires_auth": true,
       "requires_admin": false,
       "placeholder_module": false,
       "module_key": null,
       "primary_composables": [
-        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
+
       ],
       "api_clients": [
-        "applicationsApi.getApplicationDetail",
-        "dashboardApi.getDashboardVoiceConfig",
-        "dashboardApi.speakVoiceText",
-        "dashboardApi.transcribeVoiceAudio",
-        "visionApi.cancelConversation",
-        "visionApi.getConversation",
-        "visionApi.getRecentConversations",
-        "visionApi.processConversationTurn",
-        "visionApi.resetConversation"
+
       ],
       "backend_endpoints": [
-        "GET /applications/:param/detail",
-        "GET /dashboard/me/voice-config",
-        "GET /vision/conversations/:param",
-        "GET /vision/conversations/recent",
-        "POST /dashboard/me/voice/speak",
-        "POST /dashboard/me/voice/transcribe",
-        "POST /vision/conversations/:param/cancel",
-        "POST /vision/conversations/:param/reset",
-        "POST /vision/conversations/turns"
+
       ],
       "endpoint_links": [
-        {
-          "endpoint_id": "POST /vision/conversations/:param/cancel",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "cancelConversation",
-          "client_object": "visionApi",
-          "client_method": "cancelConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/:param",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getConversation",
-          "client_object": "visionApi",
-          "client_method": "getConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /vision/conversations/recent",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "getRecentConversations",
-          "client_object": "visionApi",
-          "client_method": "getRecentConversations",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/turns",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "processTurn",
-          "client_object": "visionApi",
-          "client_method": "processConversationTurn",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "POST /vision/conversations/:param/reset",
-          "backend_controller": "VisionConversationController",
-          "backend_method": "resetConversation",
-          "client_object": "visionApi",
-          "client_method": "resetConversation",
-          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
-          "ui_surfaces": [
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionApplicationDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionChatWorkspaceView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionCirclesView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionQuestDetailView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserProfileView.vue",
-            "apps/themuffinman/frontend/src/modules/vision/views/VisionUserSettingsView.vue"
-          ]
-        },
-        {
-          "endpoint_id": "GET /applications/:param/detail",
-          "backend_controller": "QuestApplicationController",
-          "backend_method": "getApplicationDetail",
-          "client_object": "applicationsApi",
-          "client_method": "getApplicationDetail",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/applicationsApi.ts",
-          "caller_file": null,
-          "ui_surfaces": [
 
-          ]
-        },
-        {
-          "endpoint_id": "GET /dashboard/me/voice-config",
-          "backend_controller": "DashboardController",
-          "backend_method": "getMyVoiceConfig",
-          "client_object": "dashboardApi",
-          "client_method": "getDashboardVoiceConfig",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
+      ]
+    },
+    {
+      "route_path": "/vision/applications",
+      "redirect": null,
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
 
-          ]
-        },
-        {
-          "endpoint_id": "POST /dashboard/me/voice/speak",
-          "backend_controller": "DashboardController",
-          "backend_method": "speakVoice",
-          "client_object": "dashboardApi",
-          "client_method": "speakVoiceText",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
+      ],
+      "api_clients": [
 
-          ]
-        },
-        {
-          "endpoint_id": "POST /dashboard/me/voice/transcribe",
-          "backend_controller": "DashboardController",
-          "backend_method": "transcribeVoice",
-          "client_object": "dashboardApi",
-          "client_method": "transcribeVoiceAudio",
-          "client_file": "apps/themuffinman/frontend/src/modules/workmarket/api/clients/dashboardApi.ts",
-          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionSurface.ts",
-          "ui_surfaces": [
+      ],
+      "backend_endpoints": [
 
-          ]
-        }
+      ],
+      "endpoint_links": [
+
       ]
     }
   ]
