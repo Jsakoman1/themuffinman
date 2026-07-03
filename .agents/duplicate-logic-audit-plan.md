@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Duplicate Logic Audit Plan
+machine_goal: Implement `CODEX-LOCAL-DUPLICATE-LOGIC-AUDIT` so Codex can inspect duplicated
+  status, permission, and action-label logic locally instead of rediscovering cross-layer
+  drift by hand.
+---
+
 # Duplicate Logic Audit Plan
 
 ## Goal

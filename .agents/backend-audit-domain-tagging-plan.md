@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Backend Audit Domain Tagging Plan
+---
+
 # Backend Audit Domain Tagging Plan
 
 Purpose: add domain and ownership visibility to the full backend audit inventory while tightening one more low-noise `automation_relevant` slice into strict source registration and documentation coverage.

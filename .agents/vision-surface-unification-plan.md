@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Surface Unification Plan
+---
+
 # Vision Surface Unification Plan
 
 Purpose: collapse the remaining stacked-panel feel in `/vision` by merging the main state summary, execution candidate, canvas blocks, and prompt dock into one coherent adaptive surface.

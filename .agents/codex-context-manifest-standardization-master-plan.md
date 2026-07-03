@@ -1,3 +1,12 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Codex Context Manifest Standardization Master Plan
+machine_goal: Reduce future token spend by making `make codex-context` emit one compact
+  execution manifest that can be read instead of reconstructing plan, audit, and evidence
+  state from several files.
+---
+
 # Codex Context Manifest Standardization Master Plan
 
 Purpose: turn the current codex-context output into a canonical machine-readable execution manifest, tighten cache fingerprints so script and plan drift invalidate reuse, and register the new manifest in the local freshness and workflow docs.

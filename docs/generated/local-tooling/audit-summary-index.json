@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-03T09:56:21Z",
+  "generated_at": "2026-07-03T10:47:18Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -260,6 +260,18 @@
       "output_exists": false
     },
     {
+      "target": "plan-index",
+      "script": "scripts/audits/generate-plan-index.rb",
+      "output": "docs/generated/local-tooling/plan-index-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "control-start",
+      "script": "scripts/audits/generate-control-start.rb",
+      "output": "docs/generated/local-tooling/control-start-summary.md",
+      "output_exists": true
+    },
+    {
       "target": "audit-summary-index",
       "script": "scripts/audits/generate-audit-summary-index.rb",
       "output": "docs/generated/local-tooling/audit-summary-index.md",
@@ -467,7 +479,7 @@
     },
     {
       "path": "docs/generated/local-tooling/audit-registry-artifacts-summary.md",
-      "mtime": "2026-07-01T16:45:03Z",
+      "mtime": "2026-07-03T10:41:35Z",
       "bytes": 142
     },
     {
@@ -569,6 +581,11 @@
       "path": "docs/generated/local-tooling/contract-test-gaps-summary.md",
       "mtime": "2026-07-03T09:18:03Z",
       "bytes": 2756
+    },
+    {
+      "path": "docs/generated/local-tooling/control-start-summary.md",
+      "mtime": "2026-07-03T10:45:03Z",
+      "bytes": 3395
     },
     {
       "path": "docs/generated/local-tooling/diagnostics/frontend-build-latest-summary.md",
@@ -802,8 +819,8 @@
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-07-03T09:56:06Z",
-      "bytes": 780
+      "mtime": "2026-07-03T10:45:04Z",
+      "bytes": 662
     },
     {
       "path": "docs/generated/local-tooling/generated-commit-scope-summary.md",
@@ -1156,6 +1173,26 @@
       "bytes": 229
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/active-plan-index-generator-plan-summary.md",
+      "mtime": "2026-07-03T10:19:31Z",
+      "bytes": 206
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/active-plan-index-master-plan-summary.md",
+      "mtime": "2026-07-03T10:21:10Z",
+      "bytes": 200
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/active-plan-index-routing-plan-summary.md",
+      "mtime": "2026-07-03T10:19:31Z",
+      "bytes": 202
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/active-plan-index-validation-plan-summary.md",
+      "mtime": "2026-07-03T10:19:31Z",
+      "bytes": 208
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/agent-surface-standardization-master-plan-summary.md",
       "mtime": "2026-07-02T19:43:48Z",
       "bytes": 224
@@ -1216,6 +1253,16 @@
       "bytes": 218
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/codex-control-surface-hierarchy-plan-summary.md",
+      "mtime": "2026-07-03T09:57:39Z",
+      "bytes": 214
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-implementation-reliability-master-plan-summary.md",
+      "mtime": "2026-07-03T10:05:58Z",
+      "bytes": 230
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/codex-lean-context-master-plan-summary.md",
       "mtime": "2026-07-02T19:43:48Z",
       "bytes": 256
@@ -1229,6 +1276,11 @@
       "path": "docs/generated/local-tooling/plan-completion/codex-local-context-orchestrator-master-plan-summary.md",
       "mtime": "2026-07-02T19:43:48Z",
       "bytes": 230
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-local-tooling-compactification-plan-summary.md",
+      "mtime": "2026-07-03T09:59:27Z",
+      "bytes": 224
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/codex-summary-compactification-master-plan-summary.md",
@@ -1254,6 +1306,36 @@
       "path": "docs/generated/local-tooling/plan-completion/codex-tiered-workflow-plan-summary.md",
       "mtime": "2026-07-02T19:43:48Z",
       "bytes": 251
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/codex-validation-and-closeout-hardening-plan-summary.md",
+      "mtime": "2026-07-03T10:04:58Z",
+      "bytes": 230
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-doc-sync-plan-summary.md",
+      "mtime": "2026-07-03T10:47:18Z",
+      "bytes": 198
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-machine-optimization-master-plan-summary.md",
+      "mtime": "2026-07-03T10:47:18Z",
+      "bytes": 236
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-refresh-automation-plan-summary.md",
+      "mtime": "2026-07-03T10:47:18Z",
+      "bytes": 218
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-start-entrypoint-plan-summary.md",
+      "mtime": "2026-07-03T10:47:18Z",
+      "bytes": 214
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-status-marker-plan-summary.md",
+      "mtime": "2026-07-03T10:47:18Z",
+      "bytes": 208
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/god-plan-hierarchy-plan-summary.md",
@@ -1386,6 +1468,11 @@
       "bytes": 190
     },
     {
+      "path": "docs/generated/local-tooling/plan-index-summary.md",
+      "mtime": "2026-07-03T10:47:18Z",
+      "bytes": 11359
+    },
+    {
       "path": "docs/generated/local-tooling/post-merge-retrospectives/latest-summary.md",
       "mtime": "2026-07-01T16:45:02Z",
       "bytes": 688
@@ -1497,8 +1584,8 @@
     },
     {
       "path": "docs/generated/local-tooling/validation-memory-closeout-card-summary.md",
-      "mtime": "2026-07-03T09:32:59Z",
-      "bytes": 874
+      "mtime": "2026-07-03T10:04:33Z",
+      "bytes": 990
     },
     {
       "path": "docs/generated/local-tooling/validation-memory-drift-summary.md",

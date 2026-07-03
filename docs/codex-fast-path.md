@@ -33,6 +33,7 @@ Manifest usage is tier-driven and conditional instead of being the default for e
    - `docs/vision-status-ledger.md` for current done, deferred, and design-blocked capability state
 7. If the task is manifest-backed, closeout-sensitive, or agent/workflow-heavy, read `docs/validation-memory.md` and `docs/validation-memory.json` before broad validation so canonical command strings and manifest evidence expectations are explicit up front.
 8. Run compact context first:
+   - `make control-start` when you want the current plan and audit discovery state in one compact snapshot before broader search
    - `make codex-context topic=<topic> intent='<intent>'`
    - `make recommend-targeted-tests`
    - `make clean-text-noise max_lines=80` when you need to strip Maven, audit, or generated log noise before summarizing evidence.
@@ -41,7 +42,7 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 
 For `/vision` work, the compact context should usually be opened after the vision memory set so the repo search starts from the right backend, API, frontend, test, and doc surfaces.
 
-When the task spans several existing master plans or long-running program directions, read `docs/program-planning-model.md` and the relevant `.agents/god-plans/*.yaml` file before creating or modifying child master plans.
+When the task spans several existing master plans or long-running program directions, read `docs/program-planning-model.md`, `docs/generated/local-tooling/plan-index-summary.md`, and the relevant `.agents/god-plans/*.yaml` file before creating or modifying child master plans.
 
 When `AGENTS.md` records a standing autonomous continuation preference, do not stop to ask the user which safe offered follow-up slice to pick; choose the best sequenced next slice and continue until scope is narrowed, approval is needed, or a real blocker appears.
 

@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: complete for the phase 1 modern surface objective
+machine_title: Vision Modern Prompt Master Plan
+machine_goal: 'Replace the current vision screen with a minimalist agent-centered
+  surface:'
+---
+
 # Vision Modern Prompt Master Plan
 
 ## Status

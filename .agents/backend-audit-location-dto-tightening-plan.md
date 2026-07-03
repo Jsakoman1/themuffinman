@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Backend Audit Location DTO Tightening Plan
+---
+
 # Backend Audit Location DTO Tightening Plan
 
 Purpose: promote the location DTO contract surface into the strict `automation_relevant` subset after agent, chat, and identity DTO coverage.

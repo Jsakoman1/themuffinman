@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Codex Validation And Closeout Hardening Plan
+machine_goal: Make validation, freshness, closeout, and plan completion checks more
+  deterministic so Codex can trust the current repository state without re-discovering
+  the same issues.
+---
+
 # Codex Validation And Closeout Hardening Plan
 
 ## Status

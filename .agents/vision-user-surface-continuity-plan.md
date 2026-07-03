@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision User Surface Continuity Plan
+machine_goal: Move the remaining user-scoped legacy route families into Vision so
+  profile, settings, circles, and chat no longer depend on the route-era shell.
+---
+
 # Vision User Surface Continuity Plan
 
 ## Status

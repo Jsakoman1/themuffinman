@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Surface, Parser, and Mapping Plan
+---
+
 # Vision Surface, Parser, and Mapping Plan
 
 ## Scope

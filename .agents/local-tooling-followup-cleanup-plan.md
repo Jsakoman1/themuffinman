@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: use the new local-tooling audits to complete one follow-up cleanup pass covering stale generated artifacts, safe read-only transaction coverage improvements, and a compact DTO cleanup shortlist.

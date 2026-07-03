@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Prompt Backend Plan
+---
+
 # Vision Prompt Backend Plan
 
 ## Scope

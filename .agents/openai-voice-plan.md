@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: OpenAI Voice Plan
+---
+
 # OpenAI Voice Plan
 
 Objective: replace browser STT/TTS on the vision surface with backend-managed OpenAI voice handling.

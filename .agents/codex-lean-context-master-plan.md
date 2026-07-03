@@ -1,3 +1,9 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Codex Lean Context Master Plan
+---
+
 # Codex Lean Context Master Plan
 
 Purpose: reduce Codex token waste by cleaning noisy local-tooling output, tightening audit summaries, and making context-gateway outputs smaller and more decision-oriented without weakening validation or closeout rigor.

@@ -1,3 +1,13 @@
+---
+machine_kind: master-plan
+machine_status: active under `.agents/god-plans/vision-god-plan.yaml`
+machine_title: Vision Adaptive Architecture Master Plan
+machine_goal: 'Build the future `/vision` architecture as the primary long-term product
+  surface: a white, visually quiet, adaptive blank canvas that reveals prompt fields,
+  guided inputs, results, confirmations, and visual structure only when the current
+  task needs them.'
+---
+
 # Vision Adaptive Architecture Master Plan
 
 ## Status

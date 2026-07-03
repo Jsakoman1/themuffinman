@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Codex Tiered Workflow Plan
+---
+
 # Codex Tiered Workflow Plan
 
 Purpose: implement a leaner, tiered Codex orchestration layer that keeps high-risk safety guarantees while reducing default startup context and manifest overhead for small and normal feature work.

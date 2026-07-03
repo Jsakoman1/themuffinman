@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Validation Memory Canonicalization Plan
+machine_goal: Add one stable validation-memory reference that captures exact validator
+  expectations, canonical command strings, and closeout heuristics so future sessions
+  can avoid rediscovering them through failing audits.
+---
+
 # Validation Memory Canonicalization Plan
 
 Purpose: preserve durable validation, manifest, and closeout lessons from recent feature work in one canonical read-first document and wire that document into the main workflow entrypoints.

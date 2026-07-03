@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Phase 1 Conversation Implementation Plan
+---
+
 # Vision Phase 1 Conversation Implementation Plan
 
 ## Scope

@@ -41,6 +41,7 @@ Default flow:
 1. Read `AGENTS.md`.
 2. Read `docs/codex-fast-path.md`.
 3. Run compact context:
+   - `make control-start`
    - `make codex-context topic=<topic> intent='<intent>'`
    - `make recommend-targeted-tests`
 4. Run only targeted validation.
@@ -178,9 +179,11 @@ This tier is intentionally strict:
 - `make diff-summary`
 - `make audit-summary-index`
 - `make codex-context topic=<topic> intent='<intent>'`
+- `make control-start`
 - `make context-pack topic=<topic>` only when you need a broader topic slice beyond the one-shot context chain
 - `make codex-context budget=<tokens> mode=<mode> topic=<topic> intent='<intent>'` keeps the same chain but lets you tune the budget
 - `make codex-context` also writes `docs/generated/local-tooling/codex-context/latest.execution.json`, the canonical machine-readable batch manifest for read order, evidence, and next actions, with schema `docs/codex-context-execution-manifest.schema.json`.
+- `make control-start` writes `docs/generated/local-tooling/control-start.json` and `docs/generated/local-tooling/control-start-summary.md`, the compact control-system snapshot for plan and audit discovery.
 - When the resolver shape is manifest-backed or closeout-sensitive, `make codex-context` should also surface validation memory so command and evidence expectations are present before the first closeout pass.
 - If the task touches active control state, planning state, or automation-facing rules, open the machine-readable source
   surfaces listed in `docs/control-surface-map.md` before broad narrative docs.

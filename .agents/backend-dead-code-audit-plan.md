@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Backend Dead Code Audit Plan
+machine_goal: Implement `CODEX-LOCAL-BACKEND-DEAD-CODE-AUDIT` as a local Java/Spring
+  dead-code candidate report with confidence buckets.
+---
+
 # Backend Dead Code Audit Plan
 
 ## Goal

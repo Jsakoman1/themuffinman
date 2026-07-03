@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: implement `CODEX-LOCAL-API-CONTRACT-DRIFT-AUDIT` so backend DTO fields, generated frontend contracts, and actual frontend field references can be compared from one local report.

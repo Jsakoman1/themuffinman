@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Codex Summary Compactification Phase 3 Master Plan
+machine_goal: Make the remaining broad generated summaries shorter without losing
+  the decision signal or the top evidence samples.
+---
+
 # Codex Summary Compactification Phase 3 Master Plan
 
 Purpose: compact the remaining broad inventory summaries and finish the current summary-noise cleanup wave.

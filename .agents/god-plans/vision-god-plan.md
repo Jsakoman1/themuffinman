@@ -1,3 +1,11 @@
+---
+machine_kind: god-plan
+machine_status: active
+machine_title: Vision God Plan
+machine_goal: Coordinate the long-running `/vision` program across multiple master
+  plans while keeping current implementation reality visible.
+---
+
 # Vision God Plan
 
 ## Status

@@ -8,6 +8,8 @@ Use the full workflow only when the change is high-risk, multi-layer, agent/tool
 
 For `codex-context` and related workflow changes, confirm that `docs/generated/local-tooling/codex-context/latest.execution.json` exists, matches the current batch state, and still conforms to `docs/codex-context-execution-manifest.schema.json` before closeout.
 
+The shared control refresh path now regenerates plan-index, audit registry, codex-context, audit summary index, control-start, and freshness outputs after successful plan completion.
+
 Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
 
 It does not replace `AGENTS.md`, `docs/documentation-sync-policy.md`, or the agent-operating model.
@@ -154,6 +156,7 @@ Default path:
 10. Closeout
 - Tier 1: run `make audit-todo`.
 - Tier 2: run `make audit-todo` and `make audit-plan-completion plan=<plan-file>`.
+- `make audit-plan-completion` now triggers the shared control refresh path automatically after a successful closeout.
 - Tier 3 and Tier 4 manifest-backed work:
   `make autofill-feature-closeout manifest=<manifest-file> ...`
   `make audit-todo`

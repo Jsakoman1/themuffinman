@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Backend Service Boundary Cleanup Plan
+---
+
 # Backend Service Boundary Cleanup Plan
 
 Purpose: reduce oversized workmarket and sibling services by extracting read-only orchestration, admin-specific flows, and repeated policy/assembly logic into smaller collaborators.

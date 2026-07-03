@@ -1,3 +1,9 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: TODO System Master Plan
+---
+
 # TODO System Master Plan
 
 Goal: complete every open item from the persistent TODO/backlog system in a controlled sequence, with one child plan per open item and a final master closeout pass.

@@ -1,3 +1,10 @@
+---
+machine_kind: master-plan
+machine_status: complete
+machine_title: Agent Surface Standardization Master Plan
+machine_goal: 'Standardize the shared orchestration model behind:'
+---
+
 # Agent Surface Standardization Master Plan
 
 ## Status

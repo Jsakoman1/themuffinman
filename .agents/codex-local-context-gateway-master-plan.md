@@ -1,3 +1,9 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: CODEX-LOCAL-CONTEXT-GATEWAY Master Plan
+---
+
 # CODEX-LOCAL-CONTEXT-GATEWAY Master Plan
 
 Purpose: act as a thin orchestration container for the concrete implementation plans that together deliver the local context gateway feature.

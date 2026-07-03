@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Agent Control Phase Two Plan
+---
+
 # Agent Control Phase Two Plan
 
 Purpose: extend the operating-agent control system with stronger manifest rules, source-of-truth audits, richer intent contracts, canonical scenarios, and generated frontend workflow helpers.

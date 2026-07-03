@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: planning only. do not implement until explicitly requested
+machine_title: Vision Validation And Documentation Plan
+machine_goal: Keep the new vision architecture testable, documented, and aligned across
+  backend code, API contracts, frontend behavior, and agent safety artifacts.
+---
+
 # Vision Validation And Documentation Plan
 
 ## Status

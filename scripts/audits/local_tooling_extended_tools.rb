@@ -59,6 +59,8 @@ module LocalToolingExtendedTools
     ["diff-summary", "scripts/audits/generate-diff-summary.rb", "docs/generated/local-tooling/diff-summary.md"],
     ["session-handoff", "scripts/audits/generate-session-handoff.rb", "docs/generated/local-tooling/session-handoffs"],
     ["plan-scaffold-discovery", "scripts/audits/generate-plan-scaffold-discovery.rb", ".agents/<topic>-plan.md"],
+    ["plan-index", "scripts/audits/generate-plan-index.rb", "docs/generated/local-tooling/plan-index-summary.md"],
+    ["control-start", "scripts/audits/generate-control-start.rb", "docs/generated/local-tooling/control-start-summary.md"],
     ["audit-summary-index", "scripts/audits/generate-audit-summary-index.rb", "docs/generated/local-tooling/audit-summary-index.md"],
     ["generate-audit-registry-artifacts", "scripts/audits/generate-audit-registry-artifacts.rb", "docs/tooling/codex-local-audits.yml"],
     ["fast-check", "scripts/audits/generate-fast-check-report.rb", "docs/generated/local-tooling/fast-check-report-summary.md"],
@@ -779,6 +781,231 @@ module LocalToolingExtendedTools
     payload = {generated_at: now, registry: registry, summaries: summaries}
     write_report("audit-summary-index", "Audit Summary Index", payload, summary_path: "#{OUT}/audit-summary-index.md")
     LocalToolingCommon.write_text("#{OUT}/audit-summary-index.md", audit_summary_index_markdown(payload))
+  end
+
+  def run_plan_index(_argv)
+    entries = plan_index_entries
+    open_entries = entries.select { |entry| entry[:status] != "complete" }
+    open_master_plans = open_entries.select { |entry| entry[:kind] == "master-plan" }
+    open_plans = open_entries.reject { |entry| entry[:kind] == "master-plan" }
+    complete_entries = entries.select { |entry| entry[:status] == "complete" }
+    payload = {
+      generated_at: now,
+      total_count: entries.size,
+      open_count: open_entries.size,
+      master_plan_count: entries.count { |entry| entry[:kind] == "master-plan" },
+      god_plan_count: entries.count { |entry| entry[:kind] == "god-plan" },
+      complete_count: complete_entries.size,
+      open_master_plans: open_master_plans,
+      open_plans: open_plans,
+      complete_plans: complete_entries.first(20),
+      entries: entries
+    }
+    json_path = "#{OUT}/plan-index.json"
+    summary_path = "#{OUT}/plan-index-summary.md"
+    LocalToolingCommon.write_json(json_path, payload)
+    LocalToolingCommon.write_text(summary_path, plan_index_markdown(payload))
+    update_audit_cache("plan-index", json_path, payload)
+    puts terminal_line("Plan Index", payload, json_path, summary_path)
+  end
+
+  def run_control_start(_argv)
+    plan_index = read_json_if_present("#{OUT}/plan-index.json") || {}
+    audit_summary_index = read_json_if_present("#{OUT}/audit-summary-index.json") || {}
+    codex_context_review = File.exist?(abs("#{OUT}/codex-context/latest.review.md")) ? "#{OUT}/codex-context/latest.review.md" : nil
+
+    payload = {
+      generated_at: now,
+      plan_index: {
+        path: "#{OUT}/plan-index.json",
+        summary_path: "#{OUT}/plan-index-summary.md",
+        total_count: plan_index["total_count"],
+        open_count: plan_index["open_count"],
+        open_master_plans: Array(plan_index["open_master_plans"]).first(5),
+        open_plans: Array(plan_index["open_plans"]).first(10),
+        recent_complete_plans: Array(plan_index["complete_plans"]).first(5)
+      },
+      audit_summary_index: {
+        path: "#{OUT}/audit-summary-index.json",
+        summary_path: "#{OUT}/audit-summary-index.md",
+        registry_entries: audit_summary_index["registry_entries"],
+        tracked_outputs: audit_summary_index["tracked_outputs"],
+        missing_outputs: audit_summary_index["missing_outputs"]
+      },
+      codex_context_review: codex_context_review,
+      next_action: "Use `make codex-context topic=<topic> intent='<intent>'` for topic-specific broad work once this control snapshot is fresh."
+    }
+
+    json_path = "#{OUT}/control-start.json"
+    summary_path = "#{OUT}/control-start-summary.md"
+    LocalToolingCommon.write_json(json_path, payload)
+    LocalToolingCommon.write_text(summary_path, control_start_markdown(payload))
+    update_audit_cache("control-start", json_path, payload)
+    puts terminal_line("Control Start", payload, json_path, summary_path)
+  end
+
+  def plan_index_entries
+    markdown_plans = rel_glob(".agents/*-plan.md").map { |path| plan_index_entry_for_markdown(path) }.compact
+    god_plans = rel_glob(".agents/god-plans/*.yaml").map { |path| plan_index_entry_for_god_plan(path) }.compact
+    (markdown_plans + god_plans).sort_by { |entry| [status_sort_key(entry[:status]), entry[:kind], entry[:path]] }
+  end
+
+  def plan_index_entry_for_markdown(path)
+    content = File.read(abs(path))
+    frontmatter = LocalToolingCommon.markdown_frontmatter(content)
+    status = plan_index_status_from_markdown(content)
+    {
+      path: path,
+      kind: path.include?("/god-plans/") ? "god-plan" : (File.basename(path).include?("master-plan") ? "master-plan" : "plan"),
+      status: status,
+      title: frontmatter["machine_title"].to_s.strip.empty? ? plan_index_title_from_markdown(content) : frontmatter["machine_title"].to_s.strip,
+      goal: frontmatter["machine_goal"].to_s.strip.empty? ? plan_index_section_first_line(content, "Goal") : frontmatter["machine_goal"].to_s.strip,
+      child_plans: plan_index_section_count(content, "Child Plans"),
+      open_tasks: content.scan(/^\s*-\s*\[\s\]/).size
+    }
+  rescue StandardError
+    nil
+  end
+
+  def plan_index_entry_for_god_plan(path)
+    markdown_path = path.sub(/\.yaml\z/, ".md")
+    if File.exist?(abs(markdown_path))
+      content = File.read(abs(markdown_path))
+      frontmatter = LocalToolingCommon.markdown_frontmatter(content)
+      status = plan_index_status_from_markdown(content)
+      return {
+        path: path,
+        kind: "god-plan",
+        status: status,
+        title: frontmatter["machine_title"].to_s.strip.empty? ? plan_index_title_from_markdown(content) : frontmatter["machine_title"].to_s.strip,
+        goal: frontmatter["machine_goal"].to_s.strip.empty? ? (plan_index_section_first_line(content, "Purpose") || plan_index_section_first_line(content, "Goal")) : frontmatter["machine_goal"].to_s.strip,
+        child_plans: plan_index_section_count(content, "Master Plans"),
+        open_tasks: content.scan(/^\s*-\s\[[ xX]\]/).size
+      }
+    end
+
+    data = YAML.load_file(abs(path))
+    return nil unless data.is_a?(Hash)
+
+    status = data["status"].to_s.downcase
+    {
+      path: path,
+      kind: "god-plan",
+      status: status.empty? ? "unknown" : status,
+      title: data["title"].to_s,
+      goal: data["objective"].to_s,
+      child_plans: Array(data["masterPlans"]).size,
+      open_tasks: 0
+    }
+  rescue StandardError
+    nil
+  end
+
+  def plan_index_status_from_markdown(content)
+    frontmatter_status = LocalToolingCommon.markdown_frontmatter_value(content, "machine_status")
+    normalized = frontmatter_status.to_s.strip.downcase
+    return "complete" if %w[complete completed done closed].include?(normalized)
+    return "active" if %w[active in-progress in_progress draft pending].include?(normalized)
+
+    status = content[/^## Status\s*$([\s\S]*?)(?=^## |\z)/, 1]
+    value = status.to_s.lines.map(&:strip).reject(&:empty?).first.to_s
+    normalized = value.sub(/\.$/, "").downcase
+    return "complete" if %w[complete completed done closed].include?(normalized)
+    return "active" if %w[active in-progress in_progress draft pending].include?(normalized)
+
+    normalized.empty? ? "unknown" : normalized
+  end
+
+  def plan_index_title_from_markdown(content)
+    content[/^#\s+(.+)$/, 1].to_s.strip
+  end
+
+  def plan_index_section_first_line(content, section_name)
+    section = content[/^## #{Regexp.escape(section_name)}\s*$([\s\S]*?)(?=^## |\z)/, 1]
+    return nil unless section
+
+    section.lines.map(&:strip).reject(&:empty?).first
+  end
+
+  def plan_index_section_count(content, section_name)
+    section = content[/^## #{Regexp.escape(section_name)}\s*$([\s\S]*?)(?=^## |\z)/, 1]
+    return 0 unless section
+
+    section.lines.count { |line| line.match?(/^\s*\d+\.\s+/) || line.match?(/^\s*-\s+/) }
+  end
+
+  def status_sort_key(status)
+    case status.to_s
+    when "active", "open" then 0
+    when "draft", "pending", "in-progress", "in_progress" then 1
+    when "complete", "completed", "done", "closed" then 2
+    else 3
+    end
+  end
+
+  def plan_index_markdown(payload)
+    lines = []
+    lines << "# Plan Index"
+    lines << ""
+    lines << "- Total entries: #{payload[:total_count]}"
+    lines << "- Open entries: #{payload[:open_count]}"
+    lines << "- Open master plans: #{payload[:open_master_plans].size}"
+    lines << "- Open regular plans: #{payload[:open_plans].size}"
+    lines << "- Complete entries: #{payload[:complete_count]}"
+    lines << ""
+    lines << "## Open Master Plans"
+    lines << ""
+    payload[:open_master_plans].first(20).each do |entry|
+      lines << "- `#{entry[:path]}` | `#{entry[:status]}` | #{entry[:goal] || entry[:title]}"
+    end
+    lines << "- ... and #{payload[:open_master_plans].size - 20} more" if payload[:open_master_plans].size > 20
+    lines << ""
+    lines << "## Open Plans"
+    lines << ""
+    payload[:open_plans].first(20).each do |entry|
+      lines << "- `#{entry[:path]}` | `#{entry[:status]}` | #{entry[:goal] || entry[:title]}"
+    end
+    lines << "- ... and #{payload[:open_plans].size - 20} more" if payload[:open_plans].size > 20
+    lines << ""
+    lines << "## Recent Complete Plans"
+    lines << ""
+    payload[:complete_plans].each do |entry|
+      lines << "- `#{entry[:path]}` | `#{entry[:status]}` | #{entry[:goal] || entry[:title]}"
+    end
+    lines << ""
+    lines << "_Routing aid only. Use the underlying plan file or plan-completion report for final status._"
+    lines.join("\n")
+  end
+
+  def control_start_markdown(payload)
+    lines = []
+    lines << "# Control Start"
+    lines << ""
+    lines << "- Plan index: `#{payload.dig(:plan_index, :summary_path)}`"
+    lines << "- Audit summary index: `#{payload.dig(:audit_summary_index, :summary_path)}`"
+    lines << "- Plan count: `#{payload.dig(:plan_index, :total_count)}`"
+    lines << "- Open count: `#{payload.dig(:plan_index, :open_count)}`"
+    lines << "- Open master plans: `#{Array(payload.dig(:plan_index, :open_master_plans)).size}`"
+    lines << "- Open plans: `#{Array(payload.dig(:plan_index, :open_plans)).size}`"
+    lines << "- Codex context review: `#{payload[:codex_context_review] || 'none'}`"
+    lines << ""
+    lines << "## Open Master Plans"
+    lines << ""
+    Array(payload.dig(:plan_index, :open_master_plans)).each do |entry|
+      lines << "- `#{entry["path"] || entry[:path]}` | `#{entry["status"] || entry[:status]}` | #{entry["goal"] || entry[:goal] || entry["title"] || entry[:title]}"
+    end
+    lines << ""
+    lines << "## Open Plans"
+    lines << ""
+    Array(payload.dig(:plan_index, :open_plans)).each do |entry|
+      lines << "- `#{entry["path"] || entry[:path]}` | `#{entry["status"] || entry[:status]}` | #{entry["goal"] || entry[:goal] || entry["title"] || entry[:title]}"
+    end
+    lines << ""
+    lines << "## Next Action"
+    lines << ""
+    lines << "- #{payload[:next_action]}"
+    lines << ""
+    lines.join("\n")
   end
 
   def audit_summary_index_markdown(payload)

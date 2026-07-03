@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: System Standardization Audit Plan
+---
+
 # System Standardization Audit Plan
 
 Purpose: build a complete inventory of the current backend, frontend, docs, and generated artifacts so we can convert the findings into a `todo standardisation` backlog without losing file or method coverage.

@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Backend Workmarket Read-Model Standardization Plan
+---
+
 # Backend Workmarket Read-Model Standardization Plan
 
 Purpose: standardize the workmarket backend read-model family so quest, dashboard, application, and review views share the same DTO shape conventions and assembler patterns.

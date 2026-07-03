@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Product Vision Entry Points Plan
+machine_goal: Clarify how the app should feel, show screen archetypes and frontend
+  epics, and route future product-direction work through the canonical memory and
+  vision docs first.
+---
+
 # Product Vision Entry Points Plan
 
 Purpose: make `docs/product-vision.md` more concrete and make `docs/product-memory.md` plus `docs/product-vision.md` the default entry points for future product-direction sessions.

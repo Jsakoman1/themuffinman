@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: complete
+machine_title: Vision Memory And Context Master Plan
+machine_goal: Add a persistent vision-specific memory layer across docs, workflow
+  entrypoints, and reusable test fixtures.
+---
+
 # Vision Memory And Context Master Plan
 
 ## Status

@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Agent Safety Enforcement Round 2 Plan
+---
+
 # Agent Safety Enforcement Round 2 Plan
 
 Purpose: extend the control chain with additional enforcement layers that reduce manual review burden for future feature work.

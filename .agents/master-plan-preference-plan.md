@@ -1,3 +1,12 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Master Plan Preference Plan
+machine_goal: Record that master-plan orchestration is allowed and preferred for broad,
+  long-running, high-complexity work so agents can reduce unnecessary human interaction
+  and handle larger tasks autonomously.
+---
+
 # Master Plan Preference Plan
 
 ## Goal

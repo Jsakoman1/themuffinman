@@ -79,6 +79,35 @@ module GeneratedArtifactFreshnessAudit
         "docs/codex-context-execution-manifest.schema.json",
         "docs/codex-local-tooling-todo.md"
       ]
+    },
+    {
+      artifact: "docs/generated/local-tooling/control-start-summary.md",
+      label: "control_start_summary",
+      regenerate: "make control-start",
+      source_patterns: [
+        "scripts/audits/generate-control-start.rb",
+        "scripts/audits/generate-plan-index.rb",
+        "scripts/audits/generate-audit-summary-index.rb",
+        "scripts/audits/local_tooling_extended_tools.rb",
+        "docs/generated/local-tooling/plan-index.json",
+        "docs/generated/local-tooling/audit-summary-index.json",
+        "docs/generated/local-tooling/codex-context/latest.review.md"
+      ]
+    },
+    {
+      artifact: "docs/generated/local-tooling/plan-index.json",
+      label: "plan_index",
+      regenerate: "make plan-index",
+      source_patterns: [
+        ".agents/*.md",
+        ".agents/god-plans/*.yaml",
+        ".agents/god-plans/*.md",
+        "scripts/audits/generate-plan-index.rb",
+        "scripts/audits/local_tooling_extended_tools.rb",
+        "docs/program-planning-model.md",
+        "docs/codex-fast-path.md",
+        "docs/tooling/codex-local-audits.md"
+      ]
     }
   ].freeze
 

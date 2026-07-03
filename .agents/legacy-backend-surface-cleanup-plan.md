@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Legacy Backend Surface Cleanup Plan
+machine_goal: Define how backend and contract cleanup should follow the frontend decommission
+  so the repository stops carrying read models, endpoints, and docs that existed only
+  to support removed legacy screens.
+---
+
 # Legacy Backend Surface Cleanup Plan
 
 ## Status

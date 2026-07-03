@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: implement a local frontend route-surface inventory that maps routes and primary views/pages to composables, frontend API clients, and backend endpoint dependencies.

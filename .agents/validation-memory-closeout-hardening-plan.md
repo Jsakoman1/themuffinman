@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Validation Memory Closeout Hardening Plan
+machine_goal: Standardize validation-memory closeout support by making drift checks
+  part of the standard closeout loop and by generating a compact closeout command
+  card from the canonical validation-memory JSON.
+---
+
 # Validation Memory Closeout Hardening Plan
 
 ## Goal

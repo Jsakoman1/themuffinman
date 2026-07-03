@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: CODEX Context Gateway Core Plan
+---
+
 # CODEX Context Gateway Core Plan
 
 Purpose: implement the repo-native gateway shell, central ContextPack model, budget composer, and stable output writer.

@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Context Toggle Pass Plan
+---
+
 # Vision Context Toggle Pass Plan
 
 Purpose: remove the remaining top-level `/vision` context chrome and keep context reveal inside the same adaptive shell.

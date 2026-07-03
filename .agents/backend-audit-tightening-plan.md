@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Backend Audit Tightening Plan
+---
+
 # Backend Audit Tightening Plan
 
 Purpose: tighten backend audit coverage incrementally by promoting a low-noise subset of `automation_relevant` files into stricter registration and documentation gates.

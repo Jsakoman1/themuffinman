@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: implement `CODEX-LOCAL-GENERATED-ARTIFACT-FRESHNESS-AUDIT` so likely stale generated contracts and inventories can be detected locally before Codex re-derives them by hand.

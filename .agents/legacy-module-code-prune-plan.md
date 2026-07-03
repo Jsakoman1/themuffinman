@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Legacy Module Code Prune Plan
+machine_goal: Define the post-route-removal delete batches for legacy frontend code
+  so dead pages, components, styles, composables, and API wrappers are removed in
+  a controlled and auditable order.
+---
+
 # Legacy Module Code Prune Plan
 
 ## Status

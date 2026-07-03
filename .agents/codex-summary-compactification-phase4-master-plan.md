@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Codex Summary Compactification Phase 4 Master Plan
+machine_goal: Reduce token spend on the remaining high-noise report families by compacting
+  them in a fixed sequence of narrow batch plans.
+---
+
 # Codex Summary Compactification Phase 4 Master Plan
 
 Purpose: compact the remaining broad generated summaries and keep the local tooling outputs short enough for fast first-pass review.

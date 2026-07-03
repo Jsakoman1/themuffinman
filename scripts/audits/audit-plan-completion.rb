@@ -102,11 +102,13 @@ def analyze_plan(plan_path, nested: false)
   end
 
   content = read(plan_path)
+  machine_status = LocalToolingCommon.markdown_frontmatter_value(content, "machine_status").to_s.strip
   section = completion_section(content)
   status = completion_status(section)
   open_tasks = open_task_lines(content)
   child_rows = child_plan_rows(content)
 
+  issues << "missing machine status frontmatter" if machine_status.empty?
   issues << "missing ## Completion Evidence section" unless section
   issues << "completion evidence status is missing or not final" if weak_status?(status)
 
@@ -200,6 +202,14 @@ result = result.merge(
   issues: issues.uniq
 )
 write_report(plan_path, manifest_path, result)
+
+if result[:status] == "passed"
+  refresh_status = system("make", "control-refresh")
+  unless refresh_status
+    warn "Plan completion refresh failed after plan closeout"
+    exit 1
+  end
+end
 
 puts "Plan completion audit"
 puts "  plan: #{plan_path}"

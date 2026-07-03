@@ -1,3 +1,12 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Product Memory and Vision Master Plan
+machine_goal: Separate open work from historical knowledge, then encode what we learn
+  into a reusable memory layer and a clear product-vision model that can guide future
+  UX, network, and interaction choices.
+---
+
 # Product Memory and Vision Master Plan
 
 Purpose: turn completed work into historical memory, define a canonical lesson-memory layer, and create a product-vision model for the Her-inspired Social Useful Network direction.

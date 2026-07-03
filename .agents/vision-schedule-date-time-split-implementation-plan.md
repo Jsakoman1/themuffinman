@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Schedule Date Time Split Implementation Plan
+machine_goal: Implement the full Vision scheduling split so `/vision` collects `scheduled_date`
+  and `scheduled_time` separately, derives `scheduled_at` only at the execution boundary,
+  and updates backend, frontend, docs, and tests together.
+---
+
 # Vision Schedule Date Time Split Implementation Plan
 
 ## Goal

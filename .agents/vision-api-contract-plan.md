@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision API Contract Plan
+machine_goal: Define a versioned API between the blank-canvas `/vision` frontend and
+  the backend orchestration layer.
+---
+
 # Vision API Contract Plan
 
 ## Status

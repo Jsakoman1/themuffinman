@@ -1,3 +1,9 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Codex Context Optimization Master Plan
+---
+
 # Codex Context Optimization Master Plan
 
 Purpose: coordinate the sequential implementation of shared changeset snapshotting, parser-backed Java AST isolation, relevance scoring upgrades, doc-sync resolution, validation evidence autofill, and one canonical feature-delivery workflow document.

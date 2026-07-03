@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Backend Audit Identity DTO Tightening Plan
+---
+
 # Backend Audit Identity DTO Tightening Plan
 
 Purpose: promote the identity DTO contract surface into the strict `automation_relevant` subset after chat DTO coverage, while keeping the broader tier report-first.

@@ -129,6 +129,12 @@ audits:
 - target: plan-scaffold-discovery
   script: scripts/audits/generate-plan-scaffold-discovery.rb
   primaryOutput: .agents/<topic>-plan.md
+- target: plan-index
+  script: scripts/audits/generate-plan-index.rb
+  primaryOutput: docs/generated/local-tooling/plan-index-summary.md
+- target: control-start
+  script: scripts/audits/generate-control-start.rb
+  primaryOutput: docs/generated/local-tooling/control-start-summary.md
 - target: audit-summary-index
   script: scripts/audits/generate-audit-summary-index.rb
   primaryOutput: docs/generated/local-tooling/audit-summary-index.md

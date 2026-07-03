@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Backend Social/Location DTO Standardization Plan
+---
+
 # Backend Social/Location DTO Standardization Plan
 
 Purpose: normalize the remaining social and location backend DTO families so shared relation, request, response, option, and debug/report shapes follow one naming taxonomy.

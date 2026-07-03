@@ -1,3 +1,13 @@
+---
+machine_kind: master-plan
+machine_status: active
+machine_title: Vision Context Memory Expansion Master Plan
+machine_goal: Give `/vision` a backend-owned memory layer that separates stable user
+  context, current session context, and turn-level context so the orchestrator can
+  handle multi-topic conversation shifts without flattening everything into one prompt
+  blob.
+---
+
 # Vision Context Memory Expansion Master Plan
 
 ## Status

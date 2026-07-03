@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: implement `CODEX-LOCAL-MAPPER-USAGE-AUDIT` so rich mapper callsites can be inspected quickly when reviewing lazy-loading risk, duplicated DTO assembly, and viewer-specific read logic.

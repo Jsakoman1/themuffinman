@@ -1,3 +1,9 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Local Tooling 24 Tools Master Plan
+---
+
 # Local Tooling 24 Tools Master Plan
 
 Purpose: implement the next batch of workstation-side Codex helper tools from `docs/codex-local-tooling-todo.md` so future sessions can use compact generated context instead of broad repo rediscovery.

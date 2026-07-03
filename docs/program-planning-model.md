@@ -18,6 +18,15 @@ It extends the existing `.agents/*-plan.md`, master-plan, feature-manifest, vali
 When a planning fact can be represented machine-readably, prefer YAML or JSON over narrative-only notes so automation can
 reuse the same state without re-deriving it from prose.
 
+Use `docs/generated/local-tooling/plan-index-summary.md` as the first compact routing aid when you need to find open
+plans or master plans quickly.
+
+Use `make control-start` when you want the current plan and audit discovery state in one compact snapshot before opening
+more docs.
+
+Plan files should also carry a machine-readable `machine_status` frontmatter marker so automation can parse status
+before falling back to markdown headings.
+
 ## Hierarchy
 
 The hierarchy is:

@@ -1,3 +1,12 @@
+---
+machine_kind: master-plan
+machine_status: active
+machine_title: Legacy Frontend Decommission Master Plan
+machine_goal: Remove the current multi-route legacy frontend and converge development
+  onto a Vision-first frontend model while the product is still in dev phase and no
+  real users depend on the legacy screens.
+---
+
 # Legacy Frontend Decommission Master Plan
 
 ## Status

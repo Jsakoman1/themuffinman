@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Local Context Batch Two Plan
+---
+
 # Local Context Batch Two Plan
 
 Goal: strengthen Codex local-context generation and reduce prompt overhead by implementing the next six deferred local-tooling helpers in one coordinated batch.

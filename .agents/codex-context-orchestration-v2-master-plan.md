@@ -1,3 +1,12 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Codex Context Orchestration V2 Master Plan
+machine_goal: Reduce token spend and repeated recomposition cost for repeated Codex
+  sessions by making the local context gateway more deterministic, more selective,
+  and more parallel where the work is independent.
+---
+
 # Codex Context Orchestration V2 Master Plan
 
 Purpose: push the local Codex orchestration stack past the current one-shot context chain into a stronger fingerprinted cache, better routing, more parallel local execution, cleaner summary contracts, and stricter invalidation for workflow drift.

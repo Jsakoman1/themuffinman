@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: implement a local endpoint-callsite linker that maps backend endpoints to frontend client methods and primary UI entry surfaces so Codex can load feature context without manual cross-layer tracing.

@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision Capability Parity Plan
+machine_goal: Define the minimum `/vision` capability coverage required to remove
+  each legacy route family without deleting still-useful development workflows blindly.
+---
+
 # Vision Capability Parity Plan
 
 ## Status

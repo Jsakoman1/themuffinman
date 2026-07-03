@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Create Quest Conversation Expansion Plan
+---
+
 # Vision Create Quest Conversation Expansion Plan
 
 ## Scope

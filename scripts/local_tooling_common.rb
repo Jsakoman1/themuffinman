@@ -2,11 +2,13 @@
 # frozen_string_literal: true
 
 require "digest"
+require "date"
 require "fileutils"
 require "json"
 require "open3"
 require "tempfile"
 require "time"
+require "yaml"
 
 module LocalToolingCommon
   REPO_ROOT = File.expand_path("..", __dir__)
@@ -115,6 +117,21 @@ module LocalToolingCommon
 
   def read(path)
     File.read(path)
+  end
+
+  def markdown_frontmatter(content)
+    match = content.match(/\A---\n(.*?)\n---\n/m)
+    return {} unless match
+
+    data = YAML.safe_load(match[1], permitted_classes: [Date, Time], aliases: true)
+    data.is_a?(Hash) ? data : {}
+  rescue StandardError
+    {}
+  end
+
+  def markdown_frontmatter_value(content, key)
+    frontmatter = markdown_frontmatter(content)
+    frontmatter[key] || frontmatter[key.to_sym]
   end
 
   def run_command(*command)

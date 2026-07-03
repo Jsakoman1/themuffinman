@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: CODEX Context Gateway Closeout Plan
+---
+
 # CODEX Context Gateway Closeout Plan
 
 Purpose: store analysis context, document the architecture decision, and record deferred follow-up work.

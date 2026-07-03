@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Executor Readiness Program Plan
+---
+
 # Executor Readiness Program Plan
 
 Purpose: implement the next large executor-readiness and feature-delivery control package in safe sequential phases.

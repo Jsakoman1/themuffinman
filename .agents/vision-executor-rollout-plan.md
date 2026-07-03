@@ -1,3 +1,10 @@
+---
+machine_kind: plan
+machine_status: planning only. do not implement until explicitly requested
+machine_title: Vision Executor Rollout Plan
+machine_goal: Introduce real backend execution from `/vision` safely and incrementally.
+---
+
 # Vision Executor Rollout Plan
 
 ## Status

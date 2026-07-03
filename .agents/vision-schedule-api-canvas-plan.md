@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision Schedule API Canvas Plan
+---
+
 # Vision Schedule API Canvas Plan
 
 ## Status

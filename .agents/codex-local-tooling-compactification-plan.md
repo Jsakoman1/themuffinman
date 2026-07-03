@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Codex Local Tooling Compactification Plan
+machine_goal: Make local-tooling outputs compact, reviewer-useful, and consistent
+  with the new review/machine/explain naming model so Codex can consume them faster.
+---
+
 # Codex Local Tooling Compactification Plan
 
 ## Status

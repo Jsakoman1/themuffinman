@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Legacy Route Removal Plan
+machine_goal: Define the safest route-first contraction sequence so the router, shell,
+  and navigation model can shrink before deeper module deletion begins.
+---
+
 # Legacy Route Removal Plan
 
 ## Status

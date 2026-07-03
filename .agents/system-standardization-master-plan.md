@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: System Standardization Master Plan
+machine_goal: 'Standardize the current codebase into a small number of predictable
+  module patterns:'
+---
+
 # System Standardization Master Plan
 
 Purpose: execute the repository-wide standardisation backlog in a controlled sequence so backend, frontend, docs, and validation surfaces converge on one repeatable product shape.

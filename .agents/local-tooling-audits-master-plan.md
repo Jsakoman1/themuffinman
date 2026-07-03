@@ -1,3 +1,9 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: orchestrate five sequential local-tooling audit implementations that reduce Codex token usage by shifting repetitive repo inspection onto deterministic workstation-side scripts.

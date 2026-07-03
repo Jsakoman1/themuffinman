@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Surface Screen Plan
+machine_goal: Create a full-screen adaptive canvas route with parallel audio and visual
+  feedback, dynamic result filtering, and a playful high-contrast visual language.
+---
+
 # Vision Surface Screen Plan
 
 Purpose: add one experimental long-term screen that applies the product vision principles while keeping the current production routes active.

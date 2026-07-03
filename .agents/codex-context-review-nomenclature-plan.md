@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Codex Context Review Nomenclature Plan
+machine_goal: Rename the `codex-context` human-facing output and its references to
+  `latest.review.md`, while keeping `latest.machine.json`
+---
+
 # Codex Context Review Nomenclature Plan
 
 ## Status

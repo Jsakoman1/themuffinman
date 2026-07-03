@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Generic Semantic Planning Plan
+---
+
 # Vision Generic Semantic Planning Plan
 
 Purpose: start the first Vision God Plan implementation slice by separating generic turn planning signals from create_quest-specific slot extraction.

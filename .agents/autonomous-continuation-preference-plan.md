@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Autonomous Continuation Preference Plan
+machine_goal: Future sessions should continue through safe offered follow-up slices
+  by default unless the user narrows scope, a real blocker appears, or approval is
+  required.
+---
+
 # Autonomous Continuation Preference Plan
 
 ## Scope

@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: implement `CODEX-LOCAL-CHANGE-IMPACT-PREFLIGHT` so changed files can be mapped to likely dependent docs, tests, generated artifacts, and sibling read surfaces before Codex starts broad manual discovery.

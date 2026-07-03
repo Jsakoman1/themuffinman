@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision Detail Continuity Plan
+machine_goal: Move the remaining user-scoped quest and application detail entry points
+  into Vision so the legacy frontend can lose its last important read/detail bridges.
+---
+
 # Vision Detail Continuity Plan
 
 ## Status

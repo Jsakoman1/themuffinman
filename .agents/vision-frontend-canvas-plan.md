@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: planning only. do not implement until explicitly requested
+machine_title: Vision Frontend Canvas Plan
+machine_goal: 'Evolve `/vision` into the future primary frontend: a white blank canvas
+  that adapts to the user''s current task and reveals only the UI needed for the next
+  step.'
+---
+
 # Vision Frontend Canvas Plan
 
 ## Status

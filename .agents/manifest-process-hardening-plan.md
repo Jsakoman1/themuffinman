@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Manifest Process Hardening Plan
+---
+
 # Manifest Process Hardening Plan
 
 Purpose: tighten feature-manifest quality so artifact lists stay precise, non-overlapping, and validator-enforced instead of drifting into broad or ambiguous buckets.

@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Codex Local Context Orchestrator Master Plan
+machine_goal: 'Turn the existing local context gateway into a more decisive orchestration
+  layer that:'
+---
+
 # Codex Local Context Orchestrator Master Plan
 
 Purpose: tighten the local Codex context and audit workflow so the repo can answer more work with fewer tokens, less repetition, and better cache reuse.

@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Backend Model Standardization Master Plan
+machine_goal: Make backend transport models and service layers look and behave the
+  same across domains unless there is a clear domain-specific reason not to.
+---
+
 # Backend Model Standardization Master Plan
 
 Purpose: reduce backend drift by making similar domains share the same model shapes, naming rules, assembler patterns, and service boundaries.

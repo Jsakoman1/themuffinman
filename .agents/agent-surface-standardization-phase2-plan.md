@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Agent Surface Standardization Phase 2 Plan
+machine_goal: Standardize the shared semantic planning boundary used by Vision and
+  Admin Playground so both surfaces rely on one backend prompt semantics path for
+  normalization and intent classification.
+---
+
 # Agent Surface Standardization Phase 2 Plan
 
 ## Status

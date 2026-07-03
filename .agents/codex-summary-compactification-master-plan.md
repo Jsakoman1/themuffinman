@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Codex Summary Compactification Master Plan
+machine_goal: Reduce repeated token spend on broad report review by making the most
+  frequently read generated summaries shorter, more decision-first, and more consistent.
+---
+
 # Codex Summary Compactification Master Plan
 
 Purpose: shorten the highest-noise generated local-tooling summaries so Codex gets decision-first context faster without losing the underlying JSON evidence or validation signal.

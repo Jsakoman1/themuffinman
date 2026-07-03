@@ -239,6 +239,8 @@ Context-first session workflow:
 - start with `docs/generated/local-tooling/diff-summary.md` to understand the changed-file shape before broad repository exploration
 - read `docs/generated/local-tooling/audit-summary-index.md` to choose the smallest relevant generated report; treat
   it as a routing aid, not as the source of truth for current behavior
+- read or generate `make control-start` when the task needs the compact plan-and-audit discovery snapshot before
+  broader search
 - generate or read a topic context pack with `make codex-context topic=<topic> intent='<intent>'` when the task has a clear feature, domain, or changed-file focus; it now chains the diff summary, audit summary index, the most relevant audit, targeted tests, and a concise evidence bundle
 - treat `docs/generated/local-tooling/codex-context/latest.execution.json` as the canonical machine-readable manifest for the current context batch and `docs/codex-context-execution-manifest.schema.json` as its contract
 - for product-direction sessions, prepend `docs/product-memory.md` and `docs/product-vision.md` before broader business or technical docs so stable lessons and vision anchor the rest of the search
@@ -250,6 +252,7 @@ Broad implementation checkpoints:
 - use these checkpoints for broad, long-running, high-complexity, multi-layer, high-risk, or master-plan-driven changes
 - if the work spans several master plans, update the relevant God Plan before changing child plan status
 - plan checkpoint: create the temporary plan or master child plan, list scope, risk, affected surfaces, expected validation, and any up-front approval needs before substantial edits
+- plan checkpoint: include machine-readable plan metadata at the top of the plan file when the template or migration path supports it so status can be parsed before markdown fallback
 - first backend slice checkpoint: when backend is in scope, complete the smallest meaningful backend behavior, contract, or generated-artifact edit and record a targeted backend check or not-applicable reason before broadening backend edits
 - first frontend slice checkpoint: when frontend is in scope, complete the smallest meaningful frontend contract, state, route, or component edit and record type-check, build, contract validation, or a not-applicable reason before broadening frontend edits
 - docs/artifacts sync checkpoint: update affected living docs and regenerate affected generated artifacts before treating behavior, contract, workflow, or automation-assumption changes as complete

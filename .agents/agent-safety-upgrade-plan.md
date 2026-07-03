@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Agent Safety Upgrade Plan
+---
+
 # Agent Safety Upgrade Plan
 
 Purpose: implement the next automation-enforcement package with a temporary working document that tracks scope, status, and final validation.

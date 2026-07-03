@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Machine-Readable-First Workflow Plan
+machine_goal: Update workflow guidance so Codex starts from machine-readable control
+  artifacts, uses human docs as supporting context, and preserves generated summaries
+  as non-authoritative outputs.
+---
+
 # Machine-Readable-First Workflow Plan
 
 ## Status

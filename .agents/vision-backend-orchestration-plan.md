@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision Backend Orchestration Plan
+machine_goal: Create a backend-first orchestration layer for the future blank-canvas
+  `/vision` experience.
+---
+
 # Vision Backend Orchestration Plan
 
 ## Status

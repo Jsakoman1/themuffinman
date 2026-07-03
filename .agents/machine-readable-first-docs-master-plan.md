@@ -1,3 +1,12 @@
+---
+machine_kind: master-plan
+machine_status: complete
+machine_title: Machine-Readable-First Docs Master Plan
+machine_goal: Make machine-readable operational and control files the primary source
+  of truth for active behavior, planning state, and validation state, while keeping
+  human-readable docs as derived summaries or curated narrative where needed.
+---
+
 # Machine-Readable-First Docs Master Plan
 
 ## Status

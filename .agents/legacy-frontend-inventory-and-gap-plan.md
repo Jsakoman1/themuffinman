@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Legacy Frontend Inventory And Gap Plan
+machine_goal: Produce the precise dependency map of legacy routes, modules, API wrappers,
+  shared components, style files, and generated contracts so legacy frontend decommission
+  can proceed by route family instead of guesswork.
+---
+
 # Legacy Frontend Inventory And Gap Plan
 
 ## Status

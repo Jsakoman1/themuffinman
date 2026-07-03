@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: complete
+machine_title: Codex Implementation Reliability Master Plan
+machine_goal: Clean up and standardize the Codex control surface so implementation
+  work becomes faster, more precise, more accurate, and more reliable.
+---
+
 # Codex Implementation Reliability Master Plan
 
 ## Status

@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Canvas Execution Surface Plan
+---
+
 # Vision Canvas Execution Surface Plan
 
 Purpose: consume the new read-only execution candidate in the frontend vision surface and remove the remaining stacked-panel feel from the review state.

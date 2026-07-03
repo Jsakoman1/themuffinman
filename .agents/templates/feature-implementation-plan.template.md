@@ -1,3 +1,10 @@
+---
+machine_kind: plan
+machine_status: draft
+machine_title: Feature Implementation Plan
+machine_goal: TBD
+---
+
 # Feature Implementation Plan
 
 Purpose: track one feature or workflow change from scope selection through final validation.

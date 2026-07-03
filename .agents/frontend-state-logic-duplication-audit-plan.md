@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: implement a frontend state-logic duplication audit that groups repeated mutation runners, feedback flows, dialog state patterns, and workflow-specific action logic across active frontend surfaces.

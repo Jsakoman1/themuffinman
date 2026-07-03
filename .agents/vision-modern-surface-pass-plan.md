@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Modern Surface Pass Plan
+---
+
 # Vision Modern Surface Pass Plan
 
 Purpose: tighten the current `/vision` modern surface so the blank state and active state both read as one adaptive agent surface instead of stacked chrome.

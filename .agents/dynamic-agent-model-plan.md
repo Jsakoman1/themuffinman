@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Dynamic Agent Model Plan
+---
+
 # Dynamic Agent Model Plan
 
 Objective: make the admin OpenAI-backed planner default to `gpt-5.4-mini` and use `gpt-5.4-medium` only for the heaviest or most creative planning slices.

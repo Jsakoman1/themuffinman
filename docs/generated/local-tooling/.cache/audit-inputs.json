@@ -189,18 +189,18 @@
     "semantic_checksum": "4f491ac5c6e3010a0a77cb645ca3a6cb38f14670bd07af3bf2c538f4f8b09ea6"
   },
   "audit-summary-index": {
-    "updated_at": "2026-07-03T09:56:21Z",
+    "updated_at": "2026-07-03T10:47:18Z",
     "output": "docs/generated/local-tooling/audit-summary-index.json",
     "cache_status": "refreshed",
-    "payload_checksum": "c63d3d35ef0d3d1d046f27026d1d4d5b56c2421cbbeda017b1731f1c19e4c48c",
-    "semantic_checksum": "47a30f419c378cd8e06e8d9678dd2edc80a2ca9537ae4ff66e06246ab092c943"
+    "payload_checksum": "30c2e82ed1f8ebe98be6c18fe41dcddc8e7f0ba2de16aa4fa10a76fd2f704ca5",
+    "semantic_checksum": "d702e3b733934b2461585260d43c9674b2e913c05959b0b73e1a8232f6c5337b"
   },
   "audit-registry-artifacts": {
-    "updated_at": "2026-06-30T13:51:52Z",
+    "updated_at": "2026-07-03T10:41:35Z",
     "output": "docs/generated/local-tooling/audit-registry-artifacts.json",
     "cache_status": "refreshed",
-    "payload_checksum": "1e1768e857ebf045f0bbee15f8bee0dafb064c945f6b6f701649e1d93e66954b",
-    "semantic_checksum": "95048e0abe51b136f01135b49b7cd2fa123213fc44753b7c12db44a3160c1d59"
+    "payload_checksum": "6b12a8f0c3e2cc2f3784e76259d788d0d513bd7dfeda3733429a2a0bc20da742",
+    "semantic_checksum": "d8c99fbe702f042004a7973e1dd3955e2018dba64cf52adfea11d97a4526b001"
   },
   "post-merge-retrospective": {
     "updated_at": "2026-06-30T11:21:35Z",
@@ -446,5 +446,19 @@
     "cache_status": "refreshed",
     "payload_checksum": "4f7dda43eeb20c35aa724bf61013446c89dfef74195a6baafa9fbf127d6bf700",
     "semantic_checksum": "92513a4dc8b38796165af7e819ab13f6327c5e7e6c89a931cf81531142f48181"
+  },
+  "plan-index": {
+    "updated_at": "2026-07-03T10:47:18Z",
+    "output": "docs/generated/local-tooling/plan-index.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "530bb8ae0098e7f53d319abfe666096ec5a7cb4f5cbd1b2b414aa6366491a616",
+    "semantic_checksum": "faee257853b84bebae44068748193fb3cb3062aaada3bc5d5e9f72b1b87c7429"
+  },
+  "control-start": {
+    "updated_at": "2026-07-03T10:47:20Z",
+    "output": "docs/generated/local-tooling/control-start.json",
+    "cache_status": "refreshed",
+    "payload_checksum": "f4d20b545a7d7ec2081ee2db5993438d1d5d1c23dc82db6f604bb7a4b2dec2d9",
+    "semantic_checksum": "48aa730c0dd6b4cfcec5daadcee032f2973d62b50895466b3972c8acc4bc7bf1"
   }
 }

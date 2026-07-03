@@ -20,6 +20,16 @@ Tracked review context may stay tracked when it is concise, reviewer-useful, and
 includes stable local-tooling summaries, local-tooling JSON inventories, endpoint contract packs, and dead-code audit
 summaries.
 
+The active plan index is one of those stable local-tooling review aids:
+
+- `docs/generated/local-tooling/plan-index.json`
+- `docs/generated/local-tooling/plan-index-summary.md`
+
+The one-shot control-system start surface is also tracked as stable review context:
+
+- `docs/generated/local-tooling/control-start.json`
+- `docs/generated/local-tooling/control-start-summary.md`
+
 Disposable local run outputs stay untracked by default when they are machine caches, smoke-test latest files, session handoffs, ad-hoc context packs, diagnostic captures, per-change closeout reports, or post-merge retrospectives. A disposable output should be committed only when a change explicitly needs it as evidence and the reviewer can use it without rerunning the local environment.
 
 Ignored disposable paths:

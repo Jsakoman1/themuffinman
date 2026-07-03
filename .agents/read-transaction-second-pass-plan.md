@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: reduce the remaining high-signal read-surface transaction gaps by adding selective read-only coverage to DB-backed read methods in identity and social services.

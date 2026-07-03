@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: implement a local repository fetch audit that links repository query methods to downstream service call chains and highlights likely lazy-loading risk without broad manual repo inspection.

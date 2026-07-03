@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Backend Audit Tiering Plan
+---
+
 # Backend Audit Tiering Plan
 
 Purpose: extend backend audit coverage to the full codebase without collapsing signal quality for agent-safe execution surfaces.

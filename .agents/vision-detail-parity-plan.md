@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Detail Parity Plan
+machine_goal: Finish the current Vision terminal-first parity slice by routing remaining
+  read-only settings and detail entry points through the shared conversation flow
+  instead of dedicated route views.
+---
+
 # Vision Detail Parity Plan
 
 ## Goal

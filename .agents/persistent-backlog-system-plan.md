@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Persistent Backlog System Plan
+---
+
 # Persistent Backlog System Plan
 
 Purpose: track a multi-step feature change from initial scope through final validation.

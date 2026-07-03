@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Machine-Readable-First Policy Plan
+machine_goal: Define the authoritative hierarchy for active state, generated control,
+  and archive material so current behavior is always read from machine-readable sources
+  first.
+---
+
 # Machine-Readable-First Policy Plan
 
 ## Status

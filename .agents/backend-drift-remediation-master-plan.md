@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Backend Drift Remediation Master Plan
+machine_goal: Keep the source-of-truth, docs, generated audits, and backend code aligned
+  while reducing the remaining oversized or mixed-responsibility backend surfaces.
+---
+
 # Backend Drift Remediation Master Plan
 
 Purpose: convert the remaining backend standardisation drift into an executable backlog, then shrink the highest-value workmarket and social hotspots.

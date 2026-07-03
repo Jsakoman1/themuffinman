@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: implement `CODEX-LOCAL-READ-SURFACE-INVENTORY` so backend read-oriented service methods, DTO assembly paths, repository usage, and transaction coverage can be inspected from a compact local report.

@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: tighten the read-surface inventory so the transaction gap metric reflects transaction-relevant backend read paths rather than helper, assembler, or provider noise, and close the remaining obvious workmarket read-service gaps.

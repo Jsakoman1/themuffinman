@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: God Plan Hierarchy Plan
+---
+
 # God Plan Hierarchy Plan
 
 Purpose: introduce a durable program-planning hierarchy that can coordinate multiple master plans while preserving existing `.agents` plan and manifest workflows.

@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: active
+machine_title: Vision Context Memory User And Session Plan
+machine_goal: Add a backend-owned memory context to `/vision` that carries stable
+  user context, current session context, and recent turn context into semantic understanding.
+---
+
 # Vision Context Memory User And Session Plan
 
 ## Status

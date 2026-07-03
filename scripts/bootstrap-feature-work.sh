@@ -266,6 +266,7 @@ manifest_path_text = (
 
 plan_text = plan_path.read_text()
 plan_text = plan_text.replace("# Feature Implementation Plan", f"# {title} Plan")
+plan_text = plan_text.replace("machine_title: Feature Implementation Plan", f"machine_title: {title} Plan")
 plan_text = plan_text.replace("- Feature tier: TBD", f"- Feature tier: {workflow_tier}")
 plan_text = plan_text.replace("- Scope: TBD", f"- Scope: {scope}")
 plan_text = plan_text.replace("- Out of scope: TBD", f"- Out of scope: {out_of_scope}")

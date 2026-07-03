@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Codex Workflow Lean Context Smoke Plan
+---
+
 # Codex Workflow Lean Context Smoke Plan
 
 Purpose: track one feature or workflow change from scope selection through final validation.

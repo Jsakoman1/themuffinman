@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Audit Documentation Plan
+machine_goal: Implement `CODEX-LOCAL-AUDIT-DOCUMENTATION` as one short page describing
+  local audits, outputs, and recommended usage order.
+---
+
 # Audit Documentation Plan
 
 ## Goal

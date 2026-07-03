@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Blank Canvas 001 Plan
+machine_goal: Deliver the first concrete `/vision` blank-canvas slice so the route
+  shell feels quieter, more adaptive, and less like a normal page with visible chrome.
+---
+
 # Vision Blank Canvas 001 Plan
 
 ## Goal

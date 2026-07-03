@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision Schedule Domain Contract Plan
+---
+
 # Vision Schedule Domain Contract Plan
 
 ## Status

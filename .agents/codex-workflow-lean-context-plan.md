@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Codex Workflow Lean Context Plan
+---
+
 # Codex Workflow Lean Context Plan
 
 Purpose: make bootstrap-generated plans and manifests more operational so Codex can start with less generic context and more concrete local-tooling commands.

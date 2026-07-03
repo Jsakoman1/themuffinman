@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Semantic Slot Guardrails Plan
+machine_goal: Reduce create-quest parser leakage so text and voice prompts stop spilling
+  into the wrong slots, especially description, reward, and location.
+---
+
 # Vision Semantic Slot Guardrails Plan
 
 ## Goal

@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: close the final read-transaction audit gaps by distinguishing true transactional read surfaces from helper or mixed read/write flows, then rerun validation.

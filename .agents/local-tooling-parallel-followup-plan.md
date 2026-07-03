@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Local Tooling Parallel Follow-up Plan
+---
+
 # Local Tooling Parallel Follow-up Plan
 
 Goal: implement the next three deferred local-tooling helpers in one coordinated batch while keeping each helper independently auditable.

@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Validation Memory Phase Three Plan
+machine_goal: Keep closeout checks and validation-memory docs synchronized by sourcing
+  canonical command expectations from `docs/validation-memory.json` and auditing drift
+  between `docs/validation-memory.md` and the JSON contract.
+---
+
 # Validation Memory Phase Three Plan
 
 Purpose: connect validation-memory directly into feature closeout enforcement and add a dedicated drift audit between the human and machine-readable validation memory layers.

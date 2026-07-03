@@ -1,3 +1,12 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Vision Voice Master Plan
+machine_goal: Introduce a typed backend voice capability/config contract, connect
+  `/vision` to browser-native speech recognition and speech synthesis through that
+  contract, and update the living docs and agent-operating surfaces accordingly.
+---
+
 # Vision Voice Master Plan
 
 Purpose: add backend-first STT and TTS support for the experimental `/vision` surface while keeping the implementation documented, validated, and aligned with source-of-truth rules.

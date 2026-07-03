@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Agent Operating Refactor Plan
+---
+
 # Agent Operating Refactor Plan
 
 Purpose: track the controller, workflow, contract, and operating-model refactor from initial scope through final validation.

@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Codex Control Surface Hierarchy Plan
+machine_goal: Standardize how the repo describes live truth, generated control, and
+  historical archive material so Codex always knows which files are authoritative
+  for current work.
+---
+
 # Codex Control Surface Hierarchy Plan
 
 ## Status

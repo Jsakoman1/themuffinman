@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision Quest Discovery Plan
+machine_goal: Add a read-only vision capability for discovering and ranking open quests
+  through the shared quest read surface.
+---
+
 # Vision Quest Discovery Plan
 
 ## Status

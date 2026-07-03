@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: planning only. no runtime implementation in this plan
+machine_title: Vision Preflight Plan
+machine_goal: Lock the minimum architecture decisions that should be treated as settled
+  before the first real `/vision` execution implementation starts.
+---
+
 # Vision Preflight Plan
 
 ## Status

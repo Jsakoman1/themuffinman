@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Validation Memory Phase Two Plan
+machine_goal: Add a schema-backed JSON validation-memory contract and integrate its
+  canonical command knowledge into local preset recommendations and context routing
+  as an additive layer.
+---
+
 # Validation Memory Phase Two Plan
 
 Purpose: formalize the machine-readable validation-memory contract and let local validation preset routing reuse it without weakening existing deterministic checks.

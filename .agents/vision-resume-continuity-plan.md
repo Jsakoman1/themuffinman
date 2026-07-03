@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Resume Continuity Plan
+machine_goal: Recent conversations should expose enough deterministic metadata for
+  the frontend to distinguish active clarifications, review-ready tasks, blocked tasks,
+  and completed tasks without reconstructing state from raw strings.
+---
+
 # Vision Resume Continuity Plan
 
 ## Scope

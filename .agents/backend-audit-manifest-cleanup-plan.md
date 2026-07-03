@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Backend Audit Manifest Cleanup Plan
+---
+
 # Backend Audit Manifest Cleanup Plan
 
 Purpose: close the remaining process drift by adding matching feature manifests for completed backend-audit plans and restoring plan-to-manifest continuity.

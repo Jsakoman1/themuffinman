@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Legacy Frontend Freeze And Boundary Plan
+machine_goal: Lock the transition boundary between the strategic Vision runtime and
+  the route-era legacy frontend so the remaining decommission work can proceed without
+  accidental reinvestment in the old application shell.
+---
+
 # Legacy Frontend Freeze And Boundary Plan
 
 ## Status

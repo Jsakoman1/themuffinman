@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: File Relation Graph Plan
+machine_goal: Implement `CODEX-LOCAL-FILE-RELATION-GRAPH` to build a lightweight controller-service-repository-dto-frontend-view
+  relation graph.
+---
+
 # File Relation Graph Plan
 
 ## Goal

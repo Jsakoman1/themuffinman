@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Remaining 23 Local Tooling Master Plan
+machine_goal: Implement the remaining `CODEX-LOCAL-*` items from `docs/codex-local-tooling-todo.md`
+  in sequential phases without pausing between items.
+---
+
 # Remaining 23 Local Tooling Master Plan
 
 ## Goal

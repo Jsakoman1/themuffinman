@@ -1,3 +1,13 @@
+---
+machine_kind: master-plan
+machine_status: complete
+machine_title: Vision Schedule Date Time Split Master Plan
+machine_goal: Replace the current single-slot `scheduled_at` conversation model in
+  `/vision` with a layered scheduling model that treats date and time as separate
+  user-facing concepts while still deriving one absolute execution timestamp only
+  when the backend has enough deterministic information.
+---
+
 # Vision Schedule Date Time Split Master Plan
 
 ## Status

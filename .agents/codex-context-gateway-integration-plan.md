@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: CODEX Context Gateway Integration Plan
+---
+
 # CODEX Context Gateway Integration Plan
 
 Purpose: integrate the gateway with existing local audits instead of duplicating their logic.

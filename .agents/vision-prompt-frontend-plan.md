@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Prompt Frontend Plan
+---
+
 # Vision Prompt Frontend Plan
 
 ## Scope

@@ -39,7 +39,8 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 - When a task touches active behavior or control state, start from the machine-readable source surfaces listed in
   `docs/control-surface-map.md` before broadening into human-readable summaries.
 - Use `docs/validation-memory.md` and `docs/validation-memory.json` when manifest-backed validation or closeout evidence is in scope so canonical command and evidence rules are applied consistently.
-- Use `make codex-context topic=<topic> intent='<intent>'` as the one-shot local context chain before broad repository search.
+- Use `make control-start` as the one-shot broad-work snapshot before broad repository search.
+- Use `make codex-context topic=<topic> intent='<intent>'` when the task needs topic-specific file context after the broad snapshot.
 - When `codex-context` changes, keep the workflow docs, `docs/generated/local-tooling/codex-context/latest.execution.json`, and `docs/codex-context-execution-manifest.schema.json` aligned so the machine-readable batch manifest remains discoverable.
 - Use `docs/feature-delivery-workflow.md` only when the tier or resolver requires the full workflow.
 

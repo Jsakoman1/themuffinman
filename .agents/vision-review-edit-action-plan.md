@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Review Edit Action Plan
+machine_goal: The review loop should no longer depend on prompt strings like `change
+  reward`.
+---
+
 # Vision Review Edit Action Plan
 
 ## Scope

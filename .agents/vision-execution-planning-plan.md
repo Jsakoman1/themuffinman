@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Execution Planning Plan
+---
+
 # Vision Execution Planning Plan
 
 Purpose: introduce a non-mutating execution-planning boundary above the existing create_quest review flow so the backend can describe readiness, blockers, and next execution steps without executing anything new.

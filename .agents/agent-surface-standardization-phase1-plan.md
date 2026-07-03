@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Agent Surface Standardization Phase 1 Plan
+---
+
 # Agent Surface Standardization Phase 1 Plan
 
 ## Workflow Frame

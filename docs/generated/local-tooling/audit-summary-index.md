@@ -1,9 +1,9 @@
 # Audit Summary Index
 
-- Registry entries: 67
-- Tracked outputs: 50
+- Registry entries: 69
+- Tracked outputs: 52
 - Missing outputs: 17
-- Summary files: 222
+- Summary files: 237
 
 ## Registry
 
@@ -19,7 +19,7 @@
 - `recommend-targeted-tests` -> `docs/generated/local-tooling/targeted-tests-summary.md` (`tracked`)
 - `repo-map` -> `docs/generated/local-tooling/repo-map-summary.md` (`tracked`)
 - `symbol-index` -> `docs/generated/local-tooling/symbol-index-summary.md` (`tracked`)
-- ... and 55 more
+- ... and 57 more
 
 ## Summary Files
 
@@ -35,6 +35,6 @@
 - `docs/generated/local-tooling/audit-deltas/audit-router-summary.md` | 2026-07-01T16:45:02Z | 1373 bytes
 - `docs/generated/local-tooling/audit-deltas/diff-summary-summary.md` | 2026-07-03T09:18:05Z | 332 bytes
 - `docs/generated/local-tooling/audit-documentation-summary.md` | 2026-07-03T09:17:42Z | 143 bytes
-- ... and 210 more
+- ... and 225 more
 
 _Routing aid only. Use the underlying generated report or source file for current state._

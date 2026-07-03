@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Async Mutation Flow Audit Plan
+machine_goal: Implement `CODEX-LOCAL-ASYNC-MUTATION-FLOW-AUDIT` to inventory frontend
+  mutation flows, refresh paths, banners, and error handling.
+---
+
 # Async Mutation Flow Audit Plan
 
 ## Goal

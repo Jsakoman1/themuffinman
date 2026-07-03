@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Feature Implementation Plan
+---
+
 # Feature Implementation Plan
 
 Purpose: implement a frontend stale-surface audit that flags unreferenced or weakly connected frontend components, composables, helpers, and stylesheets using route and callsite context.

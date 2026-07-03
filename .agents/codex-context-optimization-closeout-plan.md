@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Codex Context Optimization Closeout Plan
+---
+
 # Codex Context Optimization Closeout Plan
 
 ## Goals

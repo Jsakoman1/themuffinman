@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Codex Summary Compactification Phase 2 Master Plan
+machine_goal: Reduce the remaining broad-report token cost by tightening the last
+  three noisy summary surfaces and regenerating the stale context manifest.
+---
+
 # Codex Summary Compactification Phase 2 Master Plan
 
 Purpose: finish compacting the remaining high-noise summary families and refresh the codex-context execution manifest so freshness returns to green after the formatter changes.

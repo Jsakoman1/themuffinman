@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-03T10:06:06Z",
-  "artifact_count": 6,
+  "generated_at": "2026-07-03T10:48:10Z",
+  "artifact_count": 8,
   "stale_count": 0,
   "artifacts": [
     {
@@ -63,11 +63,33 @@
       "artifact": "docs/generated/local-tooling/codex-context/latest.execution.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-03T09:59:03Z",
+      "artifact_mtime": "2026-07-03T10:47:20Z",
       "newest_source": "docs/agent-operating-model.md",
-      "newest_source_mtime": "2026-07-03T09:58:04Z",
+      "newest_source_mtime": "2026-07-03T10:44:40Z",
       "source_count": 13,
       "regenerate_command": "make codex-context topic=<topic> intent='<intent>'"
+    },
+    {
+      "label": "control_start_summary",
+      "artifact": "docs/generated/local-tooling/control-start-summary.md",
+      "status": "fresh",
+      "artifact_exists": true,
+      "artifact_mtime": "2026-07-03T10:47:20Z",
+      "newest_source": "docs/generated/local-tooling/codex-context/latest.review.md",
+      "newest_source_mtime": "2026-07-03T10:47:20Z",
+      "source_count": 7,
+      "regenerate_command": "make control-start"
+    },
+    {
+      "label": "plan_index",
+      "artifact": "docs/generated/local-tooling/plan-index.json",
+      "status": "fresh",
+      "artifact_exists": true,
+      "artifact_mtime": "2026-07-03T10:47:18Z",
+      "newest_source": ".agents/control-system-status-marker-plan.md",
+      "newest_source_mtime": "2026-07-03T10:47:01Z",
+      "source_count": 180,
+      "regenerate_command": "make plan-index"
     }
   ]
 }

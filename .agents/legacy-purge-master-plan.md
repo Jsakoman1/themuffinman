@@ -1,3 +1,12 @@
+---
+machine_kind: master-plan
+machine_status: active
+machine_title: Legacy Purge Master Plan
+machine_goal: Remove the remaining legacy `workmarket` naming and documentation surface
+  from the product where it is still active, while preserving the current `vision`
+  UX, backend capability model, and chat surface.
+---
+
 # Legacy Purge Master Plan
 
 ## Status

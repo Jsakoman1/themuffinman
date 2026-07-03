@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: unknown
+machine_title: Vision Frontend Surface Standardization Plan
+machine_goal: Replace the current route-level all-in-one implementation with a stable
+  structure that is easier to extend toward the long-term blank-canvas vision surface.
+---
+
 # Vision Frontend Surface Standardization Plan
 
 ## Scope

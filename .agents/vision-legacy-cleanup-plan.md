@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision Legacy Cleanup Plan
+machine_goal: Finish the frontend decommission by removing the remaining legacy route-era
+  surface while keeping Vision, admin, and auth stable.
+---
+
 # Vision Legacy Cleanup Plan
 
 ## Status

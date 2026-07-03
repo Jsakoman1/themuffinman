@@ -1,0 +1,204 @@
+{
+  "generated_at": "2026-07-03T10:47:20Z",
+  "plan_index": {
+    "path": "docs/generated/local-tooling/plan-index.json",
+    "summary_path": "docs/generated/local-tooling/plan-index-summary.md",
+    "total_count": 167,
+    "open_count": 130,
+    "open_master_plans": [
+      {
+        "path": ".agents/legacy-frontend-decommission-master-plan.md",
+        "kind": "master-plan",
+        "status": "active",
+        "title": "Legacy Frontend Decommission Master Plan",
+        "goal": "Remove the current multi-route legacy frontend and converge development onto a Vision-first frontend model while the product is still in dev phase and no real users depend on the legacy screens.",
+        "child_plans": 44,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/legacy-purge-master-plan.md",
+        "kind": "master-plan",
+        "status": "active",
+        "title": "Legacy Purge Master Plan",
+        "goal": "Remove the remaining legacy `workmarket` naming and documentation surface from the product where it is still active, while preserving the current `vision` UX, backend capability model, and chat surface.",
+        "child_plans": 0,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/vision-context-memory-expansion-master-plan.md",
+        "kind": "master-plan",
+        "status": "active",
+        "title": "Vision Context Memory Expansion Master Plan",
+        "goal": "Give `/vision` a backend-owned memory layer that separates stable user context, current session context, and turn-level context so the orchestrator can handle multi-topic conversation shifts without flattening everything into one prompt blob.",
+        "child_plans": 3,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/backend-drift-remediation-master-plan.md",
+        "kind": "master-plan",
+        "status": "unknown",
+        "title": "Backend Drift Remediation Master Plan",
+        "goal": "Keep the source-of-truth, docs, generated audits, and backend code aligned while reducing the remaining oversized or mixed-responsibility backend surfaces.",
+        "child_plans": 2,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/backend-model-standardization-master-plan.md",
+        "kind": "master-plan",
+        "status": "unknown",
+        "title": "Backend Model Standardization Master Plan",
+        "goal": "Make backend transport models and service layers look and behave the same across domains unless there is a clear domain-specific reason not to.",
+        "child_plans": 6,
+        "open_tasks": 0
+      }
+    ],
+    "open_plans": [
+      {
+        "path": ".agents/god-plans/vision-god-plan.yaml",
+        "kind": "god-plan",
+        "status": "active",
+        "title": "Vision God Plan",
+        "goal": "Coordinate the long-running `/vision` program across multiple master plans while keeping current implementation reality visible.",
+        "child_plans": 0,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/vision-context-memory-user-session-plan.md",
+        "kind": "plan",
+        "status": "active",
+        "title": "Vision Context Memory User And Session Plan",
+        "goal": "Add a backend-owned memory context to `/vision` that carries stable user context, current session context, and recent turn context into semantic understanding.",
+        "child_plans": 0,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/agent-control-phase-two-plan.md",
+        "kind": "plan",
+        "status": "unknown",
+        "title": "Agent Control Phase Two Plan",
+        "goal": null,
+        "child_plans": 0,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/agent-model-feature-coverage-audit-plan.md",
+        "kind": "plan",
+        "status": "unknown",
+        "title": "Agent Model Feature Coverage Audit Plan",
+        "goal": "Implement `CODEX-LOCAL-AGENT-MODEL-FEATURE-COVERAGE-AUDIT` to report code features not yet linked to the agent operating model or simulation surface.",
+        "child_plans": 0,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/agent-operating-refactor-plan.md",
+        "kind": "plan",
+        "status": "unknown",
+        "title": "Agent Operating Refactor Plan",
+        "goal": null,
+        "child_plans": 0,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/agent-safety-enforcement-round2-plan.md",
+        "kind": "plan",
+        "status": "unknown",
+        "title": "Agent Safety Enforcement Round 2 Plan",
+        "goal": null,
+        "child_plans": 0,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/agent-safety-upgrade-plan.md",
+        "kind": "plan",
+        "status": "unknown",
+        "title": "Agent Safety Upgrade Plan",
+        "goal": null,
+        "child_plans": 0,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/agent-surface-standardization-phase1-plan.md",
+        "kind": "plan",
+        "status": "unknown",
+        "title": "Agent Surface Standardization Phase 1 Plan",
+        "goal": null,
+        "child_plans": 0,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/aggregate-dead-code-audit-plan.md",
+        "kind": "plan",
+        "status": "unknown",
+        "title": "Aggregate Dead Code Audit Plan",
+        "goal": "Implement `CODEX-LOCAL-AGGREGATE-DEAD-CODE-AUDIT` as one wrapper that runs dead-code audits and emits a compact merged summary.",
+        "child_plans": 0,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/api-contract-drift-audit-plan.md",
+        "kind": "plan",
+        "status": "unknown",
+        "title": "Feature Implementation Plan",
+        "goal": null,
+        "child_plans": 0,
+        "open_tasks": 0
+      }
+    ],
+    "recent_complete_plans": [
+      {
+        "path": ".agents/active-plan-index-master-plan.md",
+        "kind": "master-plan",
+        "status": "complete",
+        "title": "Active Plan Index Master Plan",
+        "goal": "Make active plans, master plans, and nearby closeout state easier to find at a glance through one compact",
+        "child_plans": 9,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/agent-surface-standardization-master-plan.md",
+        "kind": "master-plan",
+        "status": "complete",
+        "title": "Agent Surface Standardization Master Plan",
+        "goal": "Standardize the shared orchestration model behind:",
+        "child_plans": 11,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/codex-implementation-reliability-master-plan.md",
+        "kind": "master-plan",
+        "status": "complete",
+        "title": "Codex Implementation Reliability Master Plan",
+        "goal": "Clean up and standardize the Codex control surface so implementation work becomes faster, more precise, more accurate, and more reliable.",
+        "child_plans": 12,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/control-system-machine-optimization-master-plan.md",
+        "kind": "master-plan",
+        "status": "complete",
+        "title": "Control System Machine Optimization Master Plan",
+        "goal": "Make the control system easier to start, easier to refresh, and more machine-readable so broad implementation work can",
+        "child_plans": 12,
+        "open_tasks": 0
+      },
+      {
+        "path": ".agents/machine-readable-first-docs-master-plan.md",
+        "kind": "master-plan",
+        "status": "complete",
+        "title": "Machine-Readable-First Docs Master Plan",
+        "goal": "Make machine-readable operational and control files the primary source of truth for active behavior, planning state, and validation state, while keeping human-readable docs as derived summaries or curated narrative where needed.",
+        "child_plans": 6,
+        "open_tasks": 0
+      }
+    ]
+  },
+  "audit_summary_index": {
+    "path": "docs/generated/local-tooling/audit-summary-index.json",
+    "summary_path": "docs/generated/local-tooling/audit-summary-index.md",
+    "registry_entries": null,
+    "tracked_outputs": null,
+    "missing_outputs": null
+  },
+  "codex_context_review": "docs/generated/local-tooling/codex-context/latest.review.md",
+  "next_action": "Use `make codex-context topic=<topic> intent='<intent>'` for topic-specific broad work once this control snapshot is fresh."
+}

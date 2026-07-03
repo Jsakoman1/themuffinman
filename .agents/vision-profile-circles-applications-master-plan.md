@@ -1,3 +1,12 @@
+---
+machine_kind: master-plan
+machine_status: unknown
+machine_title: Vision Profile Circles Applications Master Plan
+machine_goal: Tighten `/vision` so profile, circles, and applications behave like
+  one terminal-first workspace instead of isolated read-only snapshots plus separate
+  mutation pilots.
+---
+
 # Vision Profile Circles Applications Master Plan
 
 ## Goal
