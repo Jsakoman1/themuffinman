@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-07-03T09:01:28Z",
+  "generatedAt": "2026-07-03T14:31:48Z",
   "summary": {
-    "totalFiles": 390,
-    "classifiedFiles": 390,
+    "totalFiles": 401,
+    "classifiedFiles": 401,
     "unclassifiedFileCount": 0,
     "unownedDomainFileCount": 0,
     "tierCounts": {
-      "executor_critical": 69,
-      "automation_relevant": 230,
-      "internal_support": 90,
+      "executor_critical": 67,
+      "automation_relevant": 234,
+      "internal_support": 99,
       "out_of_scope": 1
     },
     "domainCounts": {
       "platform": 13,
-      "agent": 208,
+      "agent": 219,
       "business": 8,
       "chat": 22,
       "common": 21,
@@ -25,7 +25,7 @@
     },
     "ownerCounts": {
       "platform_core": 34,
-      "agent_platform": 208,
+      "agent_platform": 219,
       "business_domain": 8,
       "chat_domain": 22,
       "identity_domain": 25,
@@ -35,7 +35,7 @@
       "things_domain": 13
     },
     "executorCriticalWithoutSourceRefCount": 0,
-    "automationRelevantWithoutSourceRefCount": 75,
+    "automationRelevantWithoutSourceRefCount": 79,
     "strictSourceOfTruthMissingCount": 0,
     "strictDocumentationMissingCount": 0
   },
@@ -262,19 +262,6 @@
       "currentGate": "fail_hard"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslator.java",
-      "tier": "executor_critical",
-      "classificationRuleId": "executor_agent_service_surface",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "registeredInSourceOfTruth": true,
-      "sourceRefId": "admin_agent_prompt_translator",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null,
-      "currentGate": "fail_hard"
-    },
-    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentSurfacePolicy.java",
       "tier": "executor_critical",
       "classificationRuleId": "executor_agent_service_surface",
@@ -321,19 +308,6 @@
       "ownerId": "agent_platform",
       "registeredInSourceOfTruth": true,
       "sourceRefId": "admin_synthetic_quest_execution_planner",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null,
-      "currentGate": "fail_hard"
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java",
-      "tier": "executor_critical",
-      "classificationRuleId": "executor_agent_service_surface",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "registeredInSourceOfTruth": true,
-      "sourceRefId": "local_admin_agent_prompt_translator",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null,
@@ -2001,6 +1975,123 @@
       "documentationCovered": false,
       "mutatingServiceCandidate": true,
       "serviceWorkflowCovered": true,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/semantic/SemanticAliasRegistry.java",
+      "tier": "internal_support",
+      "classificationRuleId": "internal_support_semantic_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/semantic/SemanticEntityFamily.java",
+      "tier": "internal_support",
+      "classificationRuleId": "internal_support_semantic_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/semantic/SemanticEntityResolution.java",
+      "tier": "internal_support",
+      "classificationRuleId": "internal_support_semantic_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/semantic/SemanticEntityResolutionStatus.java",
+      "tier": "internal_support",
+      "classificationRuleId": "internal_support_semantic_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/semantic/SemanticEntityResolutionSupport.java",
+      "tier": "internal_support",
+      "classificationRuleId": "internal_support_semantic_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/semantic/SemanticEnvelope.java",
+      "tier": "internal_support",
+      "classificationRuleId": "internal_support_semantic_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/semantic/SemanticReplayRecord.java",
+      "tier": "internal_support",
+      "classificationRuleId": "internal_support_semantic_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/semantic/VisionEntityResolver.java",
+      "tier": "internal_support",
+      "classificationRuleId": "internal_support_semantic_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/semantic/VisionEntityResolverRegistry.java",
+      "tier": "internal_support",
+      "classificationRuleId": "internal_support_semantic_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
       "currentGate": "report_only"
     },
     {
@@ -4175,6 +4266,19 @@
       "currentGate": "report_only"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplicationEntityResolver.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplyForQuestUseCase.java",
       "tier": "executor_critical",
       "classificationRuleId": "executor_use_case_surface",
@@ -4199,6 +4303,19 @@
       "mutatingServiceCandidate": true,
       "serviceWorkflowCovered": true,
       "currentGate": "fail_hard"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CircleEntityResolver.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CompleteQuestUseCase.java",
@@ -4487,6 +4604,19 @@
       "currentGate": "report_only"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestEntityResolver.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
       "tier": "executor_critical",
       "classificationRuleId": "executor_tracked_service_surface",
@@ -4706,6 +4836,19 @@
       "mutatingServiceCandidate": true,
       "serviceWorkflowCovered": true,
       "currentGate": "fail_hard"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserEntityResolver.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
@@ -5158,6 +5301,8 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryItemDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/event/QuestApplicationNewsEvent.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/event/QuestApplicationNewsEventHandler.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplicationEntityResolver.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CircleEntityResolver.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardNotificationAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardPlannerAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java",
@@ -5166,11 +5311,13 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminQueryService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationPresentationAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationViewAssembler.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestEntityResolver.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsRetentionService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestPresentationAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestReadService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestViewAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestWorkflowNotificationService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserEntityResolver.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionResult.java",

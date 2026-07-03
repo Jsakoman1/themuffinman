@@ -3,6 +3,7 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.semantic.SemanticAliasRegistry;
 import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.location.service.LocationLookupService;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
@@ -93,7 +94,9 @@ class VisionConversationServiceTest {
     @BeforeEach
     void setUp() {
         visionProperties = new VisionProperties();
-        VisionIntentRouter visionIntentRouter = new VisionIntentRouter(visionProperties);
+        SemanticAliasRegistry semanticAliasRegistry = new SemanticAliasRegistry();
+        VisionSemanticRouteCatalogService visionSemanticRouteCatalogService = new VisionSemanticRouteCatalogService();
+        VisionIntentRouter visionIntentRouter = new VisionIntentRouter(visionProperties, visionSemanticRouteCatalogService);
         VisionScheduleParserService visionScheduleParserService = new VisionScheduleParserService();
         VisionLocationParserService visionLocationParserService = new VisionLocationParserService();
         VisionLocationResolutionService visionLocationResolutionService = new VisionLocationResolutionService(
@@ -105,7 +108,7 @@ class VisionConversationServiceTest {
         VisionClarificationService visionClarificationService = new VisionClarificationService();
         VisionCanvasAssembler visionCanvasAssembler = new VisionCanvasAssembler(visionProperties);
         VisionExecutionPlanner visionExecutionPlanner = new VisionExecutionPlanner(visionClarificationService, visionProperties);
-        VisionQuestDiscoveryService visionQuestDiscoveryService = new VisionQuestDiscoveryService(questReadService);
+        VisionQuestDiscoveryService visionQuestDiscoveryService = new VisionQuestDiscoveryService(questReadService, semanticAliasRegistry);
         VisionSemanticOrchestrationContextService visionSemanticOrchestrationContextService =
                 new VisionSemanticOrchestrationContextService(new com.themuffinman.app.config.VoiceProperties(), visionConversationRepository, visionTurnRepository);
         VisionSurfacePolicy visionSurfacePolicy = new VisionSurfacePolicy(visionProperties);

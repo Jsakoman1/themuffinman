@@ -1,14 +1,22 @@
 package com.themuffinman.app.vision.service;
 
-import com.themuffinman.app.agent.service.LocalAdminAgentPromptTranslator;
 import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.prompt.PromptSemanticsSupport;
+import com.themuffinman.app.semantic.SemanticEntityFamily;
+import com.themuffinman.app.semantic.SemanticEntityResolution;
+import com.themuffinman.app.semantic.SemanticEntityResolutionStatus;
+import com.themuffinman.app.semantic.VisionEntityResolver;
+import com.themuffinman.app.semantic.VisionEntityResolverRegistry;
 import com.themuffinman.app.vision.testing.VisionConversationTestBuilder;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class VisionPromptUnderstandingServiceTest {
 
@@ -29,7 +37,7 @@ class VisionPromptUnderstandingServiceTest {
     }
 
     @Test
-    void doesNotReuseConversationRequestedSlotWhenPromptClearlySwitchesEntityFamily() {
+    void localEmergencyFallbackKeepsRequestedSlotWhenItCannotSafelyClassifyATopicSwitch() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
         AppUser user = new AppUser();
@@ -40,10 +48,10 @@ class VisionPromptUnderstandingServiceTest {
 
         VisionPromptUnderstandingResult result = service.understandPrompt("create circle Neighbours", conversation);
 
-        assertEquals("CREATE_CIRCLE", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("create_circle", result.semanticPlanOrEmpty().getCapabilityId());
-        assertEquals(null, result.getFocusSlotId());
-        assertEquals(null, result.getFocusSlotConfidence());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("reward_amount", result.getFocusSlotId());
+        assertEquals(0.85d, result.getFocusSlotConfidence());
     }
 
     @Test
@@ -53,9 +61,12 @@ class VisionPromptUnderstandingServiceTest {
 
         VisionPromptUnderstandingResult result = service.understandPrompt("I need someone to move a sofa", null);
 
-        assertEquals("CREATE_QUEST", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("create_quest", result.semanticPlanOrEmpty().getCapabilityId());
-        assertEquals(0.8d, result.semanticPlanOrEmpty().getCandidateIntentConfidence());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_PROVIDER_LOCAL, result.getUnderstandingProvider());
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_STATUS_LOCAL_FAIL_CLOSED, result.getUnderstandingStatus());
+        assertEquals("I need someone to move a sofa", result.semanticEnvelopeOrEmpty().getRawUserText());
+        assertEquals(SemanticEntityFamily.UNKNOWN, result.semanticEnvelopeOrEmpty().getEntityFamily());
     }
 
     @Test
@@ -68,151 +79,168 @@ class VisionPromptUnderstandingServiceTest {
                 null
         );
 
-        assertEquals("CREATE_QUEST", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("create_quest", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_STATUS_LOCAL_FAIL_CLOSED, result.getUnderstandingStatus());
     }
 
     @Test
-    void buildsCreateCircleSemanticPlanWithLocalFallback() {
+    void failsClosedForNonEnglishPromptWhenOpenAiIsUnavailable() {
+        AgentProperties agentProperties = new AgentProperties();
+        VisionPromptUnderstandingService service = service(agentProperties);
+
+        VisionPromptUnderstandingResult result = service.understandPrompt(
+                "napravi mi quest za idući utorak u 5 popodne da mi netko opere kofere",
+                null
+        );
+
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("unknown", result.getSourceLanguage());
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_STATUS_LOCAL_FAIL_CLOSED, result.getUnderstandingStatus());
+    }
+
+    @Test
+    void failClosesCreateCirclePromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("create circle Neighbours", null);
 
-        assertEquals("CREATE_CIRCLE", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("create_circle", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
-    void buildsCreateCircleRequestSemanticPlanWithLocalFallback() {
+    void failClosesCreateCircleRequestPromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("send circle request to Josip", null);
 
-        assertEquals("CREATE_CIRCLE_REQUEST", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("create_circle_request", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
-    void buildsAcceptCircleRequestSemanticPlanWithLocalFallback() {
+    void failClosesAcceptCircleRequestPromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("accept circle request from Josip", null);
 
-        assertEquals("ACCEPT_CIRCLE_REQUEST", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("accept_circle_request", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
-    void buildsDeleteCircleRequestSemanticPlanWithLocalFallback() {
+    void failClosesDeleteCircleRequestPromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("decline circle request from Josip", null);
 
-        assertEquals("DELETE_CIRCLE_REQUEST", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("delete_circle_request", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
-    void buildsUpdateCircleSemanticPlanWithLocalFallback() {
+    void failClosesUpdateCirclePromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("rename circle Neighbours to Core Team", null);
 
-        assertEquals("UPDATE_CIRCLE", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("update_circle", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
-    void buildsDeleteCircleSemanticPlanWithLocalFallback() {
+    void failClosesDeleteCirclePromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("delete circle Neighbours", null);
 
-        assertEquals("DELETE_CIRCLE", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("delete_circle", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
-    void buildsCreateApplicationSemanticPlanWithLocalFallback() {
+    void failClosesCreateApplicationPromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("apply to quest 42", null);
 
-        assertEquals("CREATE_APPLICATION", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("create_application", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
-    void buildsUpdateApplicationSemanticPlanWithLocalFallback() {
+    void failClosesUpdateApplicationPromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("update my application for quest 42", null);
 
-        assertEquals("UPDATE_APPLICATION", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("update_application", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
-    void buildsWithdrawApplicationSemanticPlanWithLocalFallback() {
+    void failClosesWithdrawApplicationPromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("withdraw my application for quest 42", null);
 
-        assertEquals("WITHDRAW_APPLICATION", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("withdraw_application", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
-    void buildsApproveApplicationSemanticPlanWithLocalFallback() {
+    void failClosesApproveApplicationPromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("approve application Josip for quest 42", null);
 
-        assertEquals("APPROVE_APPLICATION", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("approve_application", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
-    void buildsDeclineApplicationSemanticPlanWithLocalFallback() {
+    void failClosesDeclineApplicationPromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("decline application Josip for quest 42", null);
 
-        assertEquals("DECLINE_APPLICATION", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("decline_application", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
-    void buildsUpdateProfileSemanticPlanWithLocalFallback() {
+    void failClosesUpdateProfilePromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("update my profile", null);
 
-        assertEquals("UPDATE_PROFILE", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("update_profile", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
-    void buildsUpdateProfileLocationSemanticPlanWithLocalFallback() {
+    void failClosesUpdateProfileLocationPromptWithLocalEmergencyFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);
 
         VisionPromptUnderstandingResult result = service.understandPrompt("set my location to Zurich, Switzerland", null);
 
-        assertEquals("UPDATE_PROFILE_LOCATION", result.semanticPlanOrEmpty().getCandidateIntent());
-        assertEquals("update_profile_location", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
     }
 
     @Test
@@ -236,6 +264,7 @@ class VisionPromptUnderstandingServiceTest {
 
         assertEquals("VIEW_PROFILE", result.semanticPlanOrEmpty().getCandidateIntent());
         assertEquals("view_profile", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_STATUS_LOCAL_EMERGENCY, result.getUnderstandingStatus());
     }
 
     @Test
@@ -279,18 +308,196 @@ class VisionPromptUnderstandingServiceTest {
 
         assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
         assertEquals("unsupported", result.semanticPlanOrEmpty().getCapabilityId());
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_STATUS_LOCAL_FAIL_CLOSED, result.getUnderstandingStatus());
+    }
+
+    @Test
+    void usesOpenAiPrimaryResultWhenConfigured() {
+        AgentProperties agentProperties = configuredOpenAiProperties();
+        VisionPromptUnderstandingService service = service(agentProperties, """
+                {
+                  "sourceLanguage":"hr",
+                  "normalizedPrompt":"create a quest for next Tuesday at 5 pm to wash my suitcases",
+                  "semanticPlan":{
+                    "candidateIntent":"CREATE_QUEST",
+                    "candidateIntentConfidence":0.96,
+                    "capabilityId":"create_quest",
+                    "planningNote":"Model selected create quest."
+                  },
+                  "translationApplied":true,
+                  "translationReliable":true
+                }
+                """);
+
+        AppUser user = new AppUser();
+        user.setId(7L);
+
+        VisionPromptUnderstandingResult result = service.understandPrompt("napravi mi quest za idući utorak u 5 popodne", null, user);
+
+        assertEquals("CREATE_QUEST", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_PROVIDER_OPENAI, result.getUnderstandingProvider());
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_STATUS_OPENAI_PRIMARY, result.getUnderstandingStatus());
+        assertEquals("openai", result.getTranslationProvider());
+    }
+
+    @Test
+    void rescuesSafeReadOnlyPromptWhenOpenAiStaysUnsupported() {
+        AgentProperties agentProperties = configuredOpenAiProperties();
+        VisionPromptUnderstandingService service = service(agentProperties, """
+                {
+                  "sourceLanguage":"en",
+                  "normalizedPrompt":"show my profile",
+                  "semanticPlan":{
+                    "candidateIntent":"UNSUPPORTED",
+                    "candidateIntentConfidence":0.2,
+                    "capabilityId":"unsupported",
+                    "planningNote":"Model stayed uncertain."
+                  },
+                  "translationApplied":false,
+                  "translationReliable":true
+                }
+                """);
+
+        AppUser user = new AppUser();
+        user.setId(7L);
+
+        VisionPromptUnderstandingResult result = service.understandPrompt("show my profile", null, user);
+
+        assertEquals("VIEW_PROFILE", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_STATUS_OPENAI_LOCAL_RESCUE, result.getUnderstandingStatus());
+    }
+
+    @Test
+    void failClosesMutationPromptWhenOpenAiCallFails() {
+        AgentProperties agentProperties = configuredOpenAiProperties();
+        VisionPromptUnderstandingService service = failingOpenAiService(agentProperties);
+
+        VisionPromptUnderstandingResult result = service.understandPrompt("create quest to move my sofa", null);
+
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_PROVIDER_LOCAL, result.getUnderstandingProvider());
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_STATUS_LOCAL_FAIL_CLOSED, result.getUnderstandingStatus());
+    }
+
+    @Test
+    void flagsLowConfidenceEntityResolutionForClarificationWhenMutatingTargetNeedsDisambiguation() {
+        AgentProperties agentProperties = configuredOpenAiProperties();
+        VisionPromptUnderstandingService service = service(
+                agentProperties,
+                buildSemanticPayload(
+                        "CREATE_CIRCLE_REQUEST",
+                        "create_circle_request",
+                        "send a circle request to friend",
+                        "friend"
+                ),
+                new VisionEntityResolverRegistry(List.of(new VisionEntityResolver<VisionResolvedUserTarget>() {
+                    @Override
+                    public SemanticEntityFamily family() {
+                        return SemanticEntityFamily.USER;
+                    }
+
+                    @Override
+                    public SemanticEntityResolution<VisionResolvedUserTarget> resolve(AppUser currentUser, String targetEntityQuery) {
+                        return SemanticEntityResolution.<VisionResolvedUserTarget>builder()
+                                .entityFamily(SemanticEntityFamily.USER)
+                                .status(SemanticEntityResolutionStatus.RESOLVED)
+                                .targetEntityQuery(targetEntityQuery)
+                                .entity(new VisionResolvedUserTarget(7L, "Josip", null))
+                                .canonicalLabel("Josip")
+                                .confidence(0.82d)
+                                .build();
+                    }
+                }))
+        );
+
+        AppUser user = new AppUser();
+        user.setId(7L);
+        VisionPromptUnderstandingResult result = service.understandPrompt("send a circle request to friend", null, user);
+
+        assertEquals("CREATE_CIRCLE_REQUEST", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals(SemanticEntityFamily.CIRCLE, result.semanticEnvelopeOrEmpty().getEntityFamily());
+        assertEquals(0.82d, result.semanticEnvelopeOrEmpty().getEntityResolutionConfidence());
+        assertEquals(SemanticEntityResolutionStatus.RESOLVED, result.semanticEnvelopeOrEmpty().getEntityResolutionStatus());
+        assertEquals("Josip", result.semanticEnvelopeOrEmpty().getEntityResolutionLabel());
+        assertTrue(result.semanticEnvelopeOrEmpty().isClarificationRequired());
     }
 
     private VisionPromptUnderstandingService service(AgentProperties agentProperties) {
+        return service(agentProperties, null, new VisionEntityResolverRegistry(List.of()));
+    }
+
+    private VisionPromptUnderstandingService service(AgentProperties agentProperties, String openAiOutputText) {
+        return service(agentProperties, openAiOutputText, new VisionEntityResolverRegistry(List.of()));
+    }
+
+    private VisionPromptUnderstandingService service(
+            AgentProperties agentProperties,
+            String openAiOutputText,
+            VisionEntityResolverRegistry visionEntityResolverRegistry
+    ) {
         return new VisionPromptUnderstandingService(
                 agentProperties,
-                new LocalAdminAgentPromptTranslator(),
                 new VisionSemanticMapper(),
                 new PromptSemanticsSupport(),
                 new VisionSemanticOrchestrationContextService(new VoiceProperties()),
                 new VisionSemanticRouteCatalogService(),
                 new VisionSemanticContractSanitizer(),
-                new VisionSemanticResponseValidator()
-        );
+                new VisionSemanticResponseValidator(),
+                visionEntityResolverRegistry
+        ) {
+            @Override
+            protected String requestOpenAiOutputText(Map<String, Object> payload) {
+                if (openAiOutputText == null) {
+                    throw new org.springframework.web.client.RestClientException("openai disabled in test");
+                }
+                return openAiOutputText;
+            }
+        };
+    }
+
+    private VisionPromptUnderstandingService failingOpenAiService(AgentProperties agentProperties) {
+        return new VisionPromptUnderstandingService(
+                agentProperties,
+                new VisionSemanticMapper(),
+                new PromptSemanticsSupport(),
+                new VisionSemanticOrchestrationContextService(new VoiceProperties()),
+                new VisionSemanticRouteCatalogService(),
+                new VisionSemanticContractSanitizer(),
+                new VisionSemanticResponseValidator(),
+                new VisionEntityResolverRegistry(List.of())
+        ) {
+            @Override
+            protected String requestOpenAiOutputText(Map<String, Object> payload) {
+                throw new org.springframework.web.client.RestClientException("boom");
+            }
+        };
+    }
+
+    private String buildSemanticPayload(String candidateIntent, String capabilityId, String normalizedPrompt, String targetUserQuery) {
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(Map.of(
+                    "sourceLanguage", "en",
+                    "normalizedPrompt", normalizedPrompt,
+                    "semanticPlan", Map.of(
+                            "candidateIntent", candidateIntent,
+                            "candidateIntentConfidence", 0.93d,
+                            "capabilityId", capabilityId,
+                            "planningNote", "test payload",
+                            "targetUserQuery", targetUserQuery
+                    ),
+                    "translationApplied", false,
+                    "translationReliable", true
+            ));
+        } catch (Exception exception) {
+            throw new IllegalStateException(exception);
+        }
+    }
+
+    private AgentProperties configuredOpenAiProperties() {
+        AgentProperties agentProperties = new AgentProperties();
+        agentProperties.setProvider("openai");
+        agentProperties.setApiKey("test-key");
+        agentProperties.setBaseUrl("https://example.test/v1");
+        return agentProperties;
     }
 }

@@ -788,18 +788,15 @@ module LocalToolingExtendedTools
     open_entries = entries.select { |entry| entry[:status] != "complete" }
     open_master_plans = open_entries.select { |entry| entry[:kind] == "master-plan" }
     open_plans = open_entries.reject { |entry| entry[:kind] == "master-plan" }
-    complete_entries = entries.select { |entry| entry[:status] == "complete" }
     payload = {
       generated_at: now,
       total_count: entries.size,
       open_count: open_entries.size,
       master_plan_count: entries.count { |entry| entry[:kind] == "master-plan" },
       god_plan_count: entries.count { |entry| entry[:kind] == "god-plan" },
-      complete_count: complete_entries.size,
       open_master_plans: open_master_plans,
       open_plans: open_plans,
-      complete_plans: complete_entries.first(20),
-      entries: entries
+      entries: open_entries
     }
     json_path = "#{OUT}/plan-index.json"
     summary_path = "#{OUT}/plan-index-summary.md"
@@ -822,8 +819,7 @@ module LocalToolingExtendedTools
         total_count: plan_index["total_count"],
         open_count: plan_index["open_count"],
         open_master_plans: Array(plan_index["open_master_plans"]).first(5),
-        open_plans: Array(plan_index["open_plans"]).first(10),
-        recent_complete_plans: Array(plan_index["complete_plans"]).first(5)
+        open_plans: Array(plan_index["open_plans"]).first(10)
       },
       audit_summary_index: {
         path: "#{OUT}/audit-summary-index.json",
@@ -951,7 +947,6 @@ module LocalToolingExtendedTools
     lines << "- Open entries: #{payload[:open_count]}"
     lines << "- Open master plans: #{payload[:open_master_plans].size}"
     lines << "- Open regular plans: #{payload[:open_plans].size}"
-    lines << "- Complete entries: #{payload[:complete_count]}"
     lines << ""
     lines << "## Open Master Plans"
     lines << ""
@@ -966,12 +961,6 @@ module LocalToolingExtendedTools
       lines << "- `#{entry[:path]}` | `#{entry[:status]}` | #{entry[:goal] || entry[:title]}"
     end
     lines << "- ... and #{payload[:open_plans].size - 20} more" if payload[:open_plans].size > 20
-    lines << ""
-    lines << "## Recent Complete Plans"
-    lines << ""
-    payload[:complete_plans].each do |entry|
-      lines << "- `#{entry[:path]}` | `#{entry[:status]}` | #{entry[:goal] || entry[:title]}"
-    end
     lines << ""
     lines << "_Routing aid only. Use the underlying plan file or plan-completion report for final status._"
     lines.join("\n")
@@ -1000,10 +989,6 @@ module LocalToolingExtendedTools
     Array(payload.dig(:plan_index, :open_plans)).each do |entry|
       lines << "- `#{entry["path"] || entry[:path]}` | `#{entry["status"] || entry[:status]}` | #{entry["goal"] || entry[:goal] || entry["title"] || entry[:title]}"
     end
-    lines << ""
-    lines << "## Next Action"
-    lines << ""
-    lines << "- #{payload[:next_action]}"
     lines << ""
     lines.join("\n")
   end

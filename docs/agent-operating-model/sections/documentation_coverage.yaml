@@ -16,7 +16,7 @@ documentation_coverage:
   required_source_ref_groups:
   - id: automation_services
     source_refs:
-    - local_admin_agent_prompt_translator
+    - admin_agent_prompt_preparation_service
     - auth_service
     - auth_mgr
     - app_user_service
@@ -250,6 +250,7 @@ documentation_coverage:
     - quest_workflow_scenario_test
     - agent_operating_model_validation_test
     - admin_agent_execution_service_test
+    - admin_agent_prompt_preparation_service_test
     - admin_synthetic_quest_execution_planner_test
     - repository_fetch_profile_contract_test
     - workflow_state_machine_catalog_test

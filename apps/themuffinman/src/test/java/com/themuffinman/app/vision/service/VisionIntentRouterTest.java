@@ -11,7 +11,7 @@ class VisionIntentRouterTest {
     @Test
     void usesSemanticPlanBeforePromptHeuristics() {
         VisionProperties visionProperties = new VisionProperties();
-        VisionIntentRouter router = new VisionIntentRouter(visionProperties);
+        VisionIntentRouter router = new VisionIntentRouter(visionProperties, new VisionSemanticRouteCatalogService());
         VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
                 .normalizedPrompt("please help")
                 .semanticPlan(VisionSemanticPlan.createQuest(0.95d, "model classified create quest"))
@@ -23,7 +23,7 @@ class VisionIntentRouterTest {
     @Test
     void fallsBackToPromptHeuristicsWhenSemanticPlanIsUnsupported() {
         VisionProperties visionProperties = new VisionProperties();
-        VisionIntentRouter router = new VisionIntentRouter(visionProperties);
+        VisionIntentRouter router = new VisionIntentRouter(visionProperties, new VisionSemanticRouteCatalogService());
         VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
                 .normalizedPrompt("I need help moving")
                 .semanticPlan(VisionSemanticPlan.empty())
@@ -35,7 +35,7 @@ class VisionIntentRouterTest {
     @Test
     void routesDiscoveryIntentFromSemanticPlan() {
         VisionProperties visionProperties = new VisionProperties();
-        VisionIntentRouter router = new VisionIntentRouter(visionProperties);
+        VisionIntentRouter router = new VisionIntentRouter(visionProperties, new VisionSemanticRouteCatalogService());
         VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
                 .normalizedPrompt("show me open quests")
                 .semanticPlan(VisionSemanticPlan.discoverQuests(0.95d, "browse available quests", "moving help"))
@@ -47,7 +47,7 @@ class VisionIntentRouterTest {
     @Test
     void routesOpenChatIntentFromSemanticPlan() {
         VisionProperties visionProperties = new VisionProperties();
-        VisionIntentRouter router = new VisionIntentRouter(visionProperties);
+        VisionIntentRouter router = new VisionIntentRouter(visionProperties, new VisionSemanticRouteCatalogService());
         VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
                 .normalizedPrompt("chat with Josip")
                 .semanticPlan(VisionSemanticPlan.builder()
@@ -65,7 +65,7 @@ class VisionIntentRouterTest {
     @Test
     void routesSettingsAndDetailReadOnlyIntentsFromPromptHeuristics() {
         VisionProperties visionProperties = new VisionProperties();
-        VisionIntentRouter router = new VisionIntentRouter(visionProperties);
+        VisionIntentRouter router = new VisionIntentRouter(visionProperties, new VisionSemanticRouteCatalogService());
 
         assertEquals(VisionIntent.VIEW_CHAT_WORKSPACE, router.detectIntent("show chat"));
         assertEquals(VisionIntent.VIEW_CIRCLES, router.detectIntent("show circles"));

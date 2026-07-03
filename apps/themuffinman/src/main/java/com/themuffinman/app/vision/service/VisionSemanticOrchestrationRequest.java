@@ -133,8 +133,13 @@ class VisionSemanticRuntimeContext {
 class VisionSemanticRouteDescriptor {
     private String routeKey;
     private String entityType;
+    private String entityFamily;
     private String intent;
     private String capabilityId;
+    private String dtoType;
+    private String validatorKey;
+    private String executorKey;
+    private Double minimumConfidence;
     private String purpose;
     private boolean mutating;
     private boolean requiresReview;

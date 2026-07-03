@@ -38,7 +38,9 @@ Current covered modules:
 - `/vision` now also persists a compact session memory snapshot on the conversation row, so the backend can carry the current thread context forward even when the live turn object is not on screen.
 - `/vision` now feeds that persisted session memory snapshot back into prompt understanding as the durable session rail for the next turn, with structured summary, open-question, and recent-action fields instead of one opaque blob.
 - `/vision` now inserts a dedicated semantic understanding step between speech transcription and slot merging so one prompt can fill multiple explicit quest fields without dumping everything into description or location by default.
-- `/vision` now treats the backend semantic model as the primary interpreter for prompt understanding across quests, circles, applications, profiles, and chat, while the deterministic local parser only rescues turns when the semantic result comes back unsupported.
+- `/vision` now treats the backend semantic model as the primary interpreter for prompt understanding across quests, circles, applications, profiles, and chat, while the deterministic local parser is reduced to an English-only emergency path for safe read surfaces and fail-closes mutation-style prompts when OpenAI understanding is unavailable.
+- `/vision` now resolves target entities through backend resolver families and confidence thresholds, so a prompt like a circle request can keep its action domain in one family while still resolving the actual target person, quest, circle, or application separately before clarification or DTO mapping continues.
+- `/vision` turn and dashboard prompt responses now expose the prompt-understanding provider and understanding status, so the frontend can tell whether a turn came from primary OpenAI understanding, OpenAI-plus-local rescue, or degraded local emergency handling.
 - `/vision` now fail-closes any OpenAI semantic response that selects a capability or focus slot outside the backend-published response contract before routing continues.
 - `/vision` now rejects any OpenAI semantic response that tries to extract slots or generic semantic fields not exposed by the selected backend route, so model output stays aligned with the actual route contract before sanitization.
 - `/vision` now keeps create-quest descriptions as a core task summary and strips reward, schedule, and location noise from the fallback description so the preview stays readable.
@@ -61,13 +63,13 @@ Current covered modules:
 - `/vision` now rejects location labels that look like full prompts or task descriptions, while still accepting short place-like labels such as city names, square names, and address fragments.
 - `/vision` now also understands simple postal-code-plus-locality and locality-plus-postal-code location fragments, so short Swiss-style place labels can stay structured without needing a full picker.
 - `/vision` now parses explicit `am` / `pm` phrases before the generic hour-only fallback, so combined weekday-and-time input stays on the day/time split instead of drifting into the wrong hour.
-- `/vision` now also understands explicit evening phrasing such as `in the evening` and `navečer` when the hour is already present.
-- `/vision` now also understands a plain weekday reference such as `this Friday` or `ovaj petak` without requiring the user to say `next Friday` first.
-- `/vision` now also understands a small German weekday and day-period set such as `morgen`, `heute`, `freitag`, and `um 5 am abend` for Swiss-style English/German turn handling.
+- `/vision` now also understands explicit evening phrasing such as `in the evening` when the hour is already present.
+- `/vision` now also understands a plain weekday reference such as `this Friday` without requiring the user to say `next Friday` first.
+- The deterministic local emergency fallback is English-only and fail-closes on non-English prompts; multilingual handling now depends on the OpenAI semantic path.
 - The same `/vision` review state can now send the user back to one named field such as reward, schedule, or location, so corrections stay conversational instead of reopening a legacy edit surface.
 - The `/vision` conversation turn API now accepts explicit backend actions for review-to-execution confirmation and review-field correction targets, while reset and cancel still have dedicated lifecycle endpoints and also accept the common shortcut phrases `cancel`, `stop`, and `reset` during an active conversation.
 - When `app.vision.execution-enabled` is on, the same persisted `/vision` conversation may create the quest after the review state and an explicit confirmation from the user.
-- The long-term `/vision` goal is to replace the legacy frontend with one blank-canvas adaptive surface that reveals fields, prompts, results, and confirmations only when the current task needs them.
+- The long-term `/vision` goal is to keep the remaining authenticated runtime blank-canvas adaptive so it reveals fields, prompts, results, and confirmations only when the current task needs them.
 
 ## Identity
 
@@ -267,9 +269,10 @@ Current covered modules:
 - The direct execution slice is admin-only, target-user-specific, and limited to synthetic quest creation for sandbox/operator workflows.
 - It does not rely on the ChatGPT consumer app.
 - Production admin prompt planning and sandbox-generation planning are structurally separate so synthetic test-data rules stay auditable.
-- The playground now runs a translation layer before workflow classification so prompts do not have to be written only in English.
-- Local fallback translation is intentionally limited and mainly covers known planning phrases, while broader language support depends on a backend-managed provider.
+- The playground now classifies the raw prompt directly on the local path and expects English-only operator input there; broader language support depends on a backend-managed provider.
+- Local fallback translation has been removed from the admin path, so the admin planner no longer rewrites prompts before workflow classification.
 - The planner now also returns structured resolution, clarification, and execution-readiness contracts instead of only free-form warnings.
+- The semantic contract now also records required slots, missing slots, and replay metadata so clarification is deterministic and reproducible instead of inferred from noisy user text.
 - The same planner response now also tells the admin UI whether the first guarded execution capability is available for the current prompt.
 - Vision and Admin Playground now share one backend prompt-semantics boundary for normalization and intent classification, while still keeping user-scoped and admin-scoped authority separate.
 - The same agent-safe pattern is now expected across quest updates, application self-service, circle-group management, outgoing request cancellation, and chat read actions.

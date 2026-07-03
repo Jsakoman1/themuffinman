@@ -67,6 +67,12 @@ export type QuestViewerRelationDTO = typeof QUEST_VIEWER_RELATION_DTO_VALUES[num
 export const REVIEW_ROLE_VALUES = ["EMPLOYER", "WORKER"] as const
 export type ReviewRole = typeof REVIEW_ROLE_VALUES[number]
 
+export const SEMANTIC_ENTITY_FAMILY_VALUES = ["QUEST", "CIRCLE", "USER", "APPLICATION", "CHAT", "PROFILE", "SETTINGS", "UNKNOWN"] as const
+export type SemanticEntityFamily = typeof SEMANTIC_ENTITY_FAMILY_VALUES[number]
+
+export const SEMANTIC_ENTITY_RESOLUTION_STATUS_VALUES = ["RESOLVED", "AMBIGUOUS", "NOT_FOUND"] as const
+export type SemanticEntityResolutionStatus = typeof SEMANTIC_ENTITY_RESOLUTION_STATUS_VALUES[number]
+
 export const THING_BORROW_REQUEST_STATUS_VALUES = ["PENDING", "CANCELLED"] as const
 export type ThingBorrowRequestStatus = typeof THING_BORROW_REQUEST_STATUS_VALUES[number]
 
@@ -681,6 +687,8 @@ export interface DashboardVisionPromptResponseDTO {
   normalizedPrompt: string
   source: string
   translationProvider: string
+  understandingProvider: string
+  understandingStatus: string
   translationApplied: boolean
   translationReliable: boolean
   activeFilter: string
@@ -1431,6 +1439,8 @@ export interface VisionConversationTurnResponseDTO {
   message: string
   requestedSlot: string
   normalizedPrompt: string
+  understandingProvider: string
+  understandingStatus: string
   translationApplied: boolean
   translationReliable: boolean
   executionEnabled: boolean
@@ -1534,10 +1544,6 @@ export interface VisionSlotSummaryDTO {
 
 export type AdminAgentExecutionRequest = AdminAgentExecutionRequestDTO
 export type AdminAgentExecutionResponse = AdminAgentExecutionResponseDTO
-export type AdminAgentPlaygroundRequest = AdminAgentPlaygroundRequestDTO
-export type AdminAgentPlaygroundResponse = AdminAgentPlaygroundResponseDTO
-export type AdminAgentSimulationRequest = AdminAgentSimulationRequestDTO
-export type AdminAgentSimulationResponse = AdminAgentSimulationResponseDTO
 export type AdminApplicationsQuery = AdminApplicationsQueryDTO
 export type AdminCircleGroup = AdminCircleGroupResponseDTO
 export type AdminCircleOverview = AdminCircleOverviewDTO

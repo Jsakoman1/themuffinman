@@ -13,6 +13,8 @@ import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.identity.service.UserProfileViewService;
 import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
+import com.themuffinman.app.semantic.SemanticAliasRegistry;
+import com.themuffinman.app.semantic.SemanticEntityFamily;
 import com.themuffinman.app.location.dto.UserLocationSettingsDTO;
 import com.themuffinman.app.location.dto.UserLocationSettingsRequestDTO;
 import com.themuffinman.app.location.model.UserLocationMode;
@@ -54,6 +56,7 @@ public class VisionCapabilityPreviewService {
     private final CircleService circleService;
     private final QuestService questService;
     private final QuestApplicationService questApplicationService;
+    private final SemanticAliasRegistry semanticAliasRegistry;
     private static final Pattern QUEST_ID_PATTERN = Pattern.compile("(?i)(?:quest\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
     private static final Pattern APPLICATION_ID_PATTERN = Pattern.compile("(?i)(?:application\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
     private static final Pattern CIRCLE_ID_PATTERN = Pattern.compile("(?i)(?:circle\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
@@ -69,7 +72,8 @@ public class VisionCapabilityPreviewService {
             ChatService chatService,
             CircleService circleService,
             QuestService questService,
-            QuestApplicationService questApplicationService
+            QuestApplicationService questApplicationService,
+            SemanticAliasRegistry semanticAliasRegistry
     ) {
         this.appUserService = appUserService;
         this.appUserMgr = appUserMgr;
@@ -79,6 +83,7 @@ public class VisionCapabilityPreviewService {
         this.circleService = circleService;
         this.questService = questService;
         this.questApplicationService = questApplicationService;
+        this.semanticAliasRegistry = semanticAliasRegistry;
     }
 
     public VisionCapabilityPreviewDTO previewProfile(AppUser currentUser) {
@@ -525,7 +530,7 @@ public class VisionCapabilityPreviewService {
             }
         }
 
-        String normalizedQuery = SearchQueryNormalizer.normalize(query).toLowerCase(Locale.ROOT);
+        String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.QUEST, query).toLowerCase(Locale.ROOT);
         List<QuestResponseDTO> candidates = questService.getAllQuestResponses(currentUser).stream()
                 .filter(quest -> quest.getAllowedActions() != null && quest.getAllowedActions().contains(QuestAllowedActionDTO.APPLY))
                 .filter(quest -> matchesQuestQuery(quest, normalizedQuery))
@@ -687,7 +692,7 @@ public class VisionCapabilityPreviewService {
             }
         }
 
-        String normalizedQuery = SearchQueryNormalizer.normalize(query).toLowerCase(Locale.ROOT);
+        String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.APPLICATION, query).toLowerCase(Locale.ROOT);
         List<QuestResponseDTO> candidates = questService.getAllQuestResponses(currentUser).stream()
                 .filter(quest -> matchesQuestQuery(quest, normalizedQuery))
                 .toList();
@@ -733,7 +738,7 @@ public class VisionCapabilityPreviewService {
             }
         }
 
-        String normalizedTargetQuery = SearchQueryNormalizer.normalize(query).toLowerCase(Locale.ROOT);
+        String normalizedTargetQuery = normalizeEntityQuery(SemanticEntityFamily.USER, query).toLowerCase(Locale.ROOT);
         List<AppUser> matches = appUserRepository.searchByUsernameOrEmail(normalizedTargetQuery);
         if (matches.isEmpty()) {
             return VisionResolvedUserTarget.unresolved("I could not identify one profile for \"" + query.trim() + "\".");
@@ -888,7 +893,7 @@ public class VisionCapabilityPreviewService {
             return VisionResolvedUserTarget.unresolved("Who should receive the circle request? Say a username, email, or name fragment.");
         }
 
-        String normalizedTargetQuery = SearchQueryNormalizer.normalize(query).toLowerCase(Locale.ROOT);
+        String normalizedTargetQuery = normalizeEntityQuery(SemanticEntityFamily.USER, query).toLowerCase(Locale.ROOT);
         List<AppUser> matches = appUserRepository.searchByUsernameOrEmail(normalizedTargetQuery).stream()
                 .filter(candidate -> candidate != null && currentUser != null && !candidate.getId().equals(currentUser.getId()))
                 .toList();
@@ -1247,7 +1252,7 @@ public class VisionCapabilityPreviewService {
         if (questId != null) {
             return questId.equals(application.getQuestId());
         }
-        String query = SearchQueryNormalizer.normalize(rawQuery).toLowerCase(Locale.ROOT);
+        String query = normalizeEntityQuery(SemanticEntityFamily.CIRCLE, rawQuery).toLowerCase(Locale.ROOT);
         String haystack = String.join(" ",
                 nullToEmpty(application.getQuestTitle()),
                 nullToEmpty(application.getQuestDescription()),
@@ -1264,7 +1269,7 @@ public class VisionCapabilityPreviewService {
         if (applicationId != null) {
             return applicationId.equals(application.getId());
         }
-        String query = SearchQueryNormalizer.normalize(rawQuery).toLowerCase(Locale.ROOT);
+        String query = normalizeEntityQuery(SemanticEntityFamily.CIRCLE, rawQuery).toLowerCase(Locale.ROOT);
         String haystack = String.join(" ",
                 nullToEmpty(application.getQuestTitle()),
                 nullToEmpty(application.getQuestDescription()),
@@ -1292,7 +1297,7 @@ public class VisionCapabilityPreviewService {
         if (circleId != null) {
             return circleId.equals(circle.getId());
         }
-        String query = SearchQueryNormalizer.normalize(rawQuery).toLowerCase(Locale.ROOT);
+        String query = normalizeEntityQuery(SemanticEntityFamily.QUEST, rawQuery).toLowerCase(Locale.ROOT);
         String haystack = String.join(" ",
                 nullToEmpty(circle.getName()),
                 nullToEmpty(circle.getMemberPreviewLabel()))
@@ -1339,7 +1344,7 @@ public class VisionCapabilityPreviewService {
         if (questId != null) {
             return questId.equals(quest.getId());
         }
-        String query = SearchQueryNormalizer.normalize(rawQuery).toLowerCase(Locale.ROOT);
+        String query = normalizeEntityQuery(SemanticEntityFamily.CIRCLE, rawQuery).toLowerCase(Locale.ROOT);
         return matchesQuestQuery(quest, query);
     }
 
@@ -1379,7 +1384,7 @@ public class VisionCapabilityPreviewService {
         List<CircleRequestResponseDTO> requests = incoming
                 ? circleService.getIncomingRequests(currentUser)
                 : circleService.getOutgoingRequests(currentUser);
-        String normalizedQuery = SearchQueryNormalizer.normalize(query).toLowerCase(Locale.ROOT);
+        String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.QUEST, query).toLowerCase(Locale.ROOT);
         List<CircleRequestResponseDTO> matches = requests.stream()
                 .filter(request -> request.getAcceptedAt() == null)
                 .filter(request -> matchesCircleRequestQuery(request, query, normalizedQuery))
@@ -1448,6 +1453,10 @@ public class VisionCapabilityPreviewService {
             return null;
         }
         return DATE_TIME_FORMAT.format(value);
+    }
+
+    private String normalizeEntityQuery(SemanticEntityFamily family, String query) {
+        return semanticAliasRegistry.normalizeQuery(family, SearchQueryNormalizer.normalize(query));
     }
 
     private void addItem(List<VisionSlotSummaryDTO> items, String slotId, String label, String value) {

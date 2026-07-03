@@ -143,6 +143,8 @@ export type VisionConversationTurnResponse = {
   message: string
   requestedSlot: string | null
   normalizedPrompt: string
+  understandingProvider: string
+  understandingStatus: string
   translationApplied: boolean
   translationReliable: boolean
   executionEnabled: boolean

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-03T09:56:16Z",
+  "generatedAt": "2026-07-03T14:31:49Z",
   "summary": {
-    "candidateCount": 194,
+    "candidateCount": 193,
     "domainCounts": {
-      "agent": 105,
+      "agent": 104,
       "business": 2,
       "chat": 11,
       "common": 5,
@@ -15,7 +15,7 @@
       "platform": 7
     },
     "ownerCounts": {
-      "agent_platform": 105,
+      "agent_platform": 104,
       "business_domain": 2,
       "chat_domain": 11,
       "platform_core": 12,
@@ -161,16 +161,6 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslator.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "admin_agent_prompt_translator",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentSurfacePolicy.java",
       "candidateType": "backend_executor_critical",
       "domainId": "agent",
@@ -206,16 +196,6 @@
       "domainId": "agent",
       "ownerId": "agent_platform",
       "sourceRefId": "admin_synthetic_quest_execution_planner",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "local_admin_agent_prompt_translator",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
@@ -1886,6 +1866,16 @@
       "domainId": "agent",
       "ownerId": "agent_platform",
       "sourceRefId": "admin_agent_execution_service_test",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPromptPreparationServiceTest.java",
+      "candidateType": "tracked_test",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "sourceRefId": "admin_agent_prompt_preparation_service_test",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null

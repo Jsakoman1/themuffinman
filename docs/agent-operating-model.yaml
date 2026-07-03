@@ -34,10 +34,6 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlanner.java
   - id: admin_agent_prompt_translation
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslation.java
-  - id: admin_agent_prompt_translator
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslator.java
-  - id: local_admin_agent_prompt_translator
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java
   - id: agent_surface_policy
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfacePolicy.java
   - id: agent_surface_id
@@ -494,6 +490,8 @@ source_of_truth:
     path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
   - id: admin_agent_execution_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
+  - id: admin_agent_prompt_preparation_service_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPromptPreparationServiceTest.java
   - id: admin_synthetic_quest_execution_planner_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java
   - id: repository_fetch_profile_contract_test
@@ -583,6 +581,7 @@ backend_audit_coverage:
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/agent/
     - apps/themuffinman/src/main/java/com/themuffinman/app/prompt/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/semantic/
     - apps/themuffinman/src/main/java/com/themuffinman/app/vision/
   - id: chat
     owner_id: chat_domain
@@ -696,6 +695,10 @@ backend_audit_coverage:
     tier: executor_critical
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/
+  - id: internal_support_semantic_surface
+    tier: internal_support
+    path_prefixes:
+    - apps/themuffinman/src/main/java/com/themuffinman/app/semantic/
   - id: executor_tracked_service_surface
     tier: executor_critical
     file_names:
@@ -2749,7 +2752,7 @@ documentation_coverage:
   required_source_ref_groups:
   - id: automation_services
     source_refs:
-    - local_admin_agent_prompt_translator
+    - admin_agent_prompt_preparation_service
     - auth_service
     - auth_mgr
     - app_user_service
@@ -2983,6 +2986,7 @@ documentation_coverage:
     - quest_workflow_scenario_test
     - agent_operating_model_validation_test
     - admin_agent_execution_service_test
+    - admin_agent_prompt_preparation_service_test
     - admin_synthetic_quest_execution_planner_test
     - repository_fetch_profile_contract_test
     - workflow_state_machine_catalog_test
@@ -3316,7 +3320,6 @@ dead_path_tracker:
   - delete_user_as_admin
   allow_source_refs_without_direct_workflow_usage:
   - admin_agent_prompt_translation
-  - admin_agent_prompt_translator
   - circle_request_mgr
   - user_review_mgr
 capability_registry:

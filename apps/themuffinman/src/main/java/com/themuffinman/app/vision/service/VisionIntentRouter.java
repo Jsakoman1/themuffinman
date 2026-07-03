@@ -10,9 +10,11 @@ import java.util.Locale;
 public class VisionIntentRouter {
 
     private final VisionProperties visionProperties;
+    private final VisionSemanticRouteCatalogService semanticRouteCatalogService;
 
-    public VisionIntentRouter(VisionProperties visionProperties) {
+    public VisionIntentRouter(VisionProperties visionProperties, VisionSemanticRouteCatalogService semanticRouteCatalogService) {
         this.visionProperties = visionProperties;
+        this.semanticRouteCatalogService = semanticRouteCatalogService;
     }
 
     public VisionIntent detectIntent(String prompt) {
@@ -94,6 +96,9 @@ public class VisionIntentRouter {
         }
         if (semanticIntent == VisionIntent.VIEW_APPLICATIONS) {
             return VisionIntent.VIEW_APPLICATIONS;
+        }
+        if (semanticRouteCatalogService.routeForIntent(semanticIntent.name()) != null) {
+            return semanticIntent;
         }
         String lower = prompt.toLowerCase(Locale.ROOT);
         if (containsCircleCreateSignals(lower)) {

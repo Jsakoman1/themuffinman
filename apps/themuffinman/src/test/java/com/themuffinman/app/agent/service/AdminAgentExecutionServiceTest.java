@@ -46,9 +46,8 @@ class AdminAgentExecutionServiceTest {
         agentProperties.setAdminExecutionEnabled(true);
         agentProperties.setAdminQuestBatchLimit(3);
 
-        LocalAdminAgentPromptTranslator translator = new LocalAdminAgentPromptTranslator();
         AdminAgentPromptPreparationService promptPreparationService =
-                new AdminAgentPromptPreparationService(translator, new PromptSemanticsSupport());
+                new AdminAgentPromptPreparationService(new PromptSemanticsSupport(), new com.themuffinman.app.vision.service.VisionSemanticRouteCatalogService());
         AdminAgentSurfacePolicy adminAgentSurfacePolicy = new AdminAgentSurfacePolicy(agentProperties);
         AdminSyntheticQuestExecutionPlanner planner = new AdminSyntheticQuestExecutionPlanner();
         AdminAgentTargetUserResolver targetUserResolver = new AdminAgentTargetUserResolver(appUserRepository);

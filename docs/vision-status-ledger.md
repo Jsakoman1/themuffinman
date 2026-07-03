@@ -19,9 +19,9 @@ It should stay short, factual, and updated when a vision batch materially change
 - semantic sanitization now drops prompt-like location labels and keeps short place-like labels, so a full create-quest command no longer leaks into the location preview
 - schedule parsing now checks explicit am/pm phrasing before hour-only fallback, so combined weekday-and-time turns stay anchored to the correct evening or morning hour
 - location parsing now understands simple postal-code-plus-locality and locality-plus-postal-code fragments, which keeps short Swiss-style location input structured
-- schedule parsing now also recognizes explicit evening phrasing such as `in the evening` and `navečer` when an hour is already present
-- schedule parsing now also resolves plain weekday references such as `this Friday` or `ovaj petak` into the next matching calendar day
-- schedule parsing now also recognizes a small German weekday and day-period set such as `morgen`, `heute`, `freitag`, and `um 5 am abend`
+- schedule parsing now also recognizes explicit evening phrasing such as `in the evening` when an hour is already present
+- schedule parsing now also resolves plain weekday references such as `this Friday` into the next matching calendar day
+- the local emergency fallback is English-only and fail-closes on non-English prompts
 - schedule parsing supports basic typed dates plus common spoken relative phrases
 - create-quest fallback parsing now keeps description as a core task summary and strips reward, schedule, and location noise before the value reaches the preview
 - the modern vision frontend surface is split into a route shell, animated agent component, prompt dock, and backend-driven canvas renderer
@@ -57,7 +57,6 @@ It should stay short, factual, and updated when a vision batch materially change
 - the durable vision memory layer now has its own context gateway, decision record, failure memory, feature-slice checklist, generated-artifact policy, and status ledger
 - `OPEN_CHAT` is now a first-class routed vision capability and can open a chat with an explicit circle contact through the existing chat boundary
 - quest and application detail entry points now have Vision-native routes, with legacy detail paths redirected into the Vision surface
-- profile, settings, circles, and chat entry points now resolve through Vision-native routes, and the old legacy view files have been removed from the route graph
 - profile and settings are now direct Vision route surfaces instead of nested profile dialogs, keeping identity and location editing inside the same route-level mental model as the rest of Vision
 - the main Vision surface now exposes Vision-native routes for profile, circles, applications, and chat, and the current user's applications now have a Vision-native list route
 - the main Vision surface now keeps capability entry points inline inside the terminal feed instead of rendering a separate launchpad panel, and the preview model is being tuned to the `create_quest` slot-by-slot reveal pattern
@@ -65,14 +64,11 @@ It should stay short, factual, and updated when a vision batch materially change
 - circles, applications, and profile are now rendered as linear text feeds with inline actions instead of dashboard cards and sidebars
 - chat, application detail, settings, onboarding, quest composer, and quest detail edit now also use the same terminal/feed presentation instead of the old dialog-and-panel shell
 - the shared Vision feed styling now standardizes line-by-line blocks, inline actions, and textual summaries across the remaining Vision detail surfaces
-- the frontend Vision module has now been reduced to one active conversation route shell, one terminal renderer, one ambient orb, one floating preview overlay, and the shared voice/conversation API client; the older page-shell, card, dialog, composer, quest-detail, circles-detail, and chat-detail frontend layers have been removed from the active tree
 - login and registration now use the same minimal route-level shell approach as the Vision transition, and the leftover shared brand/component stylesheet layer has been reduced to a small global reset plus Vision color tokens
 - the floating Vision preview is no longer quest-hardcoded; it now renders backend-provided capability preview items so profile, circles, applications, chat, and detail snapshots can reuse the same changing-model surface
 - profile, circles, and applications now behave as same-thread workspace families, so switching from read-only snapshot prompts into related mutation prompts reuses the current Vision conversation instead of forcing a new thread
 - Vision now has a profile onboarding route for completing identity, avatar, and location setup before falling back to the fuller settings surface
 - profiles without a saved location auto-focus the onboarding location section so the first-time setup path opens on the missing piece
-- the legacy admin login handoff now redirects into Vision instead of pointing at a removed frontend route
-- the legacy admin frontend shell and its route-level entry pages have been removed from the active frontend tree
 - the `/vision/conversations/turns` request now carries a versioned client contract with input type, text, client capabilities, and client state version fields instead of relying only on legacy prompt semantics
 - OpenAI prompt understanding now receives a typed Vision semantic orchestration request that includes raw prompt, conversation context, user locale/location/timezone hints, backend-published allowed routes, and response contract metadata
 - the Vision semantic orchestration request now also carries backend-owned memory context split into user memory, session memory, and recent turn snapshots so multi-topic conversations can keep stable preferences separate from the current thread
@@ -91,7 +87,8 @@ It should stay short, factual, and updated when a vision batch materially change
 - the current session memory snapshot now persists on the conversation row so the backend can keep a durable session context file in step with the live turn history
 - the persisted session snapshot now feeds back into the semantic memory pack on the next turn so the model can see the durable session rail directly, including structured summary, open-question, and recent-action fields
 - the semantic understanding layer now fail-closes any OpenAI response that picks a capability id or focus slot outside the backend-published contract before routing and slot sanitization continue
-- the backend semantic model remains the primary interpreter for `/vision` across quests, circles, applications, profiles, and chat, with the deterministic local parser only rescuing unsupported semantic outputs instead of replacing the model-first decision
+- the backend semantic model remains the primary interpreter for `/vision` across quests, circles, applications, profiles, and chat, with the deterministic local parser reduced to an English-only emergency path for safe read surfaces and fail-closed mutation fallback
+- turn and dashboard prompt responses now expose prompt-understanding provider/status metadata so degraded local emergency handling is visible instead of implicit
 - the semantic prompt audit matrix now covers representative quest, circle, application, profile, chat, and detail prompts so drift shows up in tests before the route catalog widens again
 - the semantic prompt audit matrix now also covers group-style circle creation, submit-application phrasing, profile editing, and direct-message phrasing so the model-first route selection stays explicit across the main entity families
 - the semantic response validator now rejects extracted slots and generic semantic fields that are not exposed by the selected backend route before sanitization runs

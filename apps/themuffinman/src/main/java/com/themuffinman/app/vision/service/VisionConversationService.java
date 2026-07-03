@@ -176,6 +176,8 @@ public class VisionConversationService {
         return visionCanvasAssembler.assemble(
                 conversation,
                 turn,
+                understanding.getUnderstandingProvider(),
+                understanding.getUnderstandingStatus(),
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation, understanding),
                 visionQuestDiscoveryService.discover(conversation, understanding, currentUser),
@@ -213,6 +215,8 @@ public class VisionConversationService {
         return visionCanvasAssembler.assemble(
                 conversation,
                 turn,
+                "none",
+                "not_applicable",
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation),
                 visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
@@ -230,6 +234,8 @@ public class VisionConversationService {
         return visionCanvasAssembler.assemble(
                 conversation,
                 turn,
+                "none",
+                "not_applicable",
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation),
                 visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
@@ -247,6 +253,8 @@ public class VisionConversationService {
         return visionCanvasAssembler.assemble(
                 conversation,
                 turn,
+                "unavailable",
+                "historical_turn",
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation),
                 visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),

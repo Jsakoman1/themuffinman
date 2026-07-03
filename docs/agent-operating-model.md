@@ -164,9 +164,9 @@ Initial agent-safe workflows:
 
 Related admin tooling:
 - an admin agent playground may help classify prompts and surface workflow warnings
-- that playground should translate prompts into a stable planning language before deterministic workflow classification
+- that playground should normalize prompts into English planning language before deterministic workflow classification
 - that playground stays planning-first, but the first guarded direct execution slice may create synthetic quest batches for one exact target user only after explicit admin confirmation
-- the same admin endpoint now stays deterministic and local-only for planning summaries while still falling back to deterministic backend rules
+- the same admin endpoint now stays deterministic and English-only for planning summaries while still falling back to deterministic backend rules
 - planner responses should keep deterministic matched signals and unresolved inputs separate from provider-authored summary text
 - the dedicated `/vision/conversations/turns` backend is the persisted prompt-bearing path for stepwise adaptive orchestration, `GET /vision/conversations/recent` and `GET /vision/conversations/{conversationId}` provide resume state, dedicated `/vision/conversations/{conversationId}/reset` and `/vision/conversations/{conversationId}/cancel` endpoints own lifecycle control, and dashboard prompt decoding remains a lighter planning surface
 - the first persisted `/vision` quest conversation now stepwise-collects reward, visibility, schedule, and location decisions, pauses for explicit candidate choice when a custom location lookup finds one or more more precise matches, accepts a broader deterministic HR/EN spoken-time vocabulary while still rejecting ambiguous spoken times without a day-period signal, and can route a review correction back to one named field instead of reopening a legacy form
@@ -384,7 +384,7 @@ Pre-executor readiness rule:
 - Documentation coverage scans must fail if automation-relevant controllers, mappers, or tracked agent service files appear in code without matching source-of-truth registration.
 - Source-of-truth audit must also fail if those files are missing from documentation coverage or mutating service workflow inventory.
 - Full backend inventory should still classify the rest of the backend even when those files are not yet part of strict fail-hard registration.
-- The multilingual golden prompt matrix must stay executable so Croatian, English, German, Mandarin, and mixed-slang prompts keep the same planning contracts over time.
+- The golden prompt matrix must stay executable so Croatian, English, German, Mandarin, and mixed-slang prompts keep normalizing into the same English planning contracts over time.
 - Frontend contract gates must fail fast if the admin-agent planner response shape drifts away from the frontend TypeScript contract surface.
 - Frontend workflow-aware helpers validate generated intent ids, endpoint ids, and safety-flag ids before the admin-agent UI treats simulation output as contract-shaped.
 - Feature completion manifests may be kept under `.agents/feature-manifests/` and validated against `docs/feature-completion-manifest.schema.json` when a change uses the plan-driven workflow.

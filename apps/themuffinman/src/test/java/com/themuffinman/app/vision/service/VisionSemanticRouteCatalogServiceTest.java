@@ -1,10 +1,15 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.semantic.SemanticEntityFamily;
+import com.themuffinman.app.vision.model.VisionIntent;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class VisionSemanticRouteCatalogServiceTest {
@@ -19,6 +24,18 @@ class VisionSemanticRouteCatalogServiceTest {
         var routes = service.allowedRoutes(user);
 
         assertEquals(25, routes.size());
+        assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.CREATE_QUEST));
+        assertEquals("QuestRequestDTO", service.dtoTypeForIntent(VisionIntent.CREATE_QUEST));
+        assertEquals("create_quest_validator", service.validatorKeyForIntent(VisionIntent.CREATE_QUEST));
+        assertEquals("create_quest_executor", service.executorKeyForIntent(VisionIntent.CREATE_QUEST));
+        assertTrue(service.minimumConfidenceForIntent(VisionIntent.CREATE_QUEST) >= 0.80d);
+        assertTrue(service.requiresTargetEntityResolution(VisionIntent.CREATE_CIRCLE_REQUEST));
+        assertTrue(service.minimumEntityResolutionConfidenceForIntent(VisionIntent.CREATE_CIRCLE_REQUEST) >= 0.85d);
+        assertFalse(service.requiresTargetEntityResolution(VisionIntent.CREATE_QUEST));
+        assertEquals(List.of("quest_title", "quest_description", "reward_amount", "schedule_mode", "visibility", "location_mode"),
+                service.requiredSlotIdsForIntent(VisionIntent.CREATE_QUEST));
+        assertEquals(List.of("target_user"), service.requiredSlotIdsForCapabilityId("create_circle_request"));
+        assertNotNull(service.routeForIntent("CREATE_QUEST"));
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.create_circle")
                 && route.isMutating()
                 && route.isRequiresReview()

@@ -1,9 +1,14 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.semantic.SemanticEntityFamily;
+import com.themuffinman.app.vision.model.VisionIntent;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 public class VisionSemanticRouteCatalogService {
@@ -13,6 +18,10 @@ public class VisionSemanticRouteCatalogService {
             return List.of();
         }
 
+        return allRoutes();
+    }
+
+    public List<VisionSemanticRouteDescriptor> allRoutes() {
         return List.of(
                 createQuestRoute(),
                 createCircleRoute(),
@@ -40,6 +49,161 @@ public class VisionSemanticRouteCatalogService {
                 viewApplicationsRoute(),
                 viewApplicationDetailRoute()
         );
+    }
+
+    public VisionSemanticRouteDescriptor routeForIntent(String intent) {
+        if (intent == null || intent.isBlank()) {
+            return null;
+        }
+        return allRoutes().stream()
+                .filter(route -> intent.trim().equalsIgnoreCase(route.getIntent()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public VisionSemanticRouteDescriptor routeForCapabilityId(String capabilityId) {
+        if (capabilityId == null || capabilityId.isBlank()) {
+            return null;
+        }
+        return allRoutes().stream()
+                .filter(route -> capabilityId.trim().equalsIgnoreCase(route.getCapabilityId()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public List<String> requiredSlotIdsForIntent(VisionIntent intent) {
+        VisionSemanticRouteDescriptor route = routeForIntent(intent == null ? null : intent.name());
+        return requiredSlotIds(route);
+    }
+
+    public List<String> requiredSlotIdsForCapabilityId(String capabilityId) {
+        VisionSemanticRouteDescriptor route = routeForCapabilityId(capabilityId);
+        return requiredSlotIds(route);
+    }
+
+    public List<String> requiredSlotIds(VisionSemanticRouteDescriptor route) {
+        if (route == null || route.getSlots() == null) {
+            return List.of();
+        }
+        return route.getSlots().stream()
+                .filter(slot -> slot != null && slot.isRequired() && slot.getSlotId() != null && !slot.getSlotId().isBlank())
+                .map(VisionSemanticSlotDescriptor::getSlotId)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public SemanticEntityFamily entityFamilyForIntent(VisionIntent intent) {
+        if (intent == null) {
+            return SemanticEntityFamily.UNKNOWN;
+        }
+        return switch (intent) {
+            case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL -> SemanticEntityFamily.QUEST;
+            case CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
+                    UPDATE_CIRCLE, DELETE_CIRCLE, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL -> SemanticEntityFamily.CIRCLE;
+            case CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION,
+                    DECLINE_APPLICATION, VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL -> SemanticEntityFamily.APPLICATION;
+            case VIEW_USER_PROFILE, OPEN_CHAT -> SemanticEntityFamily.USER;
+            case VIEW_PROFILE, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> SemanticEntityFamily.PROFILE;
+            case VIEW_SETTINGS -> SemanticEntityFamily.SETTINGS;
+            default -> SemanticEntityFamily.UNKNOWN;
+        };
+    }
+
+    public SemanticEntityFamily targetEntityFamilyForIntent(VisionIntent intent) {
+        if (intent == null) {
+            return SemanticEntityFamily.UNKNOWN;
+        }
+        return switch (intent) {
+            case CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST, OPEN_CHAT, VIEW_USER_PROFILE -> SemanticEntityFamily.USER;
+            case UPDATE_CIRCLE, DELETE_CIRCLE, VIEW_CIRCLE_DETAIL -> SemanticEntityFamily.CIRCLE;
+            case CREATE_APPLICATION -> SemanticEntityFamily.QUEST;
+            case UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, VIEW_APPLICATION_DETAIL -> SemanticEntityFamily.APPLICATION;
+            case VIEW_QUEST_DETAIL -> SemanticEntityFamily.QUEST;
+            default -> SemanticEntityFamily.UNKNOWN;
+        };
+    }
+
+    public String dtoTypeForIntent(VisionIntent intent) {
+        if (intent == null) {
+            return "unknown";
+        }
+        return switch (intent) {
+            case CREATE_QUEST -> "QuestRequestDTO";
+            case CREATE_CIRCLE -> "CircleGroupRequestDTO";
+            case CREATE_CIRCLE_REQUEST -> "CircleRequestCreateDTO";
+            case ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST -> "CircleRequestResponseDTO";
+            case UPDATE_CIRCLE, DELETE_CIRCLE -> "CircleGroupResponseDTO";
+            case CREATE_APPLICATION -> "QuestApplicationRequestDTO";
+            case UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "QuestApplicationResponseDTO";
+            case UPDATE_PROFILE -> "AppUserRequestDTO";
+            case UPDATE_PROFILE_LOCATION -> "UserLocationSettingsRequestDTO";
+            case DISCOVER_QUESTS -> "VisionQuestDiscoveryDTO";
+            case OPEN_CHAT -> "ChatConversationSummaryDTO";
+            case VIEW_CHAT_WORKSPACE -> "ChatWorkspaceDTO";
+            case VIEW_PROFILE -> "AppUserResponseDTO";
+            case VIEW_USER_PROFILE -> "UserProfileViewDTO";
+            case VIEW_SETTINGS -> "AppUserResponseDTO";
+            case VIEW_CIRCLES -> "CircleGroupResponseDTO";
+            case VIEW_CIRCLE_DETAIL -> "CircleGroupResponseDTO";
+            case VIEW_QUEST_DETAIL -> "QuestDetailResponseDTO";
+            case VIEW_APPLICATIONS -> "QuestApplicationResponseDTO";
+            case VIEW_APPLICATION_DETAIL -> "QuestApplicationDetailResponseDTO";
+            default -> "unknown";
+        };
+    }
+
+    public String validatorKeyForIntent(VisionIntent intent) {
+        if (intent == null) {
+            return "none";
+        }
+        return intent.name().toLowerCase(Locale.ROOT) + "_validator";
+    }
+
+    public String executorKeyForIntent(VisionIntent intent) {
+        if (intent == null) {
+            return "none";
+        }
+        return intent.name().toLowerCase(Locale.ROOT) + "_executor";
+    }
+
+    public double minimumConfidenceForIntent(VisionIntent intent) {
+        if (intent == null) {
+            return 0.75d;
+        }
+        return switch (intent) {
+            case CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
+                    UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
+                    APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> 0.80d;
+            default -> 0.75d;
+        };
+    }
+
+    public boolean requiresTargetEntityResolution(VisionIntent intent) {
+        if (intent == null) {
+            return false;
+        }
+        return switch (intent) {
+            case CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
+                    UPDATE_CIRCLE, DELETE_CIRCLE,
+                    CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
+                    APPROVE_APPLICATION, DECLINE_APPLICATION,
+                    OPEN_CHAT, VIEW_USER_PROFILE,
+                    VIEW_CIRCLE_DETAIL, VIEW_QUEST_DETAIL, VIEW_APPLICATION_DETAIL -> true;
+            default -> false;
+        };
+    }
+
+    public double minimumEntityResolutionConfidenceForIntent(VisionIntent intent) {
+        if (intent == null) {
+            return 0.75d;
+        }
+        return switch (intent) {
+            case CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
+                    UPDATE_CIRCLE, DELETE_CIRCLE,
+                    CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
+                    APPROVE_APPLICATION, DECLINE_APPLICATION -> 0.85d;
+            case OPEN_CHAT, VIEW_USER_PROFILE, VIEW_CIRCLE_DETAIL, VIEW_QUEST_DETAIL, VIEW_APPLICATION_DETAIL -> 0.75d;
+            default -> 0.75d;
+        };
     }
 
     private VisionSemanticRouteDescriptor createQuestRoute() {

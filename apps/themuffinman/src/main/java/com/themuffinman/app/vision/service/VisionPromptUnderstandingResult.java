@@ -6,8 +6,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.themuffinman.app.semantic.SemanticEnvelope;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -23,8 +25,18 @@ public class VisionPromptUnderstandingResult {
     private String originalPrompt;
     private String normalizedPrompt;
     private String translationProvider;
+    private String understandingProvider;
+    private String understandingStatus;
+    private String semanticContractVersion;
+    @Builder.Default
+    private SemanticEnvelope semanticEnvelope = SemanticEnvelope.builder().build();
     private String focusSlotId;
     private Double focusSlotConfidence;
+    private boolean clarificationRequired;
+    @Builder.Default
+    private List<String> requiredSlotIds = List.of();
+    @Builder.Default
+    private List<String> missingRequiredSlotIds = List.of();
     @Builder.Default
     private VisionSemanticPlan semanticPlan = VisionSemanticPlan.empty();
     private boolean translationApplied;
@@ -38,8 +50,27 @@ public class VisionPromptUnderstandingResult {
                 .originalPrompt(prompt)
                 .normalizedPrompt(prompt)
                 .translationProvider("none")
+                .understandingProvider("none")
+                .understandingStatus("not_applicable")
+                .semanticContractVersion("vision-semantic-orchestration-v1")
+                .semanticEnvelope(SemanticEnvelope.builder()
+                        .rawUserText(prompt)
+                        .normalizedEnglishText(prompt)
+                        .localizedDisplayText(prompt)
+                        .sourceLanguage("unknown")
+                        .contractVersion("vision-semantic-orchestration-v1")
+                        .translationProvider("none")
+                        .translationApplied(false)
+                        .translationReliable(true)
+                        .clarificationRequired(false)
+                        .requiredSlotIds(List.of())
+                        .missingRequiredSlotIds(List.of())
+                        .build())
                 .focusSlotId(null)
                 .focusSlotConfidence(null)
+                .clarificationRequired(false)
+                .requiredSlotIds(List.of())
+                .missingRequiredSlotIds(List.of())
                 .semanticPlan(VisionSemanticPlan.empty())
                 .translationApplied(false)
                 .translationReliable(true)
@@ -94,6 +125,10 @@ public class VisionPromptUnderstandingResult {
 
     public VisionSemanticPlan semanticPlanOrEmpty() {
         return semanticPlan == null ? VisionSemanticPlan.empty() : semanticPlan;
+    }
+
+    public SemanticEnvelope semanticEnvelopeOrEmpty() {
+        return semanticEnvelope == null ? SemanticEnvelope.builder().build() : semanticEnvelope;
     }
 
     private void putIfExplicit(Map<String, String> target, String key, String value, Double confidence) {

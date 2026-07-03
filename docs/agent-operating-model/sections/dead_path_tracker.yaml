@@ -8,6 +8,5 @@ dead_path_tracker:
   - delete_user_as_admin
   allow_source_refs_without_direct_workflow_usage:
   - admin_agent_prompt_translation
-  - admin_agent_prompt_translator
   - circle_request_mgr
   - user_review_mgr

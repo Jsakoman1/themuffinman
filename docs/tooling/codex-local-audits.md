@@ -6,9 +6,7 @@ Use local audits before broad repo discovery when the question can be answered b
 
 1. `make audit-change-impact-preflight`
 2. `make audit-endpoint-callsite-linker` or `make audit-frontend-route-surfaces`
-3. `make control-start` when the task needs a compact plan-and-audit snapshot before broader work
-4. `docs/generated/local-tooling/plan-index-summary.md` when the task is about finding open plans quickly
-5. choose a focused audit from the target index
+3. choose a focused audit from the target index
 
 `audit-change-impact-preflight` includes report-only `scope_guardrails` that warn when one changeset mixes multiple product domains, runtime code with tooling or infrastructure, broad generated-report churn, or generated reports that were not predicted by the changed source files.
 
@@ -17,12 +15,9 @@ Use local audits before broad repo discovery when the question can be answered b
 Before broad repository searches, read the compact local context in this order:
 
 1. `docs/generated/local-tooling/diff-summary.md` for the current changed-file shape.
-2. `docs/generated/local-tooling/plan-index-summary.md` to find the active plan surfaces first.
-3. `docs/generated/local-tooling/audit-summary-index.md` to choose the smallest relevant generated report. Treat it as a
-   routing aid, not as the source of truth for current behavior.
-4. `make control-start` when the task needs the current plan and audit discovery state in one compact snapshot.
-5. `make context-pack topic=<topic>` when the task has a clear feature, domain, or changed-file focus.
-6. `docs/generated/local-tooling/repo-map-summary.md` or `symbol-index-summary.md` only when the first five sources do not identify the needed files.
+2. `docs/generated/local-tooling/audit-summary-index.md` to choose the smallest relevant generated report.
+3. `make context-pack topic=<topic>` when the task has a clear feature, domain, or changed-file focus.
+4. `docs/generated/local-tooling/repo-map-summary.md` or `symbol-index-summary.md` only when the first three sources do not identify the needed files.
 
 ## Available Targets
 
@@ -76,8 +71,6 @@ Before broad repository searches, read the compact local context in this order:
 - `audit-naming-consistency`
 - `audit-permission-rule-duplication`
 - `audit-plan-completion`
-- `control-start`
-- `plan-index`
 - `audit-read-surface-inventory`
 - `audit-repository-fetch`
 - `audit-rich-text-safety`
@@ -105,6 +98,7 @@ Before broad repository searches, read the compact local context in this order:
 - `codex-context-clean`
 - `codex-context-explain`
 - `context-pack`
+- `control-refresh`
 - `diagnose-backend-test`
 - `diagnose-frontend-build`
 - `diagnose-frontend-type-check`
@@ -121,7 +115,9 @@ Before broad repository searches, read the compact local context in this order:
 - `generate-audit-registry-artifacts`
 - `generate-frontend-contracts`
 - `link-symbol-to-tests`
+- `normalize-plan-metadata`
 - `plan-code-map`
+- `plan-index`
 - `post-merge-retrospective`
 - `post-plan-memory-update`
 - `rank-changeset-hotspots`

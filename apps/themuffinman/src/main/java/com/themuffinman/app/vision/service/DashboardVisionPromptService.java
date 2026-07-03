@@ -54,6 +54,8 @@ public class DashboardVisionPromptService {
                 .normalizedPrompt(normalizedPrompt)
                 .source(dto.getSource() != null && !dto.getSource().isBlank() ? dto.getSource().trim() : "text")
                 .translationProvider(understanding.getTranslationProvider())
+                .understandingProvider(understanding.getUnderstandingProvider())
+                .understandingStatus(understanding.getUnderstandingStatus())
                 .translationApplied(understanding.isTranslationApplied())
                 .translationReliable(understanding.isTranslationReliable())
                 .activeFilter(activeFilter)

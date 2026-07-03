@@ -268,4 +268,4 @@ Important route and page entrypoints:
 - Start with the domain controller, service, and model files listed above.
 - Treat migrations as the schema history for the same domain.
 - If a business rule is not obvious from the model, resolve it in the service layer before documenting it.
-- When we start module-by-module documentation updates, begin with `workmarket` backend domain naming, not the deleted legacy frontend module surface.
+- When we start module-by-module documentation updates, begin with backend `workmarket` domain naming and keep removed legacy frontend module surfaces out of the active inventory.

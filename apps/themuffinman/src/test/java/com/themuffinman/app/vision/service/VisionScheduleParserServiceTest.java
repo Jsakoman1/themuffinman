@@ -86,54 +86,13 @@ class VisionScheduleParserServiceTest {
     }
 
     @Test
-    void parsesCroatianDayAfterTomorrowWithHourOnlyAndDayPeriod() {
-        assertEquals("2026-07-02T07:00:00Z", parserService.extractScheduledAt(
-                VisionSchedulePhrasePresets.PREKOSUTRA_U_9_UJUTRO
-        ));
-    }
-
-    @Test
-    void parsesCroatianHalfPastPhrase() {
-        assertEquals("2026-07-01T12:30:00Z", parserService.extractScheduledAt(
-                VisionSchedulePhrasePresets.SUTRA_U_POLA_TRI_POPODNE
-        ));
-    }
-
-    @Test
-    void parsesCroatianNextWeekdayWithNoon() {
-        assertEquals("2026-07-06T10:00:00Z", parserService.extractScheduledAt(
-                VisionSchedulePhrasePresets.SLJEDECI_PONEDJELJAK_U_PODNE
-        ));
-    }
-
-    @Test
     void parsesThisFridayWithExplicitTime() {
         assertEquals("2026-07-03T15:00:00Z", parserService.extractScheduledAt("this Friday at 5 pm"));
     }
 
     @Test
-    void parsesCroatianWeekdayWithPopodneSignal() {
-        assertEquals("2026-07-03T15:00:00Z", parserService.extractScheduledAt("ovaj petak u 5 popodne"));
-    }
-
-    @Test
     void parsesEnglishInTheEveningPhrase() {
         assertEquals("2026-07-01T15:00:00Z", parserService.extractScheduledAt("tomorrow at 5 in the evening"));
-    }
-
-    @Test
-    void parsesCroatianEveningPhraseWithHourOnly() {
-        assertEquals("2026-07-01T15:00:00Z", parserService.extractScheduledAt("sutra u 5 navečer"));
-    }
-
-    @Test
-    void parsesGermanTomorrowWord() {
-        assertEquals("2026-07-01T07:00:00Z", parserService.extractScheduledAt("morgen"));
-    }
-
-    @Test
-    void parsesGermanWeekdayWithEveningTime() {
-        assertEquals("2026-07-03T15:00:00Z", parserService.extractScheduledAt("freitag um 5 am abend"));
     }
 
     @Test
@@ -149,11 +108,6 @@ class VisionScheduleParserServiceTest {
     @Test
     void suggestsFixedScheduleForSpokenVoiceTime() {
         assertTrue(parserService.suggestsFixedSchedule(VisionSchedulePhrasePresets.TOMORROW_2_PM));
-    }
-
-    @Test
-    void suggestsFixedScheduleForCroatianRelativePhrase() {
-        assertTrue(parserService.suggestsFixedSchedule(VisionSchedulePhrasePresets.PREKOSUTRA_U_9_UJUTRO));
     }
 
     @Test

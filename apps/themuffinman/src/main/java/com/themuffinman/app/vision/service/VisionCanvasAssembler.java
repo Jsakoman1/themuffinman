@@ -35,6 +35,8 @@ public class VisionCanvasAssembler {
     public VisionConversationTurnResponseDTO assemble(
             VisionConversation conversation,
             VisionTurn turn,
+            String understandingProvider,
+            String understandingStatus,
             List<VisionConversationSummaryDTO> recentConversations,
             VisionExecutionCandidateDTO executionCandidate,
             VisionQuestDiscoveryDTO questDiscovery,
@@ -51,6 +53,8 @@ public class VisionCanvasAssembler {
                 .message(turn.getAssistantMessage())
                 .requestedSlot(turn.getRequestedSlot())
                 .normalizedPrompt(turn.getNormalizedPrompt())
+                .understandingProvider(understandingProvider)
+                .understandingStatus(understandingStatus)
                 .translationApplied(turn.isTranslationApplied())
                 .translationReliable(turn.isTranslationReliable())
                 .executionEnabled(visionProperties.isExecutionEnabled())

@@ -18,6 +18,8 @@ public class DashboardVisionPromptResponseDTO {
     private String normalizedPrompt;
     private String source;
     private String translationProvider;
+    private String understandingProvider;
+    private String understandingStatus;
     private boolean translationApplied;
     private boolean translationReliable;
     private String activeFilter;

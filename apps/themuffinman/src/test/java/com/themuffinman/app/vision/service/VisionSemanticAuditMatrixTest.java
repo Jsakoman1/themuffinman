@@ -1,34 +1,71 @@
 package com.themuffinman.app.vision.service;
 
-import com.themuffinman.app.agent.service.LocalAdminAgentPromptTranslator;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.config.VoiceProperties;
+import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.prompt.PromptSemanticPlan;
 import com.themuffinman.app.prompt.PromptSemanticsSupport;
-import org.junit.jupiter.params.provider.Arguments;
+import com.themuffinman.app.semantic.VisionEntityResolverRegistry;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class VisionSemanticAuditMatrixTest {
 
     private final VisionPromptUnderstandingService service = new VisionPromptUnderstandingService(
-            new AgentProperties(),
-            new LocalAdminAgentPromptTranslator(),
+            configuredOpenAiProperties(),
             new VisionSemanticMapper(),
             new PromptSemanticsSupport(),
             new VisionSemanticOrchestrationContextService(new VoiceProperties()),
             new VisionSemanticRouteCatalogService(),
             new VisionSemanticContractSanitizer(),
-            new VisionSemanticResponseValidator()
-    );
+            new VisionSemanticResponseValidator(),
+            new VisionEntityResolverRegistry(java.util.List.of())
+    ) {
+        private final ObjectMapper objectMapper = new ObjectMapper();
+
+        @Override
+        protected String requestOpenAiOutputText(Map<String, Object> payload) {
+            String input = String.valueOf(payload.get("input"));
+            String marker = "Semantic orchestration request:\n";
+            String requestJson = input.substring(input.indexOf(marker) + marker.length()).trim();
+            try {
+                JsonNode request = objectMapper.readTree(requestJson);
+                String rawPrompt = request.path("rawPrompt").asText("");
+                PromptSemanticPlan plan = new PromptSemanticsSupport().inferPlan(rawPrompt);
+                return objectMapper.writeValueAsString(Map.of(
+                        "sourceLanguage", "en",
+                        "normalizedPrompt", rawPrompt,
+                        "semanticPlan", Map.of(
+                                "candidateIntent", plan.getCandidateIntent(),
+                                "candidateIntentConfidence", plan.getCandidateIntentConfidence(),
+                                "capabilityId", plan.getCapabilityId(),
+                                "planningNote", plan.getPlanningNote(),
+                                "searchQuery", plan.getSearchQuery(),
+                                "targetUserQuery", plan.getTargetUserQuery()
+                        ),
+                        "translationApplied", false,
+                        "translationReliable", true
+                ));
+            } catch (Exception exception) {
+                throw new IllegalStateException(exception);
+            }
+        }
+    };
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("promptCases")
     void routesCommonPromptShapesIntoTheExpectedSemanticIntent(String label, String prompt, String expectedIntent, String expectedCapabilityId) {
-        VisionPromptUnderstandingResult result = service.understandPrompt(prompt, null);
+        VisionPromptUnderstandingResult result = service.understandPrompt(prompt, null, testUser());
 
         assertEquals(expectedIntent, result.semanticPlanOrEmpty().getCandidateIntent(), label);
         assertEquals(expectedCapabilityId, result.semanticPlanOrEmpty().getCapabilityId(), label);
@@ -37,10 +74,28 @@ class VisionSemanticAuditMatrixTest {
     @ParameterizedTest(name = "{0}")
     @MethodSource("mixedSignalCases")
     void prefersTheMostRelevantEntityFamilyWhenPromptContainsMultipleSignals(String label, String prompt, String expectedIntent, String expectedCapabilityId) {
-        VisionPromptUnderstandingResult result = service.understandPrompt(prompt, null);
+        VisionPromptUnderstandingResult result = service.understandPrompt(prompt, null, testUser());
 
         assertEquals(expectedIntent, result.semanticPlanOrEmpty().getCandidateIntent(), label);
         assertEquals(expectedCapabilityId, result.semanticPlanOrEmpty().getCapabilityId(), label);
+    }
+
+    @Test
+    void recordsClarificationAndReplayMetadataWhenRequiredQuestSlotsAreMissing() {
+        VisionPromptUnderstandingResult result = service.understandPrompt(
+                "Create a quest",
+                null,
+                testUser()
+        );
+
+        assertTrue(result.semanticEnvelopeOrEmpty().isClarificationRequired());
+        assertEquals(
+                java.util.List.of("quest_title", "quest_description", "reward_amount", "schedule_mode", "visibility", "location_mode"),
+                result.semanticEnvelopeOrEmpty().requiredSlotIdsOrEmpty()
+        );
+        assertTrue(result.semanticEnvelopeOrEmpty().missingRequiredSlotIdsOrEmpty().contains("quest_title"));
+        assertTrue(result.semanticEnvelopeOrEmpty().getReplayRecord() != null);
+        assertEquals("vision-semantic-orchestration-v1", result.semanticEnvelopeOrEmpty().getContractVersion());
     }
 
     static Stream<Arguments> promptCases() {
@@ -81,5 +136,19 @@ class VisionSemanticAuditMatrixTest {
                 Arguments.of("quest beats circles", "create quest still wins when circle words are present", "CREATE_QUEST", "create_quest"),
                 Arguments.of("profile beats chat when explicit", "update my profile and also message Josip", "UPDATE_PROFILE", "update_profile")
         );
+    }
+
+    private AgentProperties configuredOpenAiProperties() {
+        AgentProperties agentProperties = new AgentProperties();
+        agentProperties.setProvider("openai");
+        agentProperties.setApiKey("test-key");
+        agentProperties.setBaseUrl("https://example.test/v1");
+        return agentProperties;
+    }
+
+    private AppUser testUser() {
+        AppUser user = new AppUser();
+        user.setId(7L);
+        return user;
     }
 }

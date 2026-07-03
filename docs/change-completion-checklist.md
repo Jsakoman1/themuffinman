@@ -107,7 +107,14 @@ Default path:
 - Backend or frontend behavior is implemented.
 - Duplicate or stale logic introduced by the change is removed or explicitly justified.
 
-2. Plan
+2. Preflight
+- The scope is narrowed to the smallest affected semantic path before broad validation starts.
+- The semantic envelope, resolver layer, and DTO mapping path are all updated together when the change affects input understanding.
+- Any required docs or generated artifacts are identified before the first closeout pass.
+- If the change touches entity resolution, capture the canonical aliases, ambiguity cases, and confidence thresholds up front.
+- If the change touches workflow or agent behavior, confirm the machine-readable source of truth before editing human-readable summaries.
+
+3. Plan
 - Tier 2, Tier 3, and Tier 4 work has a current plan in `.agents/`.
 - Broad work uses a master plan plus child plans when that keeps the batch auditable.
 - Program-level work that spans several master plans has a God Plan under `.agents/god-plans/`.
@@ -116,35 +123,35 @@ Default path:
 - Use `make codex-context topic=<topic> intent='<intent>'` before broad discovery so the plan starts from the diff summary, audit summary index, and the most relevant audit.
 - If a manifest is in scope, read `docs/validation-memory.md` and `docs/validation-memory.json` before finalizing evidence so canonical command strings and manifest bucket rules are explicit.
 
-3. Manifest decision
+4. Manifest decision
 - Manifest is required for high-risk business logic, invoice-critical behavior, DB migrations, frontend/backend contract changes, generated artifact changes, agent/tooling/workflow changes, 3+ meaningful surfaces, broad autonomous changes, and resolver-required changes.
 - Manifest is optional for single backend service changes, single frontend component changes, small bugfixes, small test-only changes, small docs-only corrections, and small internal refactors without behavior, contract, DB, generated-artifact, or agent-safety impact.
 - If a non-trivial change skips the manifest, the plan or final closeout records a one-line reason.
 
-4. Business meaning
+5. Business meaning
 - Update `docs/business-logic.md` if user-facing behavior, permissions, or workflow meaning changed.
 - Update `docs/product-vision.md` if the change clarifies the long-term interaction model, app feel, or Social Useful Network direction.
 - Update `docs/vision-architecture-patterns.md` if the change alters `/vision` backend orchestration, API contracts, frontend canvas rendering, prompt handling, or executor patterns.
 - If the change introduces or clarifies authoritative operational state, update the machine-readable source first and then
   mirror the explanation into the relevant human-readable docs.
 
-5. Technical meaning
+6. Technical meaning
 - Update `docs/domain-technical.md` if entities, DTOs, relations, validations, permissions, workflows, or invariants changed.
 
-6. Agent and workflow meaning
+7. Agent and workflow meaning
 - Update `docs/agent-operating-model.md` when automation-safe behavior, clarification rules, destructive confirmation, read-before-write resolution, startup routing, tier rules, or closeout expectations changed.
 - Update `docs/agent-operating-model.yaml` when machine-operational rules changed.
 
-7. Workflow docs
+8. Workflow docs
 - Update `AGENTS.md`, `docs/codex-fast-path.md`, `docs/feature-delivery-workflow.md`, `docs/documentation-sync-policy.md`, and this file when startup routing, manifest policy, tier policy, or closeout flow changed.
 - Keep `docs/control-surface-map.md` aligned with the active hierarchy when a file moves between live truth, generated control, or archive.
 
-8. Generated artifacts and schema
+9. Generated artifacts and schema
 - Regenerate affected generated artifacts when source-of-truth or machine-operational docs changed.
 - Update `docs/feature-completion-manifest.schema.json` only if the manifest structure changes.
 - Keep `apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java` passing.
 
-9. Validation
+10. Validation
 - Tiny changes run only the cheapest relevant targeted checks.
 - Normal features run targeted validation first and broaden only if risk requires it.
 - High-risk and workflow changes record exact validation commands and skipped-check reasons.
@@ -153,7 +160,7 @@ Default path:
 - Agent-contract changes record `make generate-agent-operating-model`, `make generate-agent-artifacts`, and `make audit-agent-safety` when the machine-operational surface changed.
 - Workflow-expansion manifests include at least one `*ScenarioTest` in `testPaths` plus passed scenario or use-case contract evidence.
 
-10. Closeout
+11. Closeout
 - Tier 1: run `make audit-todo`.
 - Tier 2: run `make audit-todo` and `make audit-plan-completion plan=<plan-file>`.
 - `make audit-plan-completion` now triggers the shared control refresh path automatically after a successful closeout.

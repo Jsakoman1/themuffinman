@@ -1,6 +1,8 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.semantic.SemanticAliasRegistry;
+import com.themuffinman.app.semantic.SemanticEntityFamily;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryItemDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
@@ -20,9 +22,11 @@ import java.util.stream.IntStream;
 public class VisionQuestDiscoveryService {
 
     private final QuestReadService questReadService;
+    private final SemanticAliasRegistry semanticAliasRegistry;
 
-    public VisionQuestDiscoveryService(QuestReadService questReadService) {
+    public VisionQuestDiscoveryService(QuestReadService questReadService, SemanticAliasRegistry semanticAliasRegistry) {
         this.questReadService = questReadService;
+        this.semanticAliasRegistry = semanticAliasRegistry;
     }
 
     public VisionQuestDiscoveryDTO discover(
@@ -142,7 +146,8 @@ public class VisionQuestDiscoveryService {
         if (normalizedPrompt == null) {
             return "";
         }
-        return normalizedPrompt.replaceAll("(?i)\\b(find|browse|show|search|discover|recommend|open|available|quests?|jobs?|work|tasks?|for|near|around|me|please)\\b", " ")
+        return semanticAliasRegistry.normalizeQuery(SemanticEntityFamily.QUEST,
+                        normalizedPrompt.replaceAll("(?i)\\b(find|browse|show|search|discover|recommend|open|available|quests?|jobs?|work|tasks?|for|near|around|me|please)\\b", " "))
                 .replaceAll("\\s+", " ")
                 .trim();
     }

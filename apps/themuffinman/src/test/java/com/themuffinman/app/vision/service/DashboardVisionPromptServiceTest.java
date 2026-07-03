@@ -1,6 +1,7 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.semantic.VisionEntityResolverRegistry;
 import com.themuffinman.app.vision.dto.DashboardVisionPromptRequestDTO;
 import com.themuffinman.app.vision.dto.DashboardVisionPromptResponseDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
@@ -75,13 +76,13 @@ class DashboardVisionPromptServiceTest {
         private StubVisionPromptUnderstandingService(VisionPromptUnderstandingResult result) {
             super(
                     new com.themuffinman.app.config.AgentProperties(),
-                    new com.themuffinman.app.agent.service.LocalAdminAgentPromptTranslator(),
                     new VisionSemanticMapper(),
                     new com.themuffinman.app.prompt.PromptSemanticsSupport(),
                     new VisionSemanticOrchestrationContextService(new com.themuffinman.app.config.VoiceProperties()),
                     new VisionSemanticRouteCatalogService(),
                     new VisionSemanticContractSanitizer(),
-                    new VisionSemanticResponseValidator()
+                    new VisionSemanticResponseValidator(),
+                    new VisionEntityResolverRegistry(java.util.List.of())
             );
             this.result = result;
         }

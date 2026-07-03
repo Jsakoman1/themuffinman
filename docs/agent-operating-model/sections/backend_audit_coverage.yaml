@@ -50,6 +50,7 @@ backend_audit_coverage:
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/agent/
     - apps/themuffinman/src/main/java/com/themuffinman/app/prompt/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/semantic/
     - apps/themuffinman/src/main/java/com/themuffinman/app/vision/
   - id: chat
     owner_id: chat_domain
@@ -158,6 +159,10 @@ backend_audit_coverage:
     tier: executor_critical
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/agent/sandbox/
+  - id: internal_support_semantic_surface
+    tier: internal_support
+    path_prefixes:
+    - apps/themuffinman/src/main/java/com/themuffinman/app/semantic/
   - id: executor_tracked_service_surface
     tier: executor_critical
     file_names:

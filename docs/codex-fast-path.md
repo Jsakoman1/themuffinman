@@ -211,6 +211,6 @@ Do not claim completion while validation, required docs, or required closeout ga
 - `docs/validation-memory.json`: machine-readable validation and closeout cheat sheet for local tools
 - `docs/generated/local-tooling/validation-memory-closeout-card-summary.md`: ultra-short closeout command card derived from validation memory
 - `docs/documentation-sync-policy.md`: propagation and manifest rules
-- `docs/change-completion-checklist.md`: closeout checklist by tier
+- `docs/change-completion-checklist.md`: closeout checklist by tier and the preflight gate before broad validation
 - `docs/agent-operating-model.md`: human agent-safety contract
 - `docs/agent-operating-model.yaml`: machine-operational contract

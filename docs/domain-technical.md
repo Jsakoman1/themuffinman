@@ -31,7 +31,9 @@ Frontend vision surface note:
 - Phase 1 `/vision` orchestration now also exposes `POST /vision/conversations/turns`, backed by persisted `vision_conversation` and `vision_turn` records, for stepwise backend-owned conversation state.
 - The `/vision/conversations/turns` request is versioned with `inputType`, `text`, `clientCapabilities`, `clientStateVersion`, and optional choice/confirmation fields so the frontend can keep the canvas contract explicit while the backend still understands the legacy prompt path during transition.
 - The first persisted `/vision` orchestration scope is `create_quest`: collect title, description, reward/free, visibility, `schedule_mode`, optional `scheduled_date`, optional `scheduled_time`, `location_mode`, and optional `location_label` one slot at a time while execution stays behind `app.vision.execution-enabled`.
-- The backend semantic model is the primary semantic interpreter for `/vision` prompt understanding across quests, circles, applications, profiles, and chat; the deterministic local parser only rescues unsupported semantic results instead of competing with the model-first route selection.
+- The backend semantic model is the primary semantic interpreter for `/vision` prompt understanding across quests, circles, applications, profiles, and chat; the deterministic local parser is now restricted to an English-only emergency mode for safe read surfaces and fail-closes mutation-style prompts when OpenAI understanding is unavailable or stays unsupported.
+- Target entity resolution now uses explicit backend resolver families and per-intent confidence thresholds, so the semantic layer can resolve the relevant person, quest, circle, or application separately from the action intent before clarification or DTO mapping proceeds.
+- `VisionPromptUnderstandingResult`, `VisionConversationTurnResponseDTO`, and `DashboardVisionPromptResponseDTO` now expose `understandingProvider` and `understandingStatus` so callers can distinguish `openai_primary`, `openai_local_rescue`, `openai_unsupported`, `local_emergency`, and `local_fail_closed` handling states.
 - A dedicated `VisionPromptUnderstandingService` now sits between prompt transcription and slot merging so the backend can use the configured semantic model to extract explicit structured quest fields before deterministic slot validation takes over.
 - `VisionSemanticResponseValidator` now rejects any semantic response that extracts slots or generic semantic fields outside the selected route contract before sanitization runs, so route ownership stays backend-defined.
 - `VisionSemanticOrchestrationContextService` now builds a backend memory pack with user memory, session memory, and recent turn snapshots so semantic understanding can keep stable preferences separate from the current conversation thread.
@@ -50,10 +52,11 @@ Frontend vision surface note:
 - `VisionLocationParserService` now parses short place labels and simple city-country pairs more carefully instead of assuming every comma-separated label begins with a street line.
 - `VisionScheduleParserService` now checks explicit `am` / `pm` time phrases before hour-only fallback, so combined weekday-and-time voice turns do not misread `next Tuesday at 7 pm` as a morning appointment.
 - `VisionLocationParserService` now also understands simple postal-code-plus-locality and locality-plus-postal-code fragments, which helps Swiss-style location input stay structured before any lookup candidate resolution.
-- `VisionScheduleParserService` now also recognizes explicit evening phrasing such as `in the evening` and `navečer` when an hour is already present.
-- `VisionScheduleParserService` now also resolves a plain weekday reference such as `this Friday` or `ovaj petak` into the next matching calendar day, even when the user does not say `next`.
-- `VisionScheduleParserService` now also recognizes a small German weekday and day-period set such as `morgen`, `heute`, `freitag`, and `um 5 am abend` so Swiss-style English/German schedule turns stay deterministic.
+- `VisionScheduleParserService` now also recognizes explicit evening phrasing such as `in the evening` when an hour is already present.
+- `VisionScheduleParserService` now also resolves a plain weekday reference such as `this Friday` into the next matching calendar day, even when the user does not say `next`.
+- The local emergency parser is English-only and fail-closes on non-English prompts; arbitrary-language normalization is handled by the OpenAI semantic path.
 - `VisionPromptUnderstandingService` now also returns a generic `VisionSemanticPlan` with candidate intent, confidence, capability id, and planning note before create_quest slot extraction, while deterministic backend routing and services still decide supported execution.
+- `SemanticEnvelope` and `SemanticReplayRecord` now carry entity-resolution status, canonical label, confidence, and ambiguity reason alongside the raw and normalized prompt text for audit and replay use.
 - `VisionIntentRouter` now recognizes both `CREATE_QUEST` and `DISCOVER_QUESTS` so read-only browse/search prompts can be routed without depending on the create-quest flag.
 - `VisionConversationService` now switches to a new persisted conversation when the prompt clearly changes intent, so discovery and creation can coexist on the same adaptive surface without forcing one thread to masquerade as another.
 - `VisionIntentRouter` now also recognizes `OPEN_CHAT`, and `VisionChatExecutionService` resolves an explicit chat target before delegating to the existing chat opening boundary.
@@ -610,13 +613,14 @@ Technical notes:
 - Production admin planning lives under `agent/service`, while sandbox and synthetic-data planning helpers live under `agent/sandbox`.
 - `SandboxGenerationPlanner` contributes sandbox-only workflows, synthetic marker requirements, and warnings back into the admin playground response.
 - `AdminAgentSurfacePolicy` and `VisionSurfacePolicy` now standardize the authority split between admin-scoped and user-scoped execution instead of leaving that split implicit in each surface.
-- `AdminAgentPromptPreparationService` now centralizes prompt translation preparation so planner and executor use the same backend-managed translation boundary.
+- `AdminAgentPromptPreparationService` now centralizes prompt normalization and English-only planning preparation so planner and executor use the same backend-managed boundary.
 - `PromptSemanticsSupport` now provides the shared prompt-normalization and semantic-classification rules used by both Vision and Admin Playground.
 - `AdminSyntheticQuestExecutionPlanner` extracts the first reusable direct-execution plan shape from natural language, currently limited to synthetic quest batches for one exact target user.
 - `AdminAgentExecutionService` now backs `POST /admin/agent/execute`, reuses the existing quest creation use case through `creatorId`, requires explicit confirmation, and caps batch size through typed `AgentProperties`.
-- Prompt classification now runs through a translation layer before intent heuristics.
-- Local translation is a deterministic fallback, while provider-backed translation is the path for arbitrary languages such as Mandarin.
+- Prompt classification now runs directly on the normalized prompt before intent heuristics.
+- The local admin path is English-only and no longer rewrites prompts before planning, while provider-backed translation remains the path for arbitrary languages such as Mandarin.
 - The response now also includes structured resolution requirements, clarification contract data, and execution-readiness metadata.
+- The shared semantic envelope now carries required-slot lists, a clarification flag, and replay metadata so resolution traces can be reproduced without reconstructing them from free-form text.
 - Planner coverage now extends the same reusable fail-closed contract across owned-quest updates, pending-application self-service, outgoing request cancellation, owner-circle management, and chat read actions.
 - The same contract now also backs owner-side application approval or decline, owned-circle rename or delete, and self profile-location updates inside `/vision`.
 - The same contract now also backs create/accept/delete circle-request mutations inside `/vision`.
@@ -1536,9 +1540,8 @@ Common-platform coupling:
 
 Route guards:
 - `/login` and `/register` are public routes
-- all workmarket, social, and profile routes require auth
+- all authenticated user interactions now resolve through `/vision`
 - admin-capability actions are surfaced through Vision rather than through a separate frontend route tree
-- `/work` is a legacy entry route that redirects to `/vision`
 - logged-in users are redirected away from auth screens to `/vision`
 
 Frontend transport contract:

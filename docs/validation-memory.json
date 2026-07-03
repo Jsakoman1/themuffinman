@@ -10,13 +10,6 @@
     "frontend-contract",
     "backend-logic"
   ],
-  "recommendedReadOrder": [
-    "docs/codex-fast-path.md",
-    "docs/validation-memory.md",
-    "the active plan or master plan",
-    "the active manifest",
-    "docs/generated/local-tooling/audit-summary-index.md when a failure needs a smaller focused audit"
-  ],
   "canonicalCommands": {
     "frontendContract": [
       "npm run validate:contracts",

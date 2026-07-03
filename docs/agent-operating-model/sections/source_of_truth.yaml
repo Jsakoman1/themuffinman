@@ -21,10 +21,6 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlanner.java
   - id: admin_agent_prompt_translation
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslation.java
-  - id: admin_agent_prompt_translator
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslator.java
-  - id: local_admin_agent_prompt_translator
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/LocalAdminAgentPromptTranslator.java
   - id: agent_surface_policy
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfacePolicy.java
   - id: agent_surface_id
@@ -481,6 +477,8 @@ source_of_truth:
     path: apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
   - id: admin_agent_execution_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
+  - id: admin_agent_prompt_preparation_service_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPromptPreparationServiceTest.java
   - id: admin_synthetic_quest_execution_planner_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java
   - id: repository_fetch_profile_contract_test

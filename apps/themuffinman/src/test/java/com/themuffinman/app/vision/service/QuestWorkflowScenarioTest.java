@@ -23,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -63,7 +64,7 @@ class QuestWorkflowScenarioTest {
         AppUser owner = saveUser("owner-scenario");
         AppUser worker = saveUser("worker-scenario");
 
-        Quest quest = questService.createQuest(questRequest("Fence repair", Instant.parse("2026-07-03T10:00:00Z")), owner);
+        Quest quest = questService.createQuest(questRequest("Fence repair", Instant.now().plus(Duration.ofDays(2))), owner);
         questApplicationService.applyForQuest(
                 quest.getId(),
                 QuestApplicationRequestDTO.builder().message("I can do this tomorrow").proposedPrice(BigDecimal.valueOf(50)).build(),
@@ -96,8 +97,8 @@ class QuestWorkflowScenarioTest {
         AppUser worker = saveUser("worker-confirm");
 
         Quest quest = createAssignedQuest(owner, worker, "Move sofa");
-        Instant updatedStart = Instant.parse("2026-07-05T15:00:00Z");
-        Instant updatedEnd = Instant.parse("2026-07-05T17:00:00Z");
+        Instant updatedStart = Instant.now().plus(Duration.ofDays(3));
+        Instant updatedEnd = updatedStart.plus(Duration.ofHours(2));
 
         questService.updateQuest(
                 quest.getId(),
@@ -169,7 +170,7 @@ class QuestWorkflowScenarioTest {
         AppUser owner = saveUser("owner-detail-outside-tx");
         AppUser worker = saveUser("worker-detail-outside-tx");
 
-        Quest quest = questService.createQuest(questRequest("Free pickup", Instant.parse("2026-07-07T10:00:00Z")), owner);
+        Quest quest = questService.createQuest(questRequest("Free pickup", Instant.now().plus(Duration.ofDays(4))), owner);
         quest.setAwardAmount(BigDecimal.ZERO);
         quest = questRepository.save(quest);
         questApplicationService.applyForQuest(
@@ -192,7 +193,7 @@ class QuestWorkflowScenarioTest {
         AppUser owner = saveUser("owner-application-fetch");
         AppUser worker = saveUser("worker-application-fetch");
 
-        Quest quest = questService.createQuest(questRequest("Fetch profile quest", Instant.parse("2026-07-08T10:00:00Z")), owner);
+        Quest quest = questService.createQuest(questRequest("Fetch profile quest", Instant.now().plus(Duration.ofDays(5))), owner);
         questApplicationService.applyForQuest(
                 quest.getId(),
                 QuestApplicationRequestDTO.builder().message("I can help").proposedPrice(BigDecimal.valueOf(50)).build(),
@@ -214,7 +215,7 @@ class QuestWorkflowScenarioTest {
     }
 
     private Quest createAssignedQuest(AppUser owner, AppUser worker, String title) {
-        Quest quest = questService.createQuest(questRequest(title, Instant.parse("2026-07-04T10:00:00Z")), owner);
+        Quest quest = questService.createQuest(questRequest(title, Instant.now().plus(Duration.ofDays(1))), owner);
         questApplicationService.applyForQuest(
                 quest.getId(),
                 QuestApplicationRequestDTO.builder().message("Ready to help").proposedPrice(BigDecimal.valueOf(50)).build(),
