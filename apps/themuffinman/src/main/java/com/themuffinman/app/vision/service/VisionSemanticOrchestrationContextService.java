@@ -511,7 +511,8 @@ public class VisionSemanticOrchestrationContextService {
                     DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
             case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
                     WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
-            case DISCOVER_QUESTS, CREATE_QUEST -> "quests";
+            case DISCOVER_QUESTS, CREATE_QUEST, VIEW_QUEST_DETAIL -> "quests";
+            case VIEW_QUEST_NEWS -> "quest news";
             case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> "chat";
             default -> "other";
         };

@@ -74,6 +74,7 @@ class VisionIntentRouterTest {
         assertEquals(VisionIntent.VIEW_USER_PROFILE, router.detectIntent("show user Josip"));
         assertEquals(VisionIntent.VIEW_CIRCLE_DETAIL, router.detectIntent("open circle Family"));
         assertEquals(VisionIntent.VIEW_QUEST_DETAIL, router.detectIntent("show quest #42"));
+        assertEquals(VisionIntent.VIEW_QUEST_NEWS, router.detectIntent("show my news"));
         assertEquals(VisionIntent.VIEW_APPLICATION_DETAIL, router.detectIntent("show application #42"));
     }
 }

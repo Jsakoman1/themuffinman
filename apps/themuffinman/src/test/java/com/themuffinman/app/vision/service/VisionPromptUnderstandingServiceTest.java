@@ -4,6 +4,7 @@ import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.prompt.PromptSemanticsSupport;
+import com.themuffinman.app.semantic.SemanticAliasRegistry;
 import com.themuffinman.app.semantic.SemanticEntityFamily;
 import com.themuffinman.app.semantic.SemanticEntityResolution;
 import com.themuffinman.app.semantic.SemanticEntityResolutionStatus;
@@ -341,6 +342,29 @@ class VisionPromptUnderstandingServiceTest {
     }
 
     @Test
+    void canonicalizesOpenAiTargetQueriesThroughSemanticAliases() {
+        AgentProperties agentProperties = configuredOpenAiProperties();
+        VisionPromptUnderstandingService service = service(
+                agentProperties,
+                buildSemanticPayloadWithQuestAlias(
+                        "CREATE_APPLICATION",
+                        "create_application",
+                        "apply to wash my suitcases",
+                        "wash my suitcases"
+                )
+        );
+
+        AppUser user = new AppUser();
+        user.setId(7L);
+
+        VisionPromptUnderstandingResult result = service.understandPrompt("create quest to wash my suitcases", null, user);
+
+        assertEquals("CREATE_APPLICATION", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("wash my luggage", result.semanticEnvelopeOrEmpty().getTargetEntityQuery());
+        assertEquals("wash my luggage", result.semanticEnvelopeOrEmpty().slotCandidatesOrEmpty().get("target_quest_query"));
+    }
+
+    @Test
     void rescuesSafeReadOnlyPromptWhenOpenAiStaysUnsupported() {
         AgentProperties agentProperties = configuredOpenAiProperties();
         VisionPromptUnderstandingService service = service(agentProperties, """
@@ -407,7 +431,7 @@ class VisionPromptUnderstandingServiceTest {
                                 .confidence(0.82d)
                                 .build();
                     }
-                }))
+                }), new SemanticAliasRegistry())
         );
 
         AppUser user = new AppUser();
@@ -423,11 +447,11 @@ class VisionPromptUnderstandingServiceTest {
     }
 
     private VisionPromptUnderstandingService service(AgentProperties agentProperties) {
-        return service(agentProperties, null, new VisionEntityResolverRegistry(List.of()));
+        return service(agentProperties, null, new VisionEntityResolverRegistry(List.of(), new SemanticAliasRegistry()));
     }
 
     private VisionPromptUnderstandingService service(AgentProperties agentProperties, String openAiOutputText) {
-        return service(agentProperties, openAiOutputText, new VisionEntityResolverRegistry(List.of()));
+        return service(agentProperties, openAiOutputText, new VisionEntityResolverRegistry(List.of(), new SemanticAliasRegistry()));
     }
 
     private VisionPromptUnderstandingService service(
@@ -443,7 +467,8 @@ class VisionPromptUnderstandingServiceTest {
                 new VisionSemanticRouteCatalogService(),
                 new VisionSemanticContractSanitizer(),
                 new VisionSemanticResponseValidator(),
-                visionEntityResolverRegistry
+                visionEntityResolverRegistry,
+                new SemanticAliasRegistry()
         ) {
             @Override
             protected String requestOpenAiOutputText(Map<String, Object> payload) {
@@ -464,7 +489,8 @@ class VisionPromptUnderstandingServiceTest {
                 new VisionSemanticRouteCatalogService(),
                 new VisionSemanticContractSanitizer(),
                 new VisionSemanticResponseValidator(),
-                new VisionEntityResolverRegistry(List.of())
+                new VisionEntityResolverRegistry(List.of(), new SemanticAliasRegistry()),
+                new SemanticAliasRegistry()
         ) {
             @Override
             protected String requestOpenAiOutputText(Map<String, Object> payload) {
@@ -484,6 +510,29 @@ class VisionPromptUnderstandingServiceTest {
                             "capabilityId", capabilityId,
                             "planningNote", "test payload",
                             "targetUserQuery", targetUserQuery
+                    ),
+                    "translationApplied", false,
+                    "translationReliable", true
+            ));
+        } catch (Exception exception) {
+            throw new IllegalStateException(exception);
+        }
+    }
+
+    private String buildSemanticPayloadWithQuestAlias(String candidateIntent, String capabilityId, String normalizedPrompt, String targetQuestQuery) {
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(Map.of(
+                    "sourceLanguage", "en",
+                    "normalizedPrompt", normalizedPrompt,
+                    "semanticPlan", Map.of(
+                            "candidateIntent", candidateIntent,
+                            "candidateIntentConfidence", 0.93d,
+                            "capabilityId", capabilityId,
+                            "planningNote", "test payload"
+                    ),
+                    "slots", Map.of(
+                            "applicationQuestQuery", targetQuestQuery,
+                            "applicationQuestQueryConfidence", 0.9d
                     ),
                     "translationApplied", false,
                     "translationReliable", true

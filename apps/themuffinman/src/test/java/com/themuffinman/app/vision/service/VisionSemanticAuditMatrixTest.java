@@ -7,6 +7,7 @@ import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.prompt.PromptSemanticPlan;
 import com.themuffinman.app.prompt.PromptSemanticsSupport;
+import com.themuffinman.app.semantic.SemanticAliasRegistry;
 import com.themuffinman.app.semantic.VisionEntityResolverRegistry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,13 +30,16 @@ class VisionSemanticAuditMatrixTest {
             new VisionSemanticRouteCatalogService(),
             new VisionSemanticContractSanitizer(),
             new VisionSemanticResponseValidator(),
-            new VisionEntityResolverRegistry(java.util.List.of())
+            new VisionEntityResolverRegistry(java.util.List.of(), new SemanticAliasRegistry()),
+            new SemanticAliasRegistry()
     ) {
         private final ObjectMapper objectMapper = new ObjectMapper();
 
         @Override
         protected String requestOpenAiOutputText(Map<String, Object> payload) {
             String input = String.valueOf(payload.get("input"));
+            assertTrue(input.contains("\"semanticHints\""), "OpenAI semantic input must include semantic hints");
+            assertTrue(input.contains("\"familyAliases\""), "OpenAI semantic input must include family aliases");
             String marker = "Semantic orchestration request:\n";
             String requestJson = input.substring(input.indexOf(marker) + marker.length()).trim();
             try {
@@ -125,6 +129,7 @@ class VisionSemanticAuditMatrixTest {
                 Arguments.of("update profile location", "set my location to Zurich, Switzerland", "UPDATE_PROFILE_LOCATION", "update_profile_location"),
                 Arguments.of("chat message", "send message to Josip", "OPEN_CHAT", "open_chat"),
                 Arguments.of("view quest detail", "show quest #42", "VIEW_QUEST_DETAIL", "view_quest_detail"),
+                Arguments.of("view quest news", "show my news", "VIEW_QUEST_NEWS", "view_quest_news"),
                 Arguments.of("view application detail", "show application #42", "VIEW_APPLICATION_DETAIL", "view_application_detail"),
                 Arguments.of("view user profile", "show user Josip", "VIEW_USER_PROFILE", "view_user_profile"),
                 Arguments.of("view circle detail", "open circle Family", "VIEW_CIRCLE_DETAIL", "view_circle_detail")

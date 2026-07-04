@@ -3,6 +3,12 @@ import {computed} from "vue"
 import type {VisionCanvasBlock, VisionConversationTurnResponse} from "../api/visionConversationApi.ts"
 import type {VisionExecutionCandidate} from "../api/visionConversationApi.ts"
 import VisionTypingText from "./VisionTypingText.vue"
+import {
+  previewFieldOrderByFamily,
+  previewPrimaryFieldIdsByVariant,
+  previewSecondaryFieldIdsByVariant,
+  resolveVisionFamily
+} from "../visionPresentation.ts"
 
 const props = defineProps<{
   response: VisionConversationTurnResponse | null
@@ -14,60 +20,6 @@ type IntentField = {
   slotId: string
   label: string
   value: string
-}
-
-const fieldOrderByFamily: Record<string, string[]> = {
-  quest: ["quest_title", "quest_description", "reward_amount", "visibility", "schedule_mode", "scheduled_date", "scheduled_time", "location_mode", "location_label"],
-  "quest discovery": ["target_quest_query", "search_query"],
-  "quest detail": ["target_quest_query"],
-  circle: ["circle_name", "target_circle_query"],
-  "circle request": ["target_user"],
-  application: ["target_quest_query", "application_message", "application_proposed_price"],
-  "application detail": ["application_target_query"],
-  profile: ["profile_username", "profile_description", "profile_location_mode", "profile_location_label"],
-  "profile location": ["profile_location_mode", "profile_location_label"],
-  settings: ["profile_location_mode", "profile_location_label"],
-  circles: ["target_circle_query", "circle_name"],
-  chat: ["target_user"]
-}
-
-const intentFamilyLabels: Record<string, string> = {
-  CREATE_QUEST: "quest",
-  DISCOVER_QUESTS: "quest discovery",
-  VIEW_QUEST_DETAIL: "quest detail",
-  CREATE_CIRCLE: "circle",
-  CREATE_CIRCLE_REQUEST: "circle request",
-  ACCEPT_CIRCLE_REQUEST: "circle request",
-  DELETE_CIRCLE_REQUEST: "circle request",
-  UPDATE_CIRCLE: "circle",
-  DELETE_CIRCLE: "circle",
-  CREATE_APPLICATION: "application",
-  UPDATE_APPLICATION: "application",
-  WITHDRAW_APPLICATION: "application",
-  APPROVE_APPLICATION: "application",
-  DECLINE_APPLICATION: "application",
-  UPDATE_PROFILE: "profile",
-  UPDATE_PROFILE_LOCATION: "profile location",
-  VIEW_PROFILE: "profile",
-  VIEW_SETTINGS: "settings",
-  VIEW_CIRCLES: "circles",
-  VIEW_CIRCLE_DETAIL: "circles",
-  VIEW_APPLICATIONS: "applications",
-  VIEW_APPLICATION_DETAIL: "application detail",
-  OPEN_CHAT: "chat",
-  VIEW_CHAT_WORKSPACE: "chat"
-}
-
-const normalizeFamilyLabel = (value: string) => {
-  const trimmed = value.trim().toLowerCase()
-  const aliases: Record<string, string> = {
-    quests: "quest",
-    circles: "circle",
-    applications: "application",
-    profiles: "profile",
-    chats: "chat"
-  }
-  return aliases[trimmed] ?? trimmed
 }
 
 const previewBlock = computed<VisionCanvasBlock | null>(() => {
@@ -129,15 +81,7 @@ const isComplete = computed(() => {
 })
 
 const activeEntityFamily = computed(() => {
-  const memoryTrailFamily = props.response?.memoryTrail?.activeEntityFamily?.trim().toLowerCase()
-  if (memoryTrailFamily) {
-    return normalizeFamilyLabel(memoryTrailFamily)
-  }
-  const intent = props.response?.intent?.trim()
-  if (intent && intentFamilyLabels[intent]) {
-    return intentFamilyLabels[intent]
-  }
-  return ""
+  return resolveVisionFamily(props.response?.intent ?? undefined, props.response?.memoryTrail?.activeEntityFamily ?? undefined)
 })
 
 const previewVariant = computed(() => {
@@ -149,39 +93,9 @@ const previewVariant = computed(() => {
 
 const previewVariantClass = computed(() => previewVariant.value.replaceAll(" ", "-"))
 
-const primaryFieldIdsByVariant: Record<string, string[]> = {
-  quest: ["quest_title", "quest_description", "reward_amount"],
-  "quest discovery": ["target_quest_query", "search_query"],
-  "quest detail": ["target_quest_query"],
-  circle: ["circle_name", "target_circle_query"],
-  "circle request": ["target_user"],
-  application: ["target_quest_query", "application_message", "application_proposed_price"],
-  "application detail": ["application_target_query"],
-  profile: ["profile_username", "profile_description"],
-  "profile location": ["profile_location_mode", "profile_location_label"],
-  settings: ["profile_location_mode", "profile_location_label"],
-  circles: ["target_circle_query", "circle_name"],
-  chat: ["target_user"]
-}
-
-const secondaryFieldIdsByVariant: Record<string, string[]> = {
-  quest: ["visibility", "schedule_mode", "scheduled_date", "scheduled_time", "location_mode", "location_label"],
-  "quest discovery": [],
-  "quest detail": [],
-  circle: [],
-  "circle request": [],
-  application: [],
-  "application detail": [],
-  profile: ["profile_location_mode", "profile_location_label"],
-  "profile location": [],
-  settings: [],
-  circles: [],
-  chat: []
-}
-
 const orderedFieldValues = computed(() => {
   const family = activeEntityFamily.value
-  const order = family ? fieldOrderByFamily[family] ?? [] : []
+  const order = family ? previewFieldOrderByFamily[family] ?? [] : []
   const rank = new Map(order.map((slotId, index) => [slotId, index]))
   return [...fieldValues.value].sort((left, right) => {
     const leftRank = rank.get(left.slotId) ?? 999
@@ -203,9 +117,9 @@ const visibleFields = computed(() => orderedFieldValues.value.filter((field) => 
 
 const previewSummary = computed(() => previewBlock.value?.body?.trim() ?? "")
 
-const variantPrimaryFields = computed(() => fieldsForIds(primaryFieldIdsByVariant[previewVariant.value] ?? []).slice(0, 4))
+const variantPrimaryFields = computed(() => fieldsForIds(previewPrimaryFieldIdsByVariant[previewVariant.value] ?? []).slice(0, 4))
 
-const variantSecondaryFields = computed(() => fieldsForIds(secondaryFieldIdsByVariant[previewVariant.value] ?? []).slice(0, 1))
+const variantSecondaryFields = computed(() => fieldsForIds(previewSecondaryFieldIdsByVariant[previewVariant.value] ?? []).slice(0, 1))
 
 const hasVariantCard = computed(() => previewVariant.value !== "generic")
 </script>

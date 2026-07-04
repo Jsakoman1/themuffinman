@@ -12,7 +12,7 @@ class VisionEntityResolverRegistryTest {
 
     @Test
     void returnsNotFoundWhenResolverIsMissing() {
-        VisionEntityResolverRegistry registry = new VisionEntityResolverRegistry(List.of());
+        VisionEntityResolverRegistry registry = new VisionEntityResolverRegistry(List.of(), new SemanticAliasRegistry());
 
         SemanticEntityResolution<String> result = registry.resolve(SemanticEntityFamily.UNKNOWN, new AppUser(), "anything");
 
@@ -42,7 +42,7 @@ class VisionEntityResolverRegistryTest {
             }
         };
 
-        VisionEntityResolverRegistry registry = new VisionEntityResolverRegistry(List.of(resolver));
+        VisionEntityResolverRegistry registry = new VisionEntityResolverRegistry(List.of(resolver), new SemanticAliasRegistry());
         SemanticEntityResolution<String> result = registry.resolve(SemanticEntityFamily.USER, new AppUser(), "Josip");
 
         assertTrue(result.resolved());

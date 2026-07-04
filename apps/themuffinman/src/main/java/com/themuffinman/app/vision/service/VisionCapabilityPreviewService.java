@@ -27,12 +27,14 @@ import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationDetailResponseDTO;
 import com.themuffinman.app.vision.dto.QuestAllowedActionDTO;
+import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationRequestDTO;
 import com.themuffinman.app.vision.dto.QuestDetailResponseDTO;
 import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
+import com.themuffinman.app.vision.mapper.QuestNewsMgr;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -56,6 +58,8 @@ public class VisionCapabilityPreviewService {
     private final CircleService circleService;
     private final QuestService questService;
     private final QuestApplicationService questApplicationService;
+    private final QuestNewsService questNewsService;
+    private final QuestNewsMgr questNewsMgr;
     private final SemanticAliasRegistry semanticAliasRegistry;
     private static final Pattern QUEST_ID_PATTERN = Pattern.compile("(?i)(?:quest\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
     private static final Pattern APPLICATION_ID_PATTERN = Pattern.compile("(?i)(?:application\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
@@ -73,6 +77,8 @@ public class VisionCapabilityPreviewService {
             CircleService circleService,
             QuestService questService,
             QuestApplicationService questApplicationService,
+            QuestNewsService questNewsService,
+            QuestNewsMgr questNewsMgr,
             SemanticAliasRegistry semanticAliasRegistry
     ) {
         this.appUserService = appUserService;
@@ -83,6 +89,8 @@ public class VisionCapabilityPreviewService {
         this.circleService = circleService;
         this.questService = questService;
         this.questApplicationService = questApplicationService;
+        this.questNewsService = questNewsService;
+        this.questNewsMgr = questNewsMgr;
         this.semanticAliasRegistry = semanticAliasRegistry;
     }
 
@@ -257,6 +265,36 @@ public class VisionCapabilityPreviewService {
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_applications")
                 .title("Applications")
+                .summary(summary)
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewQuestNews(AppUser currentUser) {
+        if (currentUser == null) {
+            return null;
+        }
+
+        List<QuestNewsItemResponseDTO> newsItems = questNewsService.getMyNews(currentUser).stream()
+                .map(questNewsMgr::toDto)
+                .toList();
+
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "news_count", "Updates", String.valueOf(newsItems.size()));
+        long unreadCount = newsItems.stream().filter(item -> item.getReadAt() == null).count();
+        addItem(items, "news_unread", "Unread", String.valueOf(unreadCount));
+        for (int index = 0; index < Math.min(newsItems.size(), 4); index++) {
+            QuestNewsItemResponseDTO item = newsItems.get(index);
+            addItem(items, "news_" + item.getId(), item.getTitle(), item.getMessage());
+        }
+
+        String summary = newsItems.isEmpty()
+                ? "You do not have any quest updates yet."
+                : "Showing " + Math.min(newsItems.size(), 4) + " of " + newsItems.size() + " quest updates.";
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_quest_news")
+                .title("Quest news")
                 .summary(summary)
                 .items(items)
                 .tone("info")
@@ -692,7 +730,7 @@ public class VisionCapabilityPreviewService {
             }
         }
 
-        String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.APPLICATION, query).toLowerCase(Locale.ROOT);
+        String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.QUEST, query).toLowerCase(Locale.ROOT);
         List<QuestResponseDTO> candidates = questService.getAllQuestResponses(currentUser).stream()
                 .filter(quest -> matchesQuestQuery(quest, normalizedQuery))
                 .toList();
@@ -1252,7 +1290,7 @@ public class VisionCapabilityPreviewService {
         if (questId != null) {
             return questId.equals(application.getQuestId());
         }
-        String query = normalizeEntityQuery(SemanticEntityFamily.CIRCLE, rawQuery).toLowerCase(Locale.ROOT);
+        String query = normalizeEntityQuery(SemanticEntityFamily.APPLICATION, rawQuery).toLowerCase(Locale.ROOT);
         String haystack = String.join(" ",
                 nullToEmpty(application.getQuestTitle()),
                 nullToEmpty(application.getQuestDescription()),
@@ -1269,7 +1307,7 @@ public class VisionCapabilityPreviewService {
         if (applicationId != null) {
             return applicationId.equals(application.getId());
         }
-        String query = normalizeEntityQuery(SemanticEntityFamily.CIRCLE, rawQuery).toLowerCase(Locale.ROOT);
+        String query = normalizeEntityQuery(SemanticEntityFamily.APPLICATION, rawQuery).toLowerCase(Locale.ROOT);
         String haystack = String.join(" ",
                 nullToEmpty(application.getQuestTitle()),
                 nullToEmpty(application.getQuestDescription()),
@@ -1297,7 +1335,7 @@ public class VisionCapabilityPreviewService {
         if (circleId != null) {
             return circleId.equals(circle.getId());
         }
-        String query = normalizeEntityQuery(SemanticEntityFamily.QUEST, rawQuery).toLowerCase(Locale.ROOT);
+        String query = normalizeEntityQuery(SemanticEntityFamily.CIRCLE, rawQuery).toLowerCase(Locale.ROOT);
         String haystack = String.join(" ",
                 nullToEmpty(circle.getName()),
                 nullToEmpty(circle.getMemberPreviewLabel()))
@@ -1344,7 +1382,7 @@ public class VisionCapabilityPreviewService {
         if (questId != null) {
             return questId.equals(quest.getId());
         }
-        String query = normalizeEntityQuery(SemanticEntityFamily.CIRCLE, rawQuery).toLowerCase(Locale.ROOT);
+        String query = normalizeEntityQuery(SemanticEntityFamily.QUEST, rawQuery).toLowerCase(Locale.ROOT);
         return matchesQuestQuery(quest, query);
     }
 
@@ -1384,7 +1422,7 @@ public class VisionCapabilityPreviewService {
         List<CircleRequestResponseDTO> requests = incoming
                 ? circleService.getIncomingRequests(currentUser)
                 : circleService.getOutgoingRequests(currentUser);
-        String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.QUEST, query).toLowerCase(Locale.ROOT);
+        String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.USER, query).toLowerCase(Locale.ROOT);
         List<CircleRequestResponseDTO> matches = requests.stream()
                 .filter(request -> request.getAcceptedAt() == null)
                 .filter(request -> matchesCircleRequestQuery(request, query, normalizedQuery))

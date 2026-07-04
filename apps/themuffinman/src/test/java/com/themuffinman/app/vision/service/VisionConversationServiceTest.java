@@ -358,6 +358,39 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void newsPromptRoutesIntoReadOnlyQuestNewsPreview() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewQuestNews(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_quest_news")
+                        .title("Quest news")
+                        .summary("Showing your quest news feed.")
+                        .items(List.of(
+                                com.themuffinman.app.vision.dto.VisionSlotSummaryDTO.builder()
+                                        .slotId("news_count")
+                                        .label("Updates")
+                                        .value("2")
+                                        .build()
+                        ))
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show my news")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_QUEST_NEWS", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertTrue(response.getBlocks().stream().anyMatch(block ->
+                "result_summary".equals(block.getType())
+                        && "Quest news".equals(block.getTitle())));
+    }
+
+    @Test
     void chatWorkspacePromptRoutesIntoReadOnlyChatPreview() {
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
         when(visionCapabilityPreviewService.previewChatWorkspace(currentUser)).thenReturn(

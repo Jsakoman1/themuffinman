@@ -46,6 +46,7 @@ public class VisionSemanticRouteCatalogService {
                 viewCirclesRoute(),
                 viewCircleDetailRoute(),
                 viewQuestDetailRoute(),
+                viewQuestNewsRoute(),
                 viewApplicationsRoute(),
                 viewApplicationDetailRoute()
         );
@@ -96,7 +97,7 @@ public class VisionSemanticRouteCatalogService {
             return SemanticEntityFamily.UNKNOWN;
         }
         return switch (intent) {
-            case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL -> SemanticEntityFamily.QUEST;
+            case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> SemanticEntityFamily.QUEST;
             case CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
                     UPDATE_CIRCLE, DELETE_CIRCLE, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL -> SemanticEntityFamily.CIRCLE;
             case CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION,
@@ -117,7 +118,7 @@ public class VisionSemanticRouteCatalogService {
             case UPDATE_CIRCLE, DELETE_CIRCLE, VIEW_CIRCLE_DETAIL -> SemanticEntityFamily.CIRCLE;
             case CREATE_APPLICATION -> SemanticEntityFamily.QUEST;
             case UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, VIEW_APPLICATION_DETAIL -> SemanticEntityFamily.APPLICATION;
-            case VIEW_QUEST_DETAIL -> SemanticEntityFamily.QUEST;
+            case VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> SemanticEntityFamily.QUEST;
             default -> SemanticEntityFamily.UNKNOWN;
         };
     }
@@ -145,6 +146,7 @@ public class VisionSemanticRouteCatalogService {
             case VIEW_CIRCLES -> "CircleGroupResponseDTO";
             case VIEW_CIRCLE_DETAIL -> "CircleGroupResponseDTO";
             case VIEW_QUEST_DETAIL -> "QuestDetailResponseDTO";
+            case VIEW_QUEST_NEWS -> "List<QuestNewsItemResponseDTO>";
             case VIEW_APPLICATIONS -> "QuestApplicationResponseDTO";
             case VIEW_APPLICATION_DETAIL -> "QuestApplicationDetailResponseDTO";
             default -> "unknown";
@@ -173,6 +175,7 @@ public class VisionSemanticRouteCatalogService {
             case CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
                     UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
                     APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> 0.80d;
+            case VIEW_QUEST_NEWS -> 0.70d;
             default -> 0.75d;
         };
     }
@@ -202,6 +205,7 @@ public class VisionSemanticRouteCatalogService {
                     CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
                     APPROVE_APPLICATION, DECLINE_APPLICATION -> 0.85d;
             case OPEN_CHAT, VIEW_USER_PROFILE, VIEW_CIRCLE_DETAIL, VIEW_QUEST_DETAIL, VIEW_APPLICATION_DETAIL -> 0.75d;
+            case VIEW_QUEST_NEWS -> 0.70d;
             default -> 0.75d;
         };
     }
@@ -558,6 +562,19 @@ public class VisionSemanticRouteCatalogService {
                 .slots(List.of(
                         slot("target_quest_query", "questTarget.query", "quest_reference", true, "Quest id or quest title that identifies one visible quest.", List.of())
                 ))
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewQuestNewsRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_quest_news")
+                .entityType("news")
+                .intent("VIEW_QUEST_NEWS")
+                .capabilityId("view_quest_news")
+                .purpose("Read-only quest news and updates feed for the authenticated user inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .slots(List.of())
                 .build();
     }
 

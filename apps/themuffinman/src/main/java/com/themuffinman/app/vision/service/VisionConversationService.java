@@ -167,6 +167,7 @@ public class VisionConversationService {
                 case VIEW_CIRCLES -> handleViewCirclesTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case VIEW_CIRCLE_DETAIL -> handleViewCircleDetailTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case VIEW_QUEST_DETAIL -> handleViewQuestDetailTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
+                case VIEW_QUEST_NEWS -> handleViewQuestNewsTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case VIEW_APPLICATIONS -> handleViewApplicationsTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case VIEW_APPLICATION_DETAIL -> handleViewApplicationDetailTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case UNSUPPORTED -> handleUnsupportedTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
@@ -363,7 +364,7 @@ public class VisionConversationService {
             return false;
         }
         return switch (intent) {
-            case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL -> containsAny(value, "quest", "quests", "job", "jobs", "work");
+            case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> containsAny(value, "quest", "quests", "job", "jobs", "work", "news", "updates");
             case CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
                  UPDATE_CIRCLE, DELETE_CIRCLE, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL -> containsAny(value, "circle", "circles");
             case CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION,
@@ -408,6 +409,8 @@ public class VisionConversationService {
                     DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
             case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
                     WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
+            case CREATE_QUEST, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> "quests";
+            case VIEW_CHAT_WORKSPACE, OPEN_CHAT -> "chat";
             default -> null;
         };
     }
@@ -461,6 +464,7 @@ public class VisionConversationService {
         }
         return switch (intent) {
             case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, VIEW_USER_PROFILE -> "profile";
+            case VIEW_QUEST_NEWS -> "quest news";
             case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
                     DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
             case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
@@ -528,6 +532,9 @@ public class VisionConversationService {
         }
         if (title == null || title.isBlank()) {
             title = conversation.getSlotData().get("search_query");
+        }
+        if ((title == null || title.isBlank()) && conversation.getIntent() == VisionIntent.VIEW_QUEST_NEWS) {
+            title = "Quest news";
         }
         if ((title == null || title.isBlank()) && conversation.getIntent() == VisionIntent.OPEN_CHAT) {
             title = conversation.getSlotData().get("opened_chat_username");
@@ -2741,7 +2748,7 @@ public class VisionConversationService {
             VisionPromptUnderstandingResult understanding,
             String source
     ) {
-        String message = "This vision backend currently supports quest creation, circles, circle requests, applications, profile updates, quest discovery, chat, profile, circles, and applications.";
+        String message = "This vision backend currently supports quest creation, quest news, circles, circle requests, applications, profile updates, quest discovery, chat, profile, circles, and applications.";
         conversation.setStatus(VisionConversationStatus.BLOCKED);
         conversation.setRequestedSlot(null);
         updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
@@ -3052,6 +3059,24 @@ public class VisionConversationService {
         );
     }
 
+    private VisionTurn handleViewQuestNewsTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        return handleReadOnlySnapshotTurn(
+                conversation,
+                prompt,
+                normalizedPrompt,
+                understanding,
+                source,
+                VisionIntent.VIEW_QUEST_NEWS,
+                readOnlySnapshotMessage(VisionIntent.VIEW_QUEST_NEWS)
+        );
+    }
+
     private VisionTurn handleViewApplicationsTurn(
             VisionConversation conversation,
             String prompt,
@@ -3150,6 +3175,7 @@ public class VisionConversationService {
             case VIEW_CIRCLE_DETAIL -> "Showing the selected circle. You can say rename this circle, delete this circle, or show my circles.";
             case VIEW_APPLICATIONS -> "Showing your applications snapshot. You can say apply to a quest, update an application, withdraw an application, approve an application, or decline an application.";
             case VIEW_APPLICATION_DETAIL -> "Showing the selected application. You can say update this application, withdraw this application, or show my applications.";
+            case VIEW_QUEST_NEWS -> "Showing your quest news feed. You can say show another quest update or open the related quest.";
             case VIEW_CHAT_WORKSPACE -> "Showing your chat workspace snapshot. You can say open chat with ... to move into a direct conversation.";
             case VIEW_QUEST_DETAIL -> "Showing the selected quest. You can say apply to this quest or show another quest.";
             default -> "Showing the current vision snapshot.";
@@ -3158,8 +3184,8 @@ public class VisionConversationService {
 
     private String resetReadOnlySnapshotMessage(VisionIntent intent) {
         return switch (intent) {
-            case VIEW_PROFILE, VIEW_SETTINGS, VIEW_CIRCLES, VIEW_APPLICATIONS, VIEW_CHAT_WORKSPACE
-                    -> "The current view was reset. " + readOnlySnapshotMessage(intent);
+            case VIEW_PROFILE, VIEW_SETTINGS, VIEW_CIRCLES, VIEW_APPLICATIONS, VIEW_CHAT_WORKSPACE, VIEW_QUEST_NEWS ->
+                    "The current view was reset. " + readOnlySnapshotMessage(intent);
             default -> "The current view was reset.";
         };
     }
@@ -3254,6 +3280,7 @@ public class VisionConversationService {
             case VIEW_QUEST_DETAIL -> hasText(conversation.getSlotData().get("resolved_quest_id"))
                     ? visionCapabilityPreviewService.previewQuestDetail(currentUser, Long.parseLong(conversation.getSlotData().get("resolved_quest_id")))
                     : null;
+            case VIEW_QUEST_NEWS -> visionCapabilityPreviewService.previewQuestNews(currentUser);
             case VIEW_APPLICATIONS -> visionCapabilityPreviewService.previewApplications(currentUser);
             case VIEW_APPLICATION_DETAIL -> hasText(conversation.getSlotData().get("application_id"))
                     ? visionCapabilityPreviewService.previewApplicationDetail(currentUser, Long.parseLong(conversation.getSlotData().get("application_id")))

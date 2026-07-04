@@ -7,6 +7,7 @@ import {
   type VisionReviewTarget
 } from "../api/visionConversationApi.ts"
 import type {DashboardVoiceConfig} from "../api/contracts.ts"
+import {resolveVisionFamily} from "../visionPresentation.ts"
 
 export type VisionVoiceState = "idle" | "listening" | "processing" | "speaking"
 export type VisionAttentionState = "quiet" | "listening" | "processing" | "speaking" | "asking" | "discovering" | "review" | "complete" | "blocked"
@@ -55,33 +56,6 @@ const slotPlaceholders: Record<string, string> = {
   location_mode: "Example: use profile, hide location, or custom place",
   location_label: "Example: Ban Jelacic Square, Zagreb",
   location_candidate_confirmation: "Choose resolved place or keep typed location"
-}
-
-const intentFamilyLabels: Record<string, string> = {
-  CREATE_QUEST: "quest",
-  DISCOVER_QUESTS: "quest discovery",
-  VIEW_QUEST_DETAIL: "quest detail",
-  CREATE_CIRCLE: "circle",
-  CREATE_CIRCLE_REQUEST: "circle request",
-  ACCEPT_CIRCLE_REQUEST: "circle request",
-  DELETE_CIRCLE_REQUEST: "circle request",
-  UPDATE_CIRCLE: "circle",
-  DELETE_CIRCLE: "circle",
-  CREATE_APPLICATION: "application",
-  UPDATE_APPLICATION: "application",
-  WITHDRAW_APPLICATION: "application",
-  APPROVE_APPLICATION: "application",
-  DECLINE_APPLICATION: "application",
-  UPDATE_PROFILE: "profile",
-  UPDATE_PROFILE_LOCATION: "profile location",
-  VIEW_PROFILE: "profile",
-  VIEW_SETTINGS: "settings",
-  VIEW_CIRCLES: "circles",
-  VIEW_CIRCLE_DETAIL: "circle detail",
-  VIEW_APPLICATIONS: "applications",
-  VIEW_APPLICATION_DETAIL: "application detail",
-  OPEN_CHAT: "chat",
-  VIEW_CHAT_WORKSPACE: "chat"
 }
 
 const supportedRecordingMimeTypes = [
@@ -200,7 +174,10 @@ export const useVisionConversation = () => {
     if (slotId) {
       return fieldRequestBlock.value?.placeholder ?? slotPlaceholders[slotId] ?? "Type the next detail"
     }
-    const family = response.value?.memoryTrail?.activeEntityFamily?.trim()?.toLowerCase()
+    const family = resolveVisionFamily(
+      response.value?.intent ?? undefined,
+      response.value?.memoryTrail?.activeEntityFamily ?? undefined
+    )
     if (family) {
       return `Type or speak the next ${family} detail. Enter sends.`
     }
@@ -253,17 +230,10 @@ export const useVisionConversation = () => {
     return "The current turn is being routed into the active slot."
   })
 
-  const activeEntityFamilyLabel = computed(() => {
-    const family = response.value?.memoryTrail?.activeEntityFamily?.trim()
-    if (family) {
-      return family
-    }
-    const intent = response.value?.intent?.trim()
-    if (intent && intentFamilyLabels[intent]) {
-      return intentFamilyLabels[intent]
-    }
-    return ""
-  })
+  const activeEntityFamilyLabel = computed(() => resolveVisionFamily(
+    response.value?.intent ?? undefined,
+    response.value?.memoryTrail?.activeEntityFamily ?? undefined
+  ))
 
   const activeEntityContextLabel = computed(() => {
     const familyLabel = activeEntityFamilyLabel.value

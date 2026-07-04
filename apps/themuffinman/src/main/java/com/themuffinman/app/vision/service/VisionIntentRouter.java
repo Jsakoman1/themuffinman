@@ -88,6 +88,9 @@ public class VisionIntentRouter {
         if (semanticIntent == VisionIntent.VIEW_QUEST_DETAIL) {
             return VisionIntent.VIEW_QUEST_DETAIL;
         }
+        if (semanticIntent == VisionIntent.VIEW_QUEST_NEWS) {
+            return VisionIntent.VIEW_QUEST_NEWS;
+        }
         if (semanticIntent == VisionIntent.VIEW_CIRCLES) {
             return VisionIntent.VIEW_CIRCLES;
         }
@@ -151,6 +154,9 @@ public class VisionIntentRouter {
         }
         if (containsQuestDetailSignals(lower)) {
             return VisionIntent.VIEW_QUEST_DETAIL;
+        }
+        if (containsQuestNewsSignals(lower)) {
+            return VisionIntent.VIEW_QUEST_NEWS;
         }
         if (containsProfileSignals(lower)) {
             return VisionIntent.VIEW_PROFILE;
@@ -313,6 +319,22 @@ public class VisionIntentRouter {
                 "open quest ",
                 "quest details",
                 "quest detail");
+    }
+
+    private boolean containsQuestNewsSignals(String value) {
+        return containsAny(value,
+                "my news",
+                "show news",
+                "view quest news",
+                "show my quest news",
+                "open quest news",
+                "view my news",
+                "quest news",
+                "news feed",
+                "notifications",
+                "updates",
+                "recent updates",
+                "activity feed");
     }
 
     private boolean containsCircleDetailSignals(String value) {

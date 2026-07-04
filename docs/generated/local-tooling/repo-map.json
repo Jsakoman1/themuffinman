@@ -1,0 +1,718 @@
+{
+  "generated_at": "2026-07-03T14:48:12Z",
+  "total_files": 589,
+  "groups": [
+    {
+      "domain": "agent",
+      "category": "backend_controller",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java"
+      ]
+    },
+    {
+      "domain": "agent",
+      "category": "backend_dto",
+      "count": 9,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentCapabilityAssessmentDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentClarificationContractDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentEndpointPlanDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentExecutionReadinessDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentIntentLineageDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionConfidenceDTO.java"
+      ]
+    },
+    {
+      "domain": "agent",
+      "category": "backend_service",
+      "count": 7,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentExecutionService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptPreparationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslation.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentSurfacePolicy.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTargetUserResolver.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlan.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlanner.java"
+      ]
+    },
+    {
+      "domain": "agent",
+      "category": "docs",
+      "count": 2,
+      "sample_paths": [
+        "docs/agent-improvement-backlog.md",
+        "docs/agent-operating-model.md"
+      ]
+    },
+    {
+      "domain": "agent",
+      "category": "other",
+      "count": 3,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfaceAuthority.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfaceId.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/agent/runtime/AgentSurfacePolicy.java"
+      ]
+    },
+    {
+      "domain": "agent",
+      "category": "script",
+      "count": 3,
+      "sample_paths": [
+        "scripts/audits/audit-agent-model-feature-coverage.rb",
+        "scripts/generate-agent-endpoint-inventory.rb",
+        "scripts/generate-agent-operating-model.rb"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_controller",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_dto",
+      "count": 3,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileListResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_mapper",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessProfileMgr.java"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_model",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_repository",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessProfileRepository.java"
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_service",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java"
+      ]
+    },
+    {
+      "domain": "chat",
+      "category": "backend_controller",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java"
+      ]
+    },
+    {
+      "domain": "chat",
+      "category": "backend_dto",
+      "count": 9,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatCircleOptionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatContactDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSummaryDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatOpenConversationRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketClientMessageDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketEventDTO.java"
+      ]
+    },
+    {
+      "domain": "chat",
+      "category": "backend_model",
+      "count": 3,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatConversation.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatMessage.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatPresence.java"
+      ]
+    },
+    {
+      "domain": "chat",
+      "category": "backend_repository",
+      "count": 3,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatConversationRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatPresenceRepository.java"
+      ]
+    },
+    {
+      "domain": "chat",
+      "category": "backend_service",
+      "count": 4,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatPresenceService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRealtimeService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java"
+      ]
+    },
+    {
+      "domain": "chat",
+      "category": "other",
+      "count": 2,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/websocket/ChatWebSocketAuthInterceptor.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/websocket/ChatWebSocketHandler.java"
+      ]
+    },
+    {
+      "domain": "common",
+      "category": "backend_controller",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/controller/GlobalExceptionHandler.java"
+      ]
+    },
+    {
+      "domain": "common",
+      "category": "backend_dto",
+      "count": 5,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResults.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/LabelValueDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/NavigationTargetType.java"
+      ]
+    },
+    {
+      "domain": "common",
+      "category": "other",
+      "count": 25,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/ActorIdentity.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/CircleVisibilitySelection.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/ModuleOwnership.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/concepts/SchedulingWindow.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/contract/ContractOptional.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/ServiceErrors.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/DomainEvent.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/common/event/DomainEventPublisher.java"
+      ]
+    },
+    {
+      "domain": "identity",
+      "category": "backend_controller",
+      "count": 2,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java"
+      ]
+    },
+    {
+      "domain": "identity",
+      "category": "backend_dto",
+      "count": 8,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AdminUserDetailDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AppUserRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AppUserResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/ProfilePrimaryActionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/UserProfileViewDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java"
+      ]
+    },
+    {
+      "domain": "identity",
+      "category": "backend_mapper",
+      "count": 2,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AuthMgr.java"
+      ]
+    },
+    {
+      "domain": "identity",
+      "category": "backend_model",
+      "count": 2,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/AppUser.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/AppUserRole.java"
+      ]
+    },
+    {
+      "domain": "identity",
+      "category": "backend_repository",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java"
+      ]
+    },
+    {
+      "domain": "identity",
+      "category": "backend_service",
+      "count": 6,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserLookupService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java"
+      ]
+    },
+    {
+      "domain": "identity",
+      "category": "frontend_api",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts"
+      ]
+    },
+    {
+      "domain": "identity",
+      "category": "frontend_view",
+      "count": 2,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+        "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue"
+      ]
+    },
+    {
+      "domain": "identity",
+      "category": "other",
+      "count": 5,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/identity/auth.ts",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/security/ApiAuthenticationEntryPoint.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/security/JwtAuthFilter.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/security/JwtService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/security/RepositoryUserDetailsService.java"
+      ]
+    },
+    {
+      "domain": "location",
+      "category": "backend_controller",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java"
+      ]
+    },
+    {
+      "domain": "location",
+      "category": "backend_dto",
+      "count": 11,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/DatabaseTableStatusViewDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/ExactLocationVisibilityScopeOptionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationDebugStatusViewDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupCandidateDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationModeOptionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationReverseLookupRequestDTO.java"
+      ]
+    },
+    {
+      "domain": "location",
+      "category": "backend_model",
+      "count": 6,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/model/ExactLocationVisibilityScope.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/model/LocationLookupEvent.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/model/LocationLookupEventType.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/model/QuestLocationSource.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/model/QuestLocationVisibility.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/model/UserLocationMode.java"
+      ]
+    },
+    {
+      "domain": "location",
+      "category": "backend_repository",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/repository/LocationLookupEventRepository.java"
+      ]
+    },
+    {
+      "domain": "location",
+      "category": "backend_service",
+      "count": 11,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/DisabledLocationLookupClient.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/GeoapifyLocationLookupClient.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationDebugStatusAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationGeoService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupClient.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "backend_controller",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "backend_dto",
+      "count": 3,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferListResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "backend_mapper",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "backend_model",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "backend_repository",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/repository/RideOfferRepository.java"
+      ]
+    },
+    {
+      "domain": "rides",
+      "category": "backend_service",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_controller",
+      "count": 6,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_dto",
+      "count": 77,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiErrorResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiFieldErrorDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminApplicationsQueryDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminQuestApplicationUpdateRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AppUserRoleOptionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/ApplicationAllowedActionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardApplicationGroupDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationItemDTO.java"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_mapper",
+      "count": 4,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestApplicationMgr.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestNewsMgr.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/UserReviewMgr.java"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_model",
+      "count": 19,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/Quest.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplication.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestApplicationStatus.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestAudience.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestNewsItem.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestNewsType.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/QuestStatus.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/ReviewRole.java"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_repository",
+      "count": 6,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestApplicationRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestNewsRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/QuestRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/UserReviewRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionConversationRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionTurnRepository.java"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_service",
+      "count": 76,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplicationEntityResolver.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplyForQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApproveApplicationUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CircleEntityResolver.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CompleteQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ConfirmQuestTermChangeUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CreateQuestUseCase.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardNotificationAssembler.java"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "docs",
+      "count": 37,
+      "sample_paths": [
+        "docs/business-logic.md",
+        "docs/change-completion-checklist.md",
+        "docs/codex-fast-path.md",
+        "docs/codex-local-tooling-todo.md",
+        "docs/control-surface-map.md",
+        "docs/cross-domain-glossary.md",
+        "docs/docs-as-contract-slices.md",
+        "docs/documentation-sync-policy.md"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "frontend_api",
+      "count": 4,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+        "apps/themuffinman/frontend/src/modules/vision/api/contracts.ts",
+        "apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts",
+        "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "frontend_composable",
+      "count": 7,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
+        "apps/themuffinman/frontend/src/composables/useAutoDismissFeedback.ts",
+        "apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts",
+        "apps/themuffinman/frontend/src/composables/useMountedAsync.ts",
+        "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts",
+        "apps/themuffinman/frontend/src/composables/useTimedBanner.ts",
+        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "frontend_contract",
+      "count": 2,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+        "apps/themuffinman/frontend/src/contracts/index.ts"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "frontend_view",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "other",
+      "count": 32,
+      "sample_paths": [
+        "apps/themuffinman/frontend/src/App.vue",
+        "apps/themuffinman/frontend/src/api/apiErrors.ts",
+        "apps/themuffinman/frontend/src/api/httpClient.ts",
+        "apps/themuffinman/frontend/src/auth.ts",
+        "apps/themuffinman/frontend/src/env.d.ts",
+        "apps/themuffinman/frontend/src/httpDebug.ts",
+        "apps/themuffinman/frontend/src/lib/dialogFlow.ts",
+        "apps/themuffinman/frontend/src/lib/questListPagination.ts"
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "script",
+      "count": 110,
+      "sample_paths": [
+        "scripts/audits/audit-api-contract-drift.rb",
+        "scripts/audits/audit-architecture-drift.rb",
+        "scripts/audits/audit-async-mutation-flow.rb",
+        "scripts/audits/audit-automation-readiness-gap.rb",
+        "scripts/audits/audit-backend-dead-code.rb",
+        "scripts/audits/audit-backend-dependency-graph.rb",
+        "scripts/audits/audit-change-impact-preflight.rb",
+        "scripts/audits/audit-config-sprawl.rb"
+      ]
+    },
+    {
+      "domain": "social",
+      "category": "backend_controller",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java"
+      ]
+    },
+    {
+      "domain": "social",
+      "category": "backend_dto",
+      "count": 25,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/AdminCircleGroupResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/AdminCircleOverviewDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/AdminCircleRelationRowDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipActionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/BulkCircleMembershipUpdateDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleBlockCreateDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleCandidateDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/CircleConnectionsQueryDTO.java"
+      ]
+    },
+    {
+      "domain": "social",
+      "category": "backend_mapper",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/mapper/CircleRequestMgr.java"
+      ]
+    },
+    {
+      "domain": "social",
+      "category": "backend_model",
+      "count": 3,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/model/CircleGroup.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/model/CircleMembership.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/model/CircleRequest.java"
+      ]
+    },
+    {
+      "domain": "social",
+      "category": "backend_repository",
+      "count": 3,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleGroupRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleMembershipRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleRequestRepository.java"
+      ]
+    },
+    {
+      "domain": "social",
+      "category": "backend_service",
+      "count": 9,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleAdminOverviewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialPresentationHelper.java"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "backend_controller",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "backend_dto",
+      "count": 5,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingListResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingResponseDTO.java"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "backend_mapper",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "backend_model",
+      "count": 3,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequest.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingBorrowRequestStatus.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/model/ThingListing.java"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "backend_repository",
+      "count": 2,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingBorrowRequestRepository.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingListingRepository.java"
+      ]
+    },
+    {
+      "domain": "things",
+      "category": "backend_service",
+      "count": 1,
+      "sample_paths": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java"
+      ]
+    }
+  ],
+  "read_first": {
+    "repository_rules": "AGENTS.md",
+    "local_tooling": "docs/codex-local-tooling-todo.md",
+    "business_rules": "docs/business-logic.md",
+    "technical_rules": "docs/domain-technical.md",
+    "automation_rules": "docs/agent-operating-model.md"
+  }
+}

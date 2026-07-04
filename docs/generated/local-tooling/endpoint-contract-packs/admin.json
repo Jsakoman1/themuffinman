@@ -1,0 +1,69 @@
+{
+  "generated_at": "2026-07-03T14:48:12Z",
+  "endpoint_family": "admin",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/admin/applications",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
+      "dtos": [
+        "QuestApplicationResponseDTO",
+        "QuestApplicationsViewDTO"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/admin/applications/{applicationId}",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
+      "dtos": [
+        "ActionResultDTO",
+        "QuestApplicationRequestDTO"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/admin/applications/{applicationId}",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
+      "dtos": [
+        "ActionResultDTO",
+        "AdminQuestApplicationUpdateRequestDTO"
+      ]
+    }
+  ],
+  "dto_files": [
+    "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminQuestApplicationUpdateRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationsViewDTO.java"
+  ],
+  "frontend_callsites": [
+    {
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "matched_paths": [
+        "applications"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
+      "matched_paths": [
+        "applications"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "matched_paths": [
+        "applications"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/router.ts",
+      "matched_paths": [
+        "applications"
+      ]
+    }
+  ],
+  "docs": [
+
+  ]
+}

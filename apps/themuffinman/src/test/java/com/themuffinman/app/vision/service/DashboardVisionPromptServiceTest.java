@@ -1,6 +1,7 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.semantic.SemanticAliasRegistry;
 import com.themuffinman.app.semantic.VisionEntityResolverRegistry;
 import com.themuffinman.app.vision.dto.DashboardVisionPromptRequestDTO;
 import com.themuffinman.app.vision.dto.DashboardVisionPromptResponseDTO;
@@ -82,7 +83,8 @@ class DashboardVisionPromptServiceTest {
                     new VisionSemanticRouteCatalogService(),
                     new VisionSemanticContractSanitizer(),
                     new VisionSemanticResponseValidator(),
-                    new VisionEntityResolverRegistry(java.util.List.of())
+                    new VisionEntityResolverRegistry(java.util.List.of(), new SemanticAliasRegistry()),
+                    new SemanticAliasRegistry()
             );
             this.result = result;
         }

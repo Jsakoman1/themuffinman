@@ -23,8 +23,9 @@ class VisionSemanticRouteCatalogServiceTest {
 
         var routes = service.allowedRoutes(user);
 
-        assertEquals(25, routes.size());
+        assertEquals(26, routes.size());
         assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.CREATE_QUEST));
+        assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.VIEW_QUEST_NEWS));
         assertEquals("QuestRequestDTO", service.dtoTypeForIntent(VisionIntent.CREATE_QUEST));
         assertEquals("create_quest_validator", service.validatorKeyForIntent(VisionIntent.CREATE_QUEST));
         assertEquals("create_quest_executor", service.executorKeyForIntent(VisionIntent.CREATE_QUEST));
@@ -125,6 +126,11 @@ class VisionSemanticRouteCatalogServiceTest {
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_quest_detail")
                 && !route.isMutating()
                 && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("target_quest_query"))));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_quest_news")
+                && !route.isMutating()
+                && route.getSlots().isEmpty()));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_quest_news")
+                && "view_quest_news".equals(route.getCapabilityId())));
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_applications")
                 && !route.isMutating()
                 && route.getSlots().isEmpty()));

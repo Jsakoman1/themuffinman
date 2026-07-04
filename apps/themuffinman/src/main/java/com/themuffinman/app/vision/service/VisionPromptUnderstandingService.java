@@ -7,6 +7,7 @@ import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.prompt.PromptSemanticsSupport;
+import com.themuffinman.app.semantic.SemanticAliasRegistry;
 import com.themuffinman.app.semantic.SemanticEntityFamily;
 import com.themuffinman.app.semantic.SemanticEnvelope;
 import com.themuffinman.app.semantic.SemanticEntityResolution;
@@ -51,6 +52,7 @@ public class VisionPromptUnderstandingService {
             VisionIntent.VIEW_CIRCLES,
             VisionIntent.VIEW_CIRCLE_DETAIL,
             VisionIntent.VIEW_QUEST_DETAIL,
+            VisionIntent.VIEW_QUEST_NEWS,
             VisionIntent.VIEW_APPLICATIONS,
             VisionIntent.VIEW_APPLICATION_DETAIL
     );
@@ -63,6 +65,7 @@ public class VisionPromptUnderstandingService {
     private final VisionSemanticContractSanitizer semanticContractSanitizer;
     private final VisionSemanticResponseValidator semanticResponseValidator;
     private final VisionEntityResolverRegistry visionEntityResolverRegistry;
+    private final SemanticAliasRegistry semanticAliasRegistry;
     private final RestClient restClient = RestClient.create();
     private final ObjectMapper objectMapper = JsonMapper.builder().findAndAddModules().build();
 
@@ -74,7 +77,8 @@ public class VisionPromptUnderstandingService {
             VisionSemanticRouteCatalogService semanticRouteCatalogService,
             VisionSemanticContractSanitizer semanticContractSanitizer,
             VisionSemanticResponseValidator semanticResponseValidator,
-            VisionEntityResolverRegistry visionEntityResolverRegistry
+            VisionEntityResolverRegistry visionEntityResolverRegistry,
+            SemanticAliasRegistry semanticAliasRegistry
     ) {
         this.agentProperties = agentProperties;
         this.visionSemanticMapper = visionSemanticMapper;
@@ -84,6 +88,7 @@ public class VisionPromptUnderstandingService {
         this.semanticContractSanitizer = semanticContractSanitizer;
         this.semanticResponseValidator = semanticResponseValidator;
         this.visionEntityResolverRegistry = visionEntityResolverRegistry;
+        this.semanticAliasRegistry = semanticAliasRegistry;
     }
 
     public VisionPromptUnderstandingResult understandPrompt(String prompt, VisionConversation conversation) {
@@ -376,7 +381,7 @@ public class VisionPromptUnderstandingService {
                 .entityResolutionLabel(entityResolution == null ? null : entityResolution.getCanonicalLabel())
                 .entityResolutionConfidence(entityResolution == null ? null : entityResolution.getConfidence())
                 .entityResolutionReason(entityResolution == null ? null : entityResolution.getAmbiguityReason())
-                .slotCandidates(understanding == null ? Map.of() : understanding.toExtractedSlotMap())
+                .slotCandidates(canonicalizeSlotCandidates(candidateIntent, understanding))
                 .confidence(semanticPlan.getCandidateIntentConfidence())
                 .ambiguityReason(semanticPlan.getPlanningNote())
                 .clarificationRequired(clarificationRequired)
@@ -469,7 +474,7 @@ public class VisionPromptUnderstandingService {
     ) {
         Map<String, String> slotCandidates = understanding == null ? Map.of() : understanding.toExtractedSlotMap();
         SemanticEntityFamily entityFamily = resolveTargetEntityFamily(candidateIntent);
-        return switch (entityFamily) {
+        String resolvedQuery = switch (entityFamily) {
             case USER -> firstNonBlank(semanticPlan.getTargetUserQuery(), slotCandidates.get("profile_username"));
             case CIRCLE -> firstNonBlank(slotCandidates.get("target_circle_query"), slotCandidates.get("circle_name"));
             case QUEST -> firstNonBlank(slotCandidates.get("target_quest_query"), semanticPlan.getSearchQuery(), slotCandidates.get("quest_title"));
@@ -477,6 +482,51 @@ public class VisionPromptUnderstandingService {
             case PROFILE -> firstNonBlank(slotCandidates.get("profile_username"), slotCandidates.get("profile_description"));
             default -> firstNonBlank(semanticPlan.getTargetUserQuery(), semanticPlan.getSearchQuery());
         };
+        return normalizeTargetEntityQuery(entityFamily, resolvedQuery);
+    }
+
+    private Map<String, String> canonicalizeSlotCandidates(VisionIntent candidateIntent, VisionPromptUnderstandingResult understanding) {
+        if (understanding == null) {
+            return Map.of();
+        }
+
+        Map<String, String> source = understanding.toExtractedSlotMap();
+        if (source.isEmpty()) {
+            return source;
+        }
+
+        SemanticEntityFamily entityFamily = resolveTargetEntityFamily(candidateIntent);
+        Map<String, String> canonical = new LinkedHashMap<>();
+        source.forEach((key, value) -> canonical.put(key, canonicalizeSlotValue(entityFamily, key, value)));
+        return canonical;
+    }
+
+    private String canonicalizeSlotValue(SemanticEntityFamily entityFamily, String slotId, String value) {
+        if (value == null || value.isBlank()) {
+            return value;
+        }
+        if (entityFamily == SemanticEntityFamily.QUEST && "target_quest_query".equals(slotId)) {
+            return normalizeTargetEntityQuery(SemanticEntityFamily.QUEST, value);
+        }
+        if (entityFamily == SemanticEntityFamily.CIRCLE && ("target_circle_query".equals(slotId) || "circle_name".equals(slotId))) {
+            return normalizeTargetEntityQuery(SemanticEntityFamily.CIRCLE, value);
+        }
+        if ((entityFamily == SemanticEntityFamily.APPLICATION && ("target_application_query".equals(slotId) || "target_quest_query".equals(slotId)))
+                || (entityFamily == SemanticEntityFamily.USER && "profile_username".equals(slotId))
+                || (entityFamily == SemanticEntityFamily.PROFILE && ("profile_username".equals(slotId) || "profile_description".equals(slotId)))) {
+            return normalizeTargetEntityQuery(entityFamily, value);
+        }
+        return value.trim();
+    }
+
+    private String normalizeTargetEntityQuery(SemanticEntityFamily family, String query) {
+        if (query == null || query.isBlank()) {
+            return query;
+        }
+        if (family == null || family == SemanticEntityFamily.UNKNOWN) {
+            return query.trim();
+        }
+        return semanticAliasRegistry.normalizeQuery(family, query).trim();
     }
 
     private String firstNonBlank(String... values) {
@@ -507,6 +557,7 @@ public class VisionPromptUnderstandingService {
         Map<String, Object> compact = new LinkedHashMap<>();
         compact.put("contractVersion", orchestrationRequest.getContractVersion());
         compact.put("rawPrompt", orchestrationRequest.getRawPrompt());
+        compact.put("semanticHints", compactSemanticHints());
         compact.put("userContext", compactUserContext(orchestrationRequest.getUserContext()));
         compact.put("conversationContext", compactConversationContext(orchestrationRequest.getConversationContext()));
         compact.put("memoryContext", compactMemoryContext(orchestrationRequest.getMemoryContext()));
@@ -674,6 +725,17 @@ public class VisionPromptUnderstandingService {
                 .toList();
     }
 
+    private Map<String, Object> compactSemanticHints() {
+        Map<String, Object> compact = new LinkedHashMap<>();
+        compact.put("familyAliases", Map.of(
+                "quest", semanticAliasRegistry.aliasesFor(SemanticEntityFamily.QUEST),
+                "circle", semanticAliasRegistry.aliasesFor(SemanticEntityFamily.CIRCLE),
+                "application", semanticAliasRegistry.aliasesFor(SemanticEntityFamily.APPLICATION),
+                "user", semanticAliasRegistry.aliasesFor(SemanticEntityFamily.USER)
+        ));
+        return compact;
+    }
+
     private String buildInput(VisionSemanticOrchestrationRequest orchestrationRequest) {
         String orchestrationRequestJson;
         try {
@@ -691,13 +753,14 @@ public class VisionPromptUnderstandingService {
                 Use memoryContext.recentConversations only as lightweight reminders when topics switch.
                 Use runtimeContext to know whether the turn came from text or voice.
                 Use conversationContext for already collected slot data.
+                Use semanticHints.familyAliases to map multilingual aliases and paraphrases to the correct family before choosing targetEntityQuery.
                 Determine candidateIntent and capability first.
                 Extract only values that are explicit or directly implied.
                 Normalize the internal semantic meaning into English only.
                 Always return normalizedPrompt in English, even if the user spoke another language or used broken grammar.
                 If the prompt is vague or slot-follow-up, prefer the current session entity family unless the user clearly changes topic.
                 If required slots are missing or the target entity is ambiguous, set clarificationRequired to true and list missingRequiredSlotIds.
-                Supported intents: CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, DISCOVER_QUESTS, OPEN_CHAT, VIEW_PROFILE, VIEW_SETTINGS, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, UNSUPPORTED.
+                Supported intents: CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, DISCOVER_QUESTS, OPEN_CHAT, VIEW_PROFILE, VIEW_SETTINGS, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, VIEW_QUEST_NEWS, VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, UNSUPPORTED.
                 For CREATE_QUEST, keep questTitle, questDescription, visibility, reward.amount, reward.freeQuest, schedule.mode, schedule.scheduledDate, schedule.scheduledTime, location.mode, and location.label separate.
                 For circle, application, profile, chat, and discover intents, fill only the matching slot family and leave unrelated slots null.
                 Use the userContext timezone when interpreting dates and times.
@@ -738,6 +801,7 @@ public class VisionPromptUnderstandingService {
                 "VIEW_CIRCLES",
                 "VIEW_CIRCLE_DETAIL",
                 "VIEW_QUEST_DETAIL",
+                "VIEW_QUEST_NEWS",
                 "VIEW_APPLICATIONS",
                 "VIEW_APPLICATION_DETAIL",
                 "UNSUPPORTED"
@@ -769,6 +833,7 @@ public class VisionPromptUnderstandingService {
                 "view_circles",
                 "view_circle_detail",
                 "view_quest_detail",
+                "view_quest_news",
                 "view_applications",
                 "view_application_detail",
                 "unsupported"

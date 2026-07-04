@@ -1,6 +1,5 @@
 # Open Plan Quick Index
 
-- `.agents/god-plans/plan-system-bootstrap-god-plan.yaml` - active bootstrap God Plan.
-- `.agents/plan-system-bootstrap-master-plan.md` - active bootstrap master plan.
-- `.agents/plan-system-bootstrap-plan.md` - active bootstrap plan.
-
+- `.agents/god-plans/plan-system-god-plan.yaml` - active God Plan coordinating control-system and vision planning.
+- `.agents/control-system-master-plan.md` - control-system master plan.
+- `.agents/vision-master-plan.md` - vision master plan.

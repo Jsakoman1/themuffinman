@@ -1,0 +1,6 @@
+# Endpoint Contract Pack vision
+
+
+## Details
+
+- Endpoints: method: GET | path: /vision/conversations/recent | controller: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java | dtos: VisionConversationListResponseDTO, VisionConversationTurnResponseDTO | method: POST | path: /vision/conversations/turns | controller: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java | dtos: VisionConversationTurnResponseDTO, VisionConversationTurnRequestDTO | method: GET | path: /vision/conversations/{conversationId} | controller: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java | dtos: VisionConversationListResponseDTO, VisionConversationTurnResponseDTO | method: POST | path: /vision/conversations/{conversationId}/cancel | controller: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java | dtos: VisionConversationTurnResponseDTO, VisionConversationTurnRequestDTO | method: POST | path: /vision/conversations/{conversationId}/reset | controller: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java | dtos: VisionConversationTurnResponseDTO, VisionConversationTurnRequestDTO

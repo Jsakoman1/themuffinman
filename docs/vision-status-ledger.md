@@ -32,6 +32,7 @@ It should stay short, factual, and updated when a vision batch materially change
 - recent `/vision` tasks are now grouped into active, review-ready, blocked, and completed sections, with stale markers and disabled resume for completed work
 - the frontend canvas renderer now delegates review, field-request, result-summary, and shared status framing to focused block components instead of growing one monolithic renderer
 - the frontend vision shell now wraps state summary, execution candidate, canvas blocks, and prompt dock in one unified adaptive surface instead of exposing separate top-level panels
+- the shared Vision presentation maps for entity-family labels and preview field ordering now live in one frontend config module instead of being duplicated across the conversation composable and preview panel
 - the `/vision` route shell now behaves more like a blank canvas by hiding state and recent-task context behind one secondary reveal control instead of keeping header chrome and task lists always open
 - the route shell now auto-reveals state context for review, blocked, and complete modes while staying quiet in routine clarification mode
 - the route shell now pulls surface-state calculations into a reusable composable so the view stays thinner and closer to a true shell
@@ -57,6 +58,7 @@ It should stay short, factual, and updated when a vision batch materially change
 - the durable vision memory layer now has its own context gateway, decision record, failure memory, feature-slice checklist, generated-artifact policy, and status ledger
 - `OPEN_CHAT` is now a first-class routed vision capability and can open a chat with an explicit circle contact through the existing chat boundary
 - quest and application detail entry points now have Vision-native routes, with legacy detail paths redirected into the Vision surface
+- `VIEW_QUEST_NEWS` is now a routed read-only Vision capability, with a dedicated quest-news preview and semantic route catalog entry for the authenticated user
 - profile and settings are now direct Vision route surfaces instead of nested profile dialogs, keeping identity and location editing inside the same route-level mental model as the rest of Vision
 - the main Vision surface now exposes Vision-native routes for profile, circles, applications, and chat, and the current user's applications now have a Vision-native list route
 - the main Vision surface now keeps capability entry points inline inside the terminal feed instead of rendering a separate launchpad panel, and the preview model is being tuned to the `create_quest` slot-by-slot reveal pattern

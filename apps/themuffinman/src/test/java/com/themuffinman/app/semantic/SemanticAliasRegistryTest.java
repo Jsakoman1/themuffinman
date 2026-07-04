@@ -18,4 +18,10 @@ class SemanticAliasRegistryTest {
     void normalizesCircleAliasesToCanonicalQuery() {
         assertEquals("create circle Neighbours", registry.normalizeQuery(SemanticEntityFamily.CIRCLE, "create group Neighbours"));
     }
+
+    @Test
+    void normalizesApplicationAndUserAliasesToCanonicalQuery() {
+        assertEquals("open application details", registry.normalizeQuery(SemanticEntityFamily.APPLICATION, "open request details"));
+        assertEquals("open user details", registry.normalizeQuery(SemanticEntityFamily.USER, "open profile details"));
+    }
 }
