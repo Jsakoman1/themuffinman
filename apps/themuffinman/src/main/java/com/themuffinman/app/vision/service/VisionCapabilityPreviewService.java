@@ -24,7 +24,11 @@ import com.themuffinman.app.social.dto.CircleGroupRequestDTO;
 import com.themuffinman.app.social.dto.CircleRequestCreateDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.service.CircleService;
+import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
+import com.themuffinman.app.things.dto.ThingListingResponseDTO;
+import com.themuffinman.app.things.service.ThingSharingService;
 import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.vision.dto.DashboardNotificationItemDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationDetailResponseDTO;
 import com.themuffinman.app.vision.dto.QuestAllowedActionDTO;
 import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
@@ -60,6 +64,8 @@ public class VisionCapabilityPreviewService {
     private final QuestApplicationService questApplicationService;
     private final QuestNewsService questNewsService;
     private final QuestNewsMgr questNewsMgr;
+    private final DashboardNotificationAssembler dashboardNotificationAssembler;
+    private final ThingSharingService thingSharingService;
     private final SemanticAliasRegistry semanticAliasRegistry;
     private static final Pattern QUEST_ID_PATTERN = Pattern.compile("(?i)(?:quest\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
     private static final Pattern APPLICATION_ID_PATTERN = Pattern.compile("(?i)(?:application\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
@@ -79,6 +85,8 @@ public class VisionCapabilityPreviewService {
             QuestApplicationService questApplicationService,
             QuestNewsService questNewsService,
             QuestNewsMgr questNewsMgr,
+            DashboardNotificationAssembler dashboardNotificationAssembler,
+            ThingSharingService thingSharingService,
             SemanticAliasRegistry semanticAliasRegistry
     ) {
         this.appUserService = appUserService;
@@ -91,6 +99,8 @@ public class VisionCapabilityPreviewService {
         this.questApplicationService = questApplicationService;
         this.questNewsService = questNewsService;
         this.questNewsMgr = questNewsMgr;
+        this.dashboardNotificationAssembler = dashboardNotificationAssembler;
+        this.thingSharingService = thingSharingService;
         this.semanticAliasRegistry = semanticAliasRegistry;
     }
 
@@ -295,6 +305,75 @@ public class VisionCapabilityPreviewService {
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_quest_news")
                 .title("Quest news")
+                .summary(summary)
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewNotifications(AppUser currentUser) {
+        if (currentUser == null) {
+            return null;
+        }
+
+        List<QuestNewsItemResponseDTO> newsItems = questNewsService.getMyNews(currentUser).stream()
+                .map(questNewsMgr::toDto)
+                .toList();
+        List<DashboardNotificationItemDTO> recentItems = dashboardNotificationAssembler.toRecentItems(newsItems);
+        List<DashboardNotificationItemDTO> unreadItems = recentItems.stream()
+                .filter(DashboardNotificationItemDTO::isUnread)
+                .toList();
+
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "notifications_count", "Notifications", String.valueOf(recentItems.size()));
+        addItem(items, "notifications_unread", "Unread", String.valueOf(unreadItems.size()));
+        for (int index = 0; index < Math.min(unreadItems.size(), 3); index++) {
+            DashboardNotificationItemDTO item = unreadItems.get(index);
+            addItem(items, "notification_unread_" + item.getId(), item.getTitle(), item.getMessage());
+        }
+        for (int index = 0; index < Math.min(recentItems.size(), 3); index++) {
+            DashboardNotificationItemDTO item = recentItems.get(index);
+            addItem(items, "notification_recent_" + item.getId(), item.getTypeLabel(), item.getMessage());
+        }
+
+        String summary = recentItems.isEmpty()
+                ? "You do not have any notifications yet."
+                : "Showing " + Math.min(recentItems.size(), 3) + " of " + recentItems.size()
+                + " notifications with " + unreadItems.size() + " unread.";
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_notifications")
+                .title("Notifications")
+                .summary(summary)
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewThings(AppUser currentUser) {
+        if (currentUser == null) {
+            return null;
+        }
+
+        ThingListingListResponseDTO listings = thingSharingService.getAvailableListings(currentUser);
+        List<ThingListingResponseDTO> itemsSource = listings == null || listings.getItems() == null ? List.of() : listings.getItems();
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "things_count", "Things", String.valueOf(itemsSource.size()));
+        long availableCount = itemsSource.stream().filter(ThingListingResponseDTO::isAvailable).count();
+        addItem(items, "things_available", "Available", String.valueOf(availableCount));
+        for (int index = 0; index < Math.min(itemsSource.size(), 4); index++) {
+            ThingListingResponseDTO listing = itemsSource.get(index);
+            addItem(items, "thing_" + listing.getId(), listing.getTitle(),
+                    listing.getDescription() == null || listing.getDescription().isBlank()
+                            ? listing.getOwnerUsername()
+                            : listing.getDescription());
+        }
+
+        String summary = itemsSource.isEmpty()
+                ? "No things are currently available to browse."
+                : "Showing " + Math.min(itemsSource.size(), 4) + " of " + itemsSource.size() + " available things.";
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_things")
+                .title("Things")
                 .summary(summary)
                 .items(items)
                 .tone("info")

@@ -7,7 +7,12 @@ import com.themuffinman.app.vision.model.VisionConversationStatus;
 import com.themuffinman.app.vision.model.VisionTurn;
 import com.themuffinman.app.vision.model.VisionTurnSource;
 import com.themuffinman.app.vision.repository.VisionConversationRepository;
+import com.themuffinman.app.vision.repository.VisionMemoryFeedbackEventRepository;
+import com.themuffinman.app.vision.repository.VisionMemorySummaryRepository;
+import com.themuffinman.app.vision.repository.VisionUserPreferenceRepository;
 import com.themuffinman.app.vision.repository.VisionTurnRepository;
+import com.themuffinman.app.vision.model.VisionMemorySummary;
+import com.themuffinman.app.vision.model.VisionUserPreference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,20 +51,37 @@ public class VisionSemanticOrchestrationContextService {
     private final VoiceProperties voiceProperties;
     private final VisionConversationRepository visionConversationRepository;
     private final VisionTurnRepository visionTurnRepository;
+    private final VisionUserPreferenceRepository visionUserPreferenceRepository;
+    private final VisionMemoryFeedbackEventRepository visionMemoryFeedbackEventRepository;
+    private final VisionMemorySummaryRepository visionMemorySummaryRepository;
 
     public VisionSemanticOrchestrationContextService(VoiceProperties voiceProperties) {
-        this(voiceProperties, null, null);
+        this(voiceProperties, null, null, null, null, null);
+    }
+
+    public VisionSemanticOrchestrationContextService(
+            VoiceProperties voiceProperties,
+            VisionConversationRepository visionConversationRepository,
+            VisionTurnRepository visionTurnRepository
+    ) {
+        this(voiceProperties, visionConversationRepository, visionTurnRepository, null, null, null);
     }
 
     @Autowired
     public VisionSemanticOrchestrationContextService(
             VoiceProperties voiceProperties,
             VisionConversationRepository visionConversationRepository,
-            VisionTurnRepository visionTurnRepository
+            VisionTurnRepository visionTurnRepository,
+            VisionUserPreferenceRepository visionUserPreferenceRepository,
+            VisionMemoryFeedbackEventRepository visionMemoryFeedbackEventRepository,
+            VisionMemorySummaryRepository visionMemorySummaryRepository
     ) {
         this.voiceProperties = voiceProperties;
         this.visionConversationRepository = visionConversationRepository;
         this.visionTurnRepository = visionTurnRepository;
+        this.visionUserPreferenceRepository = visionUserPreferenceRepository;
+        this.visionMemoryFeedbackEventRepository = visionMemoryFeedbackEventRepository;
+        this.visionMemorySummaryRepository = visionMemorySummaryRepository;
     }
 
     public VisionSemanticUserContext buildUserContext(AppUser user) {
@@ -198,11 +220,18 @@ public class VisionSemanticOrchestrationContextService {
             return VisionSemanticUserMemoryContext.builder()
                     .preferredLocale(DEFAULT_LOCALE)
                     .timezone(DEFAULT_TIMEZONE)
+                    .preferredInputType(null)
+                    .preferredEntityFamily(null)
+                    .learningSummary(null)
+                    .recentFeedbackTypes(List.of())
                     .recentIntentTypes(List.of())
                     .build();
         }
 
         List<String> recentIntentTypes = buildRecentIntentTypes(user, conversation);
+        VisionUserPreference preferredInputType = findPreference(user, "preferred_input_type");
+        VisionUserPreference preferredEntityFamily = findPreference(user, "last_entity_family");
+        VisionMemorySummary latestSummary = latestSummary(user);
         String countryCode = normalizeCountryCode(user.getLocationCountryCode());
         ResolvedLocale resolvedLocale = resolveLocale(countryCode, null);
         ResolvedTimezone resolvedTimezone = resolveTimezone(countryCode, null);
@@ -216,6 +245,10 @@ public class VisionSemanticOrchestrationContextService {
                 .country(clean(user.getLocationCountry()))
                 .locality(clean(user.getLocationLocality()))
                 .locationLabel(clean(user.getLocationLabel()))
+                .preferredInputType(preferredInputType == null ? null : clean(preferredInputType.getPreferenceValue()))
+                .preferredEntityFamily(preferredEntityFamily == null ? null : clean(preferredEntityFamily.getPreferenceValue()))
+                .learningSummary(latestSummary == null ? null : clean(latestSummary.getSummaryText()))
+                .recentFeedbackTypes(buildRecentFeedbackTypes(user))
                 .recentIntentTypes(recentIntentTypes)
                 .recentEntityFamilies(buildRecentEntityFamilies(user))
                 .build();
@@ -411,6 +444,35 @@ public class VisionSemanticOrchestrationContextService {
         return families;
     }
 
+    private List<String> buildRecentFeedbackTypes(AppUser user) {
+        if (user == null || visionMemoryFeedbackEventRepository == null) {
+            return List.of();
+        }
+
+        return visionMemoryFeedbackEventRepository.findTop20ByUserOrderByCreatedAtDesc(user).stream()
+                .map(event -> event.getFeedbackType() == null ? null : event.getFeedbackType().name())
+                .filter(value -> value != null && !value.isBlank())
+                .distinct()
+                .limit(3)
+                .toList();
+    }
+
+    private VisionUserPreference findPreference(AppUser user, String preferenceKey) {
+        if (user == null || visionUserPreferenceRepository == null || preferenceKey == null || preferenceKey.isBlank()) {
+            return null;
+        }
+
+        return visionUserPreferenceRepository.findByUserAndPreferenceKey(user, preferenceKey).orElse(null);
+    }
+
+    private VisionMemorySummary latestSummary(AppUser user) {
+        if (user == null || visionMemorySummaryRepository == null) {
+            return null;
+        }
+
+        return visionMemorySummaryRepository.findTopByUserOrderByCreatedAtDesc(user).orElse(null);
+    }
+
     private VisionSemanticConversationMemoryItem toConversationMemoryItem(VisionConversation conversation) {
         if (conversation == null) {
             return null;
@@ -507,6 +569,7 @@ public class VisionSemanticOrchestrationContextService {
         }
         return switch (intent) {
             case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> "profile";
+            case VIEW_NOTIFICATIONS -> "notifications";
             case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
                     DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
             case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,

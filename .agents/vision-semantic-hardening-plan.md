@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: draft
+machine_status: complete
 machine_title: Vision Semantic Hardening Plan
 machine_goal: Tighten the semantic envelope, entity resolution, and multilingual handling.
 ---
@@ -19,10 +19,10 @@ Purpose: make the `/vision` semantic boundary more reliable before adding more c
 
 ## Implementation Slices
 
-- [ ] Slice 1: tighten semantic envelope validation and replay metadata.
-- [ ] Slice 2: improve alias and target-entity resolution for quest, circle, user, and application.
-- [ ] Slice 3: reduce ambiguous fallbacks and sharpen confidence thresholds.
-- [ ] Slice 4: keep OpenAI and emergency fallback outputs aligned with the English backend contract.
+- [x] Slice 1: tighten semantic envelope validation and replay metadata.
+- [x] Slice 2: improve alias and target-entity resolution for quest, circle, user, and application.
+- [x] Slice 3: reduce ambiguous fallbacks and sharpen confidence thresholds.
+- [x] Slice 4: keep OpenAI and emergency fallback outputs aligned with the English backend contract.
 
 ## Validation Plan
 
@@ -47,10 +47,9 @@ Purpose: make the `/vision` semantic boundary more reliable before adding more c
 
 ## Completion Evidence
 
-- Status: draft
-- Changed files: none yet
-- Validation evidence: not run
-- Doc delta summary: defines the semantic hardening slice
+- Status: complete
+- Changed files: `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingResult.java`, `apps/themuffinman/src/main/java/com/themuffinman/app/semantic/SemanticAliasRegistry.java`, `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java`, `apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java`, `apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java`, `apps/themuffinman/src/test/java/com/themuffinman/app/semantic/SemanticAliasRegistryTest.java`, `apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java`, `apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java`
+- Validation evidence: `./mvnw test -Dtest=SemanticAliasRegistryTest,VisionEntityResolverRegistryTest,VisionCapabilityPreviewServiceAliasResolutionTest,VisionPromptUnderstandingServiceTest,VisionSemanticAuditMatrixTest,VisionSemanticRouteCatalogServiceTest`
+- Doc delta summary: slice 1 preserves replay metadata, slice 2 expands alias-driven target normalization, slice 3 tightens thresholds while removing broader fallback paths, and slice 4 centralizes OpenAI/local contract defaults
 - Backlog update: none
-- Residual risk: semantics can drift faster than the UI if not validated frequently
-
+- Residual risk: none for this plan slice; broader `/vision` expansion work remains in other open items

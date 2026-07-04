@@ -21,7 +21,7 @@ public class VisionLocationParserService {
             return result;
         }
 
-        String normalized = rawInput.trim().replaceAll("\\s+", " ");
+        String normalized = stripLocationPrefix(rawInput.trim().replaceAll("\\s+", " "));
         if (normalized.isBlank()) {
             return result;
         }
@@ -69,7 +69,7 @@ public class VisionLocationParserService {
     }
 
     private void parseSinglePartLocation(String rawValue, Map<String, String> result) {
-        String value = cleanPart(rawValue);
+        String value = stripLocationPrefix(cleanPart(rawValue));
         if (value == null) {
             return;
         }
@@ -184,5 +184,17 @@ public class VisionLocationParserService {
             return null;
         }
         return cleaned;
+    }
+
+    private String stripLocationPrefix(String value) {
+        String cleaned = cleanPart(value);
+        if (cleaned == null) {
+            return null;
+        }
+
+        return cleaned
+                .replaceFirst("(?i)^(?:custom\\s+)?(?:place|address|location)\\s*[:,-]?\\s+", "")
+                .replaceFirst("(?i)^(?:at|in|near|around|by)\\s+", "")
+                .trim();
     }
 }

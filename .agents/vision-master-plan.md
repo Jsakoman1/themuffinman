@@ -1,8 +1,15 @@
+---
+machine_kind: master-plan
+machine_status: complete
+machine_title: Vision Master Plan
+machine_goal: Track the current `/vision` implementation state and drive the remaining semantic, executor, and surface work to maturity.
+---
+
 # Vision Master Plan
 
 ## Status
 
-In progress.
+Complete.
 
 ## Goal
 
@@ -55,7 +62,7 @@ Execution order:
 
 1. `.agents/vision-semantic-hardening-plan.md`
 - Role: tighten prompt understanding, ambiguity handling, alias resolution, and semantic envelope quality.
-- Status: in progress
+- Status: complete
 
 2. `.agents/vision-capability-expansion-plan.md`
 - Role: add the next capability slices only after the semantic boundary and entity resolution are stable.
@@ -95,8 +102,8 @@ Execution order:
 
 ## Completion Evidence
 
-- Status: draft
-- Child plan status: draft
-- Validation evidence: not run
-- Doc delta summary: sets the remaining vision roadmap
-- Deferred work: broader executor expansion and surface reduction remain intentionally staged
+- Status: complete
+- Child plan status: complete
+- Validation evidence: `./mvnw test -Dtest=SemanticAliasRegistryTest,VisionEntityResolverRegistryTest,VisionCapabilityPreviewServiceAliasResolutionTest,VisionPromptUnderstandingServiceTest,VisionSemanticAuditMatrixTest,VisionSemanticRouteCatalogServiceTest`
+- Doc delta summary: the remaining semantic hardening slice is complete and the vision roadmap is now fully caught up to the implemented surface
+- Deferred work: broader executor expansion and surface reduction remain staged in the already-completed downstream plans

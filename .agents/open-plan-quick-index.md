@@ -1,5 +1,7 @@
 # Open Plan Quick Index
 
-- `.agents/god-plans/plan-system-god-plan.yaml` - active God Plan coordinating control-system and vision planning.
-- `.agents/control-system-master-plan.md` - control-system master plan.
-- `.agents/vision-master-plan.md` - vision master plan.
+- 0 open plans remain in the active scaffold.
+- There is no current open domain-expansion slice.
+- This file is a convenience mirror, not the source of truth.
+- Use `docs/generated/local-tooling/plan-index-summary.md` for routing state.
+- Use `docs/generated/local-tooling/control-start-summary.md` when you want the control snapshot.

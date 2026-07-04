@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: draft
+machine_status: complete
 machine_title: Control System Validation Plan
 machine_goal: Reintroduce the minimal checks that keep the planning system honest.
 ---
@@ -19,9 +19,9 @@ Purpose: define the smallest useful validation and closeout set for the rebuilt 
 
 ## Implementation Slices
 
-- [ ] Slice 1: define the canonical validation commands for the new plan system.
-- [ ] Slice 2: ensure the validation-memory and closeout helpers reflect the new minimal scaffold.
-- [ ] Slice 3: wire the validation outputs into the control-start and plan-index snapshots.
+- [x] Slice 1: define the canonical validation commands for the new plan system.
+- [x] Slice 2: ensure the validation-memory and closeout helpers reflect the new minimal scaffold.
+- [x] Slice 3: wire the validation outputs into the control-start and plan-index snapshots.
 
 ## Validation Plan
 
@@ -46,10 +46,9 @@ Purpose: define the smallest useful validation and closeout set for the rebuilt 
 
 ## Completion Evidence
 
-- Status: draft
-- Changed files: none yet
-- Validation evidence: not run
-- Doc delta summary: defines the control validation slice
+- Status: complete
+- Changed files: `.agents/control-system-validation-plan.md`, `docs/generated/local-tooling/audit-summary-index.json`, `docs/generated/local-tooling/audit-summary-index.md`, `docs/generated/local-tooling/control-start.json`, `docs/generated/local-tooling/control-start-summary.md`
+- Validation evidence: `make audit-validation-memory-drift`, `make validation-memory-closeout-card`
+- Doc delta summary: validation checks now surface through the compact control snapshot and the closeout workflow
 - Backlog update: none
 - Residual risk: validation can become ceremonial if not enforced
-

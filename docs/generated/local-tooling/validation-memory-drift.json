@@ -1,0 +1,81 @@
+{
+  "generated_at": "2026-07-04T10:15:38Z",
+  "markdown": "docs/validation-memory.md",
+  "json": "docs/validation-memory.json",
+  "issue_count": 0,
+  "checks": [
+    {
+      "label": "frontend contract canonical commands",
+      "status": "ok",
+      "detail": "npm run validate:contracts"
+    },
+    {
+      "label": "frontend contract canonical commands",
+      "status": "ok",
+      "detail": "npm run type-check"
+    },
+    {
+      "label": "frontend contract canonical commands",
+      "status": "ok",
+      "detail": "npm run build"
+    },
+    {
+      "label": "backend logic canonical commands",
+      "status": "ok",
+      "detail": "./mvnw test"
+    },
+    {
+      "label": "backend logic canonical commands",
+      "status": "ok",
+      "detail": "make audit-agent-safety"
+    },
+    {
+      "label": "agent contract canonical commands",
+      "status": "ok",
+      "detail": "make generate-agent-operating-model"
+    },
+    {
+      "label": "agent contract canonical commands",
+      "status": "ok",
+      "detail": "make generate-agent-artifacts"
+    },
+    {
+      "label": "agent contract canonical commands",
+      "status": "ok",
+      "detail": "make audit-agent-safety"
+    },
+    {
+      "label": "workflow expansion canonical commands",
+      "status": "ok",
+      "detail": "./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest"
+    },
+    {
+      "label": "closeout canonical commands",
+      "status": "ok",
+      "detail": "make audit-todo"
+    },
+    {
+      "label": "closeout canonical commands",
+      "status": "ok",
+      "detail": "make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"
+    },
+    {
+      "label": "primary human doc",
+      "status": "ok",
+      "detail": "docs/validation-memory.md"
+    },
+    {
+      "label": "schema reference",
+      "status": "ok",
+      "detail": "docs/validation-memory.schema.json"
+    },
+    {
+      "label": "gateway auto-include note",
+      "status": "ok",
+      "detail": "auto-include"
+    }
+  ],
+  "issues": [
+
+  ]
+}

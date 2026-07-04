@@ -209,6 +209,17 @@ public class PromptSemanticPlan {
                 .build();
     }
 
+    public static PromptSemanticPlan viewNotifications(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("VIEW_NOTIFICATIONS")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("view_notifications")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
     public static PromptSemanticPlan openChat(double confidence, String note, String targetUserQuery) {
         return PromptSemanticPlan.builder()
                 .candidateIntent("OPEN_CHAT")

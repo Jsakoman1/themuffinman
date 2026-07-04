@@ -67,6 +67,10 @@ class VisionSemanticUserMemoryContext {
     private String country;
     private String locality;
     private String locationLabel;
+    private String preferredInputType;
+    private String preferredEntityFamily;
+    private String learningSummary;
+    private List<String> recentFeedbackTypes;
     private List<String> recentIntentTypes;
     private List<String> recentEntityFamilies;
 }

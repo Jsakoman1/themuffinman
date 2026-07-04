@@ -5,6 +5,7 @@ import com.themuffinman.app.vision.model.VisionIntent;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 @Service
 public class VisionIntentRouter {
@@ -27,6 +28,9 @@ public class VisionIntentRouter {
                 : understanding.semanticPlanOrEmpty().candidateIntentOrUnsupported();
         if (semanticIntent == VisionIntent.DISCOVER_QUESTS) {
             return VisionIntent.DISCOVER_QUESTS;
+        }
+        if (semanticIntent == VisionIntent.SEARCH) {
+            return VisionIntent.SEARCH;
         }
         if (semanticIntent == VisionIntent.CREATE_CIRCLE) {
             return VisionIntent.CREATE_CIRCLE;
@@ -87,6 +91,9 @@ public class VisionIntentRouter {
         }
         if (semanticIntent == VisionIntent.VIEW_QUEST_DETAIL) {
             return VisionIntent.VIEW_QUEST_DETAIL;
+        }
+        if (semanticIntent == VisionIntent.VIEW_NOTIFICATIONS) {
+            return VisionIntent.VIEW_NOTIFICATIONS;
         }
         if (semanticIntent == VisionIntent.VIEW_QUEST_NEWS) {
             return VisionIntent.VIEW_QUEST_NEWS;
@@ -155,6 +162,9 @@ public class VisionIntentRouter {
         if (containsQuestDetailSignals(lower)) {
             return VisionIntent.VIEW_QUEST_DETAIL;
         }
+        if (containsNotificationsSignals(lower)) {
+            return VisionIntent.VIEW_NOTIFICATIONS;
+        }
         if (containsQuestNewsSignals(lower)) {
             return VisionIntent.VIEW_QUEST_NEWS;
         }
@@ -169,6 +179,12 @@ public class VisionIntentRouter {
         }
         if (containsApplicationsSignals(lower)) {
             return VisionIntent.VIEW_APPLICATIONS;
+        }
+        if (containsThingsSignals(lower)) {
+            return VisionIntent.VIEW_THINGS;
+        }
+        if (containsSearchSignals(lower)) {
+            return VisionIntent.SEARCH;
         }
         if (containsDiscoverySignals(lower)) {
             return VisionIntent.DISCOVER_QUESTS;
@@ -209,11 +225,21 @@ public class VisionIntentRouter {
 
     private boolean containsAny(String value, String... candidates) {
         for (String candidate : candidates) {
-            if (value.contains(candidate)) {
+            if (candidate == null || candidate.isBlank()) {
+                continue;
+            }
+            if (containsCandidate(value, candidate)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean containsCandidate(String value, String candidate) {
+        if (candidate.indexOf(' ') >= 0) {
+            return value.contains(candidate);
+        }
+        return Pattern.compile("\\b" + Pattern.quote(candidate) + "\\b").matcher(value).find();
     }
 
     private boolean containsDiscoverySignals(String value) {
@@ -235,6 +261,24 @@ public class VisionIntentRouter {
                 "help wanted",
                 "recommend a quest",
                 "recommend work");
+    }
+
+    private boolean containsSearchSignals(String value) {
+        return containsAny(value,
+                "search for",
+                "find me",
+                "find ",
+                "look for",
+                "browse all",
+                "discover anything",
+                "show me something",
+                "what is available",
+                "what's available",
+                "who can help",
+                "people who",
+                "things that",
+                "something nearby",
+                "anything nearby");
     }
 
     private boolean containsChatSignals(String value) {
@@ -330,11 +374,30 @@ public class VisionIntentRouter {
                 "open quest news",
                 "view my news",
                 "quest news",
-                "news feed",
-                "notifications",
+                "quest updates",
                 "updates",
                 "recent updates",
-                "activity feed");
+                "activity feed",
+                "quest feed",
+                "news feed");
+    }
+
+    private boolean containsNotificationsSignals(String value) {
+        return containsAny(value,
+                "notifications",
+                "my notifications",
+                "notification",
+                "view inbox",
+                "show inbox",
+                "open inbox",
+                "notification inbox",
+                "open notification center",
+                "notification center",
+                "notification hub",
+                "alerts inbox",
+                "alerts",
+                "alert center",
+                "unread notifications");
     }
 
     private boolean containsCircleDetailSignals(String value) {
@@ -456,6 +519,22 @@ public class VisionIntentRouter {
                 "job applications",
                 "quest applications",
                 "applications status");
+    }
+
+    private boolean containsThingsSignals(String value) {
+        return containsAny(value,
+                "show things",
+                "available things",
+                "borrow things",
+                "my things",
+                "my listings",
+                "thing listings",
+                "available listings",
+                "show listings",
+                "open listings",
+                "borrow listing",
+                "share a thing",
+                "share things");
     }
 
     private boolean containsApplicationDetailSignals(String value) {

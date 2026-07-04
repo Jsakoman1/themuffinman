@@ -9,9 +9,15 @@ import com.themuffinman.app.identity.service.UserProfileViewService;
 import com.themuffinman.app.semantic.SemanticAliasRegistry;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.service.CircleService;
+import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
+import com.themuffinman.app.things.dto.ThingListingResponseDTO;
+import com.themuffinman.app.things.service.ThingSharingService;
 import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.vision.dto.DashboardNotificationItemDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
 import com.themuffinman.app.vision.dto.QuestResponseDTO;
+import com.themuffinman.app.vision.model.QuestNewsItem;
 import com.themuffinman.app.vision.mapper.QuestNewsMgr;
 import com.themuffinman.app.vision.service.QuestApplicationService;
 import com.themuffinman.app.vision.service.QuestService;
@@ -51,6 +57,10 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
     private QuestNewsService questNewsService;
     @Mock
     private QuestNewsMgr questNewsMgr;
+    @Mock
+    private DashboardNotificationAssembler dashboardNotificationAssembler;
+    @Mock
+    private ThingSharingService thingSharingService;
 
     private VisionCapabilityPreviewService service;
 
@@ -67,6 +77,8 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 questApplicationService,
                 questNewsService,
                 questNewsMgr,
+                dashboardNotificationAssembler,
+                thingSharingService,
                 new SemanticAliasRegistry()
         );
     }
@@ -126,5 +138,75 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
         assertTrue(result.resolved());
         assertEquals(11L, result.applicationId());
         assertEquals("Car repair application", result.questTitle());
+    }
+
+    @Test
+    void previewThingsUsesAvailableListings() {
+        AppUser currentUser = new AppUser();
+        ThingListingResponseDTO listing = ThingListingResponseDTO.builder()
+                .id(21L)
+                .title("Sofa trolley")
+                .description("Moves a sofa")
+                .ownerUsername("alex")
+                .available(true)
+                .build();
+        when(thingSharingService.getAvailableListings(currentUser)).thenReturn(
+                ThingListingListResponseDTO.builder()
+                        .items(List.of(listing))
+                        .build()
+        );
+
+        var preview = service.previewThings(currentUser);
+
+        assertEquals("view_things", preview.getCapabilityId());
+        assertEquals("Things", preview.getTitle());
+        assertTrue(preview.getSummary().contains("1 of 1"));
+        assertEquals("Moves a sofa", preview.getItems().get(2).getValue());
+    }
+
+    @Test
+    void previewNotificationsUsesInboxReadModel() {
+        AppUser currentUser = new AppUser();
+        QuestNewsItem unreadItem = new QuestNewsItem();
+        unreadItem.setId(31L);
+        unreadItem.setRecipientUserId(currentUser.getId());
+        unreadItem.setTitle("New application");
+        unreadItem.setMessage("Marta applied for your quest");
+        unreadItem.setReadAt(null);
+        QuestNewsItemResponseDTO unread = QuestNewsItemResponseDTO.builder()
+                .id(31L)
+                .title("New application")
+                .message("Marta applied for your quest")
+                .readAt(null)
+                .build();
+        QuestNewsItem readItem = new QuestNewsItem();
+        readItem.setId(32L);
+        readItem.setRecipientUserId(currentUser.getId());
+        readItem.setTitle("Circle request");
+        readItem.setMessage("Alex sent you a circle request");
+        readItem.setReadAt(java.time.Instant.now());
+        QuestNewsItemResponseDTO read = QuestNewsItemResponseDTO.builder()
+                .id(32L)
+                .title("Circle request")
+                .message("Alex sent you a circle request")
+                .readAt(java.time.Instant.now())
+                .build();
+        when(questNewsService.getMyNews(currentUser)).thenReturn(List.of(unreadItem, readItem));
+        when(questNewsMgr.toDto(unreadItem)).thenReturn(unread);
+        when(questNewsMgr.toDto(readItem)).thenReturn(read);
+        when(dashboardNotificationAssembler.toRecentItems(List.of(unread, read))).thenReturn(List.of(
+                DashboardNotificationItemDTO.builder().id(31L).title("New application").message("Marta applied for your quest").unread(true).typeLabel("New application").build(),
+                DashboardNotificationItemDTO.builder().id(32L).title("Circle request").message("Alex sent you a circle request").unread(false).typeLabel("Circle request").build()
+        ));
+
+        var preview = service.previewNotifications(currentUser);
+
+        assertEquals("view_notifications", preview.getCapabilityId());
+        assertEquals("Notifications", preview.getTitle());
+        assertTrue(preview.getSummary().contains("2 notifications"));
+        assertTrue(preview.getSummary().contains("1 unread"));
+        assertEquals("2", preview.getItems().get(0).getValue());
+        assertEquals("1", preview.getItems().get(1).getValue());
+        assertEquals("Marta applied for your quest", preview.getItems().get(2).getValue());
     }
 }

@@ -1,6 +1,5 @@
 package com.themuffinman.app.social.service;
 
-import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
 import com.themuffinman.app.common.pagination.PageResponseFactory;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.identity.model.AppUser;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -212,19 +210,6 @@ public class CircleViewAssembler {
                 .build());
     }
 
-    public boolean matchesConnectionQuery(CircleContactDTO connection, String query) {
-        String normalizedQuery = normalizeSearchQuery(query);
-        if (normalizedQuery.isBlank()) {
-            return true;
-        }
-
-        return containsNormalized(normalizedQuery,
-                connection.getUsername(),
-                connection.getProfileDescription(),
-                String.join(" ", connection.getCircleNames())
-        );
-    }
-
     public boolean matchesConnectionFilter(CircleContactDTO connection, Long circleId, boolean unassigned) {
         List<Long> circleIds = connection.getCircleIds();
         if (circleId != null) {
@@ -234,29 +219,6 @@ public class CircleViewAssembler {
             return circleIds.isEmpty();
         }
         return true;
-    }
-
-    public boolean matchesRequestQuery(String username, String profileDescription, String query) {
-        String normalizedQuery = normalizeSearchQuery(query);
-        if (normalizedQuery.isBlank()) {
-            return true;
-        }
-        return containsNormalized(normalizedQuery, username, profileDescription);
-    }
-
-    public boolean matchesCandidateQuery(CircleSearchResultDTO candidate, String normalizedQuery) {
-        if (normalizedQuery.isBlank()) {
-            return true;
-        }
-        return containsNormalized(normalizedQuery,
-                candidate.getUsername(),
-                candidate.getEmail(),
-                candidate.getProfileDescription()
-        );
-    }
-
-    public String normalizeSearchQuery(String query) {
-        return SearchQueryNormalizer.normalize(query).toLowerCase();
     }
 
     public CircleRelationStatusDTO resolveRelationStatus(Optional<CircleRequest> relation, Long currentUserId) {
@@ -291,16 +253,5 @@ public class CircleViewAssembler {
                 .profileDescription(RichTextInputValidator.sanitize(member.getProfileDescription()))
                 .profileAvatarDataUrl(member.getProfileAvatarDataUrl())
                 .build();
-    }
-
-    private boolean containsNormalized(String normalizedQuery, String... values) {
-        return normalizedHaystack(values).contains(normalizedQuery);
-    }
-
-    private String normalizedHaystack(String... values) {
-        return java.util.Arrays.stream(values)
-                .map(value -> value == null ? "" : value)
-                .collect(Collectors.joining(" "))
-                .toLowerCase();
     }
 }

@@ -38,6 +38,9 @@ class CircleDiscoveryServiceTest {
             new SocialRelationActionHelper()
     );
 
+    @Spy
+    private CircleSearchQueryService circleSearchQueryService = new CircleSearchQueryService();
+
     @InjectMocks
     private CircleDiscoveryService circleDiscoveryService;
 

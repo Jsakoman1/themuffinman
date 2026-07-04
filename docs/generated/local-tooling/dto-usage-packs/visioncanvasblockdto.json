@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-07-04T11:50:44Z",
+  "dto": "VisionCanvasBlockDTO",
+  "dto_files": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "lines": 30
+    }
+  ],
+  "controller_methods": [
+
+  ],
+  "backend_refs": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionCanvasBlockDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "lines": 30
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "lines": 40
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 749
+    }
+  ],
+  "frontend_refs": [
+    {
+      "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "lines": 1644
+    }
+  ],
+  "tests": [
+
+  ],
+  "docs_refs": [
+    "docs/agent-operating-model.yaml",
+    "docs/agent-operating-model/sections/source_of_truth.yaml",
+    "docs/generated/local-tooling/codex-context/latest.review.md",
+    "docs/generated/local-tooling/dto-usage-packs/visioncanvasblockdto-summary.md"
+  ],
+  "generated_contract_refs": [
+    "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+    "docs/generated/automation-read-model-inventory.json",
+    "docs/generated/backend-audit-inventory.json",
+    "docs/generated/local-tooling/codex-context/latest.execution.json",
+    "docs/generated/local-tooling/codex-context/latest.machine.json",
+    "docs/generated/local-tooling/codex-context/packs/ast-diff.json",
+    "docs/generated/local-tooling/codex-context/packs/audit-delta.json",
+    "docs/generated/local-tooling/codex-context/packs/audit-summary-index.json",
+    "docs/generated/local-tooling/codex-context/packs/codebase-capsule.json",
+    "docs/generated/local-tooling/codex-context/packs/dto-endpoint-frontend.json",
+    "docs/generated/local-tooling/codex-context/packs/endpoint-contract.json",
+    "docs/generated/local-tooling/codex-context/packs/git-diff.json",
+    "docs/generated/local-tooling/codex-context/packs/hotspots.json",
+    "docs/generated/local-tooling/codex-context/packs/intent.json",
+    "docs/generated/local-tooling/codex-context/packs/repo-map.json",
+    "docs/generated/local-tooling/codex-context/packs/session.json",
+    "docs/generated/local-tooling/codex-context/packs/symbol-index.json",
+    "docs/generated/local-tooling/codex-context/packs/symbol-test.json",
+    "docs/generated/local-tooling/codex-context/packs/targeted-tests.json",
+    "docs/generated/local-tooling/codex-context/packs/validation-memory.json"
+  ],
+  "recommended_commands": [
+    "npm --prefix apps/themuffinman/frontend run type-check",
+    "npm --prefix apps/themuffinman/frontend run build"
+  ],
+  "residual_risk": [
+    "No controller method was found using this DTO directly.",
+    "No test references were found for this DTO."
+  ]
+}

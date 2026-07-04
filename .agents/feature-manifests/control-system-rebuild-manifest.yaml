@@ -1,0 +1,115 @@
+featureId: control-system-rebuild
+title: Control system rebuild
+workflowTier: tier4-agent-tooling-workflow
+manifestDecision: required
+status: complete
+riskTier: high
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - agent-contract
+  - workflow-expansion
+planFile: .agents/control-system-rebuild-plan.md
+summary:
+  - Restore the minimal plan lifecycle and active-plan discovery path after the reset.
+  - Keep the plan-index and control-start outputs aligned with the active scaffold.
+validationEvidence:
+  commands:
+    - command: make plan-index
+      scope: local-tooling
+      result: passed
+      summary: Regenerated the compact plan index for the control-system scaffold.
+    - command: make control-start
+      scope: local-tooling
+      result: passed
+      summary: Refreshed the compact control-start routing snapshot.
+    - command: make generate-agent-operating-model
+      scope: agent-safety
+      result: passed
+      summary: Regenerated the agent operating model after the control-system scaffold update.
+    - command: make generate-agent-artifacts
+      scope: agent-safety
+      result: passed
+      summary: Regenerated the agent endpoint, read-model, and source-of-truth inventories.
+    - command: make audit-agent-safety
+      scope: agent-safety
+      result: passed
+      summary: Passed the agent-safety audit after the scaffold refresh.
+    - command: make audit-todo
+      scope: local-tooling
+      result: passed
+      summary: Backlog and plan-task audit passed after the scaffold refresh.
+    - command: ./mvnw test -Dtest=QuestWorkflowScenarioTest
+      scope: other
+      result: passed
+      summary: Scenario coverage for the control-system workflow passed.
+    - command: ./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest
+      scope: other
+      result: passed
+      summary: Canonical workflow-expansion coverage for the control-system workflow passed.
+generatedArtifacts:
+  refreshedPaths:
+    - docs/agent-operating-model.yaml
+    - docs/generated/agent-endpoint-inventory.json
+    - docs/generated/automation-read-model-inventory.json
+    - docs/generated/backend-audit-inventory.json
+    - docs/generated/source-of-truth-audit.json
+    - docs/generated/local-tooling/control-start.json
+    - docs/generated/local-tooling/control-start-summary.md
+    - docs/generated/local-tooling/plan-index.json
+    - docs/generated/local-tooling/plan-index-summary.md
+  notApplicableReason: Generated outputs were refreshed during the rebuild verification.
+planCompletion:
+  reviewed: true
+  openTasks: 0
+  summary: The rebuild plan has no open checkbox tasks.
+closeoutDecision:
+  status: ready
+  reason: The control-system rebuild slice is implemented and validation-backed.
+docDelta:
+  behaviorChanged:
+    - The control-system planning scaffold now has a compact active-plan discovery path.
+  docsUpdated:
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - .agents/feature-manifests/control-system-rebuild-manifest.yaml
+  intentionallyUnchanged:
+    - docs/validation-memory.md
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: false
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - scripts/audits/generate-plan-index.rb
+    - scripts/audits/generate-control-start.rb
+  docPaths:
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - .agents/control-system-rebuild-plan.md
+    - docs/generated/local-tooling/control-start.json
+    - docs/generated/local-tooling/control-start-summary.md
+    - docs/generated/local-tooling/plan-index.json
+    - docs/generated/local-tooling/plan-index-summary.md
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
+  generatorCommands:
+    - make plan-index
+    - make control-start
+    - make generate-agent-operating-model
+    - make generate-agent-artifacts
+  auditCommands:
+    - make audit-todo
+    - make audit-agent-safety
+    - make audit-plan-completion plan=.agents/control-system-rebuild-plan.md manifest=.agents/feature-manifests/control-system-rebuild-manifest.yaml

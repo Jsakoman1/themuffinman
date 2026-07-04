@@ -86,6 +86,62 @@ class VisionScheduleParserServiceTest {
     }
 
     @Test
+    void parsesCroatianTomorrowWithEveningTime() {
+        assertEquals("2026-07-01T17:00:00Z", parserService.extractScheduledAt(
+                VisionSchedulePhrasePresets.CROATIAN_TOMORROW_EVENING
+        ));
+    }
+
+    @Test
+    void parsesCroatianDayAfterTomorrowWithMorningTime() {
+        assertEquals("2026-07-02T05:00:00Z", parserService.extractScheduledAt(
+                VisionSchedulePhrasePresets.CROATIAN_DAY_AFTER_TOMORROW_MORNING
+        ));
+    }
+
+    @Test
+    void parsesCroatianWeekdayWithEveningTime() {
+        assertEquals("2026-07-03T17:00:00Z", parserService.extractScheduledAt(
+                VisionSchedulePhrasePresets.CROATIAN_THIS_FRIDAY
+        ));
+    }
+
+    @Test
+    void parsesCroatianNextWeekWithEveningTime() {
+        assertEquals("2026-07-07T17:00:00Z", parserService.extractScheduledAt(
+                VisionSchedulePhrasePresets.CROATIAN_NEXT_WEEK_EVENING
+        ));
+    }
+
+    @Test
+    void parsesRelativeWeeksWithExplicitTime() {
+        assertEquals("2026-07-14T16:00:00Z", parserService.extractScheduledAt(
+                VisionSchedulePhrasePresets.IN_TWO_WEEKS_EVENING
+        ));
+    }
+
+    @Test
+    void parsesCroatianRelativeWeeksWithoutExplicitTime() {
+        assertEquals("2026-07-14", parserService.extractScheduledDate(VisionSchedulePhrasePresets.ZA_TWO_WEEKS));
+        assertNull(parserService.extractScheduledTime(VisionSchedulePhrasePresets.ZA_TWO_WEEKS));
+        assertNull(parserService.extractScheduledAt(VisionSchedulePhrasePresets.ZA_TWO_WEEKS));
+    }
+
+    @Test
+    void parsesWeekAfterNextWithMorningTime() {
+        assertEquals("2026-07-14T07:00:00Z", parserService.extractScheduledAt(
+                VisionSchedulePhrasePresets.WEEK_AFTER_NEXT_MORNING
+        ));
+    }
+
+    @Test
+    void parsesNextWeekendWithMorningTime() {
+        assertEquals("2026-07-04T08:00:00Z", parserService.extractScheduledAt(
+                VisionSchedulePhrasePresets.NEXT_WEEKEND
+        ));
+    }
+
+    @Test
     void parsesThisFridayWithExplicitTime() {
         assertEquals("2026-07-03T15:00:00Z", parserService.extractScheduledAt("this Friday at 5 pm"));
     }
@@ -98,6 +154,11 @@ class VisionScheduleParserServiceTest {
     @Test
     void parsesRelativeDateWithNoon() {
         assertEquals("2026-07-07T10:00:00Z", parserService.extractScheduledAt(VisionSchedulePhrasePresets.NEXT_WEEK_NOON));
+    }
+
+    @Test
+    void suggestsFixedScheduleForCroatianRelativeInput() {
+        assertTrue(parserService.suggestsFixedSchedule(VisionSchedulePhrasePresets.CROATIAN_TOMORROW_EVENING));
     }
 
     @Test

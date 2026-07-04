@@ -1,139 +1,16 @@
 {
-  "generated_at": "2026-07-04T05:55:22Z",
-  "total_count": 10,
-  "open_count": 7,
+  "generated_at": "2026-07-04T11:50:42Z",
+  "total_count": 11,
+  "open_count": 0,
   "master_plan_count": 2,
   "god_plan_count": 1,
   "open_master_plans": [
-    {
-      "path": ".agents/control-system-master-plan.md",
-      "kind": "master-plan",
-      "status": "in progress",
-      "title": "Control System Master Plan",
-      "goal": "Rebuild a minimal, durable control system for planning, validation, and closeout after the total reset.",
-      "child_plans": 9,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/vision-master-plan.md",
-      "kind": "master-plan",
-      "status": "in progress",
-      "title": "Vision Master Plan",
-      "goal": "Track the current `/vision` implementation state and drive the remaining semantic, executor, and surface work to maturity.",
-      "child_plans": 15,
-      "open_tasks": 0
-    }
+
   ],
   "open_plans": [
-    {
-      "path": ".agents/god-plans/plan-system-god-plan.yaml",
-      "kind": "god-plan",
-      "status": "active",
-      "title": "Plan System God Plan",
-      "goal": "Coordinate the rebuilt control-system and vision planning streams after a total reset.",
-      "child_plans": 2,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/control-system-maintenance-plan.md",
-      "kind": "plan",
-      "status": "active",
-      "title": "Control System Maintenance Plan",
-      "goal": "Keep the active planning surface small and current.",
-      "child_plans": 0,
-      "open_tasks": 3
-    },
-    {
-      "path": ".agents/control-system-rebuild-plan.md",
-      "kind": "plan",
-      "status": "active",
-      "title": "Control System Rebuild Plan",
-      "goal": "Rebuild the minimal planning lifecycle and active-plan discovery path.",
-      "child_plans": 0,
-      "open_tasks": 3
-    },
-    {
-      "path": ".agents/control-system-validation-plan.md",
-      "kind": "plan",
-      "status": "active",
-      "title": "Control System Validation Plan",
-      "goal": "Reintroduce the minimal checks that keep the planning system honest.",
-      "child_plans": 0,
-      "open_tasks": 3
-    },
-    {
-      "path": ".agents/vision-semantic-hardening-plan.md",
-      "kind": "plan",
-      "status": "active",
-      "title": "Vision Semantic Hardening Plan",
-      "goal": "Tighten the semantic envelope, entity resolution, and multilingual handling.",
-      "child_plans": 0,
-      "open_tasks": 4
-    }
+
   ],
   "entries": [
-    {
-      "path": ".agents/god-plans/plan-system-god-plan.yaml",
-      "kind": "god-plan",
-      "status": "active",
-      "title": "Plan System God Plan",
-      "goal": "Coordinate the rebuilt control-system and vision planning streams after a total reset.",
-      "child_plans": 2,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/control-system-maintenance-plan.md",
-      "kind": "plan",
-      "status": "active",
-      "title": "Control System Maintenance Plan",
-      "goal": "Keep the active planning surface small and current.",
-      "child_plans": 0,
-      "open_tasks": 3
-    },
-    {
-      "path": ".agents/control-system-rebuild-plan.md",
-      "kind": "plan",
-      "status": "active",
-      "title": "Control System Rebuild Plan",
-      "goal": "Rebuild the minimal planning lifecycle and active-plan discovery path.",
-      "child_plans": 0,
-      "open_tasks": 3
-    },
-    {
-      "path": ".agents/control-system-validation-plan.md",
-      "kind": "plan",
-      "status": "active",
-      "title": "Control System Validation Plan",
-      "goal": "Reintroduce the minimal checks that keep the planning system honest.",
-      "child_plans": 0,
-      "open_tasks": 3
-    },
-    {
-      "path": ".agents/vision-semantic-hardening-plan.md",
-      "kind": "plan",
-      "status": "active",
-      "title": "Vision Semantic Hardening Plan",
-      "goal": "Tighten the semantic envelope, entity resolution, and multilingual handling.",
-      "child_plans": 0,
-      "open_tasks": 4
-    },
-    {
-      "path": ".agents/control-system-master-plan.md",
-      "kind": "master-plan",
-      "status": "in progress",
-      "title": "Control System Master Plan",
-      "goal": "Rebuild a minimal, durable control system for planning, validation, and closeout after the total reset.",
-      "child_plans": 9,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/vision-master-plan.md",
-      "kind": "master-plan",
-      "status": "in progress",
-      "title": "Vision Master Plan",
-      "goal": "Track the current `/vision` implementation state and drive the remaining semantic, executor, and surface work to maturity.",
-      "child_plans": 15,
-      "open_tasks": 0
-    }
+
   ]
 }

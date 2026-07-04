@@ -4,6 +4,7 @@ import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.location.model.QuestLocationSource;
 import com.themuffinman.app.location.model.QuestLocationVisibility;
+import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.dto.QuestRequestDTO;
 import com.themuffinman.app.vision.model.Quest;
 import com.themuffinman.app.vision.model.QuestAudience;
@@ -15,7 +16,9 @@ import java.time.Instant;
 import java.util.Map;
 
 @Service
-public class VisionCreateQuestExecutionAdapter {
+public class VisionCreateQuestExecutionAdapter implements VisionCapabilityExecutionAdapter {
+
+    private static final String CAPABILITY_ID = "create_quest";
 
     private final QuestService questService;
     private final VisionScheduleParserService visionScheduleParserService;
@@ -23,6 +26,19 @@ public class VisionCreateQuestExecutionAdapter {
     public VisionCreateQuestExecutionAdapter(QuestService questService, VisionScheduleParserService visionScheduleParserService) {
         this.questService = questService;
         this.visionScheduleParserService = visionScheduleParserService;
+    }
+
+    @Override
+    public String capabilityId() {
+        return CAPABILITY_ID;
+    }
+
+    @Override
+    public VisionExecutionResult execute(VisionConversation conversation) {
+        if (conversation == null || conversation.getOwner() == null) {
+            return VisionExecutionResult.blocked("Conversation owner is required for quest execution.");
+        }
+        return VisionExecutionResult.executed(CAPABILITY_ID, execute(conversation.getSlotData(), conversation.getOwner()));
     }
 
     public Quest execute(Map<String, String> slotData, AppUser currentUser) {

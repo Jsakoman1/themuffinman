@@ -7,15 +7,18 @@ It should stay short, factual, and updated when a vision batch materially change
 ## Done
 
 - persisted backend conversation state is the default interaction model for `/vision`
-- first executor scope is `create_quest`
+- first executor scopes are `create_quest` and `create_circle`
 - text turns can drive stepwise slot collection and review assembly
 - voice-related architecture direction is OpenAI-based, while the conversation contract remains shared with text turns
 - create-quest review can retarget one field at a time instead of forcing full-form re-entry
-- review-confirmation execution now flows through a dedicated `VisionExecutionService` boundary instead of calling the quest adapter directly from conversation orchestration
+- review-confirmation execution now flows through a dedicated `VisionExecutionService` boundary that dispatches typed capability adapters for `create_quest` and `create_circle` instead of calling a single quest adapter directly from conversation orchestration
 - reset and cancel lifecycle actions exist
 - recent conversation recovery and load endpoints exist
-- custom location handling supports parsed addresses, lookup-backed candidates, and explicit candidate confirmation
+- custom location handling supports parsed addresses, place-prefixed labels, lookup-backed candidates, ordinal candidate choice, and explicit candidate confirmation
+- custom location handling also now tolerates simple place-prefixed labels and ordinal candidate selection before review continues
 - schedule parsing now covers ISO and European date-time input plus a broader deterministic HR/EN spoken set, including tomorrow/day-after-tomorrow, next weekdays, noon/midnight, hour-only day-period phrases, and half-past phrasing
+- schedule parsing now also covers basic Croatian relative phrases like `sutra`, `prekosutra`, `sljedeći tjedan`, and weekday names such as `ovaj petak`, plus Croatian day-period phrasing like `u 7 navečer` and `u 7 ujutro`
+- schedule parsing now also covers relative offsets like `in two weeks`, `za dva tjedna`, `week after next`, and weekend phrases such as `next weekend`
 - semantic sanitization now drops prompt-like location labels and keeps short place-like labels, so a full create-quest command no longer leaks into the location preview
 - schedule parsing now checks explicit am/pm phrasing before hour-only fallback, so combined weekday-and-time turns stay anchored to the correct evening or morning hour
 - location parsing now understands simple postal-code-plus-locality and locality-plus-postal-code fragments, which keeps short Swiss-style location input structured
@@ -24,6 +27,8 @@ It should stay short, factual, and updated when a vision batch materially change
 - the local emergency fallback is English-only and fail-closes on non-English prompts
 - schedule parsing supports basic typed dates plus common spoken relative phrases
 - create-quest fallback parsing now keeps description as a core task summary and strips reward, schedule, and location noise before the value reaches the preview
+- create-quest review now stays in clarification mode when the semantic intent confidence is still too weak, even after the visible slots are otherwise complete, so noisy prompts do not jump straight into review
+- the semantic audit matrix now explicitly covers the settings snapshot and chat workspace routes alongside the other non-quest read surfaces
 - the modern vision frontend surface is split into a route shell, animated agent component, prompt dock, and backend-driven canvas renderer
 - review-ready quest corrections now use typed backend review-edit actions with explicit review targets instead of depending on frontend-generated natural-language edit prompts
 - review-ready backend turns no longer reinterpret free-text phrases like "change reward" as slot-edit commands; review edits must come through typed review actions
@@ -48,6 +53,10 @@ It should stay short, factual, and updated when a vision batch materially change
 - the route shell, prompt dock, canvas panel, and agent orb now share a centralized surface token set so blank-canvas tone shifts stay coordinated instead of being tuned per component
 - `VISION-BLANK-CANVAS-001` has been completed as the route-shell, prompt-dock, canvas, and orb blank-canvas pass
 - prompt understanding now carries a generic semantic plan with candidate intent, confidence, capability id, and planning note above create_quest-specific slot extraction
+- fallback `VisionPromptUnderstandingResult.empty()` turns now still carry replay metadata, so unsupported or placeholder paths keep a minimal audit trail
+- family alias normalization now covers extra quest, circle, application, and user synonyms so target entity queries canonicalize more consistently before resolution
+- mutating entity-resolution thresholds are now stricter, and some broad circle/application query fallbacks were removed so ambiguous prompts clarify sooner
+- OpenAI and emergency fallback contract defaults are now centralized so missing semantic fields still resolve to the English backend contract shape before envelope assembly
 - new conversations can route intent from semantic planning metadata before falling back to deterministic prompt heuristics
 - existing conversations now pass conversation context into prompt understanding so requested-slot fallback focus is available in the real turn flow, but explicit entity-family switches no longer inherit the old slot as fallback focus
 - create_quest review turns now surface a read-only execution candidate that describes readiness, blockers, and the next required field without introducing a new mutation path
@@ -59,6 +68,7 @@ It should stay short, factual, and updated when a vision batch materially change
 - `OPEN_CHAT` is now a first-class routed vision capability and can open a chat with an explicit circle contact through the existing chat boundary
 - quest and application detail entry points now have Vision-native routes, with legacy detail paths redirected into the Vision surface
 - `VIEW_QUEST_NEWS` is now a routed read-only Vision capability, with a dedicated quest-news preview and semantic route catalog entry for the authenticated user
+- `VIEW_NOTIFICATIONS` is now a routed read-only Vision capability, backed by the quest-news inbox read model and a dedicated notifications preview
 - profile and settings are now direct Vision route surfaces instead of nested profile dialogs, keeping identity and location editing inside the same route-level mental model as the rest of Vision
 - the main Vision surface now exposes Vision-native routes for profile, circles, applications, and chat, and the current user's applications now have a Vision-native list route
 - the main Vision surface now keeps capability entry points inline inside the terminal feed instead of rendering a separate launchpad panel, and the preview model is being tuned to the `create_quest` slot-by-slot reveal pattern
@@ -95,6 +105,8 @@ It should stay short, factual, and updated when a vision batch materially change
 - the semantic prompt audit matrix now also covers group-style circle creation, submit-application phrasing, profile editing, and direct-message phrasing so the model-first route selection stays explicit across the main entity families
 - the semantic response validator now rejects extracted slots and generic semantic fields that are not exposed by the selected backend route before sanitization runs
 - `/vision` now also has a first request-style mutation pilot for `create_circle`, including one-slot draft collection, review-ready state, and explicit confirmation before execution
+- `/vision` now also has a broad cross-entity `search` capability that can rank quests, circles, users, applications, and things inside the shared canvas surface
+- `/vision` now also has a read-only `VIEW_THINGS` capability that exposes available shared things as a first-class Vision snapshot
 - `/vision` now also has a first application mutation pilot for `create_application`, including deterministic applyable-quest resolution, message collection, price collection only for paid quests, and explicit confirmation before execution
 - `/vision` now also has narrow pending-application self-service mutation pilots for `update_application` and `withdraw_application`, including deterministic current-application resolution, textual previews of current and changed values, and explicit confirmation before execution
 - `/vision` now also has a safe self-profile mutation pilot for `update_profile`, with username and profile-description draft collection, review-ready state, explicit confirmation, and a backend adapter that preserves existing email, avatar, and location state
@@ -113,11 +125,10 @@ It should stay short, factual, and updated when a vision batch materially change
 
 ## Deferred
 
-- additional mutation executors beyond `create_quest`
+- additional mutation executors beyond `create_quest` and `create_circle`
 - stale-task cleanup beyond passive marking and broader multi-task continuity rules
 - typed slot-edit intent models beyond the current create-quest review loop
 - stronger locale-aware schedule parsing and broader location normalization
-- a full multi-capability execution service
 
 ## Blocked By Design
 

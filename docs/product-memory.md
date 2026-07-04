@@ -76,6 +76,8 @@ After every completed plan or master plan:
 - `/vision` semantic focus should live in a shared mapper, because prompt intake and review-edit follow-ups should use one backend path instead of each service inventing its own fallback rules.
 - `/vision` semantic understanding should carry separate user, session, and turn memory snapshots, because multi-topic human turns are easier to manage when stable preferences, current thread state, and recent evidence stay distinct.
 - `/vision` semantic memory should also track recent entity families, because vague follow-ups are easier to resolve when the active topic family is explicit instead of inferred from raw text alone.
+- `/vision` should store durable preference signals and feedback events separately from session memory, because stable habits and correction history need to outlive a single turn without becoming raw transcript replay.
+- `/vision` should compact preference and feedback history into short summary rows, because future prompt understanding works better with compressed learning signals than with unbounded turn history.
 - `/vision` should keep low-confidence ambiguous follow-ups in the current thread unless the user clearly signals a new entity family, because humans often add half a thought before they fully switch topics.
 - `/vision` turn responses should expose a compact memory trail when it helps the surface explain why the current topic is still active, because debug-visible continuity is easier to trust than hidden routing state.
 - `/vision` semantic understanding should expose generic planning metadata above capability-specific slots, because candidate intent, confidence, capability id, and planning note can evolve before deterministic backend services allow broader execution.

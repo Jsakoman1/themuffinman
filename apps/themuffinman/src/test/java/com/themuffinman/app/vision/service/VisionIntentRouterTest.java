@@ -74,7 +74,27 @@ class VisionIntentRouterTest {
         assertEquals(VisionIntent.VIEW_USER_PROFILE, router.detectIntent("show user Josip"));
         assertEquals(VisionIntent.VIEW_CIRCLE_DETAIL, router.detectIntent("open circle Family"));
         assertEquals(VisionIntent.VIEW_QUEST_DETAIL, router.detectIntent("show quest #42"));
+        assertEquals(VisionIntent.VIEW_NOTIFICATIONS, router.detectIntent("show notifications"));
+        assertEquals(VisionIntent.VIEW_NOTIFICATIONS, router.detectIntent("view inbox"));
+        assertEquals(VisionIntent.VIEW_NOTIFICATIONS, router.detectIntent("show inbox"));
+        assertEquals(VisionIntent.VIEW_NOTIFICATIONS, router.detectIntent("my notifications"));
+        assertEquals(VisionIntent.VIEW_NOTIFICATIONS, router.detectIntent("open alerts"));
+        assertEquals(VisionIntent.VIEW_NOTIFICATIONS, router.detectIntent("open notification center"));
+        assertEquals(VisionIntent.VIEW_NOTIFICATIONS, router.detectIntent("notification center"));
+        assertEquals(VisionIntent.VIEW_NOTIFICATIONS, router.detectIntent("notification hub"));
+        assertEquals(VisionIntent.VIEW_NOTIFICATIONS, router.detectIntent("alerts inbox"));
         assertEquals(VisionIntent.VIEW_QUEST_NEWS, router.detectIntent("show my news"));
         assertEquals(VisionIntent.VIEW_APPLICATION_DETAIL, router.detectIntent("show application #42"));
+        assertEquals(VisionIntent.VIEW_THINGS, router.detectIntent("show available listings"));
+    }
+
+    @Test
+    void routesBroadSearchPromptsAndAvoidsSubstringFalsePositives() {
+        VisionProperties visionProperties = new VisionProperties();
+        VisionIntentRouter router = new VisionIntentRouter(visionProperties, new VisionSemanticRouteCatalogService());
+
+        assertEquals(VisionIntent.UNSUPPORTED, router.detectIntent("jobless market update"));
+        assertEquals(VisionIntent.DISCOVER_QUESTS, router.detectIntent("looking for jobs nearby"));
+        assertEquals(VisionIntent.SEARCH, router.detectIntent("find people who can help move sofa"));
     }
 }

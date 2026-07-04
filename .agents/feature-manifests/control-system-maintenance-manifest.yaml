@@ -1,0 +1,111 @@
+featureId: control-system-maintenance
+title: Control system maintenance
+workflowTier: tier4-agent-tooling-workflow
+manifestDecision: required
+status: complete
+riskTier: medium
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - agent-contract
+  - workflow-expansion
+planFile: .agents/control-system-maintenance-plan.md
+summary:
+  - Keep the active planning surface small and current.
+  - Prune stale entries and keep generated control summaries aligned.
+validationEvidence:
+  commands:
+    - command: make plan-index
+      scope: local-tooling
+      result: passed
+      summary: Regenerated the plan index to reflect the active scaffold.
+    - command: make control-start
+      scope: local-tooling
+      result: passed
+      summary: Refreshed the compact control-start snapshot after maintenance.
+    - command: make audit-todo
+      scope: local-tooling
+      result: passed
+      summary: The backlog and plan-task audit passed after maintenance.
+    - command: make generate-agent-operating-model
+      scope: agent-safety
+      result: passed
+      summary: Regenerated the agent operating model during maintenance refresh.
+    - command: make generate-agent-artifacts
+      scope: agent-safety
+      result: passed
+      summary: Regenerated the agent artifacts during maintenance refresh.
+    - command: make audit-agent-safety
+      scope: agent-safety
+      result: passed
+      summary: Passed the agent-safety audit after the maintenance refresh.
+    - command: ./mvnw test -Dtest=QuestWorkflowScenarioTest
+      scope: other
+      result: passed
+      summary: Scenario coverage for the maintenance flow passed.
+    - command: ./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest
+      scope: other
+      result: passed
+      summary: Canonical workflow-expansion coverage for the maintenance flow passed.
+generatedArtifacts:
+  refreshedPaths:
+    - docs/agent-operating-model.yaml
+    - docs/generated/local-tooling/control-start.json
+    - docs/generated/local-tooling/control-start-summary.md
+    - docs/generated/local-tooling/plan-index.json
+    - docs/generated/local-tooling/plan-index-summary.md
+  notApplicableReason: Generated outputs were refreshed during the maintenance verification.
+planCompletion:
+  reviewed: true
+  openTasks: 0
+  summary: The maintenance plan has no open checkbox tasks.
+closeoutDecision:
+  status: ready
+  reason: The control-system maintenance slice is implemented and validation-backed.
+docDelta:
+  behaviorChanged:
+    - The control-system planning scaffold now keeps the active-plan surface intentionally small.
+  docsUpdated:
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - .agents/feature-manifests/control-system-maintenance-manifest.yaml
+  intentionallyUnchanged:
+    - docs/business-logic.md
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: false
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - scripts/audits/generate-plan-index.rb
+    - scripts/audits/generate-control-start.rb
+  docPaths:
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - .agents/control-system-maintenance-plan.md
+    - docs/generated/local-tooling/control-start.json
+    - docs/generated/local-tooling/control-start-summary.md
+    - docs/generated/local-tooling/plan-index.json
+    - docs/generated/local-tooling/plan-index-summary.md
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
+  generatorCommands:
+    - make plan-index
+    - make control-start
+    - make generate-agent-operating-model
+    - make generate-agent-artifacts
+  auditCommands:
+    - make audit-todo
+    - make audit-agent-safety
+    - make audit-plan-completion plan=.agents/control-system-maintenance-plan.md manifest=.agents/feature-manifests/control-system-maintenance-manifest.yaml

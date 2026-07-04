@@ -181,4 +181,12 @@ public class VisionClarificationService {
             default -> buildQuestion(slotId);
         };
     }
+
+    public String buildCreateQuestConfidenceQuestion() {
+        return "I can draft the quest, but I need a clearer title or task before I can review it.";
+    }
+
+    public String buildCreateQuestConfidenceRetryQuestion() {
+        return "I still need a clearer quest title or task before I can review this draft.";
+    }
 }

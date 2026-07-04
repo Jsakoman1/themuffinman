@@ -12,9 +12,6 @@ Completed plans and master plans belong in plan-completion or retrospective arti
 - `BACKEND-DRIFT-WORKMARKET-002`: Reduce the remaining workmarket backend hotspots by continuing the service-boundary cleanup around dashboard, quest state, validation, news, execution primitives, and application/admin/controller orchestration. Planned in `.agents/todo-plans/94-backend-hotspot-reduction-workmarket-social.md`.
 - `BACKEND-DRIFT-SOCIAL-003`: Reduce the remaining social backend hotspots by continuing the service-boundary cleanup around circle read, discovery, relation, membership, assembler, and controller orchestration. Planned in `.agents/todo-plans/94-backend-hotspot-reduction-workmarket-social.md`.
 - `BACKEND-DRIFT-IDENTITY-LOCATION-004`: Reduce the remaining identity and location backend drift after the workmarket and social slices settle, using the same service-boundary and read-model standardization pattern. Planned in `.agents/backend-drift-remediation-master-plan.md`.
-- `VISION-BLANK-CANVAS-001`: Replace the legacy frontend over time with a single blank-canvas vision surface that shows or hides UI, prompt fields, and guidance only when needed, while keeping the experience Her-like, minimalist, and stepwise. This is the long-term frontend architecture target for `/vision` and related adaptive surfaces.
-- `VISION-LOCATION-SCALE-002`: Extend `/vision` custom location capture beyond the current parsed-address plus lookup-confirmation flow into richer structured address entry or place-picker variants before heavy production reliance.
-- `VISION-SCHEDULE-SCALE-003`: Extend `/vision` schedule parsing beyond the current deterministic HR/EN phrase set with more locale-aware phrasing, broader ambiguity recovery, and production-scale spoken-date coverage.
 
 ## Intake Rules
 

@@ -26,6 +26,7 @@ public class CircleDiscoveryService {
     private final AppUserRepository appUserRepository;
     private final CircleRequestRepository circleRequestRepository;
     private final CircleViewAssembler circleViewAssembler;
+    private final CircleSearchQueryService circleSearchQueryService;
     private final LocationGeoService locationGeoService;
 
     public CircleSearchResultListResponseDTO getNearbyUsers(AppUser currentUser, Integer radiusKm, int page, int size) {
@@ -63,7 +64,7 @@ public class CircleDiscoveryService {
     }
 
     public CircleSearchResultListResponseDTO searchCircleUsers(AppUser currentUser, String query, int page, int size) {
-        String normalizedQuery = circleViewAssembler.normalizeSearchQuery(query);
+        String normalizedQuery = circleSearchQueryService.normalizeSearchQuery(query);
         if (normalizedQuery.length() < 2) {
             return circleViewAssembler.buildCircleSearchResultListResponse(List.of(), page, size);
         }
@@ -71,7 +72,7 @@ public class CircleDiscoveryService {
         List<CircleSearchResultDTO> results = appUserRepository.findAll().stream()
                 .filter(candidate -> !candidate.getId().equals(currentUser.getId()))
                 .map(candidate -> circleViewAssembler.toSearchResult(currentUser, candidate, findRelation(currentUser, candidate)))
-                .filter(candidate -> circleViewAssembler.matchesCandidateQuery(candidate, normalizedQuery))
+                .filter(candidate -> circleSearchQueryService.matchesCandidateQuery(candidate, normalizedQuery))
                 .sorted(Comparator.comparing(CircleSearchResultDTO::getUsername, String.CASE_INSENSITIVE_ORDER))
                 .toList();
         return circleViewAssembler.buildCircleSearchResultListResponse(results, page, size);
@@ -82,7 +83,7 @@ public class CircleDiscoveryService {
     }
 
     public CircleSearchResultListResponseDTO getBlockedUsers(AppUser currentUser, String query, int page, int size) {
-        String normalizedQuery = circleViewAssembler.normalizeSearchQuery(query);
+        String normalizedQuery = circleSearchQueryService.normalizeSearchQuery(query);
 
         List<CircleSearchResultDTO> results = circleRequestRepository.findBlockedByUserId(currentUser.getId()).stream()
                 .map(relation -> relation.getRequester().getId().equals(currentUser.getId())
@@ -91,7 +92,7 @@ public class CircleDiscoveryService {
                 .filter(candidate -> !candidate.getId().equals(currentUser.getId()))
                 .map(candidate -> circleViewAssembler.toSearchResult(currentUser, candidate, findRelation(currentUser, candidate)))
                 .filter(candidate -> candidate.getRelationStatus() == CircleRelationStatusDTO.BLOCKED && candidate.isBlockedByCurrentUser())
-                .filter(candidate -> circleViewAssembler.matchesCandidateQuery(candidate, normalizedQuery))
+                .filter(candidate -> circleSearchQueryService.matchesCandidateQuery(candidate, normalizedQuery))
                 .sorted(Comparator.comparing(CircleSearchResultDTO::getUsername, String.CASE_INSENSITIVE_ORDER))
                 .toList();
 

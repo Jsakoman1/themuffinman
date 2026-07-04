@@ -5,9 +5,14 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionConversationStatus;
 import com.themuffinman.app.vision.model.VisionIntent;
+import com.themuffinman.app.vision.model.VisionMemorySummary;
 import com.themuffinman.app.vision.model.VisionTurn;
 import com.themuffinman.app.vision.model.VisionTurnSource;
+import com.themuffinman.app.vision.model.VisionUserPreference;
 import com.themuffinman.app.vision.repository.VisionConversationRepository;
+import com.themuffinman.app.vision.repository.VisionMemoryFeedbackEventRepository;
+import com.themuffinman.app.vision.repository.VisionMemorySummaryRepository;
+import com.themuffinman.app.vision.repository.VisionUserPreferenceRepository;
 import com.themuffinman.app.vision.repository.VisionTurnRepository;
 import org.junit.jupiter.api.Test;
 
@@ -142,5 +147,54 @@ class VisionSemanticOrchestrationContextServiceTest {
         assertEquals("VIEW_CIRCLES", memoryContext.getRecentConversations().get(0).getIntent());
         assertTrue(memoryContext.getUserMemory().getRecentIntentTypes().contains("CREATE_QUEST"));
         assertTrue(memoryContext.getUserMemory().getRecentEntityFamilies().contains("quests"));
+    }
+
+    @Test
+    void includesLearnedPreferencesAndSummaryWhenAvailable() {
+        VisionConversationRepository conversationRepository = mock(VisionConversationRepository.class);
+        VisionTurnRepository turnRepository = mock(VisionTurnRepository.class);
+        VisionUserPreferenceRepository preferenceRepository = mock(VisionUserPreferenceRepository.class);
+        VisionMemoryFeedbackEventRepository feedbackRepository = mock(VisionMemoryFeedbackEventRepository.class);
+        VisionMemorySummaryRepository summaryRepository = mock(VisionMemorySummaryRepository.class);
+
+        VisionSemanticOrchestrationContextService service = new VisionSemanticOrchestrationContextService(
+                voiceProperties,
+                conversationRepository,
+                turnRepository,
+                preferenceRepository,
+                feedbackRepository,
+                summaryRepository
+        );
+
+        AppUser user = new AppUser();
+        user.setId(12L);
+        user.setUsername("jsak");
+
+        VisionUserPreference preferredInput = new VisionUserPreference();
+        preferredInput.setUser(user);
+        preferredInput.setPreferenceKey("preferred_input_type");
+        preferredInput.setPreferenceValue("voice");
+
+        VisionUserPreference preferredFamily = new VisionUserPreference();
+        preferredFamily.setUser(user);
+        preferredFamily.setPreferenceKey("last_entity_family");
+        preferredFamily.setPreferenceValue("quests");
+
+        VisionMemorySummary summary = new VisionMemorySummary();
+        summary.setUser(user);
+        summary.setSummaryText("Top preferences: [preferred_input_type=voice]");
+
+        when(preferenceRepository.findByUserAndPreferenceKey(user, "preferred_input_type")).thenReturn(java.util.Optional.of(preferredInput));
+        when(preferenceRepository.findByUserAndPreferenceKey(user, "last_entity_family")).thenReturn(java.util.Optional.of(preferredFamily));
+        when(summaryRepository.findTopByUserOrderByCreatedAtDesc(user)).thenReturn(java.util.Optional.of(summary));
+        when(feedbackRepository.findTop20ByUserOrderByCreatedAtDesc(user)).thenReturn(List.of());
+        when(conversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(user)).thenReturn(List.of());
+
+        var memoryContext = service.buildMemoryContext(user, null);
+
+        assertEquals("voice", memoryContext.getUserMemory().getPreferredInputType());
+        assertEquals("quests", memoryContext.getUserMemory().getPreferredEntityFamily());
+        assertEquals("Top preferences: [preferred_input_type=voice]", memoryContext.getUserMemory().getLearningSummary());
+        assertTrue(memoryContext.getUserMemory().getRecentFeedbackTypes().isEmpty());
     }
 }

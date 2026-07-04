@@ -45,6 +45,7 @@ public class CircleReadService {
     private final CircleRequestMgr circleRequestMgr;
     private final CircleAdminOverviewAssembler circleAdminOverviewAssembler;
     private final CircleViewAssembler circleViewAssembler;
+    private final CircleSearchQueryService circleSearchQueryService;
 
     @Transactional(readOnly = true)
     public List<CircleRequestResponseDTO> getMyCircles(AppUser currentUser) {
@@ -104,7 +105,7 @@ public class CircleReadService {
     @Transactional(readOnly = true)
     public CircleContactListResponseDTO getConnections(AppUser currentUser, String query, Long circleId, boolean unassigned, int page, int size) {
         List<CircleContactDTO> connections = loadConnections(currentUser).stream()
-                .filter(connection -> circleViewAssembler.matchesConnectionQuery(connection, query))
+                .filter(connection -> circleSearchQueryService.matchesConnectionQuery(connection, query))
                 .filter(connection -> circleViewAssembler.matchesConnectionFilter(connection, circleId, unassigned))
                 .toList();
         return circleViewAssembler.buildCircleContactListResponse(connections, page, size);
@@ -124,7 +125,7 @@ public class CircleReadService {
     @Transactional(readOnly = true)
     public CircleRequestListResponseDTO getIncomingRequests(AppUser currentUser, String query, int page, int size) {
         List<CircleRequestResponseDTO> requests = loadIncomingRequests(currentUser).stream()
-                .filter(request -> circleViewAssembler.matchesRequestQuery(request.getCounterpartUsername(), request.getCounterpartProfileDescription(), query))
+                .filter(request -> circleSearchQueryService.matchesRequestQuery(request.getCounterpartUsername(), request.getCounterpartProfileDescription(), query))
                 .toList();
         return circleViewAssembler.buildCircleRequestListResponse(requests, page, size);
     }
@@ -137,7 +138,7 @@ public class CircleReadService {
     @Transactional(readOnly = true)
     public CircleRequestListResponseDTO getOutgoingRequests(AppUser currentUser, String query, int page, int size) {
         List<CircleRequestResponseDTO> requests = loadOutgoingRequests(currentUser).stream()
-                .filter(request -> circleViewAssembler.matchesRequestQuery(request.getCounterpartUsername(), request.getCounterpartProfileDescription(), query))
+                .filter(request -> circleSearchQueryService.matchesRequestQuery(request.getCounterpartUsername(), request.getCounterpartProfileDescription(), query))
                 .toList();
         return circleViewAssembler.buildCircleRequestListResponse(requests, page, size);
     }

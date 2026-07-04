@@ -1,13 +1,16 @@
 package com.themuffinman.app.vision.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.themuffinman.app.semantic.SemanticEntityFamily;
+import com.themuffinman.app.semantic.SemanticEnvelope;
+import com.themuffinman.app.semantic.SemanticReplayRecord;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.themuffinman.app.semantic.SemanticEnvelope;
 
+import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +48,27 @@ public class VisionPromptUnderstandingResult {
     private VisionPromptUnderstandingSlots slots = new VisionPromptUnderstandingSlots();
 
     public static VisionPromptUnderstandingResult empty(String prompt) {
+        return empty(prompt, Instant.now().toString());
+    }
+
+    public static VisionPromptUnderstandingResult empty(String prompt, String capturedAt) {
+        String effectiveCapturedAt = capturedAt == null || capturedAt.isBlank() ? Instant.now().toString() : capturedAt;
+        SemanticReplayRecord replayRecord = SemanticReplayRecord.builder()
+                .contractVersion("vision-semantic-orchestration-v1")
+                .provider("none")
+                .model("none")
+                .sourceLanguage("unknown")
+                .rawUserText(prompt)
+                .normalizedEnglishText(prompt)
+                .intent("UNSUPPORTED")
+                .entityFamily(SemanticEntityFamily.UNKNOWN)
+                .requiredSlotIds(List.of())
+                .missingRequiredSlotIds(List.of())
+                .clarificationRequired(false)
+                .confidence(0.0d)
+                .ambiguityReason("No semantic understanding was produced.")
+                .capturedAt(effectiveCapturedAt)
+                .build();
         return VisionPromptUnderstandingResult.builder()
                 .sourceLanguage("unknown")
                 .originalPrompt(prompt)
@@ -65,6 +89,7 @@ public class VisionPromptUnderstandingResult {
                         .clarificationRequired(false)
                         .requiredSlotIds(List.of())
                         .missingRequiredSlotIds(List.of())
+                        .replayRecord(replayRecord)
                         .build())
                 .focusSlotId(null)
                 .focusSlotConfidence(null)

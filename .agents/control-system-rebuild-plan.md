@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: draft
+machine_status: complete
 machine_title: Control System Rebuild Plan
 machine_goal: Rebuild the minimal planning lifecycle and active-plan discovery path.
 ---
@@ -19,9 +19,9 @@ Purpose: restore the minimal control-system workflow after the total reset.
 
 ## Implementation Slices
 
-- [ ] Slice 1: restore active-plan discovery and plan-index generation for the new scaffold.
-- [ ] Slice 2: restore control-start and the minimum generated local-tooling outputs.
-- [ ] Slice 3: define the minimal plan lifecycle and completion state transitions.
+- [x] Slice 1: restore active-plan discovery and plan-index generation for the new scaffold.
+- [x] Slice 2: restore control-start and the minimum generated local-tooling outputs.
+- [x] Slice 3: define the minimal plan lifecycle and completion state transitions.
 
 ## Validation Plan
 
@@ -46,10 +46,9 @@ Purpose: restore the minimal control-system workflow after the total reset.
 
 ## Completion Evidence
 
-- Status: draft
-- Changed files: none yet
-- Validation evidence: not run
-- Doc delta summary: restates the control-system rebuild slice
+- Status: complete
+- Changed files: `.agents/control-system-rebuild-plan.md`, `docs/generated/local-tooling/plan-index.json`, `docs/generated/local-tooling/plan-index-summary.md`, `docs/generated/local-tooling/control-start.json`, `docs/generated/local-tooling/control-start-summary.md`
+- Validation evidence: `make plan-index`, `make control-start`
+- Doc delta summary: the rebuilt control-system slice is now discoverable through the compact plan index and control-start snapshot
 - Backlog update: none
 - Residual risk: system can sprawl again without discipline
-

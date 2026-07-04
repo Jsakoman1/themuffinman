@@ -2,6 +2,7 @@ package com.themuffinman.app.location.service;
 
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.location.model.ExactLocationVisibilityScope;
+import com.themuffinman.app.location.model.UserLocationMode;
 import com.themuffinman.app.social.model.CircleGroup;
 import com.themuffinman.app.social.service.CircleMembershipService;
 import com.themuffinman.app.testing.TestFixtures;
@@ -47,5 +48,36 @@ class LocationAccessPolicyServiceTest {
 
         assertThat(policyService.canViewExactLocation(owner, allowedViewer)).isTrue();
         assertThat(policyService.canViewExactLocation(owner, otherViewer)).isFalse();
+    }
+
+    @Test
+    void describesHiddenAndApproximateLocationSummaries() {
+        AppUser hidden = TestFixtures.user(1L, "hidden");
+        hidden.setLocationMode(UserLocationMode.OFF);
+        AppUser approximate = TestFixtures.user(2L, "approximate");
+        approximate.setLocationMode(UserLocationMode.APPROXIMATE);
+
+        assertThat(policyService.describeUserLocationSharingSummary(hidden)).isEqualTo("Hidden");
+        assertThat(policyService.describeUserLocationVisibilitySummary(hidden)).isEqualTo("Hidden");
+        assertThat(policyService.describeUserLocationSharingSummary(approximate)).isEqualTo("Approximate area only");
+        assertThat(policyService.describeUserLocationVisibilitySummary(approximate)).isEqualTo("Approximate area only");
+    }
+
+    @Test
+    void describesExactVisibilityScopeUsingReadableLabels() {
+        AppUser user = TestFixtures.user(1L, "owner");
+        user.setLocationMode(UserLocationMode.EXACT);
+
+        user.setExactLocationVisibilityScope(ExactLocationVisibilityScope.NOBODY);
+        assertThat(policyService.describeUserLocationVisibilitySummary(user)).isEqualTo("Private");
+
+        user.setExactLocationVisibilityScope(ExactLocationVisibilityScope.EVERYONE);
+        assertThat(policyService.describeUserLocationVisibilitySummary(user)).isEqualTo("Visible to everyone");
+
+        user.setExactLocationVisibilityScope(ExactLocationVisibilityScope.CIRCLES);
+        assertThat(policyService.describeUserLocationVisibilitySummary(user)).isEqualTo("Visible to circles");
+
+        user.setExactLocationVisibilityScope(ExactLocationVisibilityScope.USERS);
+        assertThat(policyService.describeUserLocationVisibilitySummary(user)).isEqualTo("Visible to selected people");
     }
 }

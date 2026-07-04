@@ -67,7 +67,7 @@ export type QuestViewerRelationDTO = typeof QUEST_VIEWER_RELATION_DTO_VALUES[num
 export const REVIEW_ROLE_VALUES = ["EMPLOYER", "WORKER"] as const
 export type ReviewRole = typeof REVIEW_ROLE_VALUES[number]
 
-export const SEMANTIC_ENTITY_FAMILY_VALUES = ["QUEST", "CIRCLE", "USER", "APPLICATION", "CHAT", "PROFILE", "SETTINGS", "UNKNOWN"] as const
+export const SEMANTIC_ENTITY_FAMILY_VALUES = ["QUEST", "NOTIFICATIONS", "CIRCLE", "USER", "APPLICATION", "CHAT", "PROFILE", "SETTINGS", "UNKNOWN"] as const
 export type SemanticEntityFamily = typeof SEMANTIC_ENTITY_FAMILY_VALUES[number]
 
 export const SEMANTIC_ENTITY_RESOLUTION_STATUS_VALUES = ["RESOLVED", "AMBIGUOUS", "NOT_FOUND"] as const
@@ -91,7 +91,7 @@ export type VisionConversationAction = typeof VISION_CONVERSATION_ACTION_VALUES[
 export const VISION_CONVERSATION_STATUS_VALUES = ["ACTIVE", "REVIEW_READY", "COMPLETED", "BLOCKED"] as const
 export type VisionConversationStatus = typeof VISION_CONVERSATION_STATUS_VALUES[number]
 
-export const VISION_INTENT_VALUES = ["CREATE_QUEST", "CREATE_CIRCLE", "CREATE_CIRCLE_REQUEST", "ACCEPT_CIRCLE_REQUEST", "DELETE_CIRCLE_REQUEST", "CREATE_APPLICATION", "UPDATE_APPLICATION", "WITHDRAW_APPLICATION", "APPROVE_APPLICATION", "DECLINE_APPLICATION", "UPDATE_CIRCLE", "DELETE_CIRCLE", "UPDATE_PROFILE", "UPDATE_PROFILE_LOCATION", "DISCOVER_QUESTS", "OPEN_CHAT", "VIEW_CHAT_WORKSPACE", "VIEW_PROFILE", "VIEW_SETTINGS", "VIEW_USER_PROFILE", "VIEW_CIRCLES", "VIEW_CIRCLE_DETAIL", "VIEW_QUEST_DETAIL", "VIEW_QUEST_NEWS", "VIEW_APPLICATIONS", "VIEW_APPLICATION_DETAIL", "UNSUPPORTED"] as const
+export const VISION_INTENT_VALUES = ["CREATE_QUEST", "CREATE_CIRCLE", "CREATE_CIRCLE_REQUEST", "ACCEPT_CIRCLE_REQUEST", "DELETE_CIRCLE_REQUEST", "CREATE_APPLICATION", "UPDATE_APPLICATION", "WITHDRAW_APPLICATION", "APPROVE_APPLICATION", "DECLINE_APPLICATION", "UPDATE_CIRCLE", "DELETE_CIRCLE", "UPDATE_PROFILE", "UPDATE_PROFILE_LOCATION", "DISCOVER_QUESTS", "OPEN_CHAT", "VIEW_CHAT_WORKSPACE", "VIEW_PROFILE", "VIEW_SETTINGS", "VIEW_USER_PROFILE", "VIEW_CIRCLES", "VIEW_CIRCLE_DETAIL", "VIEW_QUEST_DETAIL", "VIEW_NOTIFICATIONS", "VIEW_QUEST_NEWS", "VIEW_APPLICATIONS", "VIEW_APPLICATION_DETAIL", "VIEW_THINGS", "SEARCH", "UNSUPPORTED"] as const
 export type VisionIntent = typeof VISION_INTENT_VALUES[number]
 
 export const VISION_NEXT_ACTION_VALUES = ["ASK_FOR_SLOT", "SHOW_RESULTS", "SHOW_REVIEW", "COMPLETE", "BLOCKED"] as const
@@ -1377,6 +1377,7 @@ export interface VisionCanvasBlockDTO {
   options: VisionOptionDTO[]
   items: VisionSlotSummaryDTO[]
   questDiscovery: VisionQuestDiscoveryDTO
+  searchDiscovery: VisionSearchDiscoveryDTO
   review: VisionQuestReviewDTO
   tone: string
 }
@@ -1446,6 +1447,7 @@ export interface VisionConversationTurnResponseDTO {
   executionEnabled: boolean
   executionCandidate: VisionExecutionCandidateDTO
   questDiscovery: VisionQuestDiscoveryDTO
+  searchDiscovery: VisionSearchDiscoveryDTO
   memoryTrail: VisionMemoryTrailDTO
   blocks: VisionCanvasBlockDTO[]
   appliedSlotSummaries: VisionSlotSummaryDTO[]
@@ -1534,6 +1536,26 @@ export interface VisionQuestReviewDTO {
   visibility: string
   schedule: string
   location: string
+}
+
+export interface VisionSearchDiscoveryDTO {
+  capabilityId: string
+  query: string
+  sort: string
+  summary: string
+  totalItems: number
+  items: VisionSearchDiscoveryItemDTO[]
+}
+
+export interface VisionSearchDiscoveryItemDTO {
+  entityFamily: string
+  capabilityId: string
+  targetId: number
+  title: string
+  summary: string
+  matchSummary: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
 }
 
 export interface VisionSlotSummaryDTO {

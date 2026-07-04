@@ -15,6 +15,7 @@ import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
 import com.themuffinman.app.vision.dto.VisionMemoryTrailDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
+import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
 import com.themuffinman.app.vision.model.VisionAgentState;
 import com.themuffinman.app.vision.model.VisionConversationAction;
 import com.themuffinman.app.vision.model.VisionConversation;
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 public class VisionConversationService {
@@ -51,14 +53,17 @@ public class VisionConversationService {
     private final VisionCanvasAssembler visionCanvasAssembler;
     private final VisionExecutionPlanner visionExecutionPlanner;
     private final VisionQuestDiscoveryService visionQuestDiscoveryService;
+    private final VisionSearchDiscoveryService visionSearchDiscoveryService;
     private final VisionExecutionService visionExecutionService;
     private final VisionChatExecutionService visionChatExecutionService;
     private final VisionCapabilityPreviewService visionCapabilityPreviewService;
     private final VisionPromptUnderstandingService visionPromptUnderstandingService;
     private final VisionSemanticOrchestrationContextService visionSemanticOrchestrationContextService;
     private final VisionSemanticMapper visionSemanticMapper;
+    private final VisionSemanticRouteCatalogService visionSemanticRouteCatalogService;
     private final VisionSurfacePolicy visionSurfacePolicy;
     private final VisionProperties visionProperties;
+    private final VisionLearningService visionLearningService;
 
     public VisionConversationService(
             VisionConversationRepository visionConversationRepository,
@@ -69,14 +74,17 @@ public class VisionConversationService {
             VisionCanvasAssembler visionCanvasAssembler,
             VisionExecutionPlanner visionExecutionPlanner,
             VisionQuestDiscoveryService visionQuestDiscoveryService,
+            VisionSearchDiscoveryService visionSearchDiscoveryService,
             VisionExecutionService visionExecutionService,
             VisionChatExecutionService visionChatExecutionService,
             VisionCapabilityPreviewService visionCapabilityPreviewService,
             VisionPromptUnderstandingService visionPromptUnderstandingService,
             VisionSemanticOrchestrationContextService visionSemanticOrchestrationContextService,
             VisionSemanticMapper visionSemanticMapper,
+            VisionSemanticRouteCatalogService visionSemanticRouteCatalogService,
             VisionSurfacePolicy visionSurfacePolicy,
-            VisionProperties visionProperties
+            VisionProperties visionProperties,
+            VisionLearningService visionLearningService
     ) {
         this.visionConversationRepository = visionConversationRepository;
         this.visionTurnRepository = visionTurnRepository;
@@ -86,14 +94,60 @@ public class VisionConversationService {
         this.visionCanvasAssembler = visionCanvasAssembler;
         this.visionExecutionPlanner = visionExecutionPlanner;
         this.visionQuestDiscoveryService = visionQuestDiscoveryService;
+        this.visionSearchDiscoveryService = visionSearchDiscoveryService;
         this.visionExecutionService = visionExecutionService;
         this.visionChatExecutionService = visionChatExecutionService;
         this.visionCapabilityPreviewService = visionCapabilityPreviewService;
         this.visionPromptUnderstandingService = visionPromptUnderstandingService;
         this.visionSemanticOrchestrationContextService = visionSemanticOrchestrationContextService;
         this.visionSemanticMapper = visionSemanticMapper;
+        this.visionSemanticRouteCatalogService = visionSemanticRouteCatalogService;
         this.visionSurfacePolicy = visionSurfacePolicy;
         this.visionProperties = visionProperties;
+        this.visionLearningService = visionLearningService;
+    }
+
+    public VisionConversationService(
+            VisionConversationRepository visionConversationRepository,
+            VisionTurnRepository visionTurnRepository,
+            VisionIntentRouter visionIntentRouter,
+            VisionSlotService visionSlotService,
+            VisionClarificationService visionClarificationService,
+            VisionCanvasAssembler visionCanvasAssembler,
+            VisionExecutionPlanner visionExecutionPlanner,
+            VisionQuestDiscoveryService visionQuestDiscoveryService,
+            VisionSearchDiscoveryService visionSearchDiscoveryService,
+            VisionExecutionService visionExecutionService,
+            VisionChatExecutionService visionChatExecutionService,
+            VisionCapabilityPreviewService visionCapabilityPreviewService,
+            VisionPromptUnderstandingService visionPromptUnderstandingService,
+            VisionSemanticOrchestrationContextService visionSemanticOrchestrationContextService,
+            VisionSemanticMapper visionSemanticMapper,
+            VisionSemanticRouteCatalogService visionSemanticRouteCatalogService,
+            VisionSurfacePolicy visionSurfacePolicy,
+            VisionProperties visionProperties
+    ) {
+        this(
+                visionConversationRepository,
+                visionTurnRepository,
+                visionIntentRouter,
+                visionSlotService,
+                visionClarificationService,
+                visionCanvasAssembler,
+                visionExecutionPlanner,
+                visionQuestDiscoveryService,
+                visionSearchDiscoveryService,
+                visionExecutionService,
+                visionChatExecutionService,
+                visionCapabilityPreviewService,
+                visionPromptUnderstandingService,
+                visionSemanticOrchestrationContextService,
+                visionSemanticMapper,
+                visionSemanticRouteCatalogService,
+                visionSurfacePolicy,
+                visionProperties,
+                null
+        );
     }
 
     @Transactional
@@ -159,6 +213,7 @@ public class VisionConversationService {
                 case UPDATE_PROFILE -> handleUpdateProfileTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case UPDATE_PROFILE_LOCATION -> handleUpdateProfileLocationTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case DISCOVER_QUESTS -> handleDiscoverQuestsTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
+                case SEARCH -> handleSearchTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case OPEN_CHAT -> handleOpenChatTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case VIEW_CHAT_WORKSPACE -> handleViewChatWorkspaceTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case VIEW_PROFILE -> handleViewProfileTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
@@ -167,12 +222,31 @@ public class VisionConversationService {
                 case VIEW_CIRCLES -> handleViewCirclesTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case VIEW_CIRCLE_DETAIL -> handleViewCircleDetailTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case VIEW_QUEST_DETAIL -> handleViewQuestDetailTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
+                case VIEW_NOTIFICATIONS -> handleViewNotificationsTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case VIEW_QUEST_NEWS -> handleViewQuestNewsTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case VIEW_APPLICATIONS -> handleViewApplicationsTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case VIEW_APPLICATION_DETAIL -> handleViewApplicationDetailTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
+                case VIEW_THINGS -> handleViewThingsTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
                 case UNSUPPORTED -> handleUnsupportedTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
             };
         };
+
+        if (visionLearningService != null) {
+            visionLearningService.recordTurnOutcome(
+                    currentUser,
+                    conversation,
+                    turn,
+                    understanding,
+                    dto == null ? null : VisionSemanticRuntimeHints.builder()
+                            .inputType(dto.getInputType())
+                            .clientLocale(dto.getClientLocale())
+                            .clientTimezone(dto.getClientTimezone())
+                            .clientCapabilities(dto.getClientCapabilities())
+                            .clientStateVersion(dto.getClientStateVersion())
+                            .build(),
+                    action
+            );
+        }
 
         return visionCanvasAssembler.assemble(
                 conversation,
@@ -182,6 +256,7 @@ public class VisionConversationService {
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation, understanding),
                 visionQuestDiscoveryService.discover(conversation, understanding, currentUser),
+                visionSearchDiscoveryService.discover(conversation, understanding, currentUser),
                 capabilityPreview(conversation, currentUser),
                 buildMemoryTrail(currentUser, conversation)
         );
@@ -213,6 +288,16 @@ public class VisionConversationService {
         VisionConversation conversation = loadExistingConversation(conversationId, currentUser);
         ensureTurnCapacity(conversation);
         VisionTurn turn = handleResetConversationAction(conversation, "system");
+        if (visionLearningService != null) {
+            visionLearningService.recordTurnOutcome(
+                    currentUser,
+                    conversation,
+                    turn,
+                    VisionPromptUnderstandingResult.empty(""),
+                    null,
+                    VisionConversationAction.SUBMIT_PROMPT
+            );
+        }
         return visionCanvasAssembler.assemble(
                 conversation,
                 turn,
@@ -221,6 +306,7 @@ public class VisionConversationService {
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation),
                 visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
+                searchDiscoveryForConversation(conversation, currentUser),
                 capabilityPreview(conversation, currentUser),
                 buildMemoryTrail(currentUser, conversation)
         );
@@ -232,6 +318,16 @@ public class VisionConversationService {
         VisionConversation conversation = loadExistingConversation(conversationId, currentUser);
         ensureTurnCapacity(conversation);
         VisionTurn turn = handleCancelConversationAction(conversation, "system");
+        if (visionLearningService != null) {
+            visionLearningService.recordTurnOutcome(
+                    currentUser,
+                    conversation,
+                    turn,
+                    VisionPromptUnderstandingResult.empty(""),
+                    null,
+                    VisionConversationAction.SUBMIT_PROMPT
+            );
+        }
         return visionCanvasAssembler.assemble(
                 conversation,
                 turn,
@@ -240,6 +336,7 @@ public class VisionConversationService {
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation),
                 visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
+                searchDiscoveryForConversation(conversation, currentUser),
                 capabilityPreview(conversation, currentUser),
                 buildMemoryTrail(currentUser, conversation)
         );
@@ -259,6 +356,7 @@ public class VisionConversationService {
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation),
                 visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
+                searchDiscoveryForConversation(conversation, currentUser),
                 capabilityPreview(conversation, currentUser),
                 buildMemoryTrail(currentUser, conversation)
         );
@@ -352,11 +450,21 @@ public class VisionConversationService {
             return false;
         }
         for (String candidate : candidates) {
-            if (candidate != null && !candidate.isBlank() && value.contains(candidate)) {
+            if (candidate == null || candidate.isBlank()) {
+                continue;
+            }
+            if (containsCandidate(value, candidate)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean containsCandidate(String value, String candidate) {
+        if (candidate.indexOf(' ') >= 0) {
+            return value.contains(candidate);
+        }
+        return Pattern.compile("\\b" + Pattern.quote(candidate) + "\\b").matcher(value).find();
     }
 
     private boolean containsExplicitEntityFamilySignal(String value, VisionIntent intent) {
@@ -364,7 +472,8 @@ public class VisionConversationService {
             return false;
         }
         return switch (intent) {
-            case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> containsAny(value, "quest", "quests", "job", "jobs", "work", "news", "updates");
+            case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> containsAny(value, "quest", "quests", "job", "jobs", "work", "news", "updates", "activity feed");
+            case VIEW_NOTIFICATIONS -> containsAny(value, "notification", "notifications", "notification center", "alerts", "alert");
             case CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
                  UPDATE_CIRCLE, DELETE_CIRCLE, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL -> containsAny(value, "circle", "circles");
             case CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION,
@@ -405,6 +514,7 @@ public class VisionConversationService {
     private String workspaceFamily(VisionIntent intent) {
         return switch (intent) {
             case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> "profile";
+            case VIEW_NOTIFICATIONS -> "notifications";
             case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
                     DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
             case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
@@ -464,12 +574,14 @@ public class VisionConversationService {
         }
         return switch (intent) {
             case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, VIEW_USER_PROFILE -> "profile";
+            case VIEW_NOTIFICATIONS -> "notifications";
             case VIEW_QUEST_NEWS -> "quest news";
             case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
                     DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
             case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
                     WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
             case DISCOVER_QUESTS, CREATE_QUEST -> "quests";
+            case SEARCH -> "search";
             case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> "chat";
             default -> null;
         };
@@ -535,6 +647,9 @@ public class VisionConversationService {
         }
         if ((title == null || title.isBlank()) && conversation.getIntent() == VisionIntent.VIEW_QUEST_NEWS) {
             title = "Quest news";
+        }
+        if ((title == null || title.isBlank()) && conversation.getIntent() == VisionIntent.VIEW_NOTIFICATIONS) {
+            title = "Notifications";
         }
         if ((title == null || title.isBlank()) && conversation.getIntent() == VisionIntent.OPEN_CHAT) {
             title = conversation.getSlotData().get("opened_chat_username");
@@ -807,6 +922,8 @@ public class VisionConversationService {
     private VisionTurn handleResetConversationAction(VisionConversation conversation, String source) {
         VisionIntent intent = conversation.getIntent() == VisionIntent.DISCOVER_QUESTS
                 ? VisionIntent.DISCOVER_QUESTS
+                : conversation.getIntent() == VisionIntent.SEARCH
+                ? VisionIntent.SEARCH
                 : conversation.getIntent() == VisionIntent.OPEN_CHAT
                 ? VisionIntent.OPEN_CHAT
                 : conversation.getIntent() == VisionIntent.CREATE_CIRCLE
@@ -849,15 +966,20 @@ public class VisionConversationService {
                 ? VisionIntent.VIEW_CIRCLE_DETAIL
                 : conversation.getIntent() == VisionIntent.VIEW_QUEST_DETAIL
                 ? VisionIntent.VIEW_QUEST_DETAIL
+                : conversation.getIntent() == VisionIntent.VIEW_NOTIFICATIONS
+                ? VisionIntent.VIEW_NOTIFICATIONS
                 : conversation.getIntent() == VisionIntent.VIEW_APPLICATIONS
                 ? VisionIntent.VIEW_APPLICATIONS
                 : conversation.getIntent() == VisionIntent.VIEW_APPLICATION_DETAIL
                 ? VisionIntent.VIEW_APPLICATION_DETAIL
+                : conversation.getIntent() == VisionIntent.VIEW_THINGS
+                ? VisionIntent.VIEW_THINGS
                 : VisionIntent.CREATE_QUEST;
         conversation.setIntent(intent);
         conversation.setStatus(VisionConversationStatus.ACTIVE);
         conversation.setRequestedSlot(intent == VisionIntent.DISCOVER_QUESTS
                 ? null
+                : intent == VisionIntent.SEARCH ? null
                 : intent == VisionIntent.OPEN_CHAT ? "target_user"
                 : intent == VisionIntent.CREATE_CIRCLE ? "circle_name"
                 : intent == VisionIntent.CREATE_CIRCLE_REQUEST ? "target_user"
@@ -879,12 +1001,16 @@ public class VisionConversationService {
                 : intent == VisionIntent.VIEW_CIRCLES ? null
                 : intent == VisionIntent.VIEW_CIRCLE_DETAIL ? "target_circle_query"
                 : intent == VisionIntent.VIEW_QUEST_DETAIL ? "target_quest_query"
+                : intent == VisionIntent.VIEW_NOTIFICATIONS ? null
                 : intent == VisionIntent.VIEW_APPLICATIONS ? null
                 : intent == VisionIntent.VIEW_APPLICATION_DETAIL ? "target_application_query"
+                : intent == VisionIntent.VIEW_THINGS ? null
                 : "quest_title");
         conversation.setSlotData(new LinkedHashMap<>());
         String message = intent == VisionIntent.DISCOVER_QUESTS
                 ? "The current quest discovery was reset. What would you like to browse next?"
+                : intent == VisionIntent.SEARCH
+                ? "The current search was reset. What would you like to look for next?"
                 : intent == VisionIntent.OPEN_CHAT
                 ? "The current chat task was reset. Who should I open chat with?"
                 : intent == VisionIntent.CREATE_CIRCLE
@@ -927,10 +1053,14 @@ public class VisionConversationService {
                 ? "The current circle detail view was reset. What circle should I open?"
                 : intent == VisionIntent.VIEW_QUEST_DETAIL
                 ? "The current quest detail view was reset. What quest should I open?"
+                : intent == VisionIntent.VIEW_NOTIFICATIONS
+                ? resetReadOnlySnapshotMessage(VisionIntent.VIEW_NOTIFICATIONS)
                 : intent == VisionIntent.VIEW_APPLICATIONS
                 ? resetReadOnlySnapshotMessage(VisionIntent.VIEW_APPLICATIONS)
                 : intent == VisionIntent.VIEW_APPLICATION_DETAIL
                 ? "The current application detail view was reset. What application should I open?"
+                : intent == VisionIntent.VIEW_THINGS
+                ? resetReadOnlySnapshotMessage(VisionIntent.VIEW_THINGS)
                 : "The current vision task was reset. What should the new quest be called?";
         updateConversationMetadata(conversation, "", "", message, true);
         visionConversationRepository.save(conversation);
@@ -939,6 +1069,7 @@ public class VisionConversationService {
                 || intent == VisionIntent.VIEW_PROFILE
                 || intent == VisionIntent.VIEW_SETTINGS
                 || intent == VisionIntent.VIEW_CIRCLES
+                || intent == VisionIntent.VIEW_NOTIFICATIONS
                 || intent == VisionIntent.VIEW_APPLICATIONS;
         boolean needsClarificationIntent = intent == VisionIntent.OPEN_CHAT
                 || intent == VisionIntent.CREATE_QUEST
@@ -1031,12 +1162,21 @@ public class VisionConversationService {
         Map<String, String> mergedSlots = visionSlotService.mergeCreateQuestSlots(conversation, normalizedPrompt, understanding);
         List<String> appliedSlotIds = appliedSlotIds(beforeSlots, mergedSlots);
         String missingSlot = visionClarificationService.nextMissingCreateQuestSlot(mergedSlots);
+        boolean lowConfidence = isLowConfidenceCreateQuestUnderstanding(understanding);
 
         String message;
         VisionAgentState agentState;
         VisionNextAction nextAction;
         VisionConversationStatus status;
-        if (missingSlot == null) {
+        if (missingSlot == null && lowConfidence) {
+            status = VisionConversationStatus.ACTIVE;
+            nextAction = VisionNextAction.ASK_FOR_SLOT;
+            agentState = VisionAgentState.ASKING;
+            missingSlot = "quest_title";
+            message = conversation.getRequestedSlot() != null && conversation.getRequestedSlot().equals("quest_title")
+                    ? visionClarificationService.buildCreateQuestConfidenceRetryQuestion()
+                    : visionClarificationService.buildCreateQuestConfidenceQuestion();
+        } else if (missingSlot == null) {
             status = VisionConversationStatus.REVIEW_READY;
             nextAction = VisionNextAction.SHOW_REVIEW;
             agentState = VisionAgentState.REVIEW_READY;
@@ -1073,6 +1213,21 @@ public class VisionConversationService {
         turn.setAssistantMessage(message);
         turn.setAppliedSlotIds(appliedSlotIds);
         return visionTurnRepository.save(turn);
+    }
+
+    private boolean isLowConfidenceCreateQuestUnderstanding(VisionPromptUnderstandingResult understanding) {
+        if (understanding == null || understanding.semanticPlanOrEmpty() == null) {
+            return false;
+        }
+        if (understanding.semanticPlanOrEmpty().candidateIntentOrUnsupported() != VisionIntent.CREATE_QUEST) {
+            return false;
+        }
+        Double confidence = understanding.semanticPlanOrEmpty().getCandidateIntentConfidence();
+        if (confidence == null) {
+            return false;
+        }
+        double minimumConfidence = visionSemanticRouteCatalogService.minimumConfidenceForIntent(VisionIntent.CREATE_QUEST);
+        return confidence < minimumConfidence;
     }
 
     private VisionTurn handleCreateCircleTurn(
@@ -1150,13 +1305,20 @@ public class VisionConversationService {
                 agentState = VisionAgentState.REVIEW_READY;
                 message = "The circle review is ready, but execution is still disabled.";
             } else {
-                var createdCircle = visionCapabilityPreviewService.createCircle(conversation.getSlotData().get("circle_name"), conversation.getOwner());
-                conversation.getSlotData().put("created_circle_id", createdCircle.getId().toString());
-                conversation.getSlotData().put("conversation_outcome", "created_circle");
-                status = VisionConversationStatus.COMPLETED;
-                nextAction = VisionNextAction.COMPLETE;
-                agentState = VisionAgentState.COMPLETE;
-                message = "Circle created successfully.";
+                VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+                if (executionResult.isExecuted()) {
+                    conversation.getSlotData().put("created_circle_id", executionResult.getCreatedCircle().getId().toString());
+                    conversation.getSlotData().put("conversation_outcome", "created_circle");
+                    status = VisionConversationStatus.COMPLETED;
+                    nextAction = VisionNextAction.COMPLETE;
+                    agentState = VisionAgentState.COMPLETE;
+                    message = "Circle created successfully.";
+                } else {
+                    status = VisionConversationStatus.REVIEW_READY;
+                    nextAction = VisionNextAction.SHOW_REVIEW;
+                    agentState = VisionAgentState.REVIEW_READY;
+                    message = executionResult.getBlockingReason();
+                }
             }
         } else {
             status = VisionConversationStatus.REVIEW_READY;
@@ -2805,6 +2967,48 @@ public class VisionConversationService {
         return visionTurnRepository.save(turn);
     }
 
+    private VisionTurn handleSearchTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        VisionSearchDiscoveryDTO discovery = visionSearchDiscoveryService.discover(conversation, understanding, conversation.getOwner());
+        if (discovery == null) {
+            throw ServiceErrors.conflict("Search is not available for this vision conversation");
+        }
+
+        conversation.setStatus(VisionConversationStatus.ACTIVE);
+        conversation.setRequestedSlot(null);
+        conversation.getSlotData().put("search_query", discovery.getQuery() == null ? "" : discovery.getQuery());
+        String message = discovery.getSummary();
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+
+        VisionTurn turn = new VisionTurn();
+        turn.setConversation(conversation);
+        turn.setTurnIndex((int) visionTurnRepository.countByConversation(conversation) + 1);
+        turn.setSource(VisionTurnSource.from(source));
+        turn.setPrompt(prompt);
+        turn.setNormalizedPrompt(normalizedPrompt);
+        turn.setDetectedIntent(VisionIntent.SEARCH);
+        turn.setAgentState(VisionAgentState.RECOMMENDING);
+        turn.setNextAction(VisionNextAction.SHOW_RESULTS);
+        turn.setRequestedSlot(null);
+        turn.setTranslationApplied(understanding.isTranslationApplied());
+        turn.setTranslationReliable(understanding.isTranslationReliable());
+        turn.setAssistantMessage(message);
+        return visionTurnRepository.save(turn);
+    }
+
+    private VisionSearchDiscoveryDTO searchDiscoveryForConversation(VisionConversation conversation, AppUser currentUser) {
+        if (conversation == null || conversation.getIntent() != VisionIntent.SEARCH) {
+            return null;
+        }
+        return visionSearchDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser);
+    }
+
     private VisionTurn handleOpenChatTurn(
             VisionConversation conversation,
             String prompt,
@@ -3077,6 +3281,24 @@ public class VisionConversationService {
         );
     }
 
+    private VisionTurn handleViewNotificationsTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        return handleReadOnlySnapshotTurn(
+                conversation,
+                prompt,
+                normalizedPrompt,
+                understanding,
+                source,
+                VisionIntent.VIEW_NOTIFICATIONS,
+                readOnlySnapshotMessage(VisionIntent.VIEW_NOTIFICATIONS)
+        );
+    }
+
     private VisionTurn handleViewApplicationsTurn(
             VisionConversation conversation,
             String prompt,
@@ -3092,6 +3314,24 @@ public class VisionConversationService {
                 source,
                 VisionIntent.VIEW_APPLICATIONS,
                 readOnlySnapshotMessage(VisionIntent.VIEW_APPLICATIONS)
+        );
+    }
+
+    private VisionTurn handleViewThingsTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        return handleReadOnlySnapshotTurn(
+                conversation,
+                prompt,
+                normalizedPrompt,
+                understanding,
+                source,
+                VisionIntent.VIEW_THINGS,
+                readOnlySnapshotMessage(VisionIntent.VIEW_THINGS)
         );
     }
 
@@ -3175,16 +3415,18 @@ public class VisionConversationService {
             case VIEW_CIRCLE_DETAIL -> "Showing the selected circle. You can say rename this circle, delete this circle, or show my circles.";
             case VIEW_APPLICATIONS -> "Showing your applications snapshot. You can say apply to a quest, update an application, withdraw an application, approve an application, or decline an application.";
             case VIEW_APPLICATION_DETAIL -> "Showing the selected application. You can say update this application, withdraw this application, or show my applications.";
+            case VIEW_NOTIFICATIONS -> "Showing your notifications inbox. You can say open the related quest, open the related application, or show quest news.";
             case VIEW_QUEST_NEWS -> "Showing your quest news feed. You can say show another quest update or open the related quest.";
             case VIEW_CHAT_WORKSPACE -> "Showing your chat workspace snapshot. You can say open chat with ... to move into a direct conversation.";
             case VIEW_QUEST_DETAIL -> "Showing the selected quest. You can say apply to this quest or show another quest.";
+            case VIEW_THINGS -> "Showing your things snapshot. You can say show available listings, open a listing, or share a thing.";
             default -> "Showing the current vision snapshot.";
         };
     }
 
     private String resetReadOnlySnapshotMessage(VisionIntent intent) {
         return switch (intent) {
-            case VIEW_PROFILE, VIEW_SETTINGS, VIEW_CIRCLES, VIEW_APPLICATIONS, VIEW_CHAT_WORKSPACE, VIEW_QUEST_NEWS ->
+            case VIEW_PROFILE, VIEW_SETTINGS, VIEW_CIRCLES, VIEW_APPLICATIONS, VIEW_CHAT_WORKSPACE, VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS, VIEW_THINGS ->
                     "The current view was reset. " + readOnlySnapshotMessage(intent);
             default -> "The current view was reset.";
         };
@@ -3280,11 +3522,13 @@ public class VisionConversationService {
             case VIEW_QUEST_DETAIL -> hasText(conversation.getSlotData().get("resolved_quest_id"))
                     ? visionCapabilityPreviewService.previewQuestDetail(currentUser, Long.parseLong(conversation.getSlotData().get("resolved_quest_id")))
                     : null;
+            case VIEW_NOTIFICATIONS -> visionCapabilityPreviewService.previewNotifications(currentUser);
             case VIEW_QUEST_NEWS -> visionCapabilityPreviewService.previewQuestNews(currentUser);
             case VIEW_APPLICATIONS -> visionCapabilityPreviewService.previewApplications(currentUser);
             case VIEW_APPLICATION_DETAIL -> hasText(conversation.getSlotData().get("application_id"))
                     ? visionCapabilityPreviewService.previewApplicationDetail(currentUser, Long.parseLong(conversation.getSlotData().get("application_id")))
                     : null;
+            case VIEW_THINGS -> visionCapabilityPreviewService.previewThings(currentUser);
             default -> null;
         };
     }

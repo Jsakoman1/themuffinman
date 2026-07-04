@@ -6,6 +6,7 @@ import com.themuffinman.app.vision.dto.VisionExecutionCandidateDTO;
 import com.themuffinman.app.vision.model.VisionConversationStatus;
 import com.themuffinman.app.vision.testing.VisionConversationTestBuilder;
 import com.themuffinman.app.vision.testing.VisionSlotStatePresets;
+import com.themuffinman.app.vision.service.VisionSemanticRouteCatalogService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +19,7 @@ class VisionExecutionPlannerTest {
     void plansReadyExecutionForReviewReadyCreateQuestConversation() {
         VisionProperties visionProperties = new VisionProperties();
         visionProperties.setExecutionEnabled(true);
-        VisionExecutionPlanner planner = new VisionExecutionPlanner(new VisionClarificationService(), visionProperties);
+        VisionExecutionPlanner planner = new VisionExecutionPlanner(new VisionClarificationService(), new VisionSemanticRouteCatalogService(), visionProperties);
         AppUser user = new AppUser();
         user.setId(7L);
 
@@ -45,7 +46,7 @@ class VisionExecutionPlannerTest {
     @Test
     void plansBlockedExecutionWhenQuestStillNeedsFields() {
         VisionProperties visionProperties = new VisionProperties();
-        VisionExecutionPlanner planner = new VisionExecutionPlanner(new VisionClarificationService(), visionProperties);
+        VisionExecutionPlanner planner = new VisionExecutionPlanner(new VisionClarificationService(), new VisionSemanticRouteCatalogService(), visionProperties);
         AppUser user = new AppUser();
         user.setId(7L);
 
@@ -65,5 +66,29 @@ class VisionExecutionPlannerTest {
         assertEquals("schedule_mode", candidate.getNextRequiredSlot());
         assertEquals("Missing required field: schedule_mode.", candidate.getBlockingReason());
         assertEquals("Collect schedule_mode next.", candidate.getSummary());
+    }
+
+    @Test
+    void flagsLowConfidenceCreateQuestDraftBeforeReview() {
+        VisionProperties visionProperties = new VisionProperties();
+        VisionExecutionPlanner planner = new VisionExecutionPlanner(new VisionClarificationService(), new VisionSemanticRouteCatalogService(), visionProperties);
+        AppUser user = new AppUser();
+        user.setId(7L);
+
+        VisionExecutionCandidateDTO candidate = planner.plan(
+                VisionConversationTestBuilder.createQuest(3L, user)
+                        .slots(VisionSlotStatePresets.createQuestReviewReadyProfileLocation())
+                        .build(),
+                VisionPromptUnderstandingResult.builder()
+                        .semanticPlan(VisionSemanticPlan.createQuest(0.42d, "too vague"))
+                        .build()
+        );
+
+        assertEquals("CREATE_QUEST", candidate.getCandidateIntent());
+        assertFalse(candidate.isReviewReady());
+        assertFalse(candidate.isExecutionReady());
+        assertEquals("quest_title", candidate.getNextRequiredSlot());
+        assertEquals("Need a clearer quest title or task before review.", candidate.getBlockingReason());
+        assertEquals("Collect quest_title next.", candidate.getSummary());
     }
 }

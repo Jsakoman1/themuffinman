@@ -3,16 +3,22 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.semantic.SemanticAliasRegistry;
+import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.location.service.LocationLookupService;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
+import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
+import com.themuffinman.app.things.dto.ThingListingResponseDTO;
+import com.themuffinman.app.things.service.ThingSharingService;
 import com.themuffinman.app.testing.TestFixtures;
 import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
 import com.themuffinman.app.chat.dto.ChatConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
+import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionConversationStatus;
 import com.themuffinman.app.vision.model.VisionNextAction;
@@ -26,6 +32,7 @@ import com.themuffinman.app.vision.testing.VisionSlotStatePresets;
 import com.themuffinman.app.vision.model.Quest;
 import com.themuffinman.app.vision.dto.QuestListResponseDTO;
 import com.themuffinman.app.vision.service.QuestReadService;
+import com.themuffinman.app.vision.service.QuestApplicationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -83,6 +90,18 @@ class VisionConversationServiceTest {
     @Mock
     private LocationLookupService locationLookupService;
 
+    @Mock
+    private CircleReadService circleReadService;
+
+    @Mock
+    private ThingSharingService thingSharingService;
+
+    @Mock
+    private QuestApplicationService questApplicationService;
+
+    @Mock
+    private AppUserRepository appUserRepository;
+
     private VisionConversationService visionConversationService;
     private AtomicLong conversationIds;
     private AtomicLong turnIds;
@@ -107,14 +126,25 @@ class VisionConversationServiceTest {
         VisionSlotService visionSlotService = new VisionSlotService(visionScheduleParserService, visionLocationResolutionService, visionSemanticMapper);
         VisionClarificationService visionClarificationService = new VisionClarificationService();
         VisionCanvasAssembler visionCanvasAssembler = new VisionCanvasAssembler(visionProperties);
-        VisionExecutionPlanner visionExecutionPlanner = new VisionExecutionPlanner(visionClarificationService, visionProperties);
+        VisionExecutionPlanner visionExecutionPlanner = new VisionExecutionPlanner(visionClarificationService, visionSemanticRouteCatalogService, visionProperties);
         VisionQuestDiscoveryService visionQuestDiscoveryService = new VisionQuestDiscoveryService(questReadService, semanticAliasRegistry);
+        VisionSearchDiscoveryService visionSearchDiscoveryService = new VisionSearchDiscoveryService(
+                questReadService,
+                circleReadService,
+                thingSharingService,
+                questApplicationService,
+                appUserRepository,
+                semanticAliasRegistry
+        );
         VisionSemanticOrchestrationContextService visionSemanticOrchestrationContextService =
                 new VisionSemanticOrchestrationContextService(new com.themuffinman.app.config.VoiceProperties(), visionConversationRepository, visionTurnRepository);
         VisionSurfacePolicy visionSurfacePolicy = new VisionSurfacePolicy(visionProperties);
+        lenient().when(visionCreateQuestExecutionAdapter.capabilityId()).thenReturn("create_quest");
+        VisionCreateCircleExecutionAdapter visionCreateCircleExecutionAdapter =
+                new VisionCreateCircleExecutionAdapter(visionCapabilityPreviewService);
         VisionExecutionService visionExecutionService = new VisionExecutionService(
                 visionSurfacePolicy,
-                visionCreateQuestExecutionAdapter
+                List.of(visionCreateQuestExecutionAdapter, visionCreateCircleExecutionAdapter)
         );
         currentUser = TestFixtures.user(7L, "vision-user");
 
@@ -184,12 +214,14 @@ class VisionConversationServiceTest {
                 visionCanvasAssembler,
                 visionExecutionPlanner,
                 visionQuestDiscoveryService,
+                visionSearchDiscoveryService,
                 visionExecutionService,
                 visionChatExecutionService,
                 visionCapabilityPreviewService,
                 visionPromptUnderstandingService,
                 visionSemanticOrchestrationContextService,
                 visionSemanticMapper,
+                visionSemanticRouteCatalogService,
                 visionSurfacePolicy,
                 visionProperties
         );
@@ -210,6 +242,11 @@ class VisionConversationServiceTest {
                 any(),
                 any()
         )).thenReturn(QuestListResponseDTO.builder().items(List.of()).page(0).size(5).totalItems(0).totalPages(0).build());
+
+        lenient().when(circleReadService.getCircles(any())).thenReturn(List.of());
+        lenient().when(thingSharingService.getAvailableListings(any())).thenReturn(ThingListingListResponseDTO.builder().items(List.of()).build());
+        lenient().when(questApplicationService.getApplicationsForApplicant(any())).thenReturn(List.of());
+        lenient().when(appUserRepository.searchByUsernameOrEmail(any())).thenReturn(List.of());
 
         lenient().when(visionPromptUnderstandingService.understandPrompt(any(), any(), any(), any()))
                 .thenAnswer(invocation -> understanding(invocation.getArgument(0), invocation.getArgument(1)));
@@ -388,6 +425,39 @@ class VisionConversationServiceTest {
         assertTrue(response.getBlocks().stream().anyMatch(block ->
                 "result_summary".equals(block.getType())
                         && "Quest news".equals(block.getTitle())));
+    }
+
+    @Test
+    void notificationsPromptRoutesIntoReadOnlyNotificationsPreview() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewNotifications(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_notifications")
+                        .title("Notifications")
+                        .summary("Showing your notifications inbox.")
+                        .items(List.of(
+                                com.themuffinman.app.vision.dto.VisionSlotSummaryDTO.builder()
+                                        .slotId("notifications_unread")
+                                        .label("Unread")
+                                        .value("2")
+                                        .build()
+                        ))
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show notifications")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_NOTIFICATIONS", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertTrue(response.getBlocks().stream().anyMatch(block ->
+                "result_summary".equals(block.getType())
+                        && "Notifications".equals(block.getTitle())));
     }
 
     @Test
@@ -1291,6 +1361,53 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void searchTurnReturnsCrossEntitySearchCanvas() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L);
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("find people who can help move sofa")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("SEARCH", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertEquals("results", response.getCanvasMode());
+        assertNotNull(response.getSearchDiscovery());
+        assertEquals("search", response.getSearchDiscovery().getCapabilityId());
+        assertTrue(response.getBlocks().stream().anyMatch(block -> "search_discovery".equals(block.getType())));
+    }
+
+    @Test
+    void thingsTurnReturnsReadOnlyThingsCanvas() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L);
+        when(thingSharingService.getAvailableListings(currentUser)).thenReturn(
+                ThingListingListResponseDTO.builder()
+                        .items(List.of(
+                                ThingListingResponseDTO.builder()
+                                        .id(22L)
+                                        .title("Sofa trolley")
+                                        .description("Moves a sofa")
+                                        .ownerUsername("alex")
+                                        .available(true)
+                                        .build()
+                        ))
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show available listings")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_THINGS", response.getIntent());
+        assertEquals("Showing your things snapshot. You can say show available listings, open a listing, or share a thing.", response.getMessage());
+    }
+
+    @Test
     void switchesConversationIntentWhenPromptChangesTaskType() {
         VisionConversation conversation = createQuestConversation(88L, "quest_title");
         when(visionConversationRepository.findByIdAndOwner(88L, currentUser)).thenReturn(Optional.of(conversation));
@@ -1482,6 +1599,58 @@ class VisionConversationServiceTest {
         assertEquals("What should the quest be called?", response.getMessage());
         assertEquals("clarification", response.getCanvasMode());
         assertEquals("field_request", response.getBlocks().get(response.getBlocks().size() - 1).getType());
+    }
+
+    @Test
+    void lowConfidenceCreateQuestDraftAsksForClarificationInsteadOfReviewing() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L);
+        when(visionPromptUnderstandingService.understandPrompt(
+                org.mockito.ArgumentMatchers.eq("Create a quest to move a sofa"),
+                any(),
+                any(),
+                any()
+        )).thenReturn(VisionPromptUnderstandingResult.builder()
+                .sourceLanguage("en")
+                .originalPrompt("Create a quest to move a sofa")
+                .normalizedPrompt("Create a quest to move a sofa")
+                .translationProvider("mock")
+                .translationApplied(false)
+                .translationReliable(true)
+                .semanticPlan(VisionSemanticPlan.createQuest(0.42d, "low confidence create quest"))
+                .slots(VisionPromptUnderstandingSlots.builder()
+                        .questTitle("Move a sofa")
+                        .questTitleConfidence(1.0d)
+                        .questDescription("Move a sofa from one room to another.")
+                        .questDescriptionConfidence(1.0d)
+                        .visibility("PUBLIC")
+                        .visibilityConfidence(1.0d)
+                        .reward(VisionPromptUnderstandingRewardSlots.builder()
+                                .amount("0")
+                                .amountConfidence(1.0d)
+                                .build())
+                        .schedule(VisionPromptUnderstandingScheduleSlots.builder()
+                                .mode("agreement")
+                                .modeConfidence(1.0d)
+                                .build())
+                        .location(VisionPromptUnderstandingLocationSlots.builder()
+                                .mode("off")
+                                .modeConfidence(1.0d)
+                                .build())
+                        .build())
+                .build());
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("Create a quest to move a sofa")
+                        .source("text")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("ASK_FOR_SLOT", response.getNextAction());
+        assertEquals("quest_title", response.getRequestedSlot());
+        assertEquals("I can draft the quest, but I need a clearer title or task before I can review it.", response.getMessage());
+        assertEquals("clarification", response.getCanvasMode());
     }
 
     @Test
@@ -2054,7 +2223,9 @@ class VisionConversationServiceTest {
 
         when(visionConversationRepository.findByIdAndOwner(77L, currentUser)).thenReturn(Optional.of(conversation));
         when(visionTurnRepository.countByConversation(conversation)).thenReturn(4L, 4L);
-        when(visionCreateQuestExecutionAdapter.execute(conversation.getSlotData(), currentUser)).thenReturn(createdQuest);
+        when(visionCreateQuestExecutionAdapter.execute(conversation)).thenReturn(
+                VisionExecutionResult.executed("create_quest", createdQuest)
+        );
 
         VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()

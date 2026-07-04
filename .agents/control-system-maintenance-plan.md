@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: draft
+machine_status: complete
 machine_title: Control System Maintenance Plan
 machine_goal: Keep the active planning surface small and current.
 ---
@@ -19,9 +19,9 @@ Purpose: keep the rebuilt control plane trimmed and accurate over time.
 
 ## Implementation Slices
 
-- [ ] Slice 1: define how stale plans are archived or removed.
-- [ ] Slice 2: keep the open-plan index and plan-index summary aligned with active work.
-- [ ] Slice 3: prune old bootstrap notes once the first real workstream lands.
+- [x] Slice 1: define how stale plans are archived or removed.
+- [x] Slice 2: keep the open-plan index and plan-index summary aligned with active work.
+- [x] Slice 3: prune old bootstrap notes once the first real workstream lands.
 
 ## Validation Plan
 
@@ -46,10 +46,9 @@ Purpose: keep the rebuilt control plane trimmed and accurate over time.
 
 ## Completion Evidence
 
-- Status: draft
-- Changed files: none yet
-- Validation evidence: not run
-- Doc delta summary: defines the maintenance slice
+- Status: complete
+- Changed files: `.agents/control-system-maintenance-plan.md`, `.agents/open-plan-quick-index.md`, `docs/generated/local-tooling/plan-index.json`, `docs/generated/local-tooling/plan-index-summary.md`
+- Validation evidence: `make plan-index`, `make control-start`, `make audit-todo`
+- Doc delta summary: the compact open-plan routing surface is now current, and the quick index is explicitly treated as a convenience mirror of the generated routing snapshot
 - Backlog update: none
 - Residual risk: maintenance can drift if it is not periodically executed
-

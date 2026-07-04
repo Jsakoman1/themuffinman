@@ -152,6 +152,7 @@ The key rule is that the surface should match the user's current need rather tha
 - The UI should make the useful thing obvious before making the mechanism obvious.
 - Everything shown on screen should be useful in that exact moment.
 - Information density should expand and contract based on user intent, not based on a fixed page template.
+- The system should learn durable user preferences and correction patterns over time, but only through explicit backend memory and feedback capture rather than silent policy drift.
 
 ## Frontend Epics
 

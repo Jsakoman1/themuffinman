@@ -1,0 +1,273 @@
+package com.themuffinman.app.vision.service;
+
+import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.vision.model.VisionConversationAction;
+import com.themuffinman.app.vision.model.VisionConversation;
+import com.themuffinman.app.vision.model.VisionMemoryFeedbackEvent;
+import com.themuffinman.app.vision.model.VisionMemoryFeedbackType;
+import com.themuffinman.app.vision.model.VisionMemorySummary;
+import com.themuffinman.app.vision.model.VisionMemorySummaryKind;
+import com.themuffinman.app.vision.model.VisionTurn;
+import com.themuffinman.app.vision.model.VisionTurnSource;
+import com.themuffinman.app.vision.model.VisionUserPreference;
+import com.themuffinman.app.vision.repository.VisionMemoryFeedbackEventRepository;
+import com.themuffinman.app.vision.repository.VisionMemorySummaryRepository;
+import com.themuffinman.app.vision.repository.VisionUserPreferenceRepository;
+import com.themuffinman.app.config.VisionProperties;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+
+@Service
+public class VisionLearningService {
+
+    private final VisionUserPreferenceRepository visionUserPreferenceRepository;
+    private final VisionMemoryFeedbackEventRepository visionMemoryFeedbackEventRepository;
+    private final VisionMemorySummaryRepository visionMemorySummaryRepository;
+    private final VisionProperties visionProperties;
+
+    public VisionLearningService(
+            VisionUserPreferenceRepository visionUserPreferenceRepository,
+            VisionMemoryFeedbackEventRepository visionMemoryFeedbackEventRepository,
+            VisionMemorySummaryRepository visionMemorySummaryRepository,
+            VisionProperties visionProperties
+    ) {
+        this.visionUserPreferenceRepository = visionUserPreferenceRepository;
+        this.visionMemoryFeedbackEventRepository = visionMemoryFeedbackEventRepository;
+        this.visionMemorySummaryRepository = visionMemorySummaryRepository;
+        this.visionProperties = visionProperties;
+    }
+
+    @Transactional
+    public void recordTurnOutcome(
+            AppUser currentUser,
+            VisionConversation conversation,
+            VisionTurn turn,
+            VisionPromptUnderstandingResult understanding,
+            VisionSemanticRuntimeHints runtimeHints,
+            VisionConversationAction action
+    ) {
+        if (currentUser == null || conversation == null || turn == null) {
+            return;
+        }
+
+        VisionMemoryFeedbackType feedbackType = determineFeedbackType(conversation, turn, action);
+        createFeedbackEvent(currentUser, conversation, turn, feedbackType);
+        updatePreferences(currentUser, conversation, turn, understanding, runtimeHints, feedbackType);
+    }
+
+    @Transactional
+    public void compactMemoryForUser(AppUser user) {
+        if (user == null) {
+            return;
+        }
+
+        List<VisionUserPreference> preferences = new ArrayList<>(visionUserPreferenceRepository.findByUser(user));
+        preferences.sort(Comparator.comparingInt(VisionUserPreference::getObservationCount).reversed()
+                .thenComparing(VisionUserPreference::getLastObservedAt, Comparator.nullsLast(Comparator.reverseOrder())));
+
+        List<VisionMemoryFeedbackEvent> feedbackEvents = visionMemoryFeedbackEventRepository.findTop20ByUserOrderByCreatedAtDesc(user);
+        if (preferences.isEmpty() && feedbackEvents.isEmpty()) {
+            return;
+        }
+
+        int summaryWindow = visionProperties.getMemory() == null ? 5 : visionProperties.getMemory().getSummaryWindow();
+        int feedbackWindow = visionProperties.getMemory() == null ? 20 : visionProperties.getMemory().getRecentFeedbackWindow();
+        String summaryText = buildSummaryText(preferences, feedbackEvents, summaryWindow, feedbackWindow);
+        Instant now = Instant.now();
+        VisionMemorySummary summary = new VisionMemorySummary();
+        summary.setUser(user);
+        summary.setSummaryKind(VisionMemorySummaryKind.ROLLUP);
+        summary.setSummaryText(summaryText);
+        summary.setSourceCount(preferences.size() + feedbackEvents.size());
+        summary.setSourceWindowEndedAt(now);
+        summary.setSourceWindowStartedAt(oldestTimestamp(preferences, feedbackEvents));
+        visionMemorySummaryRepository.save(summary);
+    }
+
+    public String latestSummaryText(AppUser user) {
+        if (user == null) {
+            return null;
+        }
+
+        return visionMemorySummaryRepository.findTopByUserOrderByCreatedAtDesc(user)
+                .map(VisionMemorySummary::getSummaryText)
+                .orElse(null);
+    }
+
+    public List<String> recentFeedbackTypes(AppUser user) {
+        if (user == null) {
+            return List.of();
+        }
+
+        return visionMemoryFeedbackEventRepository.findTop20ByUserOrderByCreatedAtDesc(user).stream()
+                .map(event -> event.getFeedbackType() == null ? null : event.getFeedbackType().name())
+                .filter(value -> value != null && !value.isBlank())
+                .distinct()
+                .limit(3)
+                .toList();
+    }
+
+    private VisionMemoryFeedbackType determineFeedbackType(VisionConversation conversation, VisionTurn turn, VisionConversationAction action) {
+        if (action == VisionConversationAction.REQUEST_REVIEW_EDIT) {
+            return VisionMemoryFeedbackType.CORRECTION;
+        }
+        if (conversation.getStatus() != null && conversation.getStatus().name().equals("COMPLETED")) {
+            return VisionMemoryFeedbackType.EXECUTED;
+        }
+        if (conversation.getStatus() != null && conversation.getStatus().name().equals("BLOCKED")) {
+            return VisionMemoryFeedbackType.BLOCKED;
+        }
+        if (turn.getAgentState() != null && turn.getAgentState().name().equals("REVIEW_READY")) {
+            return VisionMemoryFeedbackType.CONFIRMATION;
+        }
+        if (turn.getSource() == VisionTurnSource.VOICE) {
+            return VisionMemoryFeedbackType.INTERACTION;
+        }
+        return VisionMemoryFeedbackType.INTERACTION;
+    }
+
+    private void createFeedbackEvent(
+            AppUser currentUser,
+            VisionConversation conversation,
+            VisionTurn turn,
+            VisionMemoryFeedbackType feedbackType
+    ) {
+        VisionMemoryFeedbackEvent event = new VisionMemoryFeedbackEvent();
+        event.setUser(currentUser);
+        event.setConversation(conversation);
+        event.setTurn(turn);
+        event.setFeedbackType(feedbackType);
+        event.setIntent(turn.getDetectedIntent());
+        event.setRequestedSlot(turn.getRequestedSlot());
+        event.setPrompt(turn.getPrompt());
+        event.setNormalizedPrompt(turn.getNormalizedPrompt());
+        event.setAssistantMessage(turn.getAssistantMessage());
+        event.setDetails(buildFeedbackDetails(conversation, turn, feedbackType));
+        visionMemoryFeedbackEventRepository.save(event);
+    }
+
+    private void updatePreferences(
+            AppUser currentUser,
+            VisionConversation conversation,
+            VisionTurn turn,
+            VisionPromptUnderstandingResult understanding,
+            VisionSemanticRuntimeHints runtimeHints,
+            VisionMemoryFeedbackType feedbackType
+    ) {
+        Instant now = Instant.now();
+        upsertPreference(currentUser, "preferred_input_type", normalize(runtimeHints == null ? null : runtimeHints.getInputType()), "runtime", now);
+        upsertPreference(currentUser, "preferred_language", normalize(understanding == null ? null : understanding.getSourceLanguage()), "understanding", now);
+        upsertPreference(currentUser, "last_intent", normalize(turn.getDetectedIntent() == null ? null : turn.getDetectedIntent().name()), "turn", now);
+        upsertPreference(currentUser, "last_entity_family", normalize(entityFamilyFor(turn.getDetectedIntent())), "turn", now);
+        upsertPreference(currentUser, "last_requested_slot", normalize(turn.getRequestedSlot()), "turn", now);
+        upsertPreference(currentUser, "last_feedback_type", normalize(feedbackType.name()), "feedback", now);
+        upsertPreference(currentUser, "last_conversation_status", normalize(conversation.getStatus() == null ? null : conversation.getStatus().name()), "conversation", now);
+    }
+
+    private void upsertPreference(AppUser user, String preferenceKey, String preferenceValue, String sourceType, Instant observedAt) {
+        if (user == null || preferenceKey == null || preferenceKey.isBlank() || preferenceValue == null || preferenceValue.isBlank()) {
+            return;
+        }
+
+        VisionUserPreference preference = visionUserPreferenceRepository.findByUserAndPreferenceKey(user, preferenceKey)
+                .orElseGet(VisionUserPreference::new);
+        boolean isNew = preference.getId() == null;
+        preference.setUser(user);
+        preference.setPreferenceKey(preferenceKey);
+        preference.setPreferenceValue(preferenceValue);
+        preference.setSourceType(sourceType == null || sourceType.isBlank() ? "turn" : sourceType.trim());
+        preference.setObservationCount(isNew ? 1 : preference.getObservationCount() + 1);
+        preference.setLastObservedAt(observedAt);
+        if (!isNew) {
+            preference.setUpdatedAt(observedAt);
+        }
+        visionUserPreferenceRepository.save(preference);
+    }
+
+    private String buildFeedbackDetails(VisionConversation conversation, VisionTurn turn, VisionMemoryFeedbackType feedbackType) {
+        List<String> parts = new ArrayList<>();
+        if (feedbackType != null) {
+            parts.add("type=" + feedbackType.name());
+        }
+        if (conversation.getIntent() != null) {
+            parts.add("intent=" + conversation.getIntent().name());
+        }
+        if (turn.getRequestedSlot() != null && !turn.getRequestedSlot().isBlank()) {
+            parts.add("requestedSlot=" + turn.getRequestedSlot());
+        }
+        if (turn.getSource() != null) {
+            parts.add("source=" + turn.getSource().name().toLowerCase(Locale.ROOT));
+        }
+        return String.join("; ", parts);
+    }
+
+    private String buildSummaryText(
+            List<VisionUserPreference> preferences,
+            List<VisionMemoryFeedbackEvent> feedbackEvents,
+            int summaryWindow,
+            int feedbackWindow
+    ) {
+        List<String> summaryParts = new ArrayList<>();
+        if (!preferences.isEmpty()) {
+            summaryParts.add("Top preferences: " + preferences.stream()
+                    .limit(Math.max(1, summaryWindow))
+                    .map(preference -> preference.getPreferenceKey() + "=" + preference.getPreferenceValue())
+                    .toList());
+        }
+        if (!feedbackEvents.isEmpty()) {
+            summaryParts.add("Recent feedback: " + feedbackEvents.stream()
+                    .limit(Math.max(1, feedbackWindow))
+                    .map(event -> event.getFeedbackType() == null ? "unknown" : event.getFeedbackType().name().toLowerCase(Locale.ROOT))
+                    .toList());
+        }
+        return String.join(" | ", summaryParts);
+    }
+
+    private Instant oldestTimestamp(List<VisionUserPreference> preferences, List<VisionMemoryFeedbackEvent> feedbackEvents) {
+        Instant oldest = Instant.now();
+        for (VisionUserPreference preference : preferences) {
+            if (preference.getLastObservedAt() != null && preference.getLastObservedAt().isBefore(oldest)) {
+                oldest = preference.getLastObservedAt();
+            }
+        }
+        for (VisionMemoryFeedbackEvent event : feedbackEvents) {
+            if (event.getCreatedAt() != null && event.getCreatedAt().isBefore(oldest)) {
+                oldest = event.getCreatedAt();
+            }
+        }
+        return oldest;
+    }
+
+    private String normalize(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        return value.trim().toLowerCase(Locale.ROOT);
+    }
+
+    private String entityFamilyFor(com.themuffinman.app.vision.model.VisionIntent intent) {
+        if (intent == null) {
+            return null;
+        }
+        return switch (intent) {
+            case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> "profile";
+            case VIEW_NOTIFICATIONS -> "notifications";
+            case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
+                    DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
+            case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
+                    WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
+            case DISCOVER_QUESTS, CREATE_QUEST, VIEW_QUEST_DETAIL -> "quests";
+            case VIEW_QUEST_NEWS -> "quest news";
+            case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> "chat";
+            case SEARCH -> "search";
+            default -> "other";
+        };
+    }
+}

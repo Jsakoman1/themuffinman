@@ -13,10 +13,16 @@ import java.util.Map;
 public class VisionExecutionPlanner {
 
     private final VisionClarificationService visionClarificationService;
+    private final VisionSemanticRouteCatalogService visionSemanticRouteCatalogService;
     private final VisionProperties visionProperties;
 
-    public VisionExecutionPlanner(VisionClarificationService visionClarificationService, VisionProperties visionProperties) {
+    public VisionExecutionPlanner(
+            VisionClarificationService visionClarificationService,
+            VisionSemanticRouteCatalogService visionSemanticRouteCatalogService,
+            VisionProperties visionProperties
+    ) {
         this.visionClarificationService = visionClarificationService;
+        this.visionSemanticRouteCatalogService = visionSemanticRouteCatalogService;
         this.visionProperties = visionProperties;
     }
 
@@ -74,11 +80,15 @@ public class VisionExecutionPlanner {
         String nextRequiredSlot = conversation.getStatus() == VisionConversationStatus.REVIEW_READY
                 ? null
                 : visionClarificationService.nextMissingCreateQuestSlot(slotData);
+        boolean lowConfidence = isLowConfidenceCreateQuestUnderstanding(understanding);
         boolean reviewReady = conversation.getStatus() == VisionConversationStatus.REVIEW_READY;
         boolean executionReady = reviewReady && visionProperties.isExecutionEnabled();
         boolean confirmationRequired = reviewReady;
         String blockingReason;
-        if (!reviewReady) {
+        if (nextRequiredSlot == null && lowConfidence && !reviewReady) {
+            nextRequiredSlot = "quest_title";
+            blockingReason = "Need a clearer quest title or task before review.";
+        } else if (!reviewReady) {
             blockingReason = nextRequiredSlot == null
                     ? "Continue collecting quest details."
                     : "Missing required field: " + nextRequiredSlot + ".";
@@ -113,5 +123,19 @@ public class VisionExecutionPlanner {
             return "Collect " + nextRequiredSlot + " next.";
         }
         return "Continue collecting quest details.";
+    }
+
+    private boolean isLowConfidenceCreateQuestUnderstanding(VisionPromptUnderstandingResult understanding) {
+        if (understanding == null || understanding.semanticPlanOrEmpty() == null) {
+            return false;
+        }
+        if (understanding.semanticPlanOrEmpty().candidateIntentOrUnsupported() != VisionIntent.CREATE_QUEST) {
+            return false;
+        }
+        Double confidence = understanding.semanticPlanOrEmpty().getCandidateIntentConfidence();
+        if (confidence == null) {
+            return false;
+        }
+        return confidence < visionSemanticRouteCatalogService.minimumConfidenceForIntent(VisionIntent.CREATE_QUEST);
     }
 }

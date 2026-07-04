@@ -25,6 +25,10 @@ public final class VisionConversationTestBuilder {
         return new VisionConversationTestBuilder(id, owner, VisionIntent.CREATE_QUEST);
     }
 
+    public static VisionConversationTestBuilder createCircle(Long id, AppUser owner) {
+        return new VisionConversationTestBuilder(id, owner, VisionIntent.CREATE_CIRCLE);
+    }
+
     public VisionConversationTestBuilder requestedSlot(String requestedSlot) {
         conversation.setRequestedSlot(requestedSlot);
         return this;

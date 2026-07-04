@@ -10,6 +10,7 @@ import com.themuffinman.app.vision.dto.VisionMemoryTrailDTO;
 import com.themuffinman.app.vision.dto.VisionOptionDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestReviewDTO;
+import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionTurn;
@@ -40,6 +41,7 @@ public class VisionCanvasAssembler {
             List<VisionConversationSummaryDTO> recentConversations,
             VisionExecutionCandidateDTO executionCandidate,
             VisionQuestDiscoveryDTO questDiscovery,
+            VisionSearchDiscoveryDTO searchDiscovery,
             VisionCapabilityPreviewDTO capabilityPreview,
             VisionMemoryTrailDTO memoryTrail
     ) {
@@ -60,8 +62,9 @@ public class VisionCanvasAssembler {
                 .executionEnabled(visionProperties.isExecutionEnabled())
                 .executionCandidate(executionCandidate)
                 .questDiscovery(questDiscovery)
+                .searchDiscovery(searchDiscovery)
                 .memoryTrail(memoryTrail)
-                .blocks(toBlocks(conversation, turn, questDiscovery, capabilityPreview))
+                .blocks(toBlocks(conversation, turn, questDiscovery, searchDiscovery, capabilityPreview))
                 .appliedSlotSummaries(toAppliedSlotSummaries(conversation.getSlotData(), turn.getAppliedSlotIds()))
                 .slotSummaries(toSlotSummaries(conversation.getSlotData()))
                 .review(toReview(conversation.getSlotData(), turn))
@@ -83,6 +86,7 @@ public class VisionCanvasAssembler {
             VisionConversation conversation,
             VisionTurn turn,
             VisionQuestDiscoveryDTO questDiscovery,
+            VisionSearchDiscoveryDTO searchDiscovery,
             VisionCapabilityPreviewDTO capabilityPreview
     ) {
         List<VisionCanvasBlockDTO> blocks = new ArrayList<>();
@@ -113,6 +117,16 @@ public class VisionCanvasAssembler {
                     .title("Quest discovery")
                     .body(questDiscovery.getSummary())
                     .questDiscovery(questDiscovery)
+                    .tone("info")
+                    .build());
+        }
+
+        if (searchDiscovery != null) {
+            blocks.add(VisionCanvasBlockDTO.builder()
+                    .type("search_discovery")
+                    .title("Search results")
+                    .body(searchDiscovery.getSummary())
+                    .searchDiscovery(searchDiscovery)
                     .tone("info")
                     .build());
         }

@@ -28,7 +28,7 @@ public class VisionSurfacePolicy implements AgentSurfacePolicy {
     @Override
     public boolean canExecuteCapability(String capabilityId) {
         return visionProperties.isExecutionEnabled()
-                && "create_quest".equals(capabilityId);
+                && ("create_quest".equals(capabilityId) || "create_circle".equals(capabilityId));
     }
 
     @Override
@@ -38,6 +38,6 @@ public class VisionSurfacePolicy implements AgentSurfacePolicy {
 
     @Override
     public boolean requiresExplicitConfirmation(String capabilityId) {
-        return "create_quest".equals(capabilityId);
+        return "create_quest".equals(capabilityId) || "create_circle".equals(capabilityId);
     }
 }

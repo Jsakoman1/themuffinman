@@ -24,6 +24,7 @@ public class VisionCanvasBlockDTO {
     private List<VisionOptionDTO> options;
     private List<VisionSlotSummaryDTO> items;
     private VisionQuestDiscoveryDTO questDiscovery;
+    private VisionSearchDiscoveryDTO searchDiscovery;
     private VisionQuestReviewDTO review;
     private String tone;
 }

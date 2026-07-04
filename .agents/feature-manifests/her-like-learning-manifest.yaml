@@ -1,0 +1,98 @@
+featureId: her-like-learning
+title: Her-like learning loop
+workflowTier: tier3-high-risk-multi-layer
+manifestDecision: required
+status: draft
+riskTier: medium
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - backend-logic
+  - domain-docs
+  - product-docs
+planFile: .agents/her-like-learning-plan.md
+summary:
+  - Added durable preference, feedback, and memory summary tables for Vision learning.
+  - Wired turn processing into a backend learning service that records feedback and preference signals.
+  - Extended semantic context and prompt understanding to consume learned preference signals and memory summaries.
+validationEvidence:
+  commands:
+    - command: ./mvnw -Dtest=VisionLearningServiceTest,VisionSemanticOrchestrationContextServiceTest,VisionConversationServiceTest test
+      scope: backend
+      result: passed
+      summary: Targeted learning-loop and conversation regression tests passed.
+    - command: ./mvnw -Dtest=VisionPromptUnderstandingServiceTest,VisionSemanticAuditMatrixTest,VisionLearningServiceTest,VisionSemanticOrchestrationContextServiceTest,VisionConversationServiceTest test
+      scope: backend
+      result: passed
+      summary: Broader vision semantic and memory regression tests passed.
+generatedArtifacts:
+  refreshedPaths: []
+  notApplicableReason: No generated artifact refresh was needed for the current implementation slice.
+planCompletion:
+  reviewed: false
+  openTasks: 0
+  summary: The implementation slice is ready for closeout review, but the manifest is still in draft because the repo has not been pushed or fully closed out yet.
+closeoutDecision:
+  status: pending
+  reason: The learning loop is implemented and validated, but the batch still needs final closeout, documentation sync review, and push/merge completion.
+docDelta:
+  behaviorChanged:
+    - Vision now stores durable preference rows and feedback events from turns.
+    - Vision now compacts learned preference and feedback history into summary rows.
+    - Semantic understanding now consumes learned user habits alongside session memory.
+  docsUpdated:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/product-memory.md
+    - docs/product-vision.md
+    - docs/vision-architecture-patterns.md
+  intentionallyUnchanged:
+    - Frontend contract surfaces.
+    - Agent operating model rules.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: false
+  docsSynced: true
+  agentModelSynced: false
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - apps/themuffinman/src/main/java/com/themuffinman/app/config/VisionProperties.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionMemoryFeedbackEvent.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionMemoryFeedbackType.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionMemorySummary.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionMemorySummaryKind.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionUserPreference.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionMemoryFeedbackEventRepository.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionMemorySummaryRepository.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionUserPreferenceRepository.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLearningService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionMemoryCompactionService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java
+  docPaths:
+    - docs/business-logic.md
+    - docs/domain-technical.md
+    - docs/product-memory.md
+    - docs/product-vision.md
+    - docs/vision-architecture-patterns.md
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLearningServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java
+  generatorCommands:
+    - none
+  auditCommands:
+    - ./mvnw -Dtest=VisionLearningServiceTest,VisionSemanticOrchestrationContextServiceTest,VisionConversationServiceTest test
+    - ./mvnw -Dtest=VisionPromptUnderstandingServiceTest,VisionSemanticAuditMatrixTest,VisionLearningServiceTest,VisionSemanticOrchestrationContextServiceTest,VisionConversationServiceTest test

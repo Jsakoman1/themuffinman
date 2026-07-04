@@ -37,7 +37,9 @@ public class VisionSemanticRouteCatalogService {
                 declineApplicationRoute(),
                 updateProfileRoute(),
                 updateProfileLocationRoute(),
+                searchRoute(),
                 discoverQuestsRoute(),
+                viewThingsRoute(),
                 openChatRoute(),
                 viewChatWorkspaceRoute(),
                 viewProfileRoute(),
@@ -46,6 +48,7 @@ public class VisionSemanticRouteCatalogService {
                 viewCirclesRoute(),
                 viewCircleDetailRoute(),
                 viewQuestDetailRoute(),
+                viewNotificationsRoute(),
                 viewQuestNewsRoute(),
                 viewApplicationsRoute(),
                 viewApplicationDetailRoute()
@@ -98,6 +101,7 @@ public class VisionSemanticRouteCatalogService {
         }
         return switch (intent) {
             case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> SemanticEntityFamily.QUEST;
+            case VIEW_NOTIFICATIONS -> SemanticEntityFamily.NOTIFICATIONS;
             case CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
                     UPDATE_CIRCLE, DELETE_CIRCLE, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL -> SemanticEntityFamily.CIRCLE;
             case CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION,
@@ -105,6 +109,8 @@ public class VisionSemanticRouteCatalogService {
             case VIEW_USER_PROFILE, OPEN_CHAT -> SemanticEntityFamily.USER;
             case VIEW_PROFILE, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> SemanticEntityFamily.PROFILE;
             case VIEW_SETTINGS -> SemanticEntityFamily.SETTINGS;
+            case VIEW_THINGS -> SemanticEntityFamily.UNKNOWN;
+            case SEARCH -> SemanticEntityFamily.UNKNOWN;
             default -> SemanticEntityFamily.UNKNOWN;
         };
     }
@@ -119,6 +125,7 @@ public class VisionSemanticRouteCatalogService {
             case CREATE_APPLICATION -> SemanticEntityFamily.QUEST;
             case UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, VIEW_APPLICATION_DETAIL -> SemanticEntityFamily.APPLICATION;
             case VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> SemanticEntityFamily.QUEST;
+            case VIEW_NOTIFICATIONS -> SemanticEntityFamily.UNKNOWN;
             default -> SemanticEntityFamily.UNKNOWN;
         };
     }
@@ -138,6 +145,7 @@ public class VisionSemanticRouteCatalogService {
             case UPDATE_PROFILE -> "AppUserRequestDTO";
             case UPDATE_PROFILE_LOCATION -> "UserLocationSettingsRequestDTO";
             case DISCOVER_QUESTS -> "VisionQuestDiscoveryDTO";
+            case SEARCH -> "VisionSearchDiscoveryDTO";
             case OPEN_CHAT -> "ChatConversationSummaryDTO";
             case VIEW_CHAT_WORKSPACE -> "ChatWorkspaceDTO";
             case VIEW_PROFILE -> "AppUserResponseDTO";
@@ -146,9 +154,11 @@ public class VisionSemanticRouteCatalogService {
             case VIEW_CIRCLES -> "CircleGroupResponseDTO";
             case VIEW_CIRCLE_DETAIL -> "CircleGroupResponseDTO";
             case VIEW_QUEST_DETAIL -> "QuestDetailResponseDTO";
+            case VIEW_NOTIFICATIONS -> "DashboardNotificationsSectionDTO";
             case VIEW_QUEST_NEWS -> "List<QuestNewsItemResponseDTO>";
             case VIEW_APPLICATIONS -> "QuestApplicationResponseDTO";
             case VIEW_APPLICATION_DETAIL -> "QuestApplicationDetailResponseDTO";
+            case VIEW_THINGS -> "ThingListingListResponseDTO";
             default -> "unknown";
         };
     }
@@ -174,8 +184,9 @@ public class VisionSemanticRouteCatalogService {
         return switch (intent) {
             case CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
                     UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
-                    APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> 0.80d;
-            case VIEW_QUEST_NEWS -> 0.70d;
+                    APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> 0.85d;
+            case VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS -> 0.70d;
+            case VIEW_THINGS -> 0.70d;
             default -> 0.75d;
         };
     }
@@ -203,9 +214,11 @@ public class VisionSemanticRouteCatalogService {
             case CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
                     UPDATE_CIRCLE, DELETE_CIRCLE,
                     CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
-                    APPROVE_APPLICATION, DECLINE_APPLICATION -> 0.85d;
+                    APPROVE_APPLICATION, DECLINE_APPLICATION -> 0.88d;
             case OPEN_CHAT, VIEW_USER_PROFILE, VIEW_CIRCLE_DETAIL, VIEW_QUEST_DETAIL, VIEW_APPLICATION_DETAIL -> 0.75d;
-            case VIEW_QUEST_NEWS -> 0.70d;
+            case SEARCH -> 0.75d;
+            case VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS -> 0.70d;
+            case VIEW_THINGS -> 0.70d;
             default -> 0.75d;
         };
     }
@@ -438,6 +451,34 @@ public class VisionSemanticRouteCatalogService {
                 .build();
     }
 
+    private VisionSemanticRouteDescriptor searchRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.search")
+                .entityType("search")
+                .intent("SEARCH")
+                .capabilityId("search")
+                .purpose("Read-only broad discovery across quests, circles, users, applications, and things.")
+                .mutating(false)
+                .requiresReview(false)
+                .slots(List.of(
+                        slot("search_query", "semanticPlan.searchQuery", "short_text", false, "Broad topic the user wants to explore.", List.of())
+                ))
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewThingsRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_things")
+                .entityType("thing")
+                .intent("VIEW_THINGS")
+                .capabilityId("view_things")
+                .purpose("Read-only catalog of available shared things inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .slots(List.of())
+                .build();
+    }
+
     private VisionSemanticRouteDescriptor discoverQuestsRoute() {
         return VisionSemanticRouteDescriptor.builder()
                 .routeKey("vision.discover_quests")
@@ -562,6 +603,19 @@ public class VisionSemanticRouteCatalogService {
                 .slots(List.of(
                         slot("target_quest_query", "questTarget.query", "quest_reference", true, "Quest id or quest title that identifies one visible quest.", List.of())
                 ))
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewNotificationsRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_notifications")
+                .entityType("notification")
+                .intent("VIEW_NOTIFICATIONS")
+                .capabilityId("view_notifications")
+                .purpose("Read-only notifications inbox for the authenticated user inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .slots(List.of())
                 .build();
     }
 

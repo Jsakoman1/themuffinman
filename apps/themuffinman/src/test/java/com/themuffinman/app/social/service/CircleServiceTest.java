@@ -80,6 +80,9 @@ class CircleServiceTest {
     );
 
     @Spy
+    private CircleSearchQueryService circleSearchQueryService = new CircleSearchQueryService();
+
+    @Spy
     private CircleAdminOverviewAssembler circleAdminOverviewAssembler = new CircleAdminOverviewAssembler(
             new SocialPresentationHelper()
     );
@@ -96,6 +99,7 @@ class CircleServiceTest {
                 appUserRepository,
                 circleRequestRepository,
                 circleViewAssembler,
+                circleSearchQueryService,
                 locationGeoService
         );
         circleReadService = new CircleReadService(
@@ -107,7 +111,8 @@ class CircleServiceTest {
                 circleRelationService,
                 circleRequestMgr,
                 circleAdminOverviewAssembler,
-                circleViewAssembler
+                circleViewAssembler,
+                circleSearchQueryService
         );
         circleService = new CircleService(
                 appUserLookupService,

@@ -565,6 +565,9 @@ public class VisionSlotService {
         if (lower.matches(".*\\bcandidate\\s+[1-3]\\b.*") || lower.matches(".*\\boption\\s+[1-3]\\b.*")) {
             return "resolved";
         }
+        if (containsAny(lower, "first", "1st", "second", "2nd", "third", "3rd", "prvi", "drugi", "treći", "treci")) {
+            return "resolved";
+        }
         if (containsAny(
                 lower,
                 "use resolved",
@@ -609,9 +612,13 @@ public class VisionSlotService {
 
     private String extractLocationCandidateKey(Map<String, String> slotData, String normalizedPrompt) {
         String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
-        Matcher matcher = Pattern.compile("\\b(?:candidate|option)\\s+([1-3])\\b").matcher(lower);
+        Matcher matcher = Pattern.compile("\\b(?:candidate|option|choice)\\s+([1-3])\\b").matcher(lower);
         if (matcher.find()) {
             return "pending_location_candidate_" + matcher.group(1);
+        }
+        Integer ordinal = extractOrdinalLocationCandidate(lower);
+        if (ordinal != null) {
+            return "pending_location_candidate_" + ordinal;
         }
         if ("1".equals(slotData.get("pending_location_candidate_count"))) {
             return "pending_location_candidate_1";
@@ -636,6 +643,19 @@ public class VisionSlotService {
                 "da"
         )) {
             return "pending_location_candidate_1";
+        }
+        return null;
+    }
+
+    private Integer extractOrdinalLocationCandidate(String lower) {
+        if (containsAny(lower, "first", "1st", "prvi", "prva", "prvo")) {
+            return 1;
+        }
+        if (containsAny(lower, "second", "2nd", "drugi", "druga", "drugo")) {
+            return 2;
+        }
+        if (containsAny(lower, "third", "3rd", "treci", "treći", "treća", "trece", "treće")) {
+            return 3;
         }
         return null;
     }

@@ -70,4 +70,25 @@ class VisionLocationParserServiceTest {
         assertEquals("8000", parsed.get("location_postal_code"));
         assertEquals("Zurich", parsed.get("location_locality"));
     }
+
+    @Test
+    void stripsLocationPrefixesBeforeParsingPlacePickerLabels() {
+        Map<String, String> parsed = parserService.parseCustomLocation("near Ban Jelacic Square");
+
+        assertEquals("Ban Jelacic Square", parsed.get("location_label"));
+        assertEquals("Ban Jelacic Square", parsed.get("location_street"));
+        assertNull(parsed.get("location_locality"));
+    }
+
+    @Test
+    void parsesPrefixedStructuredAddressIntoFields() {
+        Map<String, String> parsed = parserService.parseCustomLocation("address: Ilica 10, 10000 Zagreb, Croatia");
+
+        assertEquals("Ilica 10, 10000 Zagreb, Croatia", parsed.get("location_label"));
+        assertEquals("Ilica", parsed.get("location_street"));
+        assertEquals("10", parsed.get("location_house_number"));
+        assertEquals("10000", parsed.get("location_postal_code"));
+        assertEquals("Zagreb", parsed.get("location_locality"));
+        assertEquals("Croatia", parsed.get("location_country"));
+    }
 }

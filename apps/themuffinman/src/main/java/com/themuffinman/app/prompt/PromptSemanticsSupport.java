@@ -65,6 +65,9 @@ public class PromptSemanticsSupport {
         if (containsQuestDetailSignals(lower)) {
             return PromptSemanticPlan.viewQuestDetail(0.8d, "Local prompt signals match view_quest_detail.");
         }
+        if (containsNotificationsSignals(lower)) {
+            return PromptSemanticPlan.viewNotifications(0.8d, "Local prompt signals match view_notifications.");
+        }
         if (containsQuestNewsSignals(lower)) {
             return PromptSemanticPlan.viewQuestNews(0.8d, "Local prompt signals match view_quest_news.");
         }
@@ -228,11 +231,30 @@ public class PromptSemanticsSupport {
                 "open quest news",
                 "view my news",
                 "quest news",
-                "news feed",
-                "notifications",
+                "quest updates",
                 "updates",
                 "recent updates",
-                "activity feed");
+                "activity feed",
+                "quest feed",
+                "news feed");
+    }
+
+    private boolean containsNotificationsSignals(String value) {
+        return containsAny(value,
+                "notifications",
+                "my notifications",
+                "notification",
+                "view inbox",
+                "show inbox",
+                "open inbox",
+                "notification inbox",
+                "open notification center",
+                "notification center",
+                "notification hub",
+                "alerts inbox",
+                "alerts",
+                "alert center",
+                "unread notifications");
     }
 
     private boolean containsCircleCreateSignals(String value) {

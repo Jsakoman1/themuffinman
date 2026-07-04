@@ -37,10 +37,15 @@ public class VisionChatExecutionService {
             return VisionChatExecutionResult.blocked("Who should I open chat with?");
         }
 
-        AppUser targetUser = resolveTargetUser(currentUser, targetQuery);
-        if (targetUser == null) {
+        List<AppUser> matches = resolveTargetUserMatches(currentUser, targetQuery);
+        if (matches.isEmpty()) {
             return VisionChatExecutionResult.blocked("I could not identify a chat contact for \"" + targetQuery + "\".");
         }
+        if (matches.size() > 1) {
+            return VisionChatExecutionResult.blocked(buildAmbiguousTargetMessage(targetQuery, matches));
+        }
+
+        AppUser targetUser = matches.getFirst();
 
         try {
             ChatConversationSummaryDTO conversation = chatService.openConversation(
@@ -76,33 +81,41 @@ public class VisionChatExecutionService {
             return "";
         }
         String cleaned = value
-                .replaceAll("(?i)\\b(the|a|an|to|with|please)\\b", " ")
+                .replaceAll("(?i)\\b(the|a|an|to|with|please|user|users|person|people|profile|profiles|contact|contacts|member|members|account|accounts)\\b", " ")
                 .replaceAll("[,.;!?]", " ")
                 .replaceAll("\\s+", " ")
                 .trim();
         return cleaned;
     }
 
-    private AppUser resolveTargetUser(AppUser currentUser, String targetQuery) {
+    private List<AppUser> resolveTargetUserMatches(AppUser currentUser, String targetQuery) {
         String normalizedTargetQuery = targetQuery.toLowerCase(Locale.ROOT).trim();
-        List<AppUser> matches = appUserRepository.searchByUsernameOrEmail(normalizedTargetQuery);
-        matches = matches.stream()
+        List<AppUser> matches = appUserRepository.searchByUsernameOrEmail(normalizedTargetQuery).stream()
                 .filter(candidate -> candidate != null && !candidate.getId().equals(currentUser.getId()))
                 .toList();
-        if (matches.isEmpty()) {
-            return null;
+        if (matches.size() <= 1) {
+            return matches;
         }
         for (AppUser candidate : matches) {
             if (candidate.getUsername() != null && candidate.getUsername().equalsIgnoreCase(targetQuery)) {
-                return candidate;
+                return List.of(candidate);
             }
             if (candidate.getEmail() != null && candidate.getEmail().equalsIgnoreCase(targetQuery)) {
-                return candidate;
+                return List.of(candidate);
             }
         }
-        if (matches.size() == 1) {
-            return matches.getFirst();
-        }
-        return null;
+        return matches;
+    }
+
+    private String buildAmbiguousTargetMessage(String targetQuery, List<AppUser> matches) {
+        String suggestions = matches.stream()
+                .limit(3)
+                .map(candidate -> candidate.getUsername() == null || candidate.getUsername().isBlank()
+                        ? candidate.getEmail()
+                        : candidate.getUsername())
+                .reduce((left, right) -> left + ", " + right)
+                .orElse("matching contacts");
+        return "I found several possible chat contacts for \"" + targetQuery + "\": " + suggestions
+                + ". Say the exact username or email.";
     }
 }

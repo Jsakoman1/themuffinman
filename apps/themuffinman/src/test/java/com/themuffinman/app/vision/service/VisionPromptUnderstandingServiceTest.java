@@ -342,6 +342,32 @@ class VisionPromptUnderstandingServiceTest {
     }
 
     @Test
+    void defaultsOpenAiContractFieldsWhenModelOmitsThem() {
+        AgentProperties agentProperties = configuredOpenAiProperties();
+        VisionPromptUnderstandingService service = service(agentProperties, """
+                {
+                  "semanticPlan":{
+                    "candidateIntent":"VIEW_PROFILE",
+                    "candidateIntentConfidence":0.9,
+                    "capabilityId":"view_profile",
+                    "planningNote":"Model omitted contract fields."
+                  }
+                }
+                """);
+
+        AppUser user = new AppUser();
+        user.setId(7L);
+
+        VisionPromptUnderstandingResult result = service.understandPrompt("show my profile", null, user);
+
+        assertEquals("show my profile", result.getOriginalPrompt());
+        assertEquals("show my profile", result.getNormalizedPrompt());
+        assertEquals("unknown", result.getSourceLanguage());
+        assertEquals("openai", result.getTranslationProvider());
+        assertEquals("VIEW_PROFILE", result.semanticPlanOrEmpty().getCandidateIntent());
+    }
+
+    @Test
     void canonicalizesOpenAiTargetQueriesThroughSemanticAliases() {
         AgentProperties agentProperties = configuredOpenAiProperties();
         VisionPromptUnderstandingService service = service(
@@ -362,6 +388,28 @@ class VisionPromptUnderstandingServiceTest {
         assertEquals("CREATE_APPLICATION", result.semanticPlanOrEmpty().getCandidateIntent());
         assertEquals("wash my luggage", result.semanticEnvelopeOrEmpty().getTargetEntityQuery());
         assertEquals("wash my luggage", result.semanticEnvelopeOrEmpty().slotCandidatesOrEmpty().get("target_quest_query"));
+    }
+
+    @Test
+    void canonicalizesOpenAiUserTargetQueriesThroughSemanticAliases() {
+        AgentProperties agentProperties = configuredOpenAiProperties();
+        VisionPromptUnderstandingService service = service(
+                agentProperties,
+                buildSemanticPayload(
+                        "OPEN_CHAT",
+                        "open_chat",
+                        "open chat with Josip profile",
+                        "Josip profile"
+                )
+        );
+
+        AppUser user = new AppUser();
+        user.setId(7L);
+
+        VisionPromptUnderstandingResult result = service.understandPrompt("open chat with Josip profile", null, user);
+
+        assertEquals("OPEN_CHAT", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals("Josip user", result.semanticEnvelopeOrEmpty().getTargetEntityQuery());
     }
 
     @Test
@@ -443,6 +491,46 @@ class VisionPromptUnderstandingServiceTest {
         assertEquals(0.82d, result.semanticEnvelopeOrEmpty().getEntityResolutionConfidence());
         assertEquals(SemanticEntityResolutionStatus.RESOLVED, result.semanticEnvelopeOrEmpty().getEntityResolutionStatus());
         assertEquals("Josip", result.semanticEnvelopeOrEmpty().getEntityResolutionLabel());
+        assertTrue(result.semanticEnvelopeOrEmpty().isClarificationRequired());
+    }
+
+    @Test
+    void requiresClarificationWhenEntityResolutionConfidenceMatchesTheMutatingThreshold() {
+        AgentProperties agentProperties = configuredOpenAiProperties();
+        VisionPromptUnderstandingService service = service(
+                agentProperties,
+                buildSemanticPayload(
+                        "CREATE_CIRCLE_REQUEST",
+                        "create_circle_request",
+                        "send a circle request to friend",
+                        "friend"
+                ),
+                new VisionEntityResolverRegistry(List.of(new VisionEntityResolver<VisionResolvedUserTarget>() {
+                    @Override
+                    public SemanticEntityFamily family() {
+                        return SemanticEntityFamily.USER;
+                    }
+
+                    @Override
+                    public SemanticEntityResolution<VisionResolvedUserTarget> resolve(AppUser currentUser, String targetEntityQuery) {
+                        return SemanticEntityResolution.<VisionResolvedUserTarget>builder()
+                                .entityFamily(SemanticEntityFamily.USER)
+                                .status(SemanticEntityResolutionStatus.RESOLVED)
+                                .targetEntityQuery(targetEntityQuery)
+                                .entity(new VisionResolvedUserTarget(7L, "Josip", null))
+                                .canonicalLabel("Josip")
+                                .confidence(0.88d)
+                                .build();
+                    }
+                }), new SemanticAliasRegistry())
+        );
+
+        AppUser user = new AppUser();
+        user.setId(7L);
+        VisionPromptUnderstandingResult result = service.understandPrompt("send a circle request to friend", null, user);
+
+        assertEquals("CREATE_CIRCLE_REQUEST", result.semanticPlanOrEmpty().getCandidateIntent());
+        assertEquals(0.88d, result.semanticEnvelopeOrEmpty().getEntityResolutionConfidence());
         assertTrue(result.semanticEnvelopeOrEmpty().isClarificationRequired());
     }
 

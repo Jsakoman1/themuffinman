@@ -1,8 +1,15 @@
+---
+machine_kind: master-plan
+machine_status: complete
+machine_title: Control System Master Plan
+machine_goal: Rebuild a minimal, durable control system for planning, validation, and closeout after the total reset.
+---
+
 # Control System Master Plan
 
 ## Status
 
-In progress.
+Complete.
 
 ## Goal
 
@@ -43,15 +50,15 @@ What this means:
 
 1. `.agents/control-system-rebuild-plan.md`
 - Role: restore the minimal plan lifecycle, active-plan index, and closeout wiring.
-- Status: in progress
+- Status: complete
 
 2. `.agents/control-system-validation-plan.md`
 - Role: define the small set of validation and closeout commands that keep the control plane honest.
-- Status: in progress
+- Status: complete
 
 3. `.agents/control-system-maintenance-plan.md`
 - Role: keep the control plane trimmed, archived, and in sync with the current active plans.
-- Status: in progress
+- Status: complete
 
 ## Pros
 
@@ -79,8 +86,8 @@ What this means:
 
 ## Completion Evidence
 
-- Status: draft
-- Child plan status: draft
-- Validation evidence: not run
-- Doc delta summary: defines the rebuilt control-system direction
-- Deferred work: generated index regeneration is intentionally deferred until the first active workstream needs it
+- Status: complete
+- Child plan status: complete
+- Validation evidence: `make plan-index`, `make control-start`, `make audit-plan-completion plan=.agents/control-system-master-plan.md`
+- Doc delta summary: the control-system master plan now reflects the completed rebuild, validation, and maintenance slices
+- Deferred work: none

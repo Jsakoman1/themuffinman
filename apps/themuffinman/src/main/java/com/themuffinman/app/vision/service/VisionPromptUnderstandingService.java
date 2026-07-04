@@ -52,6 +52,7 @@ public class VisionPromptUnderstandingService {
             VisionIntent.VIEW_CIRCLES,
             VisionIntent.VIEW_CIRCLE_DETAIL,
             VisionIntent.VIEW_QUEST_DETAIL,
+            VisionIntent.VIEW_NOTIFICATIONS,
             VisionIntent.VIEW_QUEST_NEWS,
             VisionIntent.VIEW_APPLICATIONS,
             VisionIntent.VIEW_APPLICATION_DETAIL
@@ -145,22 +146,9 @@ public class VisionPromptUnderstandingService {
 
         try {
             VisionPromptUnderstandingResult understanding = objectMapper.readValue(outputText, VisionPromptUnderstandingResult.class);
-            understanding.setOriginalPrompt(orchestrationRequest.getRawPrompt());
-            understanding.setTranslationProvider(providerName());
+            alignUnderstandingContractDefaults(understanding, orchestrationRequest.getRawPrompt(), orchestrationRequest.getContractVersion(), providerName());
             understanding.setUnderstandingProvider(UNDERSTANDING_PROVIDER_OPENAI);
             understanding.setUnderstandingStatus(UNDERSTANDING_STATUS_OPENAI_PRIMARY);
-            understanding.setSemanticContractVersion(orchestrationRequest.getContractVersion());
-            if (understanding.getNormalizedPrompt() == null || understanding.getNormalizedPrompt().isBlank()) {
-                understanding.setNormalizedPrompt(orchestrationRequest.getRawPrompt());
-            } else {
-                understanding.setNormalizedPrompt(understanding.getNormalizedPrompt().trim());
-            }
-            if (understanding.getSourceLanguage() == null || understanding.getSourceLanguage().isBlank()) {
-                understanding.setSourceLanguage("unknown");
-            }
-            if (understanding.getSemanticPlan() == null) {
-                understanding.setSemanticPlan(VisionSemanticPlan.empty());
-            }
             applySafeOpenAiRescueIfNeeded(understanding);
             semanticResponseValidator.validate(understanding, orchestrationRequest);
             semanticContractSanitizer.sanitize(understanding, orchestrationRequest.getAllowedRoutes());
@@ -240,6 +228,7 @@ public class VisionPromptUnderstandingService {
                 .translationReliable(englishPrompt)
                 .slots(new VisionPromptUnderstandingSlots())
                 .build();
+        alignUnderstandingContractDefaults(understanding, prompt, SEMANTIC_CONTRACT_VERSION, UNDERSTANDING_PROVIDER_NONE);
         visionSemanticMapper.applyFallbackFocus(understanding, conversation);
         understanding.setSemanticEnvelope(buildSemanticEnvelope(
                 prompt,
@@ -252,6 +241,33 @@ public class VisionPromptUnderstandingService {
                 UNDERSTANDING_PROVIDER_LOCAL
         ));
         return understanding;
+    }
+
+    private void alignUnderstandingContractDefaults(
+            VisionPromptUnderstandingResult understanding,
+            String rawPrompt,
+            String contractVersion,
+            String translationProvider
+    ) {
+        if (understanding == null) {
+            return;
+        }
+        understanding.setOriginalPrompt(rawPrompt);
+        understanding.setTranslationProvider(translationProvider);
+        if (understanding.getNormalizedPrompt() == null || understanding.getNormalizedPrompt().isBlank()) {
+            understanding.setNormalizedPrompt(rawPrompt);
+        } else {
+            understanding.setNormalizedPrompt(understanding.getNormalizedPrompt().trim());
+        }
+        if (understanding.getSourceLanguage() == null || understanding.getSourceLanguage().isBlank()) {
+            understanding.setSourceLanguage("unknown");
+        }
+        if (understanding.getSemanticContractVersion() == null || understanding.getSemanticContractVersion().isBlank()) {
+            understanding.setSemanticContractVersion(contractVersion);
+        }
+        if (understanding.getSemanticPlan() == null) {
+            understanding.setSemanticPlan(VisionSemanticPlan.empty());
+        }
     }
 
     private void applySafeOpenAiRescueIfNeeded(VisionPromptUnderstandingResult understanding) {
@@ -464,7 +480,7 @@ public class VisionPromptUnderstandingService {
         if (confidence == null) {
             return false;
         }
-        return confidence < semanticRouteCatalogService.minimumEntityResolutionConfidenceForIntent(candidateIntent);
+        return confidence <= semanticRouteCatalogService.minimumEntityResolutionConfidenceForIntent(candidateIntent);
     }
 
     private String resolveTargetEntityQuery(
@@ -475,11 +491,31 @@ public class VisionPromptUnderstandingService {
         Map<String, String> slotCandidates = understanding == null ? Map.of() : understanding.toExtractedSlotMap();
         SemanticEntityFamily entityFamily = resolveTargetEntityFamily(candidateIntent);
         String resolvedQuery = switch (entityFamily) {
-            case USER -> firstNonBlank(semanticPlan.getTargetUserQuery(), slotCandidates.get("profile_username"));
-            case CIRCLE -> firstNonBlank(slotCandidates.get("target_circle_query"), slotCandidates.get("circle_name"));
-            case QUEST -> firstNonBlank(slotCandidates.get("target_quest_query"), semanticPlan.getSearchQuery(), slotCandidates.get("quest_title"));
-            case APPLICATION -> firstNonBlank(slotCandidates.get("target_application_query"), slotCandidates.get("target_quest_query"));
-            case PROFILE -> firstNonBlank(slotCandidates.get("profile_username"), slotCandidates.get("profile_description"));
+            case USER -> firstNonBlank(
+                    semanticPlan.getTargetUserQuery(),
+                    slotCandidates.get("profile_username"),
+                    slotCandidates.get("profile_description"),
+                    slotCandidates.get("target_user_query")
+            );
+            case CIRCLE -> firstNonBlank(
+                    slotCandidates.get("target_circle_query"),
+                    slotCandidates.get("circle_name")
+            );
+            case QUEST -> firstNonBlank(
+                    slotCandidates.get("target_quest_query"),
+                    semanticPlan.getSearchQuery(),
+                    slotCandidates.get("quest_title"),
+                    slotCandidates.get("quest_description")
+            );
+            case APPLICATION -> firstNonBlank(
+                    slotCandidates.get("target_application_query"),
+                    slotCandidates.get("target_quest_query")
+            );
+            case PROFILE -> firstNonBlank(
+                    slotCandidates.get("profile_username"),
+                    slotCandidates.get("profile_description"),
+                    semanticPlan.getTargetUserQuery()
+            );
             default -> firstNonBlank(semanticPlan.getTargetUserQuery(), semanticPlan.getSearchQuery());
         };
         return normalizeTargetEntityQuery(entityFamily, resolvedQuery);
@@ -617,6 +653,10 @@ public class VisionPromptUnderstandingService {
         compact.put("timezone", context.getTimezone());
         compact.put("countryCode", context.getCountryCode());
         compact.put("locality", context.getLocality());
+        compact.put("preferredInputType", context.getPreferredInputType());
+        compact.put("preferredEntityFamily", context.getPreferredEntityFamily());
+        compact.put("learningSummary", context.getLearningSummary());
+        compact.put("recentFeedbackTypes", context.getRecentFeedbackTypes());
         compact.put("recentIntentTypes", context.getRecentIntentTypes());
         compact.put("recentEntityFamilies", context.getRecentEntityFamilies());
         return compact;
@@ -729,6 +769,7 @@ public class VisionPromptUnderstandingService {
         Map<String, Object> compact = new LinkedHashMap<>();
         compact.put("familyAliases", Map.of(
                 "quest", semanticAliasRegistry.aliasesFor(SemanticEntityFamily.QUEST),
+                "notifications", semanticAliasRegistry.aliasesFor(SemanticEntityFamily.NOTIFICATIONS),
                 "circle", semanticAliasRegistry.aliasesFor(SemanticEntityFamily.CIRCLE),
                 "application", semanticAliasRegistry.aliasesFor(SemanticEntityFamily.APPLICATION),
                 "user", semanticAliasRegistry.aliasesFor(SemanticEntityFamily.USER)
@@ -748,7 +789,7 @@ public class VisionPromptUnderstandingService {
                 Return valid JSON only.
                 Use only allowedRoutes from the request. Do not invent routes, DTO fields, capabilities, or permissions.
                 Use userContext for locale, phrasing, and timezone-aware date/time parsing.
-                Use memoryContext.userMemory for stable user preferences.
+                Use memoryContext.userMemory for stable user preferences, learned input-type habits, preferred entity family, and compact learning summary signals.
                 Use memoryContext.sessionMemory for the current thread, open questions, last prompts, and slot state.
                 Use memoryContext.recentConversations only as lightweight reminders when topics switch.
                 Use runtimeContext to know whether the turn came from text or voice.
@@ -760,9 +801,9 @@ public class VisionPromptUnderstandingService {
                 Always return normalizedPrompt in English, even if the user spoke another language or used broken grammar.
                 If the prompt is vague or slot-follow-up, prefer the current session entity family unless the user clearly changes topic.
                 If required slots are missing or the target entity is ambiguous, set clarificationRequired to true and list missingRequiredSlotIds.
-                Supported intents: CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, DISCOVER_QUESTS, OPEN_CHAT, VIEW_PROFILE, VIEW_SETTINGS, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, VIEW_QUEST_NEWS, VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, UNSUPPORTED.
+                Supported intents: CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, DISCOVER_QUESTS, SEARCH, OPEN_CHAT, VIEW_PROFILE, VIEW_SETTINGS, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS, VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, VIEW_THINGS, UNSUPPORTED.
                 For CREATE_QUEST, keep questTitle, questDescription, visibility, reward.amount, reward.freeQuest, schedule.mode, schedule.scheduledDate, schedule.scheduledTime, location.mode, and location.label separate.
-                For circle, application, profile, chat, and discover intents, fill only the matching slot family and leave unrelated slots null.
+                For circle, application, profile, chat, search, things, notifications, and discover intents, fill only the matching slot family and leave unrelated slots null.
                 Use the userContext timezone when interpreting dates and times.
                 If the prompt says free/no pay/unpaid, set reward.freeQuest to true and reward.amount to "0".
                 Use low confidence for inferred values and high confidence only for explicitly stated values.
@@ -793,6 +834,7 @@ public class VisionPromptUnderstandingService {
                 "UPDATE_PROFILE",
                 "UPDATE_PROFILE_LOCATION",
                 "DISCOVER_QUESTS",
+                "SEARCH",
                 "OPEN_CHAT",
                 "VIEW_CHAT_WORKSPACE",
                 "VIEW_PROFILE",
@@ -801,9 +843,11 @@ public class VisionPromptUnderstandingService {
                 "VIEW_CIRCLES",
                 "VIEW_CIRCLE_DETAIL",
                 "VIEW_QUEST_DETAIL",
+                "VIEW_NOTIFICATIONS",
                 "VIEW_QUEST_NEWS",
                 "VIEW_APPLICATIONS",
                 "VIEW_APPLICATION_DETAIL",
+                "VIEW_THINGS",
                 "UNSUPPORTED"
         ));
         responseContract.put("clarificationRequired", java.util.List.of(Boolean.TRUE, Boolean.FALSE));
@@ -825,6 +869,7 @@ public class VisionPromptUnderstandingService {
                 "update_profile",
                 "update_profile_location",
                 "discover_quests",
+                "search",
                 "open_chat",
                 "view_chat_workspace",
                 "view_profile",
@@ -833,9 +878,11 @@ public class VisionPromptUnderstandingService {
                 "view_circles",
                 "view_circle_detail",
                 "view_quest_detail",
+                "view_notifications",
                 "view_quest_news",
                 "view_applications",
                 "view_application_detail",
+                "view_things",
                 "unsupported"
         ));
         responseContract.put("focusSlotIds", java.util.List.of(
@@ -850,6 +897,7 @@ public class VisionPromptUnderstandingService {
                 "profile_description",
                 "profile_location_mode",
                 "profile_location_label",
+                "search_query",
                 "quest_title",
                 "quest_description",
                 "reward_amount",

@@ -156,6 +156,8 @@ Prefer these service roles:
 - `VisionExecutionPlanner`: creates a non-mutating execution candidate.
 - `VisionExecutionService`: executes reviewed and confirmed candidates.
 - `VisionCanvasAssembler`: builds backend-prepared canvas state for clients.
+- `VisionLearningService`: records preference signals, feedback events, and compact memory summaries from completed turns.
+- `VisionMemoryCompactionService`: periodically rolls up preference and feedback history into summary rows.
 
 Controllers call one facade service. They should not assemble workflows, choose intent, or inspect slots.
 
@@ -164,6 +166,7 @@ Controllers call one facade service. They should not assemble workflows, choose 
 Every prompt or voice transcript is a turn in a conversation.
 
 Conversation state should be backend-owned and persisted from the first real orchestration phase onward so text turns, voice turns, review states, clarifications, and execution confirmations share one durable timeline.
+Persistent preference rows and feedback events should sit beside the conversation timeline so the backend can learn stable habits and correction history without promoting raw transcript replay into the semantic request.
 
 A turn should produce exactly one primary next step:
 - ask for one missing field
