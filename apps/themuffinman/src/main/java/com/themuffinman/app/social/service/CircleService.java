@@ -8,16 +8,10 @@ import com.themuffinman.app.social.dto.BulkCircleMembershipActionDTO;
 import com.themuffinman.app.social.dto.BulkCircleMembershipUpdateDTO;
 import com.themuffinman.app.social.dto.CircleBlockCreateDTO;
 import com.themuffinman.app.social.dto.CircleContactDTO;
-import com.themuffinman.app.social.dto.CircleContactListResponseDTO;
 import com.themuffinman.app.social.dto.CircleGroupRequestDTO;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
-import com.themuffinman.app.social.dto.CircleOverviewDTO;
 import com.themuffinman.app.social.dto.CircleRequestCreateDTO;
-import com.themuffinman.app.social.dto.CircleRequestListResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
-import com.themuffinman.app.social.dto.CircleSearchResultDTO;
-import com.themuffinman.app.social.dto.CircleSearchResultListResponseDTO;
-import com.themuffinman.app.social.dto.CircleRelationDTO;
 import com.themuffinman.app.social.dto.ConnectionCircleUpdateDTO;
 import com.themuffinman.app.social.model.CircleGroup;
 import com.themuffinman.app.social.model.CircleMembership;
@@ -25,7 +19,6 @@ import com.themuffinman.app.social.model.CircleRequest;
 import com.themuffinman.app.social.repository.CircleGroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -38,8 +31,7 @@ public class CircleService {
     private final CircleGroupRepository circleGroupRepository;
     private final CircleMembershipService circleMembershipService;
     private final CircleRelationService circleRelationService;
-    private final CircleReadService circleReadService;
-    private final CircleDiscoveryService circleDiscoveryService;
+    private final CircleRelationshipReadService circleRelationshipReadService;
     private final CircleViewAssembler circleViewAssembler;
 
     public CircleRequestResponseDTO createCircleRequest(CircleRequestCreateDTO dto, AppUser currentUser) {
@@ -52,61 +44,6 @@ public class CircleService {
 
     public void deleteCircleRequest(Long requestId, AppUser currentUser) {
         circleRelationService.deleteCircleRequest(requestId, currentUser);
-    }
-
-    @Transactional(readOnly = true)
-    public CircleOverviewDTO getOverview(AppUser currentUser) {
-        return circleReadService.getOverview(currentUser);
-    }
-
-    @Transactional(readOnly = true)
-    public List<CircleGroupResponseDTO> getCircles(AppUser currentUser) {
-        return circleReadService.getCircles(currentUser);
-    }
-
-    @Transactional(readOnly = true)
-    public List<CircleContactDTO> getConnections(AppUser currentUser) {
-        return circleReadService.getConnections(currentUser);
-    }
-
-    @Transactional(readOnly = true)
-    public CircleContactListResponseDTO getConnections(AppUser currentUser, String query, Long circleId, boolean unassigned, int page, int size) {
-        return circleReadService.getConnections(currentUser, query, circleId, unassigned, page, size);
-    }
-
-    @Transactional(readOnly = true)
-    public List<CircleRequestResponseDTO> getIncomingRequests(AppUser currentUser) {
-        return circleReadService.getIncomingRequests(currentUser);
-    }
-
-    @Transactional(readOnly = true)
-    public CircleRequestListResponseDTO getIncomingRequests(AppUser currentUser, String query, int page, int size) {
-        return circleReadService.getIncomingRequests(currentUser, query, page, size);
-    }
-
-    @Transactional(readOnly = true)
-    public List<CircleRequestResponseDTO> getOutgoingRequests(AppUser currentUser) {
-        return circleReadService.getOutgoingRequests(currentUser);
-    }
-
-    @Transactional(readOnly = true)
-    public CircleRequestListResponseDTO getOutgoingRequests(AppUser currentUser, String query, int page, int size) {
-        return circleReadService.getOutgoingRequests(currentUser, query, page, size);
-    }
-
-    @Transactional(readOnly = true)
-    public List<CircleSearchResultDTO> getInviteCandidates(AppUser currentUser) {
-        return circleDiscoveryService.getInviteCandidates(currentUser);
-    }
-
-    @Transactional(readOnly = true)
-    public CircleSearchResultListResponseDTO getInviteCandidatesPage(AppUser currentUser, int page, int size) {
-        return circleDiscoveryService.getInviteCandidatesPage(currentUser, page, size);
-    }
-
-    @Transactional(readOnly = true)
-    public CircleRelationDTO getRelationWithUser(AppUser currentUser, Long otherUserId) {
-        return circleReadService.getRelationWithUser(currentUser, otherUserId);
     }
 
     public CircleRequestResponseDTO blockCircleUser(CircleBlockCreateDTO dto, AppUser currentUser) {
@@ -157,13 +94,13 @@ public class CircleService {
 
     public CircleContactDTO updateConnectionCircles(Long userId, ConnectionCircleUpdateDTO dto, AppUser currentUser) {
         AppUser contact = appUserLookupService.requireById(userId);
-        if (!circleReadService.isCircleBetween(currentUser, contact)) {
+        if (!circleRelationshipReadService.isCircleBetween(currentUser, contact)) {
             throw ServiceErrors.badRequest("You can only organize connected users into circles");
         }
 
         circleMembershipService.syncConnectionCircles(currentUser, contact, dto.getCircleIds());
 
-        CircleRequest relation = circleReadService.findRelation(currentUser, contact)
+        CircleRequest relation = circleRelationshipReadService.findRelation(currentUser, contact)
                 .orElseThrow(() -> ServiceErrors.notFound("Connection not found"));
         Map<Long, List<CircleMembership>> membershipsByUserId = circleMembershipService.getMembershipsForContact(contact.getId(), currentUser.getId())
                 .stream()
@@ -176,7 +113,7 @@ public class CircleService {
 
         for (Long userId : dto.getUserIds()) {
             AppUser contact = appUserLookupService.requireById(userId);
-            if (!circleReadService.isCircleBetween(currentUser, contact)) {
+            if (!circleRelationshipReadService.isCircleBetween(currentUser, contact)) {
                 throw ServiceErrors.badRequest("You can only organize connected users into circles");
             }
 

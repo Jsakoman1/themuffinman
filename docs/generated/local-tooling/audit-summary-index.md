@@ -1,9 +1,9 @@
 # Audit Summary Index
 
 - Registry entries: 69
-- Tracked outputs: 18
-- Missing outputs: 51
-- Summary files: 51
+- Tracked outputs: 19
+- Missing outputs: 50
+- Summary files: 55
 
 ## Registry
 
@@ -26,15 +26,15 @@
 - `docs/generated/dead-code-audit/backend-unused-summary.md` | 2026-07-03T09:17:28Z | 3877 bytes
 - `docs/generated/dead-code-audit/dead-code-summary-summary.md` | 2026-07-03T09:17:28Z | 1298 bytes
 - `docs/generated/dead-code-audit/frontend-unused-summary.md` | 2026-07-03T09:17:21Z | 2221 bytes
-- `docs/generated/local-tooling/audit-documentation-summary.md` | 2026-07-05T09:26:29Z | 141 bytes
+- `docs/generated/local-tooling/architecture-drift-summary.md` | 2026-07-05T10:41:54Z | 3932 bytes
+- `docs/generated/local-tooling/audit-documentation-summary.md` | 2026-07-05T09:46:55Z | 141 bytes
 - `docs/generated/local-tooling/audit-registry-artifacts-summary.md` | 2026-07-03T14:48:12Z | 142 bytes
 - `docs/generated/local-tooling/backend-dependency-graph-summary.md` | 2026-07-05T09:11:22Z | 1136 bytes
-- `docs/generated/local-tooling/control-start-summary.md` | 2026-07-05T09:26:16Z | 496 bytes
+- `docs/generated/local-tooling/control-start-summary.md` | 2026-07-05T10:33:22Z | 764 bytes
 - `docs/generated/local-tooling/doc-canonical-phrases-summary.md` | 2026-07-05T09:23:05Z | 2154 bytes
 - `docs/generated/local-tooling/domain-packs/agent-summary.md` | 2026-07-05T09:09:31Z | 611 bytes
+- `docs/generated/local-tooling/domain-packs/social-summary.md` | 2026-07-05T10:41:57Z | 651 bytes
 - `docs/generated/local-tooling/dto-usage-packs/visioncanvasblockdto-summary.md` | 2026-07-04T11:50:44Z | 1249 bytes
-- `docs/generated/local-tooling/dto-usage-packs/visionconversationturnresponsedto-summary.md` | 2026-07-05T09:25:42Z | 2217 bytes
-- `docs/generated/local-tooling/endpoint-contract-packs/admin-summary.md` | 2026-07-03T14:48:12Z | 745 bytes
-- ... and 39 more
+- ... and 43 more
 
 _Routing aid only. Use the underlying generated report or source file for current state._

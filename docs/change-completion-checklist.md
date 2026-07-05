@@ -123,6 +123,7 @@ Default path:
 - Temporary machine-readable work products under `.agents/tmp/` name their owning plan and have a closeout deletion, promotion, or archive decision.
 - `make audit-plan-completion` should surface lingering temp work products owned by the plan so closeout can clear them explicitly.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
+- In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
 - During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.
 - During broad implementation work, review the product, control-system, and implementation-workflow layers before substantial edits, and capture the review in a temporary analysis artifact when the batch is broad or high-risk.
 - Use `make codex-context topic=<topic> intent='<intent>'` before broad discovery so the plan starts from the diff summary, audit summary index, and the most relevant audit.

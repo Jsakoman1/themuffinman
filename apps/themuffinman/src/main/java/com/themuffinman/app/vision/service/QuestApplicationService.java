@@ -8,8 +8,6 @@ import com.themuffinman.app.vision.dto.QuestApplicationsViewDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.model.QuestApplication;
 import com.themuffinman.app.vision.model.QuestApplicationStatus;
-import com.themuffinman.app.vision.repository.QuestApplicationRepository;
-import com.themuffinman.app.vision.repository.QuestRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class QuestApplicationService {
-
-    private final QuestApplicationRepository questApplicationRepository;
-    private final QuestRepository questRepository;
-    private final QuestApplicationWorkflowSupport workflowSupport;
     private final QuestApplicationReadService questApplicationReadService;
     private final QuestApplicationAdminQueryService questApplicationAdminQueryService;
     private final QuestApplicationAdminService questApplicationAdminService;

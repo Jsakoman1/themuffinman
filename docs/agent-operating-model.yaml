@@ -4782,6 +4782,10 @@ documentation_sync:
       stop only to ask which safe offered follow-up slice should run next; continue
       with the best sequenced slice unless scope changes, approval is required, or
       a real blocker appears.
+    - In a safe active master plan, do not ask the user whether to continue between
+      child slices, phases, or follow-up passes; continue automatically through the
+      full planned sequence and only stop for a real blocker, scope change, or required
+      approval.
     - During a safe master-plan or plan batch, do not stop after one or two phases
       just to ask whether to continue; carry the batch through all planned phases
       in sequence, record any safe follow-up items in the appropriate backlog during

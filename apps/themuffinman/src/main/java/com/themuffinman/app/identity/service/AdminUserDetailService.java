@@ -6,6 +6,7 @@ import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.social.service.CircleReadService;
+import com.themuffinman.app.social.service.CircleRelationshipReadService;
 import com.themuffinman.app.vision.dto.VisionOptionsDTO;
 import com.themuffinman.app.vision.service.VisionOptionsService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AdminUserDetailService {
     private final AppUserLookupService appUserLookupService;
-    private final AppUserService appUserService;
+    private final AppUserReadService appUserReadService;
     private final IdentityUserSummaryAssembler identityUserSummaryAssembler;
     private final CircleReadService circleReadService;
+    private final CircleRelationshipReadService circleRelationshipReadService;
     private final VisionOptionsService visionOptionsService;
 
     public AdminUserDetailDTO getDetail(Long userId, AppUser currentUser) {
@@ -28,8 +30,8 @@ public class AdminUserDetailService {
         AppUser targetUser = appUserLookupService.requireById(userId);
         AppUserResponseDTO user = identityUserSummaryAssembler.buildProfileSummary(
                 targetUser,
-                appUserService.countQuestsByCreatorId(targetUser.getId()),
-                appUserService.getOpenQuestsByCreatorId(targetUser.getId())
+                appUserReadService.countQuestsByCreatorId(targetUser.getId()),
+                appUserReadService.getOpenQuestsByCreatorId(targetUser.getId())
         );
         VisionOptionsDTO options = visionOptionsService.getOptions(targetUser);
 

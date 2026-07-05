@@ -18,8 +18,8 @@ import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.dto.CircleSearchResultDTO;
 import com.themuffinman.app.social.dto.CircleSearchResultListResponseDTO;
 import com.themuffinman.app.social.mapper.CircleRequestMgr;
-import com.themuffinman.app.social.model.CircleGroup;
 import com.themuffinman.app.social.model.CircleMembership;
+import com.themuffinman.app.social.model.CircleGroup;
 import com.themuffinman.app.social.model.CircleRequest;
 import com.themuffinman.app.social.repository.CircleGroupRepository;
 import com.themuffinman.app.social.repository.CircleRequestRepository;
@@ -30,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,12 +40,12 @@ public class CircleReadService {
     private final AppUserLookupService appUserLookupService;
     private final CircleGroupRepository circleGroupRepository;
     private final CircleMembershipService circleMembershipService;
-    private final CircleRelationService circleRelationService;
     private final CircleRequestMgr circleRequestMgr;
     private final CircleAdminOverviewAssembler circleAdminOverviewAssembler;
     private final CircleViewAssembler circleViewAssembler;
     private final CircleSearchQueryService circleSearchQueryService;
     private final CircleDiscoveryService circleDiscoveryService;
+    private final CircleRelationshipReadService circleRelationshipReadService;
 
     @Transactional(readOnly = true)
     public List<CircleRequestResponseDTO> getMyCircles(AppUser currentUser) {
@@ -137,40 +136,36 @@ public class CircleReadService {
     }
 
     @Transactional(readOnly = true)
+    public boolean isCircleBetween(AppUser leftUser, AppUser rightUser) {
+        return circleRelationshipReadService.isCircleBetween(leftUser, rightUser);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isCircleMember(Long circleId, Long memberUserId) {
+        return circleRelationshipReadService.isCircleMember(circleId, memberUserId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CircleGroup> getOwnedCirclesByIds(AppUser owner, List<Long> circleIds) {
+        return circleRelationshipReadService.getOwnedCirclesByIds(owner, circleIds);
+    }
+
+    @Transactional(readOnly = true)
+    public java.util.Optional<CircleRequest> findRelation(AppUser leftUser, AppUser rightUser) {
+        return circleRelationshipReadService.findRelation(leftUser, rightUser);
+    }
+
+    @Transactional(readOnly = true)
+    public CircleRelationDTO getRelationWithUser(AppUser currentUser, Long otherUserId) {
+        return circleRelationshipReadService.getRelationWithUser(currentUser, otherUserId);
+    }
+
+    @Transactional(readOnly = true)
     public CircleRequestListResponseDTO getOutgoingRequests(AppUser currentUser, String query, int page, int size) {
         List<CircleRequestResponseDTO> requests = loadOutgoingRequests(currentUser).stream()
                 .filter(request -> circleSearchQueryService.matchesRequestQuery(request.getCounterpartUsername(), request.getCounterpartProfileDescription(), query))
                 .toList();
         return circleViewAssembler.buildCircleRequestListResponse(requests, page, size);
-    }
-
-    @Transactional(readOnly = true)
-    public boolean isCircleBetween(AppUser leftUser, AppUser rightUser) {
-        if (leftUser == null || rightUser == null) {
-            return false;
-        }
-
-        return circleRelationService.isCircleBetween(leftUser, rightUser);
-    }
-
-    @Transactional(readOnly = true)
-    public boolean isCircleMember(Long circleId, Long memberUserId) {
-        return circleMembershipService.isCircleMember(circleId, memberUserId);
-    }
-
-    @Transactional(readOnly = true)
-    public List<CircleGroup> getOwnedCirclesByIds(AppUser owner, List<Long> circleIds) {
-        return circleMembershipService.getOwnedCirclesByIds(owner, circleIds);
-    }
-
-    @Transactional(readOnly = true)
-    public Optional<CircleRequest> findRelation(AppUser leftUser, AppUser rightUser) {
-        return circleRelationService.findRelation(leftUser, rightUser);
-    }
-
-    @Transactional(readOnly = true)
-    public CircleRelationDTO getRelationWithUser(AppUser currentUser, Long otherUserId) {
-        return circleDiscoveryService.getRelationWithUser(currentUser, otherUserId);
     }
 
     private List<CircleContactDTO> loadConnections(AppUser currentUser) {

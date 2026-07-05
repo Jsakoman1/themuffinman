@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-05T09:26:44Z",
+  "generated_at": "2026-07-05T10:41:57Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -179,7 +179,7 @@
       "target": "audit-architecture-drift",
       "script": "scripts/audits/audit-architecture-drift.rb",
       "output": "docs/generated/local-tooling/architecture-drift-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "architecture-decision-index",
@@ -433,8 +433,13 @@
       "bytes": 2221
     },
     {
+      "path": "docs/generated/local-tooling/architecture-drift-summary.md",
+      "mtime": "2026-07-05T10:41:54Z",
+      "bytes": 3932
+    },
+    {
       "path": "docs/generated/local-tooling/audit-documentation-summary.md",
-      "mtime": "2026-07-05T09:26:29Z",
+      "mtime": "2026-07-05T09:46:55Z",
       "bytes": 141
     },
     {
@@ -449,8 +454,8 @@
     },
     {
       "path": "docs/generated/local-tooling/control-start-summary.md",
-      "mtime": "2026-07-05T09:26:16Z",
-      "bytes": 496
+      "mtime": "2026-07-05T10:33:22Z",
+      "bytes": 764
     },
     {
       "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
@@ -461,6 +466,11 @@
       "path": "docs/generated/local-tooling/domain-packs/agent-summary.md",
       "mtime": "2026-07-05T09:09:31Z",
       "bytes": 611
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-packs/social-summary.md",
+      "mtime": "2026-07-05T10:41:57Z",
+      "bytes": 651
     },
     {
       "path": "docs/generated/local-tooling/dto-usage-packs/visioncanvasblockdto-summary.md",
@@ -564,7 +574,7 @@
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-07-05T09:26:16Z",
+      "mtime": "2026-07-05T09:26:46Z",
       "bytes": 845
     },
     {
@@ -619,8 +629,8 @@
     },
     {
       "path": "docs/generated/local-tooling/plan-index-summary.md",
-      "mtime": "2026-07-05T09:26:44Z",
-      "bytes": 231
+      "mtime": "2026-07-05T10:41:56Z",
+      "bytes": 499
     },
     {
       "path": "docs/generated/local-tooling/repo-map-summary.md",
@@ -631,6 +641,11 @@
       "path": "docs/generated/local-tooling/symbol-index-summary.md",
       "mtime": "2026-07-03T14:48:13Z",
       "bytes": 2456
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/circleservice-summary.md",
+      "mtime": "2026-07-05T10:41:57Z",
+      "bytes": 1633
     },
     {
       "path": "docs/generated/local-tooling/symbol-test-links/promptsemanticssupport-summary.md",
@@ -671,6 +686,11 @@
       "path": "docs/generated/local-tooling/validation-memory-drift-summary.md",
       "mtime": "2026-07-04T10:15:38Z",
       "bytes": 1147
+    },
+    {
+      "path": "docs/generated/local-tooling/workflow-slices/quest-application-summary.md",
+      "mtime": "2026-07-05T10:41:57Z",
+      "bytes": 697
     }
   ]
 }

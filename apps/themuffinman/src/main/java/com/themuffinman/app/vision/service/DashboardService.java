@@ -20,8 +20,7 @@ import com.themuffinman.app.vision.model.QuestApplication;
 import com.themuffinman.app.vision.model.QuestApplicationStatus;
 import com.themuffinman.app.vision.model.QuestStatus;
 import com.themuffinman.app.identity.repository.AppUserRepository;
-import com.themuffinman.app.identity.service.AppUserService;
-import com.themuffinman.app.social.service.CircleService;
+import com.themuffinman.app.identity.service.AppUserReadService;
 import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.vision.repository.QuestApplicationRepository;
 import com.themuffinman.app.vision.service.VisionOptionsService;
@@ -43,7 +42,7 @@ public class DashboardService {
     private final QuestNewsService questNewsService;
     private final AppUserRepository appUserRepository;
     private final CircleReadService circleReadService;
-    private final AppUserService appUserService;
+    private final AppUserReadService appUserReadService;
     private final QuestApplicationService questApplicationService;
     private final QuestNewsMgr questNewsMgr;
     private final AppUserMgr appUserMgr;
@@ -187,7 +186,7 @@ public class DashboardService {
             return List.of();
         }
 
-        return appUserService.getAllAppUsers(null).stream()
+        return appUserReadService.getAllAppUsers(null).stream()
                 .map(appUserMgr::toDto)
                 .toList();
     }

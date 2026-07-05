@@ -26,6 +26,7 @@ Key surfaces:
 
 - `controller/VisionConversationController.java`: HTTP entrypoints for conversation turns and lifecycle actions
 - `service/VisionConversationService.java`: top-level orchestration facade
+- `service/VisionConversationLifecycleService.java`: reset, cancel, load, and recent conversation lifecycle boundary
 - `service/VisionClarificationService.java`: deterministic next-question selection
 - `service/VisionSlotService.java`: slot extraction, normalization, and merge behavior
 - `service/VisionSemanticOrchestrationContextService.java`: user, session, runtime, and memory pack assembly for semantic understanding

@@ -5,7 +5,7 @@ import com.themuffinman.app.common.dto.NavigationTargetType;
 import com.themuffinman.app.social.dto.CircleRelationDTO;
 import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import com.themuffinman.app.social.service.SocialRelationActionHelper;
-import com.themuffinman.app.social.service.CircleReadService;
+import com.themuffinman.app.social.service.CircleRelationshipReadService;
 import com.themuffinman.app.social.service.SocialPresentationHelper;
 import com.themuffinman.app.vision.dto.UserRatingSummaryDTO;
 import com.themuffinman.app.vision.dto.UserReviewResponseDTO;
@@ -33,10 +33,10 @@ import static org.mockito.Mockito.when;
 class UserProfileViewServiceTest {
 
     @Mock
-    private AppUserService appUserService;
+    private AppUserReadService appUserReadService;
 
     @Mock
-    private CircleReadService circleReadService;
+    private CircleRelationshipReadService circleRelationshipReadService;
 
     @Mock
     private IdentityUserSummaryAssembler identityUserSummaryAssembler;
@@ -58,9 +58,9 @@ class UserProfileViewServiceTest {
         AppUser currentUser = createUser(7L, "owner");
         AppUserResponseDTO profileDto = AppUserResponseDTO.builder().id(7L).username("owner").build();
 
-        when(appUserService.getAppUser(7L)).thenReturn(currentUser);
-        when(appUserService.countQuestsByCreatorId(7L)).thenReturn(2L);
-        when(appUserService.getOpenQuestsByCreatorId(7L)).thenReturn(List.of());
+        when(appUserReadService.getAppUser(7L)).thenReturn(currentUser);
+        when(appUserReadService.countQuestsByCreatorId(7L)).thenReturn(2L);
+        when(appUserReadService.getOpenQuestsByCreatorId(7L)).thenReturn(List.of());
         when(identityUserSummaryAssembler.buildProfileSummary(currentUser, 2L, List.of())).thenReturn(profileDto);
         mockReviewData(7L);
 
@@ -70,7 +70,7 @@ class UserProfileViewServiceTest {
         assertEquals("EDIT_PROFILE", result.getPrimaryAction().getType());
         assertEquals("Edit profile", result.getPrimaryAction().getLabel());
         assertFalse(result.isShowBlockAction());
-        verify(circleReadService, never()).getRelationWithUser(currentUser, 7L);
+        verify(circleRelationshipReadService, never()).getRelationWithUser(currentUser, 7L);
     }
 
     @Test
@@ -83,11 +83,11 @@ class UserProfileViewServiceTest {
                 .blockedByCurrentUser(false)
                 .build();
 
-        when(appUserService.getAppUser(2L)).thenReturn(profileUser);
-        when(appUserService.countQuestsByCreatorId(2L)).thenReturn(0L);
-        when(appUserService.getOpenQuestsByCreatorId(2L)).thenReturn(List.of());
+        when(appUserReadService.getAppUser(2L)).thenReturn(profileUser);
+        when(appUserReadService.countQuestsByCreatorId(2L)).thenReturn(0L);
+        when(appUserReadService.getOpenQuestsByCreatorId(2L)).thenReturn(List.of());
         when(identityUserSummaryAssembler.buildProfileSummary(profileUser, 0L, List.of())).thenReturn(profileDto);
-        when(circleReadService.getRelationWithUser(currentUser, 2L)).thenReturn(relation);
+        when(circleRelationshipReadService.getRelationWithUser(currentUser, 2L)).thenReturn(relation);
         mockReviewData(2L);
 
         UserProfileViewDTO result = userProfileViewService.getProfileView(2L, currentUser);
@@ -110,11 +110,11 @@ class UserProfileViewServiceTest {
                 .blockedByCurrentUser(false)
                 .build();
 
-        when(appUserService.getAppUser(4L)).thenReturn(profileUser);
-        when(appUserService.countQuestsByCreatorId(4L)).thenReturn(0L);
-        when(appUserService.getOpenQuestsByCreatorId(4L)).thenReturn(List.of());
+        when(appUserReadService.getAppUser(4L)).thenReturn(profileUser);
+        when(appUserReadService.countQuestsByCreatorId(4L)).thenReturn(0L);
+        when(appUserReadService.getOpenQuestsByCreatorId(4L)).thenReturn(List.of());
         when(identityUserSummaryAssembler.buildProfileSummary(profileUser, 0L, List.of())).thenReturn(profileDto);
-        when(circleReadService.getRelationWithUser(currentUser, 4L)).thenReturn(relation);
+        when(circleRelationshipReadService.getRelationWithUser(currentUser, 4L)).thenReturn(relation);
         mockReviewData(4L);
 
         UserProfileViewDTO result = userProfileViewService.getProfileView(4L, currentUser);

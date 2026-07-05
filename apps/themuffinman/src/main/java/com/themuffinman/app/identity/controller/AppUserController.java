@@ -9,6 +9,7 @@ import com.themuffinman.app.identity.dto.UserProfileViewDTO;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.service.AdminUserDetailService;
+import com.themuffinman.app.identity.service.AppUserReadService;
 import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.identity.service.UserProfileViewService;
 import com.themuffinman.app.vision.dto.VisionOptionsDTO;
@@ -25,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppUserController {
     private final AppUserService appUserService;
+    private final AppUserReadService appUserReadService;
     private final AppUserMgr appUserMgr;
     private final AdminUserDetailService adminUserDetailService;
     private final UserProfileViewService userProfileViewService;
@@ -38,7 +40,7 @@ public class AppUserController {
 
     @GetMapping
     public List<AppUserResponseDTO> getAllAppUsers(@RequestParam(value = "q", required = false) String query) {
-        return appUserService.getAllAppUsers(query)
+        return appUserReadService.getAllAppUsers(query)
                 .stream()
                 .map(this::toDto)
                 .toList();
@@ -56,12 +58,12 @@ public class AppUserController {
 
     @GetMapping("/{id}")
     public AppUserResponseDTO getAppUser(@PathVariable long id) {
-        AppUser appUser = appUserService.getAppUser(id);
+        AppUser appUser = appUserReadService.getAppUser(id);
         AppUserResponseDTO dto = toDto(appUser);
         return appUserMgr.withProfileStats(
                 dto,
-                appUserService.countQuestsByCreatorId(appUser.getId()),
-                appUserService.getOpenQuestsByCreatorId(appUser.getId())
+                appUserReadService.countQuestsByCreatorId(appUser.getId()),
+                appUserReadService.getOpenQuestsByCreatorId(appUser.getId())
         );
     }
 

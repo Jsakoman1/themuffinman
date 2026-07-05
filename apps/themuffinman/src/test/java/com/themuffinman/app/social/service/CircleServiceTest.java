@@ -68,6 +68,9 @@ class CircleServiceTest {
     private CircleRelationService circleRelationService;
 
     @Mock
+    private CircleRelationshipReadService circleRelationshipReadService;
+
+    @Mock
     private CircleRequestMgr circleRequestMgr;
 
     @Mock
@@ -108,20 +111,19 @@ class CircleServiceTest {
                 appUserLookupService,
                 circleGroupRepository,
                 circleMembershipService,
-                circleRelationService,
                 circleRequestMgr,
                 circleAdminOverviewAssembler,
                 circleViewAssembler,
                 circleSearchQueryService,
-                circleDiscoveryService
+                circleDiscoveryService,
+                circleRelationshipReadService
         );
         circleService = new CircleService(
                 appUserLookupService,
                 circleGroupRepository,
                 circleMembershipService,
                 circleRelationService,
-                circleReadService,
-                circleDiscoveryService,
+                circleRelationshipReadService,
                 circleViewAssembler
         );
     }
@@ -130,7 +132,7 @@ class CircleServiceTest {
     void deleteCircleRequestRejectsBlockedRelationship() {
         AppUser blocker = createUser(1L, "blocker");
         AppUser blocked = createUser(2L, "blocked");
-        when(circleRelationService.isCircleBetween(blocker, blocked)).thenReturn(false);
+        when(circleRelationshipReadService.isCircleBetween(blocker, blocked)).thenReturn(false);
 
         assertEquals(false, circleReadService.isCircleBetween(blocker, blocked));
     }
@@ -643,16 +645,11 @@ class CircleServiceTest {
     @Test
     void getRelationWithUserReturnsBlockedByCurrentUserFlag() {
         AppUser currentUser = createUser(1L, "requester");
-        AppUser candidate = createUser(2L, "candidate");
-
-        CircleRequest request = new CircleRequest();
-        request.setRequester(currentUser);
-        request.setRecipient(candidate);
-        request.setBlockedAt(Instant.now());
-        request.setBlockedBy(currentUser);
-
-        when(appUserRepository.findById(2L)).thenReturn(Optional.of(candidate));
-        when(circleRequestRepository.findBetweenUsers(1L, 2L)).thenReturn(Optional.of(request));
+        CircleRelationDTO expected = CircleRelationDTO.builder()
+                .relationStatus(CircleRelationStatusDTO.BLOCKED)
+                .blockedByCurrentUser(true)
+                .build();
+        when(circleRelationshipReadService.getRelationWithUser(currentUser, 2L)).thenReturn(expected);
 
         CircleRelationDTO relation = circleReadService.getRelationWithUser(currentUser, 2L);
 
@@ -681,8 +678,8 @@ class CircleServiceTest {
         savedMembership.setMember(contact);
 
         when(appUserLookupService.requireById(2L)).thenReturn(contact);
-        when(circleRelationService.isCircleBetween(owner, contact)).thenReturn(true);
-        when(circleRelationService.findRelation(owner, contact)).thenReturn(Optional.of(relation));
+        when(circleRelationshipReadService.isCircleBetween(owner, contact)).thenReturn(true);
+        when(circleRelationshipReadService.findRelation(owner, contact)).thenReturn(Optional.of(relation));
         when(circleMembershipService.getMembershipsForContact(2L, 1L))
                 .thenReturn(List.of(savedMembership));
 
@@ -711,8 +708,8 @@ class CircleServiceTest {
         when(circleGroupRepository.findByIdAndOwnerId(10L, 1L)).thenReturn(Optional.of(circle));
         when(appUserLookupService.requireById(2L)).thenReturn(alice);
         when(appUserLookupService.requireById(3L)).thenReturn(bob);
-        when(circleRelationService.isCircleBetween(owner, alice)).thenReturn(true);
-        when(circleRelationService.isCircleBetween(owner, bob)).thenReturn(true);
+        when(circleRelationshipReadService.isCircleBetween(owner, alice)).thenReturn(true);
+        when(circleRelationshipReadService.isCircleBetween(owner, bob)).thenReturn(true);
         when(circleMembershipService.getMembershipsForContact(2L, 1L)).thenReturn(List.of());
         when(circleMembershipService.getMembershipsForContact(3L, 1L)).thenReturn(List.of());
 

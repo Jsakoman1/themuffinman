@@ -78,6 +78,7 @@ Frontend vision surface note:
 - `VisionConversationService` now switches to a new persisted conversation when the prompt clearly changes intent, so discovery and creation can coexist on the same adaptive surface without forcing one thread to masquerade as another.
 - `VisionIntentRouter` now also recognizes `OPEN_CHAT`, and `VisionChatExecutionService` resolves an explicit chat target before delegating to the existing chat opening boundary.
 - `VisionIntentRouter` now also recognizes `VIEW_PROFILE`, `VIEW_CIRCLES`, and `VIEW_APPLICATIONS`, and `VisionCapabilityPreviewService` translates existing backend DTOs into read-only terminal preview blocks for those self-scoped flows.
+- `VisionConversationController` routes reset, cancel, load, and recent conversation actions through `VisionConversationLifecycleService`, while `VisionConversationService` keeps the main turn-processing boundary.
 - `VisionIntentRouter` now also recognizes `VIEW_QUEST_NEWS`, and `VisionCapabilityPreviewService` renders the authenticated user's quest-news feed as a read-only terminal preview block.
 - `VisionIntentRouter` now also recognizes `CREATE_CIRCLE`, and `VisionConversationService` runs a one-slot circle draft/review/confirm flow that executes through `CircleService.createCircle(...)` after explicit confirmation.
 - `VisionIntentRouter` now also recognizes `CREATE_APPLICATION`, and `VisionConversationService` runs a review-gated application flow that resolves one applyable quest, collects `application_message`, collects `application_proposed_price` only when the resolved quest is paid, and then executes through `QuestApplicationService.applyForQuest(...)`.
@@ -147,6 +148,7 @@ Primary files:
 - `identity/model/AppUser.java`
 - `identity/model/AppUserRole.java`
 - `identity/service/AppUserService.java`
+- `identity/service/AppUserReadService.java`
 - `identity/service/AppUserLookupService.java`
 - `identity/service/UserProfileViewService.java`
 - `identity/service/AdminUserDetailService.java`
@@ -410,6 +412,7 @@ Technical notes:
 Primary files:
 - `identity/controller/AppUserController.java`
 - `identity/service/AppUserService.java`
+- `identity/service/AppUserReadService.java`
 - `identity/service/AppUserLookupService.java`
 - `identity/repository/AppUserRepository.java`
 - `identity/dto/AppUserRequestDTO.java`
@@ -706,14 +709,16 @@ Primary files:
 ### Contacts and overviews
 
 Primary files:
-- `social/service/CircleService.java`
+- `social/service/CircleReadService.java`
+- `social/service/CircleRelationshipReadService.java`
 - `social/service/CircleAdminOverviewAssembler.java`
 - `social/service/CircleViewAssembler.java`
 
 ### Search and nearby discovery
 
 Primary files:
-- `social/service/CircleService.java`
+- `social/service/CircleReadService.java`
+- `social/service/CircleRelationshipReadService.java`
 - `social/service/CircleDiscoveryService.java`
 - `social/service/CircleViewAssembler.java`
 
@@ -726,6 +731,7 @@ Primary files:
 
 Technical notes:
 - `CircleAdminOverviewAssembler` owns admin circle overview filtering and row shaping so `CircleReadService` stays focused on orchestration and `CircleViewAssembler` stays focused on the non-admin presentation surface.
+- `CircleRelationshipReadService` owns direct relationship, membership, and exact relation lookup helpers so `CircleReadService` can stay focused on overview and list orchestration.
 
 Technical notes:
 - `CircleSearchResultDTO` and `CircleRelationDTO` now carry deterministic resolution metadata for exact candidate targeting in future automation.
@@ -1101,7 +1107,7 @@ Base user DTO currently exposes:
 
 Profile-view rules:
 - own-profile view bypasses social relation lookup and forces a neutral relation state
-- other-profile view resolves relation through `CircleService`
+- other-profile view resolves relation through `CircleRelationshipReadService`
 - primary profile action is derived through `SocialRelationActionHelper`
 - profile view includes block-action affordances when relation is not already blocked
 - profile view includes open quest count plus up to `6` recent open quests

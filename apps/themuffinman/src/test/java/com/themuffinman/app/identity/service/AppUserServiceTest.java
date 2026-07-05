@@ -51,6 +51,9 @@ class AppUserServiceTest {
     @InjectMocks
     private AppUserService appUserService;
 
+    @InjectMocks
+    private AppUserReadService appUserReadService;
+
     @Test
     void createAppUserRejectsDuplicateEmailIgnoringCase() {
         AppUserRequestDTO dto = new AppUserRequestDTO();
@@ -215,7 +218,7 @@ class AppUserServiceTest {
     void countProfileStatsUsesRepositories() {
         when(questRepository.countByCreatorIdAndStatus(7L, QuestStatus.OPEN)).thenReturn(3L);
 
-        assertEquals(3L, appUserService.countQuestsByCreatorId(7L));
+        assertEquals(3L, appUserReadService.countQuestsByCreatorId(7L));
     }
 
     @Test
@@ -228,7 +231,7 @@ class AppUserServiceTest {
         when(questRepository.findByCreatorIdAndStatusOrderByIdDesc(7L, QuestStatus.OPEN)).thenReturn(List.of(quest));
         when(questMgr.toDto(quest)).thenReturn(questResponseDTO);
 
-        List<QuestResponseDTO> openQuests = appUserService.getOpenQuestsByCreatorId(7L);
+        List<QuestResponseDTO> openQuests = appUserReadService.getOpenQuestsByCreatorId(7L);
         assertEquals(1, openQuests.size());
         assertEquals(11L, openQuests.getFirst().getId());
     }
@@ -250,8 +253,8 @@ class AppUserServiceTest {
 
         when(appUserRepository.findAll()).thenReturn(List.of(helper, admin));
 
-        List<AppUser> roleResult = appUserService.getAllAppUsers("admin");
-        List<AppUser> profileResult = appUserService.getAllAppUsers("helper");
+        List<AppUser> roleResult = appUserReadService.getAllAppUsers("admin");
+        List<AppUser> profileResult = appUserReadService.getAllAppUsers("helper");
 
         assertEquals(1, roleResult.size());
         assertEquals("alice", roleResult.getFirst().getUsername());

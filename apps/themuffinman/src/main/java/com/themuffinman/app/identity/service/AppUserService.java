@@ -1,25 +1,19 @@
 package com.themuffinman.app.identity.service;
 
 import com.themuffinman.app.identity.dto.AppUserRequestDTO;
-import com.themuffinman.app.vision.mapper.QuestMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.location.service.LocationSettingsService;
-import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
-import com.themuffinman.app.vision.model.QuestStatus;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.common.normalization.ProfileValueNormalizer;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.common.normalization.UserInputNormalizer;
-import com.themuffinman.app.vision.repository.QuestRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-import java.util.Comparator;
 import java.util.regex.Pattern;
 
 @Service
@@ -27,9 +21,7 @@ import java.util.regex.Pattern;
 public class AppUserService {
     private final AppUserRepository appUserRepository;
     private final AppUserLookupService appUserLookupService;
-    private final QuestRepository questRepository;
     private final PasswordEncoder passwordEncoder;
-    private final QuestMgr questMgr;
     private final LocationSettingsService locationSettingsService;
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
 
@@ -44,35 +36,6 @@ public class AppUserService {
         appUser.setRole(dto.getRole() == null ? AppUserRole.USER : dto.getRole());
         appUser.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
         return appUserRepository.save(appUser);
-    }
-
-    @Transactional(readOnly = true)
-    public List<AppUser> getAllAppUsers(String query) {
-        String normalizedQuery = SearchQueryNormalizer.normalize(query).toLowerCase();
-
-        return appUserRepository.findAll().stream()
-                .filter(appUser -> matchesUserQuery(appUser, normalizedQuery))
-                .sorted(Comparator.comparing(AppUser::getUsername, String.CASE_INSENSITIVE_ORDER))
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
-    public AppUser getAppUser(Long id) {
-        return appUserLookupService.requireById(id);
-    }
-
-    @Transactional(readOnly = true)
-    public long countQuestsByCreatorId(Long creatorId) {
-        return questRepository.countByCreatorIdAndStatus(creatorId, QuestStatus.OPEN);
-    }
-
-    @Transactional(readOnly = true)
-    public List<com.themuffinman.app.vision.dto.QuestResponseDTO> getOpenQuestsByCreatorId(Long creatorId) {
-        return questRepository.findByCreatorIdAndStatusOrderByIdDesc(creatorId, QuestStatus.OPEN)
-                .stream()
-                .limit(6)
-                .map(questMgr::toDto)
-                .toList();
     }
 
     public void deleteUser(Long id, AppUser currentUser) {
@@ -196,26 +159,5 @@ public class AppUserService {
         if (normalizedUsername.length() < 3 || normalizedUsername.length() > 50) {
             throw ServiceErrors.badRequest("Username must be between 3 and 50 characters");
         }
-    }
-
-    private boolean matchesUserQuery(AppUser appUser, String normalizedQuery) {
-        if (normalizedQuery.isBlank()) {
-            return true;
-        }
-
-        return normalizedHaystack(
-                appUser.getUsername(),
-                appUser.getEmail(),
-                appUser.getRole() == null ? AppUserRole.USER.name() : appUser.getRole().name(),
-                appUser.getProfileDescription()
-        ).contains(normalizedQuery);
-    }
-
-    private String normalizedHaystack(String... values) {
-        return java.util.Arrays.stream(values)
-                .map(value -> value == null ? "" : value)
-                .reduce((left, right) -> left + " " + right)
-                .orElse("")
-                .toLowerCase();
     }
 }

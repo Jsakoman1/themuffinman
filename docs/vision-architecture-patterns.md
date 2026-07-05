@@ -150,6 +150,7 @@ Vision orchestration may coordinate those capabilities, but must not duplicate t
 Prefer these service roles:
 
 - `VisionConversationService`: creates, loads, advances, and closes conversations.
+- `VisionConversationLifecycleService`: handles reset, cancel, load, and recent-conversation entrypoints so read-only lifecycle access stays separate from the main turn-processing facade.
 - `VisionIntentRouter`: maps prompt plus context to a candidate intent.
 - `VisionSlotService`: extracts, normalizes, validates, and merges slots.
 - `VisionClarificationService`: selects the next one useful question.

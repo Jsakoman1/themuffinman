@@ -90,9 +90,6 @@ class QuestApplicationServiceTest {
                 declineApplicationUseCase
         );
         questApplicationService = new QuestApplicationService(
-                questApplicationRepository,
-                questRepository,
-                workflowSupport,
                 questApplicationReadService,
                 questApplicationAdminQueryService,
                 questApplicationAdminService,

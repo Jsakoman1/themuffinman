@@ -6,7 +6,7 @@ import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import com.themuffinman.app.identity.dto.ProfilePrimaryActionDTO;
 import com.themuffinman.app.identity.dto.UserProfileViewDTO;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.social.service.CircleReadService;
+import com.themuffinman.app.social.service.CircleRelationshipReadService;
 import com.themuffinman.app.social.service.SocialRelationActionHelper;
 import com.themuffinman.app.social.service.SocialPresentationHelper;
 import com.themuffinman.app.vision.model.ReviewRole;
@@ -19,19 +19,19 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserProfileViewService {
-    private final AppUserService appUserService;
-    private final CircleReadService circleReadService;
+    private final AppUserReadService appUserReadService;
+    private final CircleRelationshipReadService circleRelationshipReadService;
     private final IdentityUserSummaryAssembler identityUserSummaryAssembler;
     private final UserReviewService userReviewService;
     private final SocialPresentationHelper socialPresentationHelper;
     private final SocialRelationActionHelper socialRelationActionHelper;
 
     public UserProfileViewDTO getProfileView(Long profileUserId, AppUser currentUser) {
-        AppUser profileUser = appUserService.getAppUser(profileUserId);
+        AppUser profileUser = appUserReadService.getAppUser(profileUserId);
         AppUserResponseDTO profile = identityUserSummaryAssembler.buildProfileSummary(
                 profileUser,
-                appUserService.countQuestsByCreatorId(profileUser.getId()),
-                appUserService.getOpenQuestsByCreatorId(profileUser.getId())
+                appUserReadService.countQuestsByCreatorId(profileUser.getId()),
+                appUserReadService.getOpenQuestsByCreatorId(profileUser.getId())
         );
 
         boolean ownProfile = currentUser != null && currentUser.getId().equals(profileUser.getId());
@@ -43,7 +43,7 @@ public class UserProfileViewService {
                         .blockedByCurrentUser(false)
                         .exactResolutionEligible(true)
                         .build()
-                : circleReadService.getRelationWithUser(currentUser, profileUser.getId());
+                : circleRelationshipReadService.getRelationWithUser(currentUser, profileUser.getId());
 
         return UserProfileViewDTO.builder()
                 .profile(profile)

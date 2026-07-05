@@ -10,6 +10,7 @@ import com.themuffinman.app.identity.dto.UserProfileViewDTO;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
+import com.themuffinman.app.identity.service.AppUserReadService;
 import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.identity.service.UserProfileViewService;
 import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
@@ -56,6 +57,7 @@ import java.util.regex.Pattern;
 public class VisionCapabilityPreviewService {
 
     private final AppUserService appUserService;
+    private final AppUserReadService appUserReadService;
     private final AppUserMgr appUserMgr;
     private final AppUserRepository appUserRepository;
     private final UserProfileViewService userProfileViewService;
@@ -78,6 +80,7 @@ public class VisionCapabilityPreviewService {
 
     public VisionCapabilityPreviewService(
             AppUserService appUserService,
+            AppUserReadService appUserReadService,
             AppUserMgr appUserMgr,
             AppUserRepository appUserRepository,
             UserProfileViewService userProfileViewService,
@@ -93,6 +96,7 @@ public class VisionCapabilityPreviewService {
             SemanticAliasRegistry semanticAliasRegistry
     ) {
         this.appUserService = appUserService;
+        this.appUserReadService = appUserReadService;
         this.appUserMgr = appUserMgr;
         this.appUserRepository = appUserRepository;
         this.userProfileViewService = userProfileViewService;
@@ -115,8 +119,8 @@ public class VisionCapabilityPreviewService {
 
         AppUserResponseDTO profile = appUserMgr.withProfileStats(
                 appUserMgr.toDto(currentUser),
-                appUserService.countQuestsByCreatorId(currentUser.getId()),
-                appUserService.getOpenQuestsByCreatorId(currentUser.getId())
+                appUserReadService.countQuestsByCreatorId(currentUser.getId()),
+                appUserReadService.getOpenQuestsByCreatorId(currentUser.getId())
         );
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "profile_username", "Username", profile.getUsername());
@@ -143,7 +147,7 @@ public class VisionCapabilityPreviewService {
             return null;
         }
 
-        AppUserResponseDTO profile = appUserMgr.toDto(appUserService.getAppUser(currentUser.getId()));
+        AppUserResponseDTO profile = appUserMgr.toDto(appUserReadService.getAppUser(currentUser.getId()));
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "profile_email", "Email", profile.getEmail());
         addItem(items, "profile_username", "Username", profile.getUsername());
@@ -777,7 +781,7 @@ public class VisionCapabilityPreviewService {
             return null;
         }
 
-        AppUser existingUser = appUserService.getAppUser(currentUser.getId());
+        AppUser existingUser = appUserReadService.getAppUser(currentUser.getId());
         String effectiveUsername = hasText(username) ? username.trim() : existingUser.getUsername();
         String effectiveDescription = profileDescription != null ? profileDescription.trim() : existingUser.getProfileDescription();
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
@@ -810,7 +814,7 @@ public class VisionCapabilityPreviewService {
             return null;
         }
 
-        AppUser existingUser = appUserService.getAppUser(currentUser.getId());
+        AppUser existingUser = appUserReadService.getAppUser(currentUser.getId());
         UserLocationSettingsDTO currentSettings = appUserMgr.toDto(existingUser).getLocationSettings();
         String effectiveMode = hasText(locationMode)
                 ? locationMode.trim()
@@ -1050,7 +1054,7 @@ public class VisionCapabilityPreviewService {
         Long userId = extractUserId(query);
         if (userId != null) {
             try {
-                AppUser user = appUserService.getAppUser(userId);
+                AppUser user = appUserReadService.getAppUser(userId);
                 if (user == null) {
                     return VisionResolvedUserTarget.unresolved("I could not find one profile with id " + userId + ".");
                 }
@@ -1261,7 +1265,7 @@ public class VisionCapabilityPreviewService {
             return null;
         }
 
-        AppUser existingUser = appUserService.getAppUser(currentUser.getId());
+        AppUser existingUser = appUserReadService.getAppUser(currentUser.getId());
         AppUserRequestDTO request = AppUserRequestDTO.builder()
                 .email(existingUser.getEmail())
                 .username(hasText(username) ? username.trim() : existingUser.getUsername())
@@ -1272,8 +1276,8 @@ public class VisionCapabilityPreviewService {
         AppUser updatedUser = appUserService.updateAppUser(existingUser.getId(), request);
         return appUserMgr.withProfileStats(
                 appUserMgr.toDto(updatedUser),
-                appUserService.countQuestsByCreatorId(updatedUser.getId()),
-                appUserService.getOpenQuestsByCreatorId(updatedUser.getId())
+                appUserReadService.countQuestsByCreatorId(updatedUser.getId()),
+                appUserReadService.getOpenQuestsByCreatorId(updatedUser.getId())
         );
     }
 
@@ -1282,7 +1286,7 @@ public class VisionCapabilityPreviewService {
             return null;
         }
 
-        AppUser existingUser = appUserService.getAppUser(currentUser.getId());
+        AppUser existingUser = appUserReadService.getAppUser(currentUser.getId());
         UserLocationSettingsDTO currentSettings = appUserMgr.toDto(existingUser).getLocationSettings();
         UserLocationMode mode = locationMode == null || locationMode.isBlank()
                 ? currentSettings == null || currentSettings.getMode() == null ? UserLocationMode.OFF : currentSettings.getMode()
@@ -1297,8 +1301,8 @@ public class VisionCapabilityPreviewService {
         AppUser updatedUser = appUserService.updateAppUser(existingUser.getId(), request);
         return appUserMgr.withProfileStats(
                 appUserMgr.toDto(updatedUser),
-                appUserService.countQuestsByCreatorId(updatedUser.getId()),
-                appUserService.getOpenQuestsByCreatorId(updatedUser.getId())
+                appUserReadService.countQuestsByCreatorId(updatedUser.getId()),
+                appUserReadService.getOpenQuestsByCreatorId(updatedUser.getId())
         );
     }
 

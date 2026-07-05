@@ -4,6 +4,7 @@ import com.themuffinman.app.chat.service.ChatService;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
+import com.themuffinman.app.identity.service.AppUserReadService;
 import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.identity.service.UserProfileViewService;
 import com.themuffinman.app.semantic.SemanticAliasRegistry;
@@ -41,6 +42,8 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
     @Mock
     private AppUserService appUserService;
     @Mock
+    private AppUserReadService appUserReadService;
+    @Mock
     private AppUserMgr appUserMgr;
     @Mock
     private AppUserRepository appUserRepository;
@@ -71,6 +74,7 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
     void setUp() {
         service = new VisionCapabilityPreviewService(
                 appUserService,
+                appUserReadService,
                 appUserMgr,
                 appUserRepository,
                 userProfileViewService,

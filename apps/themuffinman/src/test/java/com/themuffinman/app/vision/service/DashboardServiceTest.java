@@ -17,11 +17,12 @@ import com.themuffinman.app.vision.model.QuestNewsItem;
 import com.themuffinman.app.vision.model.QuestNewsType;
 import com.themuffinman.app.vision.model.QuestStatus;
 import com.themuffinman.app.identity.repository.AppUserRepository;
-import com.themuffinman.app.identity.service.AppUserService;
+import com.themuffinman.app.identity.service.AppUserReadService;
 import com.themuffinman.app.vision.repository.QuestApplicationRepository;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.social.service.CircleReadService;
+import com.themuffinman.app.social.service.CircleRelationshipReadService;
 import com.themuffinman.app.vision.mapper.QuestNewsMgr;
 import com.themuffinman.app.vision.service.VisionOptionsService;
 import org.junit.jupiter.api.Test;
@@ -57,7 +58,10 @@ class DashboardServiceTest {
     private CircleReadService circleReadService;
 
     @Mock
-    private AppUserService appUserService;
+    private CircleRelationshipReadService circleRelationshipReadService;
+
+    @Mock
+    private AppUserReadService appUserReadService;
 
     @Mock
     private QuestApplicationService questApplicationService;

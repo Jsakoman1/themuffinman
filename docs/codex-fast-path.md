@@ -48,6 +48,7 @@ For `/vision` work, the compact context should usually be opened after the visio
 When the task spans several existing master plans or long-running program directions, read `docs/program-planning-model.md`, `docs/generated/local-tooling/plan-index-summary.md`, and the relevant `.agents/god-plans/*.yaml` file before creating or modifying child master plans.
 
 When `AGENTS.md` records a standing autonomous continuation preference, do not stop to ask the user which safe offered follow-up slice to pick; choose the best sequenced next slice and continue until scope is narrowed, approval is needed, or a real blocker appears.
+In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
 
 When `AGENTS.md` records the standing follow-up capture preference, record safe discovered improvements or repeated failure patterns in the appropriate follow-up or backlog surface during the active slice, then continue with the best sequenced follow-up slice after the current slice closes.
 

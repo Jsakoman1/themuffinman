@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-05T10:04:16Z",
+  "generated_at": "2026-07-05T10:41:54Z",
   "mode": "report_first",
   "thresholds": {
     "service_lines": 420,
@@ -260,7 +260,7 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
       "kind": "service",
-      "lines": 195,
+      "lines": 194,
       "public_methods": 3,
       "responsibility_markers": [
         "query",
@@ -318,7 +318,7 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java",
       "kind": "service",
-      "lines": 164,
+      "lines": 163,
       "public_methods": 11,
       "responsibility_markers": [
         "query",
@@ -374,7 +374,7 @@
     {
       "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
       "kind": "service",
-      "lines": 113,
+      "lines": 107,
       "public_methods": 15,
       "responsibility_markers": [
         "query",

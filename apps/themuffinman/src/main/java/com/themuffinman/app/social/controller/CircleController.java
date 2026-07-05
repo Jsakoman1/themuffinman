@@ -23,6 +23,7 @@ import com.themuffinman.app.social.dto.TextPageQueryDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.social.service.CircleDiscoveryService;
 import com.themuffinman.app.social.service.CircleReadService;
+import com.themuffinman.app.social.service.CircleRelationshipReadService;
 import com.themuffinman.app.social.service.CircleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.*;
 public class CircleController {
     private final CircleService circleService;
     private final CircleReadService circleReadService;
+    private final CircleRelationshipReadService circleRelationshipReadService;
     private final CircleDiscoveryService circleDiscoveryService;
 
     @GetMapping("/me/overview")
@@ -173,7 +175,7 @@ public class CircleController {
             @PathVariable Long userId,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleReadService.getRelationWithUser(currentUser, userId);
+        return circleRelationshipReadService.getRelationWithUser(currentUser, userId);
     }
 
     @GetMapping("/search")

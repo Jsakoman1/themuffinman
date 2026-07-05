@@ -82,6 +82,7 @@ Planned modules:
   through all safe implementation, documentation, generated-artifact, and validation phases without waiting for
   additional user signals.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
+- In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
 - During autonomous implementation, when Codex notices a likely improvement, repeated failure pattern, or safe follow-up slice that should not interrupt the current batch, record it in the appropriate follow-up or backlog surface during the current slice and continue implementing it automatically after the current slice closes unless the user narrows scope, approval is required, or a real blocker appears.
 - When a master plan is active and the work is safe to continue, carry it through all child plans and the final closeout
   pass before asking for new user input. Only stop early for a real blocker, conflicting user changes, destructive

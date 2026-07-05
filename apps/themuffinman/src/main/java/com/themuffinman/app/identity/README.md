@@ -7,7 +7,7 @@ Owns application users, authentication-facing user data, roles, profiles, accoun
 ## Main Entry Points
 
 - Controllers: `controller/`
-- Services: `service/AppUserService.java`, `service/AppUserLookupService.java`, `service/AdminUserDetailService.java`, `service/IdentityUserSummaryAssembler.java`, `service/UserProfileViewService.java`
+- Services: `service/AppUserService.java`, `service/AppUserReadService.java`, `service/AppUserLookupService.java`, `service/AdminUserDetailService.java`, `service/IdentityUserSummaryAssembler.java`, `service/UserProfileViewService.java`
 - Repository: `repository/AppUserRepository.java`
 - Mapper: `mapper/AppUserMgr.java`
 - Security: `security/`

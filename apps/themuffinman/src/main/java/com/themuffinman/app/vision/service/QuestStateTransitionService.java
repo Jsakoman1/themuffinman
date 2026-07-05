@@ -42,11 +42,7 @@ public class QuestStateTransitionService {
     }
 
     public void validateQuestExecutionAuthority(Quest quest, AppUser currentUser) {
-        boolean hasApprovedApplication = currentUser != null && questApplicationRepository.findForViewerApplicationWithStatus(
-                quest.getId(),
-                currentUser.getId(),
-                QuestApplicationStatus.APPROVED
-        ).isPresent();
+        boolean hasApprovedApplication = hasApprovedApplication(quest, currentUser);
 
         if (questAccessPolicyService.canExecuteQuest(quest, currentUser, hasApprovedApplication)) {
             return;
@@ -56,11 +52,7 @@ public class QuestStateTransitionService {
     }
 
     public void validateQuestTermDecisionAuthority(Quest quest, AppUser currentUser) {
-        boolean hasApprovedApplication = currentUser != null && questApplicationRepository.findForViewerApplicationWithStatus(
-                quest.getId(),
-                currentUser.getId(),
-                QuestApplicationStatus.APPROVED
-        ).isPresent();
+        boolean hasApprovedApplication = hasApprovedApplication(quest, currentUser);
 
         if (!questAccessPolicyService.canDecideQuestTermChange(quest, currentUser, hasApprovedApplication)) {
             throw ServiceErrors.forbidden("You are not allowed to confirm this quest term change");
@@ -252,6 +244,14 @@ public class QuestStateTransitionService {
         if (!reopenedApplications.isEmpty()) {
             questApplicationRepository.saveAll(reopenedApplications);
         }
+    }
+
+    private boolean hasApprovedApplication(Quest quest, AppUser currentUser) {
+        return currentUser != null && questApplicationRepository.findForViewerApplicationWithStatus(
+                quest.getId(),
+                currentUser.getId(),
+                QuestApplicationStatus.APPROVED
+        ).isPresent();
     }
 
 }

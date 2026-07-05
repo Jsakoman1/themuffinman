@@ -2,7 +2,7 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.social.model.CircleGroup;
-import com.themuffinman.app.social.service.CircleReadService;
+import com.themuffinman.app.social.service.CircleRelationshipReadService;
 import com.themuffinman.app.vision.model.Quest;
 import com.themuffinman.app.vision.model.QuestAudience;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestVisibilityService {
 
-    private final CircleReadService circleReadService;
+    private final CircleRelationshipReadService circleRelationshipReadService;
     private final QuestAccessPolicyService questAccessPolicyService;
 
     public boolean canViewQuest(AppUser currentUser, Quest quest) {
@@ -33,14 +33,14 @@ public class QuestVisibilityService {
         if (quest.getVisibleToCircles() != null && !quest.getVisibleToCircles().isEmpty()) {
             return quest.getVisibleToCircles().stream()
                     .map(CircleGroup::getId)
-                    .anyMatch(circleId -> circleReadService.isCircleMember(circleId, currentUser.getId()));
+                    .anyMatch(circleId -> circleRelationshipReadService.isCircleMember(circleId, currentUser.getId()));
         }
 
-        return circleReadService.isCircleBetween(currentUser, quest.getCreator());
+        return circleRelationshipReadService.isCircleBetween(currentUser, quest.getCreator());
     }
 
     public List<CircleGroup> getVisibleCircles(AppUser owner, List<Long> circleIds) {
-        return circleReadService.getOwnedCirclesByIds(owner, circleIds);
+        return circleRelationshipReadService.getOwnedCirclesByIds(owner, circleIds);
     }
 
 }

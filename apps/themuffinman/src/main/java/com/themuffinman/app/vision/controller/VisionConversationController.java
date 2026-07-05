@@ -4,6 +4,7 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
+import com.themuffinman.app.vision.service.VisionConversationLifecycleService;
 import com.themuffinman.app.vision.service.VisionConversationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class VisionConversationController {
 
     private final VisionConversationService visionConversationService;
+    private final VisionConversationLifecycleService visionConversationLifecycleService;
 
     @PostMapping("/turns")
     public VisionConversationTurnResponseDTO processTurn(
@@ -35,7 +37,7 @@ public class VisionConversationController {
             @PathVariable Long conversationId,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return visionConversationService.resetConversation(conversationId, currentUser);
+        return visionConversationLifecycleService.resetConversation(conversationId, currentUser);
     }
 
     @PostMapping("/{conversationId}/cancel")
@@ -43,14 +45,14 @@ public class VisionConversationController {
             @PathVariable Long conversationId,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return visionConversationService.cancelConversation(conversationId, currentUser);
+        return visionConversationLifecycleService.cancelConversation(conversationId, currentUser);
     }
 
     @GetMapping("/recent")
     public VisionConversationListResponseDTO getRecentConversations(
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return visionConversationService.listRecentConversations(currentUser);
+        return visionConversationLifecycleService.listRecentConversations(currentUser);
     }
 
     @GetMapping("/{conversationId}")
@@ -58,6 +60,6 @@ public class VisionConversationController {
             @PathVariable Long conversationId,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return visionConversationService.loadConversation(conversationId, currentUser);
+        return visionConversationLifecycleService.loadConversation(conversationId, currentUser);
     }
 }

@@ -1,18 +1,19 @@
 package com.themuffinman.app.config;
 
-import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.identity.service.AdminUserDetailService;
+import com.themuffinman.app.identity.service.AppUserReadService;
 import com.themuffinman.app.identity.service.UserProfileViewService;
 import com.themuffinman.app.location.service.AdminDatabaseMetricsService;
 import com.themuffinman.app.location.service.LocationLookupService;
 import com.themuffinman.app.social.service.CircleDiscoveryService;
 import com.themuffinman.app.social.service.CircleMembershipService;
+import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.social.service.CircleRelationService;
-import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.vision.service.QuestApplicationService;
 import com.themuffinman.app.vision.service.QuestExecutionPrimitiveService;
 import com.themuffinman.app.vision.service.QuestNewsService;
 import com.themuffinman.app.vision.service.QuestViewAssembler;
+import com.themuffinman.app.vision.service.VisionConversationLifecycleService;
 import com.themuffinman.app.vision.service.VisionOptionsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,10 +47,10 @@ class ServiceTransactionConfigurationTest {
 
     @Test
     void selectedReadMethodsUseReadOnlyTransactionalMethodCoverage() throws Exception {
-        assertMethodReadOnlyTransactional(AppUserService.class, "getAllAppUsers", String.class);
-        assertMethodReadOnlyTransactional(AppUserService.class, "getAppUser", Long.class);
-        assertMethodReadOnlyTransactional(AppUserService.class, "countQuestsByCreatorId", Long.class);
-        assertMethodReadOnlyTransactional(AppUserService.class, "getOpenQuestsByCreatorId", Long.class);
+        assertMethodReadOnlyTransactional(AppUserReadService.class, "getAllAppUsers", String.class);
+        assertMethodReadOnlyTransactional(AppUserReadService.class, "getAppUser", Long.class);
+        assertMethodReadOnlyTransactional(AppUserReadService.class, "countQuestsByCreatorId", Long.class);
+        assertMethodReadOnlyTransactional(AppUserReadService.class, "getOpenQuestsByCreatorId", Long.class);
         assertMethodReadOnlyTransactional(CircleMembershipService.class, "isCircleMember", Long.class, Long.class);
         assertMethodReadOnlyTransactional(CircleMembershipService.class, "getOwnedCirclesByIds", com.themuffinman.app.identity.model.AppUser.class, java.util.List.class);
         assertMethodReadOnlyTransactional(CircleMembershipService.class, "getMembershipsByOwner", Long.class);
@@ -57,13 +58,14 @@ class ServiceTransactionConfigurationTest {
         assertMethodReadOnlyTransactional(CircleMembershipService.class, "getMembershipsByUserIdForOwner", Long.class);
         assertMethodReadOnlyTransactional(CircleRelationService.class, "isCircleBetween", com.themuffinman.app.identity.model.AppUser.class, com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(CircleRelationService.class, "findRelation", com.themuffinman.app.identity.model.AppUser.class, com.themuffinman.app.identity.model.AppUser.class);
-        assertMethodReadOnlyTransactional(CircleService.class, "getOverview", com.themuffinman.app.identity.model.AppUser.class);
-        assertMethodReadOnlyTransactional(CircleService.class, "getCircles", com.themuffinman.app.identity.model.AppUser.class);
-        assertMethodReadOnlyTransactional(CircleService.class, "getConnections", com.themuffinman.app.identity.model.AppUser.class);
-        assertMethodReadOnlyTransactional(CircleService.class, "getIncomingRequests", com.themuffinman.app.identity.model.AppUser.class);
-        assertMethodReadOnlyTransactional(CircleService.class, "getOutgoingRequests", com.themuffinman.app.identity.model.AppUser.class);
-        assertMethodReadOnlyTransactional(CircleService.class, "getInviteCandidates", com.themuffinman.app.identity.model.AppUser.class);
-        assertMethodReadOnlyTransactional(CircleService.class, "getRelationWithUser", com.themuffinman.app.identity.model.AppUser.class, Long.class);
+        assertMethodReadOnlyTransactional(CircleReadService.class, "getOverview", com.themuffinman.app.identity.model.AppUser.class);
+        assertMethodReadOnlyTransactional(CircleReadService.class, "getCircles", com.themuffinman.app.identity.model.AppUser.class);
+        assertMethodReadOnlyTransactional(CircleReadService.class, "getConnections", com.themuffinman.app.identity.model.AppUser.class);
+        assertMethodReadOnlyTransactional(CircleReadService.class, "getIncomingRequests", com.themuffinman.app.identity.model.AppUser.class);
+        assertMethodReadOnlyTransactional(CircleReadService.class, "getOutgoingRequests", com.themuffinman.app.identity.model.AppUser.class);
+        assertMethodReadOnlyTransactional(CircleReadService.class, "getRelationWithUser", com.themuffinman.app.identity.model.AppUser.class, Long.class);
+        assertMethodReadOnlyTransactional(VisionConversationLifecycleService.class, "loadConversation", Long.class, com.themuffinman.app.identity.model.AppUser.class);
+        assertMethodReadOnlyTransactional(VisionConversationLifecycleService.class, "listRecentConversations", com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(QuestExecutionPrimitiveService.class, "resolveTarget", Long.class);
         assertMethodReadOnlyTransactional(QuestExecutionPrimitiveService.class, "resolveTargetForTermDecision", Long.class, com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(QuestExecutionPrimitiveService.class, "resolveCreator", com.themuffinman.app.vision.dto.QuestRequestDTO.class, com.themuffinman.app.identity.model.AppUser.class);
