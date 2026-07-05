@@ -193,13 +193,27 @@ class VisionSemanticOrchestrationContextServiceTest {
         recentFeedback.setConfidenceScore(0.98d);
         recentFeedback.setConfidenceUpdatedAt(Instant.parse("2026-07-03T10:05:00Z"));
 
+        VisionUserPreference lastIntent = new VisionUserPreference();
+        lastIntent.setUser(user);
+        lastIntent.setPreferenceKey("last_intent");
+        lastIntent.setPreferenceValue("create_quest");
+        lastIntent.setConfidenceScore(0.83d);
+        lastIntent.setConfidenceUpdatedAt(Instant.parse("2026-07-03T10:02:00Z"));
+
+        VisionUserPreference lastRequestedSlot = new VisionUserPreference();
+        lastRequestedSlot.setUser(user);
+        lastRequestedSlot.setPreferenceKey("last_requested_slot");
+        lastRequestedSlot.setPreferenceValue("scheduled_time");
+        lastRequestedSlot.setConfidenceScore(0.81d);
+        lastRequestedSlot.setConfidenceUpdatedAt(Instant.parse("2026-07-03T10:01:00Z"));
+
         VisionMemorySummary summary = new VisionMemorySummary();
         summary.setUser(user);
         summary.setSummaryText("Top preferences: [preferred_input_type=voice]");
 
         when(preferenceRepository.findByUserAndPreferenceKey(user, "preferred_input_type")).thenReturn(java.util.Optional.of(preferredInput));
         when(preferenceRepository.findByUserAndPreferenceKey(user, "last_entity_family")).thenReturn(java.util.Optional.of(preferredFamily));
-        when(preferenceRepository.findByUser(user)).thenReturn(List.of(recentFeedback, preferredFamily, preferredInput));
+        when(preferenceRepository.findByUser(user)).thenReturn(List.of(recentFeedback, lastIntent, lastRequestedSlot, preferredFamily, preferredInput));
         when(summaryRepository.findTopByUserOrderByCreatedAtDesc(user)).thenReturn(java.util.Optional.of(summary));
         when(feedbackRepository.findTop20ByUserOrderByCreatedAtDesc(user)).thenReturn(List.of());
         when(conversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(user)).thenReturn(List.of());
@@ -213,8 +227,78 @@ class VisionSemanticOrchestrationContextServiceTest {
         assertTrue(memoryContext.getUserMemory().getPreferredEntityFamilyConfidence() < 0.79d);
         assertTrue(memoryContext.getUserMemory().getPreferredEntityFamilyConfidence() > 0.30d);
         assertTrue(memoryContext.getUserMemory().getLearningSummary().contains("preferred_input_type=voice"));
+        assertTrue(memoryContext.getUserMemory().getRetrievalSummary().contains("retrieval_focus=quests"));
         assertTrue(memoryContext.getUserMemory().getRecentFeedbackTypes().isEmpty());
-        assertEquals(3, memoryContext.getUserMemory().getLearnedPreferences().size());
+        assertEquals(5, memoryContext.getUserMemory().getLearnedPreferences().size());
         assertEquals("preferred_input_type", memoryContext.getUserMemory().getLearnedPreferences().get(0).getPreferenceKey());
+        assertEquals(5, memoryContext.getUserMemory().getExplainabilityRecords().size());
+        assertEquals("habit_selection", memoryContext.getUserMemory().getExplainabilityRecords().get(0).getDecisionType());
+        assertEquals("intent_selection", memoryContext.getUserMemory().getExplainabilityRecords().get(2).getDecisionType());
+        assertEquals("slot_focus", memoryContext.getUserMemory().getExplainabilityRecords().get(3).getDecisionType());
+    }
+
+    @Test
+    void fallsBackToRecentTopicFamilyWhenPreferredFamilyConfidenceIsWeak() {
+        VisionConversationRepository conversationRepository = mock(VisionConversationRepository.class);
+        VisionTurnRepository turnRepository = mock(VisionTurnRepository.class);
+        VisionUserPreferenceRepository preferenceRepository = mock(VisionUserPreferenceRepository.class);
+        VisionMemoryFeedbackEventRepository feedbackRepository = mock(VisionMemoryFeedbackEventRepository.class);
+        VisionMemorySummaryRepository summaryRepository = mock(VisionMemorySummaryRepository.class);
+
+        VisionSemanticOrchestrationContextService service = new VisionSemanticOrchestrationContextService(
+                voiceProperties,
+                new VisionProperties(),
+                conversationRepository,
+                turnRepository,
+                preferenceRepository,
+                feedbackRepository,
+                summaryRepository
+        );
+
+        AppUser user = new AppUser();
+        user.setId(13L);
+        user.setUsername("jsak");
+
+        VisionUserPreference weakFamily = new VisionUserPreference();
+        weakFamily.setUser(user);
+        weakFamily.setPreferenceKey("last_entity_family");
+        weakFamily.setPreferenceValue("circles");
+        weakFamily.setConfidenceScore(0.18d);
+        weakFamily.setConfidenceUpdatedAt(Instant.parse("2026-07-03T10:00:00Z"));
+
+        VisionMemorySummary summary = new VisionMemorySummary();
+        summary.setUser(user);
+        summary.setSummaryText("Memory summary stays visible even when family confidence is weak.");
+
+        VisionConversation circlesConversation = new VisionConversation();
+        circlesConversation.setId(20L);
+        circlesConversation.setOwner(user);
+        circlesConversation.setIntent(VisionIntent.VIEW_CIRCLES);
+        circlesConversation.setStatus(VisionConversationStatus.COMPLETED);
+        circlesConversation.setCreatedAt(Instant.parse("2026-07-03T10:10:30Z"));
+        circlesConversation.setUpdatedAt(Instant.parse("2026-07-03T10:15:30Z"));
+
+        VisionConversation questConversation = new VisionConversation();
+        questConversation.setId(21L);
+        questConversation.setOwner(user);
+        questConversation.setIntent(VisionIntent.CREATE_QUEST);
+        questConversation.setStatus(VisionConversationStatus.ACTIVE);
+        questConversation.setCreatedAt(Instant.parse("2026-07-03T09:10:30Z"));
+        questConversation.setUpdatedAt(Instant.parse("2026-07-03T09:15:30Z"));
+
+        when(preferenceRepository.findByUserAndPreferenceKey(user, "last_entity_family")).thenReturn(java.util.Optional.of(weakFamily));
+        when(preferenceRepository.findByUser(user)).thenReturn(List.of(weakFamily));
+        when(summaryRepository.findTopByUserOrderByCreatedAtDesc(user)).thenReturn(java.util.Optional.of(summary));
+        when(feedbackRepository.findTop20ByUserOrderByCreatedAtDesc(user)).thenReturn(List.of());
+        when(conversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(user)).thenReturn(List.of(circlesConversation, questConversation));
+
+        var memoryContext = service.buildMemoryContext(user, null);
+
+        assertEquals("circles", memoryContext.getUserMemory().getRecentEntityFamilies().get(0));
+        assertEquals("circles", memoryContext.getUserMemory().getRetrievedEntityFamily());
+        assertTrue(memoryContext.getUserMemory().getRetrievedEntityFamilyConfidence() >= 0.30d);
+        assertTrue(memoryContext.getUserMemory().getRetrievalSummary().contains("retrieval_focus=circles"));
+        assertTrue(memoryContext.getUserMemory().getLearningSummary().contains("Memory summary"));
+        assertTrue(memoryContext.getUserMemory().getPreferredEntityFamily() == null);
     }
 }

@@ -11,7 +11,7 @@ import com.themuffinman.app.location.model.QuestLocationSource;
 import com.themuffinman.app.location.model.UserLocationMode;
 import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import com.themuffinman.app.social.service.CircleMembershipService;
-import com.themuffinman.app.social.service.CircleService;
+import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.vision.dto.QuestRequestDTO;
 import com.themuffinman.app.vision.model.Quest;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class LocationSettingsService {
     private final CircleMembershipService circleMembershipService;
-    private final CircleService circleService;
+    private final CircleReadService circleReadService;
     private final AppUserRepository appUserRepository;
     private final LocationLookupService locationLookupService;
     private final LocationAccessPolicyService locationAccessPolicyService;
@@ -288,7 +288,7 @@ public class LocationSettingsService {
             if (candidate.getId().equals(owner.getId())) {
                 continue;
             }
-            if (circleService.getRelationWithUser(owner, candidate.getId()).getRelationStatus() != CircleRelationStatusDTO.CIRCLE) {
+            if (circleReadService.getRelationWithUser(owner, candidate.getId()).getRelationStatus() != CircleRelationStatusDTO.CIRCLE) {
                 throw ServiceErrors.badRequest("Exact address can only be shared with people from your circles");
             }
         }

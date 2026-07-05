@@ -6,8 +6,6 @@ import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.identity.service.AppUserLookupService;
 import com.themuffinman.app.social.dto.BulkCircleMembershipActionDTO;
 import com.themuffinman.app.social.dto.BulkCircleMembershipUpdateDTO;
-import com.themuffinman.app.social.dto.AdminCircleGroupResponseDTO;
-import com.themuffinman.app.social.dto.AdminCircleOverviewDTO;
 import com.themuffinman.app.social.dto.CircleBlockCreateDTO;
 import com.themuffinman.app.social.dto.CircleContactDTO;
 import com.themuffinman.app.social.dto.CircleContactListResponseDTO;
@@ -17,17 +15,17 @@ import com.themuffinman.app.social.dto.CircleOverviewDTO;
 import com.themuffinman.app.social.dto.CircleRequestCreateDTO;
 import com.themuffinman.app.social.dto.CircleRequestListResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
-import com.themuffinman.app.social.dto.CircleRelationDTO;
 import com.themuffinman.app.social.dto.CircleSearchResultDTO;
 import com.themuffinman.app.social.dto.CircleSearchResultListResponseDTO;
+import com.themuffinman.app.social.dto.CircleRelationDTO;
 import com.themuffinman.app.social.dto.ConnectionCircleUpdateDTO;
 import com.themuffinman.app.social.model.CircleGroup;
 import com.themuffinman.app.social.model.CircleMembership;
 import com.themuffinman.app.social.model.CircleRequest;
 import com.themuffinman.app.social.repository.CircleGroupRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
@@ -40,18 +38,20 @@ public class CircleService {
     private final CircleGroupRepository circleGroupRepository;
     private final CircleMembershipService circleMembershipService;
     private final CircleRelationService circleRelationService;
-    private final CircleDiscoveryService circleDiscoveryService;
     private final CircleReadService circleReadService;
+    private final CircleDiscoveryService circleDiscoveryService;
     private final CircleViewAssembler circleViewAssembler;
 
-    @Transactional(readOnly = true)
-    public List<CircleRequestResponseDTO> getMyCircles(AppUser currentUser) {
-        return circleReadService.getMyCircles(currentUser);
+    public CircleRequestResponseDTO createCircleRequest(CircleRequestCreateDTO dto, AppUser currentUser) {
+        return circleRelationService.createCircleRequest(dto, currentUser);
     }
 
-    @Transactional(readOnly = true)
-    public AdminCircleOverviewDTO getAdminOverview(AppUser currentUser, String query) {
-        return circleReadService.getAdminOverview(currentUser, query);
+    public CircleRequestResponseDTO acceptCircleRequest(Long requestId, AppUser currentUser) {
+        return circleRelationService.acceptCircleRequest(requestId, currentUser);
+    }
+
+    public void deleteCircleRequest(Long requestId, AppUser currentUser) {
+        circleRelationService.deleteCircleRequest(requestId, currentUser);
     }
 
     @Transactional(readOnly = true)
@@ -65,16 +65,6 @@ public class CircleService {
     }
 
     @Transactional(readOnly = true)
-    public List<CircleGroupResponseDTO> getCirclesForUserAsAdmin(Long userId, AppUser currentUser) {
-        return circleReadService.getCirclesForUserAsAdmin(userId, currentUser);
-    }
-
-    @Transactional(readOnly = true)
-    public List<AdminCircleGroupResponseDTO> getAllCirclesForAdmin() {
-        return circleReadService.getAllCirclesForAdmin();
-    }
-
-    @Transactional(readOnly = true)
     public List<CircleContactDTO> getConnections(AppUser currentUser) {
         return circleReadService.getConnections(currentUser);
     }
@@ -82,11 +72,6 @@ public class CircleService {
     @Transactional(readOnly = true)
     public CircleContactListResponseDTO getConnections(AppUser currentUser, String query, Long circleId, boolean unassigned, int page, int size) {
         return circleReadService.getConnections(currentUser, query, circleId, unassigned, page, size);
-    }
-
-    @Transactional(readOnly = true)
-    public List<CircleContactDTO> getConnectionsForUserAsAdmin(Long userId, AppUser currentUser) {
-        return circleReadService.getConnectionsForUserAsAdmin(userId, currentUser);
     }
 
     @Transactional(readOnly = true)
@@ -115,40 +100,13 @@ public class CircleService {
     }
 
     @Transactional(readOnly = true)
-    public CircleSearchResultListResponseDTO searchCircleUsers(AppUser currentUser, String query, int page, int size) {
-        return circleDiscoveryService.searchCircleUsers(currentUser, query, page, size);
-    }
-
-    @Transactional(readOnly = true)
     public CircleSearchResultListResponseDTO getInviteCandidatesPage(AppUser currentUser, int page, int size) {
         return circleDiscoveryService.getInviteCandidatesPage(currentUser, page, size);
     }
 
     @Transactional(readOnly = true)
-    public CircleSearchResultListResponseDTO getBlockedUsers(AppUser currentUser, String query, int page, int size) {
-        return circleDiscoveryService.getBlockedUsers(currentUser, query, page, size);
-    }
-
-    @Transactional(readOnly = true)
     public CircleRelationDTO getRelationWithUser(AppUser currentUser, Long otherUserId) {
-        return circleDiscoveryService.getRelationWithUser(currentUser, otherUserId);
-    }
-
-    @Transactional(readOnly = true)
-    public List<CircleSearchResultDTO> searchCircleUsers(AppUser currentUser, String query) {
-        return circleDiscoveryService.searchCircleUsers(currentUser, query);
-    }
-
-    public CircleRequestResponseDTO createCircleRequest(CircleRequestCreateDTO dto, AppUser currentUser) {
-        return circleRelationService.createCircleRequest(dto, currentUser);
-    }
-
-    public CircleRequestResponseDTO acceptCircleRequest(Long requestId, AppUser currentUser) {
-        return circleRelationService.acceptCircleRequest(requestId, currentUser);
-    }
-
-    public void deleteCircleRequest(Long requestId, AppUser currentUser) {
-        circleRelationService.deleteCircleRequest(requestId, currentUser);
+        return circleReadService.getRelationWithUser(currentUser, otherUserId);
     }
 
     public CircleRequestResponseDTO blockCircleUser(CircleBlockCreateDTO dto, AppUser currentUser) {
@@ -157,21 +115,6 @@ public class CircleService {
 
     public void unblockCircleUser(Long blockedUserId, AppUser currentUser) {
         circleRelationService.unblockCircleUser(blockedUserId, currentUser);
-    }
-
-    @Transactional(readOnly = true)
-    public boolean isCircleBetween(AppUser leftUser, AppUser rightUser) {
-        return circleReadService.isCircleBetween(leftUser, rightUser);
-    }
-
-    @Transactional(readOnly = true)
-    public boolean isCircleMember(Long circleId, Long memberUserId) {
-        return circleReadService.isCircleMember(circleId, memberUserId);
-    }
-
-    @Transactional(readOnly = true)
-    public List<CircleGroup> getOwnedCirclesByIds(AppUser owner, List<Long> circleIds) {
-        return circleReadService.getOwnedCirclesByIds(owner, circleIds);
     }
 
     public CircleGroupResponseDTO createCircle(CircleGroupRequestDTO dto, AppUser currentUser) {
@@ -214,7 +157,7 @@ public class CircleService {
 
     public CircleContactDTO updateConnectionCircles(Long userId, ConnectionCircleUpdateDTO dto, AppUser currentUser) {
         AppUser contact = appUserLookupService.requireById(userId);
-        if (!isCircleBetween(currentUser, contact)) {
+        if (!circleReadService.isCircleBetween(currentUser, contact)) {
             throw ServiceErrors.badRequest("You can only organize connected users into circles");
         }
 
@@ -257,7 +200,6 @@ public class CircleService {
         return List.copyOf(nextCircleIds);
     }
 
-
     private CircleGroup requireCircleOwnedByCurrentUser(Long circleId, AppUser currentUser) {
         return circleGroupRepository.findByIdAndOwnerId(circleId, currentUser.getId())
                 .orElseThrow(() -> ServiceErrors.notFound("Circle not found with id " + circleId));
@@ -281,5 +223,4 @@ public class CircleService {
             throw ServiceErrors.forbidden("Admin access is required");
         }
     }
-
 }

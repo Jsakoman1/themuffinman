@@ -12,8 +12,6 @@ Completed plans and master plans belong in plan-completion or retrospective arti
 - `BACKEND-DRIFT-WORKMARKET-002`: Reduce the remaining workmarket backend hotspots by continuing the service-boundary cleanup around dashboard, quest state, validation, news, execution primitives, and application/admin/controller orchestration. Planned in `.agents/todo-plans/94-backend-hotspot-reduction-workmarket-social.md`.
 - `BACKEND-DRIFT-SOCIAL-003`: Reduce the remaining social backend hotspots by continuing the service-boundary cleanup around circle read, discovery, relation, membership, assembler, and controller orchestration. Planned in `.agents/todo-plans/94-backend-hotspot-reduction-workmarket-social.md`.
 - `BACKEND-DRIFT-IDENTITY-LOCATION-004`: Reduce the remaining identity and location backend drift after the workmarket and social slices settle, using the same service-boundary and read-model standardization pattern. Planned in `.agents/backend-drift-remediation-master-plan.md`.
-- `VISION-LEARNING-EXPLAINABILITY-005`: Add explicit explainability records for learned preference ranking, intent selection, and slot-focus decisions so the `/vision` learning loop can show why a habit or route won without reconstructing it from raw events.
-- `VISION-LEARNING-RETRIEVAL-006`: Expand learned-memory retrieval coverage for task-family and circle-family edge cases, with regression scenarios for broader topic switching and summary recall under weak confidence.
 
 ## Intake Rules
 

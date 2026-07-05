@@ -2,7 +2,7 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
-import com.themuffinman.app.social.service.CircleService;
+import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.vision.model.Quest;
 import com.themuffinman.app.vision.model.QuestAudience;
 import org.junit.jupiter.api.Test;
@@ -16,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class QuestVisibilityServiceTest {
 
     @Mock
-    private CircleService circleService;
+    private CircleReadService circleReadService;
 
     private final QuestAccessPolicyService questAccessPolicyService = new QuestAccessPolicyService();
 
     @Test
     void allowsEveryoneAudienceForAnyUser() {
-        QuestVisibilityService visibilityService = new QuestVisibilityService(circleService, questAccessPolicyService);
+        QuestVisibilityService visibilityService = new QuestVisibilityService(circleReadService, questAccessPolicyService);
 
         AppUser viewer = createUser(1L, "viewer");
         AppUser creator = createUser(2L, "creator");
@@ -35,7 +35,7 @@ class QuestVisibilityServiceTest {
 
     @Test
     void allowsCircleAudienceWhenUsersAreConnected() {
-        QuestVisibilityService visibilityService = new QuestVisibilityService(circleService, questAccessPolicyService);
+        QuestVisibilityService visibilityService = new QuestVisibilityService(circleReadService, questAccessPolicyService);
 
         AppUser viewer = createUser(1L, "viewer");
         AppUser creator = createUser(2L, "creator");
@@ -43,14 +43,14 @@ class QuestVisibilityServiceTest {
         quest.setCreator(creator);
         quest.setAudience(QuestAudience.CIRCLES);
 
-        org.mockito.Mockito.when(circleService.isCircleBetween(viewer, creator)).thenReturn(true);
+        org.mockito.Mockito.when(circleReadService.isCircleBetween(viewer, creator)).thenReturn(true);
 
         assertEquals(true, visibilityService.canViewQuest(viewer, quest));
     }
 
     @Test
     void allowsAdminRegardlessOfAudience() {
-        QuestVisibilityService visibilityService = new QuestVisibilityService(circleService, questAccessPolicyService);
+        QuestVisibilityService visibilityService = new QuestVisibilityService(circleReadService, questAccessPolicyService);
 
         AppUser admin = createUser(1L, "admin");
         admin.setRole(AppUserRole.ADMIN);

@@ -6,7 +6,7 @@ import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import com.themuffinman.app.identity.dto.ProfilePrimaryActionDTO;
 import com.themuffinman.app.identity.dto.UserProfileViewDTO;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.social.service.CircleService;
+import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.social.service.SocialRelationActionHelper;
 import com.themuffinman.app.social.service.SocialPresentationHelper;
 import com.themuffinman.app.vision.model.ReviewRole;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserProfileViewService {
     private final AppUserService appUserService;
-    private final CircleService circleService;
+    private final CircleReadService circleReadService;
     private final IdentityUserSummaryAssembler identityUserSummaryAssembler;
     private final UserReviewService userReviewService;
     private final SocialPresentationHelper socialPresentationHelper;
@@ -43,7 +43,7 @@ public class UserProfileViewService {
                         .blockedByCurrentUser(false)
                         .exactResolutionEligible(true)
                         .build()
-                : circleService.getRelationWithUser(currentUser, profileUser.getId());
+                : circleReadService.getRelationWithUser(currentUser, profileUser.getId());
 
         return UserProfileViewDTO.builder()
                 .profile(profile)

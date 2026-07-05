@@ -8,6 +8,7 @@ import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.identity.service.UserProfileViewService;
 import com.themuffinman.app.semantic.SemanticAliasRegistry;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
+import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
@@ -48,6 +49,8 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
     @Mock
     private ChatService chatService;
     @Mock
+    private CircleReadService circleReadService;
+    @Mock
     private CircleService circleService;
     @Mock
     private QuestService questService;
@@ -72,6 +75,7 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 appUserRepository,
                 userProfileViewService,
                 chatService,
+                circleReadService,
                 circleService,
                 questService,
                 questApplicationService,
@@ -108,7 +112,7 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 .name("Neighbour circle")
                 .memberCount(3)
                 .build();
-        when(circleService.getCircles(currentUser)).thenReturn(List.of(circle));
+        when(circleReadService.getCircles(currentUser)).thenReturn(List.of(circle));
 
         VisionResolvedCircleTarget result = service.resolveOwnedCircle(currentUser, "Neighbour group");
 

@@ -23,6 +23,7 @@ import com.themuffinman.app.social.dto.CircleMemberDTO;
 import com.themuffinman.app.social.dto.CircleGroupRequestDTO;
 import com.themuffinman.app.social.dto.CircleRequestCreateDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
+import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
@@ -59,6 +60,7 @@ public class VisionCapabilityPreviewService {
     private final AppUserRepository appUserRepository;
     private final UserProfileViewService userProfileViewService;
     private final ChatService chatService;
+    private final CircleReadService circleReadService;
     private final CircleService circleService;
     private final QuestService questService;
     private final QuestApplicationService questApplicationService;
@@ -80,6 +82,7 @@ public class VisionCapabilityPreviewService {
             AppUserRepository appUserRepository,
             UserProfileViewService userProfileViewService,
             ChatService chatService,
+            CircleReadService circleReadService,
             CircleService circleService,
             QuestService questService,
             QuestApplicationService questApplicationService,
@@ -94,6 +97,7 @@ public class VisionCapabilityPreviewService {
         this.appUserRepository = appUserRepository;
         this.userProfileViewService = userProfileViewService;
         this.chatService = chatService;
+        this.circleReadService = circleReadService;
         this.circleService = circleService;
         this.questService = questService;
         this.questApplicationService = questApplicationService;
@@ -226,7 +230,7 @@ public class VisionCapabilityPreviewService {
             return null;
         }
 
-        List<CircleGroupResponseDTO> circles = circleService.getCircles(currentUser);
+        List<CircleGroupResponseDTO> circles = circleReadService.getCircles(currentUser);
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "circles_count", "Circles", String.valueOf(circles.size()));
         for (int index = 0; index < Math.min(circles.size(), 4); index++) {
@@ -248,6 +252,325 @@ public class VisionCapabilityPreviewService {
                 .items(items)
                 .tone("info")
                 .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewCircleDetail(AppUser currentUser, Long circleId) {
+        if (currentUser == null || circleId == null) {
+            return null;
+        }
+
+        CircleGroupResponseDTO circle = circleReadService.getCircles(currentUser).stream()
+                .filter(candidate -> circleId.equals(candidate.getId()))
+                .findFirst()
+                .orElse(null);
+        if (circle == null) {
+            return null;
+        }
+
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "target_circle_query", "Circle", circle.getName());
+        addItem(items, "circle_member_count", "Members", String.valueOf(circle.getMemberCount()));
+        List<CircleMemberDTO> members = circle.getMembers() == null ? List.of() : circle.getMembers();
+        for (int index = 0; index < Math.min(members.size(), 6); index++) {
+            CircleMemberDTO member = members.get(index);
+            addItem(items, "circle_member_" + (index + 1), "Member " + (index + 1), member.getUsername());
+        }
+
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_circle_detail")
+                .title("Circle")
+                .summary("Showing the details for " + circle.getName() + ".")
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewCircleDraft(String circleName) {
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "circle_name", "Circle name", circleName);
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("create_circle")
+                .title("Circle draft")
+                .summary(circleName == null || circleName.isBlank()
+                        ? "A new circle is being prepared."
+                        : "Review the new circle before confirmation.")
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewCreateCircleRequestDraft(String targetUsername) {
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "target_user", "Person", targetUsername);
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("create_circle_request")
+                .title("Circle request draft")
+                .summary(targetUsername == null || targetUsername.isBlank()
+                        ? "A new circle request is being prepared."
+                        : "Review the connection invite before confirmation.")
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewAcceptCircleRequestDraft(String targetUsername) {
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "target_user", "Person", targetUsername);
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("accept_circle_request")
+                .title("Circle request acceptance review")
+                .summary("Review the incoming circle request you are about to accept.")
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewDeleteCircleRequestDraft(String targetUsername, boolean incoming) {
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "target_user", "Person", targetUsername);
+        addItem(items, "circle_request_direction", "Direction", incoming ? "Incoming request" : "Outgoing invite");
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("delete_circle_request")
+                .title(incoming ? "Circle request decline review" : "Circle invite cancellation review")
+                .summary(incoming
+                        ? "Review the incoming circle request you are about to decline."
+                        : "Review the outgoing circle invite you are about to cancel.")
+                .items(items)
+                .tone("warning")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewUpdateCircleDraft(
+            String currentCircleName,
+            String draftCircleName
+    ) {
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "target_circle_query", "Circle", currentCircleName);
+        addItem(items, "circle_name", "New name", draftCircleName);
+        String summary = draftCircleName == null || draftCircleName.isBlank()
+                ? "The current circle is loaded. Add the new circle name before confirmation."
+                : "Review the circle rename before confirmation.";
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("update_circle")
+                .title("Circle update draft")
+                .summary(summary)
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewDeleteCircleDraft(String currentCircleName, String memberCountLabel) {
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "target_circle_query", "Circle", currentCircleName);
+        addItem(items, "circle_member_count", "Members", memberCountLabel);
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("delete_circle")
+                .title("Circle deletion review")
+                .summary("Review the circle you are about to delete.")
+                .items(items)
+                .tone("warning")
+                .build();
+    }
+
+    public CircleGroupResponseDTO createCircle(String circleName, AppUser currentUser) {
+        return circleService.createCircle(CircleGroupRequestDTO.builder().name(circleName).build(), currentUser);
+    }
+
+    public VisionResolvedUserTarget resolveCircleRequestRecipient(AppUser currentUser, String query) {
+        if (!hasText(query)) {
+            return VisionResolvedUserTarget.unresolved("Who should receive the circle request? Say a username, email, or name fragment.");
+        }
+
+        String normalizedTargetQuery = normalizeEntityQuery(SemanticEntityFamily.USER, query).toLowerCase(Locale.ROOT);
+        List<AppUser> matches = appUserRepository.searchByUsernameOrEmail(normalizedTargetQuery).stream()
+                .filter(candidate -> candidate != null && currentUser != null && !candidate.getId().equals(currentUser.getId()))
+                .toList();
+        if (matches.isEmpty()) {
+            return VisionResolvedUserTarget.unresolved("I could not identify one person for \"" + query.trim() + "\".");
+        }
+        List<AppUser> exactMatches = matches.stream()
+                .filter(candidate -> candidate.getUsername() != null && candidate.getUsername().equalsIgnoreCase(query.trim()))
+                .toList();
+        if (exactMatches.size() == 1) {
+            AppUser target = exactMatches.getFirst();
+            return VisionResolvedUserTarget.resolved(target.getId(), target.getUsername());
+        }
+        if (matches.size() == 1) {
+            AppUser target = matches.getFirst();
+            return VisionResolvedUserTarget.resolved(target.getId(), target.getUsername());
+        }
+        String suggestions = matches.stream()
+                .limit(3)
+                .map(AppUser::getUsername)
+                .reduce((left, right) -> left + ", " + right)
+                .orElse("matching users");
+        return VisionResolvedUserTarget.unresolved("I found several people matching \"" + query.trim() + "\": " + suggestions + ". Say the exact username.");
+    }
+
+    public VisionResolvedCircleRequestTarget resolveIncomingCircleRequest(AppUser currentUser, String query) {
+        return resolveCircleRequest(currentUser, query, true);
+    }
+
+    public VisionResolvedCircleRequestTarget resolveAccessiblePendingCircleRequest(AppUser currentUser, String query) {
+        if (!hasText(query)) {
+            return VisionResolvedCircleRequestTarget.unresolved("Who is the person on this pending circle request? Say the exact username.");
+        }
+        VisionResolvedCircleRequestTarget incoming = resolveCircleRequest(currentUser, query, true);
+        if (incoming.resolved()) {
+            return incoming;
+        }
+        VisionResolvedCircleRequestTarget outgoing = resolveCircleRequest(currentUser, query, false);
+        if (outgoing.resolved()) {
+            return outgoing;
+        }
+        if (incoming.blockingMessage() != null && outgoing.blockingMessage() != null) {
+            return VisionResolvedCircleRequestTarget.unresolved("I could not find one pending circle request for \"" + query.trim() + "\".");
+        }
+        return incoming.blockingMessage() == null ? outgoing : incoming;
+    }
+
+    public VisionResolvedCircleTarget resolveOwnedCircle(AppUser currentUser, String query) {
+        if (!hasText(query)) {
+            return VisionResolvedCircleTarget.unresolved("What circle should I use? Say the circle name or circle id.");
+        }
+
+        Long circleId = extractCircleId(query);
+        List<CircleGroupResponseDTO> circles = circleReadService.getCircles(currentUser);
+        List<CircleGroupResponseDTO> candidates = circles.stream()
+                .filter(circle -> matchesCircleQuery(circle, query, circleId))
+                .toList();
+        if (candidates.isEmpty()) {
+            return VisionResolvedCircleTarget.unresolved("I could not find one owned circle from \"" + query.trim() + "\". Say the exact circle name or circle id.");
+        }
+        List<CircleGroupResponseDTO> exactCandidates = candidates.stream()
+                .filter(circle -> circle.getName() != null && circle.getName().trim().equalsIgnoreCase(query.trim()))
+                .toList();
+        if (exactCandidates.size() == 1) {
+            return toResolvedCircleTarget(exactCandidates.get(0));
+        }
+        if (candidates.size() == 1) {
+            return toResolvedCircleTarget(candidates.get(0));
+        }
+        String suggestions = candidates.stream()
+                .limit(3)
+                .map(circle -> "#" + circle.getId() + " " + circle.getName())
+                .reduce((left, right) -> left + ", " + right)
+                .orElse("matching circles");
+        return VisionResolvedCircleTarget.unresolved("I found several circles matching \"" + query.trim() + "\": " + suggestions + ". Say the exact circle name or circle id.");
+    }
+
+    public CircleGroupResponseDTO updateCircle(AppUser currentUser, Long circleId, String circleName) {
+        return circleService.updateCircle(circleId, CircleGroupRequestDTO.builder().name(circleName).build(), currentUser);
+    }
+
+    public void deleteCircle(AppUser currentUser, Long circleId) {
+        circleService.deleteCircle(circleId, currentUser);
+    }
+
+    public CircleRequestResponseDTO createCircleRequest(AppUser currentUser, Long targetUserId) {
+        return circleService.createCircleRequest(CircleRequestCreateDTO.builder().recipientId(targetUserId).build(), currentUser);
+    }
+
+    public CircleRequestResponseDTO acceptCircleRequest(AppUser currentUser, Long requestId) {
+        return circleService.acceptCircleRequest(requestId, currentUser);
+    }
+
+    public void deleteCircleRequest(AppUser currentUser, Long requestId) {
+        circleService.deleteCircleRequest(requestId, currentUser);
+    }
+
+    private VisionResolvedCircleRequestTarget resolveCircleRequest(AppUser currentUser, String query, boolean incoming) {
+        if (!hasText(query)) {
+            return VisionResolvedCircleRequestTarget.unresolved("Who is the person on this circle request? Say the exact username.");
+        }
+        List<CircleRequestResponseDTO> requests = incoming
+                ? circleReadService.getIncomingRequests(currentUser)
+                : circleReadService.getOutgoingRequests(currentUser);
+        String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.USER, query).toLowerCase(Locale.ROOT);
+        List<CircleRequestResponseDTO> matches = requests.stream()
+                .filter(request -> request.getAcceptedAt() == null)
+                .filter(request -> matchesCircleRequestQuery(request, query, normalizedQuery))
+                .toList();
+        if (matches.isEmpty()) {
+            return VisionResolvedCircleRequestTarget.unresolved(incoming
+                    ? "I could not find one incoming circle request from \"" + query.trim() + "\"."
+                    : "I could not find one outgoing circle invite for \"" + query.trim() + "\".");
+        }
+        List<CircleRequestResponseDTO> exactMatches = matches.stream()
+                .filter(request -> request.getCounterpartUsername() != null
+                        && request.getCounterpartUsername().equalsIgnoreCase(query.trim()))
+                .toList();
+        if (exactMatches.size() == 1) {
+            return toResolvedCircleRequestTarget(exactMatches.getFirst(), incoming);
+        }
+        if (matches.size() == 1) {
+            return toResolvedCircleRequestTarget(matches.getFirst(), incoming);
+        }
+        String suggestions = matches.stream()
+                .limit(3)
+                .map(CircleRequestResponseDTO::getCounterpartUsername)
+                .reduce((left, right) -> left + ", " + right)
+                .orElse("matching users");
+        return VisionResolvedCircleRequestTarget.unresolved("I found several pending circle requests matching \"" + query.trim() + "\": " + suggestions + ". Say the exact username.");
+    }
+
+    private boolean matchesCircleRequestQuery(CircleRequestResponseDTO request, String rawQuery, String normalizedQuery) {
+        if (!hasText(rawQuery)) {
+            return false;
+        }
+        String haystack = String.join(" ",
+                nullToEmpty(request.getCounterpartUsername()),
+                nullToEmpty(request.getRequesterUsername()),
+                nullToEmpty(request.getRecipientUsername()))
+                .toLowerCase(Locale.ROOT);
+        return haystack.contains(normalizedQuery);
+    }
+
+    private VisionResolvedCircleRequestTarget toResolvedCircleRequestTarget(CircleRequestResponseDTO request, boolean incoming) {
+        return VisionResolvedCircleRequestTarget.resolved(
+                request.getId(),
+                request.getCounterpartUserId(),
+                request.getCounterpartUsername(),
+                incoming
+        );
+    }
+
+    private boolean matchesCircleQuery(CircleGroupResponseDTO circle, String rawQuery, Long circleId) {
+        if (circle == null || !hasText(rawQuery)) {
+            return false;
+        }
+        if (circleId != null) {
+            return circleId.equals(circle.getId());
+        }
+        String query = normalizeEntityQuery(SemanticEntityFamily.CIRCLE, rawQuery).toLowerCase(Locale.ROOT);
+        String haystack = String.join(" ",
+                nullToEmpty(circle.getName()),
+                nullToEmpty(circle.getMemberPreviewLabel()))
+                .toLowerCase(Locale.ROOT);
+        return haystack.contains(query);
+    }
+
+    private VisionResolvedCircleTarget toResolvedCircleTarget(CircleGroupResponseDTO circle) {
+        return VisionResolvedCircleTarget.resolved(
+                circle.getId(),
+                circle.getName(),
+                String.valueOf(circle.getMemberCount())
+        );
+    }
+
+    private Long extractCircleId(String query) {
+        if (!hasText(query)) {
+            return null;
+        }
+        Matcher matcher = CIRCLE_ID_PATTERN.matcher(query.trim());
+        if (!matcher.find()) {
+            return null;
+        }
+        String direct = matcher.group(1) != null ? matcher.group(1) : matcher.group(2);
+        if (direct == null || direct.isBlank()) {
+            return null;
+        }
+        return Long.parseLong(direct);
     }
 
     public VisionCapabilityPreviewDTO previewApplications(AppUser currentUser) {
@@ -380,37 +703,6 @@ public class VisionCapabilityPreviewService {
                 .build();
     }
 
-    public VisionCapabilityPreviewDTO previewCircleDetail(AppUser currentUser, Long circleId) {
-        if (currentUser == null || circleId == null) {
-            return null;
-        }
-
-        CircleGroupResponseDTO circle = circleService.getCircles(currentUser).stream()
-                .filter(candidate -> circleId.equals(candidate.getId()))
-                .findFirst()
-                .orElse(null);
-        if (circle == null) {
-            return null;
-        }
-
-        List<VisionSlotSummaryDTO> items = new ArrayList<>();
-        addItem(items, "target_circle_query", "Circle", circle.getName());
-        addItem(items, "circle_member_count", "Members", String.valueOf(circle.getMemberCount()));
-        List<CircleMemberDTO> members = circle.getMembers() == null ? List.of() : circle.getMembers();
-        for (int index = 0; index < Math.min(members.size(), 6); index++) {
-            CircleMemberDTO member = members.get(index);
-            addItem(items, "circle_member_" + (index + 1), "Member " + (index + 1), member.getUsername());
-        }
-
-        return VisionCapabilityPreviewDTO.builder()
-                .capabilityId("view_circle_detail")
-                .title("Circle")
-                .summary("Showing the details for " + circle.getName() + ".")
-                .items(items)
-                .tone("info")
-                .build();
-    }
-
     public VisionCapabilityPreviewDTO previewQuestDetail(AppUser currentUser, Long questId) {
         if (currentUser == null || questId == null) {
             return null;
@@ -477,93 +769,6 @@ public class VisionCapabilityPreviewService {
                 .summary("Showing the details for your application on " + application.getQuestTitle() + ".")
                 .items(items)
                 .tone("info")
-                .build();
-    }
-
-    public VisionCapabilityPreviewDTO previewCircleDraft(String circleName) {
-        List<VisionSlotSummaryDTO> items = new ArrayList<>();
-        addItem(items, "circle_name", "Circle name", circleName);
-        return VisionCapabilityPreviewDTO.builder()
-                .capabilityId("create_circle")
-                .title("Circle draft")
-                .summary(circleName == null || circleName.isBlank()
-                        ? "A new circle is being prepared."
-                        : "Review the new circle before confirmation.")
-                .items(items)
-                .tone("info")
-                .build();
-    }
-
-    public VisionCapabilityPreviewDTO previewCreateCircleRequestDraft(String targetUsername) {
-        List<VisionSlotSummaryDTO> items = new ArrayList<>();
-        addItem(items, "target_user", "Person", targetUsername);
-        return VisionCapabilityPreviewDTO.builder()
-                .capabilityId("create_circle_request")
-                .title("Circle request draft")
-                .summary(targetUsername == null || targetUsername.isBlank()
-                        ? "A new circle request is being prepared."
-                        : "Review the connection invite before confirmation.")
-                .items(items)
-                .tone("info")
-                .build();
-    }
-
-    public VisionCapabilityPreviewDTO previewAcceptCircleRequestDraft(String targetUsername) {
-        List<VisionSlotSummaryDTO> items = new ArrayList<>();
-        addItem(items, "target_user", "Person", targetUsername);
-        return VisionCapabilityPreviewDTO.builder()
-                .capabilityId("accept_circle_request")
-                .title("Circle request acceptance review")
-                .summary("Review the incoming circle request you are about to accept.")
-                .items(items)
-                .tone("info")
-                .build();
-    }
-
-    public VisionCapabilityPreviewDTO previewDeleteCircleRequestDraft(String targetUsername, boolean incoming) {
-        List<VisionSlotSummaryDTO> items = new ArrayList<>();
-        addItem(items, "target_user", "Person", targetUsername);
-        addItem(items, "circle_request_direction", "Direction", incoming ? "Incoming request" : "Outgoing invite");
-        return VisionCapabilityPreviewDTO.builder()
-                .capabilityId("delete_circle_request")
-                .title(incoming ? "Circle request decline review" : "Circle invite cancellation review")
-                .summary(incoming
-                        ? "Review the incoming circle request you are about to decline."
-                        : "Review the outgoing circle invite you are about to cancel.")
-                .items(items)
-                .tone("warning")
-                .build();
-    }
-
-    public VisionCapabilityPreviewDTO previewUpdateCircleDraft(
-            String currentCircleName,
-            String draftCircleName
-    ) {
-        List<VisionSlotSummaryDTO> items = new ArrayList<>();
-        addItem(items, "target_circle_query", "Circle", currentCircleName);
-        addItem(items, "circle_name", "New name", draftCircleName);
-        String summary = draftCircleName == null || draftCircleName.isBlank()
-                ? "The current circle is loaded. Add the new circle name before confirmation."
-                : "Review the circle rename before confirmation.";
-        return VisionCapabilityPreviewDTO.builder()
-                .capabilityId("update_circle")
-                .title("Circle update draft")
-                .summary(summary)
-                .items(items)
-                .tone("info")
-                .build();
-    }
-
-    public VisionCapabilityPreviewDTO previewDeleteCircleDraft(String currentCircleName, String memberCountLabel) {
-        List<VisionSlotSummaryDTO> items = new ArrayList<>();
-        addItem(items, "target_circle_query", "Circle", currentCircleName);
-        addItem(items, "circle_member_count", "Members", memberCountLabel);
-        return VisionCapabilityPreviewDTO.builder()
-                .capabilityId("delete_circle")
-                .title("Circle deletion review")
-                .summary("Review the circle you are about to delete.")
-                .items(items)
-                .tone("warning")
                 .build();
     }
 
@@ -1001,113 +1206,6 @@ public class VisionCapabilityPreviewService {
                 .build();
     }
 
-    public CircleGroupResponseDTO createCircle(String circleName, AppUser currentUser) {
-        return circleService.createCircle(CircleGroupRequestDTO.builder().name(circleName).build(), currentUser);
-    }
-
-    public VisionResolvedUserTarget resolveCircleRequestRecipient(AppUser currentUser, String query) {
-        if (!hasText(query)) {
-            return VisionResolvedUserTarget.unresolved("Who should receive the circle request? Say a username, email, or name fragment.");
-        }
-
-        String normalizedTargetQuery = normalizeEntityQuery(SemanticEntityFamily.USER, query).toLowerCase(Locale.ROOT);
-        List<AppUser> matches = appUserRepository.searchByUsernameOrEmail(normalizedTargetQuery).stream()
-                .filter(candidate -> candidate != null && currentUser != null && !candidate.getId().equals(currentUser.getId()))
-                .toList();
-        if (matches.isEmpty()) {
-            return VisionResolvedUserTarget.unresolved("I could not identify one person for \"" + query.trim() + "\".");
-        }
-        List<AppUser> exactMatches = matches.stream()
-                .filter(candidate -> candidate.getUsername() != null && candidate.getUsername().equalsIgnoreCase(query.trim()))
-                .toList();
-        if (exactMatches.size() == 1) {
-            AppUser target = exactMatches.getFirst();
-            return VisionResolvedUserTarget.resolved(target.getId(), target.getUsername());
-        }
-        if (matches.size() == 1) {
-            AppUser target = matches.getFirst();
-            return VisionResolvedUserTarget.resolved(target.getId(), target.getUsername());
-        }
-        String suggestions = matches.stream()
-                .limit(3)
-                .map(AppUser::getUsername)
-                .reduce((left, right) -> left + ", " + right)
-                .orElse("matching users");
-        return VisionResolvedUserTarget.unresolved("I found several people matching \"" + query.trim() + "\": " + suggestions + ". Say the exact username.");
-    }
-
-    public VisionResolvedCircleRequestTarget resolveIncomingCircleRequest(AppUser currentUser, String query) {
-        return resolveCircleRequest(currentUser, query, true);
-    }
-
-    public VisionResolvedCircleRequestTarget resolveAccessiblePendingCircleRequest(AppUser currentUser, String query) {
-        if (!hasText(query)) {
-            return VisionResolvedCircleRequestTarget.unresolved("Who is the person on this pending circle request? Say the exact username.");
-        }
-        VisionResolvedCircleRequestTarget incoming = resolveCircleRequest(currentUser, query, true);
-        if (incoming.resolved()) {
-            return incoming;
-        }
-        VisionResolvedCircleRequestTarget outgoing = resolveCircleRequest(currentUser, query, false);
-        if (outgoing.resolved()) {
-            return outgoing;
-        }
-        if (incoming.blockingMessage() != null && outgoing.blockingMessage() != null) {
-            return VisionResolvedCircleRequestTarget.unresolved("I could not find one pending circle request for \"" + query.trim() + "\".");
-        }
-        return incoming.blockingMessage() == null ? outgoing : incoming;
-    }
-
-    public VisionResolvedCircleTarget resolveOwnedCircle(AppUser currentUser, String query) {
-        if (!hasText(query)) {
-            return VisionResolvedCircleTarget.unresolved("What circle should I use? Say the circle name or circle id.");
-        }
-
-        Long circleId = extractCircleId(query);
-        List<CircleGroupResponseDTO> circles = circleService.getCircles(currentUser);
-        List<CircleGroupResponseDTO> candidates = circles.stream()
-                .filter(circle -> matchesCircleQuery(circle, query, circleId))
-                .toList();
-        if (candidates.isEmpty()) {
-            return VisionResolvedCircleTarget.unresolved("I could not find one owned circle from \"" + query.trim() + "\". Say the exact circle name or circle id.");
-        }
-        List<CircleGroupResponseDTO> exactCandidates = candidates.stream()
-                .filter(circle -> circle.getName() != null && circle.getName().trim().equalsIgnoreCase(query.trim()))
-                .toList();
-        if (exactCandidates.size() == 1) {
-            return toResolvedCircleTarget(exactCandidates.get(0));
-        }
-        if (candidates.size() == 1) {
-            return toResolvedCircleTarget(candidates.get(0));
-        }
-        String suggestions = candidates.stream()
-                .limit(3)
-                .map(circle -> "#" + circle.getId() + " " + circle.getName())
-                .reduce((left, right) -> left + ", " + right)
-                .orElse("matching circles");
-        return VisionResolvedCircleTarget.unresolved("I found several circles matching \"" + query.trim() + "\": " + suggestions + ". Say the exact circle name or circle id.");
-    }
-
-    public CircleGroupResponseDTO updateCircle(AppUser currentUser, Long circleId, String circleName) {
-        return circleService.updateCircle(circleId, CircleGroupRequestDTO.builder().name(circleName).build(), currentUser);
-    }
-
-    public void deleteCircle(AppUser currentUser, Long circleId) {
-        circleService.deleteCircle(circleId, currentUser);
-    }
-
-    public CircleRequestResponseDTO createCircleRequest(AppUser currentUser, Long targetUserId) {
-        return circleService.createCircleRequest(CircleRequestCreateDTO.builder().recipientId(targetUserId).build(), currentUser);
-    }
-
-    public CircleRequestResponseDTO acceptCircleRequest(AppUser currentUser, Long requestId) {
-        return circleService.acceptCircleRequest(requestId, currentUser);
-    }
-
-    public void deleteCircleRequest(AppUser currentUser, Long requestId) {
-        circleService.deleteCircleRequest(requestId, currentUser);
-    }
-
     public QuestApplicationResponseDTO createApplication(
             AppUser currentUser,
             Long questId,
@@ -1282,14 +1380,6 @@ public class VisionCapabilityPreviewService {
                 .build();
     }
 
-    private boolean hasText(String value) {
-        return value != null && !value.isBlank();
-    }
-
-    private String nullToEmpty(String value) {
-        return value == null ? "" : value;
-    }
-
     private Long extractQuestId(String query) {
         if (!hasText(query)) {
             return null;
@@ -1325,21 +1415,6 @@ public class VisionCapabilityPreviewService {
             return null;
         }
         Matcher matcher = USER_ID_PATTERN.matcher(query.trim());
-        if (!matcher.find()) {
-            return null;
-        }
-        String direct = matcher.group(1) != null ? matcher.group(1) : matcher.group(2);
-        if (direct == null || direct.isBlank()) {
-            return null;
-        }
-        return Long.parseLong(direct);
-    }
-
-    private Long extractCircleId(String query) {
-        if (!hasText(query)) {
-            return null;
-        }
-        Matcher matcher = CIRCLE_ID_PATTERN.matcher(query.trim());
         if (!matcher.find()) {
             return null;
         }
@@ -1405,21 +1480,6 @@ public class VisionCapabilityPreviewService {
                 nullToEmpty(application.getApplicantProfileDescription()))
                 .toLowerCase(Locale.ROOT);
         return haystack.contains(normalizedQuery);
-    }
-
-    private boolean matchesCircleQuery(CircleGroupResponseDTO circle, String rawQuery, Long circleId) {
-        if (circle == null || !hasText(rawQuery)) {
-            return false;
-        }
-        if (circleId != null) {
-            return circleId.equals(circle.getId());
-        }
-        String query = normalizeEntityQuery(SemanticEntityFamily.CIRCLE, rawQuery).toLowerCase(Locale.ROOT);
-        String haystack = String.join(" ",
-                nullToEmpty(circle.getName()),
-                nullToEmpty(circle.getMemberPreviewLabel()))
-                .toLowerCase(Locale.ROOT);
-        return haystack.contains(query);
     }
 
     private VisionResolvedQuestTarget resolveManagedQuest(AppUser currentUser, String query) {
@@ -1494,70 +1554,6 @@ public class VisionCapabilityPreviewService {
         );
     }
 
-    private VisionResolvedCircleRequestTarget resolveCircleRequest(AppUser currentUser, String query, boolean incoming) {
-        if (!hasText(query)) {
-            return VisionResolvedCircleRequestTarget.unresolved("Who is the person on this circle request? Say the exact username.");
-        }
-        List<CircleRequestResponseDTO> requests = incoming
-                ? circleService.getIncomingRequests(currentUser)
-                : circleService.getOutgoingRequests(currentUser);
-        String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.USER, query).toLowerCase(Locale.ROOT);
-        List<CircleRequestResponseDTO> matches = requests.stream()
-                .filter(request -> request.getAcceptedAt() == null)
-                .filter(request -> matchesCircleRequestQuery(request, query, normalizedQuery))
-                .toList();
-        if (matches.isEmpty()) {
-            return VisionResolvedCircleRequestTarget.unresolved(incoming
-                    ? "I could not find one incoming circle request from \"" + query.trim() + "\"."
-                    : "I could not find one outgoing circle invite for \"" + query.trim() + "\".");
-        }
-        List<CircleRequestResponseDTO> exactMatches = matches.stream()
-                .filter(request -> request.getCounterpartUsername() != null
-                        && request.getCounterpartUsername().equalsIgnoreCase(query.trim()))
-                .toList();
-        if (exactMatches.size() == 1) {
-            return toResolvedCircleRequestTarget(exactMatches.getFirst(), incoming);
-        }
-        if (matches.size() == 1) {
-            return toResolvedCircleRequestTarget(matches.getFirst(), incoming);
-        }
-        String suggestions = matches.stream()
-                .limit(3)
-                .map(CircleRequestResponseDTO::getCounterpartUsername)
-                .reduce((left, right) -> left + ", " + right)
-                .orElse("matching users");
-        return VisionResolvedCircleRequestTarget.unresolved("I found several pending circle requests matching \"" + query.trim() + "\": " + suggestions + ". Say the exact username.");
-    }
-
-    private boolean matchesCircleRequestQuery(CircleRequestResponseDTO request, String rawQuery, String normalizedQuery) {
-        if (!hasText(rawQuery)) {
-            return false;
-        }
-        String haystack = String.join(" ",
-                nullToEmpty(request.getCounterpartUsername()),
-                nullToEmpty(request.getRequesterUsername()),
-                nullToEmpty(request.getRecipientUsername()))
-                .toLowerCase(Locale.ROOT);
-        return haystack.contains(normalizedQuery);
-    }
-
-    private VisionResolvedCircleRequestTarget toResolvedCircleRequestTarget(CircleRequestResponseDTO request, boolean incoming) {
-        return VisionResolvedCircleRequestTarget.resolved(
-                request.getId(),
-                request.getCounterpartUserId(),
-                request.getCounterpartUsername(),
-                incoming
-        );
-    }
-
-    private VisionResolvedCircleTarget toResolvedCircleTarget(CircleGroupResponseDTO circle) {
-        return VisionResolvedCircleTarget.resolved(
-                circle.getId(),
-                circle.getName(),
-                String.valueOf(circle.getMemberCount())
-        );
-    }
-
     private String formatRewardLabel(QuestResponseDTO quest) {
         if (quest == null || quest.getAwardAmount() == null || quest.getAwardAmount().compareTo(BigDecimal.ZERO) <= 0) {
             return "Free";
@@ -1565,15 +1561,23 @@ public class VisionCapabilityPreviewService {
         return quest.getAwardAmount().stripTrailingZeros().toPlainString();
     }
 
+    private String normalizeEntityQuery(SemanticEntityFamily family, String query) {
+        return semanticAliasRegistry.normalizeQuery(family, SearchQueryNormalizer.normalize(query));
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.isBlank();
+    }
+
+    private String nullToEmpty(String value) {
+        return value == null ? "" : value;
+    }
+
     private String formatDateTime(Instant value) {
         if (value == null) {
             return null;
         }
         return DATE_TIME_FORMAT.format(value);
-    }
-
-    private String normalizeEntityQuery(SemanticEntityFamily family, String query) {
-        return semanticAliasRegistry.normalizeQuery(family, SearchQueryNormalizer.normalize(query));
     }
 
     private void addItem(List<VisionSlotSummaryDTO> items, String slotId, String label, String value) {

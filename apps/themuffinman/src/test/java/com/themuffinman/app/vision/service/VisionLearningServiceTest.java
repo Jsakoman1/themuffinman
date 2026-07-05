@@ -126,13 +126,29 @@ class VisionLearningServiceTest {
         recentFeedback.setConfidenceScore(0.99d);
         recentFeedback.setLastObservedAt(Instant.parse("2026-07-03T10:00:00Z"));
 
+        VisionUserPreference lastIntent = new VisionUserPreference();
+        lastIntent.setUser(user);
+        lastIntent.setPreferenceKey("last_intent");
+        lastIntent.setPreferenceValue("create_quest");
+        lastIntent.setObservationCount(4);
+        lastIntent.setConfidenceScore(0.91d);
+        lastIntent.setLastObservedAt(Instant.parse("2026-07-03T09:30:00Z"));
+
+        VisionUserPreference lastRequestedSlot = new VisionUserPreference();
+        lastRequestedSlot.setUser(user);
+        lastRequestedSlot.setPreferenceKey("last_requested_slot");
+        lastRequestedSlot.setPreferenceValue("scheduled_time");
+        lastRequestedSlot.setObservationCount(3);
+        lastRequestedSlot.setConfidenceScore(0.89d);
+        lastRequestedSlot.setLastObservedAt(Instant.parse("2026-07-03T09:00:00Z"));
+
         VisionMemoryFeedbackEvent feedbackEvent = new VisionMemoryFeedbackEvent();
         feedbackEvent.setUser(user);
         feedbackEvent.setFeedbackType(VisionMemoryFeedbackType.CORRECTION);
         feedbackEvent.setCreatedAt(Instant.parse("2026-07-03T10:00:00Z"));
 
         AtomicReference<VisionMemorySummary> savedSummary = new AtomicReference<>();
-        when(preferenceRepository.findByUser(user)).thenReturn(List.of(recentFeedback, preferredEntity, preferredInput));
+        when(preferenceRepository.findByUser(user)).thenReturn(List.of(recentFeedback, lastIntent, lastRequestedSlot, preferredEntity, preferredInput));
         when(feedbackRepository.findTop20ByUserOrderByCreatedAtDesc(user)).thenReturn(List.of(feedbackEvent));
         when(summaryRepository.save(any(VisionMemorySummary.class))).thenAnswer(invocation -> {
             VisionMemorySummary summary = invocation.getArgument(0);
@@ -146,12 +162,18 @@ class VisionLearningServiceTest {
         verify(summaryRepository).save(any(VisionMemorySummary.class));
         String summaryText = service.latestSummaryText(user);
         assertNotNull(summaryText);
-        assertTrue(summaryText.contains("preferred_input_type=voice"));
+        assertTrue(summaryText.contains("Top preferences"));
         assertTrue(summaryText.contains("Recent feedback"));
         var learningMemory = service.buildLearningMemory(user);
         assertNotNull(learningMemory);
         assertEquals("preferred_input_type", learningMemory.getPreferenceSignals().get(0).getPreferenceKey());
         assertEquals("voice", learningMemory.getPreferenceSignals().get(0).getPreferenceValue());
+        assertEquals(5, learningMemory.getExplainabilityRecords().size());
+        assertEquals("habit_selection", learningMemory.getExplainabilityRecords().get(0).getDecisionType());
+        assertEquals("route_selection", learningMemory.getExplainabilityRecords().get(1).getDecisionType());
+        assertEquals("intent_selection", learningMemory.getExplainabilityRecords().get(2).getDecisionType());
+        assertEquals("slot_focus", learningMemory.getExplainabilityRecords().get(3).getDecisionType());
+        assertEquals("feedback_signal", learningMemory.getExplainabilityRecords().get(4).getDecisionType());
     }
 
     @Test

@@ -112,15 +112,16 @@ class CircleServiceTest {
                 circleRequestMgr,
                 circleAdminOverviewAssembler,
                 circleViewAssembler,
-                circleSearchQueryService
+                circleSearchQueryService,
+                circleDiscoveryService
         );
         circleService = new CircleService(
                 appUserLookupService,
                 circleGroupRepository,
                 circleMembershipService,
                 circleRelationService,
-                circleDiscoveryService,
                 circleReadService,
+                circleDiscoveryService,
                 circleViewAssembler
         );
     }
@@ -131,7 +132,7 @@ class CircleServiceTest {
         AppUser blocked = createUser(2L, "blocked");
         when(circleRelationService.isCircleBetween(blocker, blocked)).thenReturn(false);
 
-        assertEquals(false, circleService.isCircleBetween(blocker, blocked));
+        assertEquals(false, circleReadService.isCircleBetween(blocker, blocked));
     }
 
     @Test
@@ -142,7 +143,7 @@ class CircleServiceTest {
         when(circleRequestRepository.findOutgoingPendingByRequesterId(1L)).thenReturn(List.of());
         when(circleMembershipService.getMembershipsByUserIdForOwner(1L)).thenReturn(Map.of());
 
-        CircleOverviewDTO result = circleService.getOverview(currentUser);
+        CircleOverviewDTO result = circleReadService.getOverview(currentUser);
 
         assertEquals(0, result.getConnectionCount());
         assertEquals(0, result.getUnassignedConnectionCount());
@@ -191,7 +192,7 @@ class CircleServiceTest {
         when(circleGroupRepository.findAllDetailed()).thenReturn(List.of(nonMatchingCircle, matchingCircle));
         when(circleRequestRepository.findAllDetailed()).thenReturn(List.of(matchingPendingRequest, nonMatchingAcceptedRequest));
 
-        AdminCircleOverviewDTO result = circleService.getAdminOverview(admin, "helper");
+        AdminCircleOverviewDTO result = circleReadService.getAdminOverview(admin, "helper");
 
         assertEquals(1, result.getCircles().size());
         assertEquals("Helpers", result.getCircles().getFirst().getName());
@@ -218,7 +219,7 @@ class CircleServiceTest {
         when(circleGroupRepository.findAllDetailed()).thenReturn(List.of());
         when(circleRequestRepository.findAllDetailed()).thenReturn(List.of(blockedRequest));
 
-        AdminCircleOverviewDTO result = circleService.getAdminOverview(admin, null);
+        AdminCircleOverviewDTO result = circleReadService.getAdminOverview(admin, null);
 
         assertEquals(1, result.getBlockedRelations().size());
         assertEquals("Blocked", result.getBlockedRelations().getFirst().getStatusLabel());
@@ -346,7 +347,7 @@ class CircleServiceTest {
         when(appUserRepository.findAll()).thenReturn(List.of(currentUser, candidate));
         when(circleRequestRepository.findBetweenUsers(1L, 2L)).thenReturn(Optional.of(request));
 
-        List<CircleSearchResultDTO> result = circleService.searchCircleUsers(currentUser, "cand");
+        List<CircleSearchResultDTO> result = circleDiscoveryService.searchCircleUsers(currentUser, "cand");
 
         assertEquals(1, result.size());
         assertEquals(CircleRelationStatusDTO.OUTGOING_REQUEST, result.getFirst().getRelationStatus());
@@ -357,7 +358,7 @@ class CircleServiceTest {
     void searchCircleUsersIgnoresBareAtQueries() {
         AppUser currentUser = createUser(1L, "requester");
 
-        List<CircleSearchResultDTO> result = circleService.searchCircleUsers(currentUser, "@");
+        List<CircleSearchResultDTO> result = circleDiscoveryService.searchCircleUsers(currentUser, "@");
 
         assertEquals(0, result.size());
     }
@@ -366,7 +367,7 @@ class CircleServiceTest {
     void searchCircleUsersIgnoresShortQueries() {
         AppUser currentUser = createUser(1L, "requester");
 
-        List<CircleSearchResultDTO> result = circleService.searchCircleUsers(currentUser, "a");
+        List<CircleSearchResultDTO> result = circleDiscoveryService.searchCircleUsers(currentUser, "a");
 
         assertEquals(0, result.size());
     }
@@ -385,7 +386,7 @@ class CircleServiceTest {
         when(appUserRepository.findAll()).thenReturn(List.of(currentUser, candidate));
         when(circleRequestRepository.findBetweenUsers(1L, 2L)).thenReturn(Optional.of(request));
 
-        List<CircleSearchResultDTO> result = circleService.searchCircleUsers(currentUser, "cand");
+        List<CircleSearchResultDTO> result = circleDiscoveryService.searchCircleUsers(currentUser, "cand");
 
         assertEquals(1, result.size());
         assertEquals(CircleRelationStatusDTO.BLOCKED, result.getFirst().getRelationStatus());
@@ -421,7 +422,7 @@ class CircleServiceTest {
         when(circleMembershipService.getMembershipsByUserIdForOwner(1L)).thenReturn(Map.of(2L, List.of(membership)));
         when(circleRequestRepository.findAcceptedByUserId(1L)).thenReturn(List.of(relationOne, relationTwo));
 
-        CircleContactListResponseDTO result = circleService.getConnections(currentUser, "alice", null, false, 0, 1);
+        CircleContactListResponseDTO result = circleReadService.getConnections(currentUser, "alice", null, false, 0, 1);
 
         assertEquals(1, result.getItems().size());
         assertEquals(2L, result.getItems().getFirst().getUserId());
@@ -454,7 +455,7 @@ class CircleServiceTest {
 
         when(circleGroupRepository.findAllDetailedByOwnerId(1L)).thenReturn(List.of(circle));
 
-        var result = circleService.getCircles(currentUser);
+        var result = circleReadService.getCircles(currentUser);
 
         assertEquals(1, result.size());
         assertEquals("circle:10", result.getFirst().getResolutionKey());
@@ -497,7 +498,7 @@ class CircleServiceTest {
         when(circleRequestMgr.toDto(requestOne)).thenReturn(first);
         when(circleRequestMgr.toDto(requestTwo)).thenReturn(second);
 
-        CircleRequestListResponseDTO result = circleService.getIncomingRequests(currentUser, "helper", 0, 1);
+        CircleRequestListResponseDTO result = circleReadService.getIncomingRequests(currentUser, "helper", 0, 1);
 
         assertEquals(1, result.getItems().size());
         assertEquals(1, result.getTotalItems());
@@ -536,7 +537,7 @@ class CircleServiceTest {
         when(circleRequestRepository.findOutgoingPendingByRequesterId(1L)).thenReturn(List.of(request));
         when(circleRequestMgr.toDto(request)).thenReturn(dto);
 
-        CircleRequestListResponseDTO result = circleService.getOutgoingRequests(currentUser, "mentor", 0, 10);
+        CircleRequestListResponseDTO result = circleReadService.getOutgoingRequests(currentUser, "mentor", 0, 10);
 
         assertEquals(1, result.getItems().size());
         assertEquals("circle-request:12", result.getItems().getFirst().getResolutionKey());
@@ -562,7 +563,7 @@ class CircleServiceTest {
         when(appUserRepository.findAll()).thenReturn(List.of(currentUser, candidate));
         when(circleRequestRepository.findBetweenUsers(1L, 2L)).thenReturn(Optional.of(request));
 
-        List<CircleSearchResultDTO> result = circleService.searchCircleUsers(currentUser, "cand");
+        List<CircleSearchResultDTO> result = circleDiscoveryService.searchCircleUsers(currentUser, "cand");
 
         assertEquals(1, result.size());
         assertEquals("NONE", result.getFirst().getPrimaryAction().getType());
@@ -582,7 +583,7 @@ class CircleServiceTest {
         when(circleRequestRepository.findBetweenUsers(1L, 2L)).thenReturn(Optional.empty());
         when(circleRequestRepository.findBetweenUsers(1L, 3L)).thenReturn(Optional.empty());
 
-        CircleSearchResultListResponseDTO result = circleService.searchCircleUsers(currentUser, "helper", 0, 1);
+        CircleSearchResultListResponseDTO result = circleDiscoveryService.searchCircleUsers(currentUser, "helper", 0, 1);
 
         assertEquals(1, result.getItems().size());
         assertEquals(2L, result.getItems().getFirst().getId());
@@ -632,7 +633,7 @@ class CircleServiceTest {
         when(circleRequestRepository.findBetweenUsers(1L, 5L)).thenReturn(Optional.of(circleRequest));
         when(circleRequestRepository.findBetweenUsers(1L, 6L)).thenReturn(Optional.of(outgoingRequest));
 
-        List<CircleSearchResultDTO> result = circleService.getInviteCandidates(currentUser);
+        List<CircleSearchResultDTO> result = circleDiscoveryService.getInviteCandidates(currentUser);
 
         assertEquals(1, result.size());
         assertEquals(2L, result.getFirst().getId());
@@ -653,7 +654,7 @@ class CircleServiceTest {
         when(appUserRepository.findById(2L)).thenReturn(Optional.of(candidate));
         when(circleRequestRepository.findBetweenUsers(1L, 2L)).thenReturn(Optional.of(request));
 
-        CircleRelationDTO relation = circleService.getRelationWithUser(currentUser, 2L);
+        CircleRelationDTO relation = circleReadService.getRelationWithUser(currentUser, 2L);
 
         assertEquals(CircleRelationStatusDTO.BLOCKED, relation.getRelationStatus());
         assertEquals(true, relation.isBlockedByCurrentUser());

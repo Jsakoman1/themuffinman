@@ -47,6 +47,8 @@ Frontend vision surface note:
 - `VisionSemanticOrchestrationContextService` now also loads learned preference rows and the latest memory summary so the semantic request can use durable user habits alongside the live conversation rail.
 - `VisionSemanticUserMemoryContext` now also carries learned preference signals with confidence scores, so prompt understanding can see which habits are strong enough to use and which ones have already decayed.
 - Learned preference signals are ranked by backend priority before they enter the semantic memory pack or the learning-memory snapshot, so high-value habits like input mode and topic family stay ahead of lower-signal rows.
+- `VisionSemanticUserMemoryContext` and the `learningMemory` DTO now also carry compact explainability records for preference ranking, intent selection, and slot-focus decisions, so runtime memory can explain why a habit or route won without reconstructing raw turn history.
+- `VisionSemanticUserMemoryContext` now also exposes a retrieval focus summary and retrieval entity-family hint, so weak learned-family confidence can fall back to the most recent durable topic rail instead of leaving retrieval implicit.
 - Conversation routing now keeps a weak ambiguous follow-up inside the current thread when the semantic confidence is low and the prompt does not clearly signal a different entity family; explicit topic changes still switch or open a new conversation.
 - `VisionClarificationService` now can shape a small subset of create-quest clarification text from the user's learned input preference, so the backend can keep follow-up prompts aligned with the user's most reliable interaction mode.
 - Fallback focus resolution now skips the previous requested slot when the new prompt clearly belongs to a different entity family, so a stale quest slot does not hijack a fresh circles, applications, profile, or chat turn.
@@ -60,7 +62,7 @@ Frontend vision surface note:
 - `vision_memory_feedback_event` stores correction, confirmation, execution, blocked, and cancelled feedback events so the backend can trace why the assistant should adapt.
 - `vision_memory_summary` stores compact rollups of the most recent preference and feedback history so the semantic request can use compressed memory instead of raw replay.
 - `VisionLearningService` writes those preference and feedback records from the active turn flow and periodically compacts them into summary rows.
-- The turn response also exposes a `learningMemory` DTO with the latest compact summary, recent feedback kinds, and structured preference signals so the frontend can show learned context directly.
+- The turn response also exposes a `learningMemory` DTO with the latest compact summary, recent feedback kinds, structured preference signals, and compact explainability records so the frontend can show learned context directly.
 - `VisionSemanticResponseValidator` now fail-closes any semantic response whose candidate intent, capability id, or focus slot falls outside the published backend response contract before sanitization and routing continue.
 - Create-quest slot merging now prefers a cleaned core task summary for fallback title and description values, and it only treats numbers as reward candidates when the prompt carries reward-like cues instead of every date or time numeral.
 - `VisionSemanticContractSanitizer` now rejects prompt-like location labels and profile-location labels that look like full commands or task descriptions, while still allowing short place-like labels and address fragments.

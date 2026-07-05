@@ -17,4 +17,5 @@ public class VisionLearningMemoryDTO {
     private String summaryText;
     private List<String> recentFeedbackTypes;
     private List<VisionLearningPreferenceDTO> preferenceSignals;
+    private List<VisionLearningExplainabilityDTO> explainabilityRecords;
 }

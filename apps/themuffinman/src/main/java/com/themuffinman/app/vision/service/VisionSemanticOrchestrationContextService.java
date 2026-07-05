@@ -3,6 +3,7 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.vision.dto.VisionLearningExplainabilityDTO;
 import com.themuffinman.app.vision.dto.VisionLearningPreferenceDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionConversationStatus;
@@ -241,18 +242,27 @@ public class VisionSemanticOrchestrationContextService {
                     .preferredEntityFamily(null)
                     .preferredEntityFamilyConfidence(null)
                     .learningSummary(null)
+                    .retrievalSummary(null)
                     .recentFeedbackTypes(List.of())
                     .recentIntentTypes(List.of())
                     .recentEntityFamilies(List.of())
                     .learnedPreferences(List.of())
+                    .explainabilityRecords(List.of())
+                    .retrievedEntityFamily(null)
+                    .retrievedEntityFamilyConfidence(null)
                     .build();
         }
 
         List<String> recentIntentTypes = buildRecentIntentTypes(user, conversation);
         List<VisionLearningPreferenceDTO> learnedPreferences = buildPreferenceSignals(user);
+        List<VisionLearningExplainabilityDTO> explainabilityRecords = buildExplainabilityRecords(user);
         VisionLearningPreferenceDTO preferredInputType = preferenceByKey(learnedPreferences, "preferred_input_type");
         VisionLearningPreferenceDTO preferredEntityFamily = preferenceByKey(learnedPreferences, "last_entity_family");
         VisionMemorySummary latestSummary = latestSummary(user);
+        List<String> recentEntityFamilies = buildRecentEntityFamilies(user);
+        String retrievedEntityFamily = retrievedEntityFamily(preferredEntityFamily, recentEntityFamilies);
+        Double retrievedEntityFamilyConfidence = retrievedEntityFamilyConfidence(preferredEntityFamily, retrievedEntityFamily);
+        String retrievalSummary = retrievalSummary(latestSummary, retrievedEntityFamily, recentEntityFamilies);
         String countryCode = normalizeCountryCode(user.getLocationCountryCode());
         ResolvedLocale resolvedLocale = resolveLocale(countryCode, null);
         ResolvedTimezone resolvedTimezone = resolveTimezone(countryCode, null);
@@ -276,10 +286,14 @@ public class VisionSemanticOrchestrationContextService {
                         : clean(preferredEntityFamily.getPreferenceValue()))
                 .preferredEntityFamilyConfidence(preferredEntityFamily == null ? null : preferredEntityFamily.getConfidenceScore())
                 .learningSummary(latestSummary == null ? null : clean(latestSummary.getSummaryText()))
+                .retrievalSummary(retrievalSummary)
                 .recentFeedbackTypes(buildRecentFeedbackTypes(user))
                 .recentIntentTypes(recentIntentTypes)
-                .recentEntityFamilies(buildRecentEntityFamilies(user))
+                .recentEntityFamilies(recentEntityFamilies)
                 .learnedPreferences(learnedPreferences)
+                .explainabilityRecords(explainabilityRecords)
+                .retrievedEntityFamily(retrievedEntityFamily)
+                .retrievedEntityFamilyConfidence(retrievedEntityFamilyConfidence)
                 .build();
     }
 
@@ -503,6 +517,80 @@ public class VisionSemanticOrchestrationContextService {
                 8,
                 CONTEXT_PREFERENCE_PRIORITY
         );
+    }
+
+    private List<VisionLearningExplainabilityDTO> buildExplainabilityRecords(AppUser user) {
+        if (user == null || visionUserPreferenceRepository == null) {
+            return List.of();
+        }
+
+        List<VisionUserPreference> preferences = visionUserPreferenceRepository.findByUser(user);
+        if (preferences == null || preferences.isEmpty()) {
+            return List.of();
+        }
+
+        int explainabilityWindow = 8;
+        List<VisionLearningPreferenceDTO> explainabilitySignals = VisionPreferenceConfidenceSupport.toPreferenceSignals(
+                preferences,
+                Instant.now(),
+                visionProperties == null ? null : visionProperties.getMemory(),
+                explainabilityWindow,
+                CONTEXT_PREFERENCE_PRIORITY
+        );
+        return VisionPreferenceConfidenceSupport.toExplainabilityRecords(explainabilitySignals, explainabilityWindow);
+    }
+
+    private String retrievedEntityFamily(VisionLearningPreferenceDTO preferredEntityFamily, List<String> recentEntityFamilies) {
+        double confidenceThreshold = VisionPreferenceConfidenceSupport.threshold(visionProperties == null ? null : visionProperties.getMemory());
+        if (preferredEntityFamily != null
+                && preferredEntityFamily.getConfidenceScore() != null
+                && preferredEntityFamily.getConfidenceScore() >= confidenceThreshold) {
+            return clean(preferredEntityFamily.getPreferenceValue());
+        }
+
+        if (recentEntityFamilies == null || recentEntityFamilies.isEmpty()) {
+            return null;
+        }
+
+        for (String family : recentEntityFamilies) {
+            if (family != null && !family.isBlank()) {
+                return clean(family);
+            }
+        }
+        return null;
+    }
+
+    private Double retrievedEntityFamilyConfidence(VisionLearningPreferenceDTO preferredEntityFamily, String retrievedEntityFamily) {
+        if (retrievedEntityFamily == null) {
+            return null;
+        }
+
+        double threshold = VisionPreferenceConfidenceSupport.threshold(visionProperties == null ? null : visionProperties.getMemory());
+        if (preferredEntityFamily != null
+                && preferredEntityFamily.getConfidenceScore() != null
+                && preferredEntityFamily.getPreferenceValue() != null
+                && retrievedEntityFamily.equals(clean(preferredEntityFamily.getPreferenceValue()))
+                && preferredEntityFamily.getConfidenceScore() >= threshold) {
+            return preferredEntityFamily.getConfidenceScore();
+        }
+
+        return threshold;
+    }
+
+    private String retrievalSummary(VisionMemorySummary latestSummary, String retrievedEntityFamily, List<String> recentEntityFamilies) {
+        String summaryText = latestSummary == null ? null : clean(latestSummary.getSummaryText());
+        if (retrievedEntityFamily == null) {
+            return summaryText;
+        }
+
+        String familyText = "retrieval_focus=" + retrievedEntityFamily;
+        if (summaryText == null || summaryText.isBlank()) {
+            return familyText;
+        }
+        if (recentEntityFamilies == null || recentEntityFamilies.isEmpty()) {
+            return summaryText + " | " + familyText;
+        }
+        return summaryText + " | " + familyText + " | recent_entity_families=" + String.join(",", recentEntityFamilies);
     }
 
     private VisionLearningPreferenceDTO preferenceByKey(List<VisionLearningPreferenceDTO> preferences, String preferenceKey) {

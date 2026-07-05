@@ -89,6 +89,8 @@ It should stay short, factual, and updated when a vision batch materially change
 - the turn response now exposes a compact memory trail with the active family and recent family/intent context for debug and adaptive preview use, plus a visible topic-switch hint when the active family changes
 - recent conversation summaries now also carry entity-family and topic-switch hints so the resume rail can show conversation continuity across entity changes
 - the turn response memory trail now also includes a hidden sheet-friendly session summary, open-question list, and recent-action list so the frontend can show durable context without dumping raw debug text
+- the Vision learning loop now also exposes compact explainability records for preference ranking, intent selection, and slot-focus decisions so learned habits can be explained without raw replay
+- the Vision memory pack now also derives an explicit retrieval focus from the recent topic rail when learned entity-family confidence is weak, so task-family and circle-family recall stay grounded in the latest durable context
 - the first semantic route catalog publishes current Vision routes for `create_quest`, `discover_quests`, and `open_chat` so model routing is constrained by backend-owned capabilities
 - the first user context pack derives available locale and timezone hints from profile location data, including `CH` to `de-CH` and `Europe/Zurich`
 - backend sanitization now hard-rejects model-selected capabilities, focus slot ids, and extracted slot payloads that fall outside the published Vision route catalog and slot schema

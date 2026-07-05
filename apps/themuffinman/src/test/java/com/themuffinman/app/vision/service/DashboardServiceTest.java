@@ -21,7 +21,7 @@ import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.vision.repository.QuestApplicationRepository;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.config.VoiceProperties;
-import com.themuffinman.app.social.service.CircleService;
+import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.vision.mapper.QuestNewsMgr;
 import com.themuffinman.app.vision.service.VisionOptionsService;
 import org.junit.jupiter.api.Test;
@@ -54,7 +54,7 @@ class DashboardServiceTest {
     private AppUserRepository appUserRepository;
 
     @Mock
-    private CircleService circleService;
+    private CircleReadService circleReadService;
 
     @Mock
     private AppUserService appUserService;
@@ -205,8 +205,8 @@ class DashboardServiceTest {
         when(questService.getAllQuests(currentUser)).thenReturn(List.of(ownedQuest, availableQuest));
         when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of());
         when(questNewsService.getMyNews(currentUser)).thenReturn(List.of());
-        when(circleService.getIncomingRequests(currentUser)).thenReturn(List.of());
-        when(circleService.getCircles(currentUser)).thenReturn(List.of());
+        when(circleReadService.getIncomingRequests(currentUser)).thenReturn(List.of());
+        when(circleReadService.getCircles(currentUser)).thenReturn(List.of());
         when(questService.toResponses(List.of(availableQuest, ownedQuest), currentUser)).thenReturn(List.of(
                 QuestResponseDTO.builder().id(2L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.vision.dto.QuestViewerRelationDTO.VIEWER).build(),
                 QuestResponseDTO.builder().id(1L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.vision.dto.QuestViewerRelationDTO.OWNER).build()
@@ -275,8 +275,8 @@ class DashboardServiceTest {
         when(questService.getAllQuests(currentUser)).thenReturn(List.of(quest));
         when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of(application));
         when(questNewsService.getMyNews(currentUser)).thenReturn(List.of());
-        when(circleService.getIncomingRequests(currentUser)).thenReturn(List.of());
-        when(circleService.getCircles(currentUser)).thenReturn(List.of());
+        when(circleReadService.getIncomingRequests(currentUser)).thenReturn(List.of());
+        when(circleReadService.getCircles(currentUser)).thenReturn(List.of());
         when(questApplicationService.toApplicantResponse(application)).thenReturn(applicationDto);
         when(questService.toResponses(List.of(quest), currentUser)).thenReturn(List.of(
                 QuestResponseDTO.builder().id(11L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.vision.dto.QuestViewerRelationDTO.VIEWER).build()
@@ -313,8 +313,8 @@ class DashboardServiceTest {
         when(questService.getAllQuests(currentUser)).thenReturn(List.of());
         when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of());
         when(questNewsService.getMyNews(currentUser)).thenReturn(List.of(newsItem));
-        when(circleService.getIncomingRequests(currentUser)).thenReturn(List.of());
-        when(circleService.getCircles(currentUser)).thenReturn(List.of());
+        when(circleReadService.getIncomingRequests(currentUser)).thenReturn(List.of());
+        when(circleReadService.getCircles(currentUser)).thenReturn(List.of());
         when(questService.toResponses(List.of(), currentUser)).thenReturn(List.of());
         when(questNewsMgr.toDto(newsItem)).thenReturn(newsDto);
 

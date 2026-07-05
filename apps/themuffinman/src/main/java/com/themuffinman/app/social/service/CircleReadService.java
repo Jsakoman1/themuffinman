@@ -46,6 +46,7 @@ public class CircleReadService {
     private final CircleAdminOverviewAssembler circleAdminOverviewAssembler;
     private final CircleViewAssembler circleViewAssembler;
     private final CircleSearchQueryService circleSearchQueryService;
+    private final CircleDiscoveryService circleDiscoveryService;
 
     @Transactional(readOnly = true)
     public List<CircleRequestResponseDTO> getMyCircles(AppUser currentUser) {
@@ -165,6 +166,11 @@ public class CircleReadService {
     @Transactional(readOnly = true)
     public Optional<CircleRequest> findRelation(AppUser leftUser, AppUser rightUser) {
         return circleRelationService.findRelation(leftUser, rightUser);
+    }
+
+    @Transactional(readOnly = true)
+    public CircleRelationDTO getRelationWithUser(AppUser currentUser, Long otherUserId) {
+        return circleDiscoveryService.getRelationWithUser(currentUser, otherUserId);
     }
 
     private List<CircleContactDTO> loadConnections(AppUser currentUser) {

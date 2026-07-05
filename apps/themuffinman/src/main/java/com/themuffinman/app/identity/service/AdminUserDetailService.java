@@ -5,7 +5,7 @@ import com.themuffinman.app.identity.dto.AdminUserDetailDTO;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
-import com.themuffinman.app.social.service.CircleService;
+import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.vision.dto.VisionOptionsDTO;
 import com.themuffinman.app.vision.service.VisionOptionsService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class AdminUserDetailService {
     private final AppUserLookupService appUserLookupService;
     private final AppUserService appUserService;
     private final IdentityUserSummaryAssembler identityUserSummaryAssembler;
-    private final CircleService circleService;
+    private final CircleReadService circleReadService;
     private final VisionOptionsService visionOptionsService;
 
     public AdminUserDetailDTO getDetail(Long userId, AppUser currentUser) {
@@ -38,8 +38,8 @@ public class AdminUserDetailService {
                 .appUserRoles(options.getAppUserRoles())
                 .locationModes(options.getLocationModes())
                 .exactLocationVisibilityScopes(options.getExactLocationVisibilityScopes())
-                .circles(circleService.getCirclesForUserAsAdmin(targetUser.getId(), currentUser))
-                .contacts(circleService.getConnectionsForUserAsAdmin(targetUser.getId(), currentUser))
+                .circles(circleReadService.getCirclesForUserAsAdmin(targetUser.getId(), currentUser))
+                .contacts(circleReadService.getConnectionsForUserAsAdmin(targetUser.getId(), currentUser))
                 .build();
     }
 

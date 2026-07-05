@@ -656,9 +656,13 @@ public class VisionPromptUnderstandingService {
         compact.put("preferredInputType", context.getPreferredInputType());
         compact.put("preferredEntityFamily", context.getPreferredEntityFamily());
         compact.put("learningSummary", context.getLearningSummary());
+        compact.put("retrievalSummary", context.getRetrievalSummary());
         compact.put("recentFeedbackTypes", context.getRecentFeedbackTypes());
         compact.put("recentIntentTypes", context.getRecentIntentTypes());
         compact.put("recentEntityFamilies", context.getRecentEntityFamilies());
+        compact.put("explainabilityRecords", context.getExplainabilityRecords());
+        compact.put("retrievedEntityFamily", context.getRetrievedEntityFamily());
+        compact.put("retrievedEntityFamilyConfidence", context.getRetrievedEntityFamilyConfidence());
         return compact;
     }
 

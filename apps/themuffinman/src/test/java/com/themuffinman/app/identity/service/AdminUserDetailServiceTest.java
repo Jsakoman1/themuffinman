@@ -7,7 +7,7 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.social.dto.CircleContactDTO;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
-import com.themuffinman.app.social.service.CircleService;
+import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.vision.dto.AppUserRoleOptionDTO;
 import com.themuffinman.app.vision.dto.VisionOptionsDTO;
 import com.themuffinman.app.vision.service.VisionOptionsService;
@@ -38,7 +38,7 @@ class AdminUserDetailServiceTest {
     private IdentityUserSummaryAssembler identityUserSummaryAssembler;
 
     @Mock
-    private CircleService circleService;
+    private CircleReadService circleReadService;
 
     @Mock
     private VisionOptionsService visionOptionsService;
@@ -84,8 +84,8 @@ class AdminUserDetailServiceTest {
         when(appUserService.getOpenQuestsByCreatorId(7L)).thenReturn(List.of());
         when(identityUserSummaryAssembler.buildProfileSummary(target, 2L, List.of())).thenReturn(dto);
         when(visionOptionsService.getOptions(target)).thenReturn(options);
-        when(circleService.getCirclesForUserAsAdmin(7L, admin)).thenReturn(circles);
-        when(circleService.getConnectionsForUserAsAdmin(7L, admin)).thenReturn(contacts);
+        when(circleReadService.getCirclesForUserAsAdmin(7L, admin)).thenReturn(circles);
+        when(circleReadService.getConnectionsForUserAsAdmin(7L, admin)).thenReturn(contacts);
 
         AdminUserDetailDTO result = adminUserDetailService.getDetail(7L, admin);
 

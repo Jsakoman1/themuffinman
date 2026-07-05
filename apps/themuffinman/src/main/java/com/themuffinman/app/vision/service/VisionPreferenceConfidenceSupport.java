@@ -1,6 +1,7 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.config.VisionProperties;
+import com.themuffinman.app.vision.dto.VisionLearningExplainabilityDTO;
 import com.themuffinman.app.vision.dto.VisionLearningPreferenceDTO;
 import com.themuffinman.app.vision.model.VisionUserPreference;
 
@@ -9,6 +10,7 @@ import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.IntStream;
 
 final class VisionPreferenceConfidenceSupport {
 
@@ -50,6 +52,21 @@ final class VisionPreferenceConfidenceSupport {
                         .thenComparing(VisionLearningPreferenceDTO::getObservationCount, Comparator.reverseOrder())
                         .thenComparing(VisionLearningPreferenceDTO::getLastObservedAt, Comparator.nullsLast(Comparator.reverseOrder())))
                 .limit(safeLimit)
+                .toList();
+    }
+
+    static List<VisionLearningExplainabilityDTO> toExplainabilityRecords(
+            List<VisionLearningPreferenceDTO> preferenceSignals,
+            int limit
+    ) {
+        if (preferenceSignals == null || preferenceSignals.isEmpty()) {
+            return List.of();
+        }
+
+        int safeLimit = Math.max(1, limit);
+        int upperBound = Math.min(safeLimit, preferenceSignals.size());
+        return IntStream.range(0, upperBound)
+                .mapToObj(index -> toExplainabilityRecord(preferenceSignals.get(index), index + 1))
                 .toList();
     }
 
@@ -172,6 +189,79 @@ final class VisionPreferenceConfidenceSupport {
             return 0.0d;
         }
         return Math.max(0.0d, Math.min(1.0d, value));
+    }
+
+    private static VisionLearningExplainabilityDTO toExplainabilityRecord(
+            VisionLearningPreferenceDTO preference,
+            int rank
+    ) {
+        if (preference == null) {
+            return null;
+        }
+
+        String key = clean(preference.getPreferenceKey());
+        String value = clean(preference.getPreferenceValue());
+        String decisionType = decisionTypeFor(key);
+        return VisionLearningExplainabilityDTO.builder()
+                .decisionType(decisionType)
+                .preferenceKey(key)
+                .preferenceValue(value)
+                .rank(rank)
+                .confidenceScore(preference.getConfidenceScore())
+                .observationCount(preference.getObservationCount())
+                .sourceType(clean(preference.getSourceType()))
+                .reason(reasonFor(decisionType, key, value, rank, preference.getConfidenceScore(), preference.getObservationCount()))
+                .build();
+    }
+
+    private static String decisionTypeFor(String preferenceKey) {
+        if (preferenceKey == null || preferenceKey.isBlank()) {
+            return "preference_ranking";
+        }
+
+        return switch (preferenceKey) {
+            case "preferred_input_type" -> "habit_selection";
+            case "preferred_language" -> "language_selection";
+            case "last_entity_family" -> "route_selection";
+            case "last_intent" -> "intent_selection";
+            case "last_requested_slot" -> "slot_focus";
+            case "last_feedback_type" -> "feedback_signal";
+            case "last_conversation_status" -> "conversation_state";
+            default -> "preference_ranking";
+        };
+    }
+
+    private static String reasonFor(
+            String decisionType,
+            String preferenceKey,
+            String preferenceValue,
+            int rank,
+            Double confidenceScore,
+            int observationCount
+    ) {
+        String confidenceText = confidenceScore == null
+                ? "unknown confidence"
+                : String.format(Locale.ROOT, "%.2f", confidenceScore);
+        String valueText = preferenceValue == null ? "unknown" : preferenceValue;
+        return switch (decisionType) {
+            case "habit_selection" -> "Rank #" + rank + " input habit signal; " + preferenceKey + "=" + valueText
+                    + " stays visible because decay-aware confidence is " + confidenceText
+                    + " after " + observationCount + " observations.";
+            case "language_selection" -> "Rank #" + rank + " language habit signal; " + preferenceKey + "=" + valueText
+                    + " remains useful because it was reinforced " + observationCount + " times.";
+            case "route_selection" -> "Rank #" + rank + " route bias signal; " + preferenceKey + "=" + valueText
+                    + " is the current entity-family hint at confidence " + confidenceText + ".";
+            case "intent_selection" -> "Rank #" + rank + " intent memory signal; " + preferenceKey + "=" + valueText
+                    + " keeps the thread anchored to the last reinforced intent.";
+            case "slot_focus" -> "Rank #" + rank + " slot-focus signal; " + preferenceKey + "=" + valueText
+                    + " matches the current requested-slot memory trail.";
+            case "feedback_signal" -> "Rank #" + rank + " feedback signal; " + preferenceKey + "=" + valueText
+                    + " helps explain recent corrections and confirmations.";
+            case "conversation_state" -> "Rank #" + rank + " conversation-state signal; " + preferenceKey + "=" + valueText
+                    + " records the last persisted turn outcome.";
+            default -> "Rank #" + rank + " learned preference signal; " + preferenceKey + "=" + valueText
+                    + " is sorted by backend priority and decay-aware confidence at " + confidenceText + ".";
+        };
     }
 
     private static String clean(String value) {

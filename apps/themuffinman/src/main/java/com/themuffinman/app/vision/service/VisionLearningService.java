@@ -1,6 +1,7 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.vision.dto.VisionLearningExplainabilityDTO;
 import com.themuffinman.app.vision.model.VisionConversationAction;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.dto.VisionLearningMemoryDTO;
@@ -38,6 +39,7 @@ public class VisionLearningService {
             "last_feedback_type",
             "last_conversation_status"
     );
+    private static final int EXPLAINABILITY_WINDOW = 7;
 
     private final VisionUserPreferenceRepository visionUserPreferenceRepository;
     private final VisionMemoryFeedbackEventRepository visionMemoryFeedbackEventRepository;
@@ -132,9 +134,10 @@ public class VisionLearningService {
         }
 
         List<VisionLearningPreferenceDTO> preferenceSignals = buildPreferenceSignals(user);
+        List<VisionLearningExplainabilityDTO> explainabilityRecords = buildExplainabilityRecords(user);
         String summaryText = latestSummaryText(user);
         List<String> feedbackTypes = recentFeedbackTypes(user);
-        if (summaryText == null && feedbackTypes.isEmpty() && preferenceSignals.isEmpty()) {
+        if (summaryText == null && feedbackTypes.isEmpty() && preferenceSignals.isEmpty() && explainabilityRecords.isEmpty()) {
             return null;
         }
 
@@ -142,6 +145,7 @@ public class VisionLearningService {
                 .summaryText(summaryText)
                 .recentFeedbackTypes(feedbackTypes)
                 .preferenceSignals(preferenceSignals)
+                .explainabilityRecords(explainabilityRecords)
                 .build();
     }
 
@@ -290,6 +294,28 @@ public class VisionLearningService {
                 preferenceWindow,
                 LEARNING_PREFERENCE_PRIORITY
         );
+    }
+
+    private List<VisionLearningExplainabilityDTO> buildExplainabilityRecords(AppUser user) {
+        if (user == null) {
+            return List.of();
+        }
+
+        List<VisionUserPreference> preferences = new ArrayList<>(visionUserPreferenceRepository.findByUser(user));
+        if (preferences.isEmpty()) {
+            return List.of();
+        }
+
+        int preferenceWindow = visionProperties.getMemory() == null ? 5 : visionProperties.getMemory().getSummaryWindow();
+        int explainabilityWindow = Math.max(preferenceWindow, EXPLAINABILITY_WINDOW);
+        List<VisionLearningPreferenceDTO> explainabilitySignals = VisionPreferenceConfidenceSupport.toPreferenceSignals(
+                preferences,
+                Instant.now(),
+                visionProperties.getMemory(),
+                explainabilityWindow,
+                LEARNING_PREFERENCE_PRIORITY
+        );
+        return VisionPreferenceConfidenceSupport.toExplainabilityRecords(explainabilitySignals, explainabilityWindow);
     }
 
     private Instant oldestTimestamp(List<VisionUserPreference> preferences, List<VisionMemoryFeedbackEvent> feedbackEvents) {

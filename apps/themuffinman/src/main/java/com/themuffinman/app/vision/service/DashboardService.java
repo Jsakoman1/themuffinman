@@ -22,6 +22,7 @@ import com.themuffinman.app.vision.model.QuestStatus;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.social.service.CircleService;
+import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.vision.repository.QuestApplicationRepository;
 import com.themuffinman.app.vision.service.VisionOptionsService;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class DashboardService {
     private final QuestApplicationRepository questApplicationRepository;
     private final QuestNewsService questNewsService;
     private final AppUserRepository appUserRepository;
-    private final CircleService circleService;
+    private final CircleReadService circleReadService;
     private final AppUserService appUserService;
     private final QuestApplicationService questApplicationService;
     private final QuestNewsMgr questNewsMgr;
@@ -91,8 +92,8 @@ public class DashboardService {
                 .limit(6)
                 .map(questNewsMgr::toDto)
                 .toList();
-        List<CircleRequestResponseDTO> incomingCircleRequests = circleService.getIncomingRequests(currentUser);
-        List<CircleGroupResponseDTO> circles = circleService.getCircles(currentUser);
+        List<CircleRequestResponseDTO> incomingCircleRequests = circleReadService.getIncomingRequests(currentUser);
+        List<CircleGroupResponseDTO> circles = circleReadService.getCircles(currentUser);
 
         List<QuestResponseDTO> questDtos = questService.toResponses(sortedQuests, currentUser);
         List<QuestResponseDTO> myQuestDtos = questDtos.stream()

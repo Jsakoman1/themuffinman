@@ -22,6 +22,7 @@ import com.themuffinman.app.social.dto.PageQueryDTO;
 import com.themuffinman.app.social.dto.TextPageQueryDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.social.service.CircleDiscoveryService;
+import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.social.service.CircleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,11 +34,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CircleController {
     private final CircleService circleService;
+    private final CircleReadService circleReadService;
     private final CircleDiscoveryService circleDiscoveryService;
 
     @GetMapping("/me/overview")
     public CircleOverviewDTO getOverview(@AuthenticationPrincipal AppUser currentUser) {
-        return circleService.getOverview(currentUser);
+        return circleReadService.getOverview(currentUser);
     }
 
     @GetMapping("/admin/overview")
@@ -45,7 +47,7 @@ public class CircleController {
             @RequestParam(value = "q", required = false) String query,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.getAdminOverview(currentUser, query);
+        return circleReadService.getAdminOverview(currentUser, query);
     }
 
     @PostMapping("/groups")
@@ -86,7 +88,7 @@ public class CircleController {
 
     @GetMapping("/groups")
     public java.util.List<CircleGroupResponseDTO> getCircles(@AuthenticationPrincipal AppUser currentUser) {
-        return circleService.getCircles(currentUser);
+        return circleReadService.getCircles(currentUser);
     }
 
     @PutMapping("/connections/{userId}/circles")
@@ -110,7 +112,7 @@ public class CircleController {
 
     @GetMapping
     public java.util.List<CircleRequestResponseDTO> getMyCircles(@AuthenticationPrincipal AppUser currentUser) {
-        return circleService.getMyCircles(currentUser);
+        return circleReadService.getMyCircles(currentUser);
     }
 
     @GetMapping("/requests/incoming")
@@ -118,7 +120,7 @@ public class CircleController {
             @ModelAttribute TextPageQueryDTO query,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.getIncomingRequests(
+        return circleReadService.getIncomingRequests(
                 currentUser,
                 query.getQ(),
                 query.getPage() == null ? 0 : query.getPage(),
@@ -131,7 +133,7 @@ public class CircleController {
             @ModelAttribute TextPageQueryDTO query,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.getOutgoingRequests(
+        return circleReadService.getOutgoingRequests(
                 currentUser,
                 query.getQ(),
                 query.getPage() == null ? 0 : query.getPage(),
@@ -144,7 +146,7 @@ public class CircleController {
             @ModelAttribute PageQueryDTO query,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.getInviteCandidatesPage(
+        return circleDiscoveryService.getInviteCandidatesPage(
                 currentUser,
                 query.getPage() == null ? 0 : query.getPage(),
                 query.getSize() == null ? 12 : query.getSize()
@@ -156,7 +158,7 @@ public class CircleController {
             @ModelAttribute CircleConnectionsQueryDTO query,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.getConnections(
+        return circleReadService.getConnections(
                 currentUser,
                 query.getQ(),
                 query.getCircleId(),
@@ -171,7 +173,7 @@ public class CircleController {
             @PathVariable Long userId,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.getRelationWithUser(currentUser, userId);
+        return circleReadService.getRelationWithUser(currentUser, userId);
     }
 
     @GetMapping("/search")
@@ -179,7 +181,7 @@ public class CircleController {
             @ModelAttribute TextPageQueryDTO query,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.searchCircleUsers(
+        return circleDiscoveryService.searchCircleUsers(
                 currentUser,
                 query.getQ(),
                 query.getPage() == null ? 0 : query.getPage(),
@@ -192,7 +194,7 @@ public class CircleController {
             @ModelAttribute TextPageQueryDTO query,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return circleService.getBlockedUsers(
+        return circleDiscoveryService.getBlockedUsers(
                 currentUser,
                 query.getQ(),
                 query.getPage() == null ? 0 : query.getPage(),
