@@ -8,6 +8,8 @@ import java.util.Map;
 @Service
 public class VisionClarificationService {
 
+    private static final double MIN_CONFIDENT_PREFERENCE = 0.30d;
+
     private static final List<String> CREATE_QUEST_SLOT_ORDER = List.of(
             "quest_title",
             "quest_description",
@@ -188,5 +190,47 @@ public class VisionClarificationService {
 
     public String buildCreateQuestConfidenceRetryQuestion() {
         return "I still need a clearer quest title or task before I can review this draft.";
+    }
+
+    public String buildCreateQuestConfidenceQuestion(VisionSemanticUserMemoryContext userMemory) {
+        if (prefersVoice(userMemory)) {
+            return "Say the quest title or task in one short sentence.";
+        }
+        if (prefersText(userMemory)) {
+            return "Type the quest title or task in one short sentence.";
+        }
+        return buildCreateQuestConfidenceQuestion();
+    }
+
+    public String buildCreateQuestConfidenceRetryQuestion(VisionSemanticUserMemoryContext userMemory) {
+        if (prefersVoice(userMemory)) {
+            return "I still need a clearer quest title or task. Say it in one short sentence.";
+        }
+        if (prefersText(userMemory)) {
+            return "I still need a clearer quest title or task. Type it in one short sentence.";
+        }
+        return buildCreateQuestConfidenceRetryQuestion();
+    }
+
+    private boolean prefersVoice(VisionSemanticUserMemoryContext userMemory) {
+        if (userMemory == null || userMemory.getPreferredInputType() == null) {
+            return false;
+        }
+        if (userMemory.getPreferredInputTypeConfidence() == null
+                || userMemory.getPreferredInputTypeConfidence() < MIN_CONFIDENT_PREFERENCE) {
+            return false;
+        }
+        return "voice".equalsIgnoreCase(userMemory.getPreferredInputType());
+    }
+
+    private boolean prefersText(VisionSemanticUserMemoryContext userMemory) {
+        if (userMemory == null || userMemory.getPreferredInputType() == null) {
+            return false;
+        }
+        if (userMemory.getPreferredInputTypeConfidence() == null
+                || userMemory.getPreferredInputTypeConfidence() < MIN_CONFIDENT_PREFERENCE) {
+            return false;
+        }
+        return "text".equalsIgnoreCase(userMemory.getPreferredInputType());
     }
 }

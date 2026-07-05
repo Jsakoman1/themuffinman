@@ -41,6 +41,12 @@ public class VisionUserPreference {
     @Column(name = "source_type", nullable = false, length = 32)
     private String sourceType = "turn";
 
+    @Column(name = "confidence_score", nullable = false)
+    private Double confidenceScore = 0.60d;
+
+    @Column(name = "confidence_updated_at", nullable = false)
+    private Instant confidenceUpdatedAt = Instant.now();
+
     @Column(name = "last_observed_at", nullable = false)
     private Instant lastObservedAt = Instant.now();
 

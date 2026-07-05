@@ -146,8 +146,15 @@ Planned modules:
 - Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
 - A master plan should name the child plans explicitly, define execution order, and include a final closeout pass that
   verifies implementation, documentation, and validation status across the whole batch.
+- During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.
+- During broad implementation work, review the product, control-system, and implementation-workflow layers before substantial edits, and capture the review in a temporary analysis artifact when the batch is broad or high-risk.
 - For work that spans several master plans, use the God Plan hierarchy from `docs/program-planning-model.md`: God Plans live under `.agents/god-plans/`, Master Plans coordinate child plans, Plans execute concrete slices, and temporary machine-readable work products live under `.agents/tmp/` only while their owning plan needs them.
 - Temporary machine-readable work products must name their owning plan and must be deleted, promoted into durable docs, or explicitly archived when the owning plan closes.
+- Broad batches should expect `make control-start`, `make codex-context`, and `make context-pack` to surface layered-analysis artifacts before deeper repository search.
+- Use `make control-refresh-full` when a batch also needs the slower generated-artifact freshness pass.
+- Use `make implementation-batch topic=<topic>` when you want the deterministic implementation wrapper to run discovery, recommendations, and closeout if a plan exists.
+- Use `make temp-work-product-closeout plan=<plan-file>` when an owning plan still has temp work products that must be deleted or archived before closeout.
+- Use `make audit-generated-artifact-hygiene files=<csv>` when a batch needs scope-filtered generated-artifact noise reduction before the global freshness pass.
 - Reusable templates for temporary plans and feature completion manifests live under `.agents/templates/`.
 - When business rules, domain models, permissions, validations, workflows, endpoint contracts, or automation assumptions
   change, update all affected living docs in the same change unless the edit is purely cosmetic.

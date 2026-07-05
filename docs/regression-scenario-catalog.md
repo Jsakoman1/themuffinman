@@ -23,3 +23,4 @@ The machine-readable source is `docs/regression-scenario-catalog.yaml`. Keep thi
 - `things-borrow-request-workflow`: listing ownership, borrow request boundaries, duplicate pending requests, and viewer read state.
 - `rides-circle-scoped-offers`: ride offer scheduling and circle-scoped visibility validation.
 - `common-cross-module-primitives`: reusable actor, ownership, scheduling, visibility, rich-text, and structured error primitives.
+- `vision-learning-eval-harness`: learned-memory recall, decay-aware preference confidence, clarification wording, and weak ambiguous topic continuity.

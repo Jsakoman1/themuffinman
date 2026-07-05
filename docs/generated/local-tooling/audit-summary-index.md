@@ -1,9 +1,9 @@
 # Audit Summary Index
 
 - Registry entries: 69
-- Tracked outputs: 13
-- Missing outputs: 56
-- Summary files: 38
+- Tracked outputs: 18
+- Missing outputs: 51
+- Summary files: 51
 
 ## Registry
 
@@ -14,9 +14,9 @@
 - `codex-context-explain` -> `docs/generated/local-tooling/codex-context/latest.explain.md` (`missing`)
 - `codex-context-clean` -> `docs/generated/local-tooling/codex-context/` (`tracked`)
 - `clean-text-noise` -> `docs/generated/local-tooling/clean-text-noise-summary.md` (`missing`)
-- `context-pack` -> `docs/generated/local-tooling/context-packs` (`missing`)
+- `context-pack` -> `docs/generated/local-tooling/context-packs` (`tracked`)
 - `recommend-feature-slices` -> `docs/generated/local-tooling/feature-slices/<topic>-summary.md` (`missing`)
-- `recommend-targeted-tests` -> `docs/generated/local-tooling/targeted-tests-summary.md` (`missing`)
+- `recommend-targeted-tests` -> `docs/generated/local-tooling/targeted-tests-summary.md` (`tracked`)
 - `repo-map` -> `docs/generated/local-tooling/repo-map-summary.md` (`tracked`)
 - `symbol-index` -> `docs/generated/local-tooling/symbol-index-summary.md` (`tracked`)
 - ... and 57 more
@@ -26,15 +26,15 @@
 - `docs/generated/dead-code-audit/backend-unused-summary.md` | 2026-07-03T09:17:28Z | 3877 bytes
 - `docs/generated/dead-code-audit/dead-code-summary-summary.md` | 2026-07-03T09:17:28Z | 1298 bytes
 - `docs/generated/dead-code-audit/frontend-unused-summary.md` | 2026-07-03T09:17:21Z | 2221 bytes
+- `docs/generated/local-tooling/audit-documentation-summary.md` | 2026-07-05T09:26:29Z | 141 bytes
 - `docs/generated/local-tooling/audit-registry-artifacts-summary.md` | 2026-07-03T14:48:12Z | 142 bytes
-- `docs/generated/local-tooling/control-start-summary.md` | 2026-07-04T11:50:32Z | 366 bytes
+- `docs/generated/local-tooling/backend-dependency-graph-summary.md` | 2026-07-05T09:11:22Z | 1136 bytes
+- `docs/generated/local-tooling/control-start-summary.md` | 2026-07-05T09:26:16Z | 496 bytes
+- `docs/generated/local-tooling/doc-canonical-phrases-summary.md` | 2026-07-05T09:23:05Z | 2154 bytes
+- `docs/generated/local-tooling/domain-packs/agent-summary.md` | 2026-07-05T09:09:31Z | 611 bytes
 - `docs/generated/local-tooling/dto-usage-packs/visioncanvasblockdto-summary.md` | 2026-07-04T11:50:44Z | 1249 bytes
+- `docs/generated/local-tooling/dto-usage-packs/visionconversationturnresponsedto-summary.md` | 2026-07-05T09:25:42Z | 2217 bytes
 - `docs/generated/local-tooling/endpoint-contract-packs/admin-summary.md` | 2026-07-03T14:48:12Z | 745 bytes
-- `docs/generated/local-tooling/endpoint-contract-packs/agent-summary.md` | 2026-07-03T14:48:12Z | 280 bytes
-- `docs/generated/local-tooling/endpoint-contract-packs/app_users-summary.md` | 2026-07-03T14:48:12Z | 1071 bytes
-- `docs/generated/local-tooling/endpoint-contract-packs/applications-summary.md` | 2026-07-03T14:48:12Z | 301 bytes
-- `docs/generated/local-tooling/endpoint-contract-packs/auth-summary.md` | 2026-07-03T14:48:12Z | 626 bytes
-- `docs/generated/local-tooling/endpoint-contract-packs/business-summary.md` | 2026-07-03T14:48:13Z | 1052 bytes
-- ... and 26 more
+- ... and 39 more
 
 _Routing aid only. Use the underlying generated report or source file for current state._

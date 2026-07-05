@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-07-05T09:22:52Z",
+  "topic": "implementation-system",
+  "filesCsv": "Makefile,scripts/audits/audit-generated-artifact-freshness.rb,scripts/implementation-batch.sh,scripts/audits/local_tooling_extended_tools.rb,scripts/audits/audit-plan-completion.rb",
+  "manifest": "",
+  "planPath": "/Users/jsakoman/Desktop/themuffinman/.agents/implementation-system-plan.md",
+  "planCompletion": "skipped",
+  "controlStart": "docs/generated/local-tooling/control-start.json",
+  "codexContext": "docs/generated/local-tooling/codex-context/latest.review.md",
+  "generatedArtifactHygiene": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
+  "featureSlices": "docs/generated/local-tooling/feature-slices/implementation-system.json",
+  "targetedTests": "docs/generated/local-tooling/targeted-tests.json",
+  "closeoutStatus": "audit-todo"
+}

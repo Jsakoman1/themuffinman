@@ -70,6 +70,33 @@ def child_plan_rows(content)
   end.compact
 end
 
+def temp_work_product_rows(plan_path)
+  Dir.glob(abs(".agents/tmp/*.{yaml,yml,json}")).sort.map do |path|
+    payload =
+      case File.extname(path)
+      when ".json"
+        JSON.parse(File.read(path))
+      else
+        YAML.safe_load(File.read(path), permitted_classes: [Date, Time], aliases: true)
+      end
+    next unless payload.is_a?(Hash)
+
+    owner_plan = payload["ownerPlan"] || payload[:ownerPlan]
+    next unless owner_plan.to_s.strip == plan_path.to_s.strip
+
+    {
+      path: path.delete_prefix("#{REPO_ROOT}/"),
+      id: payload["id"] || payload[:id],
+      owner_plan: owner_plan,
+      purpose: payload["purpose"] || payload[:purpose],
+      status: payload["status"] || payload[:status],
+      delete_when: payload["deleteWhen"] || payload[:deleteWhen]
+    }
+  rescue StandardError
+    nil
+  end.compact
+end
+
 def manifest_rows
   Dir.glob(abs(".agents/feature-manifests/*.yaml")).sort.map do |path|
     manifest = YAML.load_file(path)
@@ -107,6 +134,8 @@ def analyze_plan(plan_path, nested: false)
   status = completion_status(section)
   open_tasks = open_task_lines(content)
   child_rows = child_plan_rows(content)
+  temp_rows = temp_work_product_rows(plan_path)
+  finalized = machine_status.match?(/\A(?:complete|completed|done)\z/i) || status.to_s.match?(/\A(?:complete|completed|done)\z/i)
 
   issues << "missing machine status frontmatter" if machine_status.empty?
   issues << "missing ## Completion Evidence section" unless section
@@ -133,6 +162,12 @@ def analyze_plan(plan_path, nested: false)
     row.merge(status: child_status, child_issues: child[:issues])
   end
 
+  if finalized && temp_rows.any?
+    temp_rows.each do |row|
+      issues << "temporary work product #{row[:path]} owned by #{plan_path} must be deleted, promoted, or archived before closeout"
+    end
+  end
+
   {
     plan: plan_path,
     exists: true,
@@ -141,6 +176,7 @@ def analyze_plan(plan_path, nested: false)
     open_tasks: open_tasks,
     unresolved_open_tasks: unresolved_tasks,
     child_plans: children,
+    temp_work_products: temp_rows,
     issues: issues,
     warnings: warnings
   }
@@ -159,12 +195,21 @@ def write_report(plan_path, manifest_path, result)
   lines << "- Status: `#{payload[:status]}`"
   lines << "- Completion evidence: `#{payload[:completion_evidence]}`"
   lines << "- Open tasks: `#{payload[:open_tasks].size}`"
+  lines << "- Temp work products: `#{payload[:temp_work_products].size}`"
   lines << "- Issues: `#{payload[:issues].size}`"
   lines << ""
   if payload[:issues].any?
     lines << "## Issues"
     lines << ""
     payload[:issues].each { |issue| lines << "- #{issue}" }
+    lines << ""
+  end
+  if payload[:temp_work_products].any?
+    lines << "## Temp Work Products"
+    lines << ""
+    payload[:temp_work_products].each do |row|
+      lines << "- `#{row[:path]}` | `#{row[:status]}` | `#{row[:delete_when]}`"
+    end
     lines << ""
   end
   LocalToolingCommon.write_text("#{OUT_ROOT}/#{id}-summary.md", lines.join("\n"))
@@ -204,7 +249,7 @@ result = result.merge(
 write_report(plan_path, manifest_path, result)
 
 if result[:status] == "passed"
-  refresh_status = system("make", "control-refresh")
+  refresh_status = system("make", "control-refresh-full")
   unless refresh_status
     warn "Plan completion refresh failed after plan closeout"
     exit 1

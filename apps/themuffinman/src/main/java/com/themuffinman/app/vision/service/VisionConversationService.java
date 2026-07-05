@@ -12,6 +12,7 @@ import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.vision.dto.VisionLearningMemoryDTO;
 import com.themuffinman.app.vision.dto.VisionMemoryTrailDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
@@ -27,6 +28,7 @@ import com.themuffinman.app.vision.model.VisionTurn;
 import com.themuffinman.app.vision.model.VisionTurnSource;
 import com.themuffinman.app.vision.repository.VisionConversationRepository;
 import com.themuffinman.app.vision.repository.VisionTurnRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,6 +67,7 @@ public class VisionConversationService {
     private final VisionProperties visionProperties;
     private final VisionLearningService visionLearningService;
 
+    @Autowired
     public VisionConversationService(
             VisionConversationRepository visionConversationRepository,
             VisionTurnRepository visionTurnRepository,
@@ -258,6 +261,7 @@ public class VisionConversationService {
                 visionQuestDiscoveryService.discover(conversation, understanding, currentUser),
                 visionSearchDiscoveryService.discover(conversation, understanding, currentUser),
                 capabilityPreview(conversation, currentUser),
+                learningMemory(currentUser),
                 buildMemoryTrail(currentUser, conversation)
         );
     }
@@ -308,6 +312,7 @@ public class VisionConversationService {
                 visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
                 searchDiscoveryForConversation(conversation, currentUser),
                 capabilityPreview(conversation, currentUser),
+                learningMemory(currentUser),
                 buildMemoryTrail(currentUser, conversation)
         );
     }
@@ -338,6 +343,7 @@ public class VisionConversationService {
                 visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
                 searchDiscoveryForConversation(conversation, currentUser),
                 capabilityPreview(conversation, currentUser),
+                learningMemory(currentUser),
                 buildMemoryTrail(currentUser, conversation)
         );
     }
@@ -358,6 +364,7 @@ public class VisionConversationService {
                 visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
                 searchDiscoveryForConversation(conversation, currentUser),
                 capabilityPreview(conversation, currentUser),
+                learningMemory(currentUser),
                 buildMemoryTrail(currentUser, conversation)
         );
     }
@@ -566,6 +573,21 @@ public class VisionConversationService {
                 .recentEntityFamilies(memoryContext.getUserMemory() == null ? List.of() : memoryContext.getUserMemory().getRecentEntityFamilies())
                 .recentIntentTypes(memoryContext.getUserMemory() == null ? List.of() : memoryContext.getUserMemory().getRecentIntentTypes())
                 .build();
+    }
+
+    private VisionLearningMemoryDTO learningMemory(AppUser currentUser) {
+        if (visionLearningService == null || currentUser == null) {
+            return null;
+        }
+        return visionLearningService.buildLearningMemory(currentUser);
+    }
+
+    private VisionSemanticUserMemoryContext userMemoryFor(VisionConversation conversation) {
+        if (visionSemanticOrchestrationContextService == null || conversation == null) {
+            return null;
+        }
+        VisionSemanticMemoryContext memoryContext = visionSemanticOrchestrationContextService.buildMemoryContext(conversation.getOwner(), conversation);
+        return memoryContext == null ? null : memoryContext.getUserMemory();
     }
 
     private String entityFamilyFor(VisionIntent intent) {
@@ -1169,13 +1191,14 @@ public class VisionConversationService {
         VisionNextAction nextAction;
         VisionConversationStatus status;
         if (missingSlot == null && lowConfidence) {
+            VisionSemanticUserMemoryContext userMemory = userMemoryFor(conversation);
             status = VisionConversationStatus.ACTIVE;
             nextAction = VisionNextAction.ASK_FOR_SLOT;
             agentState = VisionAgentState.ASKING;
             missingSlot = "quest_title";
             message = conversation.getRequestedSlot() != null && conversation.getRequestedSlot().equals("quest_title")
-                    ? visionClarificationService.buildCreateQuestConfidenceRetryQuestion()
-                    : visionClarificationService.buildCreateQuestConfidenceQuestion();
+                    ? visionClarificationService.buildCreateQuestConfidenceRetryQuestion(userMemory)
+                    : visionClarificationService.buildCreateQuestConfidenceQuestion(userMemory);
         } else if (missingSlot == null) {
             status = VisionConversationStatus.REVIEW_READY;
             nextAction = VisionNextAction.SHOW_REVIEW;

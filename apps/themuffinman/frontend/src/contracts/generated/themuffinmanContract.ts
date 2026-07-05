@@ -94,6 +94,12 @@ export type VisionConversationStatus = typeof VISION_CONVERSATION_STATUS_VALUES[
 export const VISION_INTENT_VALUES = ["CREATE_QUEST", "CREATE_CIRCLE", "CREATE_CIRCLE_REQUEST", "ACCEPT_CIRCLE_REQUEST", "DELETE_CIRCLE_REQUEST", "CREATE_APPLICATION", "UPDATE_APPLICATION", "WITHDRAW_APPLICATION", "APPROVE_APPLICATION", "DECLINE_APPLICATION", "UPDATE_CIRCLE", "DELETE_CIRCLE", "UPDATE_PROFILE", "UPDATE_PROFILE_LOCATION", "DISCOVER_QUESTS", "OPEN_CHAT", "VIEW_CHAT_WORKSPACE", "VIEW_PROFILE", "VIEW_SETTINGS", "VIEW_USER_PROFILE", "VIEW_CIRCLES", "VIEW_CIRCLE_DETAIL", "VIEW_QUEST_DETAIL", "VIEW_NOTIFICATIONS", "VIEW_QUEST_NEWS", "VIEW_APPLICATIONS", "VIEW_APPLICATION_DETAIL", "VIEW_THINGS", "SEARCH", "UNSUPPORTED"] as const
 export type VisionIntent = typeof VISION_INTENT_VALUES[number]
 
+export const VISION_MEMORY_FEEDBACK_TYPE_VALUES = ["INTERACTION", "CLARIFICATION", "CORRECTION", "CONFIRMATION", "EXECUTED", "BLOCKED", "CANCELLED"] as const
+export type VisionMemoryFeedbackType = typeof VISION_MEMORY_FEEDBACK_TYPE_VALUES[number]
+
+export const VISION_MEMORY_SUMMARY_KIND_VALUES = ["ROLLUP", "PREFERENCE", "CORRECTION", "SESSION"] as const
+export type VisionMemorySummaryKind = typeof VISION_MEMORY_SUMMARY_KIND_VALUES[number]
+
 export const VISION_NEXT_ACTION_VALUES = ["ASK_FOR_SLOT", "SHOW_RESULTS", "SHOW_REVIEW", "COMPLETE", "BLOCKED"] as const
 export type VisionNextAction = typeof VISION_NEXT_ACTION_VALUES[number]
 
@@ -1448,6 +1454,7 @@ export interface VisionConversationTurnResponseDTO {
   executionCandidate: VisionExecutionCandidateDTO
   questDiscovery: VisionQuestDiscoveryDTO
   searchDiscovery: VisionSearchDiscoveryDTO
+  learningMemory: VisionLearningMemoryDTO
   memoryTrail: VisionMemoryTrailDTO
   blocks: VisionCanvasBlockDTO[]
   appliedSlotSummaries: VisionSlotSummaryDTO[]
@@ -1467,6 +1474,21 @@ export interface VisionExecutionCandidateDTO {
   blockingReason: string
   planningNote: string
   summary: string
+}
+
+export interface VisionLearningMemoryDTO {
+  summaryText: string
+  recentFeedbackTypes: string[]
+  preferenceSignals: VisionLearningPreferenceDTO[]
+}
+
+export interface VisionLearningPreferenceDTO {
+  preferenceKey: string
+  preferenceValue: string
+  sourceType: string
+  observationCount: number
+  confidenceScore: number
+  lastObservedAt: string
 }
 
 export interface VisionMemoryTrailDTO {

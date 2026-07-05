@@ -156,7 +156,7 @@ Prefer these service roles:
 - `VisionExecutionPlanner`: creates a non-mutating execution candidate.
 - `VisionExecutionService`: executes reviewed and confirmed candidates.
 - `VisionCanvasAssembler`: builds backend-prepared canvas state for clients.
-- `VisionLearningService`: records preference signals, feedback events, and compact memory summaries from completed turns.
+- `VisionLearningService`: records preference signals, feedback events, and compact memory summaries from completed turns, and computes decay-aware preference confidence for both learning and memory packing.
 - `VisionMemoryCompactionService`: periodically rolls up preference and feedback history into summary rows.
 
 Controllers call one facade service. They should not assemble workflows, choose intent, or inspect slots.
@@ -167,6 +167,8 @@ Every prompt or voice transcript is a turn in a conversation.
 
 Conversation state should be backend-owned and persisted from the first real orchestration phase onward so text turns, voice turns, review states, clarifications, and execution confirmations share one durable timeline.
 Persistent preference rows and feedback events should sit beside the conversation timeline so the backend can learn stable habits and correction history without promoting raw transcript replay into the semantic request.
+Preference rows should carry both a stored confidence score and a last-confidence-update timestamp, because the backend needs a stable row plus a decay anchor rather than only a raw count.
+When the backend selects learned preference signals for runtime memory or turn-level summaries, it should rank them by backend priority first and confidence second, because input mode and topic-family habits are more useful to surface than a flat confidence list.
 
 A turn should produce exactly one primary next step:
 - ask for one missing field
@@ -230,7 +232,7 @@ After parsing model output, backend services should first fail-close any capabil
 Maintain a semantic audit matrix with representative quest, circle, application, profile, chat, and detail prompts so route drift and fallback regressions surface in tests instead of user sessions.
 User context should carry available locale, language, country, locality, and timezone hints so STT transcripts and typed text can be interpreted in the user's real operating context. When only a country is known, the backend may provide a conservative timezone default, such as `Europe/Zurich` for `CH`, but final scheduling validation remains deterministic.
 Locale and timezone should be resolved by explicit backend precedence instead of whichever hint arrives first. Prefer explicit persisted user preferences when they exist, then durable user-specific history, then client runtime hints, and finally backend country defaults or global defaults. The chosen source should be included in the semantic request so later capability slices can reason about confidence.
-The semantic request should also carry a compact memory pack split into user memory, session memory, and recent turn snapshots, because multi-topic conversations are easier to orchestrate when stable preferences stay separate from the active thread. That memory pack should also expose recent entity families so vague follow-ups can stay anchored to the active topic unless the user clearly switches domains. Low-confidence ambiguous follow-ups should stay in the current thread unless the prompt clearly signals a different entity family. The turn response should also carry a compact memory trail for frontend debug and adaptive preview use.
+The semantic request should also carry a compact memory pack split into user memory, session memory, and recent turn snapshots, because multi-topic conversations are easier to orchestrate when stable preferences stay separate from the active thread. That memory pack should also expose recent entity families so vague follow-ups can stay anchored to the active topic unless the user clearly switches domains. Low-confidence ambiguous follow-ups should stay in the current thread unless the prompt clearly signals a different entity family. Strong preference signals may also slightly shape clarification wording, but they should not bypass policy or route selection. The turn response should also carry a compact memory trail for frontend debug and adaptive preview use, plus a learned-memory payload with the latest compact summary and structured preference signals so the UI can show what was learned without walking the full memory pack.
 Fallback focus should not override a clearly switched entity family, because stale requested-slot memory can otherwise pin the user back to the previous topic even after the new prompt clearly changes domain.
 
 ## Clarification Pattern

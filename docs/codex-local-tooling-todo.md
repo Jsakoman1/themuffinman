@@ -587,6 +587,7 @@ Use it for tooling that should produce compact outputs Codex can consume instead
   Proposed outputs:
   - `.agents/<topic>-plan.md`
   - Optional `.agents/feature-manifests/<topic>-manifest.yaml`
+  - Temporary `.agents/tmp/<topic>-layered-analysis.yaml` when discovery is enabled.
   Notes:
   - Keep generated plan text conservative and editable.
   - Do not mark checklist items complete automatically.

@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-04T11:50:44Z",
+  "generated_at": "2026-07-05T09:26:46Z",
   "plan_index": {
     "path": "docs/generated/local-tooling/plan-index.json",
     "summary_path": "docs/generated/local-tooling/plan-index-summary.md",
-    "total_count": 11,
+    "total_count": 26,
     "open_count": 0,
     "open_master_plans": [
 
@@ -20,5 +20,16 @@
     "missing_outputs": null
   },
   "codex_context_review": "docs/generated/local-tooling/codex-context/latest.review.md",
+  "temp_work_products": {
+    "path": ".agents/tmp",
+    "count": 0,
+    "layered_analysis_count": 0,
+    "layered_analysis_artifacts": [
+
+    ],
+    "samples": [
+
+    ]
+  },
   "next_action": "Use `make codex-context topic=<topic> intent='<intent>'` for topic-specific broad work once this control snapshot is fresh."
 }

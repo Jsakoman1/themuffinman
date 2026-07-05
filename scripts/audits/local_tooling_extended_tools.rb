@@ -168,6 +168,8 @@ module LocalToolingExtendedTools
     end
     domains = files.map { |path| domain_for(path) }.uniq.sort
     audits = relevant_audit_summaries(files, domains)
+    temp_work_products = temp_work_product_inventory
+    layered_analysis_artifact = temp_work_products.find { |entry| entry[:path] == ".agents/tmp/#{topic}-layered-analysis.yaml" }
     report = {
       generated_at: now,
       topic: topic,
@@ -184,7 +186,9 @@ module LocalToolingExtendedTools
       related_tests: related_tests(files),
       related_docs: domains.flat_map { |domain| DOCS_BY_DOMAIN.fetch(domain, []) }.uniq.sort,
       related_migrations: rel_glob("apps/themuffinman/src/main/resources/db/migration/*.sql").last(10),
-      relevant_audits: audits
+      relevant_audits: audits,
+      temp_work_products: temp_work_products.first(10),
+      layered_analysis_artifact: layered_analysis_artifact
     }
     write_report("context-packs/#{topic}", "Context Pack #{topic}", report)
   end
@@ -688,6 +692,10 @@ module LocalToolingExtendedTools
     write_report("frontend-usage-graph", "Frontend Usage Graph", report)
   end
 
+  def run_audit_frontend_usage_graph(argv)
+    run_frontend_usage_graph(argv)
+  end
+
   def run_backend_dependency_graph(_argv)
     files = rel_glob("apps/themuffinman/src/main/java/**/*.java")
     nodes = files.map { |path| {file: path, class_name: File.basename(path, ".java"), category: category_for(path), domain: domain_for(path)} }
@@ -699,6 +707,10 @@ module LocalToolingExtendedTools
     end
     report = {generated_at: now, node_count: nodes.size, edge_count: edges.size, nodes: nodes, edges: edges.first(1500)}
     write_report("backend-dependency-graph", "Backend Dependency Graph", report)
+  end
+
+  def run_audit_backend_dependency_graph(argv)
+    run_backend_dependency_graph(argv)
   end
 
   def run_diff_summary(_argv)
@@ -755,20 +767,96 @@ module LocalToolingExtendedTools
     options = parse_key_values(argv)
     topic = slug(options["topic"] || argv.first || "feature")
     plan = ".agents/#{topic}-plan.md"
-    run_context_pack(["topic=#{topic}"])
     return puts "Plan not found: #{plan}" unless File.exist?(abs(plan))
+
+    analysis_path = ".agents/tmp/#{topic}-layered-analysis.yaml"
+    analysis_payload = layered_analysis_payload(plan, topic)
+    LocalToolingCommon.write_text(analysis_path, YAML.dump(analysis_payload).sub(/\A---\n/, ""))
+    run_context_pack(["topic=#{topic}"])
 
     append = [
       "",
       "## Local Discovery",
       "",
       "- Context pack: `docs/generated/local-tooling/context-packs/#{topic}-summary.md`",
+      "- Layered analysis artifact: `#{analysis_path}`",
+      "- Control snapshot: `make control-start`",
       "- Suggested first pass: run `make audit-router` after the first implementation slice.",
       "- Suggested closeout: run `make closeout-bundle manifest=.agents/feature-manifests/#{topic}-manifest.yaml` when the feature is ready for final validation.",
       ""
     ].join("\n")
     File.write(abs(plan), File.read(abs(plan)) + append)
     puts "Updated #{plan} with local discovery notes"
+  end
+
+  def layered_analysis_payload(plan, topic)
+    {
+      "id" => "#{topic}-layered-analysis",
+      "ownerPlan" => plan,
+      "purpose" => "Temporary layered review artifact for the current implementation batch.",
+      "createdAt" => now,
+      "deleteWhen" => "Owning plan closes, unless promoted into durable docs or explicitly archived.",
+      "status" => "draft",
+      "sourceFiles" => [
+        plan,
+        "AGENTS.md",
+        "docs/codex-fast-path.md",
+        "docs/feature-delivery-workflow.md",
+        "docs/documentation-sync-policy.md",
+        "docs/change-completion-checklist.md",
+        "docs/program-planning-model.md",
+        "docs/product-memory.md",
+        "docs/product-vision.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "data" => {
+        "layerReview" => [
+          {
+            "layer" => "product",
+            "strengths" => [
+              "The product vision already explains the user-facing goal and memory-oriented interaction model."
+            ],
+            "gaps" => [
+              "The implementation plan still benefits from an explicit statement of the first user-visible outcome."
+            ],
+            "nextSteps" => [
+              "Translate the user goal into one bounded implementation slice with a clear success criterion."
+            ]
+          },
+          {
+            "layer" => "control-system",
+            "strengths" => [
+              "Master plans, plans, manifests, and validation memory already create a durable closeout loop."
+            ],
+            "gaps" => [
+              "Broad batches still need a standard pre-edit review artifact to avoid jumping straight into implementation."
+            ],
+            "nextSteps" => [
+              "Keep the plan scaffold, closeout rules, and generated operating model aligned."
+            ]
+          },
+          {
+            "layer" => "workflow",
+            "strengths" => [
+              "The fast path and closeout commands are already explicit enough for repeatable execution."
+            ],
+            "gaps" => [
+              "The batch entry point should surface the layered review artifact before the first code edit."
+            ],
+            "nextSteps" => [
+              "Use the generated layered analysis as the first checkpoint, then continue through the planned slices without pausing for extra confirmation."
+            ]
+          }
+        ],
+        "recommendedNextActions" => [
+          "Read the generated layered analysis before editing code.",
+          "Run `make control-start` for a compact control snapshot.",
+          "Use `make bootstrap-feature-work topic=<topic> discover=true` for future broad batches.",
+          "Close the owning plan only after validation and follow-up capture are complete."
+        ]
+      }
+    }
   end
 
   def run_audit_summary_index(_argv)
@@ -810,6 +898,8 @@ module LocalToolingExtendedTools
     plan_index = read_json_if_present("#{OUT}/plan-index.json") || {}
     audit_summary_index = read_json_if_present("#{OUT}/audit-summary-index.json") || {}
     codex_context_review = File.exist?(abs("#{OUT}/codex-context/latest.review.md")) ? "#{OUT}/codex-context/latest.review.md" : nil
+    temp_work_products = temp_work_product_inventory
+    layered_analysis_products = temp_work_products.select { |entry| entry[:path].end_with?("-layered-analysis.yaml") }
 
     payload = {
       generated_at: now,
@@ -829,6 +919,13 @@ module LocalToolingExtendedTools
         missing_outputs: audit_summary_index["missing_outputs"]
       },
       codex_context_review: codex_context_review,
+      temp_work_products: {
+        path: ".agents/tmp",
+        count: temp_work_products.size,
+        layered_analysis_count: layered_analysis_products.size,
+        layered_analysis_artifacts: layered_analysis_products.first(8),
+        samples: temp_work_products.first(8)
+      },
       next_action: "Use `make codex-context topic=<topic> intent='<intent>'` for topic-specific broad work once this control snapshot is fresh."
     }
 
@@ -977,6 +1074,8 @@ module LocalToolingExtendedTools
     lines << "- Open master plans: `#{Array(payload.dig(:plan_index, :open_master_plans)).size}`"
     lines << "- Open plans: `#{Array(payload.dig(:plan_index, :open_plans)).size}`"
     lines << "- Codex context review: `#{payload[:codex_context_review] || 'none'}`"
+    lines << "- Temp work products: `#{payload.dig(:temp_work_products, :count) || 0}`"
+    lines << "- Layered-analysis artifacts: `#{payload.dig(:temp_work_products, :layered_analysis_count) || 0}`"
     lines << ""
     lines << "## Open Master Plans"
     lines << ""
@@ -989,8 +1088,109 @@ module LocalToolingExtendedTools
     Array(payload.dig(:plan_index, :open_plans)).each do |entry|
       lines << "- `#{entry["path"] || entry[:path]}` | `#{entry["status"] || entry[:status]}` | #{entry["goal"] || entry[:goal] || entry["title"] || entry[:title]}"
     end
+    temp_work_products = Array(payload.dig(:temp_work_products, :samples))
+    layered_analysis_products = Array(payload.dig(:temp_work_products, :layered_analysis_artifacts))
+    lines << ""
+    lines << "## Temp Work Products"
+    lines << ""
+    if temp_work_products.empty?
+      lines << "- none"
+    else
+      temp_work_products.each do |entry|
+        lines << "- `#{entry[:path] || entry["path"]}` | `#{entry[:owner_plan] || entry["ownerPlan"]}` | #{entry[:purpose] || entry["purpose"]}"
+      end
+    end
+    lines << ""
+    lines << "## Layered Analysis Artifacts"
+    lines << ""
+    if layered_analysis_products.empty?
+      lines << "- none"
+    else
+      layered_analysis_products.each do |entry|
+        lines << "- `#{entry[:path] || entry["path"]}` | `#{entry[:owner_plan] || entry["ownerPlan"]}`"
+      end
+    end
     lines << ""
     lines.join("\n")
+  end
+
+  def temp_work_product_inventory
+    rel_glob(".agents/tmp/*.{yaml,yml,json}").map do |path|
+      temp_work_product_record(path)
+    end.compact.sort_by { |entry| [entry[:owner_plan].to_s, entry[:path].to_s] }
+  end
+
+  def temp_work_product_record(path)
+    absolute = abs(path)
+    return nil unless File.file?(absolute)
+
+    payload =
+      case File.extname(path)
+      when ".json"
+        JSON.parse(File.read(absolute))
+      else
+        YAML.safe_load(File.read(absolute), permitted_classes: [Date, Time], aliases: true)
+      end
+    return nil unless payload.is_a?(Hash)
+
+    owner_plan = payload["ownerPlan"] || payload[:ownerPlan]
+    return nil if owner_plan.to_s.strip.empty?
+
+    {
+      path: path,
+      id: payload["id"] || payload[:id],
+      owner_plan: owner_plan,
+      purpose: payload["purpose"] || payload[:purpose],
+      status: payload["status"] || payload[:status],
+      delete_when: payload["deleteWhen"] || payload[:deleteWhen]
+    }
+  rescue StandardError
+    nil
+  end
+
+  def run_temp_work_product_closeout(argv)
+    options = parse_key_values(argv)
+    plan_path = options["plan"].to_s.strip
+    action = options["action"].to_s.strip.downcase
+    action = "delete" if action.empty?
+    unless %w[delete archive].include?(action)
+      raise "unsupported temp-work-product action: #{action}"
+    end
+    if plan_path.empty?
+      raise "usage: plan=<plan-file> [action=delete|archive]"
+    end
+
+    rows = temp_work_product_inventory.select { |entry| entry[:owner_plan].to_s.strip == plan_path }
+    archive_root = ".agents/archive/temp-work-products/#{slug(plan_path)}"
+    archived = []
+    deleted = []
+
+    rows.each do |entry|
+      source = abs(entry[:path])
+      next unless File.exist?(source)
+
+      case action
+      when "delete"
+        FileUtils.rm_f(source)
+        deleted << entry[:path]
+      when "archive"
+        target = "#{archive_root}/#{File.basename(entry[:path])}"
+        FileUtils.mkdir_p(abs(File.dirname(target)))
+        FileUtils.mv(source, abs(target))
+        archived << target
+      end
+    end
+
+    report = {
+      generated_at: now,
+      plan: plan_path,
+      action: action,
+      matched_count: rows.size,
+      deleted: deleted,
+      archived: archived,
+      remaining: temp_work_product_inventory.select { |entry| entry[:owner_plan].to_s.strip == plan_path }.map { |entry| entry[:path] }
+    }
+    write_report("temp-work-product-closeout/#{slug(plan_path)}", "Temp Work Product Closeout #{plan_path}", report)
   end
 
   def audit_summary_index_markdown(payload)

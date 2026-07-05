@@ -153,6 +153,7 @@ The key rule is that the surface should match the user's current need rather tha
 - Everything shown on screen should be useful in that exact moment.
 - Information density should expand and contract based on user intent, not based on a fixed page template.
 - The system should learn durable user preferences and correction patterns over time, but only through explicit backend memory and feedback capture rather than silent policy drift.
+- Durable preferences should also carry confidence and decay semantics, so repeated behavior strengthens the signal while stale habits naturally cool down.
 
 ## Frontend Epics
 

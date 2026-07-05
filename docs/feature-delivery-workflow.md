@@ -42,6 +42,8 @@ Default flow:
 2. Read `docs/codex-fast-path.md`.
 3. Run compact context:
    - `make control-start`
+   - `make control-refresh-full` when you also need the slower freshness pass during closeout or workflow maintenance
+   - `make implementation-batch topic=<topic>` when you want the deterministic batch wrapper to drive discovery and closeout if a plan exists
    - `make codex-context topic=<topic> intent='<intent>'`
    - `make recommend-targeted-tests`
 4. Run only targeted validation.
@@ -125,6 +127,10 @@ If `AGENTS.md` records a standing autonomous continuation preference, do not pau
 
 If `AGENTS.md` records the standing follow-up capture preference, record discovered safe improvements, likely next slices, and repeated failure patterns in the active follow-up or backlog surface during the current slice, then continue with the best sequenced follow-up slice after current validation and closeout finish.
 
+During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.
+
+During broad implementation work, review the product, control-system, and implementation-workflow layers before substantial edits, and capture the review in a temporary analysis artifact when the batch is broad or high-risk.
+
 Typical evidence helpers:
 
 - `make record-validation manifest=<manifest-file> command='<command>'`
@@ -180,10 +186,13 @@ This tier is intentionally strict:
 - `make audit-summary-index`
 - `make codex-context topic=<topic> intent='<intent>'`
 - `make control-start`
+- `make control-refresh-full` when you need the compact snapshot plus freshness validation
 - `make context-pack topic=<topic>` only when you need a broader topic slice beyond the one-shot context chain
 - `make codex-context budget=<tokens> mode=<mode> topic=<topic> intent='<intent>'` keeps the same chain but lets you tune the budget
 - `make codex-context` also writes `docs/generated/local-tooling/codex-context/latest.execution.json`, the canonical machine-readable batch manifest for read order, evidence, and next actions, with schema `docs/codex-context-execution-manifest.schema.json`.
 - `make control-start` writes `docs/generated/local-tooling/control-start.json` and `docs/generated/local-tooling/control-start-summary.md`, the compact control-system snapshot for plan and audit discovery.
+- `make control-refresh-full` performs the same snapshot work and then runs the slower generated-artifact freshness audit.
+- `make control-start`, `make codex-context`, and `make context-pack` surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
 - When the resolver shape is manifest-backed or closeout-sensitive, `make codex-context` should also surface validation memory so command and evidence expectations are present before the first closeout pass.
 - If the task touches active control state, planning state, or automation-facing rules, open the machine-readable source
   surfaces listed in `docs/control-surface-map.md` before broad narrative docs.
@@ -216,6 +225,8 @@ These resolvers answer:
 - use forward-only migrations
 - validate the first meaningful slice before widening scope
 - temporary machine-readable work products may live under `.agents/tmp/` only while their owning plan needs them, and must be deleted, promoted, or explicitly archived at plan closeout
+- `make temp-work-product-closeout plan=<plan-file>` deletes or archives lingering temp work products owned by a plan before closeout
+- `make audit-generated-artifact-hygiene files=<csv>` gives a scope-filtered generated-artifact report before the global freshness check
 
 5. Documentation synchronization
 
@@ -234,6 +245,8 @@ Use resolver outputs instead of guessing propagation scope from memory.
 
 - tiny changes: `make audit-todo`
 - normal features: `make audit-todo` and `make audit-plan-completion`
+- `make audit-plan-completion plan=<plan-file>` reports lingering temp work products owned by the plan so closeout can clean them up before completion.
+- `make audit-generated-artifact-hygiene files=<csv>` reports only the generated-artifact noise that overlaps the batch scope before the wider freshness pass.
 - manifest-backed work: run the full closeout bundle, including `make validation-memory-closeout-card` and the validation-memory drift sub-check inside `make feature-closeout-audit`
 
 8. Post-plan memory update

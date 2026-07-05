@@ -118,13 +118,21 @@ class VisionLearningServiceTest {
         preferredEntity.setObservationCount(2);
         preferredEntity.setLastObservedAt(Instant.parse("2026-07-02T10:00:00Z"));
 
+        VisionUserPreference recentFeedback = new VisionUserPreference();
+        recentFeedback.setUser(user);
+        recentFeedback.setPreferenceKey("last_feedback_type");
+        recentFeedback.setPreferenceValue("correction");
+        recentFeedback.setObservationCount(5);
+        recentFeedback.setConfidenceScore(0.99d);
+        recentFeedback.setLastObservedAt(Instant.parse("2026-07-03T10:00:00Z"));
+
         VisionMemoryFeedbackEvent feedbackEvent = new VisionMemoryFeedbackEvent();
         feedbackEvent.setUser(user);
         feedbackEvent.setFeedbackType(VisionMemoryFeedbackType.CORRECTION);
         feedbackEvent.setCreatedAt(Instant.parse("2026-07-03T10:00:00Z"));
 
         AtomicReference<VisionMemorySummary> savedSummary = new AtomicReference<>();
-        when(preferenceRepository.findByUser(user)).thenReturn(List.of(preferredInput, preferredEntity));
+        when(preferenceRepository.findByUser(user)).thenReturn(List.of(recentFeedback, preferredEntity, preferredInput));
         when(feedbackRepository.findTop20ByUserOrderByCreatedAtDesc(user)).thenReturn(List.of(feedbackEvent));
         when(summaryRepository.save(any(VisionMemorySummary.class))).thenAnswer(invocation -> {
             VisionMemorySummary summary = invocation.getArgument(0);
@@ -140,5 +148,57 @@ class VisionLearningServiceTest {
         assertNotNull(summaryText);
         assertTrue(summaryText.contains("preferred_input_type=voice"));
         assertTrue(summaryText.contains("Recent feedback"));
+        var learningMemory = service.buildLearningMemory(user);
+        assertNotNull(learningMemory);
+        assertEquals("preferred_input_type", learningMemory.getPreferenceSignals().get(0).getPreferenceKey());
+        assertEquals("voice", learningMemory.getPreferenceSignals().get(0).getPreferenceValue());
+    }
+
+    @Test
+    void confidenceDecayAndLearningMemorySnapshotStayStructured() {
+        VisionUserPreferenceRepository preferenceRepository = mock(VisionUserPreferenceRepository.class);
+        VisionMemoryFeedbackEventRepository feedbackRepository = mock(VisionMemoryFeedbackEventRepository.class);
+        VisionMemorySummaryRepository summaryRepository = mock(VisionMemorySummaryRepository.class);
+        VisionProperties visionProperties = new VisionProperties();
+
+        VisionLearningService service = new VisionLearningService(
+                preferenceRepository,
+                feedbackRepository,
+                summaryRepository,
+                visionProperties
+        );
+
+        AppUser user = new AppUser();
+        user.setId(8L);
+        user.setUsername("assistant-user");
+
+        VisionUserPreference preference = new VisionUserPreference();
+        preference.setUser(user);
+        preference.setPreferenceKey("preferred_input_type");
+        preference.setPreferenceValue("voice");
+        preference.setSourceType("runtime");
+        preference.setObservationCount(4);
+        preference.setConfidenceScore(0.90d);
+        preference.setConfidenceUpdatedAt(Instant.parse("2026-06-01T00:00:00Z"));
+        preference.setLastObservedAt(Instant.parse("2026-06-01T00:00:00Z"));
+
+        when(preferenceRepository.findByUser(user)).thenReturn(List.of(preference));
+        when(feedbackRepository.findTop20ByUserOrderByCreatedAtDesc(user)).thenReturn(List.of());
+        when(summaryRepository.findTopByUserOrderByCreatedAtDesc(user)).thenReturn(Optional.empty());
+
+        double decayedConfidence = VisionPreferenceConfidenceSupport.decayConfidence(
+                0.90d,
+                Instant.parse("2026-06-01T00:00:00Z"),
+                Instant.parse("2026-07-03T00:00:00Z"),
+                visionProperties.getMemory()
+        );
+
+        assertTrue(decayedConfidence < 0.90d);
+        assertTrue(decayedConfidence >= visionProperties.getMemory().getPreferenceConfidenceFloor());
+
+        var memory = service.buildLearningMemory(user);
+        assertNotNull(memory);
+        assertEquals("voice", memory.getPreferenceSignals().get(0).getPreferenceValue());
+        assertTrue(memory.getPreferenceSignals().get(0).getConfidenceScore() <= 0.90d);
     }
 }

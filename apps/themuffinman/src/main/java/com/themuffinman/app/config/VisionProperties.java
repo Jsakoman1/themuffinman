@@ -22,5 +22,8 @@ public class VisionProperties {
         private String compactionCron = "0 20 4 * * *";
         private int recentFeedbackWindow = 20;
         private int summaryWindow = 5;
+        private int preferenceConfidenceHalfLifeHours = 168;
+        private double preferenceConfidenceFloor = 0.12d;
+        private double preferenceConfidenceThreshold = 0.30d;
     }
 }

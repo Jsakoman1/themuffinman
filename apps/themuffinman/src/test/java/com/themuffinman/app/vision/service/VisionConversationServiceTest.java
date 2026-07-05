@@ -13,6 +13,8 @@ import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
 import com.themuffinman.app.things.service.ThingSharingService;
 import com.themuffinman.app.testing.TestFixtures;
+import com.themuffinman.app.vision.dto.VisionLearningMemoryDTO;
+import com.themuffinman.app.vision.dto.VisionLearningPreferenceDTO;
 import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
@@ -101,6 +103,9 @@ class VisionConversationServiceTest {
 
     @Mock
     private AppUserRepository appUserRepository;
+
+    @Mock
+    private VisionLearningService visionLearningService;
 
     private VisionConversationService visionConversationService;
     private AtomicLong conversationIds;
@@ -223,7 +228,8 @@ class VisionConversationServiceTest {
                 visionSemanticMapper,
                 visionSemanticRouteCatalogService,
                 visionSurfacePolicy,
-                visionProperties
+                visionProperties,
+                visionLearningService
         );
 
         lenient().when(questReadService.getQuestListPreset(
@@ -280,6 +286,21 @@ class VisionConversationServiceTest {
                         .tone("info")
                         .build()
         );
+        when(visionLearningService.buildLearningMemory(currentUser)).thenReturn(
+                VisionLearningMemoryDTO.builder()
+                        .summaryText("Top preferences: preferred_input_type=voice")
+                        .recentFeedbackTypes(List.of("CORRECTION"))
+                        .preferenceSignals(List.of(
+                                VisionLearningPreferenceDTO.builder()
+                                        .preferenceKey("preferred_input_type")
+                                        .preferenceValue("voice")
+                                        .sourceType("runtime")
+                                        .observationCount(4)
+                                        .confidenceScore(0.88d)
+                                        .build()
+                        ))
+                        .build()
+        );
 
         VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -296,6 +317,9 @@ class VisionConversationServiceTest {
         assertTrue(response.getBlocks().stream().anyMatch(block ->
                 "result_summary".equals(block.getType())
                         && "Profile".equals(block.getTitle())));
+        assertNotNull(response.getLearningMemory());
+        assertEquals("Top preferences: preferred_input_type=voice", response.getLearningMemory().getSummaryText());
+        assertEquals(1, response.getLearningMemory().getPreferenceSignals().size());
         assertNotNull(response.getMemoryTrail());
         assertNotNull(response.getMemoryTrail().getSessionSummary());
         assertNotNull(response.getMemoryTrail().getOpenQuestions());

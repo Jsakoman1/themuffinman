@@ -6,6 +6,7 @@ import com.themuffinman.app.vision.dto.VisionCanvasBlockDTO;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionExecutionCandidateDTO;
+import com.themuffinman.app.vision.dto.VisionLearningMemoryDTO;
 import com.themuffinman.app.vision.dto.VisionMemoryTrailDTO;
 import com.themuffinman.app.vision.dto.VisionOptionDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
@@ -43,6 +44,7 @@ public class VisionCanvasAssembler {
             VisionQuestDiscoveryDTO questDiscovery,
             VisionSearchDiscoveryDTO searchDiscovery,
             VisionCapabilityPreviewDTO capabilityPreview,
+            VisionLearningMemoryDTO learningMemory,
             VisionMemoryTrailDTO memoryTrail
     ) {
         return VisionConversationTurnResponseDTO.builder()
@@ -63,6 +65,7 @@ public class VisionCanvasAssembler {
                 .executionCandidate(executionCandidate)
                 .questDiscovery(questDiscovery)
                 .searchDiscovery(searchDiscovery)
+                .learningMemory(learningMemory)
                 .memoryTrail(memoryTrail)
                 .blocks(toBlocks(conversation, turn, questDiscovery, searchDiscovery, capabilityPreview))
                 .appliedSlotSummaries(toAppliedSlotSummaries(conversation.getSlotData(), turn.getAppliedSlotIds()))

@@ -3,6 +3,8 @@ package com.themuffinman.app.vision.service;
 import lombok.Builder;
 import lombok.Getter;
 
+import com.themuffinman.app.vision.dto.VisionLearningPreferenceDTO;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -68,11 +70,14 @@ class VisionSemanticUserMemoryContext {
     private String locality;
     private String locationLabel;
     private String preferredInputType;
+    private Double preferredInputTypeConfidence;
     private String preferredEntityFamily;
+    private Double preferredEntityFamilyConfidence;
     private String learningSummary;
     private List<String> recentFeedbackTypes;
     private List<String> recentIntentTypes;
     private List<String> recentEntityFamilies;
+    private List<VisionLearningPreferenceDTO> learnedPreferences;
 }
 
 @Getter

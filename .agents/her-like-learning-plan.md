@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: draft
+machine_status: complete
 machine_title: Her-like Learning Loop
 machine_goal: Build a target architecture and implementation plan for an assistant that improves from user interactions without losing backend control.
 ---
@@ -102,16 +102,12 @@ User voice/text
 - Review / confirm execution gate
 - Domain adapter for create quest
 - Backend-owned conversation state
+- Durable learning rows for preference signals, feedback events, and memory summaries
 
 ## What Is Missing
 
-- Explicit preference memory model
-- Explicit feedback capture model
-- Memory summarization and compression job
-- Structured correction events
-- Evaluation harness for learning quality
-- Clear separation between transient session memory and durable user memory
 - Explainability records for intent and slot decisions
+- Expanded evaluation harnesses can still be added for more edge cases, but the controlled learning upgrade slice is implemented
 
 ## Implementation Phases
 
@@ -190,6 +186,6 @@ Expected durable docs to update when implementation starts:
 
 ## Status
 
-- Draft only
-- No code changes yet
+- Phases 1-6 implemented in code and validated
+- Remaining follow-up work has been captured in `docs/implementation-backlog.md`
 - Plan target: evolve current `vision` stack into a durable learning loop without losing control safety

@@ -8,7 +8,9 @@ Use the full workflow only when the change is high-risk, multi-layer, agent/tool
 
 For `codex-context` and related workflow changes, confirm that `docs/generated/local-tooling/codex-context/latest.execution.json` exists, matches the current batch state, and still conforms to `docs/codex-context-execution-manifest.schema.json` before closeout.
 
-The shared control refresh path now regenerates plan-index, audit registry, codex-context, audit summary index, control-start, and freshness outputs after successful plan completion.
+`make control-start` now stays on the fast path, while `make control-refresh-full` regenerates plan-index, audit registry, codex-context, audit summary index, control-start, and freshness outputs after successful plan completion.
+Use `make temp-work-product-closeout plan=<plan-file>` when you need to delete or archive lingering temp work products owned by a plan before closeout.
+Use `make audit-generated-artifact-hygiene files=<csv>` when a batch needs generated-artifact noise filtered to the implementation scope before consulting the global freshness audit.
 
 Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
 
@@ -119,7 +121,10 @@ Default path:
 - Broad work uses a master plan plus child plans when that keeps the batch auditable.
 - Program-level work that spans several master plans has a God Plan under `.agents/god-plans/`.
 - Temporary machine-readable work products under `.agents/tmp/` name their owning plan and have a closeout deletion, promotion, or archive decision.
+- `make audit-plan-completion` should surface lingering temp work products owned by the plan so closeout can clear them explicitly.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
+- During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.
+- During broad implementation work, review the product, control-system, and implementation-workflow layers before substantial edits, and capture the review in a temporary analysis artifact when the batch is broad or high-risk.
 - Use `make codex-context topic=<topic> intent='<intent>'` before broad discovery so the plan starts from the diff summary, audit summary index, and the most relevant audit.
 - If a manifest is in scope, read `docs/validation-memory.md` and `docs/validation-memory.json` before finalizing evidence so canonical command strings and manifest bucket rules are explicit.
 

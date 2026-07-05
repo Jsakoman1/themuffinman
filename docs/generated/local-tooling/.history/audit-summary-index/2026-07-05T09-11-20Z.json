@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-03T14:48:12Z",
+  "generated_at": "2026-07-05T09:09:45Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -23,7 +23,7 @@
       "target": "codex-context",
       "script": "scripts/audits/codex-context.rb",
       "output": "docs/generated/local-tooling/codex-context/latest.review.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "codex-context-explain",
@@ -35,7 +35,7 @@
       "target": "codex-context-clean",
       "script": "scripts/audits/codex-context.rb",
       "output": "docs/generated/local-tooling/codex-context/",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "clean-text-noise",
@@ -47,7 +47,7 @@
       "target": "context-pack",
       "script": "scripts/audits/generate-context-pack.rb",
       "output": "docs/generated/local-tooling/context-packs",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "recommend-feature-slices",
@@ -65,25 +65,25 @@
       "target": "repo-map",
       "script": "scripts/audits/generate-repo-map.rb",
       "output": "docs/generated/local-tooling/repo-map-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "symbol-index",
       "script": "scripts/audits/generate-symbol-index.rb",
       "output": "docs/generated/local-tooling/symbol-index-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "endpoint-contract-packs",
       "script": "scripts/audits/generate-endpoint-contract-packs.rb",
       "output": "docs/generated/local-tooling/endpoint-contract-packs",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "validation-matrix",
       "script": "scripts/audits/generate-validation-matrix.rb",
       "output": "docs/generated/local-tooling/validation-matrix-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "changeset-playbook",
@@ -269,13 +269,13 @@
       "target": "control-start",
       "script": "scripts/audits/generate-control-start.rb",
       "output": "docs/generated/local-tooling/control-start-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "audit-summary-index",
       "script": "scripts/audits/generate-audit-summary-index.rb",
       "output": "docs/generated/local-tooling/audit-summary-index.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "generate-audit-registry-artifacts",
@@ -323,7 +323,7 @@
       "target": "codebase-capsule",
       "script": "scripts/audits/generate-codebase-capsule.rb",
       "output": "docs/generated/local-tooling/codebase-capsule.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "record-validation",
@@ -347,13 +347,13 @@
       "target": "audit-validation-memory-drift",
       "script": "scripts/audits/audit-validation-memory-drift.rb",
       "output": "docs/generated/local-tooling/validation-memory-drift-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "validation-memory-closeout-card",
       "script": "scripts/audits/generate-validation-memory-closeout-card.rb",
       "output": "docs/generated/local-tooling/validation-memory-closeout-card-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "audit-sandbox-data-coverage-pack",
@@ -433,9 +433,194 @@
       "bytes": 2221
     },
     {
-      "path": "docs/generated/local-tooling/plan-index-summary.md",
+      "path": "docs/generated/local-tooling/audit-registry-artifacts-summary.md",
       "mtime": "2026-07-03T14:48:12Z",
-      "bytes": 1629
+      "bytes": 142
+    },
+    {
+      "path": "docs/generated/local-tooling/control-start-summary.md",
+      "mtime": "2026-07-05T09:09:31Z",
+      "bytes": 1837
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-packs/agent-summary.md",
+      "mtime": "2026-07-05T09:09:31Z",
+      "bytes": 611
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/visioncanvasblockdto-summary.md",
+      "mtime": "2026-07-04T11:50:44Z",
+      "bytes": 1249
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/visionconversationturnresponsedto-summary.md",
+      "mtime": "2026-07-05T09:09:45Z",
+      "bytes": 2217
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/admin-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 745
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/agent-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 280
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/app_users-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 1071
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/applications-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 301
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/auth-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 626
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/business-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1052
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/chat-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1247
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/circles-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1141
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/dashboard-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1296
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/index-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 283
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/location-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 754
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/news-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 799
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/quests-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1141
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/rides-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 697
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/things-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1042
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/vision-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1334
+    },
+    {
+      "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
+      "mtime": "2026-07-05T09:09:32Z",
+      "bytes": 1021
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-maintenance-plan-summary.md",
+      "mtime": "2026-07-05T09:09:43Z",
+      "bytes": 230
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-master-plan-summary.md",
+      "mtime": "2026-07-04T10:06:51Z",
+      "bytes": 194
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-rebuild-plan-summary.md",
+      "mtime": "2026-07-04T10:06:29Z",
+      "bytes": 196
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-validation-plan-summary.md",
+      "mtime": "2026-07-04T10:06:36Z",
+      "bytes": 202
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-master-plan-summary.md",
+      "mtime": "2026-07-04T10:07:02Z",
+      "bytes": 178
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-search-expansion-plan-summary.md",
+      "mtime": "2026-07-04T11:50:42Z",
+      "bytes": 198
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-semantic-hardening-plan-summary.md",
+      "mtime": "2026-07-04T10:06:57Z",
+      "bytes": 202
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-index-summary.md",
+      "mtime": "2026-07-05T09:09:43Z",
+      "bytes": 1572
+    },
+    {
+      "path": "docs/generated/local-tooling/repo-map-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 963
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-index-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 2456
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/promptsemanticssupport-summary.md",
+      "mtime": "2026-07-04T11:50:32Z",
+      "bytes": 1338
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/semanticaliasregistry-summary.md",
+      "mtime": "2026-07-04T10:32:33Z",
+      "bytes": 697
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/visionproperties-summary.md",
+      "mtime": "2026-07-05T09:09:31Z",
+      "bytes": 2511
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-matrix-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 1011
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-memory-closeout-card-summary.md",
+      "mtime": "2026-07-04T10:02:52Z",
+      "bytes": 777
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-memory-drift-summary.md",
+      "mtime": "2026-07-04T10:15:38Z",
+      "bytes": 1147
     }
   ]
 }

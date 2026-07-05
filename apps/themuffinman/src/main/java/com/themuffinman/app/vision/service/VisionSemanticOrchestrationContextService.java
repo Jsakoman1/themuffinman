@@ -1,7 +1,9 @@
 package com.themuffinman.app.vision.service;
 
+import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.vision.dto.VisionLearningPreferenceDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionConversationStatus;
 import com.themuffinman.app.vision.model.VisionTurn;
@@ -16,6 +18,7 @@ import com.themuffinman.app.vision.model.VisionUserPreference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,16 @@ import java.util.TimeZone;
 
 @Service
 public class VisionSemanticOrchestrationContextService {
+
+    private static final List<String> CONTEXT_PREFERENCE_PRIORITY = List.of(
+            "preferred_input_type",
+            "preferred_language",
+            "last_entity_family",
+            "last_intent",
+            "last_requested_slot",
+            "last_feedback_type",
+            "last_conversation_status"
+    );
 
     private static final String DEFAULT_LOCALE = "en";
     private static final String DEFAULT_TIMEZONE = "UTC";
@@ -49,6 +62,7 @@ public class VisionSemanticOrchestrationContextService {
     );
 
     private final VoiceProperties voiceProperties;
+    private final VisionProperties visionProperties;
     private final VisionConversationRepository visionConversationRepository;
     private final VisionTurnRepository visionTurnRepository;
     private final VisionUserPreferenceRepository visionUserPreferenceRepository;
@@ -56,7 +70,7 @@ public class VisionSemanticOrchestrationContextService {
     private final VisionMemorySummaryRepository visionMemorySummaryRepository;
 
     public VisionSemanticOrchestrationContextService(VoiceProperties voiceProperties) {
-        this(voiceProperties, null, null, null, null, null);
+        this(voiceProperties, null, null, null, null, null, null);
     }
 
     public VisionSemanticOrchestrationContextService(
@@ -64,12 +78,13 @@ public class VisionSemanticOrchestrationContextService {
             VisionConversationRepository visionConversationRepository,
             VisionTurnRepository visionTurnRepository
     ) {
-        this(voiceProperties, visionConversationRepository, visionTurnRepository, null, null, null);
+        this(voiceProperties, null, visionConversationRepository, visionTurnRepository, null, null, null);
     }
 
     @Autowired
     public VisionSemanticOrchestrationContextService(
             VoiceProperties voiceProperties,
+            VisionProperties visionProperties,
             VisionConversationRepository visionConversationRepository,
             VisionTurnRepository visionTurnRepository,
             VisionUserPreferenceRepository visionUserPreferenceRepository,
@@ -77,6 +92,7 @@ public class VisionSemanticOrchestrationContextService {
             VisionMemorySummaryRepository visionMemorySummaryRepository
     ) {
         this.voiceProperties = voiceProperties;
+        this.visionProperties = visionProperties;
         this.visionConversationRepository = visionConversationRepository;
         this.visionTurnRepository = visionTurnRepository;
         this.visionUserPreferenceRepository = visionUserPreferenceRepository;
@@ -221,20 +237,26 @@ public class VisionSemanticOrchestrationContextService {
                     .preferredLocale(DEFAULT_LOCALE)
                     .timezone(DEFAULT_TIMEZONE)
                     .preferredInputType(null)
+                    .preferredInputTypeConfidence(null)
                     .preferredEntityFamily(null)
+                    .preferredEntityFamilyConfidence(null)
                     .learningSummary(null)
                     .recentFeedbackTypes(List.of())
                     .recentIntentTypes(List.of())
+                    .recentEntityFamilies(List.of())
+                    .learnedPreferences(List.of())
                     .build();
         }
 
         List<String> recentIntentTypes = buildRecentIntentTypes(user, conversation);
-        VisionUserPreference preferredInputType = findPreference(user, "preferred_input_type");
-        VisionUserPreference preferredEntityFamily = findPreference(user, "last_entity_family");
+        List<VisionLearningPreferenceDTO> learnedPreferences = buildPreferenceSignals(user);
+        VisionLearningPreferenceDTO preferredInputType = preferenceByKey(learnedPreferences, "preferred_input_type");
+        VisionLearningPreferenceDTO preferredEntityFamily = preferenceByKey(learnedPreferences, "last_entity_family");
         VisionMemorySummary latestSummary = latestSummary(user);
         String countryCode = normalizeCountryCode(user.getLocationCountryCode());
         ResolvedLocale resolvedLocale = resolveLocale(countryCode, null);
         ResolvedTimezone resolvedTimezone = resolveTimezone(countryCode, null);
+        double confidenceThreshold = VisionPreferenceConfidenceSupport.threshold(visionProperties == null ? null : visionProperties.getMemory());
         return VisionSemanticUserMemoryContext.builder()
                 .userId(user.getId())
                 .username(user.getUsername())
@@ -245,12 +267,19 @@ public class VisionSemanticOrchestrationContextService {
                 .country(clean(user.getLocationCountry()))
                 .locality(clean(user.getLocationLocality()))
                 .locationLabel(clean(user.getLocationLabel()))
-                .preferredInputType(preferredInputType == null ? null : clean(preferredInputType.getPreferenceValue()))
-                .preferredEntityFamily(preferredEntityFamily == null ? null : clean(preferredEntityFamily.getPreferenceValue()))
+                .preferredInputType(preferredInputType == null || preferredInputType.getConfidenceScore() < confidenceThreshold
+                        ? null
+                        : clean(preferredInputType.getPreferenceValue()))
+                .preferredInputTypeConfidence(preferredInputType == null ? null : preferredInputType.getConfidenceScore())
+                .preferredEntityFamily(preferredEntityFamily == null || preferredEntityFamily.getConfidenceScore() < confidenceThreshold
+                        ? null
+                        : clean(preferredEntityFamily.getPreferenceValue()))
+                .preferredEntityFamilyConfidence(preferredEntityFamily == null ? null : preferredEntityFamily.getConfidenceScore())
                 .learningSummary(latestSummary == null ? null : clean(latestSummary.getSummaryText()))
                 .recentFeedbackTypes(buildRecentFeedbackTypes(user))
                 .recentIntentTypes(recentIntentTypes)
                 .recentEntityFamilies(buildRecentEntityFamilies(user))
+                .learnedPreferences(learnedPreferences)
                 .build();
     }
 
@@ -457,12 +486,36 @@ public class VisionSemanticOrchestrationContextService {
                 .toList();
     }
 
-    private VisionUserPreference findPreference(AppUser user, String preferenceKey) {
-        if (user == null || visionUserPreferenceRepository == null || preferenceKey == null || preferenceKey.isBlank()) {
+    private List<VisionLearningPreferenceDTO> buildPreferenceSignals(AppUser user) {
+        if (user == null || visionUserPreferenceRepository == null) {
+            return List.of();
+        }
+
+        List<VisionUserPreference> preferences = visionUserPreferenceRepository.findByUser(user);
+        if (preferences == null || preferences.isEmpty()) {
+            return List.of();
+        }
+
+        return VisionPreferenceConfidenceSupport.toPreferenceSignals(
+                preferences,
+                Instant.now(),
+                visionProperties == null ? null : visionProperties.getMemory(),
+                8,
+                CONTEXT_PREFERENCE_PRIORITY
+        );
+    }
+
+    private VisionLearningPreferenceDTO preferenceByKey(List<VisionLearningPreferenceDTO> preferences, String preferenceKey) {
+        if (preferences == null || preferences.isEmpty() || preferenceKey == null || preferenceKey.isBlank()) {
             return null;
         }
 
-        return visionUserPreferenceRepository.findByUserAndPreferenceKey(user, preferenceKey).orElse(null);
+        for (VisionLearningPreferenceDTO preference : preferences) {
+            if (preference != null && preferenceKey.equals(preference.getPreferenceKey())) {
+                return preference;
+            }
+        }
+        return null;
     }
 
     private VisionMemorySummary latestSummary(AppUser user) {

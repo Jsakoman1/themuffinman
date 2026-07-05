@@ -42,8 +42,11 @@ The machine-readable source of truth is:
 - Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
 - For work that spans several master plans, use a God Plan under `.agents/god-plans/` to coordinate implementation state, pros, cons, risks, decisions, and child Master Plans.
 - Temporary machine-readable work products belong under `.agents/tmp/`, must name their owning plan, and must be deleted, promoted into durable docs, or explicitly archived when the owning plan closes.
+- `make control-start`, `make codex-context`, and `make context-pack` should surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 - When `AGENTS.md` records the standing follow-up capture preference, record discovered safe improvements and repeated failure patterns in the appropriate follow-up or backlog surface during the active slice and continue with the best sequenced follow-up slice after the current slice closes.
+- During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.
+- During broad implementation work, review the product, control-system, and implementation-workflow layers before substantial edits, and capture the review in a temporary analysis artifact when the batch is broad or high-risk.
 - Prefer hard failure over implicit fallback when the spec does not define a safe next step.
 - Every workflow step should point to concrete source files or concrete endpoint contracts.
 - Resolve entities before mutating them.
@@ -241,7 +244,7 @@ Context-first session workflow:
   it as a routing aid, not as the source of truth for current behavior
 - read or generate `make control-start` when the task needs the compact plan-and-audit discovery snapshot before
   broader search
-- generate or read a topic context pack with `make codex-context topic=<topic> intent='<intent>'` when the task has a clear feature, domain, or changed-file focus; it now chains the diff summary, audit summary index, the most relevant audit, targeted tests, and a concise evidence bundle
+- generate or read a topic context pack with `make codex-context topic=<topic> intent='<intent>'` when the task has a clear feature, domain, or changed-file focus; it now chains the diff summary, audit summary index, the most relevant audit, targeted tests, a concise evidence bundle, and any topic-matched layered-analysis artifact
 - treat `docs/generated/local-tooling/codex-context/latest.execution.json` as the canonical machine-readable manifest for the current context batch and `docs/codex-context-execution-manifest.schema.json` as its contract
 - for product-direction sessions, prepend `docs/product-memory.md` and `docs/product-vision.md` before broader business or technical docs so stable lessons and vision anchor the rest of the search
 - for `/vision` implementation sessions, include `docs/vision-architecture-patterns.md` before deciding backend orchestration, API, frontend canvas, prompt-handling, or executor patterns

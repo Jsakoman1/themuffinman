@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-04T05:51:20Z",
+  "generated_at": "2026-07-05T09:25:42Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -47,7 +47,7 @@
       "target": "context-pack",
       "script": "scripts/audits/generate-context-pack.rb",
       "output": "docs/generated/local-tooling/context-packs",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "recommend-feature-slices",
@@ -59,7 +59,7 @@
       "target": "recommend-targeted-tests",
       "script": "scripts/audits/recommend-targeted-tests.rb",
       "output": "docs/generated/local-tooling/targeted-tests-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "repo-map",
@@ -227,13 +227,13 @@
       "target": "audit-frontend-usage-graph",
       "script": "scripts/audits/audit-frontend-usage-graph.rb",
       "output": "docs/generated/local-tooling/frontend-usage-graph-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "audit-backend-dependency-graph",
       "script": "scripts/audits/audit-backend-dependency-graph.rb",
       "output": "docs/generated/local-tooling/backend-dependency-graph-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "audit-test-fixture-duplication",
@@ -341,19 +341,19 @@
       "target": "audit-doc-canonical-phrases",
       "script": "scripts/audits/audit-doc-canonical-phrases.rb",
       "output": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "audit-validation-memory-drift",
       "script": "scripts/audits/audit-validation-memory-drift.rb",
       "output": "docs/generated/local-tooling/validation-memory-drift-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "validation-memory-closeout-card",
       "script": "scripts/audits/generate-validation-memory-closeout-card.rb",
       "output": "docs/generated/local-tooling/validation-memory-closeout-card-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "audit-sandbox-data-coverage-pack",
@@ -433,14 +433,44 @@
       "bytes": 2221
     },
     {
+      "path": "docs/generated/local-tooling/audit-documentation-summary.md",
+      "mtime": "2026-07-05T09:23:05Z",
+      "bytes": 141
+    },
+    {
       "path": "docs/generated/local-tooling/audit-registry-artifacts-summary.md",
       "mtime": "2026-07-03T14:48:12Z",
       "bytes": 142
     },
     {
+      "path": "docs/generated/local-tooling/backend-dependency-graph-summary.md",
+      "mtime": "2026-07-05T09:11:22Z",
+      "bytes": 1136
+    },
+    {
       "path": "docs/generated/local-tooling/control-start-summary.md",
-      "mtime": "2026-07-03T14:48:45Z",
-      "bytes": 1775
+      "mtime": "2026-07-05T09:24:00Z",
+      "bytes": 496
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
+      "mtime": "2026-07-05T09:23:05Z",
+      "bytes": 2154
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-packs/agent-summary.md",
+      "mtime": "2026-07-05T09:09:31Z",
+      "bytes": 611
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/visioncanvasblockdto-summary.md",
+      "mtime": "2026-07-04T11:50:44Z",
+      "bytes": 1249
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/visionconversationturnresponsedto-summary.md",
+      "mtime": "2026-07-05T09:25:42Z",
+      "bytes": 2217
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/admin-summary.md",
@@ -523,14 +553,74 @@
       "bytes": 1334
     },
     {
+      "path": "docs/generated/local-tooling/feature-slices/implementation-system-summary.md",
+      "mtime": "2026-07-05T09:22:55Z",
+      "bytes": 1228
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-usage-graph-summary.md",
+      "mtime": "2026-07-05T09:11:21Z",
+      "bytes": 553
+    },
+    {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-07-03T14:48:46Z",
-      "bytes": 722
+      "mtime": "2026-07-05T09:24:01Z",
+      "bytes": 1021
+    },
+    {
+      "path": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
+      "mtime": "2026-07-05T09:22:55Z",
+      "bytes": 645
+    },
+    {
+      "path": "docs/generated/local-tooling/implementation-batches/implementation-system-batch-summary.md",
+      "mtime": "2026-07-05T09:22:56Z",
+      "bytes": 889
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-maintenance-plan-summary.md",
+      "mtime": "2026-07-05T09:19:22Z",
+      "bytes": 230
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-master-plan-summary.md",
+      "mtime": "2026-07-04T10:06:51Z",
+      "bytes": 194
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-rebuild-plan-summary.md",
+      "mtime": "2026-07-04T10:06:29Z",
+      "bytes": 196
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-validation-plan-summary.md",
+      "mtime": "2026-07-04T10:06:36Z",
+      "bytes": 202
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/implementation-system-fast-path-batch-automation-master-plan-summary.md",
+      "mtime": "2026-07-05T09:23:58Z",
+      "bytes": 288
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-master-plan-summary.md",
+      "mtime": "2026-07-04T10:07:02Z",
+      "bytes": 178
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-search-expansion-plan-summary.md",
+      "mtime": "2026-07-04T11:50:42Z",
+      "bytes": 198
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-semantic-hardening-plan-summary.md",
+      "mtime": "2026-07-04T10:06:57Z",
+      "bytes": 202
     },
     {
       "path": "docs/generated/local-tooling/plan-index-summary.md",
-      "mtime": "2026-07-04T05:51:20Z",
-      "bytes": 1656
+      "mtime": "2026-07-05T09:25:40Z",
+      "bytes": 231
     },
     {
       "path": "docs/generated/local-tooling/repo-map-summary.md",
@@ -543,9 +633,44 @@
       "bytes": 2456
     },
     {
+      "path": "docs/generated/local-tooling/symbol-test-links/promptsemanticssupport-summary.md",
+      "mtime": "2026-07-04T11:50:32Z",
+      "bytes": 1338
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/semanticaliasregistry-summary.md",
+      "mtime": "2026-07-04T10:32:33Z",
+      "bytes": 697
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/visionproperties-summary.md",
+      "mtime": "2026-07-05T09:09:31Z",
+      "bytes": 2511
+    },
+    {
+      "path": "docs/generated/local-tooling/targeted-tests-summary.md",
+      "mtime": "2026-07-05T09:22:55Z",
+      "bytes": 1121
+    },
+    {
+      "path": "docs/generated/local-tooling/temp-work-product-closeout/agents-control-system-maintenance-plan-md-summary.md",
+      "mtime": "2026-07-05T09:19:21Z",
+      "bytes": 326
+    },
+    {
       "path": "docs/generated/local-tooling/validation-matrix-summary.md",
       "mtime": "2026-07-03T14:48:12Z",
       "bytes": 1011
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-memory-closeout-card-summary.md",
+      "mtime": "2026-07-04T10:02:52Z",
+      "bytes": 777
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-memory-drift-summary.md",
+      "mtime": "2026-07-04T10:15:38Z",
+      "bytes": 1147
     }
   ]
 }

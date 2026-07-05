@@ -98,3 +98,12 @@ regression_scenarios:
       - apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java
     commands:
       - cd apps/themuffinman && ./mvnw test -Dtest=CoreConceptsTest,RichTextInputValidatorTest,GlobalExceptionHandlerTest
+  - id: vision-learning-eval-harness
+    domain: common
+    risk: medium
+    scenario: Preference confidence decay, learned-memory recall, and clarification wording should stay stable while weak ambiguous follow-ups keep the current topic thread.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLearningEvaluationHarnessTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=VisionLearningEvaluationHarnessTest,VisionConversationServiceTest

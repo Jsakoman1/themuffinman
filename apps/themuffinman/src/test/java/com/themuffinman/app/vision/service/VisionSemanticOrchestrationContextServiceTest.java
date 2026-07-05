@@ -1,5 +1,6 @@
 package com.themuffinman.app.vision.service;
 
+import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.model.VisionConversation;
@@ -159,6 +160,7 @@ class VisionSemanticOrchestrationContextServiceTest {
 
         VisionSemanticOrchestrationContextService service = new VisionSemanticOrchestrationContextService(
                 voiceProperties,
+                new VisionProperties(),
                 conversationRepository,
                 turnRepository,
                 preferenceRepository,
@@ -174,11 +176,22 @@ class VisionSemanticOrchestrationContextServiceTest {
         preferredInput.setUser(user);
         preferredInput.setPreferenceKey("preferred_input_type");
         preferredInput.setPreferenceValue("voice");
+        preferredInput.setConfidenceScore(0.88d);
+        preferredInput.setConfidenceUpdatedAt(Instant.parse("2026-07-03T10:00:00Z"));
 
         VisionUserPreference preferredFamily = new VisionUserPreference();
         preferredFamily.setUser(user);
         preferredFamily.setPreferenceKey("last_entity_family");
         preferredFamily.setPreferenceValue("quests");
+        preferredFamily.setConfidenceScore(0.79d);
+        preferredFamily.setConfidenceUpdatedAt(Instant.parse("2026-07-03T10:00:00Z"));
+
+        VisionUserPreference recentFeedback = new VisionUserPreference();
+        recentFeedback.setUser(user);
+        recentFeedback.setPreferenceKey("last_feedback_type");
+        recentFeedback.setPreferenceValue("correction");
+        recentFeedback.setConfidenceScore(0.98d);
+        recentFeedback.setConfidenceUpdatedAt(Instant.parse("2026-07-03T10:05:00Z"));
 
         VisionMemorySummary summary = new VisionMemorySummary();
         summary.setUser(user);
@@ -186,6 +199,7 @@ class VisionSemanticOrchestrationContextServiceTest {
 
         when(preferenceRepository.findByUserAndPreferenceKey(user, "preferred_input_type")).thenReturn(java.util.Optional.of(preferredInput));
         when(preferenceRepository.findByUserAndPreferenceKey(user, "last_entity_family")).thenReturn(java.util.Optional.of(preferredFamily));
+        when(preferenceRepository.findByUser(user)).thenReturn(List.of(recentFeedback, preferredFamily, preferredInput));
         when(summaryRepository.findTopByUserOrderByCreatedAtDesc(user)).thenReturn(java.util.Optional.of(summary));
         when(feedbackRepository.findTop20ByUserOrderByCreatedAtDesc(user)).thenReturn(List.of());
         when(conversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(user)).thenReturn(List.of());
@@ -193,8 +207,14 @@ class VisionSemanticOrchestrationContextServiceTest {
         var memoryContext = service.buildMemoryContext(user, null);
 
         assertEquals("voice", memoryContext.getUserMemory().getPreferredInputType());
+        assertTrue(memoryContext.getUserMemory().getPreferredInputTypeConfidence() < 0.88d);
+        assertTrue(memoryContext.getUserMemory().getPreferredInputTypeConfidence() > 0.30d);
         assertEquals("quests", memoryContext.getUserMemory().getPreferredEntityFamily());
-        assertEquals("Top preferences: [preferred_input_type=voice]", memoryContext.getUserMemory().getLearningSummary());
+        assertTrue(memoryContext.getUserMemory().getPreferredEntityFamilyConfidence() < 0.79d);
+        assertTrue(memoryContext.getUserMemory().getPreferredEntityFamilyConfidence() > 0.30d);
+        assertTrue(memoryContext.getUserMemory().getLearningSummary().contains("preferred_input_type=voice"));
         assertTrue(memoryContext.getUserMemory().getRecentFeedbackTypes().isEmpty());
+        assertEquals(3, memoryContext.getUserMemory().getLearnedPreferences().size());
+        assertEquals("preferred_input_type", memoryContext.getUserMemory().getLearnedPreferences().get(0).getPreferenceKey());
     }
 }

@@ -45,6 +45,7 @@ module CodexLocalContextGateway
       "session-handoff" => true,
       "link-symbol-to-tests" => true,
       "audit-summary-index" => true,
+      "control-start" => true,
       "dto-usage-pack" => true,
       "workflow-slice-pack" => true,
       "plan-code-map" => true,
@@ -60,6 +61,7 @@ module CodexLocalContextGateway
     "symbol-index" => "docs/generated/local-tooling/symbol-index.json",
     "recommend-targeted-tests" => "docs/generated/local-tooling/targeted-tests.json",
     "audit-summary-index" => "docs/generated/local-tooling/audit-summary-index.json",
+    "control-start" => "docs/generated/local-tooling/control-start.json",
     "endpoint-contract-packs" => "docs/generated/local-tooling/endpoint-contract-packs/index.json",
     "audit-frontend-usage-graph" => "docs/generated/local-tooling/frontend-usage-graph.json",
     "audit-backend-dependency-graph" => "docs/generated/local-tooling/backend-dependency-graph.json",
@@ -376,6 +378,7 @@ module CodexLocalContextGateway
     pack_jobs << lambda { tool_wrapper_pack(request, "audit-backend-dependency-graph", "backend-dependency", "symbol", [], OUTPUT_REGISTRY.fetch("audit-backend-dependency-graph"), backend_relevance(request), 0.88) }
     pack_jobs << lambda { tool_wrapper_pack(request, "validation-matrix", "validation", "validation", [], OUTPUT_REGISTRY.fetch("validation-matrix"), 0.72, 0.98) }
     pack_jobs << lambda { audit_summary_index_pack(request) }
+    pack_jobs << lambda { tool_wrapper_pack(request, "control-start", "control-start", "other", [], OUTPUT_REGISTRY.fetch("control-start"), 0.86, 0.92) }
     pack_jobs << lambda { validation_memory_pack(request) }
     pack_jobs << lambda { tool_wrapper_pack(request, "repo-map", "repo-map", "domain", [], OUTPUT_REGISTRY.fetch("repo-map"), 0.45, 0.98) }
     pack_jobs << lambda { tool_wrapper_pack(request, "symbol-index", "symbol-index", "symbol", [], OUTPUT_REGISTRY.fetch("symbol-index"), symbol_index_relevance(request), 0.9) }
@@ -397,6 +400,7 @@ module CodexLocalContextGateway
     pack_jobs << lambda { dto_usage_pack(request) }
     pack_jobs << lambda { workflow_slice_pack(request) }
     pack_jobs << lambda { domain_pack(request) }
+    pack_jobs << lambda { layered_analysis_pack(request) }
     pack_jobs << lambda do
       in_memory_pack(
         request,
@@ -609,6 +613,31 @@ module CodexLocalContextGateway
     }
   rescue StandardError => e
     {error: "plan-code-map: #{e.message.lines.first.to_s.strip}"}
+  end
+
+  def layered_analysis_pack(request)
+    analysis_path = ".agents/tmp/#{request["topic"]}-layered-analysis.yaml"
+    absolute = File.join(REPO_ROOT, analysis_path)
+    return nil unless File.exist?(absolute)
+
+    payload = YAML.safe_load(File.read(absolute), permitted_classes: [Date, Time], aliases: true)
+    return nil unless payload.is_a?(Hash)
+
+    {
+      pack: build_pack(
+        id: "layered-analysis",
+        kind: "analysis",
+        scope: {"files" => request["files"], "topic" => request["topic"]},
+        confidence: 0.9,
+        relevance: 0.97,
+        payload: payload,
+        provider: "existing-tool.layered-analysis",
+        source_commands: [],
+        source_files: [analysis_path]
+      )
+    }
+  rescue StandardError => e
+    {error: "layered-analysis: #{e.message.lines.first.to_s.strip}"}
   end
 
   def audit_summary_index_pack(request)
@@ -1211,6 +1240,16 @@ module CodexLocalContextGateway
         "why" => ["Plan or tooling work should read the plan-to-code map before broad repo inventory."]
       }
       order << {
+        "id" => "control-start",
+        "source" => OUTPUT_REGISTRY.fetch("control-start"),
+        "why" => ["Plan and tooling work should read the compact control snapshot before deeper context."]
+      }
+      order << {
+        "id" => "layered-analysis",
+        "source" => ".agents/tmp/<topic>-layered-analysis.yaml",
+        "why" => ["Broad batches should include the layered analysis artifact before broader implementation work."]
+      }
+      order << {
         "id" => "doc-sync-required-surfaces",
         "source" => "make audit-doc-sync-required-surfaces files=<csv>",
         "why" => ["Workflow and tooling changes should surface required docs before repo-wide scanning."]
@@ -1262,7 +1301,7 @@ module CodexLocalContextGateway
 
   def most_relevant_audit_pack(packs)
     candidates = packs.reject do |pack|
-      %w[intent git-diff ast-diff targeted-tests session audit-summary-index].include?(pack["id"])
+      %w[intent git-diff ast-diff targeted-tests session audit-summary-index control-start layered-analysis].include?(pack["id"])
     end
     candidates.max_by { |pack| [pack["relevance"].to_f, pack["confidence"].to_f, -pack["estimatedTokens"].to_i] }
   end

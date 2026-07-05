@@ -137,6 +137,11 @@ policies:
     - Master Plans coordinate ordered child Plans and final closeout evidence.
     - Plans execute concrete implementation or analysis slices.
     - Temporary machine-readable work products live under `.agents/tmp/` only while their owning Plan needs them.
+    - "make control-start, make codex-context, and make context-pack surface the topic's layered-analysis artifact and temp work-product inventory when they exist."
+    - "make control-refresh-full performs the same snapshot flow and then runs the slower generated-artifact freshness pass."
+    - "make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, recommendations, and closeout when a plan exists."
+    - "make temp-work-product-closeout plan=<plan-file> deletes or archives lingering temp work products owned by a plan before closeout."
+    - "make audit-generated-artifact-hygiene files=<csv> provides a scope-filtered generated-artifact noise check before the global freshness pass."
     closeout_rule: Temporary machine-readable work products must be deleted, promoted into durable docs, or explicitly archived when the owning plan closes.
   implementation_checkpoints:
     broad_change_trigger: Use these checkpoints for broad, long-running, high-complexity, multi-layer, high-risk, or master-plan-driven changes.

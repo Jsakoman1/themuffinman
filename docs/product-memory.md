@@ -78,6 +78,10 @@ After every completed plan or master plan:
 - `/vision` semantic memory should also track recent entity families, because vague follow-ups are easier to resolve when the active topic family is explicit instead of inferred from raw text alone.
 - `/vision` should store durable preference signals and feedback events separately from session memory, because stable habits and correction history need to outlive a single turn without becoming raw transcript replay.
 - `/vision` should compact preference and feedback history into short summary rows, because future prompt understanding works better with compressed learning signals than with unbounded turn history.
+- `/vision` should also expose the compact learned-memory summary on the turn response, because the frontend can show what was learned without reconstructing it from raw events.
+- `/vision` should decay preference confidence over time, because old habits should weaken unless the user keeps reinforcing them.
+- `/vision` should use strong learned input preferences to slightly adapt clarification wording, because the same backend memory should improve the next prompt instead of only appearing in debug output.
+- `/vision` should rank learned preference signals by backend priority before exposing them to runtime memory snapshots, because the most actionable habits should surface first instead of arriving as an undifferentiated confidence list.
 - `/vision` should keep low-confidence ambiguous follow-ups in the current thread unless the user clearly signals a new entity family, because humans often add half a thought before they fully switch topics.
 - `/vision` turn responses should expose a compact memory trail when it helps the surface explain why the current topic is still active, because debug-visible continuity is easier to trust than hidden routing state.
 - `/vision` semantic understanding should expose generic planning metadata above capability-specific slots, because candidate intent, confidence, capability id, and planning note can evolve before deterministic backend services allow broader execution.

@@ -112,16 +112,58 @@ module GeneratedArtifactFreshnessAudit
   ].freeze
 
   def run
-    artifact_reports = ARTIFACTS.map { |entry| freshness_for(entry) }
+    options = parse_options(ARGV)
+    scope_files = scope_files_for(options)
+    scoped = scope_files.any?
+    scoped_artifacts = scoped ? ARTIFACTS.select { |entry| relevant_to_scope?(entry, scope_files) } : ARTIFACTS
+    artifact_reports = scoped_artifacts.map { |entry| freshness_for(entry) }
+    ignored_reports = scoped ? (ARTIFACTS - scoped_artifacts).map { |entry| freshness_for(entry) } : []
     report = {
       generated_at: Time.now.utc.iso8601,
+      scope_files: scope_files,
+      scoped: scoped,
       artifact_count: artifact_reports.size,
       stale_count: artifact_reports.count { |entry| entry[:status] == "stale" },
+      ignored_stale_count: ignored_reports.count { |entry| entry[:status] == "stale" },
       artifacts: artifact_reports
     }
-    LocalToolingCommon.write_json("docs/generated/local-tooling/generated-artifact-freshness.json", report)
-    LocalToolingCommon.write_text("docs/generated/local-tooling/generated-artifact-freshness-summary.md", markdown_summary(report))
+    json_path, summary_path = output_paths(scoped)
+    LocalToolingCommon.write_json(json_path, report)
+    LocalToolingCommon.write_text(summary_path, markdown_summary(report))
     puts terminal_summary(report)
+  end
+
+  def parse_options(argv)
+    argv.each_with_object({}) do |arg, options|
+      key, value = arg.split("=", 2)
+      options[key] = value if value
+    end
+  end
+
+  def scope_files_for(options)
+    raw = options["files"].to_s.strip
+    return [] if raw.empty?
+
+    raw.split(",").map(&:strip).reject(&:empty?).select { |path| File.exist?(File.join(LocalToolingCommon::REPO_ROOT, path)) }.uniq
+  end
+
+  def relevant_to_scope?(entry, scope_files)
+    source_paths = LocalToolingCommon.repo_glob(*entry[:source_patterns])
+    !(source_paths.map { |path| LocalToolingCommon.relative_path(path) } & scope_files).empty?
+  end
+
+  def output_paths(scoped)
+    if scoped
+      [
+        "docs/generated/local-tooling/generated-artifact-hygiene.json",
+        "docs/generated/local-tooling/generated-artifact-hygiene-summary.md"
+      ]
+    else
+      [
+        "docs/generated/local-tooling/generated-artifact-freshness.json",
+        "docs/generated/local-tooling/generated-artifact-freshness-summary.md"
+      ]
+    end
   end
 
   def freshness_for(entry)
@@ -145,10 +187,12 @@ module GeneratedArtifactFreshnessAudit
 
   def markdown_summary(report)
     lines = []
-    lines << "# Generated Artifact Freshness Audit"
+    lines << "# Generated Artifact #{report[:scoped] ? "Hygiene" : "Freshness"} Audit"
     lines << ""
     lines << "- Decision: `#{report[:stale_count].to_i.zero? ? "fresh" : "stale"}`"
     lines << "- Why: stale artifacts=#{report[:stale_count]}"
+    lines << "- Scope files: `#{Array(report[:scope_files]).join(", ")}`" if report[:scoped]
+    lines << "- Ignored stale artifacts outside scope: #{report[:ignored_stale_count].to_i}" if report[:scoped]
     lines << "- Next action: `#{report[:artifacts].select { |entry| entry[:status] == "stale" }.first(3).map { |entry| entry[:regenerate_command] }.join("`, `")}`" if report[:stale_count].to_i.positive?
     lines << "- Evidence: artifacts=#{report[:artifact_count]}"
     lines << ""
@@ -162,9 +206,10 @@ module GeneratedArtifactFreshnessAudit
 
   def terminal_summary(report)
     lines = []
-    lines << "Generated artifact freshness audit"
+    lines << "Generated artifact #{report[:scoped] ? "hygiene" : "freshness"} audit"
     lines << "  artifacts checked: #{report[:artifact_count]}"
     lines << "  stale: #{report[:stale_count]}"
+    lines << "  ignored stale outside scope: #{report[:ignored_stale_count]}" if report[:scoped]
     report[:artifacts].first(5).each do |entry|
       lines << "  - #{entry[:label]}: #{entry[:status]} (newest source: #{entry[:newest_source] || 'none'})"
     end

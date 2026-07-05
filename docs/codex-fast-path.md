@@ -34,10 +34,13 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 7. If the task is manifest-backed, closeout-sensitive, or agent/workflow-heavy, read `docs/validation-memory.md` and `docs/validation-memory.json` before broad validation so canonical command strings and manifest evidence expectations are explicit up front.
 8. Run compact context first:
    - `make control-start` when you want the current plan and audit discovery state in one compact snapshot before broader search
+   - `make control-refresh-full` when you want the same compact snapshot plus the slower generated-artifact freshness pass
+   - `make implementation-batch topic=<topic>` when you want the deterministic implementation wrapper to run discovery, context, targeted recommendations, and closeout if a plan exists
    - `make codex-context topic=<topic> intent='<intent>'`
    - `make recommend-targeted-tests`
    - `make clean-text-noise max_lines=80` when you need to strip Maven, audit, or generated log noise before summarizing evidence.
    - `make codex-context` now uses the diff summary, audit summary index, the most relevant audit, targeted tests, and a concise evidence bundle as its default read chain, writes a canonical execution manifest at `docs/generated/local-tooling/codex-context/latest.execution.json` with schema `docs/codex-context-execution-manifest.schema.json`, and auto-includes validation memory when the batch is manifest-backed or closeout-sensitive.
+   - `make control-start`, `make codex-context`, and `make context-pack` surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
 7. Load deeper workflow docs only if the chosen tier or a resolver requires them.
 
 For `/vision` work, the compact context should usually be opened after the vision memory set so the repo search starts from the right backend, API, frontend, test, and doc surfaces.
@@ -47,6 +50,10 @@ When the task spans several existing master plans or long-running program direct
 When `AGENTS.md` records a standing autonomous continuation preference, do not stop to ask the user which safe offered follow-up slice to pick; choose the best sequenced next slice and continue until scope is narrowed, approval is needed, or a real blocker appears.
 
 When `AGENTS.md` records the standing follow-up capture preference, record safe discovered improvements or repeated failure patterns in the appropriate follow-up or backlog surface during the active slice, then continue with the best sequenced follow-up slice after the current slice closes.
+
+During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.
+
+During broad implementation work, review the product, control-system, and implementation-workflow layers before substantial edits, and capture the review in a temporary analysis artifact when the batch is broad or high-risk.
 
 ## Tier Decision
 

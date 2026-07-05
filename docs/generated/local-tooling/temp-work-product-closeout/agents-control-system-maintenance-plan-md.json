@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-07-05T09:19:21Z",
+  "plan": ".agents/control-system-maintenance-plan.md",
+  "action": "delete",
+  "matched_count": 1,
+  "deleted": [
+    ".agents/tmp/control-system-maintenance-plan-temp-closeout-check.yaml"
+  ],
+  "archived": [
+
+  ],
+  "remaining": [
+
+  ]
+}

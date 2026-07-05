@@ -5,6 +5,8 @@ CREATE TABLE vision_user_preference (
     preference_value VARCHAR(255) NOT NULL,
     observation_count INTEGER NOT NULL DEFAULT 1,
     source_type VARCHAR(32) NOT NULL DEFAULT 'turn',
+    confidence_score DOUBLE PRECISION NOT NULL DEFAULT 0.60,
+    confidence_updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     last_observed_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),

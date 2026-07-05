@@ -1544,6 +1544,7 @@
       "options",
       "items",
       "questDiscovery",
+      "searchDiscovery",
       "review",
       "tone"
     ]
@@ -1623,6 +1624,8 @@
       "executionEnabled",
       "executionCandidate",
       "questDiscovery",
+      "searchDiscovery",
+      "learningMemory",
       "memoryTrail",
       "blocks",
       "appliedSlotSummaries",
@@ -1644,6 +1647,25 @@
       "blockingReason",
       "planningNote",
       "summary"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionLearningMemoryDTO",
+    "fields": [
+      "summaryText",
+      "recentFeedbackTypes",
+      "preferenceSignals"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionLearningPreferenceDTO",
+    "fields": [
+      "preferenceKey",
+      "preferenceValue",
+      "sourceType",
+      "observationCount",
+      "confidenceScore",
+      "lastObservedAt"
     ]
   },
   {
@@ -1728,6 +1750,30 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO",
+    "fields": [
+      "capabilityId",
+      "query",
+      "sort",
+      "summary",
+      "totalItems",
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionSearchDiscoveryItemDTO",
+    "fields": [
+      "entityFamily",
+      "capabilityId",
+      "targetId",
+      "title",
+      "summary",
+      "matchSummary",
+      "resolutionLabel",
+      "exactResolutionEligible"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.vision.dto.VisionSlotSummaryDTO",
     "fields": [
       "slotId",
@@ -1765,8 +1811,15 @@
       "userMemory",
       "sessionMemory",
       "recentConversations",
+      "preferredInputType",
+      "preferredInputTypeConfidence",
+      "preferredEntityFamily",
+      "preferredEntityFamilyConfidence",
+      "learningSummary",
+      "recentFeedbackTypes",
       "recentIntentTypes",
       "recentEntityFamilies",
+      "learnedPreferences",
       "currentEntityFamily",
       "status",
       "sessionSummary",

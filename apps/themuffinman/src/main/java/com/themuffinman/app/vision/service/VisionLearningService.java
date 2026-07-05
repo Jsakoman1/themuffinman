@@ -3,6 +3,8 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.model.VisionConversationAction;
 import com.themuffinman.app.vision.model.VisionConversation;
+import com.themuffinman.app.vision.dto.VisionLearningMemoryDTO;
+import com.themuffinman.app.vision.dto.VisionLearningPreferenceDTO;
 import com.themuffinman.app.vision.model.VisionMemoryFeedbackEvent;
 import com.themuffinman.app.vision.model.VisionMemoryFeedbackType;
 import com.themuffinman.app.vision.model.VisionMemorySummary;
@@ -26,6 +28,16 @@ import java.util.Locale;
 
 @Service
 public class VisionLearningService {
+
+    private static final List<String> LEARNING_PREFERENCE_PRIORITY = List.of(
+            "preferred_input_type",
+            "preferred_language",
+            "last_entity_family",
+            "last_intent",
+            "last_requested_slot",
+            "last_feedback_type",
+            "last_conversation_status"
+    );
 
     private final VisionUserPreferenceRepository visionUserPreferenceRepository;
     private final VisionMemoryFeedbackEventRepository visionMemoryFeedbackEventRepository;
@@ -114,6 +126,25 @@ public class VisionLearningService {
                 .toList();
     }
 
+    public VisionLearningMemoryDTO buildLearningMemory(AppUser user) {
+        if (user == null) {
+            return null;
+        }
+
+        List<VisionLearningPreferenceDTO> preferenceSignals = buildPreferenceSignals(user);
+        String summaryText = latestSummaryText(user);
+        List<String> feedbackTypes = recentFeedbackTypes(user);
+        if (summaryText == null && feedbackTypes.isEmpty() && preferenceSignals.isEmpty()) {
+            return null;
+        }
+
+        return VisionLearningMemoryDTO.builder()
+                .summaryText(summaryText)
+                .recentFeedbackTypes(feedbackTypes)
+                .preferenceSignals(preferenceSignals)
+                .build();
+    }
+
     private VisionMemoryFeedbackType determineFeedbackType(VisionConversation conversation, VisionTurn turn, VisionConversationAction action) {
         if (action == VisionConversationAction.REQUEST_REVIEW_EDIT) {
             return VisionMemoryFeedbackType.CORRECTION;
@@ -184,6 +215,8 @@ public class VisionLearningService {
         preference.setPreferenceValue(preferenceValue);
         preference.setSourceType(sourceType == null || sourceType.isBlank() ? "turn" : sourceType.trim());
         preference.setObservationCount(isNew ? 1 : preference.getObservationCount() + 1);
+        preference.setConfidenceScore(VisionPreferenceConfidenceSupport.nextConfidence(preference, sourceType, observedAt, visionProperties.getMemory()));
+        preference.setConfidenceUpdatedAt(observedAt);
         preference.setLastObservedAt(observedAt);
         if (!isNew) {
             preference.setUpdatedAt(observedAt);
@@ -216,9 +249,18 @@ public class VisionLearningService {
     ) {
         List<String> summaryParts = new ArrayList<>();
         if (!preferences.isEmpty()) {
+            Instant now = Instant.now();
             summaryParts.add("Top preferences: " + preferences.stream()
+                    .sorted(Comparator.comparingDouble((VisionUserPreference preference) ->
+                                    VisionPreferenceConfidenceSupport.effectiveConfidence(preference, now, visionProperties.getMemory()))
+                            .reversed()
+                            .thenComparing(VisionUserPreference::getObservationCount, Comparator.reverseOrder()))
                     .limit(Math.max(1, summaryWindow))
-                    .map(preference -> preference.getPreferenceKey() + "=" + preference.getPreferenceValue())
+                    .map(preference -> preference.getPreferenceKey() + "=" + preference.getPreferenceValue()
+                            + " [confidence="
+                            + String.format(Locale.ROOT, "%.2f",
+                            VisionPreferenceConfidenceSupport.effectiveConfidence(preference, now, visionProperties.getMemory()))
+                            + "]")
                     .toList());
         }
         if (!feedbackEvents.isEmpty()) {
@@ -228,6 +270,26 @@ public class VisionLearningService {
                     .toList());
         }
         return String.join(" | ", summaryParts);
+    }
+
+    private List<VisionLearningPreferenceDTO> buildPreferenceSignals(AppUser user) {
+        if (user == null) {
+            return List.of();
+        }
+
+        List<VisionUserPreference> preferences = new ArrayList<>(visionUserPreferenceRepository.findByUser(user));
+        if (preferences.isEmpty()) {
+            return List.of();
+        }
+
+        int preferenceWindow = visionProperties.getMemory() == null ? 5 : visionProperties.getMemory().getSummaryWindow();
+        return VisionPreferenceConfidenceSupport.toPreferenceSignals(
+                preferences,
+                Instant.now(),
+                visionProperties.getMemory(),
+                preferenceWindow,
+                LEARNING_PREFERENCE_PRIORITY
+        );
     }
 
     private Instant oldestTimestamp(List<VisionUserPreference> preferences, List<VisionMemoryFeedbackEvent> feedbackEvents) {
