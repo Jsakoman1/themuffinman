@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-07-06T09:33:01Z",
+  "generatedAt": "2026-07-06T09:39:57Z",
   "summary": {
-    "totalFiles": 442,
-    "classifiedFiles": 442,
+    "totalFiles": 443,
+    "classifiedFiles": 443,
     "unclassifiedFileCount": 0,
     "unownedDomainFileCount": 0,
     "tierCounts": {
       "executor_critical": 67,
-      "automation_relevant": 267,
+      "automation_relevant": 268,
       "internal_support": 107,
       "out_of_scope": 1
     },
     "domainCounts": {
       "platform": 13,
-      "agent": 257,
+      "agent": 258,
       "business": 8,
       "chat": 22,
       "common": 21,
@@ -25,7 +25,7 @@
     },
     "ownerCounts": {
       "platform_core": 34,
-      "agent_platform": 257,
+      "agent_platform": 258,
       "business_domain": 8,
       "chat_domain": 22,
       "identity_domain": 26,
@@ -35,7 +35,7 @@
       "things_domain": 13
     },
     "executorCriticalWithoutSourceRefCount": 0,
-    "automationRelevantWithoutSourceRefCount": 112,
+    "automationRelevantWithoutSourceRefCount": 113,
     "strictSourceOfTruthMissingCount": 0,
     "strictDocumentationMissingCount": 0
   },
@@ -5189,6 +5189,19 @@
       "currentGate": "report_only"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationCatalog.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java",
       "tier": "automation_relevant",
       "classificationRuleId": "automation_relevant_remaining_service_surface",
@@ -5867,6 +5880,7 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewSupport.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionResult.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationCatalog.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleSupport.java",
