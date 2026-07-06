@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-06T06:54:00Z",
+  "generated_at": "2026-07-06T06:25:12Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -454,7 +454,7 @@
     },
     {
       "path": "docs/generated/local-tooling/control-start-summary.md",
-      "mtime": "2026-07-06T06:45:28Z",
+      "mtime": "2026-07-06T06:24:24Z",
       "bytes": 927
     },
     {
@@ -569,8 +569,8 @@
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-07-06T06:45:32Z",
-      "bytes": 827
+      "mtime": "2026-07-06T06:24:30Z",
+      "bytes": 851
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
@@ -629,8 +629,8 @@
     },
     {
       "path": "docs/generated/local-tooling/plan-index-summary.md",
-      "mtime": "2026-07-06T06:54:00Z",
-      "bytes": 231
+      "mtime": "2026-07-06T06:25:11Z",
+      "bytes": 662
     },
     {
       "path": "docs/generated/local-tooling/repo-map-summary.md",

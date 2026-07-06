@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-07-06T06:24:23Z",
+  "symbol": "VisionCapabilityPreviewService",
+  "symbol_files": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 1692
+    }
+  ],
+  "direct_tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupportTest.java"
+  ],
+  "nearby_tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewSupportTest.java"
+  ],
+  "scenario_hits": [
+    {
+      "id": "vision-learning-eval-harness",
+      "domain": "common",
+      "risk": "medium",
+      "scenario": "Preference confidence decay, learned-memory recall, and clarification wording should stay stable while weak ambiguous follow-ups keep the current topic thread.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLearningEvaluationHarnessTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=VisionLearningEvaluationHarnessTest,VisionConversationServiceTest"
+      ]
+    }
+  ],
+  "recommended_commands": [
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceAliasResolutionTest,VisionCapabilityPreviewServiceTest,VisionConversationServiceTest,VisionConversationSnapshotSupportTest,VisionCapabilityPreviewSupportTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionLearningEvaluationHarnessTest,VisionConversationServiceTest"
+  ],
+  "residual_risk": [
+
+  ]
+}

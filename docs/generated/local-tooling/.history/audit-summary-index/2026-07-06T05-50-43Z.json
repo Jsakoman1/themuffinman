@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-06T06:54:00Z",
+  "generated_at": "2026-07-06T05:50:42Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -454,8 +454,8 @@
     },
     {
       "path": "docs/generated/local-tooling/control-start-summary.md",
-      "mtime": "2026-07-06T06:45:28Z",
-      "bytes": 927
+      "mtime": "2026-07-06T05:41:53Z",
+      "bytes": 496
     },
     {
       "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
@@ -569,8 +569,8 @@
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-07-06T06:45:32Z",
-      "bytes": 827
+      "mtime": "2026-07-06T05:50:34Z",
+      "bytes": 882
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
@@ -629,8 +629,8 @@
     },
     {
       "path": "docs/generated/local-tooling/plan-index-summary.md",
-      "mtime": "2026-07-06T06:54:00Z",
-      "bytes": 231
+      "mtime": "2026-07-06T05:50:42Z",
+      "bytes": 686
     },
     {
       "path": "docs/generated/local-tooling/repo-map-summary.md",
@@ -651,11 +651,6 @@
       "path": "docs/generated/local-tooling/symbol-test-links/semanticaliasregistry-summary.md",
       "mtime": "2026-07-05T10:42:53Z",
       "bytes": 697
-    },
-    {
-      "path": "docs/generated/local-tooling/symbol-test-links/visioncapabilitypreviewservice-summary.md",
-      "mtime": "2026-07-06T06:24:23Z",
-      "bytes": 1528
     },
     {
       "path": "docs/generated/local-tooling/symbol-test-links/visionproperties-summary.md",

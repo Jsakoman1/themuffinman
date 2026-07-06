@@ -18,6 +18,7 @@ import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
 import com.themuffinman.app.vision.dto.DashboardNotificationItemDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
+import com.themuffinman.app.vision.dto.QuestAllowedActionDTO;
 import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import com.themuffinman.app.vision.model.QuestNewsItem;
 import com.themuffinman.app.vision.mapper.QuestNewsMgr;
@@ -146,6 +147,39 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
         assertTrue(result.resolved());
         assertEquals(11L, result.applicationId());
         assertEquals("Car repair application", result.questTitle());
+    }
+
+    @Test
+    void resolveManagedPendingApplicationUsesQuestAndApplicantAliases() {
+        AppUser currentUser = new AppUser();
+        QuestResponseDTO quest = QuestResponseDTO.builder()
+                .id(42L)
+                .title("Car repair")
+                .creatorUsername("Marta")
+                .allowedActions(List.of(QuestAllowedActionDTO.VIEW_APPLICATIONS))
+                .build();
+        QuestApplicationResponseDTO application = QuestApplicationResponseDTO.builder()
+                .id(11L)
+                .questId(42L)
+                .questTitle("Car repair")
+                .questCreatorUsername("Marta")
+                .applicantUsername("alex")
+                .allowedActions(List.of(ApplicationAllowedActionDTO.APPROVE))
+                .build();
+        when(questService.getAllQuestResponses(currentUser)).thenReturn(List.of(quest));
+        when(questApplicationService.getApplicationsForQuest(42L, currentUser)).thenReturn(List.of(application));
+
+        VisionResolvedManagedApplicationTarget result = service.resolveManagedPendingApplication(
+                currentUser,
+                "Car repair",
+                "alex",
+                ApplicationAllowedActionDTO.APPROVE
+        );
+
+        assertTrue(result.resolved());
+        assertEquals(11L, result.applicationId());
+        assertEquals("Car repair", result.questTitle());
+        assertEquals("alex", result.applicantUsername());
     }
 
     @Test

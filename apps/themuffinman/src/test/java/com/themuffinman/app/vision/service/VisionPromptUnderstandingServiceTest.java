@@ -130,7 +130,8 @@ class VisionPromptUnderstandingServiceTest {
                 int call = calls.getAndIncrement();
                 String input = String.valueOf(payload.get("input"));
                 if (call == 0) {
-                    assertTrue(input.contains("Use conversationContext for already collected slot data"));
+                    assertTrue(input.contains("Semantic orchestration request:"));
+                    assertTrue(input.contains("Move my sofa next Tuesday at 14:30"));
                     return initialOutput;
                 }
                 assertTrue(input.contains("Repair slot: quest_title"));

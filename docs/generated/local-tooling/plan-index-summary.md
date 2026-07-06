@@ -1,6 +1,6 @@
 # Plan Index
 
-- Total entries: 38
+- Total entries: 41
 - Open entries: 0
 - Open master plans: 0
 - Open regular plans: 0

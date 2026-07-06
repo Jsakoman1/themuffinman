@@ -18,6 +18,7 @@ import com.themuffinman.app.vision.dto.VisionLearningPreferenceDTO;
 import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
+import com.themuffinman.app.vision.dto.VisionMemoryTrailDTO;
 import com.themuffinman.app.chat.dto.ChatConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
@@ -86,6 +87,8 @@ class VisionConversationServiceTest {
     @Mock
     private VisionCapabilityPreviewService visionCapabilityPreviewService;
 
+    private VisionConversationReadModelAssembler visionConversationReadModelAssembler;
+
     @Mock
     private QuestReadService questReadService;
 
@@ -143,6 +146,12 @@ class VisionConversationServiceTest {
         );
         VisionSemanticOrchestrationContextService visionSemanticOrchestrationContextService =
                 new VisionSemanticOrchestrationContextService(new com.themuffinman.app.config.VoiceProperties(), visionConversationRepository, visionTurnRepository);
+        visionConversationReadModelAssembler = new VisionConversationReadModelAssembler(
+                visionConversationRepository,
+                visionTurnRepository,
+                visionSemanticOrchestrationContextService,
+                visionClarificationService
+        );
         VisionSurfacePolicy visionSurfacePolicy = new VisionSurfacePolicy(visionProperties);
         lenient().when(visionCreateQuestExecutionAdapter.capabilityId()).thenReturn("create_quest");
         VisionCreateCircleExecutionAdapter visionCreateCircleExecutionAdapter =
@@ -225,6 +234,7 @@ class VisionConversationServiceTest {
                 visionCapabilityPreviewService,
                 visionPromptUnderstandingService,
                 visionSemanticOrchestrationContextService,
+                visionConversationReadModelAssembler,
                 visionSemanticMapper,
                 visionSemanticRouteCatalogService,
                 visionSurfacePolicy,

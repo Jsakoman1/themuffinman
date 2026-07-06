@@ -2,7 +2,7 @@
 
 - Plan index: `docs/generated/local-tooling/plan-index-summary.md`
 - Audit summary index: `docs/generated/local-tooling/audit-summary-index.md`
-- Plan count: `38`
+- Plan count: `41`
 - Open count: `0`
 - Open master plans: `0`
 - Open plans: `0`
