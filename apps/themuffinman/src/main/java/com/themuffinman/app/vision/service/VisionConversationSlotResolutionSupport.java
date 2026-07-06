@@ -7,6 +7,85 @@ import java.util.Locale;
 
 final class VisionConversationSlotResolutionSupport {
 
+    private static final String SLOT_TARGET_QUEST_QUERY = "target_quest_query";
+    private static final String SLOT_APPLICATION_MESSAGE = "application_message";
+    private static final String SLOT_APPLICATION_PROPOSED_PRICE = "application_proposed_price";
+    private static final String SLOT_CIRCLE_NAME = "circle_name";
+    private static final String SLOT_APPLICATION_QUEST_ID = "application_quest_id";
+    private static final String SLOT_APPLICATION_EXISTING_MESSAGE = "application_existing_message";
+    private static final String SLOT_APPLICATION_EXISTING_PROPOSED_PRICE = "application_existing_proposed_price";
+    private static final String SLOT_TARGET_USER = "target_user";
+    private static final String SLOT_PROFILE_LOCATION_MODE = "profile_location_mode";
+    private static final String SLOT_PROFILE_LOCATION_LABEL = "profile_location_label";
+    private static final String SLOT_PROFILE_USERNAME = "profile_username";
+    private static final String SLOT_PROFILE_DESCRIPTION = "profile_description";
+
+    private static final List<String> APPLICATION_QUEST_PREFIXES = List.of(
+            "apply to quest",
+            "apply for quest",
+            "apply to job",
+            "apply for job",
+            "apply to",
+            "apply for",
+            "create application for",
+            "send application for"
+    );
+    private static final List<String> APPLICATION_MESSAGE_PREFIXES = List.of("my message is", "application message", "message");
+    private static final List<String> CIRCLE_NAME_PREFIXES = List.of("create new circle", "create circle", "new circle", "make a circle", "make circle", "start a circle", "start circle", "circle");
+    private static final List<String> CIRCLE_NAME_TRAILING_PREFIXES = List.of(" called ", " named ");
+    private static final List<String> CIRCLE_RENAME_PREFIXES = List.of("rename to", "new name", "change name to", "change name");
+    private static final List<String> CIRCLE_RENAME_TRAILING_PREFIXES = List.of(" to ");
+    private static final List<String> MANAGED_APPLICANT_PREFIXES = List.of("approve application", "decline application", "reject application", "accept application", "applicant", "approve", "decline", "reject", "accept");
+    private static final List<String> MANAGED_APPLICANT_TRAILING_PREFIXES = List.of(" for ");
+    private static final List<String> USER_PROFILE_PREFIXES = List.of("show profile of", "open profile of", "show profile for", "open profile for", "show user", "open user");
+    private static final List<String> CIRCLE_REQUEST_PREFIXES = List.of(
+            "send a circle request to",
+            "send circle request to",
+            "invite to my circle",
+            "invite to my circles",
+            "add to my circle",
+            "add to my circles",
+            "connect with",
+            "accept circle request from",
+            "accept connection request from",
+            "accept invite from",
+            "decline circle request from",
+            "reject circle request from",
+            "decline invite from",
+            "reject invite from",
+            "cancel circle request to",
+            "cancel invite to",
+            "delete circle request with",
+            "remove circle request with"
+    );
+    private static final List<String> CIRCLE_REQUEST_STRIP_WORDS = List.of("user", "users", "person", "people", "member", "members", "contact", "contacts", "profile", "profiles");
+    private static final List<String> PROFILE_LOCATION_PREFIXES = List.of("set my location to", "update my location to", "change my location to", "location");
+    private static final List<String> PROFILE_USERNAME_PREFIXES = List.of("update my username to", "change my username to", "set my username to", "my username is", "username");
+    private static final List<String> PROFILE_DESCRIPTION_PREFIXES = List.of(
+            "set my profile description to",
+            "change my profile description to",
+            "update my profile description to",
+            "set my description to",
+            "change my description to",
+            "update my description to",
+            "set description to",
+            "set bio to",
+            "change my bio to",
+            "update my bio to"
+    );
+    private static final List<String> PROFILE_DESCRIPTION_INSTRUCTION_PREFIXES = List.of(
+            "set description",
+            "set my description",
+            "change my description",
+            "update my description",
+            "set bio",
+            "change my bio",
+            "update my bio",
+            "set my profile description",
+            "change my profile description",
+            "update my profile description"
+    );
+
     private final VisionClarificationService visionClarificationService;
 
     VisionConversationSlotResolutionSupport(VisionClarificationService visionClarificationService) {
@@ -18,43 +97,25 @@ final class VisionConversationSlotResolutionSupport {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "target_quest_query")) {
-            return semanticSlotValue(understanding, "target_quest_query").trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, SLOT_TARGET_QUEST_QUERY)) {
+            return semanticSlotValue(understanding, SLOT_TARGET_QUEST_QUERY).trim();
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
         String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "target_quest_query".equals(conversation.getRequestedSlot())) {
+        if (conversation != null && SLOT_TARGET_QUEST_QUERY.equals(conversation.getRequestedSlot())) {
             return firstNonBlank(
                     VisionPromptTextSupport.extractAfterAnyPrefix(
                             trimmed,
-                            List.of(
-                                    "apply to quest",
-                                    "apply for quest",
-                                    "apply to job",
-                                    "apply for job",
-                                    "apply to",
-                                    "apply for",
-                                    "create application for",
-                                    "send application for"
-                            )
+                            APPLICATION_QUEST_PREFIXES
                     ),
                     trimmed
             );
         }
         return VisionPromptTextSupport.extractAfterAnyPrefix(
                 trimmed,
-                List.of(
-                        "apply to quest",
-                        "apply for quest",
-                        "apply to job",
-                        "apply for job",
-                        "apply to",
-                        "apply for",
-                        "create application for",
-                        "send application for"
-                )
+                APPLICATION_QUEST_PREFIXES
         );
     }
 
@@ -63,25 +124,25 @@ final class VisionConversationSlotResolutionSupport {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "application_message")) {
-            return semanticSlotValue(understanding, "application_message").trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, SLOT_APPLICATION_MESSAGE)) {
+            return semanticSlotValue(understanding, SLOT_APPLICATION_MESSAGE).trim();
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
         String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "application_message".equals(conversation.getRequestedSlot())) {
+        if (conversation != null && SLOT_APPLICATION_MESSAGE.equals(conversation.getRequestedSlot())) {
             return firstNonBlank(
                     VisionPromptTextSupport.extractAfterAnyPrefix(
                             trimmed,
-                            List.of("my message is", "application message", "message")
+                            APPLICATION_MESSAGE_PREFIXES
                     ),
                     trimmed
             );
         }
         return VisionPromptTextSupport.extractAfterAnyPrefix(
                 trimmed,
-                List.of("my message is", "application message", "message")
+                APPLICATION_MESSAGE_PREFIXES
         );
     }
 
@@ -90,13 +151,13 @@ final class VisionConversationSlotResolutionSupport {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "application_proposed_price")) {
-            return normalizeApplicationPrice(semanticSlotValue(understanding, "application_proposed_price"));
+        if (shouldUseSemanticSlotValue(conversation, understanding, SLOT_APPLICATION_PROPOSED_PRICE)) {
+            return normalizeApplicationPrice(semanticSlotValue(understanding, SLOT_APPLICATION_PROPOSED_PRICE));
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
-        if (conversation != null && "application_proposed_price".equals(conversation.getRequestedSlot())) {
+        if (conversation != null && SLOT_APPLICATION_PROPOSED_PRICE.equals(conversation.getRequestedSlot())) {
             return normalizeApplicationPrice(normalizedPrompt);
         }
         return null;
@@ -107,11 +168,11 @@ final class VisionConversationSlotResolutionSupport {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "circle_name")) {
-            return semanticSlotValue(understanding, "circle_name").trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, SLOT_CIRCLE_NAME)) {
+            return semanticSlotValue(understanding, SLOT_CIRCLE_NAME).trim();
         }
 
-        if (conversation != null && "circle_name".equals(conversation.getRequestedSlot())) {
+        if (conversation != null && SLOT_CIRCLE_NAME.equals(conversation.getRequestedSlot())) {
             return firstNonBlank(extractCircleNameFromPrompt(normalizedPrompt), normalizedPrompt == null ? null : normalizedPrompt.trim());
         }
 
@@ -123,72 +184,72 @@ final class VisionConversationSlotResolutionSupport {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "circle_name")) {
-            return semanticSlotValue(understanding, "circle_name").trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, SLOT_CIRCLE_NAME)) {
+            return semanticSlotValue(understanding, SLOT_CIRCLE_NAME).trim();
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
         String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "circle_name".equals(conversation.getRequestedSlot())) {
+        if (conversation != null && SLOT_CIRCLE_NAME.equals(conversation.getRequestedSlot())) {
             return firstNonBlank(
                     VisionPromptTextSupport.extractAfterAnyPrefix(
                             trimmed,
-                            List.of("rename to", "new name", "change name to", "change name"),
-                            List.of(" to ")
+                            CIRCLE_RENAME_PREFIXES,
+                            CIRCLE_RENAME_TRAILING_PREFIXES
                     ),
                     trimmed
             );
         }
         return VisionPromptTextSupport.extractAfterAnyPrefix(
                 trimmed,
-                List.of("rename to", "new name", "change name to", "change name"),
-                List.of(" to ")
+                CIRCLE_RENAME_PREFIXES,
+                CIRCLE_RENAME_TRAILING_PREFIXES
         );
     }
 
     String nextMissingUpdateApplicationSlot(VisionConversation conversation) {
         if (conversation == null) {
-            return "target_quest_query";
+            return SLOT_TARGET_QUEST_QUERY;
         }
-        if (!hasText(conversation.getSlotData().get("application_quest_id"))) {
-            return "target_quest_query";
+        if (!hasText(conversation.getSlotData().get(SLOT_APPLICATION_QUEST_ID))) {
+            return SLOT_TARGET_QUEST_QUERY;
         }
-        if (!hasText(conversation.getSlotData().get("application_message"))
-                && !hasText(conversation.getSlotData().get("application_proposed_price"))) {
-            return "application_message";
+        if (!hasText(conversation.getSlotData().get(SLOT_APPLICATION_MESSAGE))
+                && !hasText(conversation.getSlotData().get(SLOT_APPLICATION_PROPOSED_PRICE))) {
+            return SLOT_APPLICATION_MESSAGE;
         }
         return null;
     }
 
     String questionForUpdateApplication(String slotId) {
-        if ("application_message".equals(slotId)) {
+        if (SLOT_APPLICATION_MESSAGE.equals(slotId)) {
             return "What should I change in your application? You can give a new message, a new price, or both.";
         }
         return visionClarificationService.buildQuestion(slotId);
     }
 
     String retryQuestionForUpdateApplication(String slotId) {
-        if ("application_message".equals(slotId)) {
+        if (SLOT_APPLICATION_MESSAGE.equals(slotId)) {
             return "I still need at least one application change. Say a new message, a new price, or both.";
         }
         return visionClarificationService.buildRetryQuestion(slotId);
     }
 
     String effectiveApplicationMessage(VisionConversation conversation) {
-        String draftMessage = conversation.getSlotData().get("application_message");
+        String draftMessage = conversation.getSlotData().get(SLOT_APPLICATION_MESSAGE);
         if (hasText(draftMessage)) {
             return draftMessage;
         }
-        return conversation.getSlotData().get("application_existing_message");
+        return conversation.getSlotData().get(SLOT_APPLICATION_EXISTING_MESSAGE);
     }
 
     String effectiveApplicationPrice(VisionConversation conversation) {
-        String draftPrice = conversation.getSlotData().get("application_proposed_price");
+        String draftPrice = conversation.getSlotData().get(SLOT_APPLICATION_PROPOSED_PRICE);
         if (hasText(draftPrice)) {
             return draftPrice;
         }
-        return conversation.getSlotData().get("application_existing_proposed_price");
+        return conversation.getSlotData().get(SLOT_APPLICATION_EXISTING_PROPOSED_PRICE);
     }
 
     String resolveManagedApplicantQuery(
@@ -204,40 +265,20 @@ final class VisionConversationSlotResolutionSupport {
             return null;
         }
         String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "target_user".equals(conversation.getRequestedSlot())) {
+        if (conversation != null && SLOT_TARGET_USER.equals(conversation.getRequestedSlot())) {
             return firstNonBlank(
                     VisionPromptTextSupport.extractAfterAnyPrefix(
                             trimmed,
-                            List.of(
-                                    "approve application",
-                                    "decline application",
-                                    "reject application",
-                                    "accept application",
-                                    "applicant",
-                                    "approve",
-                                    "decline",
-                                    "reject",
-                                    "accept"
-                            ),
-                            List.of(" for ")
+                            MANAGED_APPLICANT_PREFIXES,
+                            MANAGED_APPLICANT_TRAILING_PREFIXES
                     ),
                     trimmed
             );
         }
         return VisionPromptTextSupport.extractAfterAnyPrefix(
                 trimmed,
-                List.of(
-                        "approve application",
-                        "decline application",
-                        "reject application",
-                        "accept application",
-                        "applicant",
-                        "approve",
-                        "decline",
-                        "reject",
-                        "accept"
-                ),
-                List.of(" for ")
+                MANAGED_APPLICANT_PREFIXES,
+                MANAGED_APPLICANT_TRAILING_PREFIXES
         );
     }
 
@@ -254,32 +295,18 @@ final class VisionConversationSlotResolutionSupport {
             return null;
         }
         String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "target_user".equals(conversation.getRequestedSlot())) {
+        if (conversation != null && SLOT_TARGET_USER.equals(conversation.getRequestedSlot())) {
             return firstNonBlank(
                     VisionPromptTextSupport.extractAfterAnyPrefix(
                             trimmed,
-                            List.of(
-                                    "show profile of",
-                                    "open profile of",
-                                    "show profile for",
-                                    "open profile for",
-                                    "show user",
-                                    "open user"
-                            )
+                            USER_PROFILE_PREFIXES
                     ),
                     trimmed
             );
         }
         return VisionPromptTextSupport.extractAfterAnyPrefix(
                 trimmed,
-                List.of(
-                        "show profile of",
-                        "open profile of",
-                        "show profile for",
-                        "open profile for",
-                        "show user",
-                        "open user"
-                )
+                USER_PROFILE_PREFIXES
         );
     }
 
@@ -296,63 +323,25 @@ final class VisionConversationSlotResolutionSupport {
             return null;
         }
         String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "target_user".equals(conversation.getRequestedSlot())) {
+        if (conversation != null && SLOT_TARGET_USER.equals(conversation.getRequestedSlot())) {
             return VisionPromptTextSupport.stripLeadingWords(
                     firstNonBlank(
                             VisionPromptTextSupport.extractAfterAnyPrefix(
                                     trimmed,
-                                    List.of(
-                                            "send a circle request to",
-                                            "send circle request to",
-                                            "invite to my circle",
-                                            "invite to my circles",
-                                            "add to my circle",
-                                            "add to my circles",
-                                            "connect with",
-                                            "accept circle request from",
-                                            "accept connection request from",
-                                            "accept invite from",
-                                            "decline circle request from",
-                                            "reject circle request from",
-                                            "decline invite from",
-                                            "reject invite from",
-                                            "cancel circle request to",
-                                            "cancel invite to",
-                                            "delete circle request with",
-                                            "remove circle request with"
-                                    )
+                                    CIRCLE_REQUEST_PREFIXES
                             ),
                             trimmed
                     ),
-                    List.of("user", "users", "person", "people", "member", "members", "contact", "contacts", "profile", "profiles")
+                    CIRCLE_REQUEST_STRIP_WORDS
             );
         }
         String stripped = VisionPromptTextSupport.extractAfterAnyPrefix(
                 trimmed,
-                List.of(
-                        "send a circle request to",
-                        "send circle request to",
-                        "invite to my circle",
-                        "invite to my circles",
-                        "add to my circle",
-                        "add to my circles",
-                        "connect with",
-                        "accept circle request from",
-                        "accept connection request from",
-                        "accept invite from",
-                        "decline circle request from",
-                        "reject circle request from",
-                        "decline invite from",
-                        "reject invite from",
-                        "cancel circle request to",
-                        "cancel invite to",
-                        "delete circle request with",
-                        "remove circle request with"
-                )
+                CIRCLE_REQUEST_PREFIXES
         );
         return VisionPromptTextSupport.stripLeadingWords(
                 stripped,
-                List.of("user", "users", "person", "people", "member", "members", "contact", "contacts", "profile", "profiles")
+                CIRCLE_REQUEST_STRIP_WORDS
         );
     }
 
@@ -361,14 +350,14 @@ final class VisionConversationSlotResolutionSupport {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "profile_location_mode")) {
-            return semanticSlotValue(understanding, "profile_location_mode").trim().toUpperCase(Locale.ROOT);
+        if (shouldUseSemanticSlotValue(conversation, understanding, SLOT_PROFILE_LOCATION_MODE)) {
+            return semanticSlotValue(understanding, SLOT_PROFILE_LOCATION_MODE).trim().toUpperCase(Locale.ROOT);
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
         String lower = normalizedPrompt.trim().toLowerCase(Locale.ROOT);
-        if (conversation != null && "profile_location_mode".equals(conversation.getRequestedSlot())) {
+        if (conversation != null && SLOT_PROFILE_LOCATION_MODE.equals(conversation.getRequestedSlot())) {
             if (lower.contains("off") || lower.contains("hide")) {
                 return "OFF";
             }
@@ -396,39 +385,39 @@ final class VisionConversationSlotResolutionSupport {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "profile_location_label")) {
-            return semanticSlotValue(understanding, "profile_location_label").trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, SLOT_PROFILE_LOCATION_LABEL)) {
+            return semanticSlotValue(understanding, SLOT_PROFILE_LOCATION_LABEL).trim();
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
-        if (conversation != null && "profile_location_label".equals(conversation.getRequestedSlot())) {
+        if (conversation != null && SLOT_PROFILE_LOCATION_LABEL.equals(conversation.getRequestedSlot())) {
             return firstNonBlank(
                     VisionPromptTextSupport.extractAfterAnyPrefix(
                             normalizedPrompt,
-                            List.of("set my location to", "update my location to", "change my location to", "location")
+                            PROFILE_LOCATION_PREFIXES
                     ),
                     normalizedPrompt.trim()
             );
         }
         return VisionPromptTextSupport.extractAfterAnyPrefix(
                 normalizedPrompt,
-                List.of("set my location to", "update my location to", "change my location to", "location")
+                PROFILE_LOCATION_PREFIXES
         );
     }
 
     String nextMissingProfileLocationSlot(VisionConversation conversation) {
         if (conversation == null) {
-            return "profile_location_mode";
+            return SLOT_PROFILE_LOCATION_MODE;
         }
-        String mode = conversation.getSlotData().get("profile_location_mode");
+        String mode = conversation.getSlotData().get(SLOT_PROFILE_LOCATION_MODE);
         if (!hasText(mode)) {
-            return "profile_location_mode";
+            return SLOT_PROFILE_LOCATION_MODE;
         }
         if (!"OFF".equalsIgnoreCase(mode)) {
-            String draftLabel = conversation.getSlotData().get("profile_location_label");
+            String draftLabel = conversation.getSlotData().get(SLOT_PROFILE_LOCATION_LABEL);
             if (!hasText(draftLabel)) {
-                return "profile_location_label";
+                return SLOT_PROFILE_LOCATION_LABEL;
             }
         }
         return null;
@@ -439,8 +428,8 @@ final class VisionConversationSlotResolutionSupport {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "profile_username")) {
-            return semanticSlotValue(understanding, "profile_username").trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, SLOT_PROFILE_USERNAME)) {
+            return semanticSlotValue(understanding, SLOT_PROFILE_USERNAME).trim();
         }
 
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
@@ -448,13 +437,13 @@ final class VisionConversationSlotResolutionSupport {
         }
 
         String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "profile_username".equals(conversation.getRequestedSlot())
+        if (conversation != null && SLOT_PROFILE_USERNAME.equals(conversation.getRequestedSlot())
                 && !looksLikeProfileDescriptionInstruction(trimmed)
                 && !looksLikeGenericProfileUpdateInstruction(trimmed)) {
             return firstNonBlank(
                     VisionPromptTextSupport.extractAfterAnyPrefix(
                             trimmed,
-                            List.of("update my username to", "change my username to", "set my username to", "my username is", "username")
+                            PROFILE_USERNAME_PREFIXES
                     ),
                     trimmed
             );
@@ -462,7 +451,7 @@ final class VisionConversationSlotResolutionSupport {
 
         return VisionPromptTextSupport.extractAfterAnyPrefix(
                 trimmed,
-                List.of("update my username to", "change my username to", "set my username to", "my username is", "username")
+                PROFILE_USERNAME_PREFIXES
         );
     }
 
@@ -471,8 +460,8 @@ final class VisionConversationSlotResolutionSupport {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "profile_description")) {
-            return semanticSlotValue(understanding, "profile_description").trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, SLOT_PROFILE_DESCRIPTION)) {
+            return semanticSlotValue(understanding, SLOT_PROFILE_DESCRIPTION).trim();
         }
 
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
@@ -480,22 +469,11 @@ final class VisionConversationSlotResolutionSupport {
         }
 
         String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "profile_description".equals(conversation.getRequestedSlot())) {
+        if (conversation != null && SLOT_PROFILE_DESCRIPTION.equals(conversation.getRequestedSlot())) {
             return firstNonBlank(
                     VisionPromptTextSupport.extractAfterAnyPrefix(
                             trimmed,
-                            List.of(
-                                    "set my profile description to",
-                                    "change my profile description to",
-                                    "update my profile description to",
-                                    "set my description to",
-                                    "change my description to",
-                                    "update my description to",
-                                    "set description to",
-                                    "set bio to",
-                                    "change my bio to",
-                                    "update my bio to"
-                            )
+                            PROFILE_DESCRIPTION_PREFIXES
                     ),
                     trimmed
             );
@@ -503,18 +481,7 @@ final class VisionConversationSlotResolutionSupport {
 
         return VisionPromptTextSupport.extractAfterAnyPrefix(
                 trimmed,
-                List.of(
-                        "set my profile description to",
-                        "change my profile description to",
-                        "update my profile description to",
-                        "set my description to",
-                        "change my description to",
-                        "update my description to",
-                        "set description to",
-                        "set bio to",
-                        "change my bio to",
-                        "update my bio to"
-                )
+                PROFILE_DESCRIPTION_PREFIXES
         );
     }
 
@@ -522,8 +489,8 @@ final class VisionConversationSlotResolutionSupport {
         if (conversation == null || conversation.getSlotData() == null) {
             return false;
         }
-        return hasText(conversation.getSlotData().get("profile_username"))
-                || conversation.getSlotData().containsKey("profile_description");
+        return hasText(conversation.getSlotData().get(SLOT_PROFILE_USERNAME))
+                || conversation.getSlotData().containsKey(SLOT_PROFILE_DESCRIPTION);
     }
 
     boolean looksLikeProfileDescriptionInstruction(String prompt) {
@@ -531,16 +498,7 @@ final class VisionConversationSlotResolutionSupport {
             return false;
         }
         String lower = prompt.trim().toLowerCase(Locale.ROOT);
-        return lower.startsWith("set description")
-                || lower.startsWith("set my description")
-                || lower.startsWith("change my description")
-                || lower.startsWith("update my description")
-                || lower.startsWith("set bio")
-                || lower.startsWith("change my bio")
-                || lower.startsWith("update my bio")
-                || lower.startsWith("set my profile description")
-                || lower.startsWith("change my profile description")
-                || lower.startsWith("update my profile description");
+        return PROFILE_DESCRIPTION_INSTRUCTION_PREFIXES.stream().anyMatch(lower::startsWith);
     }
 
     boolean looksLikeGenericProfileUpdateInstruction(String prompt) {
