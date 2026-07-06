@@ -54,6 +54,7 @@ public class VisionConversationService {
     private final VisionConversationReadModelAssembler visionConversationReadModelAssembler;
     private final VisionReadOnlyConversationTurnHandler visionReadOnlyConversationTurnHandler;
     private final VisionDetailConversationTurnSupport visionDetailConversationTurnSupport;
+    private final VisionConversationSlotResolutionSupport visionConversationSlotResolutionSupport;
     private final VisionIntentSignalSupport visionIntentSignalSupport;
     private final VisionConversationLifecycleSupport visionConversationLifecycleSupport;
     private final VisionConversationMutationSupport visionConversationMutationSupport;
@@ -104,6 +105,7 @@ public class VisionConversationService {
         this.visionConversationReadModelAssembler = visionConversationReadModelAssembler;
         this.visionReadOnlyConversationTurnHandler = new VisionReadOnlyConversationTurnHandler();
         this.visionDetailConversationTurnSupport = new VisionDetailConversationTurnSupport();
+        this.visionConversationSlotResolutionSupport = new VisionConversationSlotResolutionSupport(visionClarificationService);
         this.visionIntentSignalSupport = new VisionIntentSignalSupport();
         this.visionConversationMutationSupport = new VisionConversationMutationSupport(
                 visionConversationRepository,
@@ -2585,44 +2587,7 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "target_quest_query")) {
-            return semanticSlotValue(understanding, "target_quest_query").trim();
-        }
-        if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
-            return null;
-        }
-        String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "target_quest_query".equals(conversation.getRequestedSlot())) {
-            return firstNonBlank(
-                    VisionPromptTextSupport.extractAfterAnyPrefix(
-                            trimmed,
-                            List.of(
-                                    "apply to quest",
-                                    "apply for quest",
-                                    "apply to job",
-                                    "apply for job",
-                                    "apply to",
-                                    "apply for",
-                                    "create application for",
-                                    "send application for"
-                            )
-                    ),
-                    trimmed
-            );
-        }
-        return VisionPromptTextSupport.extractAfterAnyPrefix(
-                trimmed,
-                List.of(
-                        "apply to quest",
-                        "apply for quest",
-                        "apply to job",
-                        "apply for job",
-                        "apply to",
-                        "apply for",
-                        "create application for",
-                        "send application for"
-                )
-        );
+        return visionConversationSlotResolutionSupport.resolveApplicationQuestQuery(conversation, normalizedPrompt, understanding);
     }
 
     private String resolveApplicationMessage(
@@ -2630,26 +2595,7 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "application_message")) {
-            return semanticSlotValue(understanding, "application_message").trim();
-        }
-        if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
-            return null;
-        }
-        String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "application_message".equals(conversation.getRequestedSlot())) {
-            return firstNonBlank(
-                    VisionPromptTextSupport.extractAfterAnyPrefix(
-                            trimmed,
-                            List.of("my message is", "application message", "message")
-                    ),
-                    trimmed
-            );
-        }
-        return VisionPromptTextSupport.extractAfterAnyPrefix(
-                trimmed,
-                List.of("my message is", "application message", "message")
-        );
+        return visionConversationSlotResolutionSupport.resolveApplicationMessage(conversation, normalizedPrompt, understanding);
     }
 
     private String resolveApplicationProposedPrice(
@@ -2657,30 +2603,11 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "application_proposed_price")) {
-            return normalizeApplicationPrice(semanticSlotValue(understanding, "application_proposed_price"));
-        }
-        if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
-            return null;
-        }
-        if (conversation != null && "application_proposed_price".equals(conversation.getRequestedSlot())) {
-            return normalizeApplicationPrice(normalizedPrompt);
-        }
-        return null;
+        return visionConversationSlotResolutionSupport.resolveApplicationProposedPrice(conversation, normalizedPrompt, understanding);
     }
 
     private String nextMissingUpdateApplicationSlot(VisionConversation conversation) {
-        if (conversation == null) {
-            return "target_quest_query";
-        }
-        if (!hasText(conversation.getSlotData().get("application_quest_id"))) {
-            return "target_quest_query";
-        }
-        if (!hasText(conversation.getSlotData().get("application_message"))
-                && !hasText(conversation.getSlotData().get("application_proposed_price"))) {
-            return "application_message";
-        }
-        return null;
+        return visionConversationSlotResolutionSupport.nextMissingUpdateApplicationSlot(conversation);
     }
 
     private String questionForUpdateApplication(String slotId) {
