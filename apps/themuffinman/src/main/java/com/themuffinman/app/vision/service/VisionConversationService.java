@@ -2523,33 +2523,7 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "circle_name")) {
-            return semanticSlotValue(understanding, "circle_name").trim();
-        }
-
-        if (conversation != null && "circle_name".equals(conversation.getRequestedSlot())) {
-            return firstNonBlank(extractCircleNameFromPrompt(normalizedPrompt), normalizedPrompt == null ? null : normalizedPrompt.trim());
-        }
-
-        return extractCircleNameFromPrompt(normalizedPrompt);
-    }
-
-    private String extractCircleNameFromPrompt(String normalizedPrompt) {
-        String stripped = VisionPromptTextSupport.extractAfterAnyPrefix(
-                normalizedPrompt,
-                List.of(
-                        "create new circle",
-                        "create circle",
-                        "new circle",
-                        "make a circle",
-                        "make circle",
-                        "start a circle",
-                        "start circle",
-                        "circle"
-                ),
-                List.of(" called ", " named ")
-        );
-        return VisionPromptTextSupport.stripLeadingWords(stripped, List.of("called", "named"));
+        return visionConversationSlotResolutionSupport.resolveCircleName(conversation, normalizedPrompt, understanding);
     }
 
     private String resolveCircleRename(
@@ -2557,29 +2531,7 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "circle_name")) {
-            return semanticSlotValue(understanding, "circle_name").trim();
-        }
-        if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
-            return null;
-        }
-        String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "circle_name".equals(conversation.getRequestedSlot())) {
-            return firstNonBlank(
-                    VisionPromptTextSupport.extractAfterAnyPrefix(
-                            trimmed,
-                            List.of("rename to", "new name", "change name to", "change name"),
-                            List.of(" to ")
-                    ),
-                    trimmed
-            );
-        }
-        String stripped = VisionPromptTextSupport.extractAfterAnyPrefix(
-                trimmed,
-                List.of("rename to", "new name", "change name to", "change name"),
-                List.of(" to ")
-        );
-        return stripped;
+        return visionConversationSlotResolutionSupport.resolveCircleRename(conversation, normalizedPrompt, understanding);
     }
 
     private String resolveApplicationQuestQuery(
@@ -2638,20 +2590,6 @@ public class VisionConversationService {
             return draftPrice;
         }
         return conversation.getSlotData().get("application_existing_proposed_price");
-    }
-
-    private String normalizeApplicationPrice(String value) {
-        if (value == null || value.isBlank()) {
-            return null;
-        }
-        String normalized = value.trim()
-                .replaceAll("(?i)\\s*(euros?|eur|chf|francs?)\\s*", "")
-                .replace(',', '.')
-                .trim();
-        if (!normalized.matches("\\d+(\\.\\d{1,2})?")) {
-            return null;
-        }
-        return normalized;
     }
 
     private String resolveManagedApplicantQuery(
@@ -2853,46 +2791,6 @@ public class VisionConversationService {
         conversation.getSlotData().put("circle_request_direction", target.incoming() ? "incoming" : "outgoing");
     }
 
-    private String firstNonBlank(String... values) {
-        if (values == null) {
-            return null;
-        }
-        for (String value : values) {
-            if (value != null && !value.isBlank()) {
-                return value;
-            }
-        }
-        return null;
-    }
-
-    private boolean shouldUseSemanticSlotValue(
-            VisionConversation conversation,
-            VisionPromptUnderstandingResult understanding,
-            String slotId
-    ) {
-        String value = semanticSlotValue(understanding, slotId);
-        Double confidence = semanticSlotConfidence(understanding, slotId);
-        if (!hasText(value) || confidence == null) {
-            return false;
-        }
-        if (confidence >= VisionPromptUnderstandingResult.MIN_SLOT_CONFIDENCE) {
-            return true;
-        }
-        if (confidence >= 0.45d) {
-            Map<String, String> slotData = conversation == null ? null : conversation.getSlotData();
-            return slotData == null || !hasText(slotData.get(slotId));
-        }
-        return false;
-    }
-
-    private String semanticSlotValue(VisionPromptUnderstandingResult understanding, String slotId) {
-        return understanding == null ? null : understanding.slotValue(slotId);
-    }
-
-    private Double semanticSlotConfidence(VisionPromptUnderstandingResult understanding, String slotId) {
-        return understanding == null ? null : understanding.slotConfidence(slotId);
-    }
-
     private String resolveProfileLocationMode(
             VisionConversation conversation,
             String normalizedPrompt,
@@ -2943,6 +2841,10 @@ public class VisionConversationService {
 
     private boolean hasText(String value) {
         return visionConversationSlotResolutionSupport.hasText(value);
+    }
+
+    private String firstNonBlank(String... values) {
+        return visionConversationSlotResolutionSupport.firstNonBlank(values);
     }
 
     private VisionTurn createTurn(

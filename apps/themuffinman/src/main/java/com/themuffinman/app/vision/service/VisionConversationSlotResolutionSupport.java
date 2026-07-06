@@ -102,6 +102,51 @@ final class VisionConversationSlotResolutionSupport {
         return null;
     }
 
+    String resolveCircleName(
+            VisionConversation conversation,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding
+    ) {
+        if (shouldUseSemanticSlotValue(conversation, understanding, "circle_name")) {
+            return semanticSlotValue(understanding, "circle_name").trim();
+        }
+
+        if (conversation != null && "circle_name".equals(conversation.getRequestedSlot())) {
+            return firstNonBlank(extractCircleNameFromPrompt(normalizedPrompt), normalizedPrompt == null ? null : normalizedPrompt.trim());
+        }
+
+        return extractCircleNameFromPrompt(normalizedPrompt);
+    }
+
+    String resolveCircleRename(
+            VisionConversation conversation,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding
+    ) {
+        if (shouldUseSemanticSlotValue(conversation, understanding, "circle_name")) {
+            return semanticSlotValue(understanding, "circle_name").trim();
+        }
+        if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
+            return null;
+        }
+        String trimmed = normalizedPrompt.trim();
+        if (conversation != null && "circle_name".equals(conversation.getRequestedSlot())) {
+            return firstNonBlank(
+                    VisionPromptTextSupport.extractAfterAnyPrefix(
+                            trimmed,
+                            List.of("rename to", "new name", "change name to", "change name"),
+                            List.of(" to ")
+                    ),
+                    trimmed
+            );
+        }
+        return VisionPromptTextSupport.extractAfterAnyPrefix(
+                trimmed,
+                List.of("rename to", "new name", "change name to", "change name"),
+                List.of(" to ")
+        );
+    }
+
     String nextMissingUpdateApplicationSlot(VisionConversation conversation) {
         if (conversation == null) {
             return "target_quest_query";
@@ -540,6 +585,24 @@ final class VisionConversationSlotResolutionSupport {
         return understanding == null ? null : understanding.slotConfidence(slotId);
     }
 
+    private String extractCircleNameFromPrompt(String normalizedPrompt) {
+        String stripped = VisionPromptTextSupport.extractAfterAnyPrefix(
+                normalizedPrompt,
+                List.of(
+                        "create new circle",
+                        "create circle",
+                        "new circle",
+                        "make a circle",
+                        "make circle",
+                        "start a circle",
+                        "start circle",
+                        "circle"
+                ),
+                List.of(" called ", " named ")
+        );
+        return VisionPromptTextSupport.stripLeadingWords(stripped, List.of("called", "named"));
+    }
+
     private String normalizeApplicationPrice(String value) {
         if (value == null || value.isBlank()) {
             return null;
@@ -554,7 +617,7 @@ final class VisionConversationSlotResolutionSupport {
         return normalized;
     }
 
-    private String firstNonBlank(String... values) {
+    String firstNonBlank(String... values) {
         if (values == null) {
             return null;
         }
