@@ -32,90 +32,73 @@ public class VisionIntentRouter {
         if (snapshotOverride != null) {
             return snapshotOverride;
         }
-        if (semanticIntent == VisionIntent.DISCOVER_QUESTS) {
-            return VisionIntent.DISCOVER_QUESTS;
-        }
-        if (semanticIntent == VisionIntent.SEARCH) {
-            return VisionIntent.SEARCH;
-        }
-        if (semanticIntent == VisionIntent.CREATE_CIRCLE) {
-            return VisionIntent.CREATE_CIRCLE;
-        }
-        if (semanticIntent == VisionIntent.CREATE_CIRCLE_REQUEST) {
-            return VisionIntent.CREATE_CIRCLE_REQUEST;
-        }
-        if (semanticIntent == VisionIntent.ACCEPT_CIRCLE_REQUEST) {
-            return VisionIntent.ACCEPT_CIRCLE_REQUEST;
-        }
-        if (semanticIntent == VisionIntent.DELETE_CIRCLE_REQUEST) {
-            return VisionIntent.DELETE_CIRCLE_REQUEST;
-        }
-        if (semanticIntent == VisionIntent.CREATE_APPLICATION) {
-            return VisionIntent.CREATE_APPLICATION;
-        }
-        if (semanticIntent == VisionIntent.UPDATE_APPLICATION) {
-            return VisionIntent.UPDATE_APPLICATION;
-        }
-        if (semanticIntent == VisionIntent.WITHDRAW_APPLICATION) {
-            return VisionIntent.WITHDRAW_APPLICATION;
-        }
-        if (semanticIntent == VisionIntent.APPROVE_APPLICATION) {
-            return VisionIntent.APPROVE_APPLICATION;
-        }
-        if (semanticIntent == VisionIntent.DECLINE_APPLICATION) {
-            return VisionIntent.DECLINE_APPLICATION;
-        }
-        if (semanticIntent == VisionIntent.UPDATE_CIRCLE) {
-            return VisionIntent.UPDATE_CIRCLE;
-        }
-        if (semanticIntent == VisionIntent.DELETE_CIRCLE) {
-            return VisionIntent.DELETE_CIRCLE;
-        }
-        if (semanticIntent == VisionIntent.UPDATE_PROFILE) {
-            return VisionIntent.UPDATE_PROFILE;
-        }
-        if (semanticIntent == VisionIntent.UPDATE_PROFILE_LOCATION) {
-            return VisionIntent.UPDATE_PROFILE_LOCATION;
-        }
-        if (semanticIntent == VisionIntent.OPEN_CHAT) {
-            return VisionIntent.OPEN_CHAT;
-        }
-        if (semanticIntent == VisionIntent.VIEW_CHAT_WORKSPACE) {
-            return VisionIntent.VIEW_CHAT_WORKSPACE;
-        }
-        if (semanticIntent == VisionIntent.VIEW_SETTINGS) {
-            return VisionIntent.VIEW_SETTINGS;
-        }
-        if (semanticIntent == VisionIntent.VIEW_USER_PROFILE) {
-            return VisionIntent.VIEW_USER_PROFILE;
-        }
-        if (semanticIntent == VisionIntent.VIEW_PROFILE) {
-            return VisionIntent.VIEW_PROFILE;
-        }
-        if (semanticIntent == VisionIntent.VIEW_CIRCLE_DETAIL) {
-            return VisionIntent.VIEW_CIRCLE_DETAIL;
-        }
-        if (semanticIntent == VisionIntent.VIEW_QUEST_DETAIL) {
-            return VisionIntent.VIEW_QUEST_DETAIL;
-        }
-        if (semanticIntent == VisionIntent.VIEW_NOTIFICATIONS) {
-            return VisionIntent.VIEW_NOTIFICATIONS;
-        }
-        if (semanticIntent == VisionIntent.VIEW_QUEST_NEWS) {
-            return VisionIntent.VIEW_QUEST_NEWS;
-        }
-        if (semanticIntent == VisionIntent.VIEW_CIRCLES) {
-            return VisionIntent.VIEW_CIRCLES;
-        }
-        if (semanticIntent == VisionIntent.VIEW_APPLICATION_DETAIL) {
-            return VisionIntent.VIEW_APPLICATION_DETAIL;
-        }
-        if (semanticIntent == VisionIntent.VIEW_APPLICATIONS) {
-            return VisionIntent.VIEW_APPLICATIONS;
+        VisionIntent routedSemanticIntent = routeSemanticIntent(semanticIntent);
+        if (routedSemanticIntent != null) {
+            return routedSemanticIntent;
         }
         if (semanticRouteCatalogService.routeForIntent(semanticIntent.name()) != null) {
             return semanticIntent;
         }
+        VisionIntent signalIntent = routeSignalIntent(lower);
+        if (signalIntent != null) {
+            return signalIntent;
+        }
+        if (!visionProperties.isCreateQuestEnabled()) {
+            return VisionIntent.UNSUPPORTED;
+        }
+        if (semanticIntent == VisionIntent.CREATE_QUEST
+                || lower.contains("create") && lower.contains("quest")
+                || lower.contains("post") && lower.contains("quest")
+                || visionIntentSignalSupport.containsAny(lower,
+                "create quest",
+                "new quest",
+                "post a quest",
+                "post quest",
+                "need someone",
+                "looking for someone",
+                "i need help",
+                "can someone",
+                "task for someone",
+                "help me with")) {
+            return VisionIntent.CREATE_QUEST;
+        }
+        return VisionIntent.UNSUPPORTED;
+    }
+
+    private VisionIntent routeSemanticIntent(VisionIntent semanticIntent) {
+        return switch (semanticIntent) {
+            case DISCOVER_QUESTS,
+                 SEARCH,
+                 CREATE_CIRCLE,
+                 CREATE_CIRCLE_REQUEST,
+                 ACCEPT_CIRCLE_REQUEST,
+                 DELETE_CIRCLE_REQUEST,
+                 CREATE_APPLICATION,
+                 UPDATE_APPLICATION,
+                 WITHDRAW_APPLICATION,
+                 APPROVE_APPLICATION,
+                 DECLINE_APPLICATION,
+                 UPDATE_CIRCLE,
+                 DELETE_CIRCLE,
+                 UPDATE_PROFILE,
+                 UPDATE_PROFILE_LOCATION,
+                 OPEN_CHAT,
+                 VIEW_CHAT_WORKSPACE,
+                 VIEW_SETTINGS,
+                 VIEW_USER_PROFILE,
+                 VIEW_PROFILE,
+                 VIEW_CIRCLE_DETAIL,
+                 VIEW_QUEST_DETAIL,
+                 VIEW_NOTIFICATIONS,
+                 VIEW_QUEST_NEWS,
+                 VIEW_CIRCLES,
+                 VIEW_APPLICATION_DETAIL,
+                 VIEW_APPLICATIONS -> semanticIntent;
+            default -> null;
+        };
+    }
+
+    private VisionIntent routeSignalIntent(String lower) {
         if (visionIntentSignalSupport.containsCircleCreateSignals(lower)) {
             return VisionIntent.CREATE_CIRCLE;
         }
@@ -200,32 +183,7 @@ public class VisionIntentRouter {
         if (visionIntentSignalSupport.containsChatSignals(lower)) {
             return VisionIntent.OPEN_CHAT;
         }
-        if (!visionProperties.isCreateQuestEnabled()) {
-            return VisionIntent.UNSUPPORTED;
-        }
-        if (semanticIntent == VisionIntent.CREATE_QUEST) {
-            return VisionIntent.CREATE_QUEST;
-        }
-        if (lower.contains("create") && lower.contains("quest")) {
-            return VisionIntent.CREATE_QUEST;
-        }
-        if (lower.contains("post") && lower.contains("quest")) {
-            return VisionIntent.CREATE_QUEST;
-        }
-        if (visionIntentSignalSupport.containsAny(lower,
-                "create quest",
-                "new quest",
-                "post a quest",
-                "post quest",
-                "need someone",
-                "looking for someone",
-                "i need help",
-                "can someone",
-                "task for someone",
-                "help me with")) {
-            return VisionIntent.CREATE_QUEST;
-        }
-        return VisionIntent.UNSUPPORTED;
+        return null;
     }
 
 }
