@@ -10,8 +10,8 @@ import com.themuffinman.app.vision.dto.QuestApplicationListResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationsViewDTO;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.service.QuestService;
-import com.themuffinman.app.vision.service.QuestApplicationService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,8 +23,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestApplicationController {
 
-    private final QuestApplicationService questApplicationService;
-    private final QuestService questService;
+    private final WorkmarketQuestApplicationService questApplicationService;
+    private final WorkmarketQuestService questService;
 
     @PostMapping("/quests/{questId}/applications")
     public ActionResultDTO applyForQuest(

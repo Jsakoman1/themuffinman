@@ -1,0 +1,92 @@
+package com.themuffinman.app.workmarket.mapper;
+
+import com.themuffinman.app.common.dto.NavigationTargetDTO;
+import com.themuffinman.app.common.dto.NavigationTargetType;
+import com.themuffinman.app.common.validation.RichTextInputValidator;
+import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.vision.dto.QuestApplicationPresentationDTO;
+import com.themuffinman.app.vision.dto.QuestApplicationRequestDTO;
+import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.workmarket.model.QuestApplication;
+import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationPresentationAssembler;
+import com.themuffinman.app.workmarket.service.WorkmarketPresentationHelper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
+public class WorkmarketQuestApplicationMgr {
+
+    private final WorkmarketPresentationHelper presentationHelper;
+
+    public QuestApplication toEntity(QuestApplicationRequestDTO dto, Quest quest, AppUser applicant) {
+        QuestApplication application = new QuestApplication();
+        application.setQuest(quest);
+        application.setApplicant(applicant);
+        application.setMessage(RichTextInputValidator.sanitize(dto.getMessage()));
+        application.setProposedPrice(dto.getProposedPrice());
+        application.setStatus(QuestApplicationStatus.PENDING);
+        return application;
+    }
+
+    public QuestApplicationResponseDTO toDto(QuestApplication application) {
+        return toDto(application, List.of());
+    }
+
+    public QuestApplicationResponseDTO toDto(QuestApplication application, List<ApplicationAllowedActionDTO> allowedActions) {
+        if (application == null) {
+            return null;
+        }
+
+        return QuestApplicationResponseDTO.builder()
+                .id(application.getId())
+                .questId(application.getQuest().getId())
+                .questTitle(application.getQuest().getTitle())
+                .questCreatorUsername(application.getQuest().getCreator().getUsername())
+                .questDescription(application.getQuest().getDescription())
+                .questStatus(com.themuffinman.app.vision.model.QuestStatus.valueOf(application.getQuest().getStatus().name()))
+                .questAssigneeTarget(application.getQuest().getAssigneeTarget())
+                .questScheduledAt(application.getQuest().getScheduledAt())
+                .questEndsAt(application.getQuest().getEndsAt())
+                .questTermFixed(application.getQuest().isTermFixed())
+                .applicantId(application.getApplicant().getId())
+                .applicantUsername(application.getApplicant().getUsername())
+                .applicantProfileDescription(RichTextInputValidator.sanitize(application.getApplicant().getProfileDescription()))
+                .applicantProfileAvatarDataUrl(application.getApplicant().getProfileAvatarDataUrl())
+                .resolutionKey("application:" + application.getId())
+                .resolutionLabel(application.getApplicant().getUsername() + " -> " + application.getQuest().getTitle())
+                .exactResolutionEligible(true)
+                .questNavigation(NavigationTargetDTO.builder()
+                        .type(NavigationTargetType.QUEST_DETAIL)
+                        .entityId(application.getQuest().getId())
+                        .build())
+                .applicantNavigation(NavigationTargetDTO.builder()
+                        .type(NavigationTargetType.USER_PROFILE)
+                        .entityId(application.getApplicant().getId())
+                        .build())
+                .message(RichTextInputValidator.sanitize(application.getMessage()))
+                .proposedPrice(application.getProposedPrice())
+                .status(com.themuffinman.app.vision.model.QuestApplicationStatus.valueOf(application.getStatus().name()))
+                .allowedActions(List.copyOf(allowedActions))
+                .presentation(QuestApplicationPresentationDTO.builder()
+                        .statusLabel(presentationHelper.formatApplicationStatus(com.themuffinman.app.vision.model.QuestApplicationStatus.valueOf(application.getStatus().name())))
+                        .statusBadgeClass(presentationHelper.badgeClassForApplicationStatus(com.themuffinman.app.vision.model.QuestApplicationStatus.valueOf(application.getStatus().name())))
+                        .statusSurfaceClass(presentationHelper.surfaceClassForApplicationStatus(com.themuffinman.app.vision.model.QuestApplicationStatus.valueOf(application.getStatus().name())))
+                        .questStatusLabel(presentationHelper.formatQuestStatus(com.themuffinman.app.vision.model.QuestStatus.valueOf(application.getQuest().getStatus().name())))
+                        .questStatusBadgeClass(presentationHelper.badgeClassForQuestStatus(com.themuffinman.app.vision.model.QuestStatus.valueOf(application.getQuest().getStatus().name())))
+                        .canEdit(false)
+                        .canWithdraw(false)
+                        .autoOpenEditForm(false)
+                        .canApprove(false)
+                        .canDecline(false)
+                        .showManagementActions(false)
+                        .build())
+                .createdAt(application.getCreatedAt())
+                .build();
+    }
+}

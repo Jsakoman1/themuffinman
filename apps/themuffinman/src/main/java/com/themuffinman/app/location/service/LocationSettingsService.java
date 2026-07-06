@@ -102,6 +102,39 @@ public class LocationSettingsService {
         copyUserLocationToQuest(sourceUser, quest);
     }
 
+    public void applyQuestLocation(com.themuffinman.app.workmarket.model.Quest quest, QuestRequestDTO dto, AppUser sourceUser) {
+        QuestLocationVisibility visibility = dto == null ? null : dto.getLocationVisibility();
+        QuestLocationVisibility normalizedVisibility = visibility == null ? QuestLocationVisibility.INHERIT : visibility;
+        quest.setLocationVisibility(normalizedVisibility);
+
+        QuestLocationSource locationSource = dto == null || dto.getLocationSource() == null
+                ? QuestLocationSource.PROFILE
+                : dto.getLocationSource();
+        quest.setLocationSource(locationSource);
+
+        if (normalizedVisibility == QuestLocationVisibility.OFF) {
+            clearQuestLocation(quest);
+            return;
+        }
+
+        if (locationSource == QuestLocationSource.CUSTOM) {
+            applyCustomQuestLocation(quest, dto);
+            return;
+        }
+
+        if (sourceUser.getLocationMode() == UserLocationMode.OFF) {
+            if (normalizedVisibility == QuestLocationVisibility.INHERIT) {
+                clearQuestLocation(quest);
+                return;
+            }
+            throw ServiceErrors.badRequest("Your profile location is off. Add a location in My Profile before enabling quest location.");
+        }
+
+        autoResolveUserCoordinates(sourceUser);
+        requireUsableLocation(sourceUser);
+        copyUserLocationToQuest(sourceUser, quest);
+    }
+
     public void applyLookupCandidateToUser(AppUser user, LocationLookupCandidateDTO candidate) {
         if (candidate == null) {
             return;
@@ -143,6 +176,30 @@ public class LocationSettingsService {
     }
 
     private void applyCustomQuestLocation(Quest quest, QuestRequestDTO dto) {
+        if (dto == null) {
+            throw ServiceErrors.badRequest("Quest location request is required");
+        }
+
+        quest.setLocationProvider(normalizeText(null));
+        quest.setLocationProviderPlaceId(normalizeText(null));
+        quest.setLocationLabel(normalizeText(dto.getLocationLabel()));
+        quest.setLocationCountryCode(normalizeCountryCode(dto.getLocationCountryCode()));
+        quest.setLocationCountry(normalizeText(dto.getLocationCountry()));
+        quest.setLocationLocality(normalizeText(dto.getLocationLocality()));
+        quest.setLocationPostalCode(normalizeText(dto.getLocationPostalCode()));
+        quest.setLocationStreet(normalizeText(dto.getLocationStreet()));
+        quest.setLocationHouseNumber(normalizeText(dto.getLocationHouseNumber()));
+        quest.setLocationLatitude(null);
+        quest.setLocationLongitude(null);
+        quest.setLocationResolvedAt(null);
+
+        autoResolveQuestCoordinates(quest);
+        if (!hasCoordinates(quest.getLocationLatitude(), quest.getLocationLongitude())) {
+            throw ServiceErrors.badRequest("Resolve the quest address before saving.");
+        }
+    }
+
+    private void applyCustomQuestLocation(com.themuffinman.app.workmarket.model.Quest quest, QuestRequestDTO dto) {
         if (dto == null) {
             throw ServiceErrors.badRequest("Quest location request is required");
         }
@@ -232,6 +289,26 @@ public class LocationSettingsService {
         quest.setLocationResolvedAt(candidate.getResolvedAt() == null ? Instant.now() : candidate.getResolvedAt());
     }
 
+    private void autoResolveQuestCoordinates(com.themuffinman.app.workmarket.model.Quest quest) {
+        if (hasCoordinates(quest.getLocationLatitude(), quest.getLocationLongitude())) {
+            return;
+        }
+
+        LocationLookupCandidateDTO candidate = resolveLocationCandidate(buildLocationQuery(
+                quest.getLocationStreet(),
+                quest.getLocationHouseNumber(),
+                quest.getLocationPostalCode(),
+                quest.getLocationLocality(),
+                quest.getLocationCountry(),
+                quest.getLocationLabel()
+        ), "system:quest-location");
+        if (candidate == null) {
+            return;
+        }
+
+        applyLookupCandidateToQuest(quest, candidate);
+    }
+
     private LocationLookupCandidateDTO resolveLocationCandidate(String query, String actorKey) {
         if (locationLookupService == null || query == null) {
             return null;
@@ -311,6 +388,21 @@ public class LocationSettingsService {
         quest.setLocationResolvedAt(sourceUser.getLocationResolvedAt());
     }
 
+    private void copyUserLocationToQuest(AppUser sourceUser, com.themuffinman.app.workmarket.model.Quest quest) {
+        quest.setLocationProvider(sourceUser.getLocationProvider());
+        quest.setLocationProviderPlaceId(sourceUser.getLocationProviderPlaceId());
+        quest.setLocationLabel(sourceUser.getLocationLabel());
+        quest.setLocationCountryCode(sourceUser.getLocationCountryCode());
+        quest.setLocationCountry(sourceUser.getLocationCountry());
+        quest.setLocationLocality(sourceUser.getLocationLocality());
+        quest.setLocationPostalCode(sourceUser.getLocationPostalCode());
+        quest.setLocationStreet(sourceUser.getLocationStreet());
+        quest.setLocationHouseNumber(sourceUser.getLocationHouseNumber());
+        quest.setLocationLatitude(sourceUser.getLocationLatitude());
+        quest.setLocationLongitude(sourceUser.getLocationLongitude());
+        quest.setLocationResolvedAt(sourceUser.getLocationResolvedAt());
+    }
+
     private void clearUserCoordinates(AppUser user) {
         user.setLocationProvider(null);
         user.setLocationProviderPlaceId(null);
@@ -339,6 +431,40 @@ public class LocationSettingsService {
         quest.setLocationLatitude(null);
         quest.setLocationLongitude(null);
         quest.setLocationResolvedAt(null);
+    }
+
+    private void clearQuestLocation(com.themuffinman.app.workmarket.model.Quest quest) {
+        quest.setLocationProvider(null);
+        quest.setLocationProviderPlaceId(null);
+        quest.setLocationLabel(null);
+        quest.setLocationCountryCode(null);
+        quest.setLocationCountry(null);
+        quest.setLocationLocality(null);
+        quest.setLocationPostalCode(null);
+        quest.setLocationStreet(null);
+        quest.setLocationHouseNumber(null);
+        quest.setLocationLatitude(null);
+        quest.setLocationLongitude(null);
+        quest.setLocationResolvedAt(null);
+    }
+
+    private void applyLookupCandidateToQuest(com.themuffinman.app.workmarket.model.Quest quest, LocationLookupCandidateDTO candidate) {
+        if (candidate == null) {
+            return;
+        }
+
+        quest.setLocationProvider(normalizeText(candidate.getProvider()));
+        quest.setLocationProviderPlaceId(normalizeText(candidate.getProviderPlaceId()));
+        quest.setLocationLabel(normalizeText(candidate.getLabel()));
+        quest.setLocationCountryCode(normalizeCountryCode(candidate.getCountryCode()));
+        quest.setLocationCountry(normalizeText(candidate.getCountry()));
+        quest.setLocationLocality(normalizeText(candidate.getLocality()));
+        quest.setLocationPostalCode(normalizeText(candidate.getPostalCode()));
+        quest.setLocationStreet(normalizeText(candidate.getStreet()));
+        quest.setLocationHouseNumber(normalizeText(candidate.getHouseNumber()));
+        quest.setLocationLatitude(normalizeCoordinate(candidate.getLatitude(), "Latitude"));
+        quest.setLocationLongitude(normalizeCoordinate(candidate.getLongitude(), "Longitude"));
+        quest.setLocationResolvedAt(candidate.getResolvedAt() == null ? Instant.now() : candidate.getResolvedAt());
     }
 
     private BigDecimal normalizeCoordinate(BigDecimal value, String label) {

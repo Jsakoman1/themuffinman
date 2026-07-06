@@ -9,7 +9,7 @@ import com.themuffinman.app.vision.dto.QuestRequestDTO;
 import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import com.themuffinman.app.vision.dto.QuestSearchRequestDTO;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.service.QuestService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestController {
 
-    private final QuestService questService;
+    private final WorkmarketQuestService questService;
 
     @PostMapping
     public ActionResultDTO createQuest(@Valid @RequestBody QuestRequestDTO dto, @AuthenticationPrincipal AppUser currentUser) {

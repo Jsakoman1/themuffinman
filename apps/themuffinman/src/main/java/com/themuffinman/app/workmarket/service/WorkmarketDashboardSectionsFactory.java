@@ -1,0 +1,137 @@
+package com.themuffinman.app.workmarket.service;
+
+import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
+import com.themuffinman.app.vision.dto.DashboardNavigationItemDTO;
+import com.themuffinman.app.vision.dto.DashboardNavigationSectionDTO;
+import com.themuffinman.app.vision.dto.DashboardNotificationItemDTO;
+import com.themuffinman.app.vision.dto.DashboardNotificationsSectionDTO;
+import com.themuffinman.app.vision.dto.DashboardOpenWorkSectionDTO;
+import com.themuffinman.app.vision.dto.DashboardPlannerSectionDTO;
+import com.themuffinman.app.vision.dto.DashboardSectionsDTO;
+import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
+import com.themuffinman.app.vision.dto.QuestResponseDTO;
+import com.themuffinman.app.vision.model.QuestApplicationStatus;
+import com.themuffinman.app.vision.model.QuestStatus;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service("workmarketDashboardSectionsFactory")
+public class WorkmarketDashboardSectionsFactory {
+
+    private final WorkmarketDashboardSectionGrouper sectionGrouper;
+    private final WorkmarketDashboardPlannerAssembler dashboardPlannerAssembler;
+    private final WorkmarketDashboardNotificationAssembler dashboardNotificationAssembler;
+
+    public WorkmarketDashboardSectionsFactory(
+            WorkmarketDashboardSectionGrouper sectionGrouper,
+            WorkmarketDashboardPlannerAssembler dashboardPlannerAssembler,
+            WorkmarketDashboardNotificationAssembler dashboardNotificationAssembler
+    ) {
+        this.sectionGrouper = sectionGrouper;
+        this.dashboardPlannerAssembler = dashboardPlannerAssembler;
+        this.dashboardNotificationAssembler = dashboardNotificationAssembler;
+    }
+
+    public DashboardSectionsDTO buildSections(
+            List<QuestResponseDTO> myQuestDtos,
+            List<QuestApplicationResponseDTO> sortedApplications,
+            List<QuestNewsItemResponseDTO> recentNews,
+            List<CircleRequestResponseDTO> incomingCircleRequests
+    ) {
+        List<QuestApplicationResponseDTO> activeWorkApplications = sortedApplications.stream()
+                .filter(application -> application.getStatus() == QuestApplicationStatus.APPROVED)
+                .filter(application -> {
+                    QuestStatus questStatus = application.getQuestStatus();
+                    return questStatus != null && questStatus.isActiveForWorker();
+                })
+                .toList();
+        List<QuestResponseDTO> incomingWorkQuests = myQuestDtos.stream()
+                .filter(quest -> quest.getStatus() != QuestStatus.COMPLETED && quest.getStatus() != QuestStatus.CANCELLED)
+                .toList();
+        List<QuestApplicationResponseDTO> outgoingWorkApplications = sortedApplications.stream()
+                .filter(application -> application.getStatus() == QuestApplicationStatus.PENDING || application.getStatus() == QuestApplicationStatus.APPROVED)
+                .toList();
+        List<QuestResponseDTO> visibleMyQuests = myQuestDtos.stream()
+                .filter(quest -> quest.getStatus() == QuestStatus.OPEN || quest.getStatus() == QuestStatus.WAITING_CONFIRMATION)
+                .toList();
+        List<QuestApplicationResponseDTO> visibleMyApplications = sortedApplications.stream()
+                .filter(application -> application.getStatus() == QuestApplicationStatus.PENDING)
+                .toList();
+        List<QuestResponseDTO> waitingOpenWorkQuests = myQuestDtos.stream()
+                .filter(quest -> quest.getStatus() == QuestStatus.WAITING_CONFIRMATION)
+                .toList();
+        List<QuestResponseDTO> openWorkQuests = myQuestDtos.stream()
+                .filter(quest -> quest.getStatus() == QuestStatus.OPEN)
+                .toList();
+
+        return DashboardSectionsDTO.builder()
+                .navigation(buildNavigationSection())
+                .recentMyQuests(myQuestDtos.stream().limit(3).toList())
+                .recentMyApplications(sortedApplications.stream().limit(3).toList())
+                .activeWorkApplications(activeWorkApplications)
+                .incomingWorkQuests(incomingWorkQuests)
+                .outgoingWorkApplications(outgoingWorkApplications)
+                .visibleMyQuests(visibleMyQuests)
+                .visibleMyApplications(visibleMyApplications)
+                .myQuestGroups(sectionGrouper.buildQuestGroups(myQuestDtos))
+                .myApplicationGroups(sectionGrouper.buildApplicationGroups(sortedApplications))
+                .recentIncomingCircleRequests(incomingCircleRequests.stream().limit(4).toList())
+                .openWork(DashboardOpenWorkSectionDTO.builder()
+                        .waitingQuests(waitingOpenWorkQuests)
+                        .openQuests(openWorkQuests)
+                        .build())
+                .planner(dashboardPlannerAssembler.buildPlannerSection(incomingWorkQuests, outgoingWorkApplications))
+                .notifications(buildNotificationsSection(recentNews))
+                .build();
+    }
+
+    public DashboardSectionsDTO emptySections() {
+        return DashboardSectionsDTO.builder()
+                .navigation(buildNavigationSection())
+                .recentMyQuests(List.of())
+                .recentMyApplications(List.of())
+                .activeWorkApplications(List.of())
+                .incomingWorkQuests(List.of())
+                .outgoingWorkApplications(List.of())
+                .visibleMyQuests(List.of())
+                .visibleMyApplications(List.of())
+                .myQuestGroups(List.of())
+                .myApplicationGroups(List.of())
+                .recentIncomingCircleRequests(List.of())
+                .openWork(DashboardOpenWorkSectionDTO.builder().waitingQuests(List.of()).openQuests(List.of()).build())
+                .planner(DashboardPlannerSectionDTO.builder().scheduledItems(List.of()).flexibleItems(List.of()).build())
+                .notifications(DashboardNotificationsSectionDTO.builder().unreadItems(List.of()).recentItems(List.of()).build())
+                .build();
+    }
+
+    private DashboardNavigationSectionDTO buildNavigationSection() {
+        return DashboardNavigationSectionDTO.builder()
+                .tabs(List.of(
+                        DashboardNavigationItemDTO.builder()
+                                .id("calendar")
+                                .title("Calendar")
+                                .description("See scheduled work and open days")
+                                .build(),
+                        DashboardNavigationItemDTO.builder()
+                                .id("side-job")
+                                .title("SideJob")
+                                .description("Offer jobs, track applications, and open the right flow when needed")
+                                .build()
+                ))
+                .build();
+    }
+
+    private DashboardNotificationsSectionDTO buildNotificationsSection(List<QuestNewsItemResponseDTO> recentNews) {
+        List<DashboardNotificationItemDTO> recentItems = dashboardNotificationAssembler.toRecentItems(recentNews);
+        List<DashboardNotificationItemDTO> unreadItems = recentItems.stream()
+                .filter(DashboardNotificationItemDTO::isUnread)
+                .toList();
+
+        return DashboardNotificationsSectionDTO.builder()
+                .unreadItems(unreadItems)
+                .recentItems(recentItems)
+                .build();
+    }
+}

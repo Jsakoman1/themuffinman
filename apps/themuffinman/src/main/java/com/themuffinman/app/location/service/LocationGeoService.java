@@ -37,6 +37,10 @@ public class LocationGeoService {
         return hasCoordinates(quest.getLocationLatitude(), quest.getLocationLongitude());
     }
 
+    public boolean isQuestSearchable(com.themuffinman.app.workmarket.model.Quest quest) {
+        return hasCoordinates(quest.getLocationLatitude(), quest.getLocationLongitude());
+    }
+
     public boolean isUserDiscoverableNearby(AppUser user) {
         return user != null
                 && user.getLocationMode() != null

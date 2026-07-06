@@ -3,9 +3,9 @@ package com.themuffinman.app.vision.controller;
 import com.themuffinman.app.common.dto.ActionResultDTO;
 import com.themuffinman.app.common.dto.ActionResults;
 import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
-import com.themuffinman.app.vision.mapper.QuestNewsMgr;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.service.QuestNewsService;
+import com.themuffinman.app.workmarket.mapper.WorkmarketQuestNewsMgr;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,8 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestNewsController {
 
-    private final QuestNewsService questNewsService;
-    private final QuestNewsMgr questNewsMgr;
+    private final WorkmarketQuestNewsService questNewsService;
+    private final WorkmarketQuestNewsMgr questNewsMgr;
 
     @GetMapping("/me")
     public List<QuestNewsItemResponseDTO> getMyNews(@AuthenticationPrincipal AppUser currentUser) {

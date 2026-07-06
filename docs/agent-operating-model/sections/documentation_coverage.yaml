@@ -22,10 +22,26 @@ documentation_coverage:
     - app_user_service
     - app_user_lookup_service
     - dashboard_service
+    - workmarket_dashboard_service
     - vision_conversation_service
     - vision_create_quest_execution_adapter
     - quest_service
     - quest_application_service
+    - workmarket_quest_application_service
+    - workmarket_quest_read_service
+    - workmarket_quest_application_read_service
+    - workmarket_dashboard_read_service
+    - workmarket_dashboard_summary_assembler
+    - workmarket_options_service
+    - workmarket_presentation_helper
+    - workmarket_quest_application_workflow_support
+    - workmarket_apply_for_quest_use_case
+    - workmarket_update_my_application_use_case
+    - workmarket_withdraw_my_application_use_case
+    - workmarket_approve_application_use_case
+    - workmarket_decline_application_use_case
+    - workmarket_quest_application_admin_query_service
+    - workmarket_quest_application_admin_service
     - quest_application_workflow_support
     - user_review_service
     - quest_news_service
@@ -111,6 +127,10 @@ documentation_coverage:
     - business_profile_mgr
     - thing_sharing_mgr
     - ride_offer_mgr
+    - workmarket_quest_application_mgr
+    - workmarket_quest_mgr
+    - workmarket_quest_news_mgr
+    - workmarket_user_review_mgr
   - id: identity_contract_dtos
     source_refs:
     - admin_user_detail_dto

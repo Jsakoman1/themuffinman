@@ -8,7 +8,7 @@ import com.themuffinman.app.vision.dto.DashboardVoiceConfigDTO;
 import com.themuffinman.app.vision.dto.DashboardVoiceSpeechRequestDTO;
 import com.themuffinman.app.vision.dto.DashboardVoiceTranscriptionDTO;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.service.DashboardService;
+import com.themuffinman.app.workmarket.service.WorkmarketDashboardService;
 import com.themuffinman.app.vision.service.DashboardVisionPromptService;
 import com.themuffinman.app.vision.service.DashboardVoiceService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ import jakarta.validation.Valid;
 @RequiredArgsConstructor
 public class DashboardController {
 
-    private final DashboardService dashboardService;
+    private final WorkmarketDashboardService dashboardService;
     private final DashboardVisionPromptService dashboardVisionPromptService;
     private final DashboardVoiceService dashboardVoiceService;
 
