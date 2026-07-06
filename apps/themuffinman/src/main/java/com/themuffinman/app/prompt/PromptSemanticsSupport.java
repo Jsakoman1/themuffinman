@@ -270,14 +270,18 @@ public class PromptSemanticsSupport {
     }
 
     private boolean containsCircleRequestCreateSignals(String value) {
-        return containsAny(value,
+        if (containsAny(value,
                 "send circle request",
                 "send a circle request",
                 "invite to my circle",
                 "invite to my circles",
                 "add to my circle",
                 "add to my circles",
-                "connect with");
+                "connect with")) {
+            return true;
+        }
+        return (value.contains("invite") || value.contains("add") || value.contains("connect with"))
+                && (value.contains("my circle") || value.contains("my circles"));
     }
 
     private boolean containsCircleRequestAcceptSignals(String value) {

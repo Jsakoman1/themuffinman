@@ -50,6 +50,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -132,7 +133,7 @@ public class VisionCapabilityPreviewService {
                 : profile.getLocationSettings().getMode().name());
         addItem(items, "profile_open_quests", "Open quests", String.valueOf(profile.getOpenQuestCount()));
 
-        String summary = "Showing your profile snapshot.";
+        String summary = "Profile.";
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_profile")
                 .title("Profile")
@@ -159,7 +160,7 @@ public class VisionCapabilityPreviewService {
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_settings")
                 .title("Settings")
-                .summary("Showing your account settings snapshot.")
+                .summary("Settings.")
                 .items(items)
                 .tone("info")
                 .build();
@@ -196,7 +197,7 @@ public class VisionCapabilityPreviewService {
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_chat_workspace")
                 .title("Chat")
-                .summary("Showing your chat workspace snapshot.")
+                .summary("Chat.")
                 .items(items)
                 .tone("info")
                 .build();
@@ -223,7 +224,7 @@ public class VisionCapabilityPreviewService {
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_user_profile")
                 .title("User profile")
-                .summary("Showing the profile for " + profile.getUsername() + ".")
+                .summary("User profile.")
                 .items(items)
                 .tone("info")
                 .build();
@@ -236,7 +237,6 @@ public class VisionCapabilityPreviewService {
 
         List<CircleGroupResponseDTO> circles = circleReadService.getCircles(currentUser);
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
-        addItem(items, "circles_count", "Circles", String.valueOf(circles.size()));
         for (int index = 0; index < Math.min(circles.size(), 4); index++) {
             CircleGroupResponseDTO circle = circles.get(index);
             addItem(items, "circle_" + circle.getId(), circle.getName(),
@@ -248,7 +248,7 @@ public class VisionCapabilityPreviewService {
 
         String summary = circles.isEmpty()
                 ? "You do not have any circles yet."
-                : "Showing " + Math.min(circles.size(), 4) + " of " + circles.size() + " circles.";
+                : circles.size() + " circle" + (circles.size() == 1 ? "" : "s") + ".";
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_circles")
                 .title("Circles")
@@ -283,7 +283,7 @@ public class VisionCapabilityPreviewService {
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_circle_detail")
                 .title("Circle")
-                .summary("Showing the details for " + circle.getName() + ".")
+                .summary("Circle.")
                 .items(items)
                 .tone("info")
                 .build();
@@ -292,12 +292,17 @@ public class VisionCapabilityPreviewService {
     public VisionCapabilityPreviewDTO previewCircleDraft(String circleName) {
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "circle_name", "Circle name", circleName);
+        long filledFieldCount = countFilledValues(items);
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("create_circle")
                 .title("Circle draft")
-                .summary(circleName == null || circleName.isBlank()
-                        ? "A new circle is being prepared."
-                        : "Review the new circle before confirmation.")
+                .summary(draftSummary(
+                        filledFieldCount,
+                        "Start the circle draft by adding a circle name.",
+                        "Review the circle draft so far. Continue adding the remaining fields.",
+                        "Review the new circle before confirmation.",
+                        1
+                ))
                 .items(items)
                 .tone("info")
                 .build();
@@ -306,12 +311,17 @@ public class VisionCapabilityPreviewService {
     public VisionCapabilityPreviewDTO previewCreateCircleRequestDraft(String targetUsername) {
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "target_user", "Person", targetUsername);
+        long filledFieldCount = countFilledValues(items);
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("create_circle_request")
                 .title("Circle request draft")
-                .summary(targetUsername == null || targetUsername.isBlank()
-                        ? "A new circle request is being prepared."
-                        : "Review the connection invite before confirmation.")
+                .summary(draftSummary(
+                        filledFieldCount,
+                        "Start the circle request by adding the person.",
+                        "Review the circle request so far. Continue adding the remaining fields.",
+                        "Review the connection invite before confirmation.",
+                        1
+                ))
                 .items(items)
                 .tone("info")
                 .build();
@@ -320,10 +330,17 @@ public class VisionCapabilityPreviewService {
     public VisionCapabilityPreviewDTO previewAcceptCircleRequestDraft(String targetUsername) {
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "target_user", "Person", targetUsername);
+        long filledFieldCount = countFilledValues(items);
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("accept_circle_request")
                 .title("Circle request acceptance review")
-                .summary("Review the incoming circle request you are about to accept.")
+                .summary(draftSummary(
+                        filledFieldCount,
+                        "Start the acceptance review by identifying the person.",
+                        "Review the circle request acceptance so far.",
+                        "Review the incoming circle request you are about to accept.",
+                        1
+                ))
                 .items(items)
                 .tone("info")
                 .build();
@@ -333,12 +350,23 @@ public class VisionCapabilityPreviewService {
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "target_user", "Person", targetUsername);
         addItem(items, "circle_request_direction", "Direction", incoming ? "Incoming request" : "Outgoing invite");
+        long filledFieldCount = countFilledValues(items);
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("delete_circle_request")
                 .title(incoming ? "Circle request decline review" : "Circle invite cancellation review")
-                .summary(incoming
-                        ? "Review the incoming circle request you are about to decline."
-                        : "Review the outgoing circle invite you are about to cancel.")
+                .summary(draftSummary(
+                        filledFieldCount,
+                        incoming
+                                ? "Start the decline review by identifying the person."
+                                : "Start the cancellation review by identifying the person.",
+                        incoming
+                                ? "Review the incoming circle request so far."
+                                : "Review the outgoing circle invite so far.",
+                        incoming
+                                ? "Review the incoming circle request you are about to decline."
+                                : "Review the outgoing circle invite you are about to cancel.",
+                        2
+                ))
                 .items(items)
                 .tone("warning")
                 .build();
@@ -351,9 +379,14 @@ public class VisionCapabilityPreviewService {
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "target_circle_query", "Circle", currentCircleName);
         addItem(items, "circle_name", "New name", draftCircleName);
-        String summary = draftCircleName == null || draftCircleName.isBlank()
-                ? "The current circle is loaded. Add the new circle name before confirmation."
-                : "Review the circle rename before confirmation.";
+        long filledFieldCount = countFilledValues(items);
+        String summary = draftSummary(
+                filledFieldCount,
+                "The current circle is loaded. Add the new circle name before confirmation.",
+                "Review the circle rename so far. Continue adding the remaining fields.",
+                "Review the circle rename before confirmation.",
+                2
+        );
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("update_circle")
                 .title("Circle update draft")
@@ -367,10 +400,17 @@ public class VisionCapabilityPreviewService {
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "target_circle_query", "Circle", currentCircleName);
         addItem(items, "circle_member_count", "Members", memberCountLabel);
+        long filledFieldCount = countFilledValues(items);
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("delete_circle")
                 .title("Circle deletion review")
-                .summary("Review the circle you are about to delete.")
+                .summary(draftSummary(
+                        filledFieldCount,
+                        "Start the deletion review by loading the circle.",
+                        "Review the circle deletion so far.",
+                        "Review the circle you are about to delete.",
+                        2
+                ))
                 .items(items)
                 .tone("warning")
                 .build();
@@ -593,12 +633,12 @@ public class VisionCapabilityPreviewService {
             QuestApplicationResponseDTO application = applications.get(index);
             addItem(items, "application_" + application.getId(),
                     application.getQuestTitle(),
-                    application.getStatus() == null ? "Unknown status" : application.getStatus().name());
+                    applicationListValue(application));
         }
 
         String summary = applications.isEmpty()
-                ? "You have not applied to any quests yet."
-                : "Showing " + Math.min(applications.size(), 4) + " of " + applications.size() + " applications.";
+                ? "No applications."
+                : applications.size() + " application" + (applications.size() == 1 ? "" : "s") + ".";
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_applications")
                 .title("Applications")
@@ -627,8 +667,8 @@ public class VisionCapabilityPreviewService {
         }
 
         String summary = newsItems.isEmpty()
-                ? "You do not have any quest updates yet."
-                : "Showing " + Math.min(newsItems.size(), 4) + " of " + newsItems.size() + " quest updates.";
+                ? "No updates."
+                : newsItems.size() + " update" + (newsItems.size() == 1 ? "" : "s") + ".";
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_quest_news")
                 .title("Quest news")
@@ -664,9 +704,9 @@ public class VisionCapabilityPreviewService {
         }
 
         String summary = recentItems.isEmpty()
-                ? "You do not have any notifications yet."
-                : "Showing " + Math.min(recentItems.size(), 3) + " of " + recentItems.size()
-                + " notifications with " + unreadItems.size() + " unread.";
+                ? "No notifications."
+                : recentItems.size() + " notification" + (recentItems.size() == 1 ? "" : "s")
+                + ", " + unreadItems.size() + " unread.";
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_notifications")
                 .title("Notifications")
@@ -689,15 +729,13 @@ public class VisionCapabilityPreviewService {
         addItem(items, "things_available", "Available", String.valueOf(availableCount));
         for (int index = 0; index < Math.min(itemsSource.size(), 4); index++) {
             ThingListingResponseDTO listing = itemsSource.get(index);
-            addItem(items, "thing_" + listing.getId(), listing.getTitle(),
-                    listing.getDescription() == null || listing.getDescription().isBlank()
-                            ? listing.getOwnerUsername()
-                            : listing.getDescription());
+            addItem(items, "thing_" + listing.getId(), listing.getTitle(), thingListingValue(listing));
         }
 
         String summary = itemsSource.isEmpty()
-                ? "No things are currently available to browse."
-                : "Showing " + Math.min(itemsSource.size(), 4) + " of " + itemsSource.size() + " available things.";
+                ? "No things."
+                : availableCount + " of " + itemsSource.size() + " thing" + (itemsSource.size() == 1 ? "" : "s")
+                + " available.";
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_things")
                 .title("Things")
@@ -719,11 +757,11 @@ public class VisionCapabilityPreviewService {
         }
 
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
-        addItem(items, "target_quest_query", "Quest", quest.getTitle());
+        addItem(items, "target_quest_query", "Title", quest.getTitle());
         addItem(items, "quest_description", "Description", quest.getDescription());
         addItem(items, "reward_amount", "Reward", formatRewardLabel(quest));
         addItem(items, "visibility", "Visibility", quest.getAudience() == null ? null : quest.getAudience().name());
-        addItem(items, "scheduled_at", "Schedule", quest.getScheduledAt() == null ? null : formatDateTime(quest.getScheduledAt()));
+        addItem(items, "scheduled_at", "When", quest.getScheduledAt() == null ? null : formatDateTime(quest.getScheduledAt()));
         addItem(items, "location_label", "Location",
                 quest.getPresentation() == null ? quest.getLocationLabel() : quest.getPresentation().getLocationLabel());
         addItem(items, "quest_status", "Status", quest.getPresentation() == null ? null : quest.getPresentation().getStatusLabel());
@@ -732,7 +770,45 @@ public class VisionCapabilityPreviewService {
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_quest_detail")
                 .title("Quest")
-                .summary("Showing the details for " + quest.getTitle() + ".")
+                .summary("Quest.")
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    public VisionCapabilityPreviewDTO previewQuestDraft(Map<String, String> slotData) {
+        if (slotData == null) {
+            return null;
+        }
+
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "quest_title", "Title", slotData.get("quest_title"));
+        addItem(items, "quest_description", "Description", slotData.get("quest_description"));
+        addItem(items, "reward_amount", "Reward", formatQuestDraftRewardLabel(slotData));
+        addItem(items, "visibility", "Visibility", slotData.get("visibility"));
+        addItem(items, "schedule_mode", "Schedule", formatQuestDraftScheduleMode(slotData));
+        addItem(items, "scheduled_date", "Date", slotData.get("scheduled_date"));
+        addItem(items, "scheduled_time", "Time", slotData.get("scheduled_time"));
+        addItem(items, "location_mode", "Location", formatQuestDraftLocationMode(slotData));
+        addItem(items, "location_label", "Custom place", slotData.get("location_label"));
+
+        long filledFieldCount = items.stream()
+                .map(VisionSlotSummaryDTO::getValue)
+                .filter(this::hasText)
+                .count();
+        String summary;
+        if (filledFieldCount == 0) {
+            summary = "Start the quest draft by adding a title and description.";
+        } else if (filledFieldCount < 3) {
+            summary = "Review the quest draft so far. Continue adding the remaining fields.";
+        } else {
+            summary = "Review the quest draft so far before confirmation.";
+        }
+
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("create_quest")
+                .title("Quest draft")
+                .summary(summary)
                 .items(items)
                 .tone("info")
                 .build();
@@ -770,7 +846,7 @@ public class VisionCapabilityPreviewService {
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_application_detail")
                 .title("Application")
-                .summary("Showing the details for your application on " + application.getQuestTitle() + ".")
+                .summary("Application.")
                 .items(items)
                 .tone("info")
                 .build();
@@ -897,15 +973,22 @@ public class VisionCapabilityPreviewService {
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "target_quest_query", "Quest", questTitle);
         addItem(items, "application_quest_creator", "Posted by", questCreatorUsername);
-        addItem(items, "application_quest_reward", "Quest reward", rewardLabel);
-        addItem(items, "application_message", "Application message", applicationMessage);
+        addItem(items, "application_quest_reward", "Reward", rewardLabel);
+        addItem(items, "application_message", "Message", applicationMessage);
         if (priceRequired) {
             addItem(items, "application_proposed_price", "Proposed price", proposedPrice);
         }
 
-        String summary = priceRequired
-                ? "Review the quest target, message, and proposed price before confirmation."
-                : "Review the quest target and application message before confirmation.";
+        long filledFieldCount = countFilledValues(items);
+        String summary = draftSummary(
+                filledFieldCount,
+                "Start the application draft by choosing a quest and writing your message.",
+                "Review the application draft so far. Continue adding the remaining fields.",
+                priceRequired
+                        ? "Review the quest target, message, and proposed price before confirmation."
+                        : "Review the quest target and application message before confirmation.",
+                priceRequired ? 3 : 2
+        );
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("create_application")
                 .title("Application draft")
@@ -1145,7 +1228,7 @@ public class VisionCapabilityPreviewService {
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "target_quest_query", "Quest", questTitle);
         addItem(items, "application_quest_creator", "Posted by", questCreatorUsername);
-        addItem(items, "application_quest_reward", "Quest reward", rewardLabel);
+        addItem(items, "application_quest_reward", "Reward", rewardLabel);
         addItem(items, "application_existing_message", "Current message", currentMessage);
         addItem(items, "application_message", "New message", draftMessage);
         if (priceRequired) {
@@ -1153,9 +1236,10 @@ public class VisionCapabilityPreviewService {
             addItem(items, "application_proposed_price", "New price", draftPrice);
         }
 
-        String summary = draftMessage == null && draftPrice == null
-                ? "The current application is loaded. Add the fields you want to change before confirmation."
-                : "Review the application changes before confirmation. Unchanged values will be kept.";
+        boolean hasDraftChanges = hasText(draftMessage) || hasText(draftPrice);
+        String summary = hasDraftChanges
+                ? "Review the application changes before confirmation. Unchanged values will be kept."
+                : "The current application is loaded. Add the fields you want to change before confirmation.";
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("update_application")
                 .title("Application update draft")
@@ -1175,13 +1259,20 @@ public class VisionCapabilityPreviewService {
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "target_quest_query", "Quest", questTitle);
         addItem(items, "application_quest_creator", "Posted by", questCreatorUsername);
-        addItem(items, "application_quest_reward", "Quest reward", rewardLabel);
+        addItem(items, "application_quest_reward", "Reward", rewardLabel);
         addItem(items, "application_existing_message", "Current message", currentMessage);
         addItem(items, "application_existing_proposed_price", "Current price", currentPrice);
+        long filledFieldCount = countFilledValues(items);
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("withdraw_application")
                 .title("Application withdrawal review")
-                .summary("Review the pending application you are about to withdraw.")
+                .summary(draftSummary(
+                        filledFieldCount,
+                        "Start the withdrawal review by loading the pending application.",
+                        "Review the application withdrawal so far.",
+                        "Review the pending application you are about to withdraw.",
+                        3
+                ))
                 .items(items)
                 .tone("warning")
                 .build();
@@ -1199,12 +1290,19 @@ public class VisionCapabilityPreviewService {
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "target_quest_query", "Quest", questTitle);
         addItem(items, "target_user", "Applicant", applicantUsername);
-        addItem(items, "application_existing_message", "Application message", currentMessage);
+        addItem(items, "application_existing_message", "Message", currentMessage);
         addItem(items, "application_existing_proposed_price", "Proposed price", currentPrice);
+        long filledFieldCount = countFilledValues(items);
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId(capabilityId)
                 .title(title)
-                .summary(summary)
+                .summary(draftSummary(
+                        filledFieldCount,
+                        "Start the decision review by loading the quest and applicant.",
+                        "Review the application decision so far.",
+                        summary,
+                        3
+                ))
                 .items(items)
                 .tone("info")
                 .build();
@@ -1565,6 +1663,53 @@ public class VisionCapabilityPreviewService {
         return quest.getAwardAmount().stripTrailingZeros().toPlainString();
     }
 
+    private String formatQuestDraftRewardLabel(Map<String, String> slotData) {
+        if (slotData == null || "true".equals(slotData.get("free_quest"))) {
+            return "Free";
+        }
+        String rewardAmount = slotData.get("reward_amount");
+        return rewardAmount == null || rewardAmount.isBlank() ? null : rewardAmount;
+    }
+
+    private String formatQuestDraftScheduleMode(Map<String, String> slotData) {
+        if (slotData == null) {
+            return null;
+        }
+
+        String mode = slotData.get("schedule_mode");
+        if (mode == null || mode.isBlank()) {
+            return null;
+        }
+        if ("fixed".equals(mode)) {
+            return "Fixed time";
+        }
+        if ("agreement".equals(mode)) {
+            return "By agreement";
+        }
+        return mode;
+    }
+
+    private String formatQuestDraftLocationMode(Map<String, String> slotData) {
+        if (slotData == null) {
+            return null;
+        }
+
+        String mode = slotData.get("location_mode");
+        if (mode == null || mode.isBlank()) {
+            return null;
+        }
+        if ("profile".equals(mode)) {
+            return "Use profile location";
+        }
+        if ("off".equals(mode)) {
+            return "Hide location";
+        }
+        if ("custom".equals(mode)) {
+            return "Custom place";
+        }
+        return mode;
+    }
+
     private String normalizeEntityQuery(SemanticEntityFamily family, String query) {
         return semanticAliasRegistry.normalizeQuery(family, SearchQueryNormalizer.normalize(query));
     }
@@ -1584,6 +1729,23 @@ public class VisionCapabilityPreviewService {
         return DATE_TIME_FORMAT.format(value);
     }
 
+    private long countFilledValues(List<VisionSlotSummaryDTO> items) {
+        return items.stream()
+                .map(VisionSlotSummaryDTO::getValue)
+                .filter(this::hasText)
+                .count();
+    }
+
+    private String draftSummary(long filledFieldCount, String emptySummary, String partialSummary, String fullSummary, int fullThreshold) {
+        if (filledFieldCount == 0) {
+            return emptySummary;
+        }
+        if (filledFieldCount < fullThreshold) {
+            return partialSummary;
+        }
+        return fullSummary;
+    }
+
     private void addItem(List<VisionSlotSummaryDTO> items, String slotId, String label, String value) {
         if (value == null || value.isBlank()) {
             return;
@@ -1593,6 +1755,46 @@ public class VisionCapabilityPreviewService {
                 .label(label)
                 .value(value)
                 .build());
+    }
+
+    private String applicationListValue(QuestApplicationResponseDTO application) {
+        if (application == null) {
+            return null;
+        }
+
+        String statusLabel = application.getPresentation() == null
+                ? application.getStatus() == null ? null : application.getStatus().name()
+                : application.getPresentation().getStatusLabel();
+        String nextActionLabel = nextActionLabel(application);
+        if (!hasText(statusLabel)) {
+            return nextActionLabel;
+        }
+        if (!hasText(nextActionLabel)) {
+            return statusLabel;
+        }
+        return statusLabel + " · " + nextActionLabel;
+    }
+
+    private String thingListingValue(ThingListingResponseDTO listing) {
+        if (listing == null) {
+            return null;
+        }
+
+        String detail = hasText(listing.getDescription())
+                ? listing.getDescription().trim()
+                : listing.getOwnerUsername();
+        if (!listing.isAvailable()) {
+            return "Unavailable" + (hasText(detail) ? " · " + detail : "");
+        }
+        return "Available" + (hasText(detail) ? " · " + detail : "");
+    }
+
+    private String nextActionLabel(QuestApplicationResponseDTO application) {
+        if (application == null || application.getAllowedActions() == null || application.getAllowedActions().isEmpty()) {
+            return null;
+        }
+
+        return application.getAllowedActions().getFirst().name().toLowerCase(Locale.ROOT).replace('_', ' ');
     }
 }
 

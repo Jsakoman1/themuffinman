@@ -1362,7 +1362,8 @@ class AgentOperatingModelValidationTest {
                 "business",
                 "things",
                 "rides",
-                "common");
+                "common",
+                "vision");
         Set<String> expectedRisks = Set.of("low", "medium", "high", "executor-critical");
         Set<String> seenIds = new LinkedHashSet<>();
         Set<String> coveredDomains = new LinkedHashSet<>();

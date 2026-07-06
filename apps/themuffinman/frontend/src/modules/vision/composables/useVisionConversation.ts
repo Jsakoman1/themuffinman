@@ -7,63 +7,16 @@ import {
   type VisionReviewTarget
 } from "../api/visionConversationApi.ts"
 import type {DashboardVoiceConfig} from "../api/contracts.ts"
-import {resolveVisionFamily} from "../visionPresentation.ts"
+import {formatVisionFieldRequestLabel, formatVisionFieldRequestPlaceholder, resolveVisionFamily} from "../visionPresentation.ts"
 
 export type VisionVoiceState = "idle" | "listening" | "processing" | "speaking"
 export type VisionAttentionState = "quiet" | "listening" | "processing" | "speaking" | "asking" | "discovering" | "review" | "complete" | "blocked"
-
-const slotLabels: Record<string, string> = {
-  circle_name: "Circle name",
-  target_circle_query: "Circle",
-  target_user: "Person",
-  quest_title: "Title",
-  quest_description: "Description",
-  target_quest_query: "Quest",
-  application_message: "Application message",
-  application_proposed_price: "Proposed price",
-  profile_username: "Username",
-  profile_description: "Profile description",
-  profile_location_mode: "Location mode",
-  profile_location_label: "Location",
-  reward_amount: "Reward",
-  visibility: "Visibility",
-  schedule_mode: "Schedule",
-  scheduled_date: "Date",
-  scheduled_time: "Time",
-  location_mode: "Location",
-  location_label: "Custom place",
-  location_candidate_confirmation: "Location confirmation"
-}
-
-const slotPlaceholders: Record<string, string> = {
-  circle_name: "Name the circle in a few words",
-  target_circle_query: "Say the exact circle name or circle id",
-  target_user: "Say the exact username, email, or name fragment",
-  quest_title: "Name the quest in a few words",
-  quest_description: "Describe the task clearly",
-  target_quest_query: "Say the exact quest title or quest id",
-  application_message: "Write the message you want to send",
-  application_proposed_price: "Example: 20 or 20.50",
-  profile_username: "Choose the username to show on your profile",
-  profile_description: "Write a short profile description",
-  profile_location_mode: "Choose off, approximate, or exact",
-  profile_location_label: "Example: Zurich, Switzerland",
-  reward_amount: "Example: 20 euros or free",
-  visibility: "Example: public or circles",
-  schedule_mode: "Example: fixed time or by agreement",
-  scheduled_date: "Example: 2026-07-03 or next Tuesday",
-  scheduled_time: "Example: 14:30 or 2 pm",
-  location_mode: "Example: use profile, hide location, or custom place",
-  location_label: "Example: Ban Jelacic Square, Zagreb",
-  location_candidate_confirmation: "Choose resolved place or keep typed location"
-}
 
 const supportedRecordingMimeTypes = [
   "audio/webm;codecs=opus",
   "audio/webm",
   "audio/mp4;codecs=mp4a.40.2",
-  "audio/mp4",
-  "audio/aac"
+  "audio/mp4"
 ]
 
 const chooseRecordingMimeType = () => {
@@ -113,6 +66,7 @@ export const useVisionConversation = () => {
   const recordedChunks = ref<Blob[]>([])
   const recordedAudioBytes = ref(0)
   const recordingTimeoutId = ref<number | null>(null)
+  const recordingStartedAt = ref<number | null>(null)
   const discardPendingRecording = ref(false)
 
   const voiceEnabled = computed(() => voiceConfig.value?.enabled ?? false)
@@ -124,6 +78,7 @@ export const useVisionConversation = () => {
     && typeof MediaRecorder !== "undefined")
   const speechSynthesisSupported = computed(() => typeof window !== "undefined" && typeof Audio !== "undefined")
   const maxRecordingMillis = computed(() => voiceConfig.value?.maxRecordingMillis ?? 20_000)
+  const minRecordingMillis = 800
   const maxAudioBytes = computed(() => voiceConfig.value?.maxAudioBytes ?? 2_000_000)
   const maxSpeechTextLength = computed(() => voiceConfig.value?.maxSpeechTextLength ?? 1_000)
   const clientStateVersion = "vision-surface-v1"
@@ -166,29 +121,30 @@ export const useVisionConversation = () => {
 
   const currentSlotLabel = computed(() => {
     const slotId = currentSlotId.value
-    return slotId ? (slotLabels[slotId] ?? fieldRequestBlock.value?.title ?? "Next field") : ""
+    return formatVisionFieldRequestLabel(slotId, fieldRequestBlock.value?.title)
   })
 
   const currentPlaceholder = computed(() => {
     const slotId = fieldRequestBlock.value?.fieldId
-    if (slotId) {
-      return fieldRequestBlock.value?.placeholder ?? slotPlaceholders[slotId] ?? "Type the next detail"
-    }
-    const family = resolveVisionFamily(
-      response.value?.intent ?? undefined,
-      response.value?.memoryTrail?.activeEntityFamily ?? undefined
-    )
-    if (family) {
-      return `Type or speak the next ${family} detail. Enter sends.`
-    }
-    return "Type or speak what you want to do. Enter sends."
+    return formatVisionFieldRequestPlaceholder(slotId, fieldRequestBlock.value?.placeholder)
   })
 
   const currentFieldKind = computed(() => fieldRequestBlock.value?.fieldKind ?? "short_text")
 
   const slotSummaries = computed(() => response.value?.slotSummaries ?? [])
 
-  const transcriptTargetLabel = computed(() => currentSlotLabel.value || "the current prompt")
+  const transcriptTargetLabel = computed(() => currentSlotLabel.value || transcriptTargetFlowLabel.value || "prompt")
+  const transcriptTargetFlowLabel = computed(() => {
+    const familyLabel = activeEntityFamilyLabel.value
+    const intent = response.value?.intent?.trim()
+    if (!familyLabel && !intent) {
+      return ""
+    }
+    if (familyLabel && intent) {
+      return `${familyLabel} · ${intent.toLowerCase().replaceAll("_", " ")}`
+    }
+    return familyLabel || (intent ? intent.toLowerCase().replaceAll("_", " ") : "")
+  })
 
   const currentSlotSummary = computed(() => {
     const slotId = currentSlotId.value
@@ -206,28 +162,32 @@ export const useVisionConversation = () => {
 
   const transcriptTargetDetail = computed(() => {
     if (!response.value) {
-      return "The backend will map speech and text to the active task as soon as you start."
+      return "Mapped."
     }
 
     if (currentSlotSummary.value?.value) {
-      return `Current value: ${currentSlotSummary.value.value}`
+      return `Current: ${currentSlotSummary.value.value}`
     }
 
     if (response.value.translationApplied) {
       return response.value.normalizedPrompt && response.value.normalizedPrompt !== lastTranscript.value
-        ? `Normalized to: ${response.value.normalizedPrompt}`
-        : "The backend normalized the turn before slot extraction."
+        ? `Normalized: ${response.value.normalizedPrompt}`
+        : "Normalized."
     }
 
     if (currentFieldKind.value === "date") {
-      return "This slot expects a calendar day."
+      return "Date expected."
     }
 
     if (currentFieldKind.value === "time") {
-      return "This slot expects a time of day."
+      return "Time expected."
     }
 
-    return "The current turn is being routed into the active slot."
+    const flowLabel = transcriptTargetFlowLabel.value
+    if (flowLabel) {
+      return flowLabel
+    }
+    return "Active slot."
   })
 
   const activeEntityFamilyLabel = computed(() => resolveVisionFamily(
@@ -302,24 +262,24 @@ export const useVisionConversation = () => {
 
   const speechStatusLabel = computed(() => {
     if (!voiceEnabled.value) {
-      return "Backend voice config is disabled."
+      return "Voice off."
     }
     if (!speechRecognitionSupported.value && !speechSynthesisSupported.value) {
-      return "This browser does not expose microphone input or audio playback."
+      return "Unavailable."
     }
     if (voiceRuntimeError.value) {
       return voiceRuntimeError.value
     }
     if (voiceState.value === "listening") {
-      return "Recording audio for backend transcription."
+      return "Recording."
     }
     if (voiceState.value === "processing") {
-      return "Sending input to the persisted backend conversation."
+      return "Processing."
     }
     if (voiceState.value === "speaking") {
-      return "Playing backend-generated speech."
+      return "Speaking."
     }
-    return "Voice is ready when you choose to start."
+    return "Ready."
   })
 
   const init = async () => {
@@ -483,6 +443,7 @@ export const useVisionConversation = () => {
     mediaRecorder.value = null
     recordedChunks.value = []
     recordedAudioBytes.value = 0
+    recordingStartedAt.value = null
     discardPendingRecording.value = false
   }
 
@@ -549,6 +510,13 @@ export const useVisionConversation = () => {
     }
 
     const audioBlob = new Blob(recordedChunks.value, {type: mediaRecorder.value?.mimeType || chooseRecordingMimeType() || "audio/webm"})
+    const recordingDuration = recordingStartedAt.value === null ? 0 : Date.now() - recordingStartedAt.value
+    if (recordingDuration < minRecordingMillis || audioBlob.size < 1200) {
+      voiceRuntimeError.value = "Recording is too short. Tap again after speaking a bit longer."
+      voiceState.value = "idle"
+      resetRecordingState()
+      return
+    }
     if (maxAudioBytes.value > 0 && audioBlob.size > maxAudioBytes.value) {
       voiceRuntimeError.value = "Recording is too large. Try a shorter voice prompt."
       voiceState.value = "idle"
@@ -582,6 +550,7 @@ export const useVisionConversation = () => {
       activeMediaStream.value = stream
       recordedChunks.value = []
       recordedAudioBytes.value = 0
+      recordingStartedAt.value = Date.now()
       discardPendingRecording.value = false
 
       const mimeType = chooseRecordingMimeType()

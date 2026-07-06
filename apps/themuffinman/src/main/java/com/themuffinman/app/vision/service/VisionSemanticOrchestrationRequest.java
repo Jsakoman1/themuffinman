@@ -48,6 +48,8 @@ class VisionSemanticConversationContext {
     private String currentIntent;
     private String requestedSlot;
     private Map<String, String> slotData;
+    private String activeSlot;
+    private Map<String, String> draftSnapshot;
 }
 
 @Getter
@@ -157,6 +159,7 @@ class VisionSemanticRouteDescriptor {
     private String purpose;
     private boolean mutating;
     private boolean requiresReview;
+    private List<VisionSemanticRouteExampleDescriptor> examples;
     private List<VisionSemanticSlotDescriptor> slots;
 }
 
@@ -169,4 +172,13 @@ class VisionSemanticSlotDescriptor {
     private boolean required;
     private String description;
     private List<String> allowedValues;
+    private List<String> aliases;
+    private List<String> antiExamples;
+}
+
+@Getter
+@Builder
+class VisionSemanticRouteExampleDescriptor {
+    private String input;
+    private Map<String, String> expectedSlots;
 }

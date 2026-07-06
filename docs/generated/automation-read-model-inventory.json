@@ -1650,11 +1650,25 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionLearningExplainabilityDTO",
+    "fields": [
+      "decisionType",
+      "preferenceKey",
+      "preferenceValue",
+      "rank",
+      "confidenceScore",
+      "observationCount",
+      "sourceType",
+      "reason"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.vision.dto.VisionLearningMemoryDTO",
     "fields": [
       "summaryText",
       "recentFeedbackTypes",
-      "preferenceSignals"
+      "preferenceSignals",
+      "explainabilityRecords"
     ]
   },
   {
@@ -1808,6 +1822,8 @@
       "currentIntent",
       "requestedSlot",
       "slotData",
+      "activeSlot",
+      "draftSnapshot",
       "userMemory",
       "sessionMemory",
       "recentConversations",
@@ -1816,10 +1832,14 @@
       "preferredEntityFamily",
       "preferredEntityFamilyConfidence",
       "learningSummary",
+      "retrievalSummary",
       "recentFeedbackTypes",
       "recentIntentTypes",
       "recentEntityFamilies",
       "learnedPreferences",
+      "explainabilityRecords",
+      "retrievedEntityFamily",
+      "retrievedEntityFamilyConfidence",
       "currentEntityFamily",
       "status",
       "sessionSummary",
@@ -1860,13 +1880,18 @@
       "purpose",
       "mutating",
       "requiresReview",
+      "examples",
       "slots",
       "slotId",
       "fieldName",
       "kind",
       "required",
       "description",
-      "allowedValues"
+      "allowedValues",
+      "aliases",
+      "antiExamples",
+      "input",
+      "expectedSlots"
     ]
   }
 ]

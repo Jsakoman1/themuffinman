@@ -59,6 +59,26 @@ export type VisionQuestDiscovery = {
   items: VisionQuestDiscoveryItem[]
 }
 
+export type VisionSearchDiscoveryItem = {
+  entityFamily: string
+  capabilityId: string
+  targetId: number
+  title: string
+  summary: string
+  matchSummary: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
+}
+
+export type VisionSearchDiscovery = {
+  capabilityId: string
+  query: string
+  sort: string
+  summary: string
+  totalItems: number
+  items: VisionSearchDiscoveryItem[]
+}
+
 export type VisionSlotSummary = {
   slotId: string
   label: string
@@ -119,7 +139,7 @@ export type VisionMemoryTrail = {
 }
 
 export type VisionCanvasBlock = {
-  type: "agent_message" | "recognized_prompt" | "field_request" | "result_summary" | "quest_discovery" | "review_summary" | "warning" | "success" | "info"
+  type: "agent_message" | "recognized_prompt" | "field_request" | "result_summary" | "quest_discovery" | "search_discovery" | "review_summary" | "warning" | "success" | "info"
   title: string | null
   body: string | null
   fieldId: string | null
@@ -129,6 +149,7 @@ export type VisionCanvasBlock = {
   options: VisionOption[]
   items: VisionSlotSummary[]
   questDiscovery: VisionQuestDiscovery | null
+  searchDiscovery: VisionSearchDiscovery | null
   review: VisionQuestReview | null
   tone: string | null
 }

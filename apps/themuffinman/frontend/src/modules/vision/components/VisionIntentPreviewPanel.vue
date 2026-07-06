@@ -2,7 +2,7 @@
 import {computed} from "vue"
 import type {VisionCanvasBlock, VisionConversationTurnResponse} from "../api/visionConversationApi.ts"
 import type {VisionExecutionCandidate} from "../api/visionConversationApi.ts"
-import VisionTypingText from "./VisionTypingText.vue"
+import VisionTerminalRow from "./VisionTerminalRow.vue"
 import {
   previewFieldOrderByFamily,
   previewPrimaryFieldIdsByVariant,
@@ -27,8 +27,10 @@ const previewBlock = computed<VisionCanvasBlock | null>(() => {
     return null
   }
 
+  const hasItems = (block: VisionCanvasBlock) => (block.items?.length ?? 0) > 0
+
   const preferredBlock = props.response.blocks.find((block) =>
-    block.items.length > 0
+    hasItems(block)
     && block.type === "result_summary"
     && block.title !== "Collected so far")
 
@@ -37,15 +39,15 @@ const previewBlock = computed<VisionCanvasBlock | null>(() => {
   }
 
   const fallbackBlock = props.response.blocks.find((block) =>
-    block.items.length > 0
+    hasItems(block)
     && (block.type === "result_summary" || block.type === "review_summary" || block.type === "success" || block.type === "info"))
 
   return fallbackBlock ?? null
 })
 
 const fieldValues = computed<IntentField[]>(() => {
-  if (previewBlock.value?.items.length) {
-    return previewBlock.value.items.map((item) => ({
+  if ((previewBlock.value?.items?.length ?? 0) > 0) {
+    return (previewBlock.value?.items ?? []).map((item) => ({
       slotId: item.slotId,
       label: item.label,
       value: item.value ?? ""
@@ -91,6 +93,17 @@ const previewVariant = computed(() => {
   return activeEntityFamily.value
 })
 
+const previewFlowLabel = computed(() => {
+  const family = previewVariant.value
+  if (!props.response?.intent?.trim()) {
+    return family
+  }
+  if (!family || family === "generic") {
+    return props.response.intent.toLowerCase().replaceAll("_", " ")
+  }
+  return family
+})
+
 const previewVariantClass = computed(() => previewVariant.value.replaceAll(" ", "-"))
 
 const orderedFieldValues = computed(() => {
@@ -121,7 +134,19 @@ const variantPrimaryFields = computed(() => fieldsForIds(previewPrimaryFieldIdsB
 
 const variantSecondaryFields = computed(() => fieldsForIds(previewSecondaryFieldIdsByVariant[previewVariant.value] ?? []).slice(0, 1))
 
-const hasVariantCard = computed(() => previewVariant.value !== "generic")
+const variantSupplementaryFields = computed(() => {
+  const primaryIds = new Set(previewPrimaryFieldIdsByVariant[previewVariant.value] ?? [])
+  const secondaryIds = new Set(previewSecondaryFieldIdsByVariant[previewVariant.value] ?? [])
+  return orderedFieldValues.value.filter((field) => !primaryIds.has(field.slotId) && !secondaryIds.has(field.slotId))
+})
+
+const hasStructuredPreview = computed(() => fieldValues.value.length > 0)
+const shouldShowSummary = computed(() => {
+  if (!previewSummary.value) {
+    return false
+  }
+  return previewBlock.value?.type === "result_summary" || previewBlock.value?.type === "review_summary"
+})
 </script>
 
 <template>
@@ -131,72 +156,64 @@ const hasVariantCard = computed(() => previewVariant.value !== "generic")
     'vision-intent--done': isComplete,
     [`vision-intent--${previewVariantClass}`]: previewVariant !== 'generic'
   }">
-    <div class="vision-intent__orb" aria-hidden="true"></div>
+    <article class="vision-intent__terminal">
+      <VisionTerminalRow
+        label="Preview"
+        :value="previewFlowLabel || 'Active flow'"
+        tone="muted"
+      />
+      <VisionTerminalRow
+        v-if="shouldShowSummary"
+        label="Summary"
+        :value="previewSummary"
+        tone="muted"
+      />
 
-    <article class="vision-intent__ghost">
-      <p v-if="previewSummary" class="vision-intent__summary">
-        {{ previewSummary }}
-      </p>
-      <div v-if="hasVariantCard" class="vision-intent__entity-sheet">
-        <div class="vision-intent__entity-card vision-intent__entity-card--compact">
-          <div class="vision-intent__entity-card-main">
-            <div class="vision-intent__entity-card-kicker">{{ previewVariant }}</div>
+      <div v-if="hasStructuredPreview" class="vision-intent__sheet">
+        <VisionTerminalRow
+          v-for="field in variantPrimaryFields"
+          :key="field.slotId"
+          :label="field.label"
+          :value="field.value.trim().length > 0 ? field.value : '—'"
+          :active="visible && !isComplete && field.value.trim().length > 0"
+          :animate="field.value.trim().length > 0"
+          :tone="field.value.trim().length > 0 ? 'strong' : 'muted'"
+        />
+        <VisionTerminalRow
+          v-for="field in variantSecondaryFields"
+          :key="`secondary-${field.slotId}`"
+          :label="field.label"
+          :value="field.value.trim().length > 0 ? field.value : '—'"
+          :active="visible && !isComplete && field.value.trim().length > 0"
+          :animate="field.value.trim().length > 0"
+          :tone="field.value.trim().length > 0 ? 'strong' : 'muted'"
+        />
+        <details v-if="variantSupplementaryFields.length" class="vision-intent__more">
+          <summary class="vision-intent__more-title">More ({{ variantSupplementaryFields.length }})</summary>
+          <div class="vision-intent__more-body">
+            <VisionTerminalRow
+              v-for="field in variantSupplementaryFields"
+              :key="`draft-${field.slotId}`"
+              :label="field.label"
+              :value="field.value.trim().length > 0 ? field.value : '—'"
+              :active="visible && !isComplete && field.value.trim().length > 0"
+              :animate="field.value.trim().length > 0"
+              :tone="field.value.trim().length > 0 ? 'strong' : 'muted'"
+            />
           </div>
-          <div v-for="field in variantPrimaryFields" :key="field.slotId" class="vision-intent__line vision-intent__line--compact">
-            <span class="vision-intent__key">{{ field.label }}:</span>
-            <span v-if="field.value.trim().length > 0" class="vision-intent__value">
-              <VisionTypingText
-                :text="field.value"
-                :active="visible && !isComplete"
-                :speed="32"
-              />
-            </span>
-            <span v-else class="vision-intent__placeholder">
-              <span class="vision-intent__placeholder-ink"></span>
-            </span>
-          </div>
-          <div v-if="variantSecondaryFields.length" class="vision-intent__entity-secondary">
-            <div
-              v-for="field in variantSecondaryFields"
-              :key="`secondary-${field.slotId}`"
-              class="vision-intent__line vision-intent__line--compact vision-intent__line--secondary"
-              :class="{ 'vision-intent__line--filled': field.value.trim().length > 0 }"
-            >
-              <span class="vision-intent__key">{{ field.label }}:</span>
-              <span v-if="field.value.trim().length > 0" class="vision-intent__value">
-                <VisionTypingText
-                  :text="field.value"
-                  :active="visible && !isComplete"
-                  :speed="30"
-                />
-              </span>
-              <span v-else class="vision-intent__placeholder">
-                <span class="vision-intent__placeholder-ink"></span>
-              </span>
-            </div>
-          </div>
-        </div>
+        </details>
       </div>
 
       <div v-else class="vision-intent__field-stack">
-        <div
+        <VisionTerminalRow
           v-for="field in visibleFields"
           :key="field.slotId"
-          class="vision-intent__line"
-          :class="{ 'vision-intent__line--filled': field.value.trim().length > 0 }"
-        >
-          <span class="vision-intent__key">{{ field.label }}:</span>
-          <span v-if="field.value.trim().length > 0" class="vision-intent__value">
-            <VisionTypingText
-              :text="field.value"
-              :active="visible && !isComplete"
-              :speed="38"
-            />
-          </span>
-          <span v-else class="vision-intent__placeholder">
-            <span class="vision-intent__placeholder-ink"></span>
-          </span>
-        </div>
+          :label="field.label"
+          :value="field.value.trim().length > 0 ? field.value : '—'"
+          :active="visible && !isComplete && field.value.trim().length > 0"
+          :animate="field.value.trim().length > 0"
+          :tone="field.value.trim().length > 0 ? 'strong' : 'muted'"
+        />
       </div>
     </article>
   </section>
@@ -208,7 +225,8 @@ const hasVariantCard = computed(() => previewVariant.value !== "generic")
   width: 100%;
   min-height: 0;
   display: grid;
-  place-items: center end;
+  justify-items: end;
+  align-items: start;
   padding: 0;
   pointer-events: none;
 }
@@ -221,265 +239,56 @@ const hasVariantCard = computed(() => previewVariant.value !== "generic")
   opacity: 0.14;
 }
 
-.vision-intent__orb {
-  position: absolute;
-  inset: 0 0 auto auto;
-  margin: auto;
-  width: min(28rem, 92%);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9), transparent 28%),
-    radial-gradient(circle at 48% 46%, rgba(255, 172, 134, 0.18), transparent 40%),
-    radial-gradient(circle at 56% 60%, rgba(127, 203, 255, 0.16), transparent 44%),
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.18), transparent 64%);
-  filter: blur(18px);
-  opacity: 0.72;
-  transform: translate(9%, -3%);
-  animation: visionIntentOrbFloat 11s ease-in-out infinite;
-}
-
-.vision-intent__ghost {
-  position: relative;
-  z-index: 1;
+.vision-intent__terminal {
   width: min(31rem, 44vw);
   display: grid;
-  gap: 0.58rem;
-  padding: 1rem 1.05rem;
-  border-radius: 1.6rem;
-  border: 1px solid rgba(24, 36, 47, 0.05);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(249, 251, 246, 0.18));
-  backdrop-filter: blur(14px);
-  box-shadow:
-    0 26px 56px rgba(24, 36, 47, 0.06),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.38);
+  gap: 0.08rem;
+  padding: 0.35rem 0.1rem 0.1rem;
+  border-left: 1px solid rgba(24, 36, 47, 0.08);
   opacity: 0;
-  transform: translateY(0.85rem) scale(0.985);
-  transition: opacity 220ms ease, transform 220ms ease;
+  transform: translateY(0.2rem);
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
-.vision-intent__header {
-  display: grid;
-  gap: 0.25rem;
-}
-
-.vision-intent--visible .vision-intent__ghost {
+.vision-intent--visible .vision-intent__terminal {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
-.vision-intent--done .vision-intent__ghost {
+.vision-intent--done .vision-intent__terminal {
   opacity: 0;
-  transform: translateY(0.35rem) scale(0.98);
+  transform: translateY(0.15rem);
 }
 
-.vision-intent__line {
+.vision-intent__sheet {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.55rem;
-  align-items: center;
-  min-height: 2.55rem;
-  padding: 0.15rem 0;
+  gap: 0.04rem;
 }
 
-.vision-intent__line + .vision-intent__line {
-  border-top: 1px solid rgba(24, 36, 47, 0.04);
-}
-
-.vision-intent__key {
-  color: rgba(24, 36, 47, 0.48);
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.vision-intent__summary {
-  margin: 0;
-  color: rgba(24, 36, 47, 0.62);
-  font-size: 0.88rem;
-  line-height: 1.5;
-}
-
-.vision-intent__entity-sheet {
+.vision-intent__more {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.08rem;
   padding-top: 0.1rem;
+  margin-top: 0.08rem;
+  border-top: 1px solid rgba(24, 36, 47, 0.05);
 }
 
-.vision-intent__entity-card {
-  display: grid;
-  gap: 0.35rem;
-  padding: 0.6rem 0.65rem;
-  border-radius: 0.95rem;
-  border: 1px solid rgba(24, 36, 47, 0.04);
-  background: rgba(255, 255, 255, 0.34);
-}
-
-.vision-intent__entity-card--compact {
-  gap: 0.22rem;
-}
-
-.vision-intent__entity-card-main {
-  display: grid;
-  gap: 0.12rem;
-}
-
-.vision-intent__entity-card-kicker {
-  color: rgba(24, 36, 47, 0.4);
-  font-size: 0.56rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.vision-intent__entity-card-label {
-  color: rgba(24, 36, 47, 0.72);
-  font-size: 0.78rem;
-  line-height: 1.28;
-}
-
-.vision-intent__line--compact {
-  min-height: 1.8rem;
-}
-
-.vision-intent__entity-secondary {
-  display: grid;
-  gap: 0.12rem;
-}
-
-.vision-intent__memory-sheet {
-  display: grid;
-  gap: 0.35rem;
-  padding: 0.6rem 0.75rem;
-  border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.42);
-  width: fit-content;
-}
-
-.vision-intent__memory-sheet-title {
+.vision-intent__more-title {
   cursor: pointer;
   list-style: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.85rem;
-  height: 1.85rem;
-  border-radius: 999px;
-  border: 1px solid rgba(24, 36, 47, 0.08);
-  background: rgba(255, 255, 255, 0.68);
-  color: rgba(24, 36, 47, 0.46);
-  font-size: 0.62rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
-}
-
-.vision-intent__memory-sheet-body {
-  display: none;
-  gap: 0.26rem;
-}
-
-.vision-intent__memory-sheet[open] .vision-intent__memory-sheet-body {
-  display: grid;
-}
-
-.vision-intent__memory-sheet-line {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.45rem;
-  align-items: start;
-}
-
-.vision-intent__memory-sheet-key {
-  color: rgba(24, 36, 47, 0.42);
-  font-size: 0.64rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.vision-intent__memory-sheet-value {
-  color: rgba(24, 36, 47, 0.76);
-  font-size: 0.76rem;
-  line-height: 1.25;
-}
-
-.vision-intent__resume-rail {
-  display: grid;
-  gap: 0.3rem;
-}
-
-.vision-intent__resume-line {
-  display: grid;
-  gap: 0.1rem;
-  padding-top: 0.22rem;
-  border-top: 1px solid rgba(24, 36, 47, 0.04);
-}
-
-.vision-intent__resume-title {
-  color: rgba(24, 36, 47, 0.68);
-  font-size: 0.66rem;
+  color: rgba(24, 36, 47, 0.44);
+  font-size: 0.58rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  padding: 0.05rem 0 0.1rem;
 }
 
-.vision-intent__resume-subtitle {
-  color: rgba(24, 36, 47, 0.52);
-  font-size: 0.72rem;
-  line-height: 1.3;
+.vision-intent__more-body {
+  display: grid;
+  gap: 0.08rem;
 }
 
-.vision-intent__line--filled .vision-intent__value {
-  text-shadow: 0 0 18px rgba(127, 203, 255, 0.14);
-}
-
-.vision-intent__line--secondary {
-  min-height: 2.15rem;
-}
-
-.vision-intent__line--secondary .vision-intent__key,
-.vision-intent__line--compact .vision-intent__key {
-  font-size: 0.7rem;
-}
-
-.vision-intent__value {
-  color: var(--vision-surface-ink);
-  font-size: 0.98rem;
-  line-height: 1.35;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  white-space: pre-wrap;
-  font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", "Snell Roundhand", cursive;
-  transform: rotate(-0.35deg);
-}
-
-.vision-intent__placeholder {
-  display: block;
-  min-height: 1rem;
-  opacity: 0.18;
-}
-
-.vision-intent__placeholder-ink {
-  display: inline-block;
-  width: 7rem;
-  height: 0.82rem;
-  border-bottom: 1px solid rgba(24, 36, 47, 0.18);
-  transform: rotate(-0.6deg);
-}
-
-.vision-intent--ready .vision-intent__ghost {
-  box-shadow:
-    0 30px 72px rgba(24, 36, 47, 0.08),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.46);
-}
-
-@keyframes visionIntentOrbFloat {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-  }
-
-  50% {
-    transform: translateY(-8px) scale(1.02);
-  }
+.vision-intent--ready .vision-intent__terminal {
+  box-shadow: none;
 }
 </style>

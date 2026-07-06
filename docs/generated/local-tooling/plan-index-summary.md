@@ -1,13 +1,12 @@
 # Plan Index
 
-- Total entries: 27
-- Open entries: 1
-- Open master plans: 1
+- Total entries: 38
+- Open entries: 0
+- Open master plans: 0
 - Open regular plans: 0
 
 ## Open Master Plans
 
-- `.agents/backend-drift-remediation-master-plan.md` | `unknown` | Reduce the open implementation backlog by tightening backend service boundaries on the current backend path, while excluding legacy frontend-only cleanup unless a backend contract still depends on it.
 
 ## Open Plans
 

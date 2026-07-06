@@ -120,6 +120,84 @@ class VisionSlotServiceTest {
     }
 
     @Test
+    void highConfidenceSemanticTitleOverwritesExistingDraftValue() {
+        AppUser currentUser = TestFixtures.user(7L, "vision-user");
+        VisionConversation conversation = VisionConversationTestBuilder.createQuest(1L, currentUser)
+                .slot("quest_title", "Old title")
+                .build();
+
+        VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
+                .sourceLanguage("en")
+                .originalPrompt("New title")
+                .normalizedPrompt("New title")
+                .translationProvider("mock")
+                .translationApplied(false)
+                .translationReliable(true)
+                .slots(VisionPromptUnderstandingSlots.builder()
+                        .questTitle("New title")
+                        .questTitleConfidence(0.9d)
+                        .build())
+                .build();
+
+        Map<String, String> merged = visionSlotService.mergeCreateQuestSlots(conversation, "New title", understanding);
+
+        assertEquals("New title", merged.get("quest_title"));
+    }
+
+    @Test
+    void mediumConfidenceSemanticTitleDoesNotOverwriteExistingDraftValue() {
+        AppUser currentUser = TestFixtures.user(7L, "vision-user");
+        VisionConversation conversation = VisionConversationTestBuilder.createQuest(1L, currentUser)
+                .slot("quest_title", "Old title")
+                .build();
+
+        VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
+                .sourceLanguage("en")
+                .originalPrompt("New title")
+                .normalizedPrompt("New title")
+                .translationProvider("mock")
+                .translationApplied(false)
+                .translationReliable(true)
+                .slots(VisionPromptUnderstandingSlots.builder()
+                        .questTitle("New title")
+                        .questTitleConfidence(0.60d)
+                        .build())
+                .build();
+
+        Map<String, String> merged = visionSlotService.mergeCreateQuestSlots(conversation, "New title", understanding);
+
+        assertEquals("Old title", merged.get("quest_title"));
+    }
+
+    @Test
+    void semanticRewardAmountIsNormalizedBeforePersisting() {
+        AppUser currentUser = TestFixtures.user(7L, "vision-user");
+        VisionConversation conversation = VisionConversationTestBuilder.createQuest(1L, currentUser).build();
+
+        VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
+                .sourceLanguage("en")
+                .originalPrompt("twenty euros")
+                .normalizedPrompt("twenty euros")
+                .translationProvider("mock")
+                .translationApplied(false)
+                .translationReliable(true)
+                .slots(VisionPromptUnderstandingSlots.builder()
+                        .reward(VisionPromptUnderstandingRewardSlots.builder()
+                                .freeQuest(false)
+                                .freeQuestConfidence(0.9d)
+                                .amount("20 EUR")
+                                .amountConfidence(0.9d)
+                                .build())
+                        .build())
+                .build();
+
+        Map<String, String> merged = visionSlotService.mergeCreateQuestSlots(conversation, "twenty euros", understanding);
+
+        assertEquals("false", merged.get("free_quest"));
+        assertEquals("20", merged.get("reward_amount"));
+    }
+
+    @Test
     void locationCandidateConfirmationCanSelectSecondOption() {
         AppUser currentUser = TestFixtures.user(7L, "vision-user");
         LocationLookupService lookupService = Mockito.mock(LocationLookupService.class);

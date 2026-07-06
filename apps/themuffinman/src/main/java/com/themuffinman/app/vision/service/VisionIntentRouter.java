@@ -23,9 +23,14 @@ public class VisionIntentRouter {
     }
 
     public VisionIntent detectIntent(String prompt, VisionPromptUnderstandingResult understanding) {
+        String lower = prompt == null ? "" : prompt.toLowerCase(Locale.ROOT);
         VisionIntent semanticIntent = understanding == null
                 ? VisionIntent.UNSUPPORTED
                 : understanding.semanticPlanOrEmpty().candidateIntentOrUnsupported();
+        VisionIntent snapshotOverride = overrideSnapshotIntent(semanticIntent, lower);
+        if (snapshotOverride != null) {
+            return snapshotOverride;
+        }
         if (semanticIntent == VisionIntent.DISCOVER_QUESTS) {
             return VisionIntent.DISCOVER_QUESTS;
         }
@@ -110,7 +115,6 @@ public class VisionIntentRouter {
         if (semanticRouteCatalogService.routeForIntent(semanticIntent.name()) != null) {
             return semanticIntent;
         }
-        String lower = prompt.toLowerCase(Locale.ROOT);
         if (containsCircleCreateSignals(lower)) {
             return VisionIntent.CREATE_CIRCLE;
         }
@@ -221,6 +225,64 @@ public class VisionIntentRouter {
             return VisionIntent.CREATE_QUEST;
         }
         return VisionIntent.UNSUPPORTED;
+    }
+
+    private VisionIntent overrideSnapshotIntent(VisionIntent semanticIntent, String lower) {
+        if (semanticIntent == null || semanticIntent == VisionIntent.UNSUPPORTED || lower == null || lower.isBlank()) {
+            return null;
+        }
+        if (semanticIntent == VisionIntent.VIEW_CIRCLES || semanticIntent == VisionIntent.VIEW_CIRCLE_DETAIL) {
+            if (containsCircleCreateSignals(lower)) {
+                return VisionIntent.CREATE_CIRCLE;
+            }
+            if (containsCircleRequestAcceptSignals(lower)) {
+                return VisionIntent.ACCEPT_CIRCLE_REQUEST;
+            }
+            if (containsCircleRequestDeleteSignals(lower)) {
+                return VisionIntent.DELETE_CIRCLE_REQUEST;
+            }
+            if (containsCircleRequestCreateSignals(lower)) {
+                return VisionIntent.CREATE_CIRCLE_REQUEST;
+            }
+            if (containsCircleUpdateSignals(lower)) {
+                return VisionIntent.UPDATE_CIRCLE;
+            }
+            if (containsCircleDeleteSignals(lower)) {
+                return VisionIntent.DELETE_CIRCLE;
+            }
+        }
+        if (semanticIntent == VisionIntent.VIEW_APPLICATIONS || semanticIntent == VisionIntent.VIEW_APPLICATION_DETAIL) {
+            if (containsApplicationCreateSignals(lower)) {
+                return VisionIntent.CREATE_APPLICATION;
+            }
+            if (containsApplicationUpdateSignals(lower)) {
+                return VisionIntent.UPDATE_APPLICATION;
+            }
+            if (containsApplicationWithdrawSignals(lower)) {
+                return VisionIntent.WITHDRAW_APPLICATION;
+            }
+            if (containsApplicationApproveSignals(lower)) {
+                return VisionIntent.APPROVE_APPLICATION;
+            }
+            if (containsApplicationDeclineSignals(lower)) {
+                return VisionIntent.DECLINE_APPLICATION;
+            }
+        }
+        if (semanticIntent == VisionIntent.VIEW_PROFILE || semanticIntent == VisionIntent.VIEW_SETTINGS) {
+            if (containsProfileLocationUpdateSignals(lower)) {
+                return VisionIntent.UPDATE_PROFILE_LOCATION;
+            }
+            if (containsProfileUpdateSignals(lower)) {
+                return VisionIntent.UPDATE_PROFILE;
+            }
+        }
+        if (semanticIntent == VisionIntent.VIEW_CHAT_WORKSPACE && containsChatSignals(lower)) {
+            return VisionIntent.OPEN_CHAT;
+        }
+        if (semanticIntent == VisionIntent.VIEW_QUEST_DETAIL && containsApplicationCreateSignals(lower)) {
+            return VisionIntent.CREATE_APPLICATION;
+        }
+        return null;
     }
 
     private boolean containsAny(String value, String... candidates) {
@@ -417,14 +479,18 @@ public class VisionIntentRouter {
     }
 
     private boolean containsCircleRequestCreateSignals(String value) {
-        return containsAny(value,
+        if (containsAny(value,
                 "send circle request",
                 "send a circle request",
                 "invite to my circle",
                 "invite to my circles",
                 "add to my circle",
                 "add to my circles",
-                "connect with");
+                "connect with")) {
+            return true;
+        }
+        return (value.contains("invite") || value.contains("add") || value.contains("connect with"))
+                && (value.contains("my circle") || value.contains("my circles"));
     }
 
     private boolean containsCircleRequestAcceptSignals(String value) {

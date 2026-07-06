@@ -42,6 +42,11 @@ class VisionSemanticAuditMatrixTest {
             String input = String.valueOf(payload.get("input"));
             assertTrue(input.contains("\"semanticHints\""), "OpenAI semantic input must include semantic hints");
             assertTrue(input.contains("\"familyAliases\""), "OpenAI semantic input must include family aliases");
+            assertTrue(input.contains("\"examples\""), "OpenAI semantic input must include route examples");
+            assertTrue(input.contains("\"aliases\""), "OpenAI semantic input must include slot aliases");
+            assertTrue(input.contains("\"antiExamples\""), "OpenAI semantic input must include slot anti-examples");
+            assertTrue(input.contains("\"activeSlot\""), "OpenAI semantic input must include active slot context");
+            assertTrue(input.contains("\"draftSnapshot\""), "OpenAI semantic input must include draft snapshot context");
             try {
                 Matcher matcher = Pattern.compile("\"rawPrompt\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*)\"").matcher(input);
                 String rawPrompt = "";

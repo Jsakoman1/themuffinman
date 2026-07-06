@@ -107,3 +107,42 @@ regression_scenarios:
       - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
     commands:
       - cd apps/themuffinman && ./mvnw test -Dtest=VisionLearningEvaluationHarnessTest,VisionConversationServiceTest
+  - id: vision-crud-utterance-regressions
+    domain: vision
+    risk: medium
+    scenario: Real voice utterances must keep the standard create/view/update/delete contract stable across circles, applications, profiles, chat, discovery, and read snapshots.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSlotFillingRegressionTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=VisionSlotFillingRegressionTest,VisionSemanticRouteCatalogServiceTest
+  - id: identity-profile-read-model
+    domain: identity
+    risk: medium
+    scenario: Profile view must stay role-aware, preserve edit and relation actions, and keep public summary assembly aligned with the backend read model.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssemblerTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=UserProfileViewServiceTest,IdentityUserSummaryAssemblerTest
+  - id: social-circle-discovery-read-model
+    domain: social
+    risk: medium
+    scenario: Circle discovery, membership, and search surfaces must keep nearby discovery, relationship state, and admin overviews aligned with backend read models.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleDiscoveryServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleMembershipServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleSearchQueryServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleAdminOverviewAssemblerTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=CircleDiscoveryServiceTest,CircleMembershipServiceTest,CircleSearchQueryServiceTest,CircleAdminOverviewAssemblerTest
+  - id: workmarket-quest-read-model
+    domain: workmarket
+    risk: medium
+    scenario: Quest browsing, recommendation ranking, and quest news read state must stay backend-prepared and viewer-aware.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestNewsServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=QuestQueryServiceTest,QuestNewsServiceTest,DashboardServiceTest

@@ -72,7 +72,7 @@ public class VisionLearningService {
         }
 
         VisionMemoryFeedbackType feedbackType = determineFeedbackType(conversation, turn, action);
-        createFeedbackEvent(currentUser, conversation, turn, feedbackType);
+        createFeedbackEvent(currentUser, conversation, turn, understanding, feedbackType);
         updatePreferences(currentUser, conversation, turn, understanding, runtimeHints, feedbackType);
     }
 
@@ -172,6 +172,7 @@ public class VisionLearningService {
             AppUser currentUser,
             VisionConversation conversation,
             VisionTurn turn,
+            VisionPromptUnderstandingResult understanding,
             VisionMemoryFeedbackType feedbackType
     ) {
         VisionMemoryFeedbackEvent event = new VisionMemoryFeedbackEvent();
@@ -184,7 +185,7 @@ public class VisionLearningService {
         event.setPrompt(turn.getPrompt());
         event.setNormalizedPrompt(turn.getNormalizedPrompt());
         event.setAssistantMessage(turn.getAssistantMessage());
-        event.setDetails(buildFeedbackDetails(conversation, turn, feedbackType));
+        event.setDetails(buildFeedbackDetails(conversation, turn, understanding, feedbackType));
         visionMemoryFeedbackEventRepository.save(event);
     }
 
@@ -204,6 +205,9 @@ public class VisionLearningService {
         upsertPreference(currentUser, "last_requested_slot", normalize(turn.getRequestedSlot()), "turn", now);
         upsertPreference(currentUser, "last_feedback_type", normalize(feedbackType.name()), "feedback", now);
         upsertPreference(currentUser, "last_conversation_status", normalize(conversation.getStatus() == null ? null : conversation.getStatus().name()), "conversation", now);
+        if (understanding != null && understanding.isRepairAttempted() && understanding.getRepairSlotId() != null && !understanding.getRepairSlotId().isBlank()) {
+            upsertPreference(currentUser, "last_repair_slot", normalize(understanding.getRepairSlotId()), "repair", now);
+        }
     }
 
     private void upsertPreference(AppUser user, String preferenceKey, String preferenceValue, String sourceType, Instant observedAt) {
@@ -228,7 +232,12 @@ public class VisionLearningService {
         visionUserPreferenceRepository.save(preference);
     }
 
-    private String buildFeedbackDetails(VisionConversation conversation, VisionTurn turn, VisionMemoryFeedbackType feedbackType) {
+    private String buildFeedbackDetails(
+            VisionConversation conversation,
+            VisionTurn turn,
+            VisionPromptUnderstandingResult understanding,
+            VisionMemoryFeedbackType feedbackType
+    ) {
         List<String> parts = new ArrayList<>();
         if (feedbackType != null) {
             parts.add("type=" + feedbackType.name());
@@ -241,6 +250,21 @@ public class VisionLearningService {
         }
         if (turn.getSource() != null) {
             parts.add("source=" + turn.getSource().name().toLowerCase(Locale.ROOT));
+        }
+        if (turn.getNormalizedPrompt() != null && !turn.getNormalizedPrompt().isBlank()) {
+            parts.add("normalizedPrompt=" + turn.getNormalizedPrompt());
+        }
+        if (turn.getDetectedIntent() != null) {
+            parts.add("detectedIntent=" + turn.getDetectedIntent().name());
+        }
+        if (understanding != null && understanding.isRepairAttempted()) {
+            parts.add("repairAttempted=true");
+            if (understanding.getRepairSlotId() != null && !understanding.getRepairSlotId().isBlank()) {
+                parts.add("repairSlot=" + understanding.getRepairSlotId());
+            }
+            if (understanding.getRepairNote() != null && !understanding.getRepairNote().isBlank()) {
+                parts.add("repairNote=" + understanding.getRepairNote());
+            }
         }
         return String.join("; ", parts);
     }

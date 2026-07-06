@@ -1,0 +1,54 @@
+owning_plan: .agents/vision-parser-contract-inventory-plan.md
+created_at: "2026-07-05"
+source_files:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java
+inventory_summary:
+  route_definitions: 29
+  slot_definitions: 42
+  route_examples: 55
+  supported_route_families:
+    - quest
+    - circle
+    - application
+    - profile
+    - chat
+    - settings
+    - notifications
+    - search
+    - things
+  parser_contract_inputs:
+    - semanticHints.familyAliases
+    - userContext
+    - conversationContext.activeSlot
+    - conversationContext.draftSnapshot
+    - memoryContext.userMemory
+    - memoryContext.sessionMemory
+    - memoryContext.recentConversations
+    - runtimeContext
+    - allowedRoutes
+  parser_branch_hotspots:
+    - hasRequiredSlotValue
+    - canonicalizeSlotValue
+    - normalizeTargetEntityQuery
+    - attemptFocusedRepair
+    - buildRepairInput
+    - responseContract
+    - compactSemanticHints
+    - compactRoutes
+  route_catalog_facts:
+    - examples and slot metadata already exist on most supported routes
+    - aliases and anti-examples are already present for many slots
+    - dtoType, validatorKey, executorKey, and confidence thresholds are already route-aware
+remaining_gaps:
+  - family-specific slot normalization still exists in the understanding service
+  - some intents still depend on intent-specific entity resolution switches
+  - repair-pass behavior is still a dedicated parser path rather than a shared contract primitive
+  - read-only route families are not all equally rich in examples and slot metadata
+follow_up_notes:
+  - The next slice can reduce special cases by moving shared target-query handling and slot canonicalization into common helpers or route metadata.
+  - Regression coverage should target real utterances for create, view, update, delete, and follow-up turns.

@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.mockito.ArgumentCaptor;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -174,6 +176,73 @@ class VisionLearningServiceTest {
         assertEquals("intent_selection", learningMemory.getExplainabilityRecords().get(2).getDecisionType());
         assertEquals("slot_focus", learningMemory.getExplainabilityRecords().get(3).getDecisionType());
         assertEquals("feedback_signal", learningMemory.getExplainabilityRecords().get(4).getDecisionType());
+    }
+
+    @Test
+    void recordsRepairSignalsInFeedbackDetailsAndPreferences() {
+        VisionUserPreferenceRepository preferenceRepository = mock(VisionUserPreferenceRepository.class);
+        VisionMemoryFeedbackEventRepository feedbackRepository = mock(VisionMemoryFeedbackEventRepository.class);
+        VisionMemorySummaryRepository summaryRepository = mock(VisionMemorySummaryRepository.class);
+        VisionProperties visionProperties = new VisionProperties();
+
+        when(preferenceRepository.findByUserAndPreferenceKey(any(), any())).thenReturn(Optional.empty());
+
+        VisionLearningService service = new VisionLearningService(
+                preferenceRepository,
+                feedbackRepository,
+                summaryRepository,
+                visionProperties
+        );
+
+        AppUser user = new AppUser();
+        user.setId(9L);
+        user.setUsername("assistant-user");
+
+        VisionConversation conversation = new VisionConversation();
+        conversation.setOwner(user);
+        conversation.setIntent(VisionIntent.CREATE_QUEST);
+        conversation.setStatus(VisionConversationStatus.ACTIVE);
+        conversation.setRequestedSlot("quest_title");
+
+        VisionTurn turn = new VisionTurn();
+        turn.setConversation(conversation);
+        turn.setSource(VisionTurnSource.VOICE);
+        turn.setDetectedIntent(VisionIntent.CREATE_QUEST);
+        turn.setRequestedSlot("quest_title");
+        turn.setPrompt("Move my sofa");
+        turn.setNormalizedPrompt("Move my sofa");
+        turn.setAssistantMessage("What should I call the quest?");
+
+        VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
+                .sourceLanguage("en")
+                .repairAttempted(true)
+                .repairSlotId("quest_title")
+                .repairNote("focused_slot_repair_applied")
+                .build();
+
+        ArgumentCaptor<VisionMemoryFeedbackEvent> feedbackCaptor = ArgumentCaptor.forClass(VisionMemoryFeedbackEvent.class);
+        ArgumentCaptor<VisionUserPreference> preferenceCaptor = ArgumentCaptor.forClass(VisionUserPreference.class);
+
+        service.recordTurnOutcome(
+                user,
+                conversation,
+                turn,
+                understanding,
+                VisionSemanticRuntimeHints.builder()
+                        .inputType("voice")
+                        .build(),
+                VisionConversationAction.SUBMIT_PROMPT
+        );
+
+        verify(feedbackRepository).save(feedbackCaptor.capture());
+        verify(preferenceRepository, atLeastOnce()).save(preferenceCaptor.capture());
+
+        assertTrue(feedbackCaptor.getValue().getDetails().contains("repairAttempted=true"));
+        assertTrue(feedbackCaptor.getValue().getDetails().contains("repairSlot=quest_title"));
+        assertTrue(preferenceCaptor.getAllValues().stream().anyMatch(preference ->
+                "last_repair_slot".equals(preference.getPreferenceKey())
+                        && "quest_title".equals(preference.getPreferenceValue())
+        ));
     }
 
     @Test

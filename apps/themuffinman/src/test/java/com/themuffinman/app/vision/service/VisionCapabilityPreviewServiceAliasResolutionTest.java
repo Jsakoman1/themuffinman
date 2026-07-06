@@ -169,7 +169,7 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
         assertEquals("view_things", preview.getCapabilityId());
         assertEquals("Things", preview.getTitle());
         assertTrue(preview.getSummary().contains("1 of 1"));
-        assertEquals("Moves a sofa", preview.getItems().get(2).getValue());
+        assertEquals("Available · Moves a sofa", preview.getItems().get(2).getValue());
     }
 
     @Test

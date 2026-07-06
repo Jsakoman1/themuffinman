@@ -259,7 +259,7 @@ public class VisionConversationService {
                 recentConversationSummaries(currentUser),
                 visionExecutionPlanner.plan(conversation, understanding),
                 visionQuestDiscoveryService.discover(conversation, understanding, currentUser),
-                visionSearchDiscoveryService.discover(conversation, understanding, currentUser),
+                searchDiscoveryForConversation(conversation, currentUser),
                 capabilityPreview(conversation, currentUser),
                 learningMemory(currentUser),
                 buildMemoryTrail(currentUser, conversation)
@@ -3431,19 +3431,19 @@ public class VisionConversationService {
 
     private String readOnlySnapshotMessage(VisionIntent intent) {
         return switch (intent) {
-            case VIEW_PROFILE -> "Showing your profile snapshot. You can say change username to ..., set bio to ..., or set profile location to ...";
-            case VIEW_SETTINGS -> "Showing your settings snapshot. You can say show profile, set profile location to ..., or turn profile location off.";
-            case VIEW_USER_PROFILE -> "Showing the selected user profile. You can say open chat with this user or show another profile.";
-            case VIEW_CIRCLES -> "Showing your circles snapshot. You can say create a circle, invite someone, accept a circle request, rename a circle, or delete a circle.";
-            case VIEW_CIRCLE_DETAIL -> "Showing the selected circle. You can say rename this circle, delete this circle, or show my circles.";
-            case VIEW_APPLICATIONS -> "Showing your applications snapshot. You can say apply to a quest, update an application, withdraw an application, approve an application, or decline an application.";
-            case VIEW_APPLICATION_DETAIL -> "Showing the selected application. You can say update this application, withdraw this application, or show my applications.";
-            case VIEW_NOTIFICATIONS -> "Showing your notifications inbox. You can say open the related quest, open the related application, or show quest news.";
-            case VIEW_QUEST_NEWS -> "Showing your quest news feed. You can say show another quest update or open the related quest.";
-            case VIEW_CHAT_WORKSPACE -> "Showing your chat workspace snapshot. You can say open chat with ... to move into a direct conversation.";
-            case VIEW_QUEST_DETAIL -> "Showing the selected quest. You can say apply to this quest or show another quest.";
-            case VIEW_THINGS -> "Showing your things snapshot. You can say show available listings, open a listing, or share a thing.";
-            default -> "Showing the current vision snapshot.";
+            case VIEW_PROFILE -> "Profile.";
+            case VIEW_SETTINGS -> "Settings.";
+            case VIEW_USER_PROFILE -> "User profile.";
+            case VIEW_CIRCLES -> "Showing your circles.";
+            case VIEW_CIRCLE_DETAIL -> "Showing the selected circle.";
+            case VIEW_APPLICATIONS -> "Applications.";
+            case VIEW_APPLICATION_DETAIL -> "Application.";
+            case VIEW_NOTIFICATIONS -> "Notifications.";
+            case VIEW_QUEST_NEWS -> "Quest news.";
+            case VIEW_CHAT_WORKSPACE -> "Chat.";
+            case VIEW_QUEST_DETAIL -> "Quest.";
+            case VIEW_THINGS -> "Things.";
+            default -> "Vision snapshot.";
         };
     }
 
@@ -3479,6 +3479,7 @@ public class VisionConversationService {
                     conversation.getSlotData().get("resolved_circle_name"),
                     conversation.getSlotData().get("resolved_circle_member_count")
             );
+            case CREATE_QUEST -> visionCapabilityPreviewService.previewQuestDraft(conversation.getSlotData());
             case CREATE_APPLICATION -> visionCapabilityPreviewService.previewApplicationDraft(
                     conversation.getSlotData().get("application_quest_title"),
                     conversation.getSlotData().get("application_quest_creator"),
@@ -3580,31 +3581,33 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        String semanticValue = understanding == null ? null : understanding.toExtractedSlotMap().get("circle_name");
-        if (semanticValue != null && !semanticValue.isBlank()) {
-            return semanticValue.trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, "circle_name")) {
+            return semanticSlotValue(understanding, "circle_name").trim();
         }
 
         if (conversation != null && "circle_name".equals(conversation.getRequestedSlot())) {
-            return normalizedPrompt == null ? null : normalizedPrompt.trim();
+            return firstNonBlank(extractCircleNameFromPrompt(normalizedPrompt), normalizedPrompt == null ? null : normalizedPrompt.trim());
         }
 
-        if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
-            return null;
-        }
+        return extractCircleNameFromPrompt(normalizedPrompt);
+    }
 
-        String stripped = normalizedPrompt
-                .replaceFirst("(?i)^create circle\\s+", "")
-                .replaceFirst("(?i)^create a circle\\s+", "")
-                .replaceFirst("(?i)^new circle\\s+", "")
-                .replaceFirst("(?i)^make a circle\\s+", "")
-                .replaceFirst("(?i)^start a circle\\s+", "")
-                .replaceFirst("(?i)^called\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(normalizedPrompt.trim())) {
-            return null;
-        }
-        return stripped.isBlank() ? null : stripped;
+    private String extractCircleNameFromPrompt(String normalizedPrompt) {
+        String stripped = VisionPromptTextSupport.extractAfterAnyPrefix(
+                normalizedPrompt,
+                List.of(
+                        "create new circle",
+                        "create circle",
+                        "new circle",
+                        "make a circle",
+                        "make circle",
+                        "start a circle",
+                        "start circle",
+                        "circle"
+                ),
+                List.of(" called ", " named ")
+        );
+        return VisionPromptTextSupport.stripLeadingWords(stripped, List.of("called", "named"));
     }
 
     private String resolveTargetCircleQuery(
@@ -3612,30 +3615,28 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        String semanticValue = understanding == null ? null : understanding.toExtractedSlotMap().get("target_circle_query");
-        if (semanticValue != null && !semanticValue.isBlank()) {
-            return semanticValue.trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, "target_circle_query")) {
+            return semanticSlotValue(understanding, "target_circle_query").trim();
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
         String trimmed = normalizedPrompt.trim();
         if (conversation != null && "target_circle_query".equals(conversation.getRequestedSlot())) {
-            return trimmed;
+            return firstNonBlank(
+                    VisionPromptTextSupport.extractAfterAnyPrefix(
+                            trimmed,
+                            List.of("update circle", "rename circle", "delete circle", "remove circle"),
+                            List.of(" to ")
+                    ),
+                    trimmed
+            );
         }
-        String stripped = trimmed
-                .replaceFirst("(?i)^update circle\\s+", "")
-                .replaceFirst("(?i)^rename circle\\s+", "")
-                .replaceFirst("(?i)^delete circle\\s+", "")
-                .replaceFirst("(?i)^remove circle\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(trimmed) || stripped.isBlank()) {
-            return null;
-        }
-        if (stripped.contains(" to ")) {
-            return stripped.substring(0, stripped.indexOf(" to ")).trim();
-        }
-        return stripped;
+        return VisionPromptTextSupport.extractAfterAnyPrefix(
+                trimmed,
+                List.of("update circle", "rename circle", "delete circle", "remove circle"),
+                List.of(" to ")
+        );
     }
 
     private String resolveCircleRename(
@@ -3643,28 +3644,28 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        String semanticValue = understanding == null ? null : understanding.toExtractedSlotMap().get("circle_name");
-        if (semanticValue != null && !semanticValue.isBlank()) {
-            return semanticValue.trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, "circle_name")) {
+            return semanticSlotValue(understanding, "circle_name").trim();
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
         String trimmed = normalizedPrompt.trim();
         if (conversation != null && "circle_name".equals(conversation.getRequestedSlot())) {
-            return trimmed;
+            return firstNonBlank(
+                    VisionPromptTextSupport.extractAfterAnyPrefix(
+                            trimmed,
+                            List.of("rename to", "new name", "change name to", "change name"),
+                            List.of(" to ")
+                    ),
+                    trimmed
+            );
         }
-        String stripped = trimmed
-                .replaceFirst("(?i)^rename to\\s+", "")
-                .replaceFirst("(?i)^new name\\s+", "")
-                .replaceFirst("(?i)^change name to\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(trimmed) && trimmed.contains(" to ")) {
-            return trimmed.substring(trimmed.lastIndexOf(" to ") + 4).trim();
-        }
-        if (stripped.equalsIgnoreCase(trimmed) || stripped.isBlank()) {
-            return null;
-        }
+        String stripped = VisionPromptTextSupport.extractAfterAnyPrefix(
+                trimmed,
+                List.of("rename to", "new name", "change name to", "change name"),
+                List.of(" to ")
+        );
         return stripped;
     }
 
@@ -3673,31 +3674,44 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        String semanticValue = understanding == null ? null : understanding.toExtractedSlotMap().get("target_quest_query");
-        if (semanticValue != null && !semanticValue.isBlank()) {
-            return semanticValue.trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, "target_quest_query")) {
+            return semanticSlotValue(understanding, "target_quest_query").trim();
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
         String trimmed = normalizedPrompt.trim();
         if (conversation != null && "target_quest_query".equals(conversation.getRequestedSlot())) {
-            return trimmed;
+            return firstNonBlank(
+                    VisionPromptTextSupport.extractAfterAnyPrefix(
+                            trimmed,
+                            List.of(
+                                    "apply to quest",
+                                    "apply for quest",
+                                    "apply to job",
+                                    "apply for job",
+                                    "apply to",
+                                    "apply for",
+                                    "create application for",
+                                    "send application for"
+                            )
+                    ),
+                    trimmed
+            );
         }
-        String stripped = trimmed
-                .replaceFirst("(?i)^apply to quest\\s+", "")
-                .replaceFirst("(?i)^apply for quest\\s+", "")
-                .replaceFirst("(?i)^apply to job\\s+", "")
-                .replaceFirst("(?i)^apply for job\\s+", "")
-                .replaceFirst("(?i)^apply to\\s+", "")
-                .replaceFirst("(?i)^apply for\\s+", "")
-                .replaceFirst("(?i)^create application for\\s+", "")
-                .replaceFirst("(?i)^send application for\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(trimmed) || stripped.isBlank()) {
-            return null;
-        }
-        return stripped;
+        return VisionPromptTextSupport.extractAfterAnyPrefix(
+                trimmed,
+                List.of(
+                        "apply to quest",
+                        "apply for quest",
+                        "apply to job",
+                        "apply for job",
+                        "apply to",
+                        "apply for",
+                        "create application for",
+                        "send application for"
+                )
+        );
     }
 
     private String resolveReadQuestQuery(
@@ -3705,27 +3719,26 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        String semanticValue = understanding == null ? null : understanding.toExtractedSlotMap().get("target_quest_query");
-        if (semanticValue != null && !semanticValue.isBlank()) {
-            return semanticValue.trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, "target_quest_query")) {
+            return semanticSlotValue(understanding, "target_quest_query").trim();
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
         String trimmed = normalizedPrompt.trim();
         if (conversation != null && "target_quest_query".equals(conversation.getRequestedSlot())) {
-            return trimmed;
+            return firstNonBlank(
+                    VisionPromptTextSupport.extractAfterAnyPrefix(
+                            trimmed,
+                            List.of("show quest details for", "show quest detail for", "show quest", "open quest")
+                    ),
+                    trimmed
+            );
         }
-        String stripped = trimmed
-                .replaceFirst("(?i)^show quest\\s+", "")
-                .replaceFirst("(?i)^open quest\\s+", "")
-                .replaceFirst("(?i)^show quest details for\\s+", "")
-                .replaceFirst("(?i)^show quest detail for\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(trimmed) || stripped.isBlank()) {
-            return null;
-        }
-        return stripped;
+        return VisionPromptTextSupport.extractAfterAnyPrefix(
+                trimmed,
+                List.of("show quest details for", "show quest detail for", "show quest", "open quest")
+        );
     }
 
     private String resolveTargetApplicationQuery(
@@ -3733,28 +3746,26 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        String semanticValue = understanding == null ? null : understanding.toExtractedSlotMap().get("target_application_query");
-        if (semanticValue != null && !semanticValue.isBlank()) {
-            return semanticValue.trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, "target_application_query")) {
+            return semanticSlotValue(understanding, "target_application_query").trim();
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
         String trimmed = normalizedPrompt.trim();
         if (conversation != null && "target_application_query".equals(conversation.getRequestedSlot())) {
-            return trimmed;
+            return firstNonBlank(
+                    VisionPromptTextSupport.extractAfterAnyPrefix(
+                            trimmed,
+                            List.of("show my application", "open my application", "show application", "open application", "application")
+                    ),
+                    trimmed
+            );
         }
-        String stripped = trimmed
-                .replaceFirst("(?i)^show application\\s+", "")
-                .replaceFirst("(?i)^open application\\s+", "")
-                .replaceFirst("(?i)^show my application\\s+", "")
-                .replaceFirst("(?i)^open my application\\s+", "")
-                .replaceFirst("(?i)^application\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(trimmed) || stripped.isBlank()) {
-            return null;
-        }
-        return stripped;
+        return VisionPromptTextSupport.extractAfterAnyPrefix(
+                trimmed,
+                List.of("show my application", "open my application", "show application", "open application", "application")
+        );
     }
 
     private String resolveApplicationMessage(
@@ -3762,26 +3773,26 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        String semanticValue = understanding == null ? null : understanding.toExtractedSlotMap().get("application_message");
-        if (semanticValue != null && !semanticValue.isBlank()) {
-            return semanticValue.trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, "application_message")) {
+            return semanticSlotValue(understanding, "application_message").trim();
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
         String trimmed = normalizedPrompt.trim();
         if (conversation != null && "application_message".equals(conversation.getRequestedSlot())) {
-            return trimmed;
+            return firstNonBlank(
+                    VisionPromptTextSupport.extractAfterAnyPrefix(
+                            trimmed,
+                            List.of("my message is", "application message", "message")
+                    ),
+                    trimmed
+            );
         }
-        String stripped = trimmed
-                .replaceFirst("(?i)^message\\s+", "")
-                .replaceFirst("(?i)^my message is\\s+", "")
-                .replaceFirst("(?i)^application message\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(trimmed) || stripped.isBlank()) {
-            return null;
-        }
-        return stripped;
+        return VisionPromptTextSupport.extractAfterAnyPrefix(
+                trimmed,
+                List.of("my message is", "application message", "message")
+        );
     }
 
     private String resolveApplicationProposedPrice(
@@ -3789,9 +3800,8 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        String semanticValue = understanding == null ? null : understanding.toExtractedSlotMap().get("application_proposed_price");
-        if (semanticValue != null && !semanticValue.isBlank()) {
-            return normalizeApplicationPrice(semanticValue);
+        if (shouldUseSemanticSlotValue(conversation, understanding, "application_proposed_price")) {
+            return normalizeApplicationPrice(semanticSlotValue(understanding, "application_proposed_price"));
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
@@ -3903,22 +3913,40 @@ public class VisionConversationService {
         }
         String trimmed = normalizedPrompt.trim();
         if (conversation != null && "target_user".equals(conversation.getRequestedSlot())) {
-            return trimmed;
+            return firstNonBlank(
+                    VisionPromptTextSupport.extractAfterAnyPrefix(
+                            trimmed,
+                            List.of(
+                                    "approve application",
+                                    "decline application",
+                                    "reject application",
+                                    "accept application",
+                                    "applicant",
+                                    "approve",
+                                    "decline",
+                                    "reject",
+                                    "accept"
+                            ),
+                            List.of(" for ")
+                    ),
+                    trimmed
+            );
         }
-        String stripped = trimmed
-                .replaceFirst("(?i)^applicant\\s+", "")
-                .replaceFirst("(?i)^approve\\s+", "")
-                .replaceFirst("(?i)^decline\\s+", "")
-                .replaceFirst("(?i)^reject\\s+", "")
-                .replaceFirst("(?i)^accept\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(trimmed) || stripped.isBlank()) {
-            return null;
-        }
-        if (stripped.contains(" for ")) {
-            return stripped.substring(0, stripped.indexOf(" for ")).trim();
-        }
-        return stripped;
+        return VisionPromptTextSupport.extractAfterAnyPrefix(
+                trimmed,
+                List.of(
+                        "approve application",
+                        "decline application",
+                        "reject application",
+                        "accept application",
+                        "applicant",
+                        "approve",
+                        "decline",
+                        "reject",
+                        "accept"
+                ),
+                List.of(" for ")
+        );
     }
 
     private String resolveUserProfileQuery(
@@ -3935,20 +3963,32 @@ public class VisionConversationService {
         }
         String trimmed = normalizedPrompt.trim();
         if (conversation != null && "target_user".equals(conversation.getRequestedSlot())) {
-            return trimmed;
+            return firstNonBlank(
+                    VisionPromptTextSupport.extractAfterAnyPrefix(
+                            trimmed,
+                            List.of(
+                                    "show profile of",
+                                    "open profile of",
+                                    "show profile for",
+                                    "open profile for",
+                                    "show user",
+                                    "open user"
+                            )
+                    ),
+                    trimmed
+            );
         }
-        String stripped = trimmed
-                .replaceFirst("(?i)^show user\\s+", "")
-                .replaceFirst("(?i)^open user\\s+", "")
-                .replaceFirst("(?i)^show profile for\\s+", "")
-                .replaceFirst("(?i)^open profile for\\s+", "")
-                .replaceFirst("(?i)^show profile of\\s+", "")
-                .replaceFirst("(?i)^open profile of\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(trimmed) || stripped.isBlank()) {
-            return null;
-        }
-        return stripped;
+        return VisionPromptTextSupport.extractAfterAnyPrefix(
+                trimmed,
+                List.of(
+                        "show profile of",
+                        "open profile of",
+                        "show profile for",
+                        "open profile for",
+                        "show user",
+                        "open user"
+                )
+        );
     }
 
     private String resolveCircleRequestTargetUser(
@@ -3965,32 +4005,63 @@ public class VisionConversationService {
         }
         String trimmed = normalizedPrompt.trim();
         if (conversation != null && "target_user".equals(conversation.getRequestedSlot())) {
-            return trimmed;
+            return VisionPromptTextSupport.stripLeadingWords(
+                    firstNonBlank(
+                            VisionPromptTextSupport.extractAfterAnyPrefix(
+                                    trimmed,
+                                    List.of(
+                                            "send a circle request to",
+                                            "send circle request to",
+                                            "invite to my circle",
+                                            "invite to my circles",
+                                            "add to my circle",
+                                            "add to my circles",
+                                            "connect with",
+                                            "accept circle request from",
+                                            "accept connection request from",
+                                            "accept invite from",
+                                            "decline circle request from",
+                                            "reject circle request from",
+                                            "decline invite from",
+                                            "reject invite from",
+                                            "cancel circle request to",
+                                            "cancel invite to",
+                                            "delete circle request with",
+                                            "remove circle request with"
+                                    )
+                            ),
+                            trimmed
+                    ),
+                    List.of("user", "users", "person", "people", "member", "members", "contact", "contacts", "profile", "profiles")
+            );
         }
-        String stripped = trimmed
-                .replaceFirst("(?i)^send a circle request to\\s+", "")
-                .replaceFirst("(?i)^send circle request to\\s+", "")
-                .replaceFirst("(?i)^invite to my circle\\s+", "")
-                .replaceFirst("(?i)^invite to my circles\\s+", "")
-                .replaceFirst("(?i)^add to my circle\\s+", "")
-                .replaceFirst("(?i)^add to my circles\\s+", "")
-                .replaceFirst("(?i)^connect with\\s+", "")
-                .replaceFirst("(?i)^accept circle request from\\s+", "")
-                .replaceFirst("(?i)^accept connection request from\\s+", "")
-                .replaceFirst("(?i)^accept invite from\\s+", "")
-                .replaceFirst("(?i)^decline circle request from\\s+", "")
-                .replaceFirst("(?i)^reject circle request from\\s+", "")
-                .replaceFirst("(?i)^decline invite from\\s+", "")
-                .replaceFirst("(?i)^reject invite from\\s+", "")
-                .replaceFirst("(?i)^cancel circle request to\\s+", "")
-                .replaceFirst("(?i)^cancel invite to\\s+", "")
-                .replaceFirst("(?i)^delete circle request with\\s+", "")
-                .replaceFirst("(?i)^remove circle request with\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(trimmed) || stripped.isBlank()) {
-            return null;
-        }
-        return stripped;
+        String stripped = VisionPromptTextSupport.extractAfterAnyPrefix(
+                trimmed,
+                List.of(
+                        "send a circle request to",
+                        "send circle request to",
+                        "invite to my circle",
+                        "invite to my circles",
+                        "add to my circle",
+                        "add to my circles",
+                        "connect with",
+                        "accept circle request from",
+                        "accept connection request from",
+                        "accept invite from",
+                        "decline circle request from",
+                        "reject circle request from",
+                        "decline invite from",
+                        "reject invite from",
+                        "cancel circle request to",
+                        "cancel invite to",
+                        "delete circle request with",
+                        "remove circle request with"
+                )
+        );
+        return VisionPromptTextSupport.stripLeadingWords(
+                stripped,
+                List.of("user", "users", "person", "people", "member", "members", "contact", "contacts", "profile", "profiles")
+        );
     }
 
     private void applyResolvedCircleTarget(
@@ -4060,14 +4131,41 @@ public class VisionConversationService {
         return null;
     }
 
+    private boolean shouldUseSemanticSlotValue(
+            VisionConversation conversation,
+            VisionPromptUnderstandingResult understanding,
+            String slotId
+    ) {
+        String value = semanticSlotValue(understanding, slotId);
+        Double confidence = semanticSlotConfidence(understanding, slotId);
+        if (!hasText(value) || confidence == null) {
+            return false;
+        }
+        if (confidence >= VisionPromptUnderstandingResult.MIN_SLOT_CONFIDENCE) {
+            return true;
+        }
+        if (confidence >= 0.45d) {
+            Map<String, String> slotData = conversation == null ? null : conversation.getSlotData();
+            return slotData == null || !hasText(slotData.get(slotId));
+        }
+        return false;
+    }
+
+    private String semanticSlotValue(VisionPromptUnderstandingResult understanding, String slotId) {
+        return understanding == null ? null : understanding.slotValue(slotId);
+    }
+
+    private Double semanticSlotConfidence(VisionPromptUnderstandingResult understanding, String slotId) {
+        return understanding == null ? null : understanding.slotConfidence(slotId);
+    }
+
     private String resolveProfileLocationMode(
             VisionConversation conversation,
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        String semanticValue = understanding == null ? null : understanding.toExtractedSlotMap().get("profile_location_mode");
-        if (semanticValue != null && !semanticValue.isBlank()) {
-            return semanticValue.trim().toUpperCase(Locale.ROOT);
+        if (shouldUseSemanticSlotValue(conversation, understanding, "profile_location_mode")) {
+            return semanticSlotValue(understanding, "profile_location_mode").trim().toUpperCase(Locale.ROOT);
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
@@ -4101,26 +4199,25 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        String semanticValue = understanding == null ? null : understanding.toExtractedSlotMap().get("profile_location_label");
-        if (semanticValue != null) {
-            return semanticValue.trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, "profile_location_label")) {
+            return semanticSlotValue(understanding, "profile_location_label").trim();
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
         if (conversation != null && "profile_location_label".equals(conversation.getRequestedSlot())) {
-            return normalizedPrompt.trim();
+            return firstNonBlank(
+                    VisionPromptTextSupport.extractAfterAnyPrefix(
+                            normalizedPrompt,
+                            List.of("set my location to", "update my location to", "change my location to", "location")
+                    ),
+                    normalizedPrompt.trim()
+            );
         }
-        String stripped = normalizedPrompt.trim()
-                .replaceFirst("(?i)^set my location to\\s+", "")
-                .replaceFirst("(?i)^update my location to\\s+", "")
-                .replaceFirst("(?i)^change my location to\\s+", "")
-                .replaceFirst("(?i)^location\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(normalizedPrompt.trim()) || stripped.isBlank()) {
-            return null;
-        }
-        return stripped;
+        return VisionPromptTextSupport.extractAfterAnyPrefix(
+                normalizedPrompt,
+                List.of("set my location to", "update my location to", "change my location to", "location")
+        );
     }
 
     private String nextMissingProfileLocationSlot(VisionConversation conversation) {
@@ -4145,9 +4242,8 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        String semanticValue = understanding == null ? null : understanding.toExtractedSlotMap().get("profile_username");
-        if (semanticValue != null && !semanticValue.isBlank()) {
-            return semanticValue.trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, "profile_username")) {
+            return semanticSlotValue(understanding, "profile_username").trim();
         }
 
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
@@ -4158,20 +4254,19 @@ public class VisionConversationService {
         if (conversation != null && "profile_username".equals(conversation.getRequestedSlot())
                 && !looksLikeProfileDescriptionInstruction(trimmed)
                 && !looksLikeGenericProfileUpdateInstruction(trimmed)) {
-            return trimmed;
+            return firstNonBlank(
+                    VisionPromptTextSupport.extractAfterAnyPrefix(
+                            trimmed,
+                            List.of("update my username to", "change my username to", "set my username to", "my username is", "username")
+                    ),
+                    trimmed
+            );
         }
 
-        String stripped = trimmed
-                .replaceFirst("(?i)^update my username to\\s+", "")
-                .replaceFirst("(?i)^change my username to\\s+", "")
-                .replaceFirst("(?i)^set my username to\\s+", "")
-                .replaceFirst("(?i)^username\\s+", "")
-                .replaceFirst("(?i)^my username is\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(trimmed)) {
-            return null;
-        }
-        return stripped.isBlank() ? null : stripped;
+        return VisionPromptTextSupport.extractAfterAnyPrefix(
+                trimmed,
+                List.of("update my username to", "change my username to", "set my username to", "my username is", "username")
+        );
     }
 
     private String resolveProfileDescription(
@@ -4179,9 +4274,8 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        String semanticValue = understanding == null ? null : understanding.toExtractedSlotMap().get("profile_description");
-        if (semanticValue != null) {
-            return semanticValue.trim();
+        if (shouldUseSemanticSlotValue(conversation, understanding, "profile_description")) {
+            return semanticSlotValue(understanding, "profile_description").trim();
         }
 
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
@@ -4190,25 +4284,41 @@ public class VisionConversationService {
 
         String trimmed = normalizedPrompt.trim();
         if (conversation != null && "profile_description".equals(conversation.getRequestedSlot())) {
-            return trimmed;
+            return firstNonBlank(
+                    VisionPromptTextSupport.extractAfterAnyPrefix(
+                            trimmed,
+                            List.of(
+                                    "set my profile description to",
+                                    "change my profile description to",
+                                    "update my profile description to",
+                                    "set my description to",
+                                    "change my description to",
+                                    "update my description to",
+                                    "set description to",
+                                    "set bio to",
+                                    "change my bio to",
+                                    "update my bio to"
+                            )
+                    ),
+                    trimmed
+            );
         }
 
-        String stripped = trimmed
-                .replaceFirst("(?i)^set description to\\s+", "")
-                .replaceFirst("(?i)^set my description to\\s+", "")
-                .replaceFirst("(?i)^change my description to\\s+", "")
-                .replaceFirst("(?i)^update my description to\\s+", "")
-                .replaceFirst("(?i)^set bio to\\s+", "")
-                .replaceFirst("(?i)^change my bio to\\s+", "")
-                .replaceFirst("(?i)^update my bio to\\s+", "")
-                .replaceFirst("(?i)^set my profile description to\\s+", "")
-                .replaceFirst("(?i)^change my profile description to\\s+", "")
-                .replaceFirst("(?i)^update my profile description to\\s+", "")
-                .trim();
-        if (stripped.equalsIgnoreCase(trimmed)) {
-            return null;
-        }
-        return stripped;
+        return VisionPromptTextSupport.extractAfterAnyPrefix(
+                trimmed,
+                List.of(
+                        "set my profile description to",
+                        "change my profile description to",
+                        "update my profile description to",
+                        "set my description to",
+                        "change my description to",
+                        "update my description to",
+                        "set description to",
+                        "set bio to",
+                        "change my bio to",
+                        "update my bio to"
+                )
+        );
     }
 
     private boolean hasProfileUpdateDraft(VisionConversation conversation) {

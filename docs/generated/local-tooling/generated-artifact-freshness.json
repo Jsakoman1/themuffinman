@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-05T09:26:46Z",
+  "generated_at": "2026-07-06T05:41:53Z",
   "scope_files": [
 
   ],
@@ -13,9 +13,9 @@
       "artifact": "docs/generated/agent-endpoint-inventory.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-05T09:26:14Z",
-      "newest_source": "docs/agent-operating-model/sections/intents.yaml",
-      "newest_source_mtime": "2026-07-03T08:57:27Z",
+      "artifact_mtime": "2026-07-06T05:39:55Z",
+      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "newest_source_mtime": "2026-07-05T12:58:41Z",
       "source_count": 19,
       "regenerate_command": "ruby scripts/generate-agent-endpoint-inventory.rb"
     },
@@ -24,10 +24,10 @@
       "artifact": "docs/generated/automation-read-model-inventory.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-05T09:26:14Z",
-      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java",
-      "newest_source_mtime": "2026-07-04T21:13:32Z",
-      "source_count": 159,
+      "artifact_mtime": "2026-07-06T05:39:55Z",
+      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionLearningMemoryDTO.java",
+      "newest_source_mtime": "2026-07-05T09:38:47Z",
+      "source_count": 160,
       "regenerate_command": "ruby scripts/generate-automation-read-model-inventory.rb"
     },
     {
@@ -35,10 +35,10 @@
       "artifact": "docs/generated/source-of-truth-audit.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-05T09:26:14Z",
-      "newest_source": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextServiceTest.java",
-      "newest_source_mtime": "2026-07-05T08:11:29Z",
-      "source_count": 508,
+      "artifact_mtime": "2026-07-06T05:39:55Z",
+      "newest_source": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptTextSupportTest.java",
+      "newest_source_mtime": "2026-07-06T05:39:22Z",
+      "source_count": 519,
       "regenerate_command": "ruby scripts/generate-source-of-truth-audit.rb"
     },
     {
@@ -46,10 +46,10 @@
       "artifact": "docs/generated/backend-audit-inventory.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-05T09:26:14Z",
-      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
-      "newest_source_mtime": "2026-07-05T08:10:11Z",
-      "source_count": 422,
+      "artifact_mtime": "2026-07-06T05:39:55Z",
+      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptTextSupport.java",
+      "newest_source_mtime": "2026-07-06T05:39:17Z",
+      "source_count": 429,
       "regenerate_command": "ruby scripts/generate-backend-audit-inventory.rb"
     },
     {
@@ -57,10 +57,10 @@
       "artifact": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-05T08:55:38Z",
-      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
-      "newest_source_mtime": "2026-07-05T08:10:11Z",
-      "source_count": 577,
+      "artifact_mtime": "2026-07-06T05:40:02Z",
+      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptTextSupport.java",
+      "newest_source_mtime": "2026-07-06T05:39:17Z",
+      "source_count": 585,
       "regenerate_command": "node apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs"
     },
     {
@@ -68,9 +68,9 @@
       "artifact": "docs/generated/local-tooling/codex-context/latest.execution.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-05T09:26:45Z",
-      "newest_source": "docs/agent-operating-model.yaml",
-      "newest_source_mtime": "2026-07-05T09:26:30Z",
+      "artifact_mtime": "2026-07-06T05:41:52Z",
+      "newest_source": "docs/change-completion-checklist.md",
+      "newest_source_mtime": "2026-07-05T10:50:48Z",
       "source_count": 13,
       "regenerate_command": "make codex-context topic=<topic> intent='<intent>'"
     },
@@ -79,9 +79,9 @@
       "artifact": "docs/generated/local-tooling/control-start-summary.md",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-05T09:26:46Z",
+      "artifact_mtime": "2026-07-06T05:41:53Z",
       "newest_source": "docs/generated/local-tooling/codex-context/latest.review.md",
-      "newest_source_mtime": "2026-07-05T09:26:45Z",
+      "newest_source_mtime": "2026-07-06T05:41:52Z",
       "source_count": 7,
       "regenerate_command": "make control-start"
     },
@@ -90,10 +90,10 @@
       "artifact": "docs/generated/local-tooling/plan-index.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-05T09:26:44Z",
-      "newest_source": "docs/tooling/codex-local-audits.md",
-      "newest_source_mtime": "2026-07-05T09:26:29Z",
-      "source_count": 32,
+      "artifact_mtime": "2026-07-06T05:41:50Z",
+      "newest_source": ".agents/backend-drift-remediation-master-plan.md",
+      "newest_source_mtime": "2026-07-06T05:41:47Z",
+      "source_count": 44,
       "regenerate_command": "make plan-index"
     }
   ]

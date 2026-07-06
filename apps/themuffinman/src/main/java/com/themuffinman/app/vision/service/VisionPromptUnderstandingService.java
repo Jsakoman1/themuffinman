@@ -43,6 +43,10 @@ public class VisionPromptUnderstandingService {
     static final String UNDERSTANDING_STATUS_LOCAL_FAIL_CLOSED = "local_fail_closed";
 
     private static final Set<VisionIntent> SAFE_LOCAL_EMERGENCY_INTENTS = EnumSet.of(
+            VisionIntent.CREATE_QUEST,
+            VisionIntent.CREATE_CIRCLE,
+            VisionIntent.CREATE_APPLICATION,
+            VisionIntent.UPDATE_PROFILE,
             VisionIntent.DISCOVER_QUESTS,
             VisionIntent.OPEN_CHAT,
             VisionIntent.VIEW_CHAT_WORKSPACE,
@@ -56,6 +60,24 @@ public class VisionPromptUnderstandingService {
             VisionIntent.VIEW_QUEST_NEWS,
             VisionIntent.VIEW_APPLICATIONS,
             VisionIntent.VIEW_APPLICATION_DETAIL
+    );
+    private static final Map<SemanticEntityFamily, List<String>> TARGET_QUERY_PRIORITY = Map.of(
+            SemanticEntityFamily.USER, List.of("plan:targetUserQuery", "slot:profile_username", "slot:profile_description"),
+            SemanticEntityFamily.CIRCLE, List.of("slot:target_circle_query", "slot:circle_name"),
+            SemanticEntityFamily.QUEST, List.of("slot:target_quest_query", "plan:searchQuery", "slot:quest_title", "slot:quest_description"),
+            SemanticEntityFamily.APPLICATION, List.of("slot:target_application_query", "slot:target_quest_query", "plan:searchQuery"),
+            SemanticEntityFamily.PROFILE, List.of("slot:profile_username", "slot:profile_description", "plan:targetUserQuery")
+    );
+    private static final Map<String, List<String>> REQUIRED_SLOT_FALLBACKS = Map.of(
+            "target_user", List.of("profile_username", "profile_description", "plan:targetUserQuery"),
+            "reward_amount", List.of("free_quest")
+    );
+    private static final Map<SemanticEntityFamily, Set<String>> NORMALIZED_TARGET_SLOT_IDS = Map.of(
+            SemanticEntityFamily.USER, Set.of("target_user", "profile_username", "profile_description"),
+            SemanticEntityFamily.CIRCLE, Set.of("target_circle_query", "circle_name"),
+            SemanticEntityFamily.QUEST, Set.of("target_quest_query"),
+            SemanticEntityFamily.APPLICATION, Set.of("target_application_query", "target_quest_query"),
+            SemanticEntityFamily.PROFILE, Set.of("profile_username", "profile_description")
     );
 
     private final AgentProperties agentProperties;
@@ -149,6 +171,10 @@ public class VisionPromptUnderstandingService {
             alignUnderstandingContractDefaults(understanding, orchestrationRequest.getRawPrompt(), orchestrationRequest.getContractVersion(), providerName());
             understanding.setUnderstandingProvider(UNDERSTANDING_PROVIDER_OPENAI);
             understanding.setUnderstandingStatus(UNDERSTANDING_STATUS_OPENAI_PRIMARY);
+            VisionPromptUnderstandingResult repairedUnderstanding = attemptFocusedRepair(understanding, orchestrationRequest, conversation);
+            if (repairedUnderstanding != null) {
+                understanding = repairedUnderstanding;
+            }
             applySafeOpenAiRescueIfNeeded(understanding);
             semanticResponseValidator.validate(understanding, orchestrationRequest);
             semanticContractSanitizer.sanitize(understanding, orchestrationRequest.getAllowedRoutes());
@@ -167,6 +193,169 @@ public class VisionPromptUnderstandingService {
         } catch (Exception exception) {
             throw ServiceErrors.badRequest("OpenAI vision understanding parsing failed: " + exception.getMessage());
         }
+    }
+
+    private VisionPromptUnderstandingResult attemptFocusedRepair(
+            VisionPromptUnderstandingResult understanding,
+            VisionSemanticOrchestrationRequest orchestrationRequest,
+            VisionConversation conversation
+    ) {
+        if (understanding == null || orchestrationRequest == null) {
+            return null;
+        }
+
+        VisionSemanticPlan semanticPlan = understanding.semanticPlanOrEmpty();
+        VisionIntent candidateIntent = semanticPlan.candidateIntentOrUnsupported();
+        if (candidateIntent == VisionIntent.UNSUPPORTED) {
+            return null;
+        }
+
+        VisionSemanticRouteDescriptor route = semanticRouteCatalogService.routeForIntent(candidateIntent.name());
+        if (route == null || route.getSlots() == null || route.getSlots().isEmpty()) {
+            return null;
+        }
+
+        String repairSlotId = selectRepairSlotId(understanding, route, conversation);
+        if (repairSlotId == null) {
+            return null;
+        }
+
+        VisionSemanticOrchestrationRequest repairRequest = filteredRepairRequest(orchestrationRequest, route, repairSlotId);
+        if (repairRequest == null) {
+            return null;
+        }
+
+        try {
+            String repairOutput = requestOpenAiOutputText(Map.of(
+                    "model", resolveSemanticModel(),
+                    "input", buildRepairInput(repairRequest, repairSlotId),
+                    "reasoning", Map.of("effort", "low"),
+                    "text", Map.of("verbosity", "low")
+            ));
+            if (repairOutput == null || repairOutput.isBlank()) {
+                understanding.setRepairAttempted(true);
+                understanding.setRepairSlotId(repairSlotId);
+                understanding.setRepairNote("repair_pass_empty");
+                return understanding;
+            }
+
+            VisionPromptUnderstandingResult repairResult = objectMapper.readValue(repairOutput, VisionPromptUnderstandingResult.class);
+            alignUnderstandingContractDefaults(repairResult, orchestrationRequest.getRawPrompt(), orchestrationRequest.getContractVersion(), providerName());
+            repairResult.setUnderstandingProvider(UNDERSTANDING_PROVIDER_OPENAI);
+            repairResult.setUnderstandingStatus(UNDERSTANDING_STATUS_OPENAI_PRIMARY);
+            repairResult.setRepairAttempted(true);
+            repairResult.setRepairSlotId(repairSlotId);
+            repairResult.setRepairNote("focused_slot_repair");
+
+            if (!repairResult.hasConfidentSlot(repairSlotId, VisionPromptUnderstandingResult.MIN_SLOT_CONFIDENCE)
+                    && !repairResult.hasConfidentSlot(repairSlotId, 0.45d)) {
+                understanding.setRepairAttempted(true);
+                understanding.setRepairSlotId(repairSlotId);
+                understanding.setRepairNote("repair_pass_no_change");
+                return understanding;
+            }
+
+            understanding.copySlotValueFrom(repairResult, repairSlotId);
+            understanding.setRepairAttempted(true);
+            understanding.setRepairSlotId(repairSlotId);
+            understanding.setRepairNote("focused_slot_repair_applied");
+            if (repairResult.getFocusSlotId() != null && !repairResult.getFocusSlotId().isBlank()) {
+                understanding.setFocusSlotId(repairResult.getFocusSlotId());
+                understanding.setFocusSlotConfidence(repairResult.getFocusSlotConfidence());
+            }
+            if (repairResult.getSemanticPlan() != null && repairResult.getSemanticPlan().candidateIntentOrUnsupported() != VisionIntent.UNSUPPORTED) {
+                understanding.setSemanticPlan(repairResult.getSemanticPlan());
+            }
+            if (repairResult.isClarificationRequired()) {
+                understanding.setClarificationRequired(true);
+            }
+            return understanding;
+        } catch (Exception exception) {
+            understanding.setRepairAttempted(true);
+            understanding.setRepairSlotId(repairSlotId);
+            understanding.setRepairNote("repair_pass_failed");
+            return understanding;
+        }
+    }
+
+    private VisionSemanticOrchestrationRequest filteredRepairRequest(
+            VisionSemanticOrchestrationRequest originalRequest,
+            VisionSemanticRouteDescriptor route,
+            String repairSlotId
+    ) {
+        if (originalRequest == null || route == null || repairSlotId == null || repairSlotId.isBlank()) {
+            return null;
+        }
+
+        VisionSemanticConversationContext conversationContext = originalRequest.getConversationContext();
+        VisionSemanticConversationContext repairConversationContext = conversationContext == null
+                ? null
+                : VisionSemanticConversationContext.builder()
+                .conversationId(conversationContext.getConversationId())
+                .currentIntent(conversationContext.getCurrentIntent())
+                .requestedSlot(conversationContext.getRequestedSlot())
+                .slotData(conversationContext.getSlotData())
+                .activeSlot(repairSlotId)
+                .draftSnapshot(conversationContext.getDraftSnapshot())
+                .build();
+
+        return VisionSemanticOrchestrationRequest.builder()
+                .contractVersion(originalRequest.getContractVersion())
+                .rawPrompt(originalRequest.getRawPrompt())
+                .userContext(originalRequest.getUserContext())
+                .memoryContext(originalRequest.getMemoryContext())
+                .conversationContext(repairConversationContext)
+                .runtimeContext(originalRequest.getRuntimeContext())
+                .allowedRoutes(List.of(route))
+                .responseContract(originalRequest.getResponseContract())
+                .build();
+    }
+
+    private String buildRepairInput(VisionSemanticOrchestrationRequest repairRequest, String repairSlotId) {
+        return """
+                Focus on a single slot repair.
+                Repair slot: %s
+                Repair only the target slot if the user utterance clearly supports it.
+                Keep all unrelated slots null.
+                If the target slot is still unclear, preserve the existing understanding and set clarificationRequired to true.
+
+                %s
+                """.formatted(repairSlotId, buildInput(repairRequest));
+    }
+
+    private String selectRepairSlotId(
+            VisionPromptUnderstandingResult understanding,
+            VisionSemanticRouteDescriptor route,
+            VisionConversation conversation
+    ) {
+        if (understanding == null || route == null || route.getSlots() == null || route.getSlots().isEmpty()) {
+            return null;
+        }
+
+        Set<String> routeSlotIds = route.getSlots().stream()
+                .map(VisionSemanticSlotDescriptor::getSlotId)
+                .filter(value -> value != null && !value.isBlank())
+                .collect(java.util.stream.Collectors.toSet());
+
+        String requestedSlot = conversation == null ? null : conversation.getRequestedSlot();
+        if (requestedSlot != null && routeSlotIds.contains(requestedSlot)
+                && !understanding.hasConfidentSlot(requestedSlot, VisionPromptUnderstandingResult.MIN_SLOT_CONFIDENCE)) {
+            return requestedSlot;
+        }
+
+        for (String missingSlotId : missingRequiredSlotIds(route, understanding)) {
+            if (routeSlotIds.contains(missingSlotId)) {
+                return missingSlotId;
+            }
+        }
+
+        String focusSlotId = understanding.getFocusSlotId();
+        if (focusSlotId != null && routeSlotIds.contains(focusSlotId)
+                && !understanding.hasConfidentSlot(focusSlotId, VisionPromptUnderstandingResult.MIN_SLOT_CONFIDENCE)) {
+            return focusSlotId;
+        }
+
+        return null;
     }
 
     protected String requestOpenAiOutputText(Map<String, Object> payload) {
@@ -427,11 +616,11 @@ public class VisionPromptUnderstandingService {
         if (slotId == null || slotId.isBlank()) {
             return true;
         }
-        return switch (slotId) {
-            case "target_user" -> hasValue(semanticPlan.getTargetUserQuery()) || hasValue(slotCandidates.get(slotId));
-            case "reward_amount" -> hasValue(slotCandidates.get(slotId)) || hasValue(slotCandidates.get("free_quest"));
-            default -> hasValue(slotCandidates.get(slotId));
-        };
+        if (hasValue(slotCandidates.get(slotId))) {
+            return true;
+        }
+        return REQUIRED_SLOT_FALLBACKS.getOrDefault(slotId, List.of()).stream()
+                .anyMatch(candidate -> hasValue(resolveSlotOrPlanCandidate(candidate, semanticPlan, slotCandidates)));
     }
 
     private boolean hasValue(String value) {
@@ -490,34 +679,11 @@ public class VisionPromptUnderstandingService {
     ) {
         Map<String, String> slotCandidates = understanding == null ? Map.of() : understanding.toExtractedSlotMap();
         SemanticEntityFamily entityFamily = resolveTargetEntityFamily(candidateIntent);
-        String resolvedQuery = switch (entityFamily) {
-            case USER -> firstNonBlank(
-                    semanticPlan.getTargetUserQuery(),
-                    slotCandidates.get("profile_username"),
-                    slotCandidates.get("profile_description"),
-                    slotCandidates.get("target_user_query")
-            );
-            case CIRCLE -> firstNonBlank(
-                    slotCandidates.get("target_circle_query"),
-                    slotCandidates.get("circle_name")
-            );
-            case QUEST -> firstNonBlank(
-                    slotCandidates.get("target_quest_query"),
-                    semanticPlan.getSearchQuery(),
-                    slotCandidates.get("quest_title"),
-                    slotCandidates.get("quest_description")
-            );
-            case APPLICATION -> firstNonBlank(
-                    slotCandidates.get("target_application_query"),
-                    slotCandidates.get("target_quest_query")
-            );
-            case PROFILE -> firstNonBlank(
-                    slotCandidates.get("profile_username"),
-                    slotCandidates.get("profile_description"),
-                    semanticPlan.getTargetUserQuery()
-            );
-            default -> firstNonBlank(semanticPlan.getTargetUserQuery(), semanticPlan.getSearchQuery());
-        };
+        List<String> resolvedCandidates = new ArrayList<>();
+        for (String candidateSource : TARGET_QUERY_PRIORITY.getOrDefault(entityFamily, List.of())) {
+            resolvedCandidates.add(resolveSlotOrPlanCandidate(candidateSource, semanticPlan, slotCandidates));
+        }
+        String resolvedQuery = firstNonBlank(resolvedCandidates.toArray(String[]::new));
         return normalizeTargetEntityQuery(entityFamily, resolvedQuery);
     }
 
@@ -541,18 +707,41 @@ public class VisionPromptUnderstandingService {
         if (value == null || value.isBlank()) {
             return value;
         }
-        if (entityFamily == SemanticEntityFamily.QUEST && "target_quest_query".equals(slotId)) {
-            return normalizeTargetEntityQuery(SemanticEntityFamily.QUEST, value);
-        }
-        if (entityFamily == SemanticEntityFamily.CIRCLE && ("target_circle_query".equals(slotId) || "circle_name".equals(slotId))) {
-            return normalizeTargetEntityQuery(SemanticEntityFamily.CIRCLE, value);
-        }
-        if ((entityFamily == SemanticEntityFamily.APPLICATION && ("target_application_query".equals(slotId) || "target_quest_query".equals(slotId)))
-                || (entityFamily == SemanticEntityFamily.USER && "profile_username".equals(slotId))
-                || (entityFamily == SemanticEntityFamily.PROFILE && ("profile_username".equals(slotId) || "profile_description".equals(slotId)))) {
+        if (shouldNormalizeTargetSlot(entityFamily, slotId)) {
             return normalizeTargetEntityQuery(entityFamily, value);
         }
         return value.trim();
+    }
+
+    private boolean shouldNormalizeTargetSlot(SemanticEntityFamily entityFamily, String slotId) {
+        if (entityFamily == null || slotId == null || slotId.isBlank()) {
+            return false;
+        }
+        return NORMALIZED_TARGET_SLOT_IDS.getOrDefault(entityFamily, Set.of()).contains(slotId);
+    }
+
+    private String semanticPlanValue(VisionSemanticPlan semanticPlan, String fieldName) {
+        if (semanticPlan == null || fieldName == null || fieldName.isBlank()) {
+            return null;
+        }
+        return switch (fieldName) {
+            case "targetUserQuery" -> semanticPlan.getTargetUserQuery();
+            case "searchQuery" -> semanticPlan.getSearchQuery();
+            default -> null;
+        };
+    }
+
+    private String resolveSlotOrPlanCandidate(String candidateSource, VisionSemanticPlan semanticPlan, Map<String, String> slotCandidates) {
+        if (candidateSource == null || candidateSource.isBlank()) {
+            return null;
+        }
+        if (candidateSource.startsWith("plan:")) {
+            return semanticPlanValue(semanticPlan, candidateSource.substring("plan:".length()));
+        }
+        if (candidateSource.startsWith("slot:")) {
+            return slotCandidates.get(candidateSource.substring("slot:".length()));
+        }
+        return slotCandidates.get(candidateSource);
     }
 
     private String normalizeTargetEntityQuery(SemanticEntityFamily family, String query) {
@@ -625,7 +814,9 @@ public class VisionPromptUnderstandingService {
         compact.put("conversationId", context.getConversationId());
         compact.put("currentIntent", context.getCurrentIntent());
         compact.put("requestedSlot", context.getRequestedSlot());
+        compact.put("activeSlot", context.getActiveSlot());
         compact.put("slotData", context.getSlotData());
+        compact.put("draftSnapshot", context.getDraftSnapshot());
         return compact;
     }
 
@@ -746,8 +937,29 @@ public class VisionPromptUnderstandingService {
                     compact.put("routeKey", route.getRouteKey());
                     compact.put("intent", route.getIntent());
                     compact.put("capabilityId", route.getCapabilityId());
+                    compact.put("entityType", route.getEntityType());
+                    compact.put("entityFamily", route.getEntityFamily());
+                    compact.put("dtoType", route.getDtoType());
+                    compact.put("purpose", route.getPurpose());
                     compact.put("mutating", route.isMutating());
                     compact.put("requiresReview", route.isRequiresReview());
+                    compact.put("examples", compactExamples(route.getExamples()));
+                    compact.put("slots", compactSlots(route.getSlots()));
+                    return compact;
+                })
+                .toList();
+    }
+
+    private List<Map<String, Object>> compactExamples(List<VisionSemanticRouteExampleDescriptor> examples) {
+        if (examples == null || examples.isEmpty()) {
+            return List.of();
+        }
+
+        return examples.stream()
+                .map(example -> {
+                    Map<String, Object> compact = new LinkedHashMap<>();
+                    compact.put("input", example.getInput());
+                    compact.put("expectedSlots", example.getExpectedSlots());
                     return compact;
                 })
                 .toList();
@@ -762,8 +974,13 @@ public class VisionPromptUnderstandingService {
                 .map(slot -> {
                     Map<String, Object> compact = new LinkedHashMap<>();
                     compact.put("slotId", slot.getSlotId());
+                    compact.put("fieldName", slot.getFieldName());
                     compact.put("kind", slot.getKind());
                     compact.put("required", slot.isRequired());
+                    compact.put("description", slot.getDescription());
+                    compact.put("allowedValues", slot.getAllowedValues());
+                    compact.put("aliases", slot.getAliases());
+                    compact.put("antiExamples", slot.getAntiExamples());
                     return compact;
                 })
                 .toList();
@@ -797,10 +1014,15 @@ public class VisionPromptUnderstandingService {
                 Use memoryContext.sessionMemory for the current thread, open questions, last prompts, and slot state.
                 Use memoryContext.recentConversations only as lightweight reminders when topics switch.
                 Use runtimeContext to know whether the turn came from text or voice.
-                Use conversationContext for already collected slot data.
+                Use conversationContext for already collected slot data, activeSlot, and draftSnapshot.
                 Use semanticHints.familyAliases to map multilingual aliases and paraphrases to the correct family before choosing targetEntityQuery.
+                Use route examples and slot aliases to resolve the shortest valid slot value from the user wording.
+                Use slot anti-examples to avoid mapping instruction words into slot values.
                 Determine candidateIntent and capability first.
                 Extract only values that are explicit or directly implied.
+                When an intent phrase is followed by an entity phrase, fill the matching slot from the shortest cleaned entity phrase and do not include the intent words in the slot value.
+                Example: create new circle Lover -> circleName = Lover; open circle Family -> targetCircleQuery = Family; show application #42 -> targetApplicationQuery = #42; show user Josip -> profileUsername = Josip.
+                Use the route examples, slot aliases, slot descriptions, and allowed values from allowedRoutes as the source of truth for each slot.
                 Normalize the internal semantic meaning into English only.
                 Always return normalizedPrompt in English, even if the user spoke another language or used broken grammar.
                 If the prompt is vague or slot-follow-up, prefer the current session entity family unless the user clearly changes topic.

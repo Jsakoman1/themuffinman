@@ -2,6 +2,7 @@
 import {computed, onMounted, ref, watch} from "vue"
 import {useRoute, useRouter} from "vue-router"
 import VisionCanvasRenderer from "../components/VisionCanvasRenderer.vue"
+import VisionFlowDebugPanel from "../components/VisionFlowDebugPanel.vue"
 import VisionIntentPreviewPanel from "../components/VisionIntentPreviewPanel.vue"
 import {useVisionConversation} from "../composables/useVisionConversation.ts"
 
@@ -64,6 +65,9 @@ const previewVisible = computed(() => !!response.value && (
   || !!response.value.memoryTrail
 ))
 
+const showPreviewRail = computed(() => previewVisible.value)
+const showFlowDebugRail = computed(() => !!response.value || !!lastTranscript.value.trim() || voiceState.value !== "idle")
+
 const routePrompt = computed(() => {
   const prompt = route.query.prompt
   return typeof prompt === "string" ? prompt.trim() : ""
@@ -122,47 +126,61 @@ watch(
     <main
       class="vision-surface__stage"
     >
-      <section class="vision-surface__console">
-        <VisionCanvasRenderer
-          :response="response"
-          :display-blocks="displayBlocks"
-          :last-transcript="lastTranscript"
-          :is-loading="isLoading"
-          :error="error"
-          :input-text="inputText"
-          :prompt-composer-visible="true"
-          :current-slot-label="currentSlotLabel"
-          :current-slot-value="currentSlotValue"
-          :transcript-target-label="transcriptTargetLabel"
-          :transcript-target-detail="transcriptTargetDetail"
-          :current-field-kind="currentFieldKind"
-          :current-placeholder="currentPlaceholder"
-          :active-entity-family-label="activeEntityFamilyLabel"
-          :active-entity-context-label="activeEntityContextLabel"
-          :speech-status-label="speechStatusLabel"
-          :voice-enabled="voiceEnabled"
-          :speech-to-text-enabled="speechToTextEnabled"
-          :speech-recognition-supported="speechRecognitionSupported"
-          :voice-state="voiceState"
-          :can-send="canSend"
-          @choice="submitChoice"
-          @review-change="requestReviewChange"
-          @confirm-review="confirmReview"
-          @start-listening="startListening"
-          @stop-listening="stopListening"
-          @update:input-text="updateInputText"
-          @submit="submitPrompt"
-          @open="openComposer"
-          @cancel="cancelConversation"
-        />
-      </section>
+      <div class="vision-surface__layout" :class="{ 'vision-surface__layout--preview': showPreviewRail }">
+        <section class="vision-surface__console">
+          <VisionCanvasRenderer
+            :response="response"
+            :display-blocks="displayBlocks"
+            :last-transcript="lastTranscript"
+            :is-loading="isLoading"
+            :error="error"
+            :input-text="inputText"
+            :prompt-composer-visible="true"
+            :current-slot-label="currentSlotLabel"
+            :current-slot-value="currentSlotValue"
+            :transcript-target-label="transcriptTargetLabel"
+            :transcript-target-detail="transcriptTargetDetail"
+            :current-field-kind="currentFieldKind"
+            :current-placeholder="currentPlaceholder"
+            :active-entity-family-label="activeEntityFamilyLabel"
+            :active-entity-context-label="activeEntityContextLabel"
+            :speech-status-label="speechStatusLabel"
+            :voice-enabled="voiceEnabled"
+            :speech-to-text-enabled="speechToTextEnabled"
+            :speech-recognition-supported="speechRecognitionSupported"
+            :voice-state="voiceState"
+            :can-send="canSend"
+            @choice="submitChoice"
+            @review-change="requestReviewChange"
+            @confirm-review="confirmReview"
+            @start-listening="startListening"
+            @stop-listening="stopListening"
+            @update:input-text="updateInputText"
+            @submit="submitPrompt"
+            @open="openComposer"
+            @cancel="cancelConversation"
+          />
+        </section>
 
-      <div class="vision-surface__overlay">
-        <VisionIntentPreviewPanel
-          :response="response"
-          :execution-candidate="response?.executionCandidate ?? null"
-          :visible="previewVisible"
-        />
+        <aside v-if="showPreviewRail || showFlowDebugRail" class="vision-surface__preview-rail" aria-label="Vision preview rail">
+          <VisionFlowDebugPanel
+            :response="response"
+            :last-transcript="lastTranscript"
+            :transcript-target-label="transcriptTargetLabel"
+            :transcript-target-detail="transcriptTargetDetail"
+            :current-slot-label="currentSlotLabel"
+            :current-slot-value="currentSlotValue"
+            :current-field-kind="currentFieldKind"
+            :speech-status-label="speechStatusLabel"
+            :voice-state="voiceState"
+          />
+          <VisionIntentPreviewPanel
+            v-if="showPreviewRail"
+            :response="response"
+            :execution-candidate="response?.executionCandidate ?? null"
+            :visible="previewVisible"
+          />
+        </aside>
       </div>
     </main>
   </section>
@@ -190,6 +208,19 @@ watch(
   position: relative;
 }
 
+.vision-surface__layout {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr);
+  gap: clamp(0.75rem, 1.6vw, 1.35rem);
+  align-items: stretch;
+}
+
+.vision-surface__layout--preview {
+  grid-template-columns: minmax(0, 1.3fr) minmax(24rem, 0.86fr);
+}
+
 .vision-surface__console {
   min-width: 0;
   min-height: 0;
@@ -200,21 +231,20 @@ watch(
   gap: 0.5rem;
 }
 
-.vision-surface__overlay {
-  position: absolute;
-  top: 50%;
-  right: clamp(0.75rem, 2vw, 1.25rem);
-  transform: translateY(-42%);
-  width: min(31rem, 44vw);
-  z-index: 3;
+.vision-surface__preview-rail {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+  justify-items: stretch;
   pointer-events: none;
 }
 
 @media (max-width: 980px) {
-  .vision-surface__overlay {
-    right: 50%;
-    transform: translate(50%, -40%);
-    width: min(28rem, calc(100vw - 2rem));
+  .vision-surface__layout,
+  .vision-surface__layout--preview {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 </style>

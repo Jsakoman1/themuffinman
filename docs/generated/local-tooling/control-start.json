@@ -1,20 +1,12 @@
 {
-  "generated_at": "2026-07-05T10:41:57Z",
+  "generated_at": "2026-07-06T05:41:53Z",
   "plan_index": {
     "path": "docs/generated/local-tooling/plan-index.json",
     "summary_path": "docs/generated/local-tooling/plan-index-summary.md",
-    "total_count": 27,
-    "open_count": 1,
+    "total_count": 38,
+    "open_count": 0,
     "open_master_plans": [
-      {
-        "path": ".agents/backend-drift-remediation-master-plan.md",
-        "kind": "master-plan",
-        "status": "unknown",
-        "title": "Backend Drift Remediation Master Plan",
-        "goal": "Reduce the open implementation backlog by tightening backend service boundaries on the current backend path, while excluding legacy frontend-only cleanup unless a backend contract still depends on it.",
-        "child_plans": 0,
-        "open_tasks": 0
-      }
+
     ],
     "open_plans": [
 

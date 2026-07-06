@@ -24,3 +24,7 @@ The machine-readable source is `docs/regression-scenario-catalog.yaml`. Keep thi
 - `rides-circle-scoped-offers`: ride offer scheduling and circle-scoped visibility validation.
 - `common-cross-module-primitives`: reusable actor, ownership, scheduling, visibility, rich-text, and structured error primitives.
 - `vision-learning-eval-harness`: learned-memory recall, decay-aware preference confidence, clarification wording, and weak ambiguous topic continuity.
+- `vision-crud-utterance-regressions`: real utterances for circles, applications, profiles, chat, discovery, and read snapshots keep the standard CRUD slot contract stable.
+- `identity-profile-read-model`: profile view stays role-aware and keeps edit, relation, and summary assembly aligned.
+- `social-circle-discovery-read-model`: circle discovery, membership, search, and admin overview read models stay aligned.
+- `workmarket-quest-read-model`: quest browsing, ranking, and news read state stay backend-prepared and viewer-aware.

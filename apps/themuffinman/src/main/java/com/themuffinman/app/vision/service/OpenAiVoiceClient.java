@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.config.VoiceProperties;
-import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,8 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,32 +48,49 @@ public class OpenAiVoiceClient {
 
         MultiValueMap<String, Object> payload = new LinkedMultiValueMap<>();
         payload.add("model", voiceProperties.getTranscriptionModel());
-        payload.add("file", new MultipartFileResource(audioFile));
         if (voiceProperties.getPreferredLocale() != null && !voiceProperties.getPreferredLocale().isBlank()) {
             payload.add("language", voiceProperties.getPreferredLocale());
         }
         payload.add("response_format", "json");
 
-        String responseBody;
+        Path tempFile = null;
         try {
-            responseBody = restClient.post()
+            tempFile = writeTempAudioFile(audioFile);
+            payload.add("file", buildAudioPart(tempFile, audioFile));
+
+            String responseBody = restClient.post()
                     .uri(voiceProperties.getBaseUrl() + "/audio/transcriptions")
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + voiceProperties.getApiKey())
                     .contentType(MediaType.MULTIPART_FORM_DATA)
                     .body(payload)
                     .retrieve()
                     .body(String.class);
+
+            JsonNode response = parseResponse(responseBody);
+            String text = extractText(response);
+            if (text == null || text.isBlank()) {
+                throw ServiceErrors.badRequest("OpenAI transcription response did not include text");
+            }
+
+            return new DashboardVoiceTranscriptionResult(text.trim(), "openai", voiceProperties.getTranscriptionModel());
         } catch (RestClientException exception) {
             throw ServiceErrors.badRequest("OpenAI transcription request failed: " + exception.getMessage());
+        } finally {
+            if (tempFile != null) {
+                try {
+                    Files.deleteIfExists(tempFile);
+                } catch (IOException ignored) {
+                    // Temporary transcription files are best-effort cleanup.
+                }
+            }
         }
+    }
 
-        JsonNode response = parseResponse(responseBody);
-        String text = extractText(response);
-        if (text == null || text.isBlank()) {
-            throw ServiceErrors.badRequest("OpenAI transcription response did not include text");
-        }
-
-        return new DashboardVoiceTranscriptionResult(text.trim(), "openai", voiceProperties.getTranscriptionModel());
+    private HttpEntity<Resource> buildAudioPart(Path audioFilePath, MultipartFile multipartFile) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("file", resolveFilename(multipartFile));
+        headers.setContentType(resolveAudioMediaType(multipartFile));
+        return new HttpEntity<>(new FileSystemResource(audioFilePath), headers);
     }
 
     public byte[] synthesize(String text) {
@@ -156,25 +177,49 @@ public class OpenAiVoiceClient {
     public record DashboardVoiceTranscriptionResult(String text, String provider, String model) {
     }
 
-    private static final class MultipartFileResource extends ByteArrayResource {
-        private final String filename;
-
-        private MultipartFileResource(MultipartFile multipartFile) {
-            super(readBytes(multipartFile));
-            this.filename = multipartFile.getOriginalFilename() != null ? multipartFile.getOriginalFilename() : "audio.webm";
+    private static Path writeTempAudioFile(MultipartFile audioFile) {
+        try {
+            String extension = resolveTempFileExtension(audioFile);
+            Path tempFile = Files.createTempFile("vision-voice-", extension);
+            Files.write(tempFile, audioFile.getBytes());
+            return tempFile;
+        } catch (IOException exception) {
+            throw ServiceErrors.badRequest("Unable to stage uploaded audio file: " + exception.getMessage());
         }
+    }
 
-        @Override
-        public String getFilename() {
-            return filename;
-        }
-
-        private static byte[] readBytes(MultipartFile multipartFile) {
+    private static MediaType resolveAudioMediaType(MultipartFile audioFile) {
+        String contentType = audioFile.getContentType();
+        if (contentType != null && !contentType.isBlank()) {
             try {
-                return multipartFile.getBytes();
-            } catch (IOException exception) {
-                throw ServiceErrors.badRequest("Unable to read uploaded audio file: " + exception.getMessage());
+                return MediaType.parseMediaType(contentType);
+            } catch (IllegalArgumentException ignored) {
+                // Fall back to a conservative default below.
             }
         }
+
+        return MediaType.valueOf("audio/webm");
+    }
+
+    private static String resolveTempFileExtension(MultipartFile audioFile) {
+        MediaType mediaType = resolveAudioMediaType(audioFile);
+        if (MediaType.valueOf("audio/mp4").isCompatibleWith(mediaType)) {
+            return ".m4a";
+        }
+        return ".webm";
+    }
+
+    private static String resolveFilename(MultipartFile audioFile) {
+        String originalFilename = audioFile.getOriginalFilename();
+        if (originalFilename != null && !originalFilename.isBlank()) {
+            return originalFilename;
+        }
+
+        MediaType mediaType = resolveAudioMediaType(audioFile);
+        if (MediaType.valueOf("audio/mp4").isCompatibleWith(mediaType)) {
+            return "voice.m4a";
+        }
+
+        return "voice.webm";
     }
 }

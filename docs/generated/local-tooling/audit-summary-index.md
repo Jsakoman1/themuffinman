@@ -3,7 +3,7 @@
 - Registry entries: 69
 - Tracked outputs: 19
 - Missing outputs: 50
-- Summary files: 55
+- Summary files: 54
 
 ## Registry
 
@@ -30,11 +30,11 @@
 - `docs/generated/local-tooling/audit-documentation-summary.md` | 2026-07-05T09:46:55Z | 141 bytes
 - `docs/generated/local-tooling/audit-registry-artifacts-summary.md` | 2026-07-03T14:48:12Z | 142 bytes
 - `docs/generated/local-tooling/backend-dependency-graph-summary.md` | 2026-07-05T09:11:22Z | 1136 bytes
-- `docs/generated/local-tooling/control-start-summary.md` | 2026-07-05T10:33:22Z | 764 bytes
+- `docs/generated/local-tooling/control-start-summary.md` | 2026-07-06T05:24:16Z | 763 bytes
 - `docs/generated/local-tooling/doc-canonical-phrases-summary.md` | 2026-07-05T09:23:05Z | 2154 bytes
-- `docs/generated/local-tooling/domain-packs/agent-summary.md` | 2026-07-05T09:09:31Z | 611 bytes
-- `docs/generated/local-tooling/domain-packs/social-summary.md` | 2026-07-05T10:41:57Z | 651 bytes
+- `docs/generated/local-tooling/domain-packs/agent-summary.md` | 2026-07-05T10:42:53Z | 611 bytes
 - `docs/generated/local-tooling/dto-usage-packs/visioncanvasblockdto-summary.md` | 2026-07-04T11:50:44Z | 1249 bytes
-- ... and 43 more
+- `docs/generated/local-tooling/dto-usage-packs/visionconversationturnresponsedto-summary.md` | 2026-07-05T09:25:42Z | 2217 bytes
+- ... and 42 more
 
 _Routing aid only. Use the underlying generated report or source file for current state._

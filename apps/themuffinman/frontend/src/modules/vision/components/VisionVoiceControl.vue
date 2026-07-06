@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref} from "vue"
+import {computed} from "vue"
 import type {VisionVoiceState} from "../composables/useVisionConversation.ts"
 
 const props = defineProps<{
@@ -15,43 +15,22 @@ const emit = defineEmits<{
   stopListening: []
 }>()
 
-const pressActive = ref(false)
-
 const canRecord = computed(() => props.voiceEnabled && props.speechToTextEnabled && props.speechRecognitionSupported)
 const isListening = computed(() => props.voiceState === "listening")
 const isProcessing = computed(() => props.voiceState === "processing")
 const isSpeaking = computed(() => props.voiceState === "speaking")
 
-const handlePointerDown = () => {
+const handleToggle = () => {
   if (!canRecord.value) {
     return
   }
-  pressActive.value = true
+
+  if (isListening.value) {
+    emit("stopListening")
+    return
+  }
+
   emit("startListening")
-}
-
-const handlePointerUp = () => {
-  if (!pressActive.value) {
-    return
-  }
-  pressActive.value = false
-  emit("stopListening")
-}
-
-const handlePointerCancel = () => {
-  if (!pressActive.value) {
-    return
-  }
-  pressActive.value = false
-  emit("stopListening")
-}
-
-const handlePointerLeave = () => {
-  if (!pressActive.value) {
-    return
-  }
-  pressActive.value = false
-  emit("stopListening")
 }
 </script>
 
@@ -71,11 +50,8 @@ const handlePointerLeave = () => {
         'vision-voice__button--compact': compact
       }"
       :disabled="!canRecord || isProcessing"
-      :aria-label="isListening ? 'Release to stop recording' : 'Hold to record'"
-      @pointerdown.prevent="handlePointerDown"
-      @pointerup="handlePointerUp"
-      @pointercancel="handlePointerCancel"
-      @pointerleave="handlePointerLeave"
+      :aria-label="isListening ? 'Tap to stop recording' : 'Tap to start recording'"
+      @click="handleToggle"
     >
       <span v-if="isProcessing" class="vision-voice__hourglass" aria-hidden="true"></span>
       <svg v-else viewBox="0 0 24 24" aria-hidden="true">
@@ -84,11 +60,11 @@ const handlePointerLeave = () => {
     </button>
 
     <p v-if="!compact" class="vision-voice__caption">
-      <span v-if="isListening">Recording. Release to send.</span>
-      <span v-else-if="isProcessing">Processing...</span>
-      <span v-else-if="isSpeaking">Speaking response...</span>
-      <span v-else-if="canRecord">Hold to talk.</span>
-      <span v-else>Voice unavailable.</span>
+      <span v-if="isListening">Recording.</span>
+      <span v-else-if="isProcessing">Processing.</span>
+      <span v-else-if="isSpeaking">Speaking.</span>
+      <span v-else-if="canRecord">Ready.</span>
+      <span v-else>Unavailable.</span>
     </p>
   </section>
 </template>

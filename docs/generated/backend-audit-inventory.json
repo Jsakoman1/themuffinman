@@ -1,41 +1,41 @@
 {
-  "generatedAt": "2026-07-05T09:26:14Z",
+  "generatedAt": "2026-07-06T05:39:55Z",
   "summary": {
-    "totalFiles": 420,
-    "classifiedFiles": 420,
+    "totalFiles": 427,
+    "classifiedFiles": 427,
     "unclassifiedFileCount": 0,
     "unownedDomainFileCount": 0,
     "tierCounts": {
       "executor_critical": 67,
-      "automation_relevant": 245,
+      "automation_relevant": 252,
       "internal_support": 107,
       "out_of_scope": 1
     },
     "domainCounts": {
       "platform": 13,
-      "agent": 237,
+      "agent": 242,
       "business": 8,
       "chat": 22,
       "common": 21,
-      "identity": 25,
+      "identity": 26,
       "location": 30,
       "rides": 8,
-      "social": 43,
+      "social": 44,
       "things": 13
     },
     "ownerCounts": {
       "platform_core": 34,
-      "agent_platform": 237,
+      "agent_platform": 242,
       "business_domain": 8,
       "chat_domain": 22,
-      "identity_domain": 25,
+      "identity_domain": 26,
       "location_domain": 30,
       "rides_domain": 8,
-      "social_domain": 43,
+      "social_domain": 44,
       "things_domain": 13
     },
     "executorCriticalWithoutSourceRefCount": 0,
-    "automationRelevantWithoutSourceRefCount": 90,
+    "automationRelevantWithoutSourceRefCount": 97,
     "strictSourceOfTruthMissingCount": 0,
     "strictDocumentationMissingCount": 0
   },
@@ -1406,6 +1406,19 @@
       "currentGate": "fail_hard"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserReadService.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "identity",
+      "ownerId": "identity_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java",
       "tier": "executor_critical",
       "classificationRuleId": "executor_tracked_service_surface",
@@ -1414,8 +1427,8 @@
       "registeredInSourceOfTruth": true,
       "sourceRefId": "app_user_service",
       "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
       "currentGate": "fail_hard"
     },
     {
@@ -2589,6 +2602,19 @@
       "currentGate": "fail_hard"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationshipReadService.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "social",
+      "ownerId": "social_domain",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleSearchQueryService.java",
       "tier": "automation_relevant",
       "classificationRuleId": "automation_relevant_remaining_service_surface",
@@ -2610,8 +2636,8 @@
       "registeredInSourceOfTruth": true,
       "sourceRefId": "circle_service",
       "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
       "currentGate": "fail_hard"
     },
     {
@@ -3785,6 +3811,19 @@
       "currentGate": "report_only"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionLearningExplainabilityDTO.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_dto_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionLearningMemoryDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "automation_relevant_dto_surface",
@@ -4552,6 +4591,32 @@
       "currentGate": "report_only"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardReadModel.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardReadQueryService.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java",
       "tier": "automation_relevant",
       "classificationRuleId": "automation_relevant_remaining_service_surface",
@@ -5111,6 +5176,19 @@
       "currentGate": "report_only"
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleService.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
       "tier": "automation_relevant",
       "classificationRuleId": "automation_relevant_remaining_service_surface",
@@ -5281,6 +5359,19 @@
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPresentationHelper.java",
+      "tier": "automation_relevant",
+      "classificationRuleId": "automation_relevant_remaining_service_surface",
+      "domainId": "agent",
+      "ownerId": "agent_platform",
+      "registeredInSourceOfTruth": false,
+      "sourceRefId": null,
+      "documentationCovered": false,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null,
+      "currentGate": "report_only"
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptTextSupport.java",
       "tier": "automation_relevant",
       "classificationRuleId": "automation_relevant_remaining_service_surface",
       "domainId": "agent",
@@ -5520,6 +5611,7 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiErrorResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiFieldErrorDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserReadService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/location/service/AdminDatabaseMetricsService.java",
@@ -5533,6 +5625,7 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleAdminOverviewAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleDiscoveryService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationshipReadService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleSearchQueryService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialPresentationHelper.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/SocialRelationActionHelper.java",
@@ -5544,6 +5637,7 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationListResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationSummaryDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionLearningExplainabilityDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionLearningMemoryDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionLearningPreferenceDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionMemoryTrailDTO.java",
@@ -5557,6 +5651,8 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CircleEntityResolver.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardNotificationAssembler.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardPlannerAssembler.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardReadModel.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardReadQueryService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionGrouper.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSectionsFactory.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardSummaryAssembler.java",
@@ -5575,6 +5671,7 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionResult.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateCircleExecutionAdapter.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionResult.java",
@@ -5587,6 +5684,7 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionOptionsService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPreferenceConfidenceSupport.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPresentationHelper.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptTextSupport.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingResult.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java",

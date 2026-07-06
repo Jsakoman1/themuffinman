@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-05T09:26:14Z",
+  "generatedAt": "2026-07-06T05:39:55Z",
   "summary": {
     "candidateCount": 193,
     "domainCounts": {
@@ -517,8 +517,8 @@
       "ownerId": "identity_domain",
       "sourceRefId": "app_user_service",
       "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
@@ -987,8 +987,8 @@
       "ownerId": "social_domain",
       "sourceRefId": "circle_service",
       "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java",

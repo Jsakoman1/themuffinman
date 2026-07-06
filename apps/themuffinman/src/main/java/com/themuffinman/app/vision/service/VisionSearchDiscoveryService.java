@@ -405,12 +405,12 @@ public class VisionSearchDiscoveryService {
     private String buildSummary(String query, List<VisionSearchDiscoveryItemDTO> items) {
         if (query == null || query.isBlank()) {
             return items.isEmpty()
-                    ? "No broad search matches were found."
-                    : "Showing broad matches across " + familySummary(items) + ".";
+                    ? "No matches."
+                    : "Showing matches across " + familySummary(items) + ".";
         }
         return items.isEmpty()
-                ? "No broad matches were found for \"" + query.trim() + "\"."
-                : "Showing " + items.size() + " broad matches for \"" + query.trim() + "\".";
+                ? "No matches for \"" + query.trim() + "\"."
+                : "Showing " + items.size() + " matches for \"" + query.trim() + "\".";
     }
 
     private String familySummary(List<VisionSearchDiscoveryItemDTO> items) {

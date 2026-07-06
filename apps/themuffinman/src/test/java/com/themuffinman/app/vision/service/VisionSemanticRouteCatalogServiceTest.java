@@ -53,11 +53,15 @@ class VisionSemanticRouteCatalogServiceTest {
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.create_circle")
                 && route.isMutating()
                 && route.isRequiresReview()
-                && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("circle_name"))));
+                && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("circle_name"))
+                && route.getExamples() != null
+                && !route.getExamples().isEmpty()));
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.search")
                 && !route.isMutating()
                 && !route.isRequiresReview()
-                && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("search_query"))));
+                && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("search_query"))
+                && route.getExamples() != null
+                && !route.getExamples().isEmpty()));
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_things")
                 && !route.isMutating()
                 && !route.isRequiresReview()
@@ -165,6 +169,10 @@ class VisionSemanticRouteCatalogServiceTest {
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_application_detail")
                 && !route.isMutating()
                 && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("target_application_query"))));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.update_profile")
+                && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("profile_username"))
+                && route.getSlots().stream().anyMatch(slot -> slot.getAliases() != null && !slot.getAliases().isEmpty())
+                && route.getSlots().stream().anyMatch(slot -> slot.getAntiExamples() != null)));
     }
 
     @Test

@@ -3,6 +3,8 @@ import {computed, nextTick, onMounted, ref, watch} from "vue"
 import {currentUser} from "../../identity/auth.ts"
 import type {VisionCanvasBlock, VisionConversationTurnResponse, VisionReviewTarget} from "../api/visionConversationApi.ts"
 import type {VisionVoiceState} from "../composables/useVisionConversation.ts"
+import {formatVisionFlowLine} from "../visionPresentation.ts"
+import VisionTerminalRow from "./VisionTerminalRow.vue"
 import VisionVoiceControl from "./VisionVoiceControl.vue"
 import VisionTypingText from "./VisionTypingText.vue"
 
@@ -44,6 +46,17 @@ const emit = defineEmits<{
 
 const textareaRef = ref<HTMLTextAreaElement | null>(null)
 
+type TerminalRow = {
+  key: string
+  kind: "choice" | "summary"
+  title: string
+  meta: string
+  sub: string
+  actionValue?: string
+}
+
+const isNonEmptyText = (value: string | null | undefined): value is string => !!value && value.trim().length > 0
+
 const username = computed(() => currentUser.value?.username ?? "there")
 const questionBlock = computed(() => props.displayBlocks.find((block) => block.type === "field_request") ?? null)
 const activeFlowLabel = computed(() => props.activeEntityContextLabel.trim() || props.activeEntityFamilyLabel.trim())
@@ -53,13 +66,75 @@ const headerLine = computed(() => {
   if (activeFlowLabel.value) {
     segments.push(activeFlowLabel.value)
   }
-  if (props.currentSlotLabel.trim()) {
-    segments.push(props.currentSlotValue.trim()
-      ? `next ${props.currentSlotLabel.trim()}: ${props.currentSlotValue.trim()}`
-      : `next ${props.currentSlotLabel.trim()}`)
+  const slotLine = formatVisionFlowLine(props.currentSlotLabel, props.currentSlotValue)
+  if (slotLine) {
+    segments.push(slotLine)
   }
   return segments.join(" · ")
 })
+
+const terminalRows = computed<TerminalRow[]>(() => props.displayBlocks.flatMap<TerminalRow>((block, blockIndex) => {
+  if (block.type === "field_request") {
+    return []
+  }
+
+  if (block.type === "quest_discovery" && block.questDiscovery) {
+    return (block.questDiscovery.items ?? []).slice(0, 6).map((item, itemIndex) => ({
+      key: `quest-${blockIndex}-${item.questId}-${item.rank}-${itemIndex}`,
+      kind: "choice",
+      title: item.title,
+      meta: [
+        item.rewardLabel,
+        item.statusLabel,
+        item.locationLabel
+      ].filter(isNonEmptyText).join(" · "),
+      sub: [
+        item.creatorUsername ? `by ${item.creatorUsername}` : "",
+        item.scheduledAt ?? ""
+      ].filter(isNonEmptyText).join(" · "),
+      actionValue: item.title
+    }))
+  }
+
+  if (block.type === "search_discovery" && block.searchDiscovery) {
+    return (block.searchDiscovery.items ?? []).slice(0, 8).map((item, itemIndex) => ({
+      key: `search-${blockIndex}-${item.entityFamily}-${item.targetId}-${item.capabilityId}-${itemIndex}`,
+      kind: "choice",
+      title: item.title,
+      meta: [
+        item.resolutionLabel,
+        item.entityFamily,
+        item.matchSummary
+      ].filter(isNonEmptyText).join(" · "),
+      sub: item.summary ?? "",
+      actionValue: item.title
+    }))
+  }
+
+  if ((block.items?.length ?? 0) > 0) {
+    return (block.items ?? []).map((item, itemIndex) => ({
+      key: `summary-${blockIndex}-${item.slotId}-${itemIndex}`,
+      kind: "summary",
+      title: item.label,
+      meta: item.value ?? "",
+      sub: ""
+    }))
+  }
+
+  const title = block.title?.trim() ?? ""
+  const body = block.body?.trim() ?? ""
+  if (!title && !body) {
+    return []
+  }
+
+  return [{
+    key: `block-${blockIndex}-${block.type}`,
+    kind: "summary",
+    title,
+    meta: body,
+    sub: ""
+  }]
+}))
 
 const feedLines = computed(() => {
   const lines: Array<
@@ -69,7 +144,7 @@ const feedLines = computed(() => {
   if (!props.response && !props.isLoading && !props.error) {
     lines.push({
       kind: "greeting",
-      text: `Hello, ${username.value}. What do you want to do?`
+      text: `Hello, ${username.value}.`
     })
   }
 
@@ -83,7 +158,7 @@ const feedLines = computed(() => {
   if (props.isLoading) {
     lines.push({
       kind: "system",
-      text: "Loading vision surface..."
+      text: "Loading..."
     })
   }
 
@@ -91,13 +166,6 @@ const feedLines = computed(() => {
     lines.push({
       kind: "error",
       text: props.error
-    })
-  }
-
-  if (props.lastTranscript.trim()) {
-    lines.push({
-      kind: "user",
-      text: props.lastTranscript.trim()
     })
   }
 
@@ -111,7 +179,7 @@ const feedLines = computed(() => {
   return lines
 })
 
-const greetingTypingText = computed(() => `Hello, ${username.value}. What do you want to do?`)
+const greetingTypingText = computed(() => `Hello, ${username.value}.`)
 const updateInputText = (event: Event) => {
   const target = event.target as HTMLTextAreaElement
   emit("update:inputText", target.value)
@@ -189,7 +257,7 @@ onMounted(() => {
               ref="textareaRef"
               :value="inputText"
               class="vision-console__input"
-              :placeholder="currentPlaceholder || 'Type here. Enter sends. Shift+Enter makes a new line.'"
+              :placeholder="currentPlaceholder || 'Type here.'"
               rows="1"
               @focus="emit('open')"
               @keydown="handleKeydown"
@@ -208,18 +276,29 @@ onMounted(() => {
           </span>
         </p>
 
-        <p v-if="questionBlock && questionBlock.options.length" class="vision-console__line vision-console__line--choices">
-          <span class="vision-console__text vision-console__choices-prefix">&gt;</span>
-          <button
+        <VisionTerminalRow
+          v-for="row in terminalRows"
+          :key="row.key"
+          class="vision-console__row"
+          :label="row.kind === 'choice' ? 'Option' : row.title"
+          :value="row.kind === 'choice' ? [row.meta, row.sub].filter(Boolean).join(' · ') : row.meta"
+          :clickable="row.kind === 'choice'"
+          :tone="row.kind === 'choice' ? 'strong' : 'muted'"
+          @click="choose(row.actionValue ?? row.title)"
+        />
+
+        <div v-if="questionBlock && questionBlock.options.length" class="vision-console__choices">
+          <VisionTerminalRow
             v-for="option in questionBlock.options"
             :key="option.id"
-            type="button"
-            class="vision-console__choice"
+            class="vision-console__row"
+            label="Choice"
+            :value="option.label"
+            clickable
+            tone="muted"
             @click="choose(option.value ?? option.label)"
-          >
-            {{ option.label }}
-          </button>
-        </p>
+          />
+        </div>
       </div>
     </div>
   </section>
@@ -299,6 +378,13 @@ onMounted(() => {
   white-space: pre-wrap;
 }
 
+.vision-console__block {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.45rem 0;
+  border-top: 1px solid rgba(24, 36, 47, 0.06);
+}
+
 .vision-console__composer {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -307,32 +393,31 @@ onMounted(() => {
   padding: 0.05rem 0 0.05rem 0;
 }
 
+.vision-console__voice-meta {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.2rem 0 0.1rem;
+}
+
+.vision-console__voice-status {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  color: var(--vision-surface-ink-muted);
+  font-size: 0.73rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 .vision-console__input-shell {
   min-width: 0;
 }
 
-.vision-console__choice {
-  appearance: none;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  border-radius: 0;
-  color: #244a7a;
-  font: inherit;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
-  pointer-events: auto;
-}
-
-.vision-console__line--choices {
-  gap: 0.55rem;
-  color: rgba(24, 36, 47, 0.52);
-  align-items: center;
-}
-
-.vision-console__choices-prefix {
-  color: rgba(24, 36, 47, 0.4);
+.vision-console__choices {
+  display: grid;
+  gap: 0.1rem;
 }
 
 .vision-console__input {

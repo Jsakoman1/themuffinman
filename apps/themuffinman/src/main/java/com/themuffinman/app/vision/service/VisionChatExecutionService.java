@@ -9,15 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class VisionChatExecutionService {
-
-    private static final Pattern TARGET_USER_PATTERN = Pattern.compile(
-            "(?i)(?:chat with|open chat with|start chat with|message|send a message to|dm|direct message|talk to)\\s+(.+?)\\s*$"
-    );
 
     private final ChatService chatService;
     private final AppUserRepository appUserRepository;
@@ -69,23 +63,38 @@ public class VisionChatExecutionService {
             return semanticPlan.getTargetUserQuery().trim();
         }
         String normalizedPrompt = prompt == null ? "" : prompt.trim();
-        Matcher matcher = TARGET_USER_PATTERN.matcher(normalizedPrompt);
-        if (matcher.find()) {
-            return cleanupTargetQuery(matcher.group(1));
-        }
-        return cleanupTargetQuery(normalizedPrompt);
+        String stripped = VisionPromptTextSupport.extractAfterAnyPrefix(
+                normalizedPrompt,
+                List.of(
+                        "chat with",
+                        "open chat with",
+                        "start chat with",
+                        "message",
+                        "send a message to",
+                        "dm",
+                        "direct message",
+                        "talk to"
+                )
+        );
+        String query = stripped == null ? normalizedPrompt : stripped;
+        return cleanupTargetQuery(query);
     }
 
     private String cleanupTargetQuery(String value) {
         if (value == null) {
             return "";
         }
-        String cleaned = value
-                .replaceAll("(?i)\\b(the|a|an|to|with|please|user|users|person|people|profile|profiles|contact|contacts|member|members|account|accounts)\\b", " ")
+        String cleaned = VisionPromptTextSupport.stripLeadingWords(
+                value,
+                List.of("the", "a", "an", "to", "with", "please", "user", "users", "person", "people", "profile", "profiles", "contact", "contacts", "member", "members", "account", "accounts")
+        );
+        if (cleaned == null) {
+            return "";
+        }
+        return cleaned
                 .replaceAll("[,.;!?]", " ")
                 .replaceAll("\\s+", " ")
                 .trim();
-        return cleaned;
     }
 
     private List<AppUser> resolveTargetUserMatches(AppUser currentUser, String targetQuery) {

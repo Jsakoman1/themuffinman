@@ -149,6 +149,8 @@ public class VisionSemanticOrchestrationContextService {
                 .currentIntent(conversation.getIntent() == null ? "" : conversation.getIntent().name())
                 .requestedSlot(clean(conversation.getRequestedSlot()))
                 .slotData(conversation.getSlotData() == null ? Map.of() : new LinkedHashMap<>(conversation.getSlotData()))
+                .activeSlot(clean(conversation.getRequestedSlot()))
+                .draftSnapshot(conversation.getSlotData() == null ? Map.of() : new LinkedHashMap<>(conversation.getSlotData()))
                 .build();
     }
 

@@ -43,6 +43,14 @@ class PromptSemanticsSupportTest {
     }
 
     @Test
+    void classifiesCircleRequestPromptWithInsertedTargetName() {
+        PromptSemanticPlan plan = promptSemanticsSupport.inferPlan("invite Josip to my circle");
+
+        assertEquals("CREATE_CIRCLE_REQUEST", plan.getCandidateIntent());
+        assertEquals("create_circle_request", plan.getCapabilityId());
+    }
+
+    @Test
     void classifiesApplicationPrompt() {
         PromptSemanticPlan plan = promptSemanticsSupport.inferPlan("submit application for quest 42");
 

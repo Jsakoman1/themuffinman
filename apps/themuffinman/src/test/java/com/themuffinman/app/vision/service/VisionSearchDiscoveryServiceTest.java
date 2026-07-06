@@ -196,7 +196,7 @@ class VisionSearchDiscoveryServiceTest {
 
         assertNotNull(result);
         assertEquals("", result.getQuery());
-        assertEquals("No broad search matches were found.", result.getSummary());
+        assertEquals("No matches.", result.getSummary());
         verify(appUserRepository, never()).searchByUsernameOrEmail(anyString());
     }
 

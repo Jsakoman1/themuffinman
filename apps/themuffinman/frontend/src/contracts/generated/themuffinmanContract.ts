@@ -1476,10 +1476,22 @@ export interface VisionExecutionCandidateDTO {
   summary: string
 }
 
+export interface VisionLearningExplainabilityDTO {
+  decisionType: string
+  preferenceKey: string
+  preferenceValue: string
+  rank: number
+  confidenceScore: number
+  observationCount: number
+  sourceType: string
+  reason: string
+}
+
 export interface VisionLearningMemoryDTO {
   summaryText: string
   recentFeedbackTypes: string[]
   preferenceSignals: VisionLearningPreferenceDTO[]
+  explainabilityRecords: VisionLearningExplainabilityDTO[]
 }
 
 export interface VisionLearningPreferenceDTO {
