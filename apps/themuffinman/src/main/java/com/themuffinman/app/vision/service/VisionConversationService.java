@@ -2898,34 +2898,7 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "profile_location_mode")) {
-            return semanticSlotValue(understanding, "profile_location_mode").trim().toUpperCase(Locale.ROOT);
-        }
-        if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
-            return null;
-        }
-        String lower = normalizedPrompt.trim().toLowerCase(Locale.ROOT);
-        if (conversation != null && "profile_location_mode".equals(conversation.getRequestedSlot())) {
-            if (lower.contains("off") || lower.contains("hide")) {
-                return "OFF";
-            }
-            if (lower.contains("approx")) {
-                return "APPROXIMATE";
-            }
-            if (lower.contains("exact")) {
-                return "EXACT";
-            }
-        }
-        if (lower.contains("turn off") || lower.contains("hide my location") || lower.contains("location off")) {
-            return "OFF";
-        }
-        if (lower.contains("approximate")) {
-            return "APPROXIMATE";
-        }
-        if (lower.contains("exact")) {
-            return "EXACT";
-        }
-        return null;
+        return visionConversationSlotResolutionSupport.resolveProfileLocationMode(conversation, normalizedPrompt, understanding);
     }
 
     private String resolveProfileLocationLabel(
@@ -2933,42 +2906,11 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "profile_location_label")) {
-            return semanticSlotValue(understanding, "profile_location_label").trim();
-        }
-        if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
-            return null;
-        }
-        if (conversation != null && "profile_location_label".equals(conversation.getRequestedSlot())) {
-            return firstNonBlank(
-                    VisionPromptTextSupport.extractAfterAnyPrefix(
-                            normalizedPrompt,
-                            List.of("set my location to", "update my location to", "change my location to", "location")
-                    ),
-                    normalizedPrompt.trim()
-            );
-        }
-        return VisionPromptTextSupport.extractAfterAnyPrefix(
-                normalizedPrompt,
-                List.of("set my location to", "update my location to", "change my location to", "location")
-        );
+        return visionConversationSlotResolutionSupport.resolveProfileLocationLabel(conversation, normalizedPrompt, understanding);
     }
 
     private String nextMissingProfileLocationSlot(VisionConversation conversation) {
-        if (conversation == null) {
-            return "profile_location_mode";
-        }
-        String mode = conversation.getSlotData().get("profile_location_mode");
-        if (!hasText(mode)) {
-            return "profile_location_mode";
-        }
-        if (!"OFF".equalsIgnoreCase(mode)) {
-            String draftLabel = conversation.getSlotData().get("profile_location_label");
-            if (!hasText(draftLabel)) {
-                return "profile_location_label";
-            }
-        }
-        return null;
+        return visionConversationSlotResolutionSupport.nextMissingProfileLocationSlot(conversation);
     }
 
     private String resolveProfileUsername(
@@ -2976,31 +2918,7 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "profile_username")) {
-            return semanticSlotValue(understanding, "profile_username").trim();
-        }
-
-        if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
-            return null;
-        }
-
-        String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "profile_username".equals(conversation.getRequestedSlot())
-                && !looksLikeProfileDescriptionInstruction(trimmed)
-                && !looksLikeGenericProfileUpdateInstruction(trimmed)) {
-            return firstNonBlank(
-                    VisionPromptTextSupport.extractAfterAnyPrefix(
-                            trimmed,
-                            List.of("update my username to", "change my username to", "set my username to", "my username is", "username")
-                    ),
-                    trimmed
-            );
-        }
-
-        return VisionPromptTextSupport.extractAfterAnyPrefix(
-                trimmed,
-                List.of("update my username to", "change my username to", "set my username to", "my username is", "username")
-        );
+        return visionConversationSlotResolutionSupport.resolveProfileUsername(conversation, normalizedPrompt, understanding);
     }
 
     private String resolveProfileDescription(
@@ -3008,90 +2926,23 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding
     ) {
-        if (shouldUseSemanticSlotValue(conversation, understanding, "profile_description")) {
-            return semanticSlotValue(understanding, "profile_description").trim();
-        }
-
-        if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
-            return null;
-        }
-
-        String trimmed = normalizedPrompt.trim();
-        if (conversation != null && "profile_description".equals(conversation.getRequestedSlot())) {
-            return firstNonBlank(
-                    VisionPromptTextSupport.extractAfterAnyPrefix(
-                            trimmed,
-                            List.of(
-                                    "set my profile description to",
-                                    "change my profile description to",
-                                    "update my profile description to",
-                                    "set my description to",
-                                    "change my description to",
-                                    "update my description to",
-                                    "set description to",
-                                    "set bio to",
-                                    "change my bio to",
-                                    "update my bio to"
-                            )
-                    ),
-                    trimmed
-            );
-        }
-
-        return VisionPromptTextSupport.extractAfterAnyPrefix(
-                trimmed,
-                List.of(
-                        "set my profile description to",
-                        "change my profile description to",
-                        "update my profile description to",
-                        "set my description to",
-                        "change my description to",
-                        "update my description to",
-                        "set description to",
-                        "set bio to",
-                        "change my bio to",
-                        "update my bio to"
-                )
-        );
+        return visionConversationSlotResolutionSupport.resolveProfileDescription(conversation, normalizedPrompt, understanding);
     }
 
     private boolean hasProfileUpdateDraft(VisionConversation conversation) {
-        if (conversation == null || conversation.getSlotData() == null) {
-            return false;
-        }
-        return hasText(conversation.getSlotData().get("profile_username"))
-                || conversation.getSlotData().containsKey("profile_description");
+        return visionConversationSlotResolutionSupport.hasProfileUpdateDraft(conversation);
     }
 
     private boolean looksLikeProfileDescriptionInstruction(String prompt) {
-        if (prompt == null) {
-            return false;
-        }
-        String lower = prompt.trim().toLowerCase(Locale.ROOT);
-        return lower.startsWith("set description")
-                || lower.startsWith("set my description")
-                || lower.startsWith("change my description")
-                || lower.startsWith("update my description")
-                || lower.startsWith("set bio")
-                || lower.startsWith("change my bio")
-                || lower.startsWith("update my bio")
-                || lower.startsWith("set my profile description")
-                || lower.startsWith("change my profile description")
-                || lower.startsWith("update my profile description");
+        return visionConversationSlotResolutionSupport.looksLikeProfileDescriptionInstruction(prompt);
     }
 
     private boolean looksLikeGenericProfileUpdateInstruction(String prompt) {
-        if (prompt == null) {
-            return false;
-        }
-        String lower = prompt.trim().toLowerCase(Locale.ROOT);
-        return lower.equals("update my profile")
-                || lower.equals("edit my profile")
-                || lower.equals("change my profile");
+        return visionConversationSlotResolutionSupport.looksLikeGenericProfileUpdateInstruction(prompt);
     }
 
     private boolean hasText(String value) {
-        return value != null && !value.isBlank();
+        return visionConversationSlotResolutionSupport.hasText(value);
     }
 
     private VisionTurn createTurn(
