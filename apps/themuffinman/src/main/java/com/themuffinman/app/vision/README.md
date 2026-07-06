@@ -1,38 +1,35 @@
-# Workmarket Backend Capsule
+# Vision Backend Capsule
 
 ## Responsibility
 
-Owns quests, applications, quest workflow transitions, reviews, dashboard read models, workmarket notifications, and backend-prepared presentation sections.
+Owns `/vision` conversation orchestration, semantic understanding, slot validation, review coordination, execution gating, read-only query surfaces, and backend-prepared canvas state.
 
 ## Main Entry Points
 
 - Controllers: `controller/`
-- Query/read services: `service/QuestService.java`, `service/DashboardService.java`, `service/DashboardVisionPromptService.java`, `service/DashboardSummaryAssembler.java`, `service/QuestViewAssembler.java`, `service/QuestApplicationViewAssembler.java`
-- Mutation use cases: `service/*UseCase.java`
-- Domain events and side-effect handlers: `event/`
-- Policies and workflow support: `service/QuestAccessPolicyService.java`, `service/QuestStateTransitionService.java`, `service/QuestApplicationWorkflowSupport.java`
-- Repositories and mappers: `repository/`, `mapper/`
+- Conversation orchestration: `service/VisionConversationService.java`
+- Read-only query surfaces: `service/VisionConversationQueryService.java`, `service/VisionConversationReadModelAssembler.java`
+- Mutation lifecycle boundaries: `service/VisionConversationLifecycleService.java`, `service/VisionConversationMutationSupport.java`
+- Semantic and review support: `service/VisionPromptUnderstandingService.java`, `service/VisionSemanticRouteCatalogService.java`, `service/VisionSemanticEnvelopeSupport.java`, `service/VisionQuestReviewSupport.java`
+- Execution boundaries: `service/VisionExecutionService.java`, `service/VisionSurfacePolicy.java`, `service/VisionCapabilityExecutionAdapter.java`
+- Canvas assembly and presentation helpers: `service/VisionCanvasAssembler.java`, `service/VisionConversationSnapshotSupport.java`
 
 ## Tests
 
-- `src/test/java/com/themuffinman/app/workmarket/service/`
-- Prefer scenario coverage for workflow transitions and targeted unit coverage for service policy changes.
+- `src/test/java/com/themuffinman/app/vision/service/`
+- Prefer scenario coverage for orchestration and execution boundaries, plus targeted unit coverage for route catalog and semantic sanitizer changes.
 
 ## Living Docs
 
 - `docs/business-logic.md`
 - `docs/domain-technical.md`
-- `docs/agent-operating-model/sections/api.yaml`
-- `docs/agent-operating-model/sections/source_of_truth.yaml`
+- `docs/vision-status-ledger.md`
+- `docs/vision-architecture-patterns.md`
 
 ## Forbidden Shortcuts
 
-- Do not put workflow rules or permission decisions in controllers or frontend-only code.
-- Do not hardcode adaptive voice defaults in the frontend when `DashboardService`, `DashboardVoiceService`, or typed config can provide the source-of-truth contract instead.
-- Do not send adaptive voice recordings or speech synthesis text to OpenAI before applying backend-configured recording duration, audio-size, and speech-text limits.
-- Do not bypass `DashboardVisionPromptService` or the shared admin-agent planning core when the vision screen needs to decode typed or voice-derived prompts.
-- Do not duplicate quest owner, admin, application detail, execution, or term-decision checks outside `QuestAccessPolicyService`.
-- Do not map application or quest DTOs from lazy entities without using fetch-safe repository paths.
-- Do not add a new quest/application state transition without updating tests and living docs.
-- Do not add public methods to `*UseCase` classes other than the single `execute` orchestration entrypoint.
-- Do not call notification side effects directly from new mutation use cases when a domain event boundary already fits the workflow.
+- Do not put orchestration, slot validation, review selection, or execution gating in controllers or frontend-only code.
+- Do not duplicate semantic route metadata, entity-family mapping, or capability gating outside the shared vision services.
+- Do not add a new execution adapter without registering it through the explicit typed execution gate.
+- Do not add a new semantic route or validator path without updating route-catalog and sanitizer tests.
+- Do not let the frontend decide whether a route can execute or which entity family is active.

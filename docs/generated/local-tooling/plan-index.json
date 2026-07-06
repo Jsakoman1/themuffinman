@@ -1,16 +1,68 @@
 {
-  "generated_at": "2026-07-06T06:54:00Z",
-  "total_count": 41,
-  "open_count": 0,
-  "master_plan_count": 10,
+  "generated_at": "2026-07-06T19:00:56Z",
+  "total_count": 45,
+  "open_count": 3,
+  "master_plan_count": 14,
   "god_plan_count": 1,
   "open_master_plans": [
-
+    {
+      "path": ".agents/vision-improvement-master-plan.md",
+      "kind": "master-plan",
+      "status": "active",
+      "title": "Vision Improvement Master Plan",
+      "goal": "Stabilize `/vision` by simplifying the semantic boundary, reducing service fan-out, and making the adaptive surface easier to maintain.",
+      "child_plans": 12,
+      "open_tasks": 16
+    },
+    {
+      "path": ".agents/workmarket-extraction-master-plan.md",
+      "kind": "master-plan",
+      "status": "active",
+      "title": "Workmarket Extraction Master Plan",
+      "goal": "Extract the quest, application, dashboard, and review domain from the overloaded vision package into a dedicated workmarket module while keeping the current product behavior stable.",
+      "child_plans": 12,
+      "open_tasks": 0
+    },
+    {
+      "path": ".agents/workmarket-improvement-master-plan.md",
+      "kind": "master-plan",
+      "status": "active",
+      "title": "Workmarket Improvement Master Plan",
+      "goal": "Improve the workmarket module so quests, applications, dashboards, reviews, and notifications have a cleaner backend boundary and fewer vision-era leftovers.",
+      "child_plans": 12,
+      "open_tasks": 14
+    }
   ],
   "open_plans": [
 
   ],
   "entries": [
-
+    {
+      "path": ".agents/vision-improvement-master-plan.md",
+      "kind": "master-plan",
+      "status": "active",
+      "title": "Vision Improvement Master Plan",
+      "goal": "Stabilize `/vision` by simplifying the semantic boundary, reducing service fan-out, and making the adaptive surface easier to maintain.",
+      "child_plans": 12,
+      "open_tasks": 16
+    },
+    {
+      "path": ".agents/workmarket-extraction-master-plan.md",
+      "kind": "master-plan",
+      "status": "active",
+      "title": "Workmarket Extraction Master Plan",
+      "goal": "Extract the quest, application, dashboard, and review domain from the overloaded vision package into a dedicated workmarket module while keeping the current product behavior stable.",
+      "child_plans": 12,
+      "open_tasks": 0
+    },
+    {
+      "path": ".agents/workmarket-improvement-master-plan.md",
+      "kind": "master-plan",
+      "status": "active",
+      "title": "Workmarket Improvement Master Plan",
+      "goal": "Improve the workmarket module so quests, applications, dashboards, reviews, and notifications have a cleaner backend boundary and fewer vision-era leftovers.",
+      "child_plans": 12,
+      "open_tasks": 14
+    }
   ]
 }

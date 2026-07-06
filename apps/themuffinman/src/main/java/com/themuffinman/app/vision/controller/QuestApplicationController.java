@@ -1,7 +1,6 @@
 package com.themuffinman.app.vision.controller;
 
 import com.themuffinman.app.common.dto.ActionResultDTO;
-import com.themuffinman.app.common.dto.ActionResults;
 import com.themuffinman.app.vision.dto.AdminApplicationsQueryDTO;
 import com.themuffinman.app.vision.dto.AdminQuestApplicationUpdateRequestDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationRequestDTO;
@@ -10,8 +9,7 @@ import com.themuffinman.app.vision.dto.QuestApplicationListResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationsViewDTO;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.workmarket.service.WorkmarketQuestService;
-import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationService;
+import com.themuffinman.app.vision.service.VisionQuestApplicationFacadeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,8 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestApplicationController {
 
-    private final WorkmarketQuestApplicationService questApplicationService;
-    private final WorkmarketQuestService questService;
+    private final VisionQuestApplicationFacadeService questApplicationService;
 
     @PostMapping("/quests/{questId}/applications")
     public ActionResultDTO applyForQuest(
@@ -32,8 +29,7 @@ public class QuestApplicationController {
             @Valid @RequestBody QuestApplicationRequestDTO dto,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        questApplicationService.applyForQuest(questId, dto, currentUser);
-        return ActionResults.of("APPLY_FOR_QUEST", "Application sent.");
+        return questApplicationService.applyForQuest(questId, dto, currentUser);
     }
 
     @GetMapping("/quests/{questId}/applications")
@@ -47,12 +43,12 @@ public class QuestApplicationController {
             @RequestParam(defaultValue = "false") boolean showAll,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return questApplicationService.getApplicationsViewForQuest(questId, currentUser, showAll);
+        return questApplicationService.getApplicationsViewForQuest(questId, showAll, currentUser);
     }
 
     @GetMapping("/quests/applications/me")
     public List<QuestApplicationResponseDTO> getMyApplications(@AuthenticationPrincipal AppUser currentUser) {
-        return questApplicationService.getApplicationsForApplicant(currentUser);
+        return questApplicationService.getMyApplications(currentUser);
     }
 
     @GetMapping("/applications/{applicationId}/detail")
@@ -60,7 +56,7 @@ public class QuestApplicationController {
             @PathVariable Long applicationId,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return questService.getApplicationDetailResponseById(applicationId, currentUser);
+        return questApplicationService.getApplicationDetail(applicationId, currentUser);
     }
 
     @GetMapping("/admin/applications")
@@ -68,13 +64,7 @@ public class QuestApplicationController {
             @AuthenticationPrincipal AppUser currentUser,
             @ModelAttribute AdminApplicationsQueryDTO query
     ) {
-        return questApplicationService.searchApplicationsForAdmin(
-                currentUser,
-                query.getQ(),
-                query.getStatus(),
-                query.getPage(),
-                query.getSize()
-        );
+        return questApplicationService.getAllApplicationsForAdmin(currentUser, query);
     }
 
     @PutMapping("/admin/applications/{applicationId}")
@@ -83,8 +73,7 @@ public class QuestApplicationController {
             @Valid @RequestBody AdminQuestApplicationUpdateRequestDTO dto,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        questApplicationService.updateApplicationForAdmin(applicationId, dto, currentUser);
-        return ActionResults.of("UPDATE_APPLICATION_AS_ADMIN", "Application updated.");
+        return questApplicationService.updateApplicationForAdmin(applicationId, dto, currentUser);
     }
 
     @DeleteMapping("/admin/applications/{applicationId}")
@@ -92,8 +81,7 @@ public class QuestApplicationController {
             @PathVariable Long applicationId,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        questApplicationService.deleteApplicationForAdmin(applicationId, currentUser);
-        return ActionResults.of("DELETE_APPLICATION_AS_ADMIN", "Application deleted.");
+        return questApplicationService.deleteApplicationForAdmin(applicationId, currentUser);
     }
 
     @PutMapping("/quests/{questId}/applications/me")
@@ -102,14 +90,12 @@ public class QuestApplicationController {
             @Valid @RequestBody QuestApplicationRequestDTO dto,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        questApplicationService.updateMyApplication(questId, dto, currentUser);
-        return ActionResults.of("UPDATE_APPLICATION", "Application updated.");
+        return questApplicationService.updateMyApplication(questId, dto, currentUser);
     }
 
     @PatchMapping("/quests/{questId}/applications/me/withdraw")
     public ActionResultDTO withdrawMyApplication(@PathVariable Long questId, @AuthenticationPrincipal AppUser currentUser) {
-        questApplicationService.withdrawMyApplication(questId, currentUser);
-        return ActionResults.of("WITHDRAW_APPLICATION", "Application withdrawn.");
+        return questApplicationService.withdrawMyApplication(questId, currentUser);
     }
 
     @PatchMapping("/quests/{questId}/applications/{applicationId}/approve")
@@ -118,8 +104,7 @@ public class QuestApplicationController {
             @PathVariable Long applicationId,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        questApplicationService.approveApplication(questId, applicationId, currentUser);
-        return ActionResults.of("APPROVE_APPLICATION", "Application approved.");
+        return questApplicationService.approveApplication(questId, applicationId, currentUser);
     }
 
     @PatchMapping("/quests/{questId}/applications/{applicationId}/decline")
@@ -128,8 +113,7 @@ public class QuestApplicationController {
             @PathVariable Long applicationId,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        questApplicationService.declineApplication(questId, applicationId, currentUser);
-        return ActionResults.of("DECLINE_APPLICATION", "Application declined.");
+        return questApplicationService.declineApplication(questId, applicationId, currentUser);
     }
 
 }

@@ -6,6 +6,8 @@ import com.themuffinman.app.vision.model.VisionIntent;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -173,6 +175,35 @@ class VisionSemanticRouteCatalogServiceTest {
                 && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("profile_username"))
                 && route.getSlots().stream().anyMatch(slot -> slot.getAliases() != null && !slot.getAliases().isEmpty())
                 && route.getSlots().stream().anyMatch(slot -> slot.getAntiExamples() != null)));
+    }
+
+    @Test
+    void routeCatalogKeepsUniqueCapabilitiesAndValidatorMetadataAligned() {
+        List<VisionSemanticRouteDescriptor> routes = service.allRoutes();
+        Set<String> routeKeys = new HashSet<>();
+        Set<String> capabilityIds = new HashSet<>();
+
+        for (VisionSemanticRouteDescriptor route : routes) {
+            assertTrue(routeKeys.add(route.getRouteKey()), () -> "Duplicate route key: " + route.getRouteKey());
+            assertTrue(capabilityIds.add(route.getCapabilityId()), () -> "Duplicate capability id: " + route.getCapabilityId());
+            assertNotNull(route.getIntent(), () -> "Route intent missing for " + route.getRouteKey());
+            assertNotNull(route.getCapabilityId(), () -> "Route capability missing for " + route.getRouteKey());
+            assertFalse(route.getCapabilityId().isBlank(), () -> "Route capability blank for " + route.getRouteKey());
+            assertNotNull(service.validatorKeyForIntent(VisionIntent.valueOf(route.getIntent())));
+            assertNotNull(service.executorKeyForIntent(VisionIntent.valueOf(route.getIntent())));
+            assertFalse(service.validatorKeyForIntent(VisionIntent.valueOf(route.getIntent())).isBlank(),
+                    () -> "Validator key blank for " + route.getRouteKey());
+            assertFalse(service.executorKeyForIntent(VisionIntent.valueOf(route.getIntent())).isBlank(),
+                    () -> "Executor key blank for " + route.getRouteKey());
+            if (route.isMutating()) {
+                assertTrue(service.requiresTargetEntityResolution(VisionIntent.valueOf(route.getIntent()))
+                                || service.minimumConfidenceForIntent(VisionIntent.valueOf(route.getIntent())) >= 0.85d,
+                        () -> "Mutating route should have typed execution or confidence gate metadata: " + route.getRouteKey());
+            }
+        }
+
+        assertEquals(29, routes.size());
+        assertEquals(Set.of("create_quest", "create_circle"), new HashSet<>(new VisionSurfacePolicy(new com.themuffinman.app.config.VisionProperties()).supportedExecutionCapabilityIds()));
     }
 
     @Test

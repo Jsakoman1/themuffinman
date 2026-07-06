@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Search Expansion Plan
 machine_goal: Add a shared cross-entity discovery domain for quests, circles, users, applications, and things.
 ---

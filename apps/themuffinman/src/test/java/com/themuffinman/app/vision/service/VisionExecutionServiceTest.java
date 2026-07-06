@@ -15,6 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -108,5 +109,20 @@ class VisionExecutionServiceTest {
         assertTrue(result.isExecuted());
         assertNotNull(result.getCreatedCircle());
         assertEquals(901L, result.getCreatedCircle().getId());
+    }
+
+    @Test
+    void rejectsUnsupportedExecutionAdaptersAtRegistrationTime() {
+        VisionProperties visionProperties = new VisionProperties();
+        VisionCapabilityExecutionAdapter unsupportedAdapter = mock(VisionCapabilityExecutionAdapter.class);
+        when(unsupportedAdapter.capabilityId()).thenReturn("view_profile");
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
+                new VisionExecutionService(
+                        new VisionSurfacePolicy(visionProperties),
+                        List.of(unsupportedAdapter)
+                ));
+
+        assertEquals("Unsupported Vision execution adapter registered for capability view_profile", exception.getMessage());
     }
 }

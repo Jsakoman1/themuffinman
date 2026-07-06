@@ -8,7 +8,8 @@ Use the full workflow only when the change is high-risk, multi-layer, agent/tool
 
 For `codex-context` and related workflow changes, confirm that `docs/generated/local-tooling/codex-context/latest.execution.json` exists, matches the current batch state, and still conforms to `docs/codex-context-execution-manifest.schema.json` before closeout.
 
-`make control-start` now stays on the fast path, while `make control-refresh-full` regenerates plan-index, audit registry, codex-context, audit summary index, control-start, and freshness outputs after successful plan completion.
+`make control-start` stays on the fast path.
+`make control-refresh-full` regenerates plan-index, audit registry, codex-context, audit summary index, control-start, and freshness outputs after successful plan completion.
 Use `make temp-work-product-closeout plan=<plan-file>` when you need to delete or archive lingering temp work products owned by a plan before closeout.
 Use `make audit-generated-artifact-hygiene files=<csv>` when a batch needs generated-artifact noise filtered to the implementation scope before consulting the global freshness audit.
 
@@ -103,6 +104,14 @@ Default path:
 - machine-operational validation required when affected
 - full closeout required
 
+## Canonical Closeout Order
+
+1. Refresh the plan and control snapshots.
+2. Close or archive plan-owned temporary work products.
+3. Confirm the docs and generated artifacts affected by the change.
+4. Record validation evidence with canonical command strings.
+5. Run closeout audits and backlog audits before calling the work done.
+
 ## Checklist
 
 1. Code
@@ -115,6 +124,7 @@ Default path:
 - Any required docs or generated artifacts are identified before the first closeout pass.
 - If the change touches entity resolution, capture the canonical aliases, ambiguity cases, and confidence thresholds up front.
 - If the change touches workflow or agent behavior, confirm the machine-readable source of truth before editing human-readable summaries.
+- If the change touches plan files or generated control outputs, refresh `make plan-index` and `make control-start` before closeout.
 
 3. Plan
 - Tier 2, Tier 3, and Tier 4 work has a current plan in `.agents/`.
@@ -122,6 +132,8 @@ Default path:
 - Program-level work that spans several master plans has a God Plan under `.agents/god-plans/`.
 - Temporary machine-readable work products under `.agents/tmp/` name their owning plan and have a closeout deletion, promotion, or archive decision.
 - `make audit-plan-completion` should surface lingering temp work products owned by the plan so closeout can clear them explicitly.
+- Plan files use `machine_status` values `draft`, `active`, or `complete`; do not mix `completed` and `complete` in the machine-readable field.
+- Number child plans in execution order and keep the numbering stable unless the plan sequence changes.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 - In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
 - During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.
@@ -133,6 +145,7 @@ Default path:
 - Manifest is required for high-risk business logic, invoice-critical behavior, DB migrations, frontend/backend contract changes, generated artifact changes, agent/tooling/workflow changes, 3+ meaningful surfaces, broad autonomous changes, and resolver-required changes.
 - Manifest is optional for single backend service changes, single frontend component changes, small bugfixes, small test-only changes, small docs-only corrections, and small internal refactors without behavior, contract, DB, generated-artifact, or agent-safety impact.
 - If a non-trivial change skips the manifest, the plan or final closeout records a one-line reason.
+- If a plan owns temporary work products, call `make temp-work-product-closeout plan=<plan-file>` before the final closeout evidence pass.
 
 5. Business meaning
 - Update `docs/business-logic.md` if user-facing behavior, permissions, or workflow meaning changed.
@@ -165,6 +178,7 @@ Default path:
 - Backend changes keep `./mvnw test` or the required targeted backend suite passing.
 - Agent-contract changes record `make generate-agent-operating-model`, `make generate-agent-artifacts`, and `make audit-agent-safety` when the machine-operational surface changed.
 - Workflow-expansion manifests include at least one `*ScenarioTest` in `testPaths` plus passed scenario or use-case contract evidence.
+- Control-system closeout should also record `make plan-index`, `make control-start`, and `make audit-plan-completion plan=<plan-file>` when plan routing or status hygiene changed.
 
 11. Closeout
 - Tier 1: run `make audit-todo`.
@@ -178,11 +192,12 @@ Default path:
   `make validation-memory-closeout-card`
   `make feature-closeout-audit manifest=<manifest-file>`
   `make closeout-report manifest=<manifest-file>` when a compact final review summary helps
+- For control-system hygiene work, include `make plan-index` and `make control-start` before the final `make audit-plan-completion` pass so the routing snapshot is fresh.
 - After each completed plan or master plan, run `make post-plan-memory-update plan=<plan-file> [manifest=<manifest-file>] [source=<diagnostic-report>]` to refresh durable lessons, failure memory, and the standard control loop.
 - For product-direction work, confirm that `docs/product-memory.md` and `docs/product-vision.md` were the first canonical reference points before broader business or technical docs were expanded.
 - For `/vision` implementation work, confirm that `docs/vision-architecture-patterns.md` was read before implementation decisions were made.
 
-11. Final response
+12. Final response
 - State what changed.
 - State what was validated.
 - State any remaining risks or not-run checks.

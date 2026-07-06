@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Parser Regression and Docs
 machine_goal: Lock the standardized Vision parser shape with regression coverage and keep the living docs aligned.
 ---

@@ -5,6 +5,7 @@ import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
 import com.themuffinman.app.vision.service.VisionConversationLifecycleService;
+import com.themuffinman.app.vision.service.VisionConversationQueryService;
 import com.themuffinman.app.vision.service.VisionConversationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/vision/conversations")
-@RequiredArgsConstructor
+    @RequiredArgsConstructor
 public class VisionConversationController {
 
     private final VisionConversationService visionConversationService;
     private final VisionConversationLifecycleService visionConversationLifecycleService;
+    private final VisionConversationQueryService visionConversationQueryService;
 
     @PostMapping("/turns")
     public VisionConversationTurnResponseDTO processTurn(
@@ -52,7 +54,7 @@ public class VisionConversationController {
     public VisionConversationListResponseDTO getRecentConversations(
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return visionConversationLifecycleService.listRecentConversations(currentUser);
+        return visionConversationQueryService.listRecentConversations(currentUser);
     }
 
     @GetMapping("/{conversationId}")
@@ -60,6 +62,6 @@ public class VisionConversationController {
             @PathVariable Long conversationId,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return visionConversationLifecycleService.loadConversation(conversationId, currentUser);
+        return visionConversationQueryService.loadConversation(conversationId, currentUser);
     }
 }

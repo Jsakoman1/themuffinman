@@ -47,6 +47,7 @@ Supporting dependency:
 
 - `apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts`: frontend client boundary
 - `apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts`: generated contract output
+- shared enum names in the generated contract are prefixed by backend domain when vision and workmarket models reuse the same simple name
 - `docs/agent-operating-model/sections/api.yaml`: machine-operational API source slice when endpoints or contracts change
 
 Continuity contract:

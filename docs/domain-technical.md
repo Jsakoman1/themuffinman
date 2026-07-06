@@ -1590,6 +1590,7 @@ Contract-shape model:
 - `frontend/src/contracts/index.ts` re-exports generated contract types for app use
 - `frontend/src/modules/vision/api/contracts.ts` aliases generated DTOs into Vision-facing names and adds a few frontend-side request refinements
 - `visionApi` aggregates endpoint clients so surviving Vision screens can consume user, circle, location, quest, and application contracts through one import surface
+- the generated frontend contract namespaces enum exports by backend domain when Java models reuse the same simple enum name in more than one package
 - `npm run generate:contracts` writes the generated frontend contract, while `npm run validate:contracts` and the normal frontend build fail when the checked-in generated contract is stale.
 - `VisionSurfaceModernView` now presents the main turn flow as a compact terminal rail and keeps the richer summary preview in the side column only for result or review states.
 - `VisionFlowDebugPanel` now stays minimal and line-oriented so debug state can be read without mixing it into the main preview narrative.

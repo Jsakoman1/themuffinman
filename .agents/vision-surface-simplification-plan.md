@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Surface Simplification Plan
 machine_goal: Keep the frontend calm, thin, and backend-governed as Vision grows.
 ---

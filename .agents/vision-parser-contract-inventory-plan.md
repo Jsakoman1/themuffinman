@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Parser Contract Inventory
 machine_goal: Inventory the current Vision parser contract, route metadata, and family-specific branches so the remaining standardization work is explicit and bounded.
 ---

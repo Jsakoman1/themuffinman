@@ -5,6 +5,7 @@ import VisionCanvasRenderer from "../components/VisionCanvasRenderer.vue"
 import VisionFlowDebugPanel from "../components/VisionFlowDebugPanel.vue"
 import VisionIntentPreviewPanel from "../components/VisionIntentPreviewPanel.vue"
 import {useVisionConversation} from "../composables/useVisionConversation.ts"
+import {hasVisionPreviewContent, shouldShowVisionFlowDebugRail} from "../visionPreviewSupport.ts"
 
 const {
   isLoading,
@@ -24,6 +25,7 @@ const {
   transcriptTargetDetail,
   currentPlaceholder,
   currentFieldKind,
+  promptComposerVisible,
   speechStatusLabel,
   lastTranscript,
   canSend,
@@ -54,19 +56,10 @@ const updateInputText = (value: string) => {
   inputText.value = value
 }
 
-const previewVisible = computed(() => !!response.value && (
-  response.value.canvasMode === "review"
-  || response.value.canvasMode === "results"
-  || response.value.canvasMode === "complete"
-  || response.value.canvasMode === "blocked"
-  || !!response.value.review
-  || !!response.value.executionCandidate
-  || !!response.value.questDiscovery
-  || !!response.value.memoryTrail
-))
+const previewVisible = computed(() => hasVisionPreviewContent(response.value))
 
 const showPreviewRail = computed(() => previewVisible.value)
-const showFlowDebugRail = computed(() => !!response.value || !!lastTranscript.value.trim() || voiceState.value !== "idle")
+const showFlowDebugRail = computed(() => shouldShowVisionFlowDebugRail(response.value, lastTranscript.value, voiceState.value))
 
 const routePrompt = computed(() => {
   const prompt = route.query.prompt
@@ -135,7 +128,7 @@ watch(
             :is-loading="isLoading"
             :error="error"
             :input-text="inputText"
-            :prompt-composer-visible="true"
+            :prompt-composer-visible="promptComposerVisible"
             :current-slot-label="currentSlotLabel"
             :current-slot-value="currentSlotValue"
             :transcript-target-label="transcriptTargetLabel"
@@ -171,7 +164,6 @@ watch(
             :current-slot-label="currentSlotLabel"
             :current-slot-value="currentSlotValue"
             :current-field-kind="currentFieldKind"
-            :speech-status-label="speechStatusLabel"
             :voice-state="voiceState"
           />
           <VisionIntentPreviewPanel

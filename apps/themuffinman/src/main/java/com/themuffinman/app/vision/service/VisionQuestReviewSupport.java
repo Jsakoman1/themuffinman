@@ -84,7 +84,7 @@ final class VisionQuestReviewSupport {
         VisionNextAction nextAction;
         VisionConversationStatus status;
 
-        if (action == VisionConversationAction.CONFIRM_REVIEW || isConfirmationPrompt(normalizedPrompt)) {
+        if (action == VisionConversationAction.CONFIRM_REVIEW || VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
             if (executionResult.isExecuted()) {
                 conversation.getSlotData().put("created_quest_id", executionResult.getCreatedQuest().getId().toString());
@@ -164,16 +164,5 @@ final class VisionQuestReviewSupport {
                 understanding.isTranslationReliable(),
                 message
         );
-    }
-
-    private boolean isConfirmationPrompt(String prompt) {
-        String lower = prompt.toLowerCase(java.util.Locale.ROOT).trim();
-        return lower.equals("confirm")
-                || lower.equals("yes")
-                || lower.equals("yes confirm")
-                || lower.equals("go ahead")
-                || lower.equals("create it")
-                || lower.equals("create the quest")
-                || lower.equals("submit");
     }
 }

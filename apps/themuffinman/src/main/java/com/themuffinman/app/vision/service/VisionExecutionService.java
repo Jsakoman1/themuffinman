@@ -27,6 +27,9 @@ public class VisionExecutionService {
             if (capabilityId == null || capabilityId.isBlank()) {
                 throw new IllegalStateException("Vision execution adapter returned a blank capability id.");
             }
+            if (!visionSurfacePolicy.supportedExecutionCapabilityIds().contains(capabilityId)) {
+                throw new IllegalStateException("Unsupported Vision execution adapter registered for capability " + capabilityId);
+            }
             VisionCapabilityExecutionAdapter previous = adaptersByCapabilityId.put(capabilityId, adapter);
             if (previous != null) {
                 throw new IllegalStateException("Duplicate Vision execution adapter registered for capability " + capabilityId);

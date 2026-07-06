@@ -7,7 +7,8 @@ machine_goal: TBD
 
 # Feature Implementation Plan
 
-Purpose: track one feature or workflow change from scope selection through final validation.
+Track one feature or workflow change from scope selection through final validation.
+For shared planning rules, read `docs/program-planning-model.md` and `docs/change-completion-checklist.md` first.
 
 ## Workflow Frame
 

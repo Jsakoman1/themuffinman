@@ -6,7 +6,6 @@ import com.themuffinman.app.vision.dto.VisionCanvasBlockDTO;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionExecutionCandidateDTO;
-import com.themuffinman.app.vision.dto.VisionLearningMemoryDTO;
 import com.themuffinman.app.vision.dto.VisionMemoryTrailDTO;
 import com.themuffinman.app.vision.dto.VisionOptionDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
@@ -37,14 +36,11 @@ public class VisionCanvasAssembler {
     public VisionConversationTurnResponseDTO assemble(
             VisionConversation conversation,
             VisionTurn turn,
-            String understandingProvider,
-            String understandingStatus,
             List<VisionConversationSummaryDTO> recentConversations,
             VisionExecutionCandidateDTO executionCandidate,
             VisionQuestDiscoveryDTO questDiscovery,
             VisionSearchDiscoveryDTO searchDiscovery,
             VisionCapabilityPreviewDTO capabilityPreview,
-            VisionLearningMemoryDTO learningMemory,
             VisionMemoryTrailDTO memoryTrail
     ) {
         return VisionConversationTurnResponseDTO.builder()
@@ -52,20 +48,17 @@ public class VisionCanvasAssembler {
                 .turnId(turn.getId())
                 .intent(conversation.getIntent().name())
                 .agentState(turn.getAgentState().name())
-                .canvasMode(toCanvasMode(turn))
+                .canvasMode(VisionSurfaceModeSupport.canvasModeFor(turn.getNextAction()))
                 .nextAction(turn.getNextAction().name())
                 .message(turn.getAssistantMessage())
                 .requestedSlot(turn.getRequestedSlot())
                 .normalizedPrompt(turn.getNormalizedPrompt())
-                .understandingProvider(understandingProvider)
-                .understandingStatus(understandingStatus)
                 .translationApplied(turn.isTranslationApplied())
                 .translationReliable(turn.isTranslationReliable())
                 .executionEnabled(visionProperties.isExecutionEnabled())
                 .executionCandidate(executionCandidate)
                 .questDiscovery(questDiscovery)
                 .searchDiscovery(searchDiscovery)
-                .learningMemory(learningMemory)
                 .memoryTrail(memoryTrail)
                 .blocks(toBlocks(conversation, turn, questDiscovery, searchDiscovery, capabilityPreview))
                 .appliedSlotSummaries(toAppliedSlotSummaries(conversation.getSlotData(), turn.getAppliedSlotIds()))
@@ -73,16 +66,6 @@ public class VisionCanvasAssembler {
                 .review(toReview(conversation.getSlotData(), turn))
                 .recentConversations(recentConversations)
                 .build();
-    }
-
-    private String toCanvasMode(VisionTurn turn) {
-        return switch (turn.getNextAction()) {
-            case ASK_FOR_SLOT -> "clarification";
-            case SHOW_REVIEW -> "review";
-            case SHOW_RESULTS -> "results";
-            case COMPLETE -> "complete";
-            case BLOCKED -> "blocked";
-        };
     }
 
     private List<VisionCanvasBlockDTO> toBlocks(

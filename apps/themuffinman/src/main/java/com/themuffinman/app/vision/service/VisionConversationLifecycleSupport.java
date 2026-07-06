@@ -2,7 +2,6 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.VisionLearningMemoryDTO;
 import com.themuffinman.app.vision.model.VisionAgentState;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionConversationStatus;
@@ -18,18 +17,15 @@ final class VisionConversationLifecycleSupport {
 
     private final VisionConversationRepository visionConversationRepository;
     private final VisionSemanticOrchestrationContextService visionSemanticOrchestrationContextService;
-    private final VisionLearningService visionLearningService;
     private final VisionConversationMutationSupport visionConversationMutationSupport;
 
     VisionConversationLifecycleSupport(
             VisionConversationRepository visionConversationRepository,
             VisionSemanticOrchestrationContextService visionSemanticOrchestrationContextService,
-            VisionLearningService visionLearningService,
             VisionConversationMutationSupport visionConversationMutationSupport
     ) {
         this.visionConversationRepository = visionConversationRepository;
         this.visionSemanticOrchestrationContextService = visionSemanticOrchestrationContextService;
-        this.visionLearningService = visionLearningService;
         this.visionConversationMutationSupport = visionConversationMutationSupport;
     }
 
@@ -56,13 +52,6 @@ final class VisionConversationLifecycleSupport {
     VisionConversation loadExistingConversation(Long conversationId, AppUser currentUser) {
         return visionConversationRepository.findByIdAndOwner(conversationId, currentUser)
                 .orElseThrow(() -> ServiceErrors.notFound("Vision conversation was not found"));
-    }
-
-    VisionLearningMemoryDTO learningMemory(AppUser currentUser) {
-        if (visionLearningService == null || currentUser == null) {
-            return null;
-        }
-        return visionLearningService.buildLearningMemory(currentUser);
     }
 
     VisionSemanticUserMemoryContext userMemoryFor(VisionConversation conversation) {

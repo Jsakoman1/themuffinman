@@ -27,6 +27,13 @@ more docs.
 Plan files should also carry a machine-readable `machine_status` frontmatter marker so automation can parse status
 before falling back to markdown headings.
 
+## Status Vocabulary
+
+- Use `draft` for planned work that has not started.
+- Use `active` for work that is currently in progress.
+- Use `complete` for finished work.
+- Do not mix `completed` and `complete` in the machine-readable status field.
+
 ## Hierarchy
 
 The hierarchy is:
@@ -39,6 +46,9 @@ Temporary work product
 ```
 
 A God Plan may contain several Master Plans. A Master Plan may contain several Plans. A Plan may create temporary work products, but those temporary files must not become the source of truth after the plan closes.
+
+Master Plans should stay compact enough that a future agent can scan the file without cross-referencing half the repo.
+Keep child plans numbered in execution order and do not reorder them unless the implementation sequence itself changes.
 
 ## God Plan Contract
 
@@ -114,6 +124,7 @@ Required fields for machine-readable temporary work products:
 - `deleteWhen`
 - `sourceFiles`
 - `status`
+- `status` should be `draft`, `active`, or `archived` so cleanup can be parsed without guessing.
 
 Temporary work products must be deleted, promoted into a durable doc, or explicitly marked `archived` when the owning plan closes.
 
@@ -128,3 +139,4 @@ When a completed plan leaves useful knowledge behind, move that knowledge into t
 - user-facing rules into `docs/business-logic.md`
 - workflow rules into agent-operating docs
 - deferred work into `docs/implementation-backlog.md` or `docs/agent-improvement-backlog.md`
+- keep control-plane hygiene lessons in the control-system master plan or the relevant workflow doc instead of inventing a new one-off note

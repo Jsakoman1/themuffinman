@@ -21,7 +21,6 @@ class VisionConversationLifecycleSupportTest {
         VisionConversationLifecycleSupport support = new VisionConversationLifecycleSupport(
                 Mockito.mock(VisionConversationRepository.class),
                 Mockito.mock(VisionSemanticOrchestrationContextService.class),
-                Mockito.mock(VisionLearningService.class),
                 null
         );
 
@@ -36,7 +35,6 @@ class VisionConversationLifecycleSupportTest {
         VisionConversationLifecycleSupport support = new VisionConversationLifecycleSupport(
                 Mockito.mock(VisionConversationRepository.class),
                 Mockito.mock(VisionSemanticOrchestrationContextService.class),
-                Mockito.mock(VisionLearningService.class),
                 null
         );
         VisionConversation conversation = new VisionConversation();

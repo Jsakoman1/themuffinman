@@ -8,9 +8,9 @@ import com.themuffinman.app.vision.dto.DashboardVoiceConfigDTO;
 import com.themuffinman.app.vision.dto.DashboardVoiceSpeechRequestDTO;
 import com.themuffinman.app.vision.dto.DashboardVoiceTranscriptionDTO;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.workmarket.service.WorkmarketDashboardService;
 import com.themuffinman.app.vision.service.DashboardVisionPromptService;
 import com.themuffinman.app.vision.service.DashboardVoiceService;
+import com.themuffinman.app.vision.service.VisionDashboardFacadeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ import jakarta.validation.Valid;
 @RequiredArgsConstructor
 public class DashboardController {
 
-    private final WorkmarketDashboardService dashboardService;
+    private final VisionDashboardFacadeService dashboardService;
     private final DashboardVisionPromptService dashboardVisionPromptService;
     private final DashboardVoiceService dashboardVoiceService;
 

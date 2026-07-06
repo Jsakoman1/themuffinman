@@ -1,11 +1,9 @@
 package com.themuffinman.app.vision.controller;
 
 import com.themuffinman.app.common.dto.ActionResultDTO;
-import com.themuffinman.app.common.dto.ActionResults;
 import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.workmarket.mapper.WorkmarketQuestNewsMgr;
-import com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService;
+import com.themuffinman.app.vision.service.VisionQuestNewsFacadeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,15 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestNewsController {
 
-    private final WorkmarketQuestNewsService questNewsService;
-    private final WorkmarketQuestNewsMgr questNewsMgr;
+    private final VisionQuestNewsFacadeService questNewsService;
 
     @GetMapping("/me")
     public List<QuestNewsItemResponseDTO> getMyNews(@AuthenticationPrincipal AppUser currentUser) {
-        return questNewsService.getMyNews(currentUser)
-                .stream()
-                .map(questNewsMgr::toDto)
-                .toList();
+        return questNewsService.getMyNews(currentUser);
     }
 
     @GetMapping("/me/unread-count")
@@ -39,13 +33,11 @@ public class QuestNewsController {
 
     @PatchMapping("/me/read")
     public ActionResultDTO markMyNewsAsRead(@AuthenticationPrincipal AppUser currentUser) {
-        questNewsService.markMyNewsAsRead(currentUser);
-        return ActionResults.of("MARK_NEWS_AS_READ", "Updates marked as read.");
+        return questNewsService.markMyNewsAsRead(currentUser);
     }
 
     @PatchMapping("/me/{id}/read")
     public ActionResultDTO markMyNewsItemAsRead(@PathVariable Long id, @AuthenticationPrincipal AppUser currentUser) {
-        questNewsService.markMyNewsItemAsRead(id, currentUser);
-        return ActionResults.of("MARK_NEWS_ITEM_AS_READ", "Update marked as read.");
+        return questNewsService.markMyNewsItemAsRead(id, currentUser);
     }
 }

@@ -201,7 +201,7 @@ public class VisionLearningService {
         upsertPreference(currentUser, "preferred_input_type", normalize(runtimeHints == null ? null : runtimeHints.getInputType()), "runtime", now);
         upsertPreference(currentUser, "preferred_language", normalize(understanding == null ? null : understanding.getSourceLanguage()), "understanding", now);
         upsertPreference(currentUser, "last_intent", normalize(turn.getDetectedIntent() == null ? null : turn.getDetectedIntent().name()), "turn", now);
-        upsertPreference(currentUser, "last_entity_family", normalize(entityFamilyFor(turn.getDetectedIntent())), "turn", now);
+        upsertPreference(currentUser, "last_entity_family", normalize(VisionEntityFamilySupport.learningFamilyLabel(turn.getDetectedIntent())), "turn", now);
         upsertPreference(currentUser, "last_requested_slot", normalize(turn.getRequestedSlot()), "turn", now);
         upsertPreference(currentUser, "last_feedback_type", normalize(feedbackType.name()), "feedback", now);
         upsertPreference(currentUser, "last_conversation_status", normalize(conversation.getStatus() == null ? null : conversation.getStatus().name()), "conversation", now);
@@ -364,22 +364,4 @@ public class VisionLearningService {
         return value.trim().toLowerCase(Locale.ROOT);
     }
 
-    private String entityFamilyFor(com.themuffinman.app.vision.model.VisionIntent intent) {
-        if (intent == null) {
-            return null;
-        }
-        return switch (intent) {
-            case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> "profile";
-            case VIEW_NOTIFICATIONS -> "notifications";
-            case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
-                    DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
-            case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
-                    WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
-            case DISCOVER_QUESTS, CREATE_QUEST, VIEW_QUEST_DETAIL -> "quests";
-            case VIEW_QUEST_NEWS -> "quest news";
-            case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> "chat";
-            case SEARCH -> "search";
-            default -> "other";
-        };
-    }
 }

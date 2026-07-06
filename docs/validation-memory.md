@@ -84,6 +84,13 @@ Completed manifest-backed changes should also record:
 
 - `make audit-todo`
 - `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]`
+- for control-system plan hygiene, also record `make plan-index` and `make control-start` so the routing snapshot matches the active master-plan set
+
+Control-system closeout should use these canonical commands when routing or status hygiene changes:
+
+- `make plan-index`
+- `make control-start`
+- `make audit-plan-completion plan=<plan-file>`
 
 The standard closeout-sensitive audit loop should also rerun:
 

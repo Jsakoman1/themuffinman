@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-06-30",
+  "updatedAt": "2026-07-06",
   "purpose": "Canonical machine-readable validation, manifest, and closeout memory for future Codex sessions.",
   "readWhen": [
     "manifest-backed",
@@ -8,7 +8,8 @@
     "agent-contract",
     "workflow-expansion",
     "frontend-contract",
-    "backend-logic"
+    "backend-logic",
+    "control-system"
   ],
   "canonicalCommands": {
     "frontendContract": [
@@ -31,6 +32,11 @@
     "closeout": [
       "make audit-todo",
       "make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"
+    ],
+    "controlSystem": [
+      "make plan-index",
+      "make control-start",
+      "make audit-plan-completion plan=<plan-file>"
     ]
   },
   "manifestRules": {

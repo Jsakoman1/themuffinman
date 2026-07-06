@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed} from "vue"
-import type {VisionCanvasBlock, VisionConversationTurnResponse} from "../api/visionConversationApi.ts"
+import type {VisionConversationTurnResponse} from "../api/visionConversationApi.ts"
 import type {VisionExecutionCandidate} from "../api/visionConversationApi.ts"
 import VisionTerminalRow from "./VisionTerminalRow.vue"
 import {
@@ -9,6 +9,10 @@ import {
   previewSecondaryFieldIdsByVariant,
   resolveVisionFamily
 } from "../visionPresentation.ts"
+import {
+  buildVisionPreviewFields,
+  selectVisionPreviewBlock
+} from "../visionPreviewSupport.ts"
 
 const props = defineProps<{
   response: VisionConversationTurnResponse | null
@@ -22,56 +26,9 @@ type IntentField = {
   value: string
 }
 
-const previewBlock = computed<VisionCanvasBlock | null>(() => {
-  if (!props.response) {
-    return null
-  }
+const previewBlock = computed(() => selectVisionPreviewBlock(props.response))
 
-  const hasItems = (block: VisionCanvasBlock) => (block.items?.length ?? 0) > 0
-
-  const preferredBlock = props.response.blocks.find((block) =>
-    hasItems(block)
-    && block.type === "result_summary"
-    && block.title !== "Collected so far")
-
-  if (preferredBlock) {
-    return preferredBlock
-  }
-
-  const fallbackBlock = props.response.blocks.find((block) =>
-    hasItems(block)
-    && (block.type === "result_summary" || block.type === "review_summary" || block.type === "success" || block.type === "info"))
-
-  return fallbackBlock ?? null
-})
-
-const fieldValues = computed<IntentField[]>(() => {
-  if ((previewBlock.value?.items?.length ?? 0) > 0) {
-    return (previewBlock.value?.items ?? []).map((item) => ({
-      slotId: item.slotId,
-      label: item.label,
-      value: item.value ?? ""
-    }))
-  }
-
-  const review = props.response?.review
-  if (review) {
-    return [
-      {slotId: "quest_title", label: "Title", value: review.title ?? ""},
-      {slotId: "quest_description", label: "Description", value: review.description ?? ""},
-      {slotId: "reward_amount", label: "Reward", value: review.rewardLabel ?? ""},
-      {slotId: "visibility", label: "Visibility", value: review.visibility ?? ""},
-      {slotId: "scheduled_at", label: "Schedule", value: review.schedule ?? ""},
-      {slotId: "location_label", label: "Location", value: review.location ?? ""}
-    ].filter((field) => field.value.trim().length > 0)
-  }
-
-  return (props.response?.slotSummaries ?? []).map((item) => ({
-    slotId: item.slotId,
-    label: item.label,
-    value: item.value ?? ""
-  }))
-})
+const fieldValues = computed<IntentField[]>(() => buildVisionPreviewFields(props.response))
 
 const filledCount = computed(() => fieldValues.value.filter((field) => field.value.trim().length > 0).length)
 const totalCount = computed(() => fieldValues.value.length)

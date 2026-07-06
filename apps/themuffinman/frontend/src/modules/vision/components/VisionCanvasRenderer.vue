@@ -247,6 +247,7 @@ onMounted(() => {
             :speech-to-text-enabled="speechToTextEnabled"
             :speech-recognition-supported="speechRecognitionSupported"
             :voice-state="voiceState"
+            :speech-status-label="speechStatusLabel"
             compact
             @start-listening="emit('startListening')"
             @stop-listening="emit('stopListening')"

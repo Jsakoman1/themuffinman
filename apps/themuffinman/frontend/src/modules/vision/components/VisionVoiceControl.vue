@@ -7,6 +7,7 @@ const props = defineProps<{
   speechToTextEnabled: boolean
   speechRecognitionSupported: boolean
   voiceState: VisionVoiceState
+  speechStatusLabel: string
   compact?: boolean
 }>()
 
@@ -19,7 +20,6 @@ const canRecord = computed(() => props.voiceEnabled && props.speechToTextEnabled
 const isListening = computed(() => props.voiceState === "listening")
 const isProcessing = computed(() => props.voiceState === "processing")
 const isSpeaking = computed(() => props.voiceState === "speaking")
-
 const handleToggle = () => {
   if (!canRecord.value) {
     return
@@ -60,11 +60,7 @@ const handleToggle = () => {
     </button>
 
     <p v-if="!compact" class="vision-voice__caption">
-      <span v-if="isListening">Recording.</span>
-      <span v-else-if="isProcessing">Processing.</span>
-      <span v-else-if="isSpeaking">Speaking.</span>
-      <span v-else-if="canRecord">Ready.</span>
-      <span v-else>Unavailable.</span>
+      {{ props.speechStatusLabel }}
     </p>
   </section>
 </template>

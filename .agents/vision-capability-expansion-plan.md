@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Capability Expansion Plan
 machine_goal: Expand the next supported Vision capability family without widening the semantic boundary.
 ---

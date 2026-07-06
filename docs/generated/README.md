@@ -16,6 +16,8 @@ Source-of-truth generated artifacts stay tracked when they describe backend cont
 - `docs/generated/backend-audit-inventory.json`
 - `docs/generated/source-of-truth-audit.json`
 
+The frontend contract generator namespaces enum exports by backend domain when two Java enums share the same simple name, so colliding workmarket and vision types stay distinct in the generated contract.
+
 Tracked review context may stay tracked when it is concise, reviewer-useful, and directly refreshed by the task. This
 includes stable local-tooling summaries, local-tooling JSON inventories, endpoint contract packs, and dead-code audit
 summaries.

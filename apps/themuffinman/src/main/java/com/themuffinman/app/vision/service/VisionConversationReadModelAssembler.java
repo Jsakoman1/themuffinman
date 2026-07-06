@@ -33,7 +33,7 @@ class VisionConversationReadModelAssembler {
         List<VisionConversationSummaryDTO> summaries = new ArrayList<>();
         String previousEntityFamily = null;
         for (VisionConversation conversation : recentConversations) {
-            String entityFamily = entityFamilyFor(conversation == null ? null : conversation.getIntent());
+            String entityFamily = VisionEntityFamilySupport.conversationFamilyLabel(conversation == null ? null : conversation.getIntent());
             summaries.add(toConversationSummary(conversation, entityFamily, previousEntityFamily));
             if (entityFamily != null && !entityFamily.isBlank()) {
                 previousEntityFamily = entityFamily;
@@ -151,9 +151,9 @@ class VisionConversationReadModelAssembler {
                 .status(conversation.getStatus().name())
                 .title(title)
                 .subtitle(subtitle)
-                .stageLabel(stageLabel(conversation))
-                .progressLabel(progressLabel(conversation))
-                .groupKey(groupKey(conversation))
+                .stageLabel(VisionSurfaceModeSupport.stageLabelFor(conversation))
+                .progressLabel(VisionSurfaceModeSupport.progressLabelFor(conversation, visionClarificationService))
+                .groupKey(VisionSurfaceModeSupport.groupKeyFor(conversation.getStatus()))
                 .requestedSlot(conversation.getRequestedSlot())
                 .appliedSlotSummaries(appliedSlotSummaries)
                 .resumable(resumable)
@@ -161,25 +161,6 @@ class VisionConversationReadModelAssembler {
                 .stale(stale)
                 .updatedAt(conversation.getUpdatedAt())
                 .build();
-    }
-
-    private String entityFamilyFor(VisionIntent intent) {
-        if (intent == null) {
-            return null;
-        }
-        return switch (intent) {
-            case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, VIEW_USER_PROFILE -> "profile";
-            case VIEW_NOTIFICATIONS -> "notifications";
-            case VIEW_QUEST_NEWS -> "quest news";
-            case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
-                    DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
-            case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
-                    WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
-            case DISCOVER_QUESTS, CREATE_QUEST -> "quests";
-            case SEARCH -> "search";
-            case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> "chat";
-            default -> null;
-        };
     }
 
     private String previousEntityFamily(List<String> recentEntityFamilies, String activeEntityFamily) {
@@ -206,49 +187,6 @@ class VisionConversationReadModelAssembler {
             return null;
         }
         return "Switched from " + previousEntityFamily + " to " + activeEntityFamily + ".";
-    }
-
-    private String stageLabel(VisionConversation conversation) {
-        return switch (conversation.getStatus()) {
-            case ACTIVE -> {
-                if (conversation.getIntent() == VisionIntent.DISCOVER_QUESTS) {
-                    yield "Browsing";
-                }
-                if (conversation.getIntent() == VisionIntent.OPEN_CHAT) {
-                    yield conversation.getRequestedSlot() == null ? "Chatting" : "Needs input";
-                }
-                yield conversation.getRequestedSlot() == null ? "In progress" : "Needs input";
-            }
-            case REVIEW_READY -> "Review ready";
-            case COMPLETED -> "Complete";
-            case BLOCKED -> "Blocked";
-        };
-    }
-
-    private String progressLabel(VisionConversation conversation) {
-        return switch (conversation.getStatus()) {
-            case ACTIVE -> conversation.getIntent() == VisionIntent.DISCOVER_QUESTS
-                    ? "Quest discovery is ready."
-                    : conversation.getIntent() == VisionIntent.OPEN_CHAT
-                    ? conversation.getRequestedSlot() == null
-                    ? "Chat conversation is active."
-                    : "Next step: " + visionClarificationService.buildQuestion(conversation.getRequestedSlot())
-                    : conversation.getRequestedSlot() == null
-                    ? "Conversation is active."
-                    : "Next step: " + visionClarificationService.buildQuestion(conversation.getRequestedSlot());
-            case REVIEW_READY -> "Ready for review and confirmation.";
-            case COMPLETED -> "Task finished.";
-            case BLOCKED -> "Conversation stopped until the user starts a supported task.";
-        };
-    }
-
-    private String groupKey(VisionConversation conversation) {
-        return switch (conversation.getStatus()) {
-            case ACTIVE -> "active";
-            case REVIEW_READY -> "review_ready";
-            case BLOCKED -> "blocked";
-            case COMPLETED -> "completed";
-        };
     }
 
     private String labelForSlot(String slotId) {

@@ -1,6 +1,6 @@
 ---
 machine_kind: master-plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Parser Standardization Master Plan
 machine_goal: Standardize the Vision backend parsing contract across all supported entity families so route metadata, active-draft context, slot extraction, and follow-up handling stay consistent without family-specific drift.
 ---

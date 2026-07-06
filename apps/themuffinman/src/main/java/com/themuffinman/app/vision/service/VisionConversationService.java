@@ -9,6 +9,7 @@ import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.vision.dto.VisionExecutionCandidateDTO;
 import com.themuffinman.app.vision.dto.VisionMemoryTrailDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
@@ -31,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -116,7 +116,6 @@ public class VisionConversationService {
         this.visionConversationLifecycleSupport = new VisionConversationLifecycleSupport(
                 visionConversationRepository,
                 visionSemanticOrchestrationContextService,
-                visionLearningService,
                 visionConversationMutationSupport
         );
         this.visionQuestReviewSupport = new VisionQuestReviewSupport(
@@ -200,13 +199,7 @@ public class VisionConversationService {
                 ? visionConversationLifecycleSupport.loadExistingConversation(dto.getConversationId(), currentUser)
                 : null;
         String prompt = action == VisionConversationAction.SUBMIT_PROMPT ? requirePrompt(dto) : "";
-        VisionSemanticRuntimeHints runtimeHints = dto == null ? null : VisionSemanticRuntimeHints.builder()
-                .inputType(dto.getInputType())
-                .clientLocale(dto.getClientLocale())
-                .clientTimezone(dto.getClientTimezone())
-                .clientCapabilities(dto.getClientCapabilities())
-                .clientStateVersion(dto.getClientStateVersion())
-                .build();
+        VisionSemanticRuntimeHints runtimeHints = runtimeHints(dto);
         VisionPromptUnderstandingResult understanding = action == VisionConversationAction.SUBMIT_PROMPT
                 ? visionPromptUnderstandingService.understandPrompt(prompt, existingConversation, currentUser, runtimeHints)
                 : VisionPromptUnderstandingResult.empty("");
@@ -224,42 +217,8 @@ public class VisionConversationService {
         );
         visionConversationMutationSupport.ensureTurnCapacity(conversation);
 
-        VisionTurn turn = switch (action) {
-            case CONFIRM_REVIEW -> handleConfirmReviewAction(conversation, understanding, dto == null ? null : dto.getEffectiveSource());
-            case REQUEST_REVIEW_EDIT -> handleReviewEditAction(conversation, understanding, dto == null ? null : dto.getEffectiveSource(), dto);
-            case SUBMIT_PROMPT -> switch (conversation.getIntent()) {
-                case CREATE_QUEST -> handleCreateQuestTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case CREATE_CIRCLE -> handleCreateCircleTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case CREATE_CIRCLE_REQUEST -> handleCreateCircleRequestTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case ACCEPT_CIRCLE_REQUEST -> handleAcceptCircleRequestTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case DELETE_CIRCLE_REQUEST -> handleDeleteCircleRequestTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case UPDATE_CIRCLE -> handleUpdateCircleTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case DELETE_CIRCLE -> handleDeleteCircleTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case CREATE_APPLICATION -> handleCreateApplicationTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case UPDATE_APPLICATION -> handleUpdateApplicationTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case WITHDRAW_APPLICATION -> handleWithdrawApplicationTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case APPROVE_APPLICATION -> handleApproveApplicationTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case DECLINE_APPLICATION -> handleDeclineApplicationTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case UPDATE_PROFILE -> handleUpdateProfileTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case UPDATE_PROFILE_LOCATION -> handleUpdateProfileLocationTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case DISCOVER_QUESTS -> handleDiscoverQuestsTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case SEARCH -> handleSearchTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case OPEN_CHAT -> handleOpenChatTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case VIEW_CHAT_WORKSPACE -> visionReadOnlyConversationTurnHandler.handleViewChatWorkspaceTurn(this, conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case VIEW_PROFILE -> visionReadOnlyConversationTurnHandler.handleViewProfileTurn(this, conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case VIEW_SETTINGS -> visionReadOnlyConversationTurnHandler.handleViewSettingsTurn(this, conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case VIEW_USER_PROFILE -> handleViewUserProfileTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case VIEW_CIRCLES -> visionReadOnlyConversationTurnHandler.handleViewCirclesTurn(this, conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case VIEW_CIRCLE_DETAIL -> handleViewCircleDetailTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case VIEW_QUEST_DETAIL -> handleViewQuestDetailTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case VIEW_NOTIFICATIONS -> visionReadOnlyConversationTurnHandler.handleViewNotificationsTurn(this, conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case VIEW_QUEST_NEWS -> visionReadOnlyConversationTurnHandler.handleViewQuestNewsTurn(this, conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case VIEW_APPLICATIONS -> visionReadOnlyConversationTurnHandler.handleViewApplicationsTurn(this, conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case VIEW_APPLICATION_DETAIL -> handleViewApplicationDetailTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case VIEW_THINGS -> visionReadOnlyConversationTurnHandler.handleViewThingsTurn(this, conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-                case UNSUPPORTED -> handleUnsupportedTurn(conversation, prompt, normalizedPrompt, understanding, dto.getEffectiveSource());
-            };
-        };
+        String source = effectiveSource(dto);
+        VisionTurn turn = handleConversationTurn(action, conversation, prompt, normalizedPrompt, understanding, source, dto);
 
         if (visionLearningService != null) {
             visionLearningService.recordTurnOutcome(
@@ -267,30 +226,75 @@ public class VisionConversationService {
                     conversation,
                     turn,
                     understanding,
-                    dto == null ? null : VisionSemanticRuntimeHints.builder()
-                            .inputType(dto.getInputType())
-                            .clientLocale(dto.getClientLocale())
-                            .clientTimezone(dto.getClientTimezone())
-                            .clientCapabilities(dto.getClientCapabilities())
-                            .clientStateVersion(dto.getClientStateVersion())
-                            .build(),
+                    runtimeHints,
                     action
             );
         }
 
-        return visionCanvasAssembler.assemble(
+        return assembleConversationResponse(
                 conversation,
                 turn,
-                understanding.getUnderstandingProvider(),
-                understanding.getUnderstandingStatus(),
-                visionConversationReadModelAssembler.recentConversationSummaries(currentUser),
-                visionExecutionPlanner.plan(conversation, understanding),
-                visionQuestDiscoveryService.discover(conversation, understanding, currentUser),
-                searchDiscoveryForConversation(conversation, currentUser),
-                VisionConversationSnapshotSupport.capabilityPreview(conversation, currentUser, visionCapabilityPreviewService),
-                visionConversationLifecycleSupport.learningMemory(currentUser),
-                visionConversationReadModelAssembler.buildMemoryTrail(currentUser, conversation)
+                currentUser,
+                understanding,
+                visionExecutionPlanner.plan(conversation, understanding)
         );
+    }
+
+    private VisionTurn handleConversationTurn(
+            VisionConversationAction action,
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source,
+            VisionConversationTurnRequestDTO dto
+    ) {
+        return switch (action) {
+            case CONFIRM_REVIEW -> handleConfirmReviewAction(conversation, understanding, source);
+            case REQUEST_REVIEW_EDIT -> handleReviewEditAction(conversation, understanding, source, dto);
+            case SUBMIT_PROMPT -> handleSubmitPromptTurn(conversation, prompt, normalizedPrompt, understanding, source);
+        };
+    }
+
+    private VisionTurn handleSubmitPromptTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        return switch (conversation.getIntent()) {
+            case CREATE_QUEST -> handleCreateQuestTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case CREATE_CIRCLE -> handleCreateCircleTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case CREATE_CIRCLE_REQUEST -> handleCreateCircleRequestTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case ACCEPT_CIRCLE_REQUEST -> handleAcceptCircleRequestTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case DELETE_CIRCLE_REQUEST -> handleDeleteCircleRequestTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case UPDATE_CIRCLE -> handleUpdateCircleTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case DELETE_CIRCLE -> handleDeleteCircleTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case CREATE_APPLICATION -> handleCreateApplicationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case UPDATE_APPLICATION -> handleUpdateApplicationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case WITHDRAW_APPLICATION -> handleWithdrawApplicationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case APPROVE_APPLICATION -> handleApproveApplicationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case DECLINE_APPLICATION -> handleDeclineApplicationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case UPDATE_PROFILE -> handleUpdateProfileTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case UPDATE_PROFILE_LOCATION -> handleUpdateProfileLocationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case DISCOVER_QUESTS -> handleDiscoverQuestsTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case SEARCH -> handleSearchTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case OPEN_CHAT -> handleOpenChatTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_CHAT_WORKSPACE -> visionReadOnlyConversationTurnHandler.handleViewChatWorkspaceTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_PROFILE -> visionReadOnlyConversationTurnHandler.handleViewProfileTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_SETTINGS -> visionReadOnlyConversationTurnHandler.handleViewSettingsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_USER_PROFILE -> handleViewUserProfileTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_CIRCLES -> visionReadOnlyConversationTurnHandler.handleViewCirclesTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_CIRCLE_DETAIL -> handleViewCircleDetailTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_QUEST_DETAIL -> handleViewQuestDetailTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_NOTIFICATIONS -> visionReadOnlyConversationTurnHandler.handleViewNotificationsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_QUEST_NEWS -> visionReadOnlyConversationTurnHandler.handleViewQuestNewsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_APPLICATIONS -> visionReadOnlyConversationTurnHandler.handleViewApplicationsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_APPLICATION_DETAIL -> handleViewApplicationDetailTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_THINGS -> visionReadOnlyConversationTurnHandler.handleViewThingsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case UNSUPPORTED -> handleUnsupportedTurn(conversation, prompt, normalizedPrompt, understanding, source);
+        };
     }
 
     @Transactional
@@ -304,23 +308,17 @@ public class VisionConversationService {
                     currentUser,
                     conversation,
                     turn,
-                    VisionPromptUnderstandingResult.empty(""),
+                    emptyUnderstanding(),
                     null,
                     VisionConversationAction.SUBMIT_PROMPT
             );
         }
-        return visionCanvasAssembler.assemble(
+        return assembleConversationResponse(
                 conversation,
                 turn,
-                "none",
-                "not_applicable",
-                visionConversationReadModelAssembler.recentConversationSummaries(currentUser),
-                visionExecutionPlanner.plan(conversation),
-                visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
-                searchDiscoveryForConversation(conversation, currentUser),
-                VisionConversationSnapshotSupport.capabilityPreview(conversation, currentUser, visionCapabilityPreviewService),
-                visionConversationLifecycleSupport.learningMemory(currentUser),
-                visionConversationReadModelAssembler.buildMemoryTrail(currentUser, conversation)
+                currentUser,
+                VisionPromptUnderstandingResult.empty(""),
+                visionExecutionPlanner.plan(conversation)
         );
     }
 
@@ -335,23 +333,17 @@ public class VisionConversationService {
                     currentUser,
                     conversation,
                     turn,
-                    VisionPromptUnderstandingResult.empty(""),
+                    emptyUnderstanding(),
                     null,
                     VisionConversationAction.SUBMIT_PROMPT
             );
         }
-        return visionCanvasAssembler.assemble(
+        return assembleConversationResponse(
                 conversation,
                 turn,
-                "none",
-                "not_applicable",
-                visionConversationReadModelAssembler.recentConversationSummaries(currentUser),
-                visionExecutionPlanner.plan(conversation),
-                visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
-                searchDiscoveryForConversation(conversation, currentUser),
-                VisionConversationSnapshotSupport.capabilityPreview(conversation, currentUser, visionCapabilityPreviewService),
-                visionConversationLifecycleSupport.learningMemory(currentUser),
-                visionConversationReadModelAssembler.buildMemoryTrail(currentUser, conversation)
+                currentUser,
+                VisionPromptUnderstandingResult.empty(""),
+                visionExecutionPlanner.plan(conversation)
         );
     }
 
@@ -361,18 +353,12 @@ public class VisionConversationService {
         VisionConversation conversation = visionConversationLifecycleSupport.loadExistingConversation(conversationId, currentUser);
         VisionTurn turn = visionTurnRepository.findTopByConversationOrderByTurnIndexDesc(conversation)
                 .orElseGet(() -> visionConversationLifecycleSupport.snapshotTurn(conversation));
-        return visionCanvasAssembler.assemble(
+        return assembleConversationResponse(
                 conversation,
                 turn,
-                "unavailable",
-                "historical_turn",
-                visionConversationReadModelAssembler.recentConversationSummaries(currentUser),
-                visionExecutionPlanner.plan(conversation),
-                visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser),
-                searchDiscoveryForConversation(conversation, currentUser),
-                VisionConversationSnapshotSupport.capabilityPreview(conversation, currentUser, visionCapabilityPreviewService),
-                visionConversationLifecycleSupport.learningMemory(currentUser),
-                visionConversationReadModelAssembler.buildMemoryTrail(currentUser, conversation)
+                currentUser,
+                emptyUnderstanding(),
+                visionExecutionPlanner.plan(conversation)
         );
     }
 
@@ -476,6 +462,46 @@ public class VisionConversationService {
             VisionConversationTurnRequestDTO dto
     ) {
         return visionQuestReviewSupport.handleReviewEditAction(conversation, understanding, source, dto);
+    }
+
+    private String effectiveSource(VisionConversationTurnRequestDTO dto) {
+        return dto == null ? null : dto.getEffectiveSource();
+    }
+
+    private VisionSemanticRuntimeHints runtimeHints(VisionConversationTurnRequestDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        return VisionSemanticRuntimeHints.builder()
+                .inputType(dto.getInputType())
+                .clientLocale(dto.getClientLocale())
+                .clientTimezone(dto.getClientTimezone())
+                .clientCapabilities(dto.getClientCapabilities())
+                .clientStateVersion(dto.getClientStateVersion())
+                .build();
+    }
+
+    private VisionPromptUnderstandingResult emptyUnderstanding() {
+        return VisionPromptUnderstandingResult.empty("");
+    }
+
+    private VisionConversationTurnResponseDTO assembleConversationResponse(
+            VisionConversation conversation,
+            VisionTurn turn,
+            AppUser currentUser,
+            VisionPromptUnderstandingResult discoveryUnderstanding,
+            VisionExecutionCandidateDTO executionPlan
+    ) {
+        return visionCanvasAssembler.assemble(
+                conversation,
+                turn,
+                visionConversationReadModelAssembler.recentConversationSummaries(currentUser),
+                executionPlan,
+                visionQuestDiscoveryService.discover(conversation, discoveryUnderstanding, currentUser),
+                searchDiscoveryForConversation(conversation, currentUser),
+                VisionConversationSnapshotSupport.capabilityPreview(conversation, currentUser, visionCapabilityPreviewService),
+                visionConversationReadModelAssembler.buildMemoryTrail(currentUser, conversation)
+        );
     }
 
     private VisionTurn handleCreateQuestReviewTurn(
@@ -640,7 +666,7 @@ public class VisionConversationService {
         VisionNextAction nextAction;
         VisionConversationStatus status;
 
-        if (isConfirmationPrompt(normalizedPrompt)) {
+        if (VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             if (!visionProperties.isExecutionEnabled()) {
                 status = VisionConversationStatus.REVIEW_READY;
                 nextAction = VisionNextAction.SHOW_REVIEW;
@@ -745,7 +771,7 @@ public class VisionConversationService {
             applyResolvedCircleRequestRecipient(conversation, targetUserQuery, target);
         }
 
-        if (isConfirmationPrompt(normalizedPrompt)) {
+        if (VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             if (!visionProperties.isExecutionEnabled()) {
                 String message = "The circle request review is ready, but execution is still disabled.";
                 updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
@@ -829,7 +855,7 @@ public class VisionConversationService {
             applyResolvedCircleRequestTarget(conversation, targetUserQuery, target);
         }
 
-        if (isConfirmationPrompt(normalizedPrompt)) {
+        if (VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             if (!visionProperties.isExecutionEnabled()) {
                 String message = "The circle request acceptance review is ready, but execution is still disabled.";
                 updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
@@ -913,7 +939,7 @@ public class VisionConversationService {
             applyResolvedCircleRequestTarget(conversation, targetUserQuery, target);
         }
 
-        if (isConfirmationPrompt(normalizedPrompt)) {
+        if (VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             if (!visionProperties.isExecutionEnabled()) {
                 String message = "The circle request review is ready, but execution is still disabled.";
                 updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
@@ -1014,7 +1040,7 @@ public class VisionConversationService {
             conversation.getSlotData().put("circle_name", newCircleName);
         }
 
-        if (isConfirmationPrompt(normalizedPrompt)) {
+        if (VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             if (!visionProperties.isExecutionEnabled()) {
                 updateConversationMetadata(conversation, prompt, normalizedPrompt, "The circle rename review is ready, but execution is still disabled.", understanding.isTranslationReliable());
                 conversation.setStatus(VisionConversationStatus.REVIEW_READY);
@@ -1100,7 +1126,7 @@ public class VisionConversationService {
             visionDetailConversationTurnSupport.applyResolvedCircleTarget(conversation, circleQuery, target);
         }
 
-        if (isConfirmationPrompt(normalizedPrompt)) {
+        if (VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             if (!visionProperties.isExecutionEnabled()) {
                 String message = "The circle deletion review is ready, but execution is still disabled.";
                 updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
@@ -1283,7 +1309,7 @@ public class VisionConversationService {
         VisionNextAction nextAction;
         VisionConversationStatus status;
 
-        if (isConfirmationPrompt(normalizedPrompt)) {
+        if (VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             if (!visionProperties.isExecutionEnabled()) {
                 status = VisionConversationStatus.REVIEW_READY;
                 nextAction = VisionNextAction.SHOW_REVIEW;
@@ -1483,7 +1509,7 @@ public class VisionConversationService {
         VisionNextAction nextAction;
         VisionConversationStatus status;
 
-        if (isConfirmationPrompt(normalizedPrompt)) {
+        if (VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             if (!visionProperties.isExecutionEnabled()) {
                 status = VisionConversationStatus.REVIEW_READY;
                 nextAction = VisionNextAction.SHOW_REVIEW;
@@ -1666,7 +1692,7 @@ public class VisionConversationService {
         VisionNextAction nextAction;
         VisionConversationStatus status;
 
-        if (isConfirmationPrompt(normalizedPrompt)) {
+        if (VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             if (!visionProperties.isExecutionEnabled()) {
                 status = VisionConversationStatus.REVIEW_READY;
                 nextAction = VisionNextAction.SHOW_REVIEW;
@@ -1855,7 +1881,7 @@ public class VisionConversationService {
         }
         applyResolvedManagedApplicationTarget(conversation, target);
 
-        if (isConfirmationPrompt(normalizedPrompt)) {
+        if (VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             if (!visionProperties.isExecutionEnabled()) {
                 String message = "The application decision review is ready, but execution is still disabled.";
                 updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
@@ -2022,7 +2048,7 @@ public class VisionConversationService {
             conversation.getSlotData().put("profile_location_label", locationLabel);
         }
 
-        if (isConfirmationPrompt(normalizedPrompt)) {
+        if (VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             if (!visionProperties.isExecutionEnabled()) {
                 String message = "The profile location review is ready, but execution is still disabled.";
                 updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
@@ -2086,7 +2112,7 @@ public class VisionConversationService {
         VisionNextAction nextAction;
         VisionConversationStatus status;
 
-        if (isConfirmationPrompt(normalizedPrompt)) {
+        if (VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
             if (!visionProperties.isExecutionEnabled()) {
                 status = VisionConversationStatus.REVIEW_READY;
                 nextAction = VisionNextAction.SHOW_REVIEW;
@@ -2940,14 +2966,4 @@ public class VisionConversationService {
         }
     }
 
-    private boolean isConfirmationPrompt(String prompt) {
-        String lower = prompt.toLowerCase(Locale.ROOT).trim();
-        return lower.equals("confirm")
-                || lower.equals("yes")
-                || lower.equals("yes confirm")
-                || lower.equals("go ahead")
-                || lower.equals("create it")
-                || lower.equals("create the quest")
-                || lower.equals("submit");
-    }
 }

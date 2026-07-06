@@ -12,12 +12,10 @@ const props = defineProps<{
   currentSlotLabel: string
   currentSlotValue: string
   currentFieldKind: string
-  speechStatusLabel: string
   voiceState: VisionVoiceState
 }>()
 
 const rows = computed(() => [
-  {label: "State", value: props.speechStatusLabel},
   {label: "Route", value: props.transcriptTargetLabel || "Prompt"},
   {label: "Slot", value: props.currentSlotLabel ? `${props.currentSlotLabel}${props.currentSlotValue ? ` · ${props.currentSlotValue}` : ""}` : "None"},
   {label: "Transcript", value: props.lastTranscript.trim() || "None"}

@@ -43,14 +43,16 @@
         "backendLogic",
         "agentContract",
         "workflowExpansion",
-        "closeout"
+        "closeout",
+        "controlSystem"
       ],
       "properties": {
         "frontendContract": { "$ref": "#/$defs/stringArray" },
         "backendLogic": { "$ref": "#/$defs/stringArray" },
         "agentContract": { "$ref": "#/$defs/stringArray" },
         "workflowExpansion": { "$ref": "#/$defs/stringArray" },
-        "closeout": { "$ref": "#/$defs/stringArray" }
+        "closeout": { "$ref": "#/$defs/stringArray" },
+        "controlSystem": { "$ref": "#/$defs/stringArray" }
       }
     },
     "manifestRules": {

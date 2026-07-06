@@ -1,6 +1,6 @@
 ---
 machine_kind: master-plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Slot Filling Master Plan
 machine_goal: Improve OpenAI slot extraction by enriching route metadata, adding examples and alias hints, standardizing manifest context, strengthening merge behavior, and building a regression catalog for real voice utterances.
 ---

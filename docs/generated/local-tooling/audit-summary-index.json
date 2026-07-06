@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-06T06:54:00Z",
+  "generated_at": "2026-07-06T19:00:57Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -454,8 +454,8 @@
     },
     {
       "path": "docs/generated/local-tooling/control-start-summary.md",
-      "mtime": "2026-07-06T06:45:28Z",
-      "bytes": 927
+      "mtime": "2026-07-06T19:00:34Z",
+      "bytes": 1250
     },
     {
       "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
@@ -569,8 +569,8 @@
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-07-06T06:45:32Z",
-      "bytes": 827
+      "mtime": "2026-07-06T18:59:43Z",
+      "bytes": 1003
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
@@ -586,6 +586,11 @@
       "path": "docs/generated/local-tooling/plan-completion/backend-drift-remediation-master-plan-summary.md",
       "mtime": "2026-07-06T05:41:50Z",
       "bytes": 242
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-improvement-master-plan-summary.md",
+      "mtime": "2026-07-06T19:00:56Z",
+      "bytes": 244
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/control-system-maintenance-plan-summary.md",
@@ -629,8 +634,8 @@
     },
     {
       "path": "docs/generated/local-tooling/plan-index-summary.md",
-      "mtime": "2026-07-06T06:54:00Z",
-      "bytes": 231
+      "mtime": "2026-07-06T19:00:56Z",
+      "bytes": 891
     },
     {
       "path": "docs/generated/local-tooling/repo-map-summary.md",
@@ -689,7 +694,7 @@
     },
     {
       "path": "docs/generated/local-tooling/validation-memory-drift-summary.md",
-      "mtime": "2026-07-04T10:15:38Z",
+      "mtime": "2026-07-06T18:59:30Z",
       "bytes": 1147
     }
   ]

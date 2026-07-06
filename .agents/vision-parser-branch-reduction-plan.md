@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Parser Branch Reduction
 machine_goal: Reduce Vision parser special cases by moving shared behavior into a common contract and shared helpers.
 ---

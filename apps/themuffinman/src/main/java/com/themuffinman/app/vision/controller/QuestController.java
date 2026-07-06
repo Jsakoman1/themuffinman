@@ -1,7 +1,6 @@
 package com.themuffinman.app.vision.controller;
 
 import com.themuffinman.app.common.dto.ActionResultDTO;
-import com.themuffinman.app.common.dto.ActionResults;
 import com.themuffinman.app.vision.dto.QuestDetailResponseDTO;
 import com.themuffinman.app.vision.dto.QuestListPresetDTO;
 import com.themuffinman.app.vision.dto.QuestListResponseDTO;
@@ -9,7 +8,7 @@ import com.themuffinman.app.vision.dto.QuestRequestDTO;
 import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import com.themuffinman.app.vision.dto.QuestSearchRequestDTO;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.workmarket.service.WorkmarketQuestService;
+import com.themuffinman.app.vision.service.VisionQuestFacadeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,17 +21,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestController {
 
-    private final WorkmarketQuestService questService;
+    private final VisionQuestFacadeService questService;
 
     @PostMapping
     public ActionResultDTO createQuest(@Valid @RequestBody QuestRequestDTO dto, @AuthenticationPrincipal AppUser currentUser) {
-        questService.createQuest(dto, currentUser);
-        return ActionResults.of("CREATE_QUEST", "Quest created.");
+        return questService.createQuest(dto, currentUser);
     }
 
     @GetMapping
     public List<QuestResponseDTO> getAllQuests(@AuthenticationPrincipal AppUser currentUser) {
-        return questService.getAllQuestResponses(currentUser);
+        return questService.getAllQuests(currentUser);
     }
 
     @GetMapping("/search")
@@ -95,36 +93,32 @@ public class QuestController {
 
     @DeleteMapping("/{id}")
     public ActionResultDTO deleteQuest(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
-        questService.deleteQuest(id, currentUser);
-        return ActionResults.of("DELETE_QUEST", "Quest deleted.");
+        return questService.deleteQuest(id, currentUser);
     }
 
     @PutMapping("/{id}")
     public ActionResultDTO updateQuest(@PathVariable long id, @Valid @RequestBody QuestRequestDTO dto, @AuthenticationPrincipal AppUser currentUser) {
-        questService.updateQuest(id, dto, currentUser);
-        return ActionResults.of("UPDATE_QUEST", "Quest updated.");
+        return questService.updateQuest(id, dto, currentUser);
     }
 
     @PatchMapping("/{id}/start")
     public ActionResultDTO startQuest(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
-        questService.startQuest(id, currentUser);
-        return ActionResults.of("START_QUEST", "Quest started.");
+        return questService.startQuest(id, currentUser);
     }
 
     @PatchMapping("/{id}/complete")
     public ActionResultDTO completeQuest(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
-        questService.completeQuest(id, currentUser);
-        return ActionResults.of("COMPLETE_QUEST", "Quest completed.");
+        return questService.completeQuest(id, currentUser);
     }
 
     @PatchMapping("/{id}/term/confirm")
     public QuestResponseDTO confirmQuestTermChange(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
-        return questService.toResponse(questService.confirmQuestTermChange(id, currentUser), currentUser);
+        return questService.confirmQuestTermChange(id, currentUser);
     }
 
     @PatchMapping("/{id}/term/reject")
     public QuestResponseDTO rejectQuestTermChange(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
-        return questService.toResponse(questService.rejectQuestTermChange(id, currentUser), currentUser);
+        return questService.rejectQuestTermChange(id, currentUser);
     }
 
 }

@@ -313,7 +313,7 @@ public class VisionSemanticOrchestrationContextService {
         return VisionSemanticSessionMemoryContext.builder()
                 .conversationId(conversation.getId())
                 .currentIntent(conversation.getIntent() == null ? "" : conversation.getIntent().name())
-                .currentEntityFamily(entityFamilyFor(conversation.getIntent()))
+                .currentEntityFamily(VisionEntityFamilySupport.learningFamilyLabel(conversation.getIntent()))
                 .status(conversation.getStatus() == null ? "" : conversation.getStatus().name())
                 .requestedSlot(clean(conversation.getRequestedSlot()))
                 .sessionSummary(buildSessionSummary(conversation))
@@ -437,7 +437,7 @@ public class VisionSemanticOrchestrationContextService {
                     .assistantMessage(clean(turn.getAssistantMessage()))
                     .build());
         }
-        return items;
+        return items.stream().limit(5).toList();
     }
 
     private List<String> buildRecentIntentTypes(AppUser user, VisionConversation currentConversation) {
@@ -466,7 +466,7 @@ public class VisionSemanticOrchestrationContextService {
                 intentTypes.add(0, currentIntent);
             }
         }
-        return intentTypes;
+        return intentTypes.stream().limit(3).toList();
     }
 
     private List<String> buildRecentEntityFamilies(AppUser user) {
@@ -481,12 +481,12 @@ public class VisionSemanticOrchestrationContextService {
 
         List<String> families = new ArrayList<>();
         for (VisionConversation conversation : conversations) {
-            String family = entityFamilyFor(conversation == null ? null : conversation.getIntent());
+            String family = VisionEntityFamilySupport.learningFamilyLabel(conversation == null ? null : conversation.getIntent());
             if (family != null && !family.isBlank() && !families.contains(family)) {
                 families.add(family);
             }
         }
-        return families;
+        return families.stream().limit(3).toList();
     }
 
     private List<String> buildRecentFeedbackTypes(AppUser user) {
@@ -516,7 +516,7 @@ public class VisionSemanticOrchestrationContextService {
                 preferences,
                 Instant.now(),
                 visionProperties == null ? null : visionProperties.getMemory(),
-                8,
+                5,
                 CONTEXT_PREFERENCE_PRIORITY
         );
     }
@@ -531,7 +531,7 @@ public class VisionSemanticOrchestrationContextService {
             return List.of();
         }
 
-        int explainabilityWindow = 8;
+        int explainabilityWindow = 5;
         List<VisionLearningPreferenceDTO> explainabilitySignals = VisionPreferenceConfidenceSupport.toPreferenceSignals(
                 preferences,
                 Instant.now(),
@@ -703,24 +703,6 @@ public class VisionSemanticOrchestrationContextService {
             case REVIEW_READY -> "Ready for review and confirmation.";
             case COMPLETED -> "Task finished.";
             case BLOCKED -> "Conversation stopped until the user starts a supported task.";
-        };
-    }
-
-    private String entityFamilyFor(com.themuffinman.app.vision.model.VisionIntent intent) {
-        if (intent == null) {
-            return null;
-        }
-        return switch (intent) {
-            case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> "profile";
-            case VIEW_NOTIFICATIONS -> "notifications";
-            case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
-                    DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
-            case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
-                    WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
-            case DISCOVER_QUESTS, CREATE_QUEST, VIEW_QUEST_DETAIL -> "quests";
-            case VIEW_QUEST_NEWS -> "quest news";
-            case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> "chat";
-            default -> "other";
         };
     }
 

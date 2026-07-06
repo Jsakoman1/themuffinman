@@ -326,9 +326,6 @@ class VisionConversationServiceTest {
         assertTrue(response.getBlocks().stream().anyMatch(block ->
                 "result_summary".equals(block.getType())
                         && "Profile".equals(block.getTitle())));
-        assertNotNull(response.getLearningMemory());
-        assertEquals("Top preferences: preferred_input_type=voice", response.getLearningMemory().getSummaryText());
-        assertEquals(1, response.getLearningMemory().getPreferenceSignals().size());
         assertNotNull(response.getMemoryTrail());
         assertNotNull(response.getMemoryTrail().getSessionSummary());
         assertNotNull(response.getMemoryTrail().getOpenQuestions());

@@ -1,5 +1,8 @@
 # Master Plan Template
 
+Use this as the compact structure for a durable coordination plan.
+For shared planning rules, read `docs/program-planning-model.md` first.
+
 ## Status
 
 Draft.
@@ -24,13 +27,9 @@ TBD.
 - Role: TBD
 - Status: draft
 
-## Pros
+## Improvement Checklist
 
-- TBD
-
-## Cons
-
-- TBD
+- [ ] TBD
 
 ## Dependencies
 
@@ -49,4 +48,3 @@ TBD.
 - Validation evidence: TBD
 - Doc delta summary: TBD
 - Deferred work: TBD
-

@@ -23,15 +23,12 @@ public class VisionConversationTurnResponseDTO {
     private String message;
     private String requestedSlot;
     private String normalizedPrompt;
-    private String understandingProvider;
-    private String understandingStatus;
     private boolean translationApplied;
     private boolean translationReliable;
     private boolean executionEnabled;
     private VisionExecutionCandidateDTO executionCandidate;
     private VisionQuestDiscoveryDTO questDiscovery;
     private VisionSearchDiscoveryDTO searchDiscovery;
-    private VisionLearningMemoryDTO learningMemory;
     private VisionMemoryTrailDTO memoryTrail;
     private List<VisionCanvasBlockDTO> blocks;
     private List<VisionSlotSummaryDTO> appliedSlotSummaries;

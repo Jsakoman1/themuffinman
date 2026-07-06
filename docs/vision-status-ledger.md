@@ -10,8 +10,11 @@ It should stay short, factual, and updated when a vision batch materially change
 - first executor scopes are `create_quest` and `create_circle`
 - text turns can drive stepwise slot collection and review assembly
 - voice-related architecture direction is OpenAI-based, while the conversation contract remains shared with text turns
+- the voice control caption now carries the visible speech state, while the debug rail no longer repeats a separate state row
 - create-quest review can retarget one field at a time instead of forcing full-form re-entry
 - review-confirmation execution now flows through a dedicated `VisionExecutionService` boundary that dispatches typed capability adapters for `create_quest` and `create_circle` instead of calling a single quest adapter directly from conversation orchestration
+- read-only conversation fetches now use a dedicated query service, while reset and cancel remain on the lifecycle boundary so query and mutation paths stay separate
+- the execution service now rejects unsupported adapter registrations up front and the surface policy exposes the explicit executable capability set instead of hiding it in duplicated string checks
 - reset and cancel lifecycle actions exist
 - recent conversation recovery and load endpoints exist
 - custom location handling supports parsed addresses, place-prefixed labels, lookup-backed candidates, ordinal candidate choice, and explicit candidate confirmation
@@ -34,6 +37,11 @@ It should stay short, factual, and updated when a vision batch materially change
 - review-ready backend turns no longer reinterpret free-text phrases like "change reward" as slot-edit commands; review edits must come through typed review actions
 - multi-candidate custom location clarification now exposes ranked candidate wording and an explicit keep-typed-location fallback so the user can understand why candidate choices differ
 - recent `/vision` task summaries now expose stage and progress metadata so the surface can distinguish resumable clarifications, review-ready tasks, blocked tasks, and completed tasks without frontend inference
+- the canvas mode and summary-mode labels now come from one shared backend support class, so clarification, review, results, complete, and blocked states share one testable definition
+- the turn response no longer carries separate understanding-provider/status debug fields or a standalone learning-memory payload, which keeps the contract smaller without changing the visible canvas surface
+- the frontend preview rail now uses one shared helper for preview-block selection and field derivation, so the shell and preview panel stop repeating the same block checks
+- the surface now uses the shared prompt-composer visibility computed state instead of hardcoding the renderer entry point, which keeps the composer rule in one place
+- the vision controllers now depend on vision-owned facade services for quest, application, dashboard, review, and news flows, so workmarket services stay behind a clearer boundary
 - recent `/vision` tasks are now grouped into active, review-ready, blocked, and completed sections, with stale markers and disabled resume for completed work
 - the frontend canvas renderer now delegates review, field-request, result-summary, and shared status framing to focused block components instead of growing one monolithic renderer
 - the frontend vision shell now wraps state summary, execution candidate, canvas blocks, and prompt dock in one unified adaptive surface instead of exposing separate top-level panels
@@ -106,6 +114,7 @@ It should stay short, factual, and updated when a vision batch materially change
 - the semantic prompt audit matrix now covers representative quest, circle, application, profile, chat, and detail prompts so drift shows up in tests before the route catalog widens again
 - the semantic prompt audit matrix now also covers group-style circle creation, submit-application phrasing, profile editing, and direct-message phrasing so the model-first route selection stays explicit across the main entity families
 - the semantic response validator now rejects extracted slots and generic semantic fields that are not exposed by the selected backend route before sanitization runs
+- route catalog and semantic sanitizer coverage now includes route uniqueness, validator/executor metadata, and sanitizer alignment checks so drift is caught in tests instead of the UI
 - `/vision` now also has a first request-style mutation pilot for `create_circle`, including one-slot draft collection, review-ready state, and explicit confirmation before execution
 - `/vision` now also has a broad cross-entity `search` capability that can rank quests, circles, users, applications, and things inside the shared canvas surface
 - `/vision` now also has a read-only `VIEW_THINGS` capability that exposes available shared things as a first-class Vision snapshot
