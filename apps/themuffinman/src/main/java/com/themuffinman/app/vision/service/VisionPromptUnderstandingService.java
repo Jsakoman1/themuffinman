@@ -511,73 +511,11 @@ public class VisionPromptUnderstandingService {
         Map<String, Object> responseContract = new LinkedHashMap<>();
         responseContract.put("format", "VisionPromptUnderstandingResult");
         responseContract.put("semanticContractVersion", SEMANTIC_CONTRACT_VERSION);
-        responseContract.put("candidateIntents", java.util.List.of(
-                "CREATE_QUEST",
-                "CREATE_CIRCLE",
-                "CREATE_CIRCLE_REQUEST",
-                "ACCEPT_CIRCLE_REQUEST",
-                "DELETE_CIRCLE_REQUEST",
-                "UPDATE_CIRCLE",
-                "DELETE_CIRCLE",
-                "CREATE_APPLICATION",
-                "UPDATE_APPLICATION",
-                "WITHDRAW_APPLICATION",
-                "APPROVE_APPLICATION",
-                "DECLINE_APPLICATION",
-                "UPDATE_PROFILE",
-                "UPDATE_PROFILE_LOCATION",
-                "DISCOVER_QUESTS",
-                "SEARCH",
-                "OPEN_CHAT",
-                "VIEW_CHAT_WORKSPACE",
-                "VIEW_PROFILE",
-                "VIEW_SETTINGS",
-                "VIEW_USER_PROFILE",
-                "VIEW_CIRCLES",
-                "VIEW_CIRCLE_DETAIL",
-                "VIEW_QUEST_DETAIL",
-                "VIEW_NOTIFICATIONS",
-                "VIEW_QUEST_NEWS",
-                "VIEW_APPLICATIONS",
-                "VIEW_APPLICATION_DETAIL",
-                "VIEW_THINGS",
-                "UNSUPPORTED"
-        ));
+        responseContract.put("candidateIntents", semanticRouteCatalogService.supportedCandidateIntents());
         responseContract.put("clarificationRequired", java.util.List.of(Boolean.TRUE, Boolean.FALSE));
         responseContract.put("requiredSlotIds", java.util.List.of());
         responseContract.put("missingRequiredSlotIds", java.util.List.of());
-        responseContract.put("capabilityIds", java.util.List.of(
-                "create_quest",
-                "create_circle",
-                "create_circle_request",
-                "accept_circle_request",
-                "delete_circle_request",
-                "update_circle",
-                "delete_circle",
-                "create_application",
-                "update_application",
-                "withdraw_application",
-                "approve_application",
-                "decline_application",
-                "update_profile",
-                "update_profile_location",
-                "discover_quests",
-                "search",
-                "open_chat",
-                "view_chat_workspace",
-                "view_profile",
-                "view_settings",
-                "view_user_profile",
-                "view_circles",
-                "view_circle_detail",
-                "view_quest_detail",
-                "view_notifications",
-                "view_quest_news",
-                "view_applications",
-                "view_application_detail",
-                "view_things",
-                "unsupported"
-        ));
+        responseContract.put("capabilityIds", semanticRouteCatalogService.supportedCapabilityIds());
         responseContract.put("focusSlotIds", java.util.List.of(
                 "circle_name",
                 "target_circle_query",

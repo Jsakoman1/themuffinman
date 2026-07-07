@@ -1,0 +1,240 @@
+{
+  "generated_at": "2026-07-07T06:38:39Z",
+  "domain": "workmarket",
+  "file_count": 60,
+  "categories": [
+    "backend_mapper",
+    "backend_model",
+    "backend_repository",
+    "backend_service",
+    "other"
+  ],
+  "key_services": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketApplyForQuestUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "lines": 39
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketApproveApplicationUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "lines": 85
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCompleteQuestUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "lines": 29
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketConfirmQuestTermChangeUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "lines": 34
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCreateQuestUseCase.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "lines": 38
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardNotificationAssembler.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "lines": 54
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardPlannerAssembler.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "lines": 132
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardReadService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "lines": 234
+    }
+  ],
+  "key_controllers": [
+
+  ],
+  "key_repositories": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/WorkmarketQuestApplicationRepository.java",
+      "category": "backend_repository",
+      "domain": "workmarket",
+      "lines": 82
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/WorkmarketQuestNewsRepository.java",
+      "category": "backend_repository",
+      "domain": "workmarket",
+      "lines": 29
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/WorkmarketQuestRepository.java",
+      "category": "backend_repository",
+      "domain": "workmarket",
+      "lines": 67
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/WorkmarketUserReviewRepository.java",
+      "category": "backend_repository",
+      "domain": "workmarket",
+      "lines": 38
+    }
+  ],
+  "key_models": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/Quest.java",
+      "category": "backend_model",
+      "domain": "workmarket",
+      "lines": 138
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestApplication.java",
+      "category": "backend_model",
+      "domain": "workmarket",
+      "lines": 41
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestApplicationStatus.java",
+      "category": "backend_model",
+      "domain": "workmarket",
+      "lines": 8
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestAudience.java",
+      "category": "backend_model",
+      "domain": "workmarket",
+      "lines": 7
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestNewsItem.java",
+      "category": "backend_model",
+      "domain": "workmarket",
+      "lines": 60
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestNewsType.java",
+      "category": "backend_model",
+      "domain": "workmarket",
+      "lines": 19
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestStatus.java",
+      "category": "backend_model",
+      "domain": "workmarket",
+      "lines": 10
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/ReviewRole.java",
+      "category": "backend_model",
+      "domain": "workmarket",
+      "lines": 6
+    }
+  ],
+  "dto_groups": [
+
+  ],
+  "frontend_surfaces": [
+
+  ],
+  "workflows": [
+    {
+      "id": "quest_lifecycle",
+      "owner": "QuestStateTransitionService",
+      "states": 6,
+      "transitions": 10
+    },
+    {
+      "id": "quest_application_lifecycle",
+      "owner": "QuestApplicationWorkflowSupport",
+      "states": 4,
+      "transitions": 6
+    }
+  ],
+  "docs": [
+    "docs/business-logic.md",
+    "docs/domain-technical.md",
+    "docs/agent-operating-model.md",
+    "docs/agent-operating-model.yaml"
+  ],
+  "tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestNewsServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java"
+  ],
+  "scenario_catalog": [
+    {
+      "id": "workmarket-quest-lifecycle",
+      "risk": "high",
+      "scenario": "Quest create, update, delete, start, complete, and term-change flows must resolve actors, validate state, persist changes, and publish expected notifications.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest"
+      ]
+    },
+    {
+      "id": "workmarket-application-lifecycle",
+      "risk": "high",
+      "scenario": "Application apply, applicant edit, withdraw, owner approve, owner decline, and admin mutation flows must enforce ownership, status, pricing, and notification rules.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest"
+      ]
+    },
+    {
+      "id": "workmarket-dashboard-read-model",
+      "risk": "medium",
+      "scenario": "Dashboard sections, applicant actions, open-work groups, and notification destinations must stay backend-prepared and role-aware.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest"
+      ]
+    },
+    {
+      "id": "workmarket-quest-read-model",
+      "risk": "medium",
+      "scenario": "Quest browsing, recommendation ranking, and quest news read state must stay backend-prepared and viewer-aware.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=QuestQueryServiceTest,QuestNewsServiceTest,DashboardServiceTest"
+      ]
+    }
+  ],
+  "first_commands": [
+    "./mvnw test",
+    "make audit-read-surface-inventory",
+    "make audit-repository-fetch",
+    "cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest,QuestApplicationServiceTest,QuestApplicationUseCaseContractTest,QuestNewsServiceTest,QuestQueryServiceTest,QuestServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=QuestQueryServiceTest,QuestNewsServiceTest,DashboardServiceTest"
+  ],
+  "residual_risk": [
+
+  ]
+}

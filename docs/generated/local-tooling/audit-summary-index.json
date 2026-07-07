@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-06T19:00:57Z",
+  "generated_at": "2026-07-07T15:48:22Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -454,8 +454,8 @@
     },
     {
       "path": "docs/generated/local-tooling/control-start-summary.md",
-      "mtime": "2026-07-06T19:00:34Z",
-      "bytes": 1250
+      "mtime": "2026-07-07T07:50:19Z",
+      "bytes": 961
     },
     {
       "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
@@ -466,6 +466,11 @@
       "path": "docs/generated/local-tooling/domain-packs/agent-summary.md",
       "mtime": "2026-07-05T10:42:53Z",
       "bytes": 611
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-packs/workmarket-summary.md",
+      "mtime": "2026-07-07T06:38:39Z",
+      "bytes": 26
     },
     {
       "path": "docs/generated/local-tooling/dto-usage-packs/visioncanvasblockdto-summary.md",
@@ -569,8 +574,8 @@
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-07-06T18:59:43Z",
-      "bytes": 1003
+      "mtime": "2026-07-07T07:55:22Z",
+      "bytes": 812
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
@@ -618,6 +623,11 @@
       "bytes": 288
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/vision-improvement-master-plan-summary.md",
+      "mtime": "2026-07-07T06:19:14Z",
+      "bytes": 228
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/vision-master-plan-summary.md",
       "mtime": "2026-07-04T10:07:02Z",
       "bytes": 178
@@ -633,9 +643,14 @@
       "bytes": 202
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-improvement-master-plan-summary.md",
+      "mtime": "2026-07-07T15:48:22Z",
+      "bytes": 236
+    },
+    {
       "path": "docs/generated/local-tooling/plan-index-summary.md",
-      "mtime": "2026-07-06T19:00:56Z",
-      "bytes": 891
+      "mtime": "2026-07-07T15:48:22Z",
+      "bytes": 475
     },
     {
       "path": "docs/generated/local-tooling/repo-map-summary.md",
@@ -646,6 +661,11 @@
       "path": "docs/generated/local-tooling/symbol-index-summary.md",
       "mtime": "2026-07-03T14:48:13Z",
       "bytes": 2456
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/dashboardservice-summary.md",
+      "mtime": "2026-07-07T07:50:19Z",
+      "bytes": 1919
     },
     {
       "path": "docs/generated/local-tooling/symbol-test-links/promptsemanticssupport-summary.md",
@@ -661,6 +681,11 @@
       "path": "docs/generated/local-tooling/symbol-test-links/visioncapabilitypreviewservice-summary.md",
       "mtime": "2026-07-06T06:24:23Z",
       "bytes": 1528
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/visionconversationlifecycleservice-summary.md",
+      "mtime": "2026-07-07T06:17:17Z",
+      "bytes": 449
     },
     {
       "path": "docs/generated/local-tooling/symbol-test-links/visionproperties-summary.md",
@@ -694,8 +719,13 @@
     },
     {
       "path": "docs/generated/local-tooling/validation-memory-drift-summary.md",
-      "mtime": "2026-07-06T18:59:30Z",
+      "mtime": "2026-07-07T15:38:07Z",
       "bytes": 1147
+    },
+    {
+      "path": "docs/generated/local-tooling/workflow-slices/quest-application-summary.md",
+      "mtime": "2026-07-07T06:31:47Z",
+      "bytes": 680
     }
   ]
 }

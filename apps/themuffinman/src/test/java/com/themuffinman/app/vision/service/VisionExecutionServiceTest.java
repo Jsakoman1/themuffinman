@@ -30,6 +30,7 @@ class VisionExecutionServiceTest {
         VisionCreateCircleExecutionAdapter circleAdapter = mock(VisionCreateCircleExecutionAdapter.class);
         when(circleAdapter.capabilityId()).thenReturn("create_circle");
         VisionExecutionService executionService = new VisionExecutionService(
+                new VisionSemanticRouteCatalogService(),
                 new VisionSurfacePolicy(visionProperties),
                 List.of(questAdapter, circleAdapter)
         );
@@ -56,6 +57,7 @@ class VisionExecutionServiceTest {
         VisionCreateCircleExecutionAdapter circleAdapter = mock(VisionCreateCircleExecutionAdapter.class);
         when(circleAdapter.capabilityId()).thenReturn("create_circle");
         VisionExecutionService executionService = new VisionExecutionService(
+                new VisionSemanticRouteCatalogService(),
                 new VisionSurfacePolicy(visionProperties),
                 List.of(adapter, circleAdapter)
         );
@@ -87,6 +89,7 @@ class VisionExecutionServiceTest {
         VisionCreateQuestExecutionAdapter questAdapter = mock(VisionCreateQuestExecutionAdapter.class);
         when(questAdapter.capabilityId()).thenReturn("create_quest");
         VisionExecutionService executionService = new VisionExecutionService(
+                new VisionSemanticRouteCatalogService(),
                 new VisionSurfacePolicy(visionProperties),
                 List.of(questAdapter, circleAdapter)
         );
@@ -119,6 +122,7 @@ class VisionExecutionServiceTest {
 
         IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
                 new VisionExecutionService(
+                        new VisionSemanticRouteCatalogService(),
                         new VisionSurfacePolicy(visionProperties),
                         List.of(unsupportedAdapter)
                 ));

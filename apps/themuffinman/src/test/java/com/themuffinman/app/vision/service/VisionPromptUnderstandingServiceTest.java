@@ -484,6 +484,48 @@ class VisionPromptUnderstandingServiceTest {
     }
 
     @Test
+    void responseContractIntentAndCapabilityListsComeFromTheRouteCatalog() {
+        AgentProperties agentProperties = configuredOpenAiProperties();
+        VisionSemanticRouteCatalogService routeCatalogService = new VisionSemanticRouteCatalogService();
+        java.util.concurrent.atomic.AtomicReference<String> capturedInput = new java.util.concurrent.atomic.AtomicReference<>();
+
+        VisionPromptUnderstandingService service = new VisionPromptUnderstandingService(
+                agentProperties,
+                new VisionSemanticMapper(),
+                new PromptSemanticsSupport(),
+                new VisionSemanticOrchestrationContextService(new VoiceProperties()),
+                routeCatalogService,
+                new VisionSemanticContractSanitizer(),
+                new VisionSemanticResponseValidator(),
+                new VisionEntityResolverRegistry(List.of(), new SemanticAliasRegistry()),
+                new SemanticAliasRegistry()
+        ) {
+            @Override
+            protected String requestOpenAiOutputText(Map<String, Object> payload) {
+                capturedInput.set(String.valueOf(payload.get("input")));
+                return buildSemanticPayload("CREATE_QUEST", "create_quest", "create quest", "");
+            }
+        };
+
+        AppUser user = new AppUser();
+        user.setId(7L);
+        VisionPromptUnderstandingResult result = service.understandPrompt("create quest", null, user);
+
+        assertEquals("CREATE_QUEST", result.semanticPlanOrEmpty().getCandidateIntent());
+        String input = capturedInput.get();
+        assertTrue(input != null && input.contains("\"responseContract\""));
+        String requestJson = input.substring(input.indexOf('{'), input.lastIndexOf('}') + 1);
+        try {
+            com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            com.fasterxml.jackson.databind.JsonNode root = objectMapper.readTree(requestJson);
+            assertEquals(routeCatalogService.supportedCandidateIntents(), objectMapper.convertValue(root.path("responseContract").path("candidateIntents"), List.class));
+            assertEquals(routeCatalogService.supportedCapabilityIds(), objectMapper.convertValue(root.path("responseContract").path("capabilityIds"), List.class));
+        } catch (Exception exception) {
+            throw new IllegalStateException(exception);
+        }
+    }
+
+    @Test
     void acceptsTargetUserFollowUpsFromSemanticPlanWithoutASeparateSlotBranch() {
         AgentProperties agentProperties = configuredOpenAiProperties();
         VisionPromptUnderstandingService service = service(

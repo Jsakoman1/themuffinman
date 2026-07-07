@@ -26,7 +26,7 @@ final class VisionCapabilityEntityResolutionSupport {
     private final AppUserReadService appUserReadService;
     private final CircleReadService circleReadService;
     private final QuestApplicationService questApplicationService;
-    private final QuestService questService;
+    private final QuestReadService questReadService;
     private final SemanticAliasRegistry semanticAliasRegistry;
     private static final Pattern QUEST_ID_PATTERN = Pattern.compile("(?i)(?:quest\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
     private static final Pattern APPLICATION_ID_PATTERN = Pattern.compile("(?i)(?:application\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
@@ -38,14 +38,14 @@ final class VisionCapabilityEntityResolutionSupport {
             AppUserReadService appUserReadService,
             CircleReadService circleReadService,
             QuestApplicationService questApplicationService,
-            QuestService questService,
+            QuestReadService questReadService,
             SemanticAliasRegistry semanticAliasRegistry
     ) {
         this.appUserRepository = appUserRepository;
         this.appUserReadService = appUserReadService;
         this.circleReadService = circleReadService;
         this.questApplicationService = questApplicationService;
-        this.questService = questService;
+        this.questReadService = questReadService;
         this.semanticAliasRegistry = semanticAliasRegistry;
     }
 
@@ -140,7 +140,7 @@ final class VisionCapabilityEntityResolutionSupport {
         Long questId = extractQuestId(query);
         if (questId != null) {
             try {
-                QuestResponseDTO quest = questService.getQuestResponseById(questId, currentUser);
+                QuestResponseDTO quest = questReadService.getQuestResponseById(questId, currentUser);
                 if (quest.getAllowedActions() == null || !quest.getAllowedActions().contains(QuestAllowedActionDTO.APPLY)) {
                     return VisionResolvedQuestTarget.unresolved("You cannot apply to quest #" + questId + ".");
                 }
@@ -151,7 +151,7 @@ final class VisionCapabilityEntityResolutionSupport {
         }
 
         String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.QUEST, query).toLowerCase(Locale.ROOT);
-        List<QuestResponseDTO> candidates = questService.getAllQuestResponses(currentUser).stream()
+        List<QuestResponseDTO> candidates = questReadService.getAllQuestResponses(currentUser).stream()
                 .filter(quest -> quest.getAllowedActions() != null && quest.getAllowedActions().contains(QuestAllowedActionDTO.APPLY))
                 .filter(quest -> matchesQuestQuery(quest, normalizedQuery))
                 .toList();
@@ -320,7 +320,7 @@ final class VisionCapabilityEntityResolutionSupport {
         Long questId = extractQuestId(query);
         if (questId != null) {
             try {
-                QuestResponseDTO quest = questService.getQuestResponseById(questId, currentUser);
+                QuestResponseDTO quest = questReadService.getQuestResponseById(questId, currentUser);
                 return VisionResolvedQuestTarget.resolved(quest.getId(), quest.getTitle(), quest.getCreatorUsername(), requiresApplicationPrice(quest), formatRewardLabel(quest));
             } catch (RuntimeException ignored) {
                 return VisionResolvedQuestTarget.unresolved("I could not find one visible quest with id " + questId + ".");
@@ -328,7 +328,7 @@ final class VisionCapabilityEntityResolutionSupport {
         }
 
         String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.QUEST, query).toLowerCase(Locale.ROOT);
-        List<QuestResponseDTO> candidates = questService.getAllQuestResponses(currentUser).stream()
+        List<QuestResponseDTO> candidates = questReadService.getAllQuestResponses(currentUser).stream()
                 .filter(quest -> matchesQuestQuery(quest, normalizedQuery))
                 .toList();
         if (candidates.isEmpty()) {
@@ -599,7 +599,7 @@ final class VisionCapabilityEntityResolutionSupport {
         }
 
         Long questId = extractQuestId(query);
-        List<QuestResponseDTO> candidates = questService.getAllQuestResponses(currentUser).stream()
+        List<QuestResponseDTO> candidates = questReadService.getAllQuestResponses(currentUser).stream()
                 .filter(quest -> quest.getAllowedActions() != null && quest.getAllowedActions().contains(QuestAllowedActionDTO.VIEW_APPLICATIONS))
                 .filter(quest -> matchesManagedQuestQuery(quest, query, questId))
                 .toList();

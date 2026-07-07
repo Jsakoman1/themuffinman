@@ -46,6 +46,9 @@ class DashboardServiceTest {
     private QuestService questService;
 
     @Mock
+    private QuestReadService questReadService;
+
+    @Mock
     private QuestApplicationRepository questApplicationRepository;
 
     @Mock
@@ -211,7 +214,7 @@ class DashboardServiceTest {
         when(questNewsService.getMyNews(currentUser)).thenReturn(List.of());
         when(circleReadService.getIncomingRequests(currentUser)).thenReturn(List.of());
         when(circleReadService.getCircles(currentUser)).thenReturn(List.of());
-        when(questService.toResponses(List.of(availableQuest, ownedQuest), currentUser)).thenReturn(List.of(
+        when(questReadService.toResponses(List.of(availableQuest, ownedQuest), currentUser)).thenReturn(List.of(
                 QuestResponseDTO.builder().id(2L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.vision.dto.QuestViewerRelationDTO.VIEWER).build(),
                 QuestResponseDTO.builder().id(1L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.vision.dto.QuestViewerRelationDTO.OWNER).build()
         ));
@@ -282,7 +285,7 @@ class DashboardServiceTest {
         when(circleReadService.getIncomingRequests(currentUser)).thenReturn(List.of());
         when(circleReadService.getCircles(currentUser)).thenReturn(List.of());
         when(questApplicationService.toApplicantResponse(application)).thenReturn(applicationDto);
-        when(questService.toResponses(List.of(quest), currentUser)).thenReturn(List.of(
+        when(questReadService.toResponses(List.of(quest), currentUser)).thenReturn(List.of(
                 QuestResponseDTO.builder().id(11L).status(QuestStatus.OPEN).viewerRelation(com.themuffinman.app.vision.dto.QuestViewerRelationDTO.VIEWER).build()
         ));
 
@@ -319,7 +322,7 @@ class DashboardServiceTest {
         when(questNewsService.getMyNews(currentUser)).thenReturn(List.of(newsItem));
         when(circleReadService.getIncomingRequests(currentUser)).thenReturn(List.of());
         when(circleReadService.getCircles(currentUser)).thenReturn(List.of());
-        when(questService.toResponses(List.of(), currentUser)).thenReturn(List.of());
+        when(questReadService.toResponses(List.of(), currentUser)).thenReturn(List.of());
         when(questNewsMgr.toDto(newsItem)).thenReturn(newsDto);
 
         DashboardResponseDTO result = dashboardService.getMyDashboard(currentUser);

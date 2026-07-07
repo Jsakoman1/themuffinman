@@ -2,7 +2,6 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.dto.QuestRequestDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import com.themuffinman.app.vision.model.Quest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,10 +26,6 @@ public class QuestService {
 
     public java.util.List<Quest> getAllQuests(AppUser currentUser) {
         return questReadService.getAllQuests(currentUser);
-    }
-
-    public java.util.List<QuestResponseDTO> getAllQuestResponses(AppUser currentUser) {
-        return questReadService.getAllQuestResponses(currentUser);
     }
 
     public com.themuffinman.app.vision.dto.QuestListResponseDTO searchQuests(
@@ -107,24 +102,8 @@ public class QuestService {
         return questReadService.getQuestById(id, currentUser);
     }
 
-    public QuestResponseDTO getQuestResponseById(Long id, AppUser currentUser) {
-        return questReadService.getQuestResponseById(id, currentUser);
-    }
-
     public com.themuffinman.app.vision.dto.QuestDetailResponseDTO getQuestDetailResponseById(Long id, AppUser currentUser) {
         return questReadService.getQuestDetailResponseById(id, currentUser);
-    }
-
-    public com.themuffinman.app.vision.dto.QuestApplicationDetailResponseDTO getApplicationDetailResponseById(Long applicationId, AppUser currentUser) {
-        return questReadService.getApplicationDetailResponseById(applicationId, currentUser);
-    }
-
-    public QuestResponseDTO toResponse(Quest quest, AppUser currentUser) {
-        return questReadService.toResponse(quest, currentUser);
-    }
-
-    public java.util.List<QuestResponseDTO> toResponses(java.util.List<Quest> quests, AppUser currentUser) {
-        return questReadService.toResponses(quests, currentUser);
     }
 
     @Transactional

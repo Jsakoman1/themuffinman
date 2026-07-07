@@ -295,6 +295,22 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationWorkflowSupport.java
   - id: workmarket_apply_for_quest_use_case
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketApplyForQuestUseCase.java
+  - id: workmarket_quest_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestService.java
+  - id: workmarket_create_quest_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCreateQuestUseCase.java
+  - id: workmarket_update_quest_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUpdateQuestUseCase.java
+  - id: workmarket_delete_quest_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDeleteQuestUseCase.java
+  - id: workmarket_start_quest_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketStartQuestUseCase.java
+  - id: workmarket_complete_quest_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCompleteQuestUseCase.java
+  - id: workmarket_confirm_quest_term_change_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketConfirmQuestTermChangeUseCase.java
+  - id: workmarket_reject_quest_term_change_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketRejectQuestTermChangeUseCase.java
   - id: workmarket_update_my_application_use_case
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUpdateMyApplicationUseCase.java
   - id: workmarket_withdraw_my_application_use_case

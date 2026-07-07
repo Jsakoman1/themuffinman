@@ -132,6 +132,8 @@ class QuestWorkflowScenarioTest {
 
         Quest quest = createAssignedQuest(owner, worker, "Paint fence");
         Instant originalStart = quest.getScheduledAt();
+        Instant updatedStart = originalStart.plus(Duration.ofDays(1));
+        Instant updatedEnd = updatedStart.plus(Duration.ofHours(2));
 
         questService.updateQuest(
                 quest.getId(),
@@ -139,8 +141,8 @@ class QuestWorkflowScenarioTest {
                         .title(quest.getTitle())
                         .description(quest.getDescription())
                         .awardAmount(quest.getAwardAmount())
-                        .scheduledAt(Instant.parse("2026-07-06T16:00:00Z"))
-                        .endsAt(Instant.parse("2026-07-06T18:00:00Z"))
+                        .scheduledAt(updatedStart)
+                        .endsAt(updatedEnd)
                         .termFixed(true)
                         .build(),
                 owner

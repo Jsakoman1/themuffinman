@@ -5,7 +5,6 @@ import com.themuffinman.app.vision.dto.AdminQuestApplicationUpdateRequestDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationListResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationRequestDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationsViewDTO;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.vision.model.QuestApplicationStatus;
 import lombok.RequiredArgsConstructor;
@@ -29,22 +28,6 @@ public class WorkmarketQuestApplicationService {
     @Transactional
     public QuestApplicationResponseDTO applyForQuest(Long questId, QuestApplicationRequestDTO dto, AppUser currentUser) {
         return workmarketQuestApplicationReadService.toApplicantResponse(applyForQuestUseCase.execute(questId, dto, currentUser));
-    }
-
-    public java.util.List<QuestApplicationResponseDTO> getApplicationsForQuest(Long questId, AppUser currentUser) {
-        return workmarketQuestApplicationReadService.getApplicationsForQuest(questId, currentUser);
-    }
-
-    public QuestApplicationsViewDTO getApplicationsViewForQuest(Long questId, AppUser currentUser, boolean showAll) {
-        return workmarketQuestApplicationReadService.getApplicationsViewForQuest(questId, currentUser, showAll);
-    }
-
-    public QuestApplicationsViewDTO getPublicApprovedApplicationsViewForQuest(Long questId) {
-        return workmarketQuestApplicationReadService.getPublicApprovedApplicationsViewForQuest(questId);
-    }
-
-    public java.util.List<QuestApplicationResponseDTO> getApplicationsForApplicant(AppUser currentUser) {
-        return workmarketQuestApplicationReadService.getApplicationsForApplicant(currentUser);
     }
 
     public QuestApplicationResponseDTO toApplicantResponse(QuestApplication application) {
@@ -101,9 +84,5 @@ public class WorkmarketQuestApplicationService {
     @Transactional
     public QuestApplicationResponseDTO declineApplication(Long questId, Long applicationId, AppUser currentUser) {
         return workmarketQuestApplicationReadService.toApplicantResponse(declineApplicationUseCase.execute(questId, applicationId, currentUser));
-    }
-
-    public com.themuffinman.app.vision.dto.QuestApplicationDetailResponseDTO getApplicationDetailResponseById(Long applicationId, AppUser currentUser) {
-        return workmarketQuestApplicationReadService.getApplicationDetailResponseById(applicationId, currentUser);
     }
 }

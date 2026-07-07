@@ -308,6 +308,22 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationWorkflowSupport.java
   - id: workmarket_apply_for_quest_use_case
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketApplyForQuestUseCase.java
+  - id: workmarket_quest_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestService.java
+  - id: workmarket_create_quest_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCreateQuestUseCase.java
+  - id: workmarket_update_quest_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUpdateQuestUseCase.java
+  - id: workmarket_delete_quest_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDeleteQuestUseCase.java
+  - id: workmarket_start_quest_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketStartQuestUseCase.java
+  - id: workmarket_complete_quest_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCompleteQuestUseCase.java
+  - id: workmarket_confirm_quest_term_change_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketConfirmQuestTermChangeUseCase.java
+  - id: workmarket_reject_quest_term_change_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketRejectQuestTermChangeUseCase.java
   - id: workmarket_update_my_application_use_case
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUpdateMyApplicationUseCase.java
   - id: workmarket_withdraw_my_application_use_case
@@ -659,6 +675,7 @@ backend_audit_coverage:
     owner_id: workmarket_domain
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/vision/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/
   - id: platform
     owner_id: platform_core
     file_names:
@@ -2822,6 +2839,14 @@ documentation_coverage:
     - workmarket_presentation_helper
     - workmarket_quest_application_workflow_support
     - workmarket_apply_for_quest_use_case
+    - workmarket_quest_service
+    - workmarket_create_quest_use_case
+    - workmarket_update_quest_use_case
+    - workmarket_delete_quest_use_case
+    - workmarket_start_quest_use_case
+    - workmarket_complete_quest_use_case
+    - workmarket_confirm_quest_term_change_use_case
+    - workmarket_reject_quest_term_change_use_case
     - workmarket_update_my_application_use_case
     - workmarket_withdraw_my_application_use_case
     - workmarket_approve_application_use_case
@@ -3339,7 +3364,8 @@ frontend_contract_generation:
   script: apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs
   check_command: npm --prefix apps/themuffinman/frontend run validate:contracts
   generated_contract_file: apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
-  enum_namespace_rule: shared enum simple names are prefixed by backend domain in the generated frontend contract
+  enum_namespace_rule: shared enum simple names are prefixed by backend domain in
+    the generated frontend contract
   required_aliases:
   - AdminAgentExecutionRequest
   - AdminAgentExecutionResponse
@@ -3841,6 +3867,14 @@ service_workflow_inventory:
   - complete_quest_use_case
   - confirm_quest_term_change_use_case
   - reject_quest_term_change_use_case
+  - workmarket_quest_service
+  - workmarket_create_quest_use_case
+  - workmarket_update_quest_use_case
+  - workmarket_delete_quest_use_case
+  - workmarket_start_quest_use_case
+  - workmarket_complete_quest_use_case
+  - workmarket_confirm_quest_term_change_use_case
+  - workmarket_reject_quest_term_change_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -4063,6 +4097,12 @@ service_workflow_inventory:
   - withdraw_my_application_use_case
   - approve_application_use_case
   - decline_application_use_case
+  - workmarket_quest_application_service
+  - workmarket_apply_for_quest_use_case
+  - workmarket_update_my_application_use_case
+  - workmarket_withdraw_my_application_use_case
+  - workmarket_approve_application_use_case
+  - workmarket_decline_application_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md

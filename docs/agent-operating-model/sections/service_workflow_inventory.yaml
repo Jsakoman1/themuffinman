@@ -74,6 +74,14 @@ service_workflow_inventory:
   - complete_quest_use_case
   - confirm_quest_term_change_use_case
   - reject_quest_term_change_use_case
+  - workmarket_quest_service
+  - workmarket_create_quest_use_case
+  - workmarket_update_quest_use_case
+  - workmarket_delete_quest_use_case
+  - workmarket_start_quest_use_case
+  - workmarket_complete_quest_use_case
+  - workmarket_confirm_quest_term_change_use_case
+  - workmarket_reject_quest_term_change_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -296,6 +304,12 @@ service_workflow_inventory:
   - withdraw_my_application_use_case
   - approve_application_use_case
   - decline_application_use_case
+  - workmarket_quest_application_service
+  - workmarket_apply_for_quest_use_case
+  - workmarket_update_my_application_use_case
+  - workmarket_withdraw_my_application_use_case
+  - workmarket_approve_application_use_case
+  - workmarket_decline_application_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md

@@ -10,8 +10,8 @@ import com.themuffinman.app.vision.dto.QuestApplicationListResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationRequestDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationsViewDTO;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationService;
-import com.themuffinman.app.workmarket.service.WorkmarketQuestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VisionQuestApplicationFacadeService {
 
+    private final WorkmarketQuestApplicationReadService questApplicationReadService;
     private final WorkmarketQuestApplicationService questApplicationService;
-    private final WorkmarketQuestService questService;
 
     public ActionResultDTO applyForQuest(Long questId, QuestApplicationRequestDTO dto, AppUser currentUser) {
         questApplicationService.applyForQuest(questId, dto, currentUser);
@@ -30,19 +30,19 @@ public class VisionQuestApplicationFacadeService {
     }
 
     public List<QuestApplicationResponseDTO> getApplicationsForQuest(Long questId, AppUser currentUser) {
-        return questApplicationService.getApplicationsForQuest(questId, currentUser);
+        return questApplicationReadService.getApplicationsForQuest(questId, currentUser);
     }
 
     public QuestApplicationsViewDTO getApplicationsViewForQuest(Long questId, boolean showAll, AppUser currentUser) {
-        return questApplicationService.getApplicationsViewForQuest(questId, currentUser, showAll);
+        return questApplicationReadService.getApplicationsViewForQuest(questId, currentUser, showAll);
     }
 
     public List<QuestApplicationResponseDTO> getMyApplications(AppUser currentUser) {
-        return questApplicationService.getApplicationsForApplicant(currentUser);
+        return questApplicationReadService.getApplicationsForApplicant(currentUser);
     }
 
     public QuestApplicationDetailResponseDTO getApplicationDetail(Long applicationId, AppUser currentUser) {
-        return questService.getApplicationDetailResponseById(applicationId, currentUser);
+        return questApplicationReadService.getApplicationDetailResponseById(applicationId, currentUser);
     }
 
     public QuestApplicationListResponseDTO getAllApplicationsForAdmin(AppUser currentUser, AdminApplicationsQueryDTO query) {

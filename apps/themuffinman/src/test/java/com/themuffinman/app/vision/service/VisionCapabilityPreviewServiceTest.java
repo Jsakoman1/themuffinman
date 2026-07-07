@@ -66,6 +66,9 @@ class VisionCapabilityPreviewServiceTest {
     private QuestService questService;
 
     @Mock
+    private QuestReadService questReadService;
+
+    @Mock
     private QuestApplicationService questApplicationService;
 
     @Mock
@@ -97,6 +100,7 @@ class VisionCapabilityPreviewServiceTest {
                 circleReadService,
                 circleService,
                 questService,
+                questReadService,
                 questApplicationService,
                 questNewsService,
                 questNewsMgr,

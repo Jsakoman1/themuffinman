@@ -19,6 +19,7 @@ import java.util.List;
 public class DashboardService {
 
     private final QuestService questService;
+    private final QuestReadService questReadService;
     private final DashboardReadQueryService dashboardReadQueryService;
     private final VisionOptionsService visionOptionsService;
     private final DashboardSectionsFactory dashboardSectionsFactory;
@@ -27,6 +28,7 @@ public class DashboardService {
 
     DashboardService(
             QuestService questService,
+            QuestReadService questReadService,
             com.themuffinman.app.vision.repository.QuestApplicationRepository questApplicationRepository,
             QuestNewsService questNewsService,
             com.themuffinman.app.identity.repository.AppUserRepository appUserRepository,
@@ -41,6 +43,7 @@ public class DashboardService {
             VoiceProperties voiceProperties
     ) {
         this.questService = questService;
+        this.questReadService = questReadService;
         this.dashboardReadQueryService = new DashboardReadQueryService(
                 questService,
                 questApplicationRepository,
@@ -76,7 +79,7 @@ public class DashboardService {
                     .build();
         }
 
-        List<QuestResponseDTO> questDtos = questService.toResponses(readModel.sortedQuests(), currentUser);
+        List<QuestResponseDTO> questDtos = questReadService.toResponses(readModel.sortedQuests(), currentUser);
         List<QuestResponseDTO> myQuestDtos = questDtos.stream()
                 .filter(quest -> quest.getViewerRelation() == com.themuffinman.app.vision.dto.QuestViewerRelationDTO.OWNER)
                 .toList();

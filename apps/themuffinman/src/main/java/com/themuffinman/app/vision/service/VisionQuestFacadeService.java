@@ -9,6 +9,8 @@ import com.themuffinman.app.vision.dto.QuestListPresetDTO;
 import com.themuffinman.app.vision.dto.QuestListResponseDTO;
 import com.themuffinman.app.vision.dto.QuestRequestDTO;
 import com.themuffinman.app.vision.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import java.util.List;
 public class VisionQuestFacadeService {
 
     private final WorkmarketQuestService questService;
+    private final WorkmarketQuestReadService questReadService;
+    private final WorkmarketQuestApplicationReadService questApplicationReadService;
 
     public ActionResultDTO createQuest(QuestRequestDTO dto, AppUser currentUser) {
         questService.createQuest(dto, currentUser);
@@ -27,7 +31,7 @@ public class VisionQuestFacadeService {
     }
 
     public List<QuestResponseDTO> getAllQuests(AppUser currentUser) {
-        return questService.getAllQuestResponses(currentUser);
+        return questReadService.getAllQuestResponses(currentUser);
     }
 
     public QuestListResponseDTO searchQuests(
@@ -47,7 +51,7 @@ public class VisionQuestFacadeService {
             Integer page,
             Integer size
     ) {
-        return questService.searchQuests(
+        return questReadService.searchQuests(
                 currentUser,
                 query,
                 status,
@@ -82,7 +86,7 @@ public class VisionQuestFacadeService {
             Integer page,
             Integer size
     ) {
-        return questService.getQuestListPreset(
+        return questReadService.getQuestListPreset(
                 preset,
                 currentUser,
                 query,
@@ -101,15 +105,15 @@ public class VisionQuestFacadeService {
     }
 
     public QuestResponseDTO getQuestResponseById(Long id, AppUser currentUser) {
-        return questService.getQuestResponseById(id, currentUser);
+        return questReadService.getQuestResponseById(id, currentUser);
     }
 
     public QuestDetailResponseDTO getQuestDetailResponseById(Long id, AppUser currentUser) {
-        return questService.getQuestDetailResponseById(id, currentUser);
+        return questReadService.getQuestDetailResponseById(id, currentUser);
     }
 
     public QuestApplicationDetailResponseDTO getApplicationDetailResponseById(Long applicationId, AppUser currentUser) {
-        return questService.getApplicationDetailResponseById(applicationId, currentUser);
+        return questApplicationReadService.getApplicationDetailResponseById(applicationId, currentUser);
     }
 
     public ActionResultDTO deleteQuest(Long id, AppUser currentUser) {

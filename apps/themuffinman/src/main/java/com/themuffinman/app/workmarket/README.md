@@ -21,15 +21,15 @@ Owns the quest, application, dashboard, and review domain boundary for the work 
 
 ## Current State
 
-- The dedicated `workmarket` package is being extracted from the overloaded `vision` implementation surface.
-- Quest list/detail reads, application reads, and application mutations now route through `workmarket` facades.
-- Dashboard reads and option catalogs now route through `workmarket` facades.
-- Presentation formatting for workmarket quest/application/news surfaces now lives in a local `WorkmarketPresentationHelper`.
-- The controller surface has been switched to the `workmarket` facade for quests, applications, dashboard reads, news, and reviews.
-- Some legacy `vision` services are still present as migration scaffolding, but the workmarket boundary now owns the main read/write flow.
+- The workmarket package now owns the quest, application, dashboard, review, and notification boundary for the work marketplace.
+- `VisionQuestFacadeService` and `VisionQuestApplicationFacadeService` now act as thin adapters that delegate to workmarket services.
+- Quest and application reads stay inside the dedicated workmarket read services, while mutation services keep the domain rules and state transitions.
+- `WorkmarketPresentationHelper` owns the local workmarket presentation formatting for quest, application, dashboard, and news surfaces.
+- Domain side effects are published through explicit workmarket events and handled in the workmarket package.
+- The workmarket boundary still shares the existing frontend DTO contract types with the `vision` layer, but the business logic now lives in workmarket services.
 
 ## Next Steps
 
-- Finish cutting the remaining `vision`-only admin and legacy adapters out of the workmarket boundary.
-- Decide whether the remaining shared helper services should stay in `vision` or get duplicated into `workmarket`.
-- Switch the vision surface to consume the new workmarket package instead of owning domain logic directly.
+- Keep the remaining boundary adapters narrow and explicit.
+- Continue tightening workmarket-native read and write surfaces where the dedicated package can own more of the assembly directly.
+- Keep the documentation and validation inventory aligned when the boundary moves again.

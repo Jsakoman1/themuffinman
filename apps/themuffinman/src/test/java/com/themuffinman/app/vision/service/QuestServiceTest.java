@@ -2,7 +2,6 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
 import com.themuffinman.app.vision.dto.QuestAllowedActionDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationDetailResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.vision.dto.QuestDetailResponseDTO;
 import com.themuffinman.app.vision.dto.QuestRequestDTO;
@@ -445,106 +444,6 @@ class QuestServiceTest {
     }
 
     @Test
-    void getQuestResponseByIdIncludesViewerRelationAndAllowedActionsForApprovedApplicant() {
-        stubQuestViewerContext();
-        AppUser currentUser = createUser(5L, "worker");
-        AppUser creator = createUser(6L, "creator");
-
-        Quest quest = new Quest();
-        quest.setId(31L);
-        quest.setCreator(creator);
-        quest.setTitle("Move furniture");
-        quest.setStatus(QuestStatus.WAITING_CONFIRMATION);
-
-        QuestApplication application = new QuestApplication();
-        application.setId(41L);
-        application.setQuest(quest);
-        application.setApplicant(currentUser);
-        application.setStatus(QuestApplicationStatus.APPROVED);
-
-        when(questRepository.findForQuestDetail(31L)).thenReturn(Optional.of(quest));
-        when(questVisibilityService.canViewQuest(currentUser, quest)).thenReturn(true);
-        when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of(application));
-        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
-                .id(quest.getId())
-                .status(quest.getStatus())
-                .audience(QuestAudience.CIRCLES)
-                .visibleToCircles(List.of(CircleSummaryDTO.builder().id(9L).name("Trusted neighbours").build()))
-                .build());
-
-        QuestResponseDTO result = questService.getQuestResponseById(31L, currentUser);
-
-        assertEquals(QuestViewerRelationDTO.APPROVED_APPLICANT, result.getViewerRelation());
-        assertEquals(true, result.isHasApplied());
-        assertEquals(41L, result.getMyApplicationId());
-        assertEquals(false, result.isCanViewApplications());
-        assertEquals(List.of(QuestAllowedActionDTO.CONFIRM_TERM_CHANGE, QuestAllowedActionDTO.REJECT_TERM_CHANGE), result.getAllowedActions());
-        assertEquals("Term change waiting", result.getPresentation().getTermChangeSummaryLabel());
-        assertEquals("Confirm term change", result.getPresentation().getTermChangeConfirmLabel());
-        assertEquals("Reject term change", result.getPresentation().getTermChangeRejectLabel());
-    }
-
-    @Test
-    void getQuestResponseByIdIncludesApplyActionForFreshViewer() {
-        stubQuestViewerContext();
-        AppUser currentUser = createUser(5L, "viewer");
-        AppUser creator = createUser(6L, "creator");
-
-        Quest quest = new Quest();
-        quest.setId(32L);
-        quest.setCreator(creator);
-        quest.setTitle("Clean garage");
-        quest.setStatus(QuestStatus.OPEN);
-
-        when(questRepository.findForQuestDetail(32L)).thenReturn(Optional.of(quest));
-        when(questVisibilityService.canViewQuest(currentUser, quest)).thenReturn(true);
-        when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of());
-        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
-                .id(quest.getId())
-                .status(quest.getStatus())
-                .audience(QuestAudience.CIRCLES)
-                .visibleToCircles(List.of(CircleSummaryDTO.builder().id(9L).name("Trusted neighbours").build()))
-                .build());
-
-        QuestResponseDTO result = questService.getQuestResponseById(32L, currentUser);
-
-        assertEquals(QuestViewerRelationDTO.VIEWER, result.getViewerRelation());
-        assertEquals(false, result.isHasApplied());
-        assertEquals(List.of(QuestAllowedActionDTO.APPLY), result.getAllowedActions());
-    }
-
-    @Test
-    void getQuestResponseByIdIncludesOwnerActionsForQuestCreator() {
-        stubQuestViewerContext();
-        AppUser currentUser = createUser(5L, "creator");
-
-        Quest quest = new Quest();
-        quest.setId(34L);
-        quest.setCreator(currentUser);
-        quest.setTitle("Organize garage");
-        quest.setStatus(QuestStatus.OPEN);
-
-        when(questRepository.findForQuestDetail(34L)).thenReturn(Optional.of(quest));
-        when(questVisibilityService.canViewQuest(currentUser, quest)).thenReturn(true);
-        when(questApplicationRepository.findForApplicantDashboard(currentUser.getId())).thenReturn(List.of());
-        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
-                .id(quest.getId())
-                .status(quest.getStatus())
-                .audience(QuestAudience.CIRCLES)
-                .visibleToCircles(List.of(CircleSummaryDTO.builder().id(9L).name("Trusted neighbours").build()))
-                .build());
-
-        QuestResponseDTO result = questService.getQuestResponseById(34L, currentUser);
-
-        assertEquals(QuestViewerRelationDTO.OWNER, result.getViewerRelation());
-        assertEquals(List.of(QuestAllowedActionDTO.EDIT, QuestAllowedActionDTO.VIEW_APPLICATIONS, QuestAllowedActionDTO.DELETE), result.getAllowedActions());
-        assertEquals(false, result.isHasApplied());
-        assertEquals(null, result.getMyApplicationId());
-        assertEquals(true, result.getPresentation().isPostingSettingsVisible());
-        assertEquals("Trusted neighbours", result.getPresentation().getVisibleToCirclesLabel());
-    }
-
-    @Test
     void getQuestDetailResponseByIdReturnsQuestMyApplicationAndVisibleApplications() {
         stubQuestViewerContext();
         AppUser currentUser = createUser(5L, "owner");
@@ -684,87 +583,6 @@ class QuestServiceTest {
         assertNotNull(result.getMyApplication());
         assertEquals(List.of(ApplicationAllowedActionDTO.EDIT, ApplicationAllowedActionDTO.WITHDRAW), result.getMyApplication().getAllowedActions());
         verify(questApplicationService).toViewerResponse(myApplication, applicant);
-    }
-
-    @Test
-    void getApplicationDetailResponseByIdReturnsApplicationAndQuestForApplicant() {
-        stubQuestViewerContext();
-        AppUser creator = createUser(7L, "creator");
-        AppUser applicant = createUser(5L, "worker");
-
-        Quest quest = new Quest();
-        quest.setId(33L);
-        quest.setCreator(creator);
-        quest.setTitle("Assemble shelf");
-        quest.setStatus(QuestStatus.OPEN);
-
-        QuestApplication application = new QuestApplication();
-        application.setId(52L);
-        application.setQuest(quest);
-        application.setApplicant(applicant);
-        application.setStatus(QuestApplicationStatus.PENDING);
-
-        when(questApplicationRepository.findForApplicationDetail(52L)).thenReturn(Optional.of(application));
-        when(questRepository.findForQuestDetail(33L)).thenReturn(Optional.of(quest));
-        when(questApplicationRepository.findForApplicantDashboard(applicant.getId())).thenReturn(List.of(application));
-        when(questMgr.toDto(quest)).thenReturn(QuestResponseDTO.builder()
-                .id(33L)
-                .status(QuestStatus.OPEN)
-                .creatorUsername("creator")
-                .questNavigation(com.themuffinman.app.common.dto.NavigationTargetDTO.builder()
-                        .type(com.themuffinman.app.common.dto.NavigationTargetType.QUEST_DETAIL)
-                        .entityId(33L)
-                        .build())
-                .creatorNavigation(com.themuffinman.app.common.dto.NavigationTargetDTO.builder()
-                        .type(com.themuffinman.app.common.dto.NavigationTargetType.USER_PROFILE)
-                        .entityId(7L)
-                        .build())
-                .build());
-        when(questApplicationService.toViewerResponse(application, applicant)).thenReturn(QuestApplicationResponseDTO.builder()
-                .id(52L)
-                .questId(33L)
-                .questTitle("Assemble shelf")
-                .allowedActions(List.of(ApplicationAllowedActionDTO.EDIT, ApplicationAllowedActionDTO.WITHDRAW))
-                .build());
-
-        QuestApplicationDetailResponseDTO result = questService.getApplicationDetailResponseById(52L, applicant);
-
-        assertEquals(52L, result.getSummary().getId());
-        assertEquals(List.of(ApplicationAllowedActionDTO.EDIT, ApplicationAllowedActionDTO.WITHDRAW), result.getApplication().getAllowedActions());
-        assertEquals(33L, result.getSections().getQuest().getId());
-        assertEquals(QuestViewerRelationDTO.APPLICANT, result.getSections().getQuest().getViewerRelation());
-        assertEquals(true, result.getSections().getNavigation().isCanOpenQuest());
-        assertEquals(true, result.getSections().getNavigation().isCanOpenPostedBy());
-        assertEquals(33L, result.getSections().getNavigation().getQuestId());
-        assertEquals("Assemble shelf", result.getSections().getContext().getQuestLabel());
-        assertEquals("creator", result.getSections().getContext().getPostedByLabel());
-        assertEquals(true, result.getSections().getContext().isShowStatus());
-        assertEquals(true, result.getSections().getContext().isShowTerm());
-        assertEquals(true, result.getSections().getContext().isShowWorkers());
-        verify(questApplicationService).toViewerResponse(application, applicant);
-    }
-
-    @Test
-    void getApplicationDetailResponseByIdRejectsUnrelatedViewer() {
-        AppUser creator = createUser(7L, "creator");
-        AppUser applicant = createUser(8L, "worker");
-        AppUser viewer = createUser(5L, "viewer");
-
-        Quest quest = new Quest();
-        quest.setId(33L);
-        quest.setCreator(creator);
-        quest.setTitle("Assemble shelf");
-        quest.setStatus(QuestStatus.OPEN);
-
-        QuestApplication application = new QuestApplication();
-        application.setId(52L);
-        application.setQuest(quest);
-        application.setApplicant(applicant);
-        application.setStatus(QuestApplicationStatus.PENDING);
-
-        when(questApplicationRepository.findForApplicationDetail(52L)).thenReturn(Optional.of(application));
-        when(questRepository.findForQuestDetail(33L)).thenReturn(Optional.of(quest));
-        assertThrows(ResponseStatusException.class, () -> questService.getApplicationDetailResponseById(52L, viewer));
     }
 
     @Test

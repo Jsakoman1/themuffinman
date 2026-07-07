@@ -57,6 +57,7 @@ public class VisionCapabilityPreviewService {
     private final CircleReadService circleReadService;
     private final CircleService circleService;
     private final QuestService questService;
+    private final QuestReadService questReadService;
     private final QuestApplicationService questApplicationService;
     private final VisionIdentityPreviewRenderer visionIdentityPreviewRenderer;
     private final VisionFeedPreviewRenderer visionFeedPreviewRenderer;
@@ -72,6 +73,7 @@ public class VisionCapabilityPreviewService {
             CircleReadService circleReadService,
             CircleService circleService,
             QuestService questService,
+            QuestReadService questReadService,
             QuestApplicationService questApplicationService,
             QuestNewsService questNewsService,
             QuestNewsMgr questNewsMgr,
@@ -88,6 +90,7 @@ public class VisionCapabilityPreviewService {
         this.circleReadService = circleReadService;
         this.circleService = circleService;
         this.questService = questService;
+        this.questReadService = questReadService;
         this.questApplicationService = questApplicationService;
         this.visionIdentityPreviewRenderer = new VisionIdentityPreviewRenderer(
                 appUserService,
@@ -108,7 +111,7 @@ public class VisionCapabilityPreviewService {
                 appUserReadService,
                 circleReadService,
                 questApplicationService,
-                questService,
+                questReadService,
                 semanticAliasRegistry
         );
     }
@@ -472,7 +475,7 @@ public class VisionCapabilityPreviewService {
             return null;
         }
 
-        QuestApplicationDetailResponseDTO detail = questService.getApplicationDetailResponseById(applicationId, currentUser);
+        QuestApplicationDetailResponseDTO detail = questReadService.getApplicationDetailResponseById(applicationId, currentUser);
         QuestApplicationResponseDTO application = detail == null ? null : detail.getSummary();
         QuestResponseDTO quest = detail == null ? null : detail.getQuest();
         if (application == null) {

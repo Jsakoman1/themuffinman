@@ -13,13 +13,16 @@ import java.util.LinkedHashMap;
 @Service
 public class VisionExecutionService {
 
+    private final VisionSemanticRouteCatalogService visionSemanticRouteCatalogService;
     private final VisionSurfacePolicy visionSurfacePolicy;
     private final Map<String, VisionCapabilityExecutionAdapter> adaptersByCapabilityId;
 
     public VisionExecutionService(
+            VisionSemanticRouteCatalogService visionSemanticRouteCatalogService,
             VisionSurfacePolicy visionSurfacePolicy,
             List<VisionCapabilityExecutionAdapter> executionAdapters
     ) {
+        this.visionSemanticRouteCatalogService = visionSemanticRouteCatalogService;
         this.visionSurfacePolicy = visionSurfacePolicy;
         Map<String, VisionCapabilityExecutionAdapter> adaptersByCapabilityId = new LinkedHashMap<>();
         for (VisionCapabilityExecutionAdapter adapter : executionAdapters) {
@@ -49,7 +52,10 @@ public class VisionExecutionService {
         if (conversation.getStatus() != VisionConversationStatus.REVIEW_READY) {
             return VisionExecutionResult.blocked("Conversation is not ready for execution.");
         }
-        String capabilityId = intent.name().toLowerCase(Locale.ROOT);
+        VisionSemanticRouteDescriptor route = visionSemanticRouteCatalogService == null
+                ? null
+                : visionSemanticRouteCatalogService.routeForIntent(intent.name());
+        String capabilityId = route == null ? intent.name().toLowerCase(Locale.ROOT) : route.getCapabilityId();
         if (!visionSurfacePolicy.canExecuteCapability(capabilityId)) {
             return VisionExecutionResult.blocked("Execution is disabled by configuration.");
         }

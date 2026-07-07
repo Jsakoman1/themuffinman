@@ -56,6 +56,27 @@ public class VisionSemanticRouteCatalogService {
         );
     }
 
+    public List<String> supportedCandidateIntents() {
+        return allRoutes().stream()
+                .map(VisionSemanticRouteDescriptor::getIntent)
+                .collect(java.util.stream.Collectors.collectingAndThen(
+                        java.util.stream.Collectors.toList(),
+                        intents -> {
+                            List<String> values = new ArrayList<>(intents);
+                            values.add(VisionIntent.UNSUPPORTED.name());
+                            return List.copyOf(values);
+                        }
+                ));
+    }
+
+    public List<String> supportedCapabilityIds() {
+        List<String> capabilityIds = allRoutes().stream()
+                .map(VisionSemanticRouteDescriptor::getCapabilityId)
+                .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
+        capabilityIds.add("unsupported");
+        return List.copyOf(capabilityIds);
+    }
+
     public VisionSemanticRouteDescriptor routeForIntent(String intent) {
         if (intent == null || intent.isBlank()) {
             return null;

@@ -88,6 +88,7 @@ backend_audit_coverage:
     owner_id: workmarket_domain
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/vision/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/
   - id: platform
     owner_id: platform_core
     file_names:

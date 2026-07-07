@@ -6,7 +6,6 @@ import com.themuffinman.app.common.pagination.PageWindow;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
-import com.themuffinman.app.vision.dto.QuestApplicationDetailResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.vision.dto.QuestApplicationsViewDTO;
 import com.themuffinman.app.vision.dto.QuestDetailExecutionSectionDTO;
@@ -48,7 +47,7 @@ public class WorkmarketQuestReadService {
 
     private final WorkmarketQuestRepository questRepository;
     private final WorkmarketQuestApplicationRepository questApplicationRepository;
-    private final WorkmarketQuestApplicationService questApplicationService;
+    private final WorkmarketQuestApplicationReadService questApplicationReadService;
     private final WorkmarketQuestVisibilityService questVisibilityService;
     private final WorkmarketQuestAccessPolicyService questAccessPolicyService;
     private final WorkmarketQuestQueryService questQueryService;
@@ -185,11 +184,11 @@ public class WorkmarketQuestReadService {
         Quest quest = getQuestById(id, currentUser);
         QuestResponseDTO questResponse = toResponse(quest, currentUser, applicationsByQuestId);
         QuestApplication viewerApplication = currentUser == null ? null : applicationsByQuestId.get(quest.getId());
-        QuestApplicationResponseDTO myApplication = questApplicationService.toViewerResponse(viewerApplication, currentUser);
+        QuestApplicationResponseDTO myApplication = questApplicationReadService.toViewerResponse(viewerApplication, currentUser);
         QuestApplicationsViewDTO applicationsView = questResponse.isCanViewApplications()
-                ? questApplicationService.getApplicationsViewForQuest(quest.getId(), currentUser, false)
+                ? questApplicationReadService.getApplicationsViewForQuest(quest.getId(), currentUser, false)
                 : (questResponse.isShowApprovedApplicants()
-                ? questApplicationService.getPublicApprovedApplicationsViewForQuest(quest.getId())
+                ? questApplicationReadService.getPublicApprovedApplicationsViewForQuest(quest.getId())
                 : null);
 
         QuestDetailResponseDTO response = QuestDetailResponseDTO.builder()
@@ -213,10 +212,6 @@ public class WorkmarketQuestReadService {
                 .applicationsView(applicationsView)
                 .build();
         return response;
-    }
-
-    public QuestApplicationDetailResponseDTO getApplicationDetailResponseById(Long applicationId, AppUser currentUser) {
-        return questApplicationService.getApplicationDetailResponseById(applicationId, currentUser);
     }
 
     public QuestResponseDTO toResponse(Quest quest, AppUser currentUser) {

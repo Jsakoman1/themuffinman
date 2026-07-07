@@ -59,6 +59,8 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
     @Mock
     private QuestService questService;
     @Mock
+    private QuestReadService questReadService;
+    @Mock
     private QuestApplicationService questApplicationService;
     @Mock
     private QuestNewsService questNewsService;
@@ -83,6 +85,7 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 circleReadService,
                 circleService,
                 questService,
+                questReadService,
                 questApplicationService,
                 questNewsService,
                 questNewsMgr,
@@ -100,7 +103,7 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 .title("Wash my luggage")
                 .creatorUsername("Sasha")
                 .build();
-        when(questService.getAllQuestResponses(currentUser)).thenReturn(List.of(quest));
+        when(questReadService.getAllQuestResponses(currentUser)).thenReturn(List.of(quest));
 
         VisionResolvedQuestTarget result = service.resolveVisibleQuest(currentUser, "wash my suitcases");
 
@@ -166,7 +169,7 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 .applicantUsername("alex")
                 .allowedActions(List.of(ApplicationAllowedActionDTO.APPROVE))
                 .build();
-        when(questService.getAllQuestResponses(currentUser)).thenReturn(List.of(quest));
+        when(questReadService.getAllQuestResponses(currentUser)).thenReturn(List.of(quest));
         when(questApplicationService.getApplicationsForQuest(42L, currentUser)).thenReturn(List.of(application));
 
         VisionResolvedManagedApplicationTarget result = service.resolveManagedPendingApplication(

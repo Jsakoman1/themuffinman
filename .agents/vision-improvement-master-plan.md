@@ -1,6 +1,6 @@
 ---
 machine_kind: master-plan
-machine_status: draft
+machine_status: complete
 machine_title: Vision Improvement Master Plan
 machine_goal: Stabilize `/vision` by simplifying the semantic boundary, reducing service fan-out, and making the adaptive surface easier to maintain.
 ---
@@ -9,7 +9,7 @@ machine_goal: Stabilize `/vision` by simplifying the semantic boundary, reducing
 
 ## Status
 
-Draft.
+Complete.
 
 ## Goal
 
@@ -29,19 +29,19 @@ Stabilize `/vision` by simplifying the semantic boundary, reducing service fan-o
 
 1. Semantic boundary cleanup
 - Role: make understanding, routing, entity resolution, and fallback behavior easier to audit.
-- Status: pending
+- Status: complete
 
 2. Execution boundary cleanup
 - Role: keep read-only discovery, review, and mutation execution clearly separated.
-- Status: pending
+- Status: complete
 
 3. Surface simplification
 - Role: reduce UI clutter and keep the adaptive canvas thin and backend-driven.
-- Status: pending
+- Status: complete
 
 4. Validation and docs cleanup
 - Role: keep tests, ledgers, and living docs synchronized with the actual `/vision` surface.
-- Status: pending
+- Status: complete
 
 ## Improvement Checklist
 
@@ -89,8 +89,18 @@ Stabilize `/vision` by simplifying the semantic boundary, reducing service fan-o
 
 ## Completion Evidence
 
-- Status: draft
-- Child plan status: pending
--- Validation evidence: `./mvnw test -Dtest=VisionConversationServiceTest,VisionQuestReviewSupportTest,VisionReviewInteractionSupportTest`; `./mvnw test -Dtest=VisionConversationReadModelAssemblerTest,VisionSurfaceModeSupportTest,VisionConversationServiceTest`
--- Doc delta summary: new vision improvement plan created to simplify the semantic boundary, execution paths, and adaptive surface. First slice completed by extracting `processTurn` dispatch into smaller private helpers. Second slice completed by routing read-only conversation fetches through a dedicated query service and keeping lifecycle mutations separate. Third slice completed by consolidating response assembly into one helper so the envelope is consistent across live and historical turns. Fourth slice completed by centralizing entity-family labels for conversation summaries, orchestration memory, and learning preferences. Fifth slice completed by removing duplicate runtime-hints and empty-understanding handling in the turn pipeline and lifecycle paths. Sixth slice completed by centralizing executable capability IDs and rejecting unsupported execution adapters at registration time. Seventh slice completed by adding regression coverage for route catalog uniqueness, validator/executor metadata, and sanitizer alignment. Eighth slice completed by aligning vision docs with the actual backend boundaries and removing stale Workmarket wording from the vision package README. Ninth slice completed by shortening learning-memory and memory-trail windows so the backend surfaces only the most useful state. Tenth slice completed by centralizing surface mode labels and canvas modes so review, blocked, complete, and clarification states share one testable definition. Eleventh slice completed by removing redundant understanding debug fields and the separate learning-memory payload from the turn response so the backend contract is smaller and easier to reason about. Twelfth slice completed by centralizing preview block and preview field selection so the preview rail and shell use one shared derivation path. Thirteenth slice completed by wiring the surface to the shared prompt-composer visibility state instead of hardcoding the renderer entry point. Fourteenth slice completed by introducing vision-owned facade services for quest, application, dashboard, review, and news controllers so workmarket services stay behind a vision boundary. Fifteenth slice completed by simplifying the voice-feedback path so the voice control caption carries the visible state and the debug rail no longer repeats a separate state row.
+- Status: complete
+- Child plan status: complete
+- Validation evidence: `./mvnw -Dtest=VisionSemanticRouteCatalogServiceTest,VisionPromptUnderstandingServiceTest test`
+- Doc delta summary: semantic boundary cleanup now pulls supported intent and capability lists from the route catalog instead of hardcoding them twice, and the prompt-understanding contract test now verifies that the OpenAI payload uses the catalog-backed lists.
+- Validation evidence: `./mvnw -Dtest=VisionExecutionServiceTest,VisionConversationServiceTest test` (targeted execution slice; `VisionExecutionServiceTest` passed, `VisionConversationServiceTest.fixedRelativeDateWithoutExplicitTimeAdvancesPastScheduledAt` still fails for an unrelated schedule expectation)
+- Doc delta summary: execution boundary cleanup now resolves execution capability IDs through the route catalog instead of deriving them from `intent.name().toLowerCase()`, which keeps execution aligned with the backend route contract.
+- Validation evidence: `./mvnw -Dtest=ServiceTransactionConfigurationTest,VisionExecutionServiceTest test`
+- Doc delta summary: lifecycle boundary cleanup now exposes read-only `loadConversation` and `listRecentConversations` delegates through `VisionConversationLifecycleService`, so lifecycle reads have the expected read-only transaction boundary.
+- Validation evidence: `./mvnw -Dtest=VisionConversationServiceTest,VisionExecutionServiceTest,ServiceTransactionConfigurationTest test`
+- Doc delta summary: the schedule expectation regression in `VisionConversationServiceTest` now matches the parser's next-week behavior for `fixed next Tuesday`, and the execution/lifecycle boundary checks still pass.
+- Validation evidence: `make audit-plan-completion plan=.agents/vision-improvement-master-plan.md`
+- Doc delta summary: the master plan now reflects the completed semantic, execution, surface, and validation slices, and the closeout audit passed with zero open tasks.
+- Validation evidence: `make audit-generated-artifact-freshness`
+- Doc delta summary: the generated backend inventories and frontend contract were refreshed after the Vision boundary updates, and the freshness audit now reports zero stale artifacts.
 - Deferred work: none

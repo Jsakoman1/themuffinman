@@ -1,7 +1,6 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.QuestDetailResponseDTO;
 import com.themuffinman.app.vision.dto.QuestListPresetDTO;
 import com.themuffinman.app.vision.dto.QuestListResponseDTO;
 import com.themuffinman.app.vision.dto.QuestRequestDTO;
@@ -34,10 +33,6 @@ public class WorkmarketQuestService {
         return workmarketQuestReadService.getAllQuests(currentUser).stream()
                 .map(quest -> questMgr.toVisionEntity(quest))
                 .toList();
-    }
-
-    public java.util.List<QuestResponseDTO> getAllQuestResponses(AppUser currentUser) {
-        return workmarketQuestReadService.getAllQuestResponses(currentUser);
     }
 
     public QuestListResponseDTO searchQuests(
@@ -114,26 +109,8 @@ public class WorkmarketQuestService {
         return questMgr.toVisionEntity(workmarketQuestReadService.getQuestById(id, currentUser));
     }
 
-    public QuestResponseDTO getQuestResponseById(Long id, AppUser currentUser) {
-        return workmarketQuestReadService.getQuestResponseById(id, currentUser);
-    }
-
-    public QuestDetailResponseDTO getQuestDetailResponseById(Long id, AppUser currentUser) {
-        return workmarketQuestReadService.getQuestDetailResponseById(id, currentUser);
-    }
-
-    public com.themuffinman.app.vision.dto.QuestApplicationDetailResponseDTO getApplicationDetailResponseById(Long applicationId, AppUser currentUser) {
-        return workmarketQuestReadService.getApplicationDetailResponseById(applicationId, currentUser);
-    }
-
     public QuestResponseDTO toResponse(com.themuffinman.app.vision.model.Quest quest, AppUser currentUser) {
         return workmarketQuestReadService.toResponse(questMgr.toWorkmarketEntity(quest), currentUser);
-    }
-
-    public java.util.List<QuestResponseDTO> toResponses(java.util.List<com.themuffinman.app.vision.model.Quest> quests, AppUser currentUser) {
-        return workmarketQuestReadService.toResponses(quests.stream()
-                .map(questMgr::toWorkmarketEntity)
-                .toList(), currentUser);
     }
 
     @Transactional

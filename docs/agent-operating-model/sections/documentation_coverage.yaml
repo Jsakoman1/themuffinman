@@ -36,6 +36,14 @@ documentation_coverage:
     - workmarket_presentation_helper
     - workmarket_quest_application_workflow_support
     - workmarket_apply_for_quest_use_case
+    - workmarket_quest_service
+    - workmarket_create_quest_use_case
+    - workmarket_update_quest_use_case
+    - workmarket_delete_quest_use_case
+    - workmarket_start_quest_use_case
+    - workmarket_complete_quest_use_case
+    - workmarket_confirm_quest_term_change_use_case
+    - workmarket_reject_quest_term_change_use_case
     - workmarket_update_my_application_use_case
     - workmarket_withdraw_my_application_use_case
     - workmarket_approve_application_use_case

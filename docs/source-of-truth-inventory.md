@@ -34,6 +34,14 @@ Core files:
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationPresentationAssembler.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationWorkflowSupport.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketApplyForQuestUseCase.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestService.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCreateQuestUseCase.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUpdateQuestUseCase.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDeleteQuestUseCase.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketStartQuestUseCase.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCompleteQuestUseCase.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketConfirmQuestTermChangeUseCase.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketRejectQuestTermChangeUseCase.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUpdateMyApplicationUseCase.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWithdrawMyApplicationUseCase.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketApproveApplicationUseCase.java`

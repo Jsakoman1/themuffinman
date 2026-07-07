@@ -157,6 +157,7 @@ class VisionConversationServiceTest {
         VisionCreateCircleExecutionAdapter visionCreateCircleExecutionAdapter =
                 new VisionCreateCircleExecutionAdapter(visionCapabilityPreviewService);
         VisionExecutionService visionExecutionService = new VisionExecutionService(
+                new VisionSemanticRouteCatalogService(),
                 visionSurfacePolicy,
                 List.of(visionCreateQuestExecutionAdapter, visionCreateCircleExecutionAdapter)
         );
@@ -1898,7 +1899,7 @@ class VisionConversationServiceTest {
 
         assertEquals("scheduled_time", fixedModeResponse.getRequestedSlot());
         assertEquals("fixed", conversation.getSlotData().get("schedule_mode"));
-        assertEquals("2026-07-07", conversation.getSlotData().get("scheduled_date"));
+        assertEquals("2026-07-14", conversation.getSlotData().get("scheduled_date"));
         assertNull(conversation.getSlotData().get("scheduled_time"));
     }
 
