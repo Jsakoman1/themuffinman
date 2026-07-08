@@ -92,6 +92,17 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 dashboardNotificationAssembler,
                 thingSharingService
         );
+        VisionSocialPreviewRenderer socialPreviewRenderer = new VisionSocialPreviewRenderer(circleReadService);
+        VisionSocialMutationAdapter socialMutationAdapter = new VisionSocialMutationAdapter(circleService);
+        VisionProfilePreviewRenderer profilePreviewRenderer = new VisionProfilePreviewRenderer(
+                appUserReadService,
+                appUserMgr
+        );
+        VisionProfileMutationAdapter profileMutationAdapter = new VisionProfileMutationAdapter(
+                appUserService,
+                appUserReadService,
+                appUserMgr
+        );
         VisionCapabilityEntityResolutionSupport entityResolutionSupport = new VisionCapabilityEntityResolutionSupport(
                 appUserRepository,
                 appUserReadService,
@@ -100,6 +111,12 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 questReadService,
                 semanticAliasRegistry
         );
+        VisionWorkmarketPreviewRenderer workmarketPreviewRenderer = new VisionWorkmarketPreviewRenderer(
+                questReadService,
+                questApplicationReadService
+        );
+        VisionWorkmarketApplicationMutationAdapter workmarketApplicationMutationAdapter =
+                new VisionWorkmarketApplicationMutationAdapter(questApplicationService);
         service = new VisionCapabilityPreviewService(
                 appUserService,
                 appUserReadService,
@@ -108,13 +125,15 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 userProfileViewService,
                 chatService,
                 circleReadService,
-                circleService,
-                questReadService,
-                questApplicationReadService,
-                questApplicationService,
+                socialPreviewRenderer,
+                socialMutationAdapter,
+                profilePreviewRenderer,
+                profileMutationAdapter,
                 identityPreviewRenderer,
                 feedPreviewRenderer,
-                entityResolutionSupport
+                entityResolutionSupport,
+                workmarketPreviewRenderer,
+                workmarketApplicationMutationAdapter
         );
     }
 

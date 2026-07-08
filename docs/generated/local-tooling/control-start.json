@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-08T07:21:11Z",
+  "generated_at": "2026-07-08T08:21:46Z",
   "plan_index": {
     "path": "docs/generated/local-tooling/plan-index.json",
     "summary_path": "docs/generated/local-tooling/plan-index-summary.md",
-    "total_count": 99,
+    "total_count": 111,
     "open_count": 0,
     "open_master_plans": [
 
@@ -16,14 +16,15 @@
     "path": "docs/generated/local-tooling/audit-summary-index.json",
     "summary_path": "docs/generated/local-tooling/audit-summary-index.md",
     "registry_entries": 69,
-    "tracked_outputs": 25,
-    "missing_outputs": 44,
+    "tracked_outputs": 26,
+    "missing_outputs": 30,
     "operator_core_targets": [
       {
         "target": "audit-router",
         "script": "scripts/audits/audit-router.rb",
         "output": "docs/generated/local-tooling/audit-router-summary.md",
         "output_exists": true,
+        "output_mode": "static",
         "surface_class": "operator_core",
         "operator_default": true
       },
@@ -32,6 +33,7 @@
         "script": "scripts/audits/codex-context.rb",
         "output": "docs/generated/local-tooling/codex-context/latest.review.md",
         "output_exists": true,
+        "output_mode": "static",
         "surface_class": "operator_core",
         "operator_default": true
       },
@@ -40,6 +42,7 @@
         "script": "scripts/audits/recommend-targeted-tests.rb",
         "output": "docs/generated/local-tooling/targeted-tests-summary.md",
         "output_exists": true,
+        "output_mode": "static",
         "surface_class": "operator_core",
         "operator_default": true
       },
@@ -48,6 +51,7 @@
         "script": "scripts/audits/audit-doc-sync-required-surfaces.rb",
         "output": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
         "output_exists": true,
+        "output_mode": "static",
         "surface_class": "operator_core",
         "operator_default": true
       },
@@ -56,6 +60,7 @@
         "script": "scripts/audits/audit-manifest-decision.rb",
         "output": "docs/generated/local-tooling/manifest-decision-summary.md",
         "output_exists": true,
+        "output_mode": "static",
         "surface_class": "operator_core",
         "operator_default": true
       },
@@ -64,6 +69,7 @@
         "script": "scripts/audits/recommend-validation-preset.rb",
         "output": "docs/generated/local-tooling/validation-preset-summary.md",
         "output_exists": true,
+        "output_mode": "static",
         "surface_class": "operator_core",
         "operator_default": true
       },
@@ -71,7 +77,8 @@
         "target": "diff-summary",
         "script": "scripts/audits/generate-diff-summary.rb",
         "output": "docs/generated/local-tooling/diff-summary.md",
-        "output_exists": false,
+        "output_exists": true,
+        "output_mode": "static",
         "surface_class": "operator_core",
         "operator_default": true
       },
@@ -80,6 +87,7 @@
         "script": "scripts/audits/generate-plan-index.rb",
         "output": "docs/generated/local-tooling/plan-index-summary.md",
         "output_exists": true,
+        "output_mode": "static",
         "surface_class": "operator_core",
         "operator_default": true
       }

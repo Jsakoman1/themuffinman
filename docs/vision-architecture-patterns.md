@@ -81,6 +81,7 @@ Route-shell behavior should also stay blank-canvas oriented:
 - keep circle-request send/accept/delete on the same terminal-first path by resolving one exact person or one exact pending request before review confirmation
 - keep owned-circle rename and delete on the same terminal-first path by resolving one exact owned circle before review confirmation and never reconstructing circle authority from frontend state
 - keep profile-location updates on the same terminal-first path by limiting the draft to location mode and label while backend patch adapters preserve unrelated identity and location-sharing fields
+- keep circle and circle-request writes on the same terminal-first path by routing them through one dedicated vision-side mutation adapter instead of direct social-service calls inside the preview facade
 - keep confirmations, debug details, and request review surfaces inline in the feed unless a native browser modal is explicitly required for a destructive cross-route boundary
 - when a route needs a preview, render it as a textual entity sketch that grows and reshapes with the current object instead of a modal, sheet, or split-pane shell
 - circles, applications, and profile routes should prefer one linear feed with inline actions and text-based entity summaries over card stacks, grids, or profile panels
@@ -144,6 +145,8 @@ Existing domain services stay authoritative for business behavior:
 - `business`, `things`, and `rides` own their module-specific workflows
 
 Vision orchestration may coordinate those capabilities, but must not duplicate their domain rules.
+When `/vision` needs domain-shaped previews or thin mutation handoff code, keep those pieces in explicit vision-side collaborators such as preview renderers or mutation adapters instead of growing one facade service into a second domain layer.
+Apply that rule inside vision too: social previews, profile draft previews, profile patch assembly, feed previews, and workmarket preview handoff should stay in named collaborators instead of collapsing back into one large preview facade.
 
 ## Backend Service Pattern
 

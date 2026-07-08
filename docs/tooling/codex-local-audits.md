@@ -22,5 +22,10 @@ Before broad repository searches, read the compact local context in this order:
 
 Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support
 material rather than as default session context.
+Treat parameterized outputs such as DTO packs, symbol-test links, workflow slices, and plan-completion reports as
+on-demand templates rather than as missing default operator outputs when they have not been generated for the current
+topic yet.
+When a master plan fails closeout, read the generated plan-completion report before reopening repository search; it now
+includes child-issue rollups so the failing child-plan reasons are visible from the report itself.
 
 ## Available Targets

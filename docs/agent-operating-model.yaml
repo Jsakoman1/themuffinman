@@ -82,6 +82,24 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVoiceService.java
   - id: vision_conversation_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - id: vision_capability_preview_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java
+  - id: vision_social_preview_renderer
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSocialPreviewRenderer.java
+  - id: vision_social_mutation_adapter
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSocialMutationAdapter.java
+  - id: vision_profile_preview_renderer
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionProfilePreviewRenderer.java
+  - id: vision_profile_mutation_adapter
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionProfileMutationAdapter.java
+  - id: vision_identity_preview_renderer
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIdentityPreviewRenderer.java
+  - id: vision_feed_preview_renderer
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionFeedPreviewRenderer.java
+  - id: vision_workmarket_preview_renderer
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionWorkmarketPreviewRenderer.java
+  - id: vision_workmarket_application_mutation_adapter
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionWorkmarketApplicationMutationAdapter.java
   - id: vision_chat_execution_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java
   - id: vision_create_quest_execution_adapter
@@ -408,6 +426,16 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketOptionsService.java
   - id: workmarket_presentation_helper
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketPresentationHelper.java
+  - id: workmarket_quest_detail_sections_factory
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestDetailSectionsFactory.java
+  - id: workmarket_quest_search_scope_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestSearchScopeService.java
+  - id: workmarket_quest_list_preset_resolver
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestListPresetResolver.java
+  - id: workmarket_quest_response_factory
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestResponseFactory.java
+  - id: workmarket_quest_viewer_application_map_factory
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestViewerApplicationMapFactory.java
   - id: workmarket_quest_read_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestReadService.java
   - id: workmarket_quest_application_service
@@ -3599,10 +3627,36 @@ dead_path_tracker:
   - delete_quest
   - set_profile_current_location
   - delete_user_as_admin
-  allow_source_refs_without_direct_workflow_usage:
-  - admin_agent_prompt_translation
-  - circle_request_mgr
-  - user_review_mgr
+  allow_source_ref_groups_without_direct_workflow_usage:
+  - id: translation_or_inventory_only_helpers
+    reason: inventory-only and helper surfaces that document runtime support boundaries
+      without serving as direct workflow entrypoints
+    source_refs:
+    - admin_agent_prompt_translation
+    - circle_request_mgr
+    - user_review_mgr
+  - id: workmarket_read_helper_collaborators
+    reason: helper collaborators that narrow internal workmarket read ownership while
+      staying below direct workflow-entry semantics
+    source_refs:
+    - workmarket_quest_detail_sections_factory
+    - workmarket_quest_search_scope_service
+    - workmarket_quest_list_preset_resolver
+    - workmarket_quest_response_factory
+    - workmarket_quest_viewer_application_map_factory
+  - id: vision_preview_and_adapter_helpers
+    reason: vision-side renderer and adapter collaborators that intentionally sit
+      below direct workflow-entry semantics
+    source_refs:
+    - vision_capability_preview_service
+    - vision_social_preview_renderer
+    - vision_social_mutation_adapter
+    - vision_profile_preview_renderer
+    - vision_profile_mutation_adapter
+    - vision_identity_preview_renderer
+    - vision_feed_preview_renderer
+    - vision_workmarket_preview_renderer
+    - vision_workmarket_application_mutation_adapter
 capability_registry:
 - id: admin_authority
   description: Authenticated admin authority to access admin-only planning and simulation

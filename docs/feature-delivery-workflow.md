@@ -123,7 +123,6 @@ Full flow is mandatory:
 7. Autofill the closeout state.
 8. Run the required closeout audits before the final response.
 
-If `AGENTS.md` records a standing autonomous continuation preference, do not pause between safe proposed follow-up slices just to ask the user which offered option to pick; continue with the best sequenced slice unless scope changes, approval is needed, or a real blocker appears.
 When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
 For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.

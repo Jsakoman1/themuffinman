@@ -47,7 +47,7 @@ The machine-readable source of truth is:
 - Treat the operator-core local-tooling surfaces as the default session path: `control-start`, `plan-index`, `audit-summary-index`, `codex-context/latest.*`, and targeted-tests summaries.
 - Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state.
 - `make implementation-batch topic=<topic>` should act as the deterministic broad-work wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, and closeout hints when a plan exists.
-- make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, and closeout hints when a plan exists.
+- Treat parameterized local-tooling outputs such as DTO packs, symbol-test links, workflow slices, plan-completion reports, and other `<placeholder>` outputs as on-demand templates rather than as missing default operator surfaces.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 - In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
 - When the user asks for a broad safe batch, such as many improvements or an entire workstream, assemble the full safe slice list up front and execute it in order without asking after each slice, unless a real blocker, scope change, or required approval appears.
@@ -251,6 +251,7 @@ Context-first session workflow:
 - start with `docs/generated/local-tooling/diff-summary.md` to understand the changed-file shape before broad repository exploration
 - read `docs/generated/local-tooling/audit-summary-index.md` to choose the smallest relevant generated report; treat
   it as a routing aid, not as the source of truth for current behavior
+- treat parameterized `<placeholder>` outputs in the audit index as on-demand templates instead of missing default operator outputs
 - read or generate `make control-start` when the task needs the compact plan-and-audit discovery snapshot before
   broader search
 - stay on the operator-core local-tooling surfaces first and open focused review packs only when the compact surfaces do not identify the needed files

@@ -291,6 +291,7 @@ plan-index:
 control-refresh-core:
 	$(MAKE) plan-index
 	$(MAKE) generate-audit-registry-artifacts
+	$(MAKE) diff-summary
 	$(MAKE) codex-context topic=control-system intent='refresh control system outputs'
 	$(MAKE) audit-summary-index
 	ruby scripts/audits/generate-control-start.rb

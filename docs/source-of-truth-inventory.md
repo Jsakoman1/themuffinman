@@ -26,6 +26,11 @@ Core files:
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestReadService.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestDetailSectionsFactory.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestSearchScopeService.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestListPresetResolver.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestResponseFactory.java`
+- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestViewerApplicationMapFactory.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationReadService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardReadService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardSummaryAssembler.java`
@@ -193,6 +198,7 @@ Cross-module contract note:
 - Admin synthetic quest execution now writes through workmarket-owned quest request/service contracts.
 - Vision capability preview, search discovery, quest discovery, and entity-resolution flows now consume workmarket-owned quest/application/news DTOs and read services directly instead of routing those runtime reads through legacy `vision` quest/application DTO copies.
 - Vision create-quest execution now writes through `WorkmarketQuestService` directly, and the old dashboard/quest/application compatibility runtime path has been removed.
+- Vision preview ownership now stays explicit inside `vision` through `VisionCapabilityPreviewService`, `VisionSocialPreviewRenderer`, `VisionSocialMutationAdapter`, `VisionProfilePreviewRenderer`, `VisionProfileMutationAdapter`, `VisionIdentityPreviewRenderer`, `VisionFeedPreviewRenderer`, `VisionWorkmarketPreviewRenderer`, and `VisionWorkmarketApplicationMutationAdapter`, instead of hiding social/profile/workmarket preview shaping and mutation handoff inside one oversized preview facade.
 
 ### `location`
 

@@ -4,32 +4,17 @@ import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.common.pagination.PageResponseFactory;
 import com.themuffinman.app.common.pagination.PageWindow;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.common.dto.NavigationTargetDTO;
-import com.themuffinman.app.common.dto.NavigationTargetType;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
-import com.themuffinman.app.workmarket.dto.QuestDetailExecutionSectionDTO;
-import com.themuffinman.app.workmarket.dto.QuestDetailManagementSectionDTO;
-import com.themuffinman.app.workmarket.dto.QuestDetailNavigationSectionDTO;
-import com.themuffinman.app.workmarket.dto.QuestDetailReviewSectionDTO;
-import com.themuffinman.app.workmarket.dto.QuestDetailReviewTargetDTO;
 import com.themuffinman.app.workmarket.dto.QuestDetailResponseDTO;
-import com.themuffinman.app.workmarket.dto.QuestDetailSectionsDTO;
-import com.themuffinman.app.workmarket.dto.QuestDetailTermChangeSectionDTO;
 import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
 import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
-import com.themuffinman.app.workmarket.mapper.WorkmarketQuestMgr;
-import com.themuffinman.app.workmarket.mapper.WorkmarketUserReviewMgr;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestAudience;
-import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import com.themuffinman.app.workmarket.model.QuestStatus;
-import com.themuffinman.app.workmarket.repository.WorkmarketQuestApplicationRepository;
 import com.themuffinman.app.workmarket.repository.WorkmarketQuestRepository;
-import com.themuffinman.app.workmarket.repository.WorkmarketUserReviewRepository;
-import com.themuffinman.app.workmarket.service.WorkmarketPresentationHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,26 +22,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 @Service("workmarketQuestReadService")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class WorkmarketQuestReadService {
 
     private final WorkmarketQuestRepository questRepository;
-    private final WorkmarketQuestApplicationRepository questApplicationRepository;
     private final WorkmarketQuestApplicationReadService questApplicationReadService;
     private final WorkmarketQuestVisibilityService questVisibilityService;
-    private final WorkmarketQuestAccessPolicyService questAccessPolicyService;
     private final WorkmarketQuestQueryService questQueryService;
     private final WorkmarketQuestExecutionPrimitiveService questExecutionPrimitiveService;
-    private final WorkmarketQuestMgr questMgr;
-    private final WorkmarketQuestPresentationAssembler questPresentationAssembler;
-    private final WorkmarketUserReviewRepository userReviewRepository;
-    private final WorkmarketUserReviewMgr userReviewMgr;
-    private final WorkmarketPresentationHelper presentationHelper;
+    private final WorkmarketQuestSearchScopeService questSearchScopeService;
+    private final WorkmarketQuestListPresetResolver questListPresetResolver;
+    private final WorkmarketQuestViewerApplicationMapFactory questViewerApplicationMapFactory;
+    private final WorkmarketQuestResponseFactory questResponseFactory;
+    private final WorkmarketQuestDetailSectionsFactory questDetailSectionsFactory;
 
     public List<Quest> getAllQuests(AppUser currentUser) {
         return questRepository.findForQuestList().stream()
@@ -85,7 +65,7 @@ public class WorkmarketQuestReadService {
             Integer page,
             Integer size
     ) {
-        List<Quest> scopedQuests = loadQuestSearchScope(currentUser, radiusKm);
+        List<Quest> scopedQuests = questSearchScopeService.loadQuestSearchScope(currentUser, radiusKm);
         return buildQuestListResponse(
                 scopedQuests.stream()
                         .filter(quest -> questVisibilityService.canViewQuest(currentUser, quest))
@@ -124,29 +104,8 @@ public class WorkmarketQuestReadService {
             Integer page,
             Integer size
     ) {
-        List<Quest> scopedQuests = loadQuestSearchScope(currentUser, radiusKm);
-        List<Quest> baseQuests = switch (preset) {
-            case AVAILABLE -> scopedQuests.stream()
-                    .filter(quest -> questVisibilityService.canViewQuest(currentUser, quest))
-                    .filter(quest -> quest.getStatus() == QuestStatus.OPEN)
-                    .filter(quest -> currentUser == null || !questAccessPolicyService.isQuestOwner(quest, currentUser))
-                    .toList();
-            case MY_VISIBLE -> scopedQuests.stream()
-                    .filter(quest -> questVisibilityService.canViewQuest(currentUser, quest))
-                    .filter(quest -> questAccessPolicyService.isQuestOwner(quest, currentUser))
-                    .filter(quest -> quest.getStatus() == QuestStatus.OPEN
-                            || quest.getStatus() == QuestStatus.ASSIGNED
-                            || quest.getStatus() == QuestStatus.IN_PROGRESS
-                            || quest.getStatus() == QuestStatus.WAITING_CONFIRMATION)
-                    .toList();
-            case MY_ACTIVE -> scopedQuests.stream()
-                    .filter(quest -> questVisibilityService.canViewQuest(currentUser, quest))
-                    .filter(quest -> questAccessPolicyService.isQuestOwner(quest, currentUser))
-                    .filter(quest -> quest.getStatus() == QuestStatus.ASSIGNED
-                            || quest.getStatus() == QuestStatus.IN_PROGRESS
-                            || quest.getStatus() == QuestStatus.WAITING_CONFIRMATION)
-                    .toList();
-        };
+        List<Quest> scopedQuests = questSearchScopeService.loadQuestSearchScope(currentUser, radiusKm);
+        List<Quest> baseQuests = questListPresetResolver.resolve(preset, scopedQuests, currentUser);
 
         return buildQuestListResponse(
                 baseQuests,
@@ -180,9 +139,9 @@ public class WorkmarketQuestReadService {
     }
 
     public QuestDetailResponseDTO getQuestDetailResponseById(Long id, AppUser currentUser) {
-        Map<Long, QuestApplication> applicationsByQuestId = getCurrentUserApplicationsByQuestId(currentUser);
+        Map<Long, QuestApplication> applicationsByQuestId = questViewerApplicationMapFactory.getCurrentUserApplicationsByQuestId(currentUser);
         Quest quest = getQuestById(id, currentUser);
-        QuestResponseDTO questResponse = toResponse(quest, currentUser, applicationsByQuestId);
+        QuestResponseDTO questResponse = questResponseFactory.toResponse(quest, currentUser, applicationsByQuestId);
         QuestApplication viewerApplication = currentUser == null ? null : applicationsByQuestId.get(quest.getId());
         QuestApplicationResponseDTO myApplication = questApplicationReadService.toViewerResponse(viewerApplication, currentUser);
         QuestApplicationsViewDTO applicationsView = questResponse.isCanViewApplications()
@@ -193,20 +152,7 @@ public class WorkmarketQuestReadService {
 
         QuestDetailResponseDTO response = QuestDetailResponseDTO.builder()
                 .summary(questResponse)
-                .sections(QuestDetailSectionsDTO.builder()
-                        .navigation(QuestDetailNavigationSectionDTO.builder()
-                                .listNavigation(NavigationTargetDTO.builder()
-                                        .type(NavigationTargetType.QUEST_LIST)
-                                        .entityId(null)
-                                        .build())
-                                .build())
-                        .myApplication(myApplication)
-                        .applicationsView(applicationsView)
-                        .review(buildQuestDetailReviewSection(quest, currentUser, myApplication, applicationsView))
-                        .execution(buildQuestDetailExecutionSection(questResponse))
-                        .termChange(buildQuestDetailTermChangeSection(quest, questResponse.getAllowedActions()))
-                        .management(buildQuestDetailManagementSection(quest, questResponse))
-                        .build())
+                .sections(questDetailSectionsFactory.buildSections(quest, currentUser, questResponse, myApplication, applicationsView))
                 .quest(questResponse)
                 .myApplication(myApplication)
                 .applicationsView(applicationsView)
@@ -215,185 +161,16 @@ public class WorkmarketQuestReadService {
     }
 
     public QuestResponseDTO toResponse(Quest quest, AppUser currentUser) {
-        return toResponse(quest, currentUser, getCurrentUserApplicationsByQuestId(currentUser));
+        return questResponseFactory.toResponse(
+                quest,
+                currentUser,
+                questViewerApplicationMapFactory.getCurrentUserApplicationsByQuestId(currentUser)
+        );
     }
 
     public List<QuestResponseDTO> toResponses(List<Quest> quests, AppUser currentUser) {
-        Map<Long, QuestApplication> applicationsByQuestId = getCurrentUserApplicationsByQuestId(currentUser);
-        return quests.stream()
-                .map(quest -> toResponse(quest, currentUser, applicationsByQuestId))
-                .toList();
-    }
-
-    private QuestResponseDTO toResponse(Quest quest, AppUser currentUser, Map<Long, QuestApplication> applicationsByQuestId) {
-        QuestResponseDTO response = questMgr.toDto(quest);
-        QuestApplication viewerApplication = currentUser == null ? null : applicationsByQuestId.get(quest.getId());
-        var viewerRelation = questAccessPolicyService.resolveViewerRelation(quest, currentUser, viewerApplication);
-        var allowedActions = questAccessPolicyService.resolveAllowedActions(quest, currentUser, viewerApplication);
-        boolean canViewApplications = allowedActions.contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.VIEW_APPLICATIONS);
-        int workerTarget = Math.max(response.getAssigneeTarget() == null ? 1 : response.getAssigneeTarget(), 1);
-        int approvedApplicationCount = Math.toIntExact(questApplicationRepository.countByQuestIdAndStatus(quest.getId(), com.themuffinman.app.workmarket.model.QuestApplicationStatus.APPROVED));
-        int remainingAssigneeSlots = Math.max(workerTarget - approvedApplicationCount, 0);
-
-        response = questMgr.withViewerContext(
-                response,
-                viewerRelation,
-                allowedActions,
-                viewerApplication != null,
-                viewerApplication == null ? null : viewerApplication.getId(),
-                canViewApplications
-        );
-        response.setApprovedApplicationCount(approvedApplicationCount);
-        response.setRemainingAssigneeSlots(remainingAssigneeSlots);
-        response.setPresentation(questPresentationAssembler.buildPresentation(quest, response, currentUser));
-        return response;
-    }
-
-    private QuestDetailReviewSectionDTO buildQuestDetailReviewSection(
-            Quest quest,
-            AppUser currentUser,
-            QuestApplicationResponseDTO myApplication,
-            QuestApplicationsViewDTO applicationsView
-    ) {
-        if (quest.getStatus() != QuestStatus.COMPLETED) {
-            return QuestDetailReviewSectionDTO.builder()
-                    .visible(false)
-                    .canSubmit(false)
-                    .introTitle("Review")
-                    .introSubtitle(null)
-                    .placeholder("Add a short comment.")
-                    .submitLabel("Submit")
-                    .emptyStateMessage("Reviews become available here after the quest is completed.")
-                    .build();
-        }
-
-        QuestDetailReviewTargetDTO target = resolveReviewTarget(quest, currentUser, myApplication, applicationsView);
-        if (target == null || currentUser == null) {
-            return QuestDetailReviewSectionDTO.builder()
-                    .visible(true)
-                    .canSubmit(false)
-                    .introTitle("Review")
-                    .introSubtitle(null)
-                    .placeholder("Add a short comment.")
-                    .submitLabel("Submit")
-                    .emptyStateMessage("Reviews become available here after the quest is completed.")
-                    .build();
-        }
-
-        var submittedReview = userReviewRepository.findByQuestIdAndReviewerIdAndReviewedUserId(
-                        quest.getId(),
-                        currentUser.getId(),
-                        target.getUserId()
-                )
-                .map(userReviewMgr::toDto)
-                .orElse(null);
-
-        return QuestDetailReviewSectionDTO.builder()
-                .visible(true)
-                .canSubmit(true)
-                .introTitle("Rate " + target.getUsername())
-                .introSubtitle(target.getRoleLabel())
-                .placeholder("Write a short comment about this " + target.getRoleLabel() + ".")
-                .submitLabel(submittedReview == null ? "Submit" : "Update")
-                .emptyStateMessage("Reviews become available here after the quest is completed.")
-                .target(target)
-                .submittedReview(submittedReview)
-                .build();
-    }
-
-    private QuestDetailExecutionSectionDTO buildQuestDetailExecutionSection(QuestResponseDTO questResponse) {
-        boolean canStart = questResponse.getAllowedActions().contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.START);
-        boolean canComplete = questResponse.getAllowedActions().contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.COMPLETE);
-        String helperText = questResponse.getViewerRelation() == com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO.APPROVED_APPLICANT
-                ? "You are the approved applicant for this quest."
-                : null;
-
-        return QuestDetailExecutionSectionDTO.builder()
-                .visible(canStart || canComplete || helperText != null)
-                .primaryAction(canStart
-                        ? com.themuffinman.app.workmarket.dto.QuestDetailExecutionActionDTO.START
-                        : (canComplete ? com.themuffinman.app.workmarket.dto.QuestDetailExecutionActionDTO.COMPLETE : null))
-                .primaryActionLabel(canStart ? "Start work" : (canComplete ? "Mark complete" : null))
-                .helperText(helperText)
-                .build();
-    }
-
-    private QuestDetailTermChangeSectionDTO buildQuestDetailTermChangeSection(Quest quest, List<com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO> allowedActions) {
-        return QuestDetailTermChangeSectionDTO.builder()
-                .visible(quest.getStatus() == QuestStatus.WAITING_CONFIRMATION)
-                .actionable(
-                        allowedActions.contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.CONFIRM_TERM_CHANGE)
-                                || allowedActions.contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.REJECT_TERM_CHANGE)
-                )
-                .summaryLabel("Term change waiting")
-                .confirmLabel("Confirm term change")
-                .rejectLabel("Reject term change")
-                .currentScheduledAt(quest.getScheduledAt())
-                .currentEndsAt(quest.getEndsAt())
-                .currentTermFixed(quest.isTermFixed())
-                .pendingScheduledAt(quest.getPendingScheduledAt())
-                .pendingEndsAt(quest.getPendingEndsAt())
-                .pendingTermFixed(quest.getPendingTermFixed())
-                .build();
-    }
-
-    private QuestDetailManagementSectionDTO buildQuestDetailManagementSection(Quest quest, QuestResponseDTO questResponse) {
-        boolean canManageQuest = questResponse.getViewerRelation() == com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO.OWNER;
-        String visibleToCirclesLabel = null;
-        if (canManageQuest && quest.getAudience() == QuestAudience.CIRCLES) {
-            List<String> circleNames = questResponse.getVisibleToCircles() == null
-                    ? List.of()
-                    : questResponse.getVisibleToCircles().stream()
-                    .map(circle -> circle.getName())
-                    .filter(name -> name != null && !name.isBlank())
-                    .toList();
-            visibleToCirclesLabel = circleNames.isEmpty() ? "Selected circles" : String.join(", ", circleNames);
-        }
-
-        return QuestDetailManagementSectionDTO.builder()
-                .editVisible(questResponse.getAllowedActions().contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.EDIT))
-                .deleteVisible(questResponse.getAllowedActions().contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.DELETE))
-                .postingSettingsVisible(canManageQuest)
-                .audienceLabel(canManageQuest ? presentationHelper.formatAudience(quest.getAudience()) : null)
-                .visibleToCirclesLabel(visibleToCirclesLabel)
-                .build();
-    }
-
-    private QuestDetailReviewTargetDTO resolveReviewTarget(
-            Quest quest,
-            AppUser currentUser,
-            QuestApplicationResponseDTO myApplication,
-            QuestApplicationsViewDTO applicationsView
-    ) {
-        if (currentUser == null) {
-            return null;
-        }
-
-        if (questAccessPolicyService.isQuestOwner(quest, currentUser)) {
-            List<QuestApplicationResponseDTO> approvedApplications = applicationsView == null
-                    ? List.of()
-                    : applicationsView.getApprovedApplications();
-            if (approvedApplications.size() == 1) {
-                QuestApplicationResponseDTO featuredApplication = approvedApplications.getFirst();
-                return QuestDetailReviewTargetDTO.builder()
-                        .userId(featuredApplication.getApplicantId())
-                        .username(featuredApplication.getApplicantUsername())
-                        .roleLabel("worker")
-                        .build();
-            }
-
-            return null;
-        }
-
-        if (myApplication != null && myApplication.getStatus() == com.themuffinman.app.workmarket.model.QuestApplicationStatus.APPROVED) {
-            return QuestDetailReviewTargetDTO.builder()
-                    .userId(quest.getCreator().getId())
-                    .username(quest.getCreator().getUsername())
-                    .roleLabel("employer")
-                    .build();
-        }
-
-        return null;
+        Map<Long, QuestApplication> applicationsByQuestId = questViewerApplicationMapFactory.getCurrentUserApplicationsByQuestId(currentUser);
+        return questResponseFactory.toResponses(quests, currentUser, applicationsByQuestId);
     }
 
     private QuestListResponseDTO buildQuestListResponse(
@@ -440,37 +217,4 @@ public class WorkmarketQuestReadService {
                 .build());
     }
 
-    private List<Quest> loadQuestSearchScope(AppUser currentUser, Integer radiusKm) {
-        if (radiusKm == null) {
-            return questRepository.findForQuestList();
-        }
-
-        if (currentUser == null || currentUser.getLocationLatitude() == null || currentUser.getLocationLongitude() == null) {
-            return List.of();
-        }
-
-        List<Long> nearbyQuestIds = questRepository.findIdsWithinRadius(
-                currentUser.getLocationLatitude(),
-                currentUser.getLocationLongitude(),
-                radiusKm * 1000
-        );
-        if (nearbyQuestIds.isEmpty()) {
-            return List.of();
-        }
-
-        return questRepository.findForQuestListByIds(nearbyQuestIds);
-    }
-
-    private Map<Long, QuestApplication> getCurrentUserApplicationsByQuestId(AppUser currentUser) {
-        if (currentUser == null) {
-            return Map.of();
-        }
-
-        return questApplicationRepository.findForApplicantDashboard(currentUser.getId()).stream()
-                .collect(Collectors.toMap(
-                        application -> application.getQuest().getId(),
-                        Function.identity(),
-                        (left, right) -> left
-                ));
-    }
 }

@@ -904,20 +904,26 @@ module LocalToolingExtendedTools
       {path: path, mtime: File.exist?(abs(path)) ? File.mtime(abs(path)).utc.iso8601 : nil, bytes: File.exist?(abs(path)) ? File.size(abs(path)) : 0}
     end
     registry = AUDIT_REGISTRY.map do |target, script, output|
+      templated_output = output.include?("<")
       {
         target: target,
         script: script,
         output: output,
-        output_exists: File.exist?(abs(output)),
+        output_exists: !templated_output && File.exist?(abs(output)),
+        output_mode: templated_output ? "template" : "static",
         surface_class: audit_surface_class(target, output),
         operator_default: operator_default_audit?(target, output)
       }
     end
+    tracked_outputs = registry.count { |entry| entry[:output_exists] }
+    templated_outputs = registry.count { |entry| entry[:output_mode] == "template" }
+    missing_outputs = registry.count { |entry| entry[:output_mode] == "static" && !entry[:output_exists] }
     payload = {
       generated_at: now,
       registry_entries: registry.size,
-      tracked_outputs: registry.count { |entry| entry[:output_exists] },
-      missing_outputs: registry.count { |entry| !entry[:output_exists] },
+      tracked_outputs: tracked_outputs,
+      templated_outputs: templated_outputs,
+      missing_outputs: missing_outputs,
       registry: registry,
       summaries: summaries,
       operator_core_registry: registry.select { |entry| entry[:operator_default] },
@@ -1282,12 +1288,14 @@ module LocalToolingExtendedTools
     focused_review = Array(payload[:focused_review_registry])
     diagnostics = Array(payload[:diagnostic_registry])
     tracked = registry.count { |entry| entry[:output_exists] }
-    missing = registry.count - tracked
+    templated = registry.count { |entry| entry[:output_mode] == "template" }
+    missing = registry.count { |entry| entry[:output_mode] != "template" && !entry[:output_exists] }
     lines = []
     lines << "# Audit Summary Index"
     lines << ""
     lines << "- Registry entries: #{registry.size}"
     lines << "- Tracked outputs: #{tracked}"
+    lines << "- On-demand templates: #{templated}"
     lines << "- Missing outputs: #{missing}"
     lines << "- Summary files: #{summaries.size}"
     lines << "- Operator-core targets: #{operator_core.size}"
@@ -1297,7 +1305,13 @@ module LocalToolingExtendedTools
     lines << "## Operator-Core Targets"
     lines << ""
     operator_core.first(12).each do |entry|
-      status = entry[:output_exists] ? "tracked" : "missing"
+      status = if entry[:output_mode] == "template"
+                 "template"
+               elsif entry[:output_exists]
+                 "tracked"
+               else
+                 "missing"
+               end
       lines << "- `#{entry[:target]}` -> `#{entry[:output]}` (`#{status}`)"
     end
     lines << "- ... and #{operator_core.size - 12} more" if operator_core.size > 12
@@ -1305,7 +1319,13 @@ module LocalToolingExtendedTools
     lines << "## Focused Review Targets"
     lines << ""
     focused_review.first(10).each do |entry|
-      status = entry[:output_exists] ? "tracked" : "missing"
+      status = if entry[:output_mode] == "template"
+                 "template"
+               elsif entry[:output_exists]
+                 "tracked"
+               else
+                 "missing"
+               end
       lines << "- `#{entry[:target]}` -> `#{entry[:output]}` (`#{status}`)"
     end
     lines << "- ... and #{focused_review.size - 10} more" if focused_review.size > 10

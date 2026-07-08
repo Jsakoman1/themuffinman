@@ -33,16 +33,15 @@ Manifest usage is tier-driven and conditional instead of being the default for e
    - `docs/vision-status-ledger.md` for current done, deferred, and design-blocked capability state
 7. If the task is manifest-backed, closeout-sensitive, or agent/workflow-heavy, read `docs/validation-memory.md` and `docs/validation-memory.json` before broad validation so canonical command strings and manifest evidence expectations are explicit up front.
 8. Run compact context first:
-- `make control-start` when you want the current plan and audit discovery state in one compact snapshot before broader search
-- `make control-refresh-full` when you want the same compact snapshot plus the slower generated-artifact freshness pass
-- `make implementation-batch topic=<topic>` when you want the deterministic implementation wrapper to run discovery, docs-sync preflight, manifest and validation preset routing, targeted recommendations, and closeout if a plan exists
-- make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, and closeout hints when a plan exists.
-- `make codex-context topic=<topic> intent='<intent>'`
+   - `make control-start` when you want the current plan and audit discovery state in one compact snapshot before broader search
+   - `make control-refresh-full` when you want the same compact snapshot plus the slower generated-artifact freshness pass
+   - `make implementation-batch topic=<topic>` when you want the deterministic implementation wrapper to run discovery, docs-sync preflight, manifest and validation preset routing, targeted recommendations, and closeout if a plan exists
+   - `make codex-context topic=<topic> intent='<intent>'`
    - `make recommend-targeted-tests`
    - `make clean-text-noise max_lines=80` when you need to strip Maven, audit, or generated log noise before summarizing evidence.
-   - `make codex-context` now uses the diff summary, audit summary index, the most relevant audit, targeted tests, and a concise evidence bundle as its default read chain, writes a canonical execution manifest at `docs/generated/local-tooling/codex-context/latest.execution.json` with schema `docs/codex-context-execution-manifest.schema.json`, and auto-includes validation memory when the batch is manifest-backed or closeout-sensitive.
-   - `make control-start`, `make codex-context`, and `make context-pack` surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
-7. Load deeper workflow docs only if the chosen tier or a resolver requires them.
+9. `make codex-context` now uses the diff summary, audit summary index, the most relevant audit, targeted tests, and a concise evidence bundle as its default read chain, writes a canonical execution manifest at `docs/generated/local-tooling/codex-context/latest.execution.json` with schema `docs/codex-context-execution-manifest.schema.json`, and auto-includes validation memory when the batch is manifest-backed or closeout-sensitive.
+10. `make control-start`, `make codex-context`, and `make context-pack` surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
+11. Load deeper workflow docs only if the chosen tier or a resolver requires them.
 
 For `/vision` work, the compact context should usually be opened after the vision memory set so the repo search starts from the right backend, API, frontend, test, and doc surfaces.
 
@@ -51,7 +50,6 @@ For broad, long-running, or high-complexity work, prefer a master plan that coor
 Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
 Never mark a plan, child plan, or master plan complete unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
 
-When `AGENTS.md` records a standing autonomous continuation preference, do not stop to ask the user which safe offered follow-up slice to pick; choose the best sequenced next slice and continue until scope is narrowed, approval is needed, or a real blocker appears.
 When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
 When the user asks for a broad safe batch, such as many improvements or an entire workstream, assemble the full safe slice list up front and execute it in order without asking after each slice, unless a real blocker, scope change, or required approval appears.

@@ -87,6 +87,7 @@ Frontend vision surface note:
 - `VisionConversationService` now switches to a new persisted conversation when the prompt clearly changes intent, so discovery and creation can coexist on the same adaptive surface without forcing one thread to masquerade as another.
 - `VisionIntentRouter` now also recognizes `OPEN_CHAT`, and `VisionChatExecutionService` resolves an explicit chat target before delegating to the existing chat opening boundary.
 - `VisionIntentRouter` now also recognizes `VIEW_PROFILE`, `VIEW_CIRCLES`, and `VIEW_APPLICATIONS`, and `VisionCapabilityPreviewService` translates existing backend DTOs into read-only terminal preview blocks for those self-scoped flows.
+- `VisionCapabilityPreviewService` now stays a facade over focused preview collaborators: `VisionSocialPreviewRenderer` owns circle and circle-request previews, `VisionSocialMutationAdapter` owns circle and circle-request writes, `VisionProfilePreviewRenderer` owns profile draft previews, `VisionProfileMutationAdapter` owns profile patch request assembly, `VisionIdentityPreviewRenderer` owns identity and chat previews, `VisionFeedPreviewRenderer` owns feed-style previews, `VisionWorkmarketPreviewRenderer` owns quest/application preview shaping, and `VisionWorkmarketApplicationMutationAdapter` keeps vision-side application writes as explicit adapters instead of inlined service logic.
 - `VisionConversationController` routes reset, cancel, load, and recent conversation actions through `VisionConversationLifecycleService`, while `VisionConversationService` keeps the main turn-processing boundary.
 - `VisionIntentRouter` now also recognizes `VIEW_QUEST_NEWS`, and `VisionCapabilityPreviewService` renders the authenticated user's quest-news feed as a read-only terminal preview block.
 - `VisionIntentRouter` now also recognizes `CREATE_CIRCLE`, and `VisionConversationService` runs a one-slot circle draft/review/confirm flow that executes through `CircleService.createCircle(...)` after explicit confirmation.
@@ -337,6 +338,7 @@ Technical notes:
 - Feature closeout enforcement is also available through `make enforce-feature-closeout manifest=<manifest-file>`, which writes machine-readable closeout-enforcement reports while hard-failing missing complete status, checklist evidence, required profile validation, generated artifact paths, duplicate artifact buckets, backlog links, or plan completion evidence.
 - Validation command evidence can be recorded with `make record-validation manifest=<manifest-file> command='<command>'`, which runs the command, appends compact result metadata to the feature manifest, and writes companion validation-evidence JSON without storing raw logs.
 - Plan completion evidence is independently auditable with `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]`, which fails missing completion evidence, non-final completion status, unresolved task checkboxes, incomplete master-plan child rows, and completed manifests that reference incomplete plan evidence.
+- The generated plan-completion report now also carries child-issue rollups so a completed master plan shows the linked child-plan failure reasons directly instead of only collapsing them into one `incomplete` label.
 - Closeout report generation lives at `make closeout-report manifest=<manifest-file>` and writes `docs/generated/local-tooling/closeout-reports/<feature-id>.json` plus a short Markdown summary from manifest artifacts, validation evidence, docs delta, generated-artifact evidence, backlog delta, residual risks, and the current changed-file list.
 - Codex-facing changed-file reports now share a generated-noise filter for `diff-summary`, `context-pack`, `audit-router`, and `fast-check`; default output excludes generated reports and transient `.agents` plan/evidence files while `include_generated=true` and `include_agents=true` restore full debug visibility.
 - Context pack and session handoff reports support `budget=small|medium|large`; the default `small` budget caps file lists at 20 entries and records omitted sections plus read-next guidance, while `medium` and `large` opt into 50 and 100 entries.
@@ -812,6 +814,7 @@ Primary files:
 - `workmarket/service/WorkmarketQuestAccessPolicyService.java`
 - `workmarket/service/WorkmarketQuestQueryService.java`
 - `workmarket/service/WorkmarketQuestExecutionPrimitiveService.java`
+- `workmarket/service/WorkmarketQuestDetailSectionsFactory.java`
 - `workmarket/service/QuestViewAssembler.java`
 - `workmarket/model/Quest.java`
 - `workmarket/model/QuestStatus.java`
@@ -828,6 +831,8 @@ Technical notes:
 - `WorkmarketQuestValidationService` treats `awardAmount == 0` as a valid free-quest configuration and still rejects negative values.
 - `WorkmarketQuestService` now stays as the controller-facing mutation facade while dedicated workmarket read services own quest detail and list assembly.
 - `WorkmarketQuestExecutionPrimitiveService` centralizes quest target resolution, owner or execution authority checks, state gating, persistence, and notification fan-out for agent-safe mutation flows.
+- `WorkmarketQuestDetailSectionsFactory` owns quest-detail section assembly so `WorkmarketQuestReadService` can stay focused on read orchestration, viewer scoping, and response loading.
+- `WorkmarketQuestSearchScopeService`, `WorkmarketQuestListPresetResolver`, `WorkmarketQuestResponseFactory`, and `WorkmarketQuestViewerApplicationMapFactory` now own radius-scoped quest search loading, preset selection, response assembly, and applicant-context mapping so `WorkmarketQuestReadService` stays focused on owner-side read orchestration instead of helper data collection.
 
 ### Applications
 

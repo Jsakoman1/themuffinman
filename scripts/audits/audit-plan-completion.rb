@@ -260,11 +260,25 @@ def analyze_plan(plan_path, nested: false)
   }
 end
 
+def child_issue_rollups(children)
+  children.each_with_object([]) do |child, rollups|
+    next if child[:child_issues].nil? || child[:child_issues].empty?
+
+    rollups << {
+      path: child[:path],
+      status: child[:status],
+      issues: child[:child_issues]
+    }
+  end
+end
+
 def write_report(plan_path, manifest_path, result)
   id = slug(plan_path)
+  issue_rollups = child_issue_rollups(result[:child_plans] || [])
   payload = result.merge(
     generated_at: Time.now.utc.iso8601,
-    manifest: manifest_path
+    manifest: manifest_path,
+    child_issue_rollups: issue_rollups
   )
   LocalToolingCommon.write_json("#{OUT_ROOT}/#{id}.json", payload)
   lines = ["# Plan Completion #{id}", ""]
@@ -277,12 +291,24 @@ def write_report(plan_path, manifest_path, result)
   lines << "- Open tasks: `#{payload[:open_tasks].size}`"
   lines << "- Temp work products: `#{payload[:temp_work_products].size}`"
   lines << "- Issues: `#{payload[:issues].size}`"
+  lines << "- Child issue rollups: `#{payload[:child_issue_rollups].size}`"
   lines << "- Warnings: `#{payload[:warnings].size}`"
   lines << ""
   if payload[:issues].any?
     lines << "## Issues"
     lines << ""
     payload[:issues].each { |issue| lines << "- #{issue}" }
+    lines << ""
+  end
+  if payload[:child_issue_rollups].any?
+    lines << "## Child Issue Rollups"
+    lines << ""
+    payload[:child_issue_rollups].each do |rollup|
+      lines << "- `#{rollup[:path]}` | `#{rollup[:status]}`"
+      rollup[:issues].each do |issue|
+        lines << "  - #{issue}"
+      end
+    end
     lines << ""
   end
   if payload[:warnings].any?

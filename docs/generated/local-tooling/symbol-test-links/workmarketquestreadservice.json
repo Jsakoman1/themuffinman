@@ -1,0 +1,97 @@
+{
+  "generated_at": "2026-07-08T07:41:50Z",
+  "symbol": "WorkmarketQuestReadService",
+  "symbol_files": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestReadService.java",
+      "category": "backend_service",
+      "domain": "workmarket",
+      "lines": 301
+    }
+  ],
+  "direct_tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java"
+  ],
+  "nearby_tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java"
+  ],
+  "scenario_hits": [
+    {
+      "id": "workmarket-quest-lifecycle",
+      "domain": "workmarket",
+      "risk": "high",
+      "scenario": "Quest create, update, delete, start, complete, and term-change flows must resolve actors, validate state, persist changes, and publish expected notifications.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest"
+      ]
+    },
+    {
+      "id": "workmarket-application-lifecycle",
+      "domain": "workmarket",
+      "risk": "high",
+      "scenario": "Application apply, applicant edit, withdraw, owner approve, owner decline, and admin mutation flows must enforce ownership, status, pricing, and notification rules.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest"
+      ]
+    },
+    {
+      "id": "workmarket-dashboard-read-model",
+      "domain": "workmarket",
+      "risk": "medium",
+      "scenario": "Dashboard sections, applicant actions, open-work groups, and notification destinations must stay backend-prepared and role-aware.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest"
+      ]
+    },
+    {
+      "id": "vision-learning-eval-harness",
+      "domain": "common",
+      "risk": "medium",
+      "scenario": "Preference confidence decay, learned-memory recall, and clarification wording should stay stable while weak ambiguous follow-ups keep the current topic thread.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLearningEvaluationHarnessTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=VisionLearningEvaluationHarnessTest,VisionConversationServiceTest"
+      ]
+    },
+    {
+      "id": "workmarket-quest-read-model",
+      "domain": "workmarket",
+      "risk": "medium",
+      "scenario": "Quest browsing, recommendation ranking, and quest news read state must stay backend-prepared and viewer-aware.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest"
+      ]
+    }
+  ],
+  "recommended_commands": [
+    "cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest,VisionCapabilityPreviewServiceAliasResolutionTest,VisionCapabilityPreviewServiceTest,VisionConversationServiceTest,VisionSearchDiscoveryServiceTest,WorkmarketRequestDtoValidationTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionLearningEvaluationHarnessTest,VisionConversationServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest"
+  ],
+  "residual_risk": [
+
+  ]
+}

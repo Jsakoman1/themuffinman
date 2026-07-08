@@ -13,6 +13,7 @@ Owns `/vision` conversation orchestration, semantic understanding, slot validati
 - Semantic and review support: `service/VisionPromptUnderstandingService.java`, `service/VisionSemanticRouteCatalogService.java`, `service/VisionSemanticEnvelopeSupport.java`, `service/VisionQuestReviewSupport.java`
 - Execution boundaries: `service/VisionExecutionService.java`, `service/VisionSurfacePolicy.java`, `service/VisionCapabilityExecutionAdapter.java`
 - Canvas assembly and presentation helpers: `service/VisionCanvasAssembler.java`, `service/VisionConversationSnapshotSupport.java`
+- Preview and adapter helpers: `service/VisionCapabilityPreviewService.java`, `service/VisionSocialPreviewRenderer.java`, `service/VisionSocialMutationAdapter.java`, `service/VisionProfilePreviewRenderer.java`, `service/VisionProfileMutationAdapter.java`, `service/VisionIdentityPreviewRenderer.java`, `service/VisionFeedPreviewRenderer.java`, `service/VisionWorkmarketPreviewRenderer.java`, `service/VisionWorkmarketApplicationMutationAdapter.java`
 
 ## Tests
 
@@ -31,5 +32,6 @@ Owns `/vision` conversation orchestration, semantic understanding, slot validati
 - Do not put orchestration, slot validation, review selection, or execution gating in controllers or frontend-only code.
 - Do not duplicate semantic route metadata, entity-family mapping, or capability gating outside the shared vision services.
 - Do not add a new execution adapter without registering it through the explicit typed execution gate.
+- Do not let `VisionCapabilityPreviewService` grow into a mixed preview and mutation monolith; keep social/profile/workmarket preview shaping and mutation handoff behind explicit vision-side collaborators and adapters.
 - Do not add a new semantic route or validator path without updating route-catalog and sanitizer tests.
 - Do not let the frontend decide whether a route can execute or which entity family is active.

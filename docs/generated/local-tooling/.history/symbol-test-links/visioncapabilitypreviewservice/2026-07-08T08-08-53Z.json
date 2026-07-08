@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-07-08T07:50:33Z",
+  "symbol": "VisionCapabilityPreviewService",
+  "symbol_files": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 852
+    }
+  ],
+  "direct_tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupportTest.java"
+  ],
+  "nearby_tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewSupportTest.java"
+  ],
+  "scenario_hits": [
+    {
+      "id": "workmarket-dashboard-read-model",
+      "domain": "workmarket",
+      "risk": "medium",
+      "scenario": "Dashboard sections, applicant actions, open-work groups, and notification destinations must stay backend-prepared and role-aware.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest"
+      ]
+    },
+    {
+      "id": "vision-learning-eval-harness",
+      "domain": "common",
+      "risk": "medium",
+      "scenario": "Preference confidence decay, learned-memory recall, and clarification wording should stay stable while weak ambiguous follow-ups keep the current topic thread.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLearningEvaluationHarnessTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=VisionLearningEvaluationHarnessTest,VisionConversationServiceTest"
+      ]
+    },
+    {
+      "id": "workmarket-quest-read-model",
+      "domain": "workmarket",
+      "risk": "medium",
+      "scenario": "Quest browsing, recommendation ranking, and quest news read state must stay backend-prepared and viewer-aware.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest"
+      ]
+    }
+  ],
+  "recommended_commands": [
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceAliasResolutionTest,VisionCapabilityPreviewServiceTest,VisionConversationServiceTest,VisionConversationSnapshotSupportTest,VisionCapabilityPreviewSupportTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionLearningEvaluationHarnessTest,VisionConversationServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest"
+  ],
+  "residual_risk": [
+
+  ]
+}

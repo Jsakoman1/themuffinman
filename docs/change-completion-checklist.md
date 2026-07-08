@@ -11,7 +11,6 @@ For `codex-context` and related workflow changes, confirm that `docs/generated/l
 `make control-start` stays on the fast path.
 `make control-refresh-full` regenerates plan-index, audit registry, codex-context, audit summary index, control-start, and freshness outputs after successful plan completion.
 Use `make implementation-batch topic=<topic>` when a broad implementation batch needs one deterministic wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, and closeout hints.
-- make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, and closeout hints when a plan exists.
 Use `make temp-work-product-closeout plan=<plan-file>` when you need to delete or archive lingering temp work products owned by a plan before closeout.
 Use `make audit-generated-artifact-hygiene files=<csv>` when a batch needs generated-artifact noise filtered to the implementation scope before consulting the global freshness audit.
 

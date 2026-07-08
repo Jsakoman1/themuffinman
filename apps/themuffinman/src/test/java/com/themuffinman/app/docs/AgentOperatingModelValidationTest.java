@@ -986,7 +986,7 @@ class AgentOperatingModelValidationTest {
 
     private static void validateDeadPathTracker(JsonNode yaml, Path repoRoot, Map<String, String> sourceFiles) throws Exception {
         JsonNode deadPathTrackerNode = yaml.path("dead_path_tracker");
-        Set<String> allowedUnusedSourceRefs = readStringSet(deadPathTrackerNode.path("allow_source_refs_without_direct_workflow_usage"));
+        Set<String> allowedUnusedSourceRefs = readAllowedUnusedSourceRefs(deadPathTrackerNode);
         Set<String> directlyUsedSourceRefs = collectDirectMachineSourceRefs(yaml, sourceFiles);
 
         for (String sourceRef : sourceFiles.keySet()) {
@@ -1009,6 +1009,14 @@ class AgentOperatingModelValidationTest {
             assertTrue(knownIntentIds.contains(coveredWorkflow),
                     () -> "Golden prompt matrix references unknown workflow intent: " + coveredWorkflow);
         }
+    }
+
+    private static Set<String> readAllowedUnusedSourceRefs(JsonNode deadPathTrackerNode) {
+        Set<String> allowed = new LinkedHashSet<>();
+        for (JsonNode groupNode : iterable(deadPathTrackerNode.path("allow_source_ref_groups_without_direct_workflow_usage"))) {
+            groupNode.path("source_refs").forEach(node -> allowed.add(node.asText()));
+        }
+        return allowed;
     }
 
     private static void validateFeatureCompletionManifests(Path repoRoot) throws Exception {

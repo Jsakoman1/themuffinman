@@ -819,7 +819,7 @@
     },
     "dead_path_tracker": {
       "type": "object",
-      "required": ["critical_prompt_matrix_workflows", "allow_source_refs_without_direct_workflow_usage"],
+      "required": ["critical_prompt_matrix_workflows", "allow_source_ref_groups_without_direct_workflow_usage"],
       "additionalProperties": false,
       "properties": {
         "critical_prompt_matrix_workflows": {
@@ -827,9 +827,21 @@
           "minItems": 1,
           "items": {"type": "string", "minLength": 1}
         },
-        "allow_source_refs_without_direct_workflow_usage": {
+        "allow_source_ref_groups_without_direct_workflow_usage": {
           "type": "array",
-          "items": {"type": "string", "minLength": 1}
+          "items": {
+            "type": "object",
+            "required": ["id", "reason", "source_refs"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "reason": {"type": "string", "minLength": 1},
+              "source_refs": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
         }
       }
     },
