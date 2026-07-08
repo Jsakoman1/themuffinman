@@ -926,7 +926,7 @@ module LocalToolingExtendedTools
         layered_analysis_artifacts: layered_analysis_products.first(8),
         samples: temp_work_products.first(8)
       },
-      next_action: "Use `make codex-context topic=<topic> intent='<intent>'` for topic-specific broad work once this control snapshot is fresh."
+      next_action: "Use `make implementation-batch topic=<topic>` for a deterministic broad-work pass, or `make codex-context topic=<topic> intent='<intent>'` when you only need topic-specific context once this control snapshot is fresh."
     }
 
     json_path = "#{OUT}/control-start.json"

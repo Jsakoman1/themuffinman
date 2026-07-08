@@ -1,9 +1,9 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.vision.model.QuestApplicationStatus;
-import com.themuffinman.app.vision.model.QuestAudience;
-import com.themuffinman.app.vision.model.QuestNewsType;
-import com.themuffinman.app.vision.model.QuestStatus;
+import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
+import com.themuffinman.app.workmarket.model.QuestAudience;
+import com.themuffinman.app.workmarket.model.QuestNewsType;
+import com.themuffinman.app.workmarket.model.QuestStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
@@ -126,6 +126,8 @@ public class WorkmarketPresentationHelper {
 
         return switch (type) {
             case CIRCLE_REQUEST_RECEIVED -> "Circle request";
+            case QUEST_CREATED -> "Quest created";
+            case QUEST_UPDATED -> "Quest updated";
             case APPLICATION_CREATED -> "New application";
             case APPLICATION_UPDATED -> "Application updated";
             case APPLICATION_WITHDRAWN -> "Application withdrawn";
@@ -168,7 +170,7 @@ public class WorkmarketPresentationHelper {
             case QUEST_COMPLETED -> "■";
             case QUEST_STARTED -> "▶";
             case CIRCLE_REQUEST_ACCEPTED -> "◎";
-            case APPLICATION_CREATED, APPLICATION_UPDATED, APPLICATION_WITHDRAWN -> "↗";
+            case APPLICATION_CREATED, APPLICATION_UPDATED, QUEST_UPDATED, APPLICATION_WITHDRAWN -> "↗";
             default -> "•";
         };
     }

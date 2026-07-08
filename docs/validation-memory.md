@@ -98,6 +98,7 @@ The standard closeout-sensitive audit loop should also rerun:
 - `make validation-memory-closeout-card`
 
 These prove that backlog drift, unfinished plan checkboxes, and manifest-plan mismatch are closed.
+Completed master plans also need their child statuses to be final; pending, draft, or in_progress child rows are a closeout failure.
 
 ## Manifest Heuristics That Recur
 

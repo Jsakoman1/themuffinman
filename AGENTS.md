@@ -87,9 +87,11 @@ Planned modules:
 - When a master plan is active and the work is safe to continue, carry it through all child plans and the final closeout
   pass before asking for new user input. Only stop early for a real blocker, conflicting user changes, destructive
   approval needs, or unsafe ambiguity.
+- When the user asks for a broad safe batch, such as many improvements or an entire workstream, assemble the full safe slice list up front and execute it in order without asking after each slice, unless a real blocker, scope change, or required approval appears.
 - For those autonomous sessions, use a master plan plus narrower child plans whenever the work is broad, long-running,
   high-complexity, or spans unrelated implementation surfaces; stop only for required approval, destructive action,
   direct conflicts with user changes, or genuinely unsafe ambiguity.
+- make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, and closeout hints when a plan exists.
 - Even during autonomous sessions, do not commit or push unless the user explicitly includes commit or push in the task.
 
 ## Living Documentation
@@ -145,6 +147,7 @@ Planned modules:
   forcing one oversized batch.
 - For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
 - Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
+- Never mark a plan, child plan, or master plan complete unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
 - A master plan should name the child plans explicitly, define execution order, and include a final closeout pass that
   verifies implementation, documentation, and validation status across the whole batch.
 - During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.

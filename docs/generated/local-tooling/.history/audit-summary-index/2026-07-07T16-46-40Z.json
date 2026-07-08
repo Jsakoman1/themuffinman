@@ -1,0 +1,766 @@
+{
+  "generated_at": "2026-07-07T16:32:39Z",
+  "registry": [
+    {
+      "target": "audit-change-impact-preflight",
+      "script": "scripts/audits/audit-change-impact-preflight.rb",
+      "output": "docs/generated/local-tooling/change-impact-preflight-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "changeset-risk",
+      "script": "scripts/audits/score-changeset-risk.rb",
+      "output": "docs/generated/local-tooling/changeset-risk-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-router",
+      "script": "scripts/audits/audit-router.rb",
+      "output": "docs/generated/local-tooling/audit-router-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "codex-context",
+      "script": "scripts/audits/codex-context.rb",
+      "output": "docs/generated/local-tooling/codex-context/latest.review.md",
+      "output_exists": true
+    },
+    {
+      "target": "codex-context-explain",
+      "script": "scripts/audits/codex-context.rb",
+      "output": "docs/generated/local-tooling/codex-context/latest.explain.md",
+      "output_exists": false
+    },
+    {
+      "target": "codex-context-clean",
+      "script": "scripts/audits/codex-context.rb",
+      "output": "docs/generated/local-tooling/codex-context/",
+      "output_exists": true
+    },
+    {
+      "target": "clean-text-noise",
+      "script": "scripts/audits/clean-text-noise.rb",
+      "output": "docs/generated/local-tooling/clean-text-noise-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "context-pack",
+      "script": "scripts/audits/generate-context-pack.rb",
+      "output": "docs/generated/local-tooling/context-packs",
+      "output_exists": true
+    },
+    {
+      "target": "recommend-feature-slices",
+      "script": "scripts/audits/recommend-feature-slices.rb",
+      "output": "docs/generated/local-tooling/feature-slices/<topic>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "recommend-targeted-tests",
+      "script": "scripts/audits/recommend-targeted-tests.rb",
+      "output": "docs/generated/local-tooling/targeted-tests-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "repo-map",
+      "script": "scripts/audits/generate-repo-map.rb",
+      "output": "docs/generated/local-tooling/repo-map-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "symbol-index",
+      "script": "scripts/audits/generate-symbol-index.rb",
+      "output": "docs/generated/local-tooling/symbol-index-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "endpoint-contract-packs",
+      "script": "scripts/audits/generate-endpoint-contract-packs.rb",
+      "output": "docs/generated/local-tooling/endpoint-contract-packs",
+      "output_exists": true
+    },
+    {
+      "target": "validation-matrix",
+      "script": "scripts/audits/generate-validation-matrix.rb",
+      "output": "docs/generated/local-tooling/validation-matrix-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "changeset-playbook",
+      "script": "scripts/audits/generate-changeset-playbook.rb",
+      "output": "docs/generated/local-tooling/changeset-playbook-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "resolve-manifest-path",
+      "script": "scripts/audits/resolve-manifest-path.rb",
+      "output": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "link-symbol-to-tests",
+      "script": "scripts/audits/link-symbol-to-tests.rb",
+      "output": "docs/generated/local-tooling/symbol-test-links/<symbol-name>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "dto-usage-pack",
+      "script": "scripts/audits/generate-dto-usage-pack.rb",
+      "output": "docs/generated/local-tooling/dto-usage-packs/<dto-name>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "workflow-slice-pack",
+      "script": "scripts/audits/generate-workflow-slice-pack.rb",
+      "output": "docs/generated/local-tooling/workflow-slices/<workflow-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "plan-code-map",
+      "script": "scripts/audits/generate-plan-code-map.rb",
+      "output": "docs/generated/local-tooling/plan-code-maps/<plan-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "rank-changeset-hotspots",
+      "script": "scripts/audits/rank-changeset-hotspots.rb",
+      "output": "docs/generated/local-tooling/hotspots-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "domain-pack",
+      "script": "scripts/audits/generate-domain-pack.rb",
+      "output": "docs/generated/local-tooling/domain-packs/<domain-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-doc-sync-preflight",
+      "script": "scripts/audits/audit-doc-sync-preflight.rb",
+      "output": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-doc-sync-required-surfaces",
+      "script": "scripts/audits/audit-doc-sync-required-surfaces.rb",
+      "output": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-doc-template-coverage",
+      "script": "scripts/audits/audit-doc-template-coverage.rb",
+      "output": "docs/generated/local-tooling/doc-template-coverage-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-doc-sync-duplicates",
+      "script": "scripts/audits/audit-doc-sync-duplicates.rb",
+      "output": "docs/generated/local-tooling/doc-sync-duplicates-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-manifest-decision",
+      "script": "scripts/audits/audit-manifest-decision.rb",
+      "output": "docs/generated/local-tooling/manifest-decision-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "recommend-validation-preset",
+      "script": "scripts/audits/recommend-validation-preset.rb",
+      "output": "docs/generated/local-tooling/validation-preset-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-doc-staleness-scoring",
+      "script": "scripts/audits/audit-doc-staleness-scoring.rb",
+      "output": "docs/generated/local-tooling/doc-staleness-scoring-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-architecture-drift",
+      "script": "scripts/audits/audit-architecture-drift.rb",
+      "output": "docs/generated/local-tooling/architecture-drift-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "architecture-decision-index",
+      "script": "scripts/audits/generate-architecture-decision-index.rb",
+      "output": "docs/generated/local-tooling/architecture-decision-index-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-generated-commit-scope",
+      "script": "scripts/audits/audit-generated-commit-scope.rb",
+      "output": "docs/generated/local-tooling/generated-commit-scope-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-migration-entity-drift",
+      "script": "scripts/audits/audit-migration-entity-drift.rb",
+      "output": "docs/generated/local-tooling/migration-entity-drift-audit-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-test-gap-recommendations",
+      "script": "scripts/audits/audit-test-gap-recommendations.rb",
+      "output": "docs/generated/local-tooling/test-gap-recommendations-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-contract-test-gaps",
+      "script": "scripts/audits/audit-contract-test-gaps.rb",
+      "output": "docs/generated/local-tooling/contract-test-gaps-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-mutation-safety",
+      "script": "scripts/audits/audit-mutation-safety.rb",
+      "output": "docs/generated/local-tooling/mutation-safety-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-docs-as-tests",
+      "script": "scripts/audits/audit-docs-as-tests.rb",
+      "output": "docs/generated/local-tooling/docs-as-tests-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-frontend-usage-graph",
+      "script": "scripts/audits/audit-frontend-usage-graph.rb",
+      "output": "docs/generated/local-tooling/frontend-usage-graph-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-backend-dependency-graph",
+      "script": "scripts/audits/audit-backend-dependency-graph.rb",
+      "output": "docs/generated/local-tooling/backend-dependency-graph-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-test-fixture-duplication",
+      "script": "scripts/audits/audit-test-fixture-duplication.rb",
+      "output": "docs/generated/local-tooling/test-fixture-duplication-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "diff-summary",
+      "script": "scripts/audits/generate-diff-summary.rb",
+      "output": "docs/generated/local-tooling/diff-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "session-handoff",
+      "script": "scripts/audits/generate-session-handoff.rb",
+      "output": "docs/generated/local-tooling/session-handoffs",
+      "output_exists": false
+    },
+    {
+      "target": "plan-scaffold-discovery",
+      "script": "scripts/audits/generate-plan-scaffold-discovery.rb",
+      "output": ".agents/<topic>-plan.md",
+      "output_exists": false
+    },
+    {
+      "target": "plan-index",
+      "script": "scripts/audits/generate-plan-index.rb",
+      "output": "docs/generated/local-tooling/plan-index-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "control-start",
+      "script": "scripts/audits/generate-control-start.rb",
+      "output": "docs/generated/local-tooling/control-start-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-summary-index",
+      "script": "scripts/audits/generate-audit-summary-index.rb",
+      "output": "docs/generated/local-tooling/audit-summary-index.md",
+      "output_exists": true
+    },
+    {
+      "target": "generate-audit-registry-artifacts",
+      "script": "scripts/audits/generate-audit-registry-artifacts.rb",
+      "output": "docs/tooling/codex-local-audits.yml",
+      "output_exists": true
+    },
+    {
+      "target": "fast-check",
+      "script": "scripts/audits/generate-fast-check-report.rb",
+      "output": "docs/generated/local-tooling/fast-check-report-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "diagnose-backend-test",
+      "script": "scripts/audits/diagnose-backend-test.rb",
+      "output": "docs/generated/local-tooling/diagnostics/backend-test-latest-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "diagnose-frontend-type-check",
+      "script": "scripts/audits/diagnose-frontend-type-check.rb",
+      "output": "docs/generated/local-tooling/diagnostics/frontend-type-check-latest-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "diagnose-frontend-build",
+      "script": "scripts/audits/diagnose-frontend-build.rb",
+      "output": "docs/generated/local-tooling/diagnostics/frontend-build-latest-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "test-history-summary",
+      "script": "scripts/audits/generate-test-history-summary.rb",
+      "output": "docs/generated/local-tooling/test-history-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "failure-knowledge-base",
+      "script": "scripts/audits/update-failure-knowledge-base.rb",
+      "output": "docs/generated/local-tooling/failure-knowledge-base-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "codebase-capsule",
+      "script": "scripts/audits/generate-codebase-capsule.rb",
+      "output": "docs/generated/local-tooling/codebase-capsule.md",
+      "output_exists": true
+    },
+    {
+      "target": "record-validation",
+      "script": "scripts/audits/record-validation-evidence.rb",
+      "output": "docs/generated/local-tooling/validation-evidence/<feature-id>.json",
+      "output_exists": false
+    },
+    {
+      "target": "api-contract-snapshot",
+      "script": "scripts/audits/generate-api-contract-snapshot.rb",
+      "output": "docs/generated/local-tooling/api-contract-snapshot-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-doc-canonical-phrases",
+      "script": "scripts/audits/audit-doc-canonical-phrases.rb",
+      "output": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-validation-memory-drift",
+      "script": "scripts/audits/audit-validation-memory-drift.rb",
+      "output": "docs/generated/local-tooling/validation-memory-drift-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "validation-memory-closeout-card",
+      "script": "scripts/audits/generate-validation-memory-closeout-card.rb",
+      "output": "docs/generated/local-tooling/validation-memory-closeout-card-summary.md",
+      "output_exists": true
+    },
+    {
+      "target": "audit-sandbox-data-coverage-pack",
+      "script": "scripts/audits/audit-sandbox-data-coverage-pack.rb",
+      "output": "docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "smoke-local-authenticated",
+      "script": "scripts/audits/smoke-local-authenticated.rb",
+      "output": "docs/generated/local-tooling/smoke/local-authenticated-latest.json",
+      "output_exists": false
+    },
+    {
+      "target": "smoke-local-dashboard",
+      "script": "scripts/audits/smoke-local-dashboard.rb",
+      "output": "docs/generated/local-tooling/smoke/local-dashboard-latest.json",
+      "output_exists": false
+    },
+    {
+      "target": "closeout-bundle",
+      "script": "scripts/audits/generate-closeout-bundle.rb",
+      "output": "docs/generated/local-tooling/closeout-bundle-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "closeout-report",
+      "script": "scripts/audits/generate-closeout-report.rb",
+      "output": "docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "autofill-feature-closeout",
+      "script": "scripts/audits/autofill-feature-closeout.rb",
+      "output": "docs/generated/local-tooling/closeout-autofill/<feature-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "enforce-feature-closeout",
+      "script": "scripts/audits/enforce-feature-closeout.rb",
+      "output": "docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "post-merge-retrospective",
+      "script": "scripts/audits/generate-post-merge-retrospective.rb",
+      "output": "docs/generated/local-tooling/post-merge-retrospectives/latest-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-plan-completion",
+      "script": "scripts/audits/audit-plan-completion.rb",
+      "output": "docs/generated/local-tooling/plan-completion/<plan-id>-summary.md",
+      "output_exists": false
+    },
+    {
+      "target": "audit-delta-report",
+      "script": "scripts/audits/audit-delta-report.rb",
+      "output": "docs/generated/local-tooling/audit-deltas/<audit-id>-summary.md",
+      "output_exists": false
+    }
+  ],
+  "summaries": [
+    {
+      "path": "docs/generated/dead-code-audit/backend-unused-summary.md",
+      "mtime": "2026-07-03T09:17:28Z",
+      "bytes": 3877
+    },
+    {
+      "path": "docs/generated/dead-code-audit/dead-code-summary-summary.md",
+      "mtime": "2026-07-03T09:17:28Z",
+      "bytes": 1298
+    },
+    {
+      "path": "docs/generated/dead-code-audit/frontend-unused-summary.md",
+      "mtime": "2026-07-03T09:17:21Z",
+      "bytes": 2221
+    },
+    {
+      "path": "docs/generated/local-tooling/architecture-drift-summary.md",
+      "mtime": "2026-07-05T10:41:54Z",
+      "bytes": 3932
+    },
+    {
+      "path": "docs/generated/local-tooling/audit-documentation-summary.md",
+      "mtime": "2026-07-05T09:46:55Z",
+      "bytes": 141
+    },
+    {
+      "path": "docs/generated/local-tooling/audit-registry-artifacts-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 142
+    },
+    {
+      "path": "docs/generated/local-tooling/audit-router-summary.md",
+      "mtime": "2026-07-07T16:32:18Z",
+      "bytes": 709
+    },
+    {
+      "path": "docs/generated/local-tooling/backend-dependency-graph-summary.md",
+      "mtime": "2026-07-05T09:11:22Z",
+      "bytes": 1136
+    },
+    {
+      "path": "docs/generated/local-tooling/control-start-summary.md",
+      "mtime": "2026-07-07T16:32:16Z",
+      "bytes": 3034
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
+      "mtime": "2026-07-05T09:23:05Z",
+      "bytes": 2154
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+      "mtime": "2026-07-07T16:32:19Z",
+      "bytes": 711
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+      "mtime": "2026-07-07T16:32:19Z",
+      "bytes": 1636
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-packs/agent-summary.md",
+      "mtime": "2026-07-05T10:42:53Z",
+      "bytes": 611
+    },
+    {
+      "path": "docs/generated/local-tooling/domain-packs/workmarket-summary.md",
+      "mtime": "2026-07-07T06:38:39Z",
+      "bytes": 26
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/visioncanvasblockdto-summary.md",
+      "mtime": "2026-07-04T11:50:44Z",
+      "bytes": 1249
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/visionconversationturnresponsedto-summary.md",
+      "mtime": "2026-07-05T09:25:42Z",
+      "bytes": 2217
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/admin-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 745
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/agent-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 280
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/app_users-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 1071
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/applications-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 301
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/auth-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 626
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/business-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1052
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/chat-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1247
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/circles-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1141
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/dashboard-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1296
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/index-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 283
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/location-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 754
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/news-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 799
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/quests-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1141
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/rides-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 697
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/things-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1042
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-contract-packs/vision-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 1334
+    },
+    {
+      "path": "docs/generated/local-tooling/feature-slices/implementation-system-summary.md",
+      "mtime": "2026-07-07T16:32:21Z",
+      "bytes": 1930
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-usage-graph-summary.md",
+      "mtime": "2026-07-05T09:11:21Z",
+      "bytes": 553
+    },
+    {
+      "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
+      "mtime": "2026-07-07T16:32:18Z",
+      "bytes": 895
+    },
+    {
+      "path": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
+      "mtime": "2026-07-05T09:22:55Z",
+      "bytes": 645
+    },
+    {
+      "path": "docs/generated/local-tooling/implementation-batches/implementation-system-batch-summary.md",
+      "mtime": "2026-07-07T16:32:22Z",
+      "bytes": 1145
+    },
+    {
+      "path": "docs/generated/local-tooling/manifest-decision-summary.md",
+      "mtime": "2026-07-07T16:32:19Z",
+      "bytes": 900
+    },
+    {
+      "path": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
+      "mtime": "2026-07-07T16:32:20Z",
+      "bytes": 1390
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/backend-drift-remediation-master-plan-summary.md",
+      "mtime": "2026-07-06T05:41:50Z",
+      "bytes": 242
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-improvement-master-plan-summary.md",
+      "mtime": "2026-07-06T19:00:56Z",
+      "bytes": 244
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-maintenance-plan-summary.md",
+      "mtime": "2026-07-05T09:19:22Z",
+      "bytes": 230
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-master-plan-summary.md",
+      "mtime": "2026-07-04T10:06:51Z",
+      "bytes": 194
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-rebuild-plan-summary.md",
+      "mtime": "2026-07-04T10:06:29Z",
+      "bytes": 196
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/control-system-validation-plan-summary.md",
+      "mtime": "2026-07-04T10:06:36Z",
+      "bytes": 202
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/implementation-system-fast-path-batch-automation-master-plan-summary.md",
+      "mtime": "2026-07-05T09:26:44Z",
+      "bytes": 288
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-improvement-master-plan-summary.md",
+      "mtime": "2026-07-07T06:19:14Z",
+      "bytes": 228
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-master-plan-summary.md",
+      "mtime": "2026-07-04T10:07:02Z",
+      "bytes": 178
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-search-expansion-plan-summary.md",
+      "mtime": "2026-07-04T11:50:42Z",
+      "bytes": 198
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-semantic-hardening-plan-summary.md",
+      "mtime": "2026-07-04T10:06:57Z",
+      "bytes": 202
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workflow-continuation-plan-summary.md",
+      "mtime": "2026-07-07T16:07:43Z",
+      "bytes": 220
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-improvement-master-plan-summary.md",
+      "mtime": "2026-07-07T15:48:22Z",
+      "bytes": 236
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-index-summary.md",
+      "mtime": "2026-07-07T16:32:39Z",
+      "bytes": 4223
+    },
+    {
+      "path": "docs/generated/local-tooling/repo-map-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 963
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-index-summary.md",
+      "mtime": "2026-07-03T14:48:13Z",
+      "bytes": 2456
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/dashboardservice-summary.md",
+      "mtime": "2026-07-07T07:50:19Z",
+      "bytes": 1919
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/promptsemanticssupport-summary.md",
+      "mtime": "2026-07-05T10:42:53Z",
+      "bytes": 1338
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/semanticaliasregistry-summary.md",
+      "mtime": "2026-07-05T10:42:53Z",
+      "bytes": 697
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/visioncapabilitypreviewservice-summary.md",
+      "mtime": "2026-07-06T06:24:23Z",
+      "bytes": 1528
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/visionconversationlifecycleservice-summary.md",
+      "mtime": "2026-07-07T06:17:17Z",
+      "bytes": 449
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/visionproperties-summary.md",
+      "mtime": "2026-07-05T10:42:53Z",
+      "bytes": 2511
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/visionsearchdiscoveryitem-summary.md",
+      "mtime": "2026-07-06T05:21:06Z",
+      "bytes": 172
+    },
+    {
+      "path": "docs/generated/local-tooling/targeted-tests-summary.md",
+      "mtime": "2026-07-07T16:32:21Z",
+      "bytes": 2688
+    },
+    {
+      "path": "docs/generated/local-tooling/temp-work-product-closeout/agents-control-system-maintenance-plan-md-summary.md",
+      "mtime": "2026-07-05T09:19:21Z",
+      "bytes": 326
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-matrix-summary.md",
+      "mtime": "2026-07-03T14:48:12Z",
+      "bytes": 1011
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-memory-closeout-card-summary.md",
+      "mtime": "2026-07-04T10:02:52Z",
+      "bytes": 777
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-memory-drift-summary.md",
+      "mtime": "2026-07-07T15:38:07Z",
+      "bytes": 1147
+    },
+    {
+      "path": "docs/generated/local-tooling/validation-preset-summary.md",
+      "mtime": "2026-07-07T16:32:20Z",
+      "bytes": 361
+    },
+    {
+      "path": "docs/generated/local-tooling/workflow-slices/quest-application-summary.md",
+      "mtime": "2026-07-07T06:31:47Z",
+      "bytes": 680
+    }
+  ]
+}

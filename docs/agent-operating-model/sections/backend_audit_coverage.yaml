@@ -143,7 +143,7 @@ backend_audit_coverage:
     - apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/
     - apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/
     - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/
-    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/
   - id: executor_mapper_surface
     tier: executor_critical
     path_contains_any:
@@ -171,17 +171,17 @@ backend_audit_coverage:
     - AppUserService.java
     - AppUserLookupService.java
     - DashboardService.java
-    - QuestService.java
-    - QuestApplicationService.java
+    - WorkmarketQuestService.java
+    - WorkmarketQuestApplicationService.java
     - UserReviewService.java
     - QuestNewsService.java
-    - QuestAccessPolicyService.java
-    - QuestUpdateService.java
-    - QuestStateTransitionService.java
-    - QuestValidationService.java
-    - QuestVisibilityService.java
-    - QuestQueryService.java
-    - QuestExecutionPrimitiveService.java
+    - WorkmarketQuestAccessPolicyService.java
+    - WorkmarketQuestUpdateService.java
+    - WorkmarketQuestStateTransitionService.java
+    - WorkmarketQuestValidationService.java
+    - WorkmarketQuestVisibilityService.java
+    - WorkmarketQuestQueryService.java
+    - WorkmarketQuestExecutionPrimitiveService.java
     - LocationSettingsService.java
     - LocationAccessPolicyService.java
     - LocationLookupService.java

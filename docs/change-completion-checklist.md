@@ -10,6 +10,8 @@ For `codex-context` and related workflow changes, confirm that `docs/generated/l
 
 `make control-start` stays on the fast path.
 `make control-refresh-full` regenerates plan-index, audit registry, codex-context, audit summary index, control-start, and freshness outputs after successful plan completion.
+Use `make implementation-batch topic=<topic>` when a broad implementation batch needs one deterministic wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, and closeout hints.
+- make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, and closeout hints when a plan exists.
 Use `make temp-work-product-closeout plan=<plan-file>` when you need to delete or archive lingering temp work products owned by a plan before closeout.
 Use `make audit-generated-artifact-hygiene files=<csv>` when a batch needs generated-artifact noise filtered to the implementation scope before consulting the global freshness audit.
 
@@ -20,6 +22,7 @@ It does not replace `AGENTS.md`, `docs/documentation-sync-policy.md`, or the age
 For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
 
 Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
+Never mark a plan, child plan, or master plan complete unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
 
 For work that spans several master plans, use `docs/program-planning-model.md` and keep the relevant `.agents/god-plans/*.yaml` file aligned with the active Master Plans, Plans, pros, cons, decisions, and risks.
 
@@ -136,6 +139,7 @@ Default path:
 - Number child plans in execution order and keep the numbering stable unless the plan sequence changes.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 - In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
+- When the user asks for a broad safe batch, such as many improvements or an entire workstream, assemble the full safe slice list up front and execute it in order without asking after each slice, unless a real blocker, scope change, or required approval appears.
 - During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.
 - During broad implementation work, review the product, control-system, and implementation-workflow layers before substantial edits, and capture the review in a temporary analysis artifact when the batch is broad or high-risk.
 - Use `make codex-context topic=<topic> intent='<intent>'` before broad discovery so the plan starts from the diff summary, audit summary index, and the most relevant audit.
@@ -184,6 +188,7 @@ Default path:
 - Tier 1: run `make audit-todo`.
 - Tier 2: run `make audit-todo` and `make audit-plan-completion plan=<plan-file>`.
 - `make audit-plan-completion` now triggers the shared control refresh path automatically after a successful closeout.
+- Completed master plans must not keep child rows marked `pending`, `draft`, or `in_progress`; `make audit-plan-completion` treats that as a failure.
 - Tier 3 and Tier 4 manifest-backed work:
   `make autofill-feature-closeout manifest=<manifest-file> ...`
   `make audit-todo`

@@ -3,7 +3,7 @@ state_transition_audit:
 - id: quest_assignment_on_approval
   intent_id: approve_application
   entity: quest
-  status_enum_class: com.themuffinman.app.vision.model.QuestStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
   from_states:
   - OPEN
   to_states:
@@ -24,11 +24,11 @@ state_transition_audit:
   - quest_application_service
   - quest_state_transition_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: application_approval
   intent_id: approve_application
   entity: quest_application
-  status_enum_class: com.themuffinman.app.vision.model.QuestApplicationStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestApplicationStatus
   from_states:
   - PENDING
   to_states:
@@ -45,11 +45,11 @@ state_transition_audit:
   source_refs:
   - quest_application_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: application_decline
   intent_id: decline_application
   entity: quest_application
-  status_enum_class: com.themuffinman.app.vision.model.QuestApplicationStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestApplicationStatus
   from_states:
   - PENDING
   to_states:
@@ -66,11 +66,11 @@ state_transition_audit:
   source_refs:
   - quest_application_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: application_withdraw
   intent_id: withdraw_my_application
   entity: quest_application
-  status_enum_class: com.themuffinman.app.vision.model.QuestApplicationStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestApplicationStatus
   from_states:
   - PENDING
   to_states:
@@ -86,11 +86,11 @@ state_transition_audit:
   source_refs:
   - quest_application_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_start
   intent_id: start_quest
   entity: quest
-  status_enum_class: com.themuffinman.app.vision.model.QuestStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
   from_states:
   - ASSIGNED
   to_states:
@@ -111,11 +111,11 @@ state_transition_audit:
   - quest_service
   - quest_state_transition_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_completion
   intent_id: complete_quest
   entity: quest
-  status_enum_class: com.themuffinman.app.vision.model.QuestStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
   from_states:
   - IN_PROGRESS
   to_states:
@@ -136,11 +136,11 @@ state_transition_audit:
   - quest_service
   - quest_state_transition_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: owner_term_change_request
   intent_id: request_owner_term_change
   entity: quest
-  status_enum_class: com.themuffinman.app.vision.model.QuestStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
   from_states:
   - ASSIGNED
   - IN_PROGRESS
@@ -159,11 +159,11 @@ state_transition_audit:
   - quest_state_transition_service
   - quest_update_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: worker_or_admin_term_confirmation
   intent_id: confirm_quest_term_change
   entity: quest
-  status_enum_class: com.themuffinman.app.vision.model.QuestStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
   from_states:
   - WAITING_CONFIRMATION
   to_states:
@@ -183,11 +183,11 @@ state_transition_audit:
   - quest_service
   - quest_state_transition_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: worker_or_admin_term_rejection
   intent_id: reject_quest_term_change
   entity: quest
-  status_enum_class: com.themuffinman.app.vision.model.QuestStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
   from_states:
   - WAITING_CONFIRMATION
   to_states:
@@ -207,4 +207,4 @@ state_transition_audit:
   - quest_service
   - quest_state_transition_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java

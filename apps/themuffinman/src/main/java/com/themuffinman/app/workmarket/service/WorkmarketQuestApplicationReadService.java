@@ -1,15 +1,15 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.QuestApplicationDetailContextSectionDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationDetailNavigationSectionDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationDetailResponseDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationDetailSectionsDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationsViewDTO;
-import com.themuffinman.app.vision.dto.QuestAllowedActionDTO;
-import com.themuffinman.app.vision.dto.QuestViewerRelationDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationDetailContextSectionDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationDetailNavigationSectionDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationDetailResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationDetailSectionsDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
+import com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO;
 import com.themuffinman.app.workmarket.mapper.WorkmarketQuestMgr;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
@@ -59,7 +59,7 @@ public class WorkmarketQuestApplicationReadService {
                 .toList();
 
         List<QuestApplicationResponseDTO> approvedApplications = sortedApplications.stream()
-                .filter(application -> application.getStatus() == com.themuffinman.app.vision.model.QuestApplicationStatus.APPROVED)
+                .filter(application -> application.getStatus() == com.themuffinman.app.workmarket.model.QuestApplicationStatus.APPROVED)
                 .toList();
         QuestApplicationResponseDTO featuredApplication = approvedApplications.isEmpty() ? null : approvedApplications.getFirst();
 

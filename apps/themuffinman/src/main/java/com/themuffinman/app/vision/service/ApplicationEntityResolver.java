@@ -6,7 +6,7 @@ import com.themuffinman.app.semantic.SemanticEntityResolution;
 import com.themuffinman.app.semantic.SemanticEntityResolutionStatus;
 import com.themuffinman.app.semantic.SemanticEntityResolutionSupport;
 import com.themuffinman.app.semantic.VisionEntityResolver;
-import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

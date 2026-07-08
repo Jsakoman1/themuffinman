@@ -4,7 +4,7 @@ import com.themuffinman.app.location.dto.ExactLocationVisibilityScopeOptionDTO;
 import com.themuffinman.app.location.dto.LocationModeOptionDTO;
 import com.themuffinman.app.social.dto.CircleContactDTO;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
-import com.themuffinman.app.vision.dto.AppUserRoleOptionDTO;
+import com.themuffinman.app.workmarket.dto.AppUserRoleOptionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

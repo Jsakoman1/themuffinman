@@ -10,11 +10,11 @@ import com.themuffinman.app.identity.service.AppUserReadService;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.service.CircleReadService;
-import com.themuffinman.app.vision.dto.DashboardResponseDTO;
-import com.themuffinman.app.vision.dto.DashboardSectionsDTO;
-import com.themuffinman.app.vision.dto.DashboardSummaryDTO;
-import com.themuffinman.app.vision.dto.DashboardVoiceConfigDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.dto.DashboardResponseDTO;
+import com.themuffinman.app.workmarket.dto.DashboardSectionsDTO;
+import com.themuffinman.app.workmarket.dto.DashboardSummaryDTO;
+import com.themuffinman.app.workmarket.dto.DashboardVoiceConfigDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.workmarket.mapper.WorkmarketQuestNewsMgr;
 import com.themuffinman.app.workmarket.model.Quest;
@@ -67,11 +67,11 @@ public class WorkmarketDashboardReadService {
 
         List<QuestResponseDTO> questDtos = questReadService.toResponses(readModel.sortedQuests(), currentUser);
         List<QuestResponseDTO> myQuestDtos = questDtos.stream()
-                .filter(quest -> quest.getViewerRelation() == com.themuffinman.app.vision.dto.QuestViewerRelationDTO.OWNER)
+                .filter(quest -> quest.getViewerRelation() == com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO.OWNER)
                 .toList();
         List<QuestResponseDTO> availableQuestDtos = questDtos.stream()
-                .filter(quest -> quest.getStatus() == com.themuffinman.app.vision.model.QuestStatus.OPEN)
-                .filter(quest -> quest.getViewerRelation() != com.themuffinman.app.vision.dto.QuestViewerRelationDTO.OWNER)
+                .filter(quest -> quest.getStatus() == com.themuffinman.app.workmarket.model.QuestStatus.OPEN)
+                .filter(quest -> quest.getViewerRelation() != com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO.OWNER)
                 .toList();
         DashboardSectionsDTO sections = dashboardSectionsFactory.buildSections(
                 myQuestDtos,
@@ -146,8 +146,8 @@ public class WorkmarketDashboardReadService {
 
         List<Quest> sortedQuests = sortQuests(questReadService.getAllQuests(currentUser));
         List<QuestApplication> applications = questApplicationRepository.findForApplicantDashboard(currentUser.getId());
-        List<com.themuffinman.app.vision.dto.QuestApplicationResponseDTO> sortedApplications = sortApplications(applications);
-        List<com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO> recentNews = questNewsService.getMyNews(currentUser).stream()
+        List<com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO> sortedApplications = sortApplications(applications);
+        List<com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO> recentNews = questNewsService.getMyNews(currentUser).stream()
                 .limit(6)
                 .map(questNewsMgr::toDto)
                 .toList();
@@ -180,7 +180,7 @@ public class WorkmarketDashboardReadService {
                 .toList();
     }
 
-    private List<com.themuffinman.app.vision.dto.QuestApplicationResponseDTO> sortApplications(List<QuestApplication> applications) {
+    private List<com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO> sortApplications(List<QuestApplication> applications) {
         return applications.stream()
                 .sorted(Comparator
                         .comparing((QuestApplication application) -> APPLICATION_STATUS_SORT_ORDER.getOrDefault(application.getStatus(), Integer.MAX_VALUE))
@@ -218,8 +218,8 @@ public class WorkmarketDashboardReadService {
     private record DashboardReadModel(
             List<Quest> sortedQuests,
             List<QuestApplication> applications,
-            List<com.themuffinman.app.vision.dto.QuestApplicationResponseDTO> sortedApplications,
-            List<com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO> recentNews,
+            List<com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO> sortedApplications,
+            List<com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO> recentNews,
             List<CircleRequestResponseDTO> incomingCircleRequests,
             List<CircleGroupResponseDTO> circles,
             long unreadNewsCount,

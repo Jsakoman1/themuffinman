@@ -9,7 +9,7 @@ import com.themuffinman.app.location.model.QuestLocationSource;
 import com.themuffinman.app.social.model.CircleGroup;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestAudience;
-import com.themuffinman.app.vision.dto.QuestRequestDTO;
+import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

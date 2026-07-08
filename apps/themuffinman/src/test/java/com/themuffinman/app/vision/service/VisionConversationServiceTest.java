@@ -4,15 +4,21 @@ import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
+import com.themuffinman.app.location.service.LocationLookupService;
 import com.themuffinman.app.semantic.SemanticAliasRegistry;
 import com.themuffinman.app.social.service.CircleReadService;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.location.service.LocationLookupService;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
 import com.themuffinman.app.things.service.ThingSharingService;
 import com.themuffinman.app.testing.TestFixtures;
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
 import com.themuffinman.app.vision.dto.VisionLearningMemoryDTO;
 import com.themuffinman.app.vision.dto.VisionLearningPreferenceDTO;
 import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
@@ -32,10 +38,6 @@ import com.themuffinman.app.vision.testing.VisionConversationTestBuilder;
 import com.themuffinman.app.vision.testing.VisionLocationCandidatePresets;
 import com.themuffinman.app.vision.testing.VisionSchedulePhrasePresets;
 import com.themuffinman.app.vision.testing.VisionSlotStatePresets;
-import com.themuffinman.app.vision.model.Quest;
-import com.themuffinman.app.vision.dto.QuestListResponseDTO;
-import com.themuffinman.app.vision.service.QuestReadService;
-import com.themuffinman.app.vision.service.QuestApplicationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -90,7 +92,7 @@ class VisionConversationServiceTest {
     private VisionConversationReadModelAssembler visionConversationReadModelAssembler;
 
     @Mock
-    private QuestReadService questReadService;
+    private WorkmarketQuestReadService questReadService;
 
     @Mock
     private LocationLookupService locationLookupService;
@@ -102,7 +104,10 @@ class VisionConversationServiceTest {
     private ThingSharingService thingSharingService;
 
     @Mock
-    private QuestApplicationService questApplicationService;
+    private WorkmarketQuestApplicationReadService questApplicationReadService;
+
+    @Mock
+    private WorkmarketQuestApplicationService questApplicationService;
 
     @Mock
     private AppUserRepository appUserRepository;
@@ -140,7 +145,7 @@ class VisionConversationServiceTest {
                 questReadService,
                 circleReadService,
                 thingSharingService,
-                questApplicationService,
+                questApplicationReadService,
                 appUserRepository,
                 semanticAliasRegistry
         );
@@ -262,7 +267,7 @@ class VisionConversationServiceTest {
 
         lenient().when(circleReadService.getCircles(any())).thenReturn(List.of());
         lenient().when(thingSharingService.getAvailableListings(any())).thenReturn(ThingListingListResponseDTO.builder().items(List.of()).build());
-        lenient().when(questApplicationService.getApplicationsForApplicant(any())).thenReturn(List.of());
+        lenient().when(questApplicationReadService.getApplicationsForApplicant(any())).thenReturn(List.of());
         lenient().when(appUserRepository.searchByUsernameOrEmail(any())).thenReturn(List.of());
 
         lenient().when(visionPromptUnderstandingService.understandPrompt(any(), any(), any(), any()))
@@ -1034,7 +1039,7 @@ class VisionConversationServiceTest {
     void updateApplicationFlowReachesReviewAndConfirmSavesChanges() {
         visionProperties.setExecutionEnabled(true);
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L, 2L, 3L);
-        when(visionCapabilityPreviewService.resolveMyPendingApplication(currentUser, "Move a sofa", com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO.EDIT))
+        when(visionCapabilityPreviewService.resolveMyPendingApplication(currentUser, "Move a sofa", ApplicationAllowedActionDTO.EDIT))
                 .thenReturn(VisionResolvedApplicationTarget.resolved(55L, "Move a sofa", "anna", true, "20", "Old message", "20", 91L));
         when(visionCapabilityPreviewService.previewUpdateApplicationDraft(
                 "Move a sofa",
@@ -1097,7 +1102,7 @@ class VisionConversationServiceTest {
     void withdrawApplicationFlowReachesReviewAndConfirmWithdraws() {
         visionProperties.setExecutionEnabled(true);
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L, 2L);
-        when(visionCapabilityPreviewService.resolveMyPendingApplication(currentUser, "Move a sofa", com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO.WITHDRAW))
+        when(visionCapabilityPreviewService.resolveMyPendingApplication(currentUser, "Move a sofa", ApplicationAllowedActionDTO.WITHDRAW))
                 .thenReturn(VisionResolvedApplicationTarget.resolved(55L, "Move a sofa", "anna", true, "20", "Old message", "20", 91L));
         when(visionCapabilityPreviewService.previewWithdrawApplicationDraft(
                 "Move a sofa",
@@ -1149,7 +1154,7 @@ class VisionConversationServiceTest {
                 any(AppUser.class),
                 any(String.class),
                 any(),
-                org.mockito.ArgumentMatchers.eq(com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO.APPROVE)
+                org.mockito.ArgumentMatchers.eq(ApplicationAllowedActionDTO.APPROVE)
         )).thenAnswer(invocation -> {
             String applicant = invocation.getArgument(2);
             if (applicant == null || applicant.isBlank()) {
@@ -1210,7 +1215,7 @@ class VisionConversationServiceTest {
                 any(AppUser.class),
                 any(String.class),
                 any(),
-                org.mockito.ArgumentMatchers.eq(com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO.DECLINE)
+                org.mockito.ArgumentMatchers.eq(ApplicationAllowedActionDTO.DECLINE)
         )).thenAnswer(invocation -> {
             String applicant = invocation.getArgument(2);
             if (applicant == null || applicant.isBlank()) {

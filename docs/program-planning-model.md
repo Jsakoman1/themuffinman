@@ -83,6 +83,7 @@ Master Plans should track:
 - dependencies
 - validation expectations
 - completion evidence
+- a clear continuation rule so safe batches move through the full ordered sequence without pause between child plans unless a real blocker, scope change, or required approval appears
 
 Existing `.agents/*-master-plan.md` files already satisfy this role when they name child plans and final closeout expectations.
 

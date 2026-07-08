@@ -4,7 +4,7 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.service.AppUserLookupService;
 import com.themuffinman.app.location.model.QuestLocationVisibility;
 import com.themuffinman.app.location.service.LocationSettingsService;
-import com.themuffinman.app.vision.dto.QuestRequestDTO;
+import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestAudience;
 import com.themuffinman.app.workmarket.model.QuestStatus;
@@ -47,14 +47,14 @@ public class WorkmarketQuestUpdateService {
             quest.setImages(questValidationService.copyImages(dto.getImages()));
         }
         if (dto.getAudience() != null) {
-            quest.setAudience(QuestAudience.valueOf(dto.getAudience().name()));
+            quest.setAudience(dto.getAudience());
         }
         questValidationService.applyQuestVisibilityCircles(quest, quest.getAudience(), dto.getSelectedCircleIds(), quest.getCreator());
         boolean termChanged = hasTermChanged(quest, dto);
 
         if (!questAccessPolicyService.isAdmin(currentUser)) {
             if (dto.getStatus() != null) {
-                questStateTransitionService.applyOwnerQuestStatusChange(quest, QuestStatus.valueOf(dto.getStatus().name()), currentUser);
+                questStateTransitionService.applyOwnerQuestStatusChange(quest, dto.getStatus(), currentUser);
             }
             if (termChanged) {
                 questStateTransitionService.applyOwnerTermUpdate(quest, dto, currentUser);
@@ -69,7 +69,7 @@ public class WorkmarketQuestUpdateService {
         }
 
         if (dto.getStatus() != null) {
-            questStateTransitionService.applyAdminQuestStatusChange(quest, QuestStatus.valueOf(dto.getStatus().name()), currentUser);
+            questStateTransitionService.applyAdminQuestStatusChange(quest, dto.getStatus(), currentUser);
         }
 
         if (termChanged) {

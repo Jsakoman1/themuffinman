@@ -3,17 +3,22 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.identity.repository.AppUserRepository;
-import com.themuffinman.app.vision.dto.QuestApplicationRequestDTO;
-import com.themuffinman.app.vision.dto.QuestRequestDTO;
-import com.themuffinman.app.vision.dto.UserReviewRequestDTO;
-import com.themuffinman.app.vision.mapper.QuestApplicationMgr;
-import com.themuffinman.app.vision.model.Quest;
-import com.themuffinman.app.vision.model.QuestApplication;
-import com.themuffinman.app.vision.model.QuestApplicationStatus;
-import com.themuffinman.app.vision.model.QuestStatus;
-import com.themuffinman.app.vision.repository.QuestApplicationRepository;
-import com.themuffinman.app.vision.repository.QuestRepository;
-import com.themuffinman.app.vision.repository.UserReviewRepository;
+import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
+import com.themuffinman.app.workmarket.dto.UserReviewRequestDTO;
+import com.themuffinman.app.workmarket.mapper.WorkmarketQuestApplicationMgr;
+import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.workmarket.model.QuestApplication;
+import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
+import com.themuffinman.app.workmarket.model.QuestStatus;
+import com.themuffinman.app.workmarket.repository.WorkmarketQuestApplicationRepository;
+import com.themuffinman.app.workmarket.repository.WorkmarketQuestRepository;
+import com.themuffinman.app.workmarket.repository.WorkmarketUserReviewRepository;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestService;
+import com.themuffinman.app.workmarket.service.WorkmarketUserReviewService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,25 +44,28 @@ class QuestWorkflowScenarioTest {
     private AppUserRepository appUserRepository;
 
     @Autowired
-    private QuestRepository questRepository;
+    private WorkmarketQuestRepository questRepository;
 
     @Autowired
-    private QuestApplicationRepository questApplicationRepository;
+    private WorkmarketQuestApplicationRepository questApplicationRepository;
 
     @Autowired
-    private QuestApplicationMgr questApplicationMgr;
+    private WorkmarketQuestApplicationMgr questApplicationMgr;
 
     @Autowired
-    private UserReviewRepository userReviewRepository;
+    private WorkmarketUserReviewRepository userReviewRepository;
 
     @Autowired
-    private QuestService questService;
+    private WorkmarketQuestService questService;
 
     @Autowired
-    private QuestApplicationService questApplicationService;
+    private WorkmarketQuestApplicationService questApplicationService;
 
     @Autowired
-    private UserReviewService userReviewService;
+    private WorkmarketUserReviewService userReviewService;
+
+    @Autowired
+    private WorkmarketQuestReadService questReadService;
 
     @Test
     void createApplyApproveStartCompleteAndReviewScenarioStaysConsistent() {
@@ -181,7 +189,7 @@ class QuestWorkflowScenarioTest {
                 worker
         );
 
-        var detail = questService.getQuestDetailResponseById(quest.getId(), worker);
+        QuestDetailResponseDTO detail = questReadService.getQuestDetailResponseById(quest.getId(), worker);
 
         assertNotNull(detail.getMyApplication());
         assertEquals(worker.getId(), detail.getMyApplication().getApplicantId());
@@ -236,7 +244,7 @@ class QuestWorkflowScenarioTest {
                 .scheduledAt(scheduledAt)
                 .endsAt(scheduledAt.plusSeconds(7200))
                 .termFixed(true)
-                .audience(com.themuffinman.app.vision.model.QuestAudience.EVERYONE)
+                .audience(com.themuffinman.app.workmarket.model.QuestAudience.EVERYONE)
                 .build();
     }
 

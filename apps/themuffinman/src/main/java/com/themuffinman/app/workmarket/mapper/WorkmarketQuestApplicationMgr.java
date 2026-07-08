@@ -4,10 +4,10 @@ import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationPresentationDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationRequestDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationPresentationDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
@@ -49,7 +49,7 @@ public class WorkmarketQuestApplicationMgr {
                 .questTitle(application.getQuest().getTitle())
                 .questCreatorUsername(application.getQuest().getCreator().getUsername())
                 .questDescription(application.getQuest().getDescription())
-                .questStatus(com.themuffinman.app.vision.model.QuestStatus.valueOf(application.getQuest().getStatus().name()))
+                .questStatus(application.getQuest().getStatus())
                 .questAssigneeTarget(application.getQuest().getAssigneeTarget())
                 .questScheduledAt(application.getQuest().getScheduledAt())
                 .questEndsAt(application.getQuest().getEndsAt())
@@ -71,14 +71,14 @@ public class WorkmarketQuestApplicationMgr {
                         .build())
                 .message(RichTextInputValidator.sanitize(application.getMessage()))
                 .proposedPrice(application.getProposedPrice())
-                .status(com.themuffinman.app.vision.model.QuestApplicationStatus.valueOf(application.getStatus().name()))
+                .status(application.getStatus())
                 .allowedActions(List.copyOf(allowedActions))
                 .presentation(QuestApplicationPresentationDTO.builder()
-                        .statusLabel(presentationHelper.formatApplicationStatus(com.themuffinman.app.vision.model.QuestApplicationStatus.valueOf(application.getStatus().name())))
-                        .statusBadgeClass(presentationHelper.badgeClassForApplicationStatus(com.themuffinman.app.vision.model.QuestApplicationStatus.valueOf(application.getStatus().name())))
-                        .statusSurfaceClass(presentationHelper.surfaceClassForApplicationStatus(com.themuffinman.app.vision.model.QuestApplicationStatus.valueOf(application.getStatus().name())))
-                        .questStatusLabel(presentationHelper.formatQuestStatus(com.themuffinman.app.vision.model.QuestStatus.valueOf(application.getQuest().getStatus().name())))
-                        .questStatusBadgeClass(presentationHelper.badgeClassForQuestStatus(com.themuffinman.app.vision.model.QuestStatus.valueOf(application.getQuest().getStatus().name())))
+                        .statusLabel(presentationHelper.formatApplicationStatus(application.getStatus()))
+                        .statusBadgeClass(presentationHelper.badgeClassForApplicationStatus(application.getStatus()))
+                        .statusSurfaceClass(presentationHelper.surfaceClassForApplicationStatus(application.getStatus()))
+                        .questStatusLabel(presentationHelper.formatQuestStatus(application.getQuest().getStatus()))
+                        .questStatusBadgeClass(presentationHelper.badgeClassForQuestStatus(application.getQuest().getStatus()))
                         .canEdit(false)
                         .canWithdraw(false)
                         .autoOpenEditForm(false)

@@ -1,10 +1,10 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
-import com.themuffinman.app.vision.dto.DashboardPlannerItemDTO;
-import com.themuffinman.app.vision.dto.DashboardPlannerSectionDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.dto.DashboardPlannerItemDTO;
+import com.themuffinman.app.workmarket.dto.DashboardPlannerSectionDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;

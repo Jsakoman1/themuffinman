@@ -1,11 +1,13 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.QuestListPresetDTO;
-import com.themuffinman.app.vision.dto.QuestListResponseDTO;
-import com.themuffinman.app.vision.dto.QuestRequestDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
-import com.themuffinman.app.workmarket.mapper.WorkmarketQuestMgr;
+import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
+import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
+import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.workmarket.model.QuestAudience;
+import com.themuffinman.app.workmarket.model.QuestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,23 +25,20 @@ public class WorkmarketQuestService {
     private final WorkmarketConfirmQuestTermChangeUseCase workmarketConfirmQuestTermChangeUseCase;
     private final WorkmarketRejectQuestTermChangeUseCase workmarketRejectQuestTermChangeUseCase;
     private final WorkmarketQuestReadService workmarketQuestReadService;
-    private final WorkmarketQuestMgr questMgr;
 
-    public com.themuffinman.app.vision.model.Quest createQuest(QuestRequestDTO dto, AppUser currentUser) {
-        return questMgr.toVisionEntity(workmarketCreateQuestUseCase.execute(dto, currentUser));
+    public Quest createQuest(QuestRequestDTO dto, AppUser currentUser) {
+        return workmarketCreateQuestUseCase.execute(dto, currentUser);
     }
 
-    public java.util.List<com.themuffinman.app.vision.model.Quest> getAllQuests(AppUser currentUser) {
-        return workmarketQuestReadService.getAllQuests(currentUser).stream()
-                .map(quest -> questMgr.toVisionEntity(quest))
-                .toList();
+    public java.util.List<Quest> getAllQuests(AppUser currentUser) {
+        return workmarketQuestReadService.getAllQuests(currentUser);
     }
 
     public QuestListResponseDTO searchQuests(
             AppUser currentUser,
             String query,
-            com.themuffinman.app.vision.model.QuestStatus status,
-            com.themuffinman.app.vision.model.QuestAudience audience,
+            QuestStatus status,
+            QuestAudience audience,
             java.time.LocalDate dateFrom,
             java.time.LocalDate dateTo,
             String viewerTimeZone,
@@ -75,7 +74,7 @@ public class WorkmarketQuestService {
             QuestListPresetDTO preset,
             AppUser currentUser,
             String query,
-            com.themuffinman.app.vision.model.QuestAudience audience,
+            QuestAudience audience,
             java.time.LocalDate dateFrom,
             java.time.LocalDate dateTo,
             String viewerTimeZone,
@@ -105,12 +104,12 @@ public class WorkmarketQuestService {
         );
     }
 
-    public com.themuffinman.app.vision.model.Quest getQuestById(Long id, AppUser currentUser) {
-        return questMgr.toVisionEntity(workmarketQuestReadService.getQuestById(id, currentUser));
+    public Quest getQuestById(Long id, AppUser currentUser) {
+        return workmarketQuestReadService.getQuestById(id, currentUser);
     }
 
-    public QuestResponseDTO toResponse(com.themuffinman.app.vision.model.Quest quest, AppUser currentUser) {
-        return workmarketQuestReadService.toResponse(questMgr.toWorkmarketEntity(quest), currentUser);
+    public QuestResponseDTO toResponse(Quest quest, AppUser currentUser) {
+        return workmarketQuestReadService.toResponse(quest, currentUser);
     }
 
     @Transactional
@@ -119,27 +118,27 @@ public class WorkmarketQuestService {
     }
 
     @Transactional
-    public com.themuffinman.app.vision.model.Quest updateQuest(Long id, QuestRequestDTO dto, AppUser currentUser) {
-        return questMgr.toVisionEntity(workmarketUpdateQuestUseCase.execute(id, dto, currentUser));
+    public Quest updateQuest(Long id, QuestRequestDTO dto, AppUser currentUser) {
+        return workmarketUpdateQuestUseCase.execute(id, dto, currentUser);
     }
 
     @Transactional
-    public com.themuffinman.app.vision.model.Quest startQuest(Long id, AppUser currentUser) {
-        return questMgr.toVisionEntity(workmarketStartQuestUseCase.execute(id, currentUser));
+    public Quest startQuest(Long id, AppUser currentUser) {
+        return workmarketStartQuestUseCase.execute(id, currentUser);
     }
 
     @Transactional
-    public com.themuffinman.app.vision.model.Quest completeQuest(Long id, AppUser currentUser) {
-        return questMgr.toVisionEntity(workmarketCompleteQuestUseCase.execute(id, currentUser));
+    public Quest completeQuest(Long id, AppUser currentUser) {
+        return workmarketCompleteQuestUseCase.execute(id, currentUser);
     }
 
     @Transactional
-    public com.themuffinman.app.vision.model.Quest confirmQuestTermChange(Long id, AppUser currentUser) {
-        return questMgr.toVisionEntity(workmarketConfirmQuestTermChangeUseCase.execute(id, currentUser));
+    public Quest confirmQuestTermChange(Long id, AppUser currentUser) {
+        return workmarketConfirmQuestTermChangeUseCase.execute(id, currentUser);
     }
 
     @Transactional
-    public com.themuffinman.app.vision.model.Quest rejectQuestTermChange(Long id, AppUser currentUser) {
-        return questMgr.toVisionEntity(workmarketRejectQuestTermChangeUseCase.execute(id, currentUser));
+    public Quest rejectQuestTermChange(Long id, AppUser currentUser) {
+        return workmarketRejectQuestTermChangeUseCase.execute(id, currentUser);
     }
 }

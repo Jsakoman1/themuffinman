@@ -69,22 +69,22 @@ api:
   - id: get_my_news
     method: GET
     path: "/news/me"
-    controller_class: com.themuffinman.app.vision.controller.QuestNewsController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestNewsController
     handler_method: getMyNews
   - id: mark_all_news_read
     method: PATCH
     path: "/news/me/read"
-    controller_class: com.themuffinman.app.vision.controller.QuestNewsController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestNewsController
     handler_method: markMyNewsAsRead
   - id: mark_news_item_read
     method: PATCH
     path: "/news/me/{id}/read"
-    controller_class: com.themuffinman.app.vision.controller.QuestNewsController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestNewsController
     handler_method: markMyNewsItemAsRead
   - id: get_news_unread_count
     method: GET
     path: "/news/me/unread-count"
-    controller_class: com.themuffinman.app.vision.controller.QuestNewsController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestNewsController
     handler_method: getUnreadCount
   - id: run_admin_agent_execution
     method: POST
@@ -94,22 +94,22 @@ api:
   - id: get_dashboard
     method: GET
     path: "/dashboard/me"
-    controller_class: com.themuffinman.app.vision.controller.DashboardController
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: getMyDashboard
   - id: get_dashboard_summary
     method: GET
     path: "/dashboard/me/summary"
-    controller_class: com.themuffinman.app.vision.controller.DashboardController
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: getMySummary
   - id: get_dashboard_voice_config
     method: GET
     path: "/dashboard/me/voice-config"
-    controller_class: com.themuffinman.app.vision.controller.DashboardController
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: getMyVoiceConfig
   - id: process_dashboard_vision_prompt
     method: POST
     path: "/dashboard/me/vision/prompt"
-    controller_class: com.themuffinman.app.vision.controller.DashboardController
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: processVisionPrompt
   - id: process_vision_conversation_turn
     method: POST
@@ -139,42 +139,42 @@ api:
   - id: transcribe_dashboard_voice
     method: POST
     path: "/dashboard/me/voice/transcribe"
-    controller_class: com.themuffinman.app.vision.controller.DashboardController
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: transcribeVoice
   - id: speak_dashboard_voice
     method: POST
     path: "/dashboard/me/voice/speak"
-    controller_class: com.themuffinman.app.vision.controller.DashboardController
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: speakVoice
   - id: create_quest
     method: POST
     path: "/quests"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: createQuest
   - id: get_all_quests
     method: GET
     path: "/quests"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: getAllQuests
   - id: search_quests
     method: GET
     path: "/quests/search"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: searchQuests
   - id: get_quest_preset
     method: GET
     path: "/quests/presets/{preset}"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: getQuestPreset
   - id: get_quest_by_id
     method: GET
     path: "/quests/{id}"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: getQuestById
   - id: get_quest_detail
     method: GET
     path: "/quests/{id}/detail"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: getQuestDetailById
   - id: get_location_debug_status
     method: GET
@@ -309,97 +309,97 @@ api:
   - id: apply_to_quest
     method: POST
     path: "/quests/{questId}/applications"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: applyForQuest
   - id: get_quest_applications
     method: GET
     path: "/quests/{questId}/applications"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: getApplicationsForQuest
   - id: get_my_quest_applications
     method: GET
     path: "/quests/applications/me"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: getMyApplications
   - id: get_application_detail
     method: GET
     path: "/applications/{applicationId}/detail"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: getApplicationDetail
   - id: get_admin_applications
     method: GET
     path: "/admin/applications"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: getAllApplicationsForAdmin
   - id: get_quest_applications_view
     method: GET
     path: "/quests/{questId}/applications/view"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: getApplicationsViewForQuest
   - id: update_my_application
     method: PUT
     path: "/quests/{questId}/applications/me"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: updateMyApplication
   - id: withdraw_my_application
     method: PATCH
     path: "/quests/{questId}/applications/me/withdraw"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: withdrawMyApplication
   - id: update_admin_application
     method: PUT
     path: "/admin/applications/{applicationId}"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: updateApplicationForAdmin
   - id: delete_admin_application
     method: DELETE
     path: "/admin/applications/{applicationId}"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: deleteApplicationForAdmin
   - id: approve_application
     method: PATCH
     path: "/quests/{questId}/applications/{applicationId}/approve"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: approveApplication
   - id: decline_application
     method: PATCH
     path: "/quests/{questId}/applications/{applicationId}/decline"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: declineApplication
   - id: start_quest
     method: PATCH
     path: "/quests/{id}/start"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: startQuest
   - id: complete_quest
     method: PATCH
     path: "/quests/{id}/complete"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: completeQuest
   - id: confirm_quest_term_change
     method: PATCH
     path: "/quests/{id}/term/confirm"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: confirmQuestTermChange
   - id: reject_quest_term_change
     method: PATCH
     path: "/quests/{id}/term/reject"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: rejectQuestTermChange
   - id: update_quest
     method: PUT
     path: "/quests/{id}"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: updateQuest
   - id: delete_quest
     method: DELETE
     path: "/quests/{id}"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: deleteQuest
   - id: create_or_update_review
     method: POST
     path: "/quests/{questId}/reviews"
-    controller_class: com.themuffinman.app.vision.controller.UserReviewController
+    controller_class: com.themuffinman.app.workmarket.controller.UserReviewController
     handler_method: createOrUpdateReview
   - id: get_chat_workspace
     method: GET

@@ -2,8 +2,9 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.DashboardVisionPromptRequestDTO;
-import com.themuffinman.app.vision.dto.DashboardVisionPromptResponseDTO;
+import com.themuffinman.app.workmarket.dto.DashboardVisionPromptRequestDTO;
+import com.themuffinman.app.workmarket.dto.DashboardVisionPromptResponseDTO;
+import com.themuffinman.app.workmarket.service.WorkmarketDashboardVisionPromptService;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
@@ -12,7 +13,7 @@ import java.util.Locale;
 import java.util.Set;
 
 @Service
-public class DashboardVisionPromptService {
+public class DashboardVisionPromptService implements WorkmarketDashboardVisionPromptService {
 
     private final VisionPromptUnderstandingService visionPromptUnderstandingService;
 

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07T15:48:22Z",
+  "generated_at": "2026-07-08T06:34:42Z",
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -17,7 +17,7 @@
       "target": "audit-router",
       "script": "scripts/audits/audit-router.rb",
       "output": "docs/generated/local-tooling/audit-router-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "codex-context",
@@ -95,7 +95,7 @@
       "target": "resolve-manifest-path",
       "script": "scripts/audits/resolve-manifest-path.rb",
       "output": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "link-symbol-to-tests",
@@ -137,13 +137,13 @@
       "target": "audit-doc-sync-preflight",
       "script": "scripts/audits/audit-doc-sync-preflight.rb",
       "output": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "audit-doc-sync-required-surfaces",
       "script": "scripts/audits/audit-doc-sync-required-surfaces.rb",
       "output": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "audit-doc-template-coverage",
@@ -161,13 +161,13 @@
       "target": "audit-manifest-decision",
       "script": "scripts/audits/audit-manifest-decision.rb",
       "output": "docs/generated/local-tooling/manifest-decision-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "recommend-validation-preset",
       "script": "scripts/audits/recommend-validation-preset.rb",
       "output": "docs/generated/local-tooling/validation-preset-summary.md",
-      "output_exists": false
+      "output_exists": true
     },
     {
       "target": "audit-doc-staleness-scoring",
@@ -448,19 +448,34 @@
       "bytes": 142
     },
     {
+      "path": "docs/generated/local-tooling/audit-router-summary.md",
+      "mtime": "2026-07-07T16:32:18Z",
+      "bytes": 709
+    },
+    {
       "path": "docs/generated/local-tooling/backend-dependency-graph-summary.md",
       "mtime": "2026-07-05T09:11:22Z",
       "bytes": 1136
     },
     {
       "path": "docs/generated/local-tooling/control-start-summary.md",
-      "mtime": "2026-07-07T07:50:19Z",
-      "bytes": 961
+      "mtime": "2026-07-08T06:23:20Z",
+      "bytes": 496
     },
     {
       "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
       "mtime": "2026-07-05T09:23:05Z",
       "bytes": 2154
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+      "mtime": "2026-07-07T16:32:19Z",
+      "bytes": 711
+    },
+    {
+      "path": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+      "mtime": "2026-07-07T16:46:44Z",
+      "bytes": 1636
     },
     {
       "path": "docs/generated/local-tooling/domain-packs/agent-summary.md",
@@ -471,6 +486,11 @@
       "path": "docs/generated/local-tooling/domain-packs/workmarket-summary.md",
       "mtime": "2026-07-07T06:38:39Z",
       "bytes": 26
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/adminuserdetaildto-summary.md",
+      "mtime": "2026-07-08T06:23:20Z",
+      "bytes": 1294
     },
     {
       "path": "docs/generated/local-tooling/dto-usage-packs/visioncanvasblockdto-summary.md",
@@ -564,8 +584,8 @@
     },
     {
       "path": "docs/generated/local-tooling/feature-slices/implementation-system-summary.md",
-      "mtime": "2026-07-05T09:22:55Z",
-      "bytes": 1228
+      "mtime": "2026-07-07T16:32:21Z",
+      "bytes": 1930
     },
     {
       "path": "docs/generated/local-tooling/frontend-usage-graph-summary.md",
@@ -574,8 +594,8 @@
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-07-07T07:55:22Z",
-      "bytes": 812
+      "mtime": "2026-07-08T06:34:38Z",
+      "bytes": 885
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
@@ -584,8 +604,18 @@
     },
     {
       "path": "docs/generated/local-tooling/implementation-batches/implementation-system-batch-summary.md",
-      "mtime": "2026-07-05T09:22:56Z",
-      "bytes": 889
+      "mtime": "2026-07-07T16:46:47Z",
+      "bytes": 1145
+    },
+    {
+      "path": "docs/generated/local-tooling/manifest-decision-summary.md",
+      "mtime": "2026-07-07T16:46:44Z",
+      "bytes": 900
+    },
+    {
+      "path": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
+      "mtime": "2026-07-07T16:32:20Z",
+      "bytes": 1390
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/backend-drift-remediation-master-plan-summary.md",
@@ -594,7 +624,7 @@
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/control-system-improvement-master-plan-summary.md",
-      "mtime": "2026-07-06T19:00:56Z",
+      "mtime": "2026-07-07T17:14:28Z",
       "bytes": 244
     },
     {
@@ -623,14 +653,74 @@
       "bytes": 288
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/implementation-system-improvement-master-plan-next-summary.md",
+      "mtime": "2026-07-07T17:14:19Z",
+      "bytes": 268
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/implementation-system-plan-completion-child-status-audit-fix-plan-summary.md",
+      "mtime": "2026-07-07T17:15:50Z",
+      "bytes": 298
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/legacy-vision-service-inventory-and-dashboard-reduction-plan-summary.md",
+      "mtime": "2026-07-07T18:54:10Z",
+      "bytes": 288
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-compatibility-service-reduction-plan-summary.md",
+      "mtime": "2026-07-07T18:51:09Z",
+      "bytes": 254
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-create-quest-adapter-direct-workmarket-plan-summary.md",
+      "mtime": "2026-07-07T20:17:10Z",
+      "bytes": 268
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-cross-module-import-cleanup-plan-summary.md",
+      "mtime": "2026-07-07T19:18:22Z",
+      "bytes": 246
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-dashboard-legacy-read-model-removal-plan-summary.md",
+      "mtime": "2026-07-07T20:35:44Z",
+      "bytes": 262
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-final-legacy-removal-master-plan-summary.md",
+      "mtime": "2026-07-07T20:35:44Z",
+      "bytes": 246
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-final-quest-helper-cleanup-plan-summary.md",
+      "mtime": "2026-07-07T20:35:44Z",
+      "bytes": 244
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/vision-improvement-master-plan-summary.md",
       "mtime": "2026-07-07T06:19:14Z",
       "bytes": 228
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/vision-legacy-quest-cluster-removal-plan-summary.md",
+      "mtime": "2026-07-07T20:50:40Z",
+      "bytes": 248
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/vision-master-plan-summary.md",
       "mtime": "2026-07-04T10:07:02Z",
       "bytes": 178
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-quest-application-compatibility-service-shutdown-plan-summary.md",
+      "mtime": "2026-07-07T20:35:44Z",
+      "bytes": 288
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-quest-compatibility-service-reduction-plan-summary.md",
+      "mtime": "2026-07-07T19:18:22Z",
+      "bytes": 266
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/vision-search-expansion-plan-summary.md",
@@ -643,14 +733,114 @@
       "bytes": 202
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/vision-workmarket-bridge-reduction-plan-summary.md",
+      "mtime": "2026-07-07T19:55:15Z",
+      "bytes": 246
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-workmarket-capability-extraction-plan-summary.md",
+      "mtime": "2026-07-07T19:55:15Z",
+      "bytes": 256
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-workmarket-compatibility-model-elimination-plan-summary.md",
+      "mtime": "2026-07-08T05:54:28Z",
+      "bytes": 276
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-workmarket-facade-contract-cutover-plan-summary.md",
+      "mtime": "2026-07-08T05:54:28Z",
+      "bytes": 260
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-workmarket-final-runtime-separation-master-plan-summary.md",
+      "mtime": "2026-07-07T19:55:15Z",
+      "bytes": 276
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-workmarket-final-separation-master-plan-summary.md",
+      "mtime": "2026-07-07T19:18:23Z",
+      "bytes": 260
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-workmarket-notification-and-fixture-ownership-plan-summary.md",
+      "mtime": "2026-07-08T05:54:28Z",
+      "bytes": 282
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-workmarket-post-runtime-separation-master-plan-summary.md",
+      "mtime": "2026-07-08T05:54:28Z",
+      "bytes": 274
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workflow-continuation-plan-summary.md",
+      "mtime": "2026-07-07T16:07:43Z",
+      "bytes": 220
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-bootstrap-plan-summary.md",
+      "mtime": "2026-07-07T17:27:49Z",
+      "bytes": 218
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-closeout-plan-summary.md",
+      "mtime": "2026-07-07T17:43:30Z",
+      "bytes": 216
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-cross-module-dto-separation-plan-summary.md",
+      "mtime": "2026-07-07T18:44:57Z",
+      "bytes": 254
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-extraction-master-plan-summary.md",
+      "mtime": "2026-07-07T17:43:51Z",
+      "bytes": 234
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/workmarket-improvement-master-plan-summary.md",
       "mtime": "2026-07-07T15:48:22Z",
       "bytes": 236
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-legacy-adapter-reduction-plan-summary.md",
+      "mtime": "2026-07-07T18:38:32Z",
+      "bytes": 248
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-model-and-repository-plan-summary.md",
+      "mtime": "2026-07-07T17:36:13Z",
+      "bytes": 240
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-read-dto-and-adapter-reduction-master-plan-summary.md",
+      "mtime": "2026-07-07T18:38:32Z",
+      "bytes": 274
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-read-dto-ownership-plan-summary.md",
+      "mtime": "2026-07-07T18:38:32Z",
+      "bytes": 236
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-vision-alignment-plan-summary.md",
+      "mtime": "2026-07-07T17:40:09Z",
+      "bytes": 232
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-vision-contract-bridge-cleanup-plan-summary.md",
+      "mtime": "2026-07-07T17:48:57Z",
+      "bytes": 260
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/workmarket-vision-contract-dto-input-cleanup-plan-summary.md",
+      "mtime": "2026-07-07T18:14:29Z",
+      "bytes": 266
+    },
+    {
       "path": "docs/generated/local-tooling/plan-index-summary.md",
-      "mtime": "2026-07-07T15:48:22Z",
-      "bytes": 475
+      "mtime": "2026-07-08T06:34:38Z",
+      "bytes": 503
     },
     {
       "path": "docs/generated/local-tooling/repo-map-summary.md",
@@ -661,6 +851,16 @@
       "path": "docs/generated/local-tooling/symbol-index-summary.md",
       "mtime": "2026-07-03T14:48:13Z",
       "bytes": 2456
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/adminagentexecutionservice-summary.md",
+      "mtime": "2026-07-07T19:17:07Z",
+      "bytes": 1399
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/appusercontroller-summary.md",
+      "mtime": "2026-07-07T18:43:36Z",
+      "bytes": 2034
     },
     {
       "path": "docs/generated/local-tooling/symbol-test-links/dashboardservice-summary.md",
@@ -688,9 +888,19 @@
       "bytes": 449
     },
     {
+      "path": "docs/generated/local-tooling/symbol-test-links/visiondashboardfacadeservice-summary.md",
+      "mtime": "2026-07-07T18:35:02Z",
+      "bytes": 50
+    },
+    {
       "path": "docs/generated/local-tooling/symbol-test-links/visionproperties-summary.md",
       "mtime": "2026-07-05T10:42:53Z",
       "bytes": 2511
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/visionquestapplicationfacadeservice-summary.md",
+      "mtime": "2026-07-07T18:13:46Z",
+      "bytes": 299
     },
     {
       "path": "docs/generated/local-tooling/symbol-test-links/visionsearchdiscoveryitem-summary.md",
@@ -698,9 +908,19 @@
       "bytes": 172
     },
     {
+      "path": "docs/generated/local-tooling/symbol-test-links/workmarketquestmgr-summary.md",
+      "mtime": "2026-07-07T17:48:33Z",
+      "bytes": 2071
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/workmarketquestnewsmgr-summary.md",
+      "mtime": "2026-07-07T17:35:35Z",
+      "bytes": 1934
+    },
+    {
       "path": "docs/generated/local-tooling/targeted-tests-summary.md",
-      "mtime": "2026-07-05T09:22:55Z",
-      "bytes": 1121
+      "mtime": "2026-07-07T16:32:21Z",
+      "bytes": 2688
     },
     {
       "path": "docs/generated/local-tooling/temp-work-product-closeout/agents-control-system-maintenance-plan-md-summary.md",
@@ -723,9 +943,14 @@
       "bytes": 1147
     },
     {
+      "path": "docs/generated/local-tooling/validation-preset-summary.md",
+      "mtime": "2026-07-07T16:32:20Z",
+      "bytes": 361
+    },
+    {
       "path": "docs/generated/local-tooling/workflow-slices/quest-application-summary.md",
-      "mtime": "2026-07-07T06:31:47Z",
-      "bytes": 680
+      "mtime": "2026-07-08T06:23:20Z",
+      "bytes": 720
     }
   ]
 }

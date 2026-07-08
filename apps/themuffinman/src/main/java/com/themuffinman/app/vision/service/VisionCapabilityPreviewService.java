@@ -25,18 +25,21 @@ import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.things.service.ThingSharingService;
-import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
 import com.themuffinman.app.vision.dto.DashboardNotificationItemDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationDetailResponseDTO;
-import com.themuffinman.app.vision.dto.QuestAllowedActionDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationRequestDTO;
-import com.themuffinman.app.vision.dto.QuestDetailResponseDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
-import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
-import com.themuffinman.app.vision.mapper.QuestNewsMgr;
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationDetailResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.mapper.WorkmarketQuestNewsMgr;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -56,9 +59,9 @@ public class VisionCapabilityPreviewService {
     private final ChatService chatService;
     private final CircleReadService circleReadService;
     private final CircleService circleService;
-    private final QuestService questService;
-    private final QuestReadService questReadService;
-    private final QuestApplicationService questApplicationService;
+    private final WorkmarketQuestReadService questReadService;
+    private final WorkmarketQuestApplicationReadService questApplicationReadService;
+    private final WorkmarketQuestApplicationService questApplicationService;
     private final VisionIdentityPreviewRenderer visionIdentityPreviewRenderer;
     private final VisionFeedPreviewRenderer visionFeedPreviewRenderer;
     private final VisionCapabilityEntityResolutionSupport visionCapabilityEntityResolutionSupport;
@@ -72,11 +75,11 @@ public class VisionCapabilityPreviewService {
             ChatService chatService,
             CircleReadService circleReadService,
             CircleService circleService,
-            QuestService questService,
-            QuestReadService questReadService,
-            QuestApplicationService questApplicationService,
-            QuestNewsService questNewsService,
-            QuestNewsMgr questNewsMgr,
+            WorkmarketQuestReadService questReadService,
+            WorkmarketQuestApplicationReadService questApplicationReadService,
+            WorkmarketQuestApplicationService questApplicationService,
+            WorkmarketQuestNewsService questNewsService,
+            WorkmarketQuestNewsMgr questNewsMgr,
             DashboardNotificationAssembler dashboardNotificationAssembler,
             ThingSharingService thingSharingService,
             SemanticAliasRegistry semanticAliasRegistry
@@ -89,8 +92,8 @@ public class VisionCapabilityPreviewService {
         this.chatService = chatService;
         this.circleReadService = circleReadService;
         this.circleService = circleService;
-        this.questService = questService;
         this.questReadService = questReadService;
+        this.questApplicationReadService = questApplicationReadService;
         this.questApplicationService = questApplicationService;
         this.visionIdentityPreviewRenderer = new VisionIdentityPreviewRenderer(
                 appUserService,
@@ -110,7 +113,7 @@ public class VisionCapabilityPreviewService {
                 appUserRepository,
                 appUserReadService,
                 circleReadService,
-                questApplicationService,
+                questApplicationReadService,
                 questReadService,
                 semanticAliasRegistry
         );
@@ -363,7 +366,7 @@ public class VisionCapabilityPreviewService {
             return null;
         }
 
-        List<QuestApplicationResponseDTO> applications = questApplicationService.getApplicationsForApplicant(currentUser);
+        List<QuestApplicationResponseDTO> applications = questApplicationReadService.getApplicationsForApplicant(currentUser);
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "applications_count", "Applications", String.valueOf(applications.size()));
         long pendingCount = applications.stream().filter(application -> application.getStatus() != null && "PENDING".equals(application.getStatus().name())).count();
@@ -406,7 +409,7 @@ public class VisionCapabilityPreviewService {
             return null;
         }
 
-        QuestDetailResponseDTO detail = questService.getQuestDetailResponseById(questId, currentUser);
+        QuestDetailResponseDTO detail = questReadService.getQuestDetailResponseById(questId, currentUser);
         QuestResponseDTO quest = detail == null ? null : detail.getSummary();
         if (quest == null) {
             return null;
@@ -475,7 +478,7 @@ public class VisionCapabilityPreviewService {
             return null;
         }
 
-        QuestApplicationDetailResponseDTO detail = questReadService.getApplicationDetailResponseById(applicationId, currentUser);
+        QuestApplicationDetailResponseDTO detail = questApplicationReadService.getApplicationDetailResponseById(applicationId, currentUser);
         QuestApplicationResponseDTO application = detail == null ? null : detail.getSummary();
         QuestResponseDTO quest = detail == null ? null : detail.getQuest();
         if (application == null) {
@@ -615,7 +618,11 @@ public class VisionCapabilityPreviewService {
             String query,
             ApplicationAllowedActionDTO requiredAction
     ) {
-        return visionCapabilityEntityResolutionSupport.resolveMyPendingApplication(currentUser, query, requiredAction);
+        return visionCapabilityEntityResolutionSupport.resolveMyPendingApplication(
+                currentUser,
+                query,
+                com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO.valueOf(requiredAction.name())
+        );
     }
 
     public VisionResolvedApplicationTarget resolveMyApplicationDetail(AppUser currentUser, String query) {
@@ -636,7 +643,12 @@ public class VisionCapabilityPreviewService {
             String applicantQuery,
             ApplicationAllowedActionDTO requiredAction
     ) {
-        return visionCapabilityEntityResolutionSupport.resolveManagedPendingApplication(currentUser, questQuery, applicantQuery, requiredAction);
+        return visionCapabilityEntityResolutionSupport.resolveManagedPendingApplication(
+                currentUser,
+                questQuery,
+                applicantQuery,
+                com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO.valueOf(requiredAction.name())
+        );
     }
 
     public VisionCapabilityPreviewDTO previewUpdateApplicationDraft(

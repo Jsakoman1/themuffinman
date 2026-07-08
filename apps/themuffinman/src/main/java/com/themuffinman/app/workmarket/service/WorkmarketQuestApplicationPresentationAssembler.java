@@ -1,8 +1,8 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationPresentationDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationPresentationDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import com.themuffinman.app.workmarket.service.WorkmarketPresentationHelper;

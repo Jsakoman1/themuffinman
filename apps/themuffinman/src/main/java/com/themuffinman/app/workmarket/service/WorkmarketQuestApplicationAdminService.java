@@ -1,14 +1,14 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.AdminQuestApplicationUpdateRequestDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.AdminQuestApplicationUpdateRequestDTO;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import com.themuffinman.app.workmarket.model.QuestStatus;
-import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.workmarket.repository.WorkmarketQuestApplicationRepository;
 import com.themuffinman.app.workmarket.repository.WorkmarketQuestRepository;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +59,7 @@ public class WorkmarketQuestApplicationAdminService {
         }
 
         if (dto.getStatus() != null) {
-            QuestApplicationStatus targetStatus = QuestApplicationStatus.valueOf(dto.getStatus().name());
+            QuestApplicationStatus targetStatus = dto.getStatus();
             if (targetStatus != application.getStatus()) {
                 applyAdminStatusUpdate(application, targetStatus, currentUser);
             }

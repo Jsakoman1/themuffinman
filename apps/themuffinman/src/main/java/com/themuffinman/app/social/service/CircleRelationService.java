@@ -9,7 +9,7 @@ import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.mapper.CircleRequestMgr;
 import com.themuffinman.app.social.model.CircleRequest;
 import com.themuffinman.app.social.repository.CircleRequestRepository;
-import com.themuffinman.app.vision.service.QuestNewsService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ public class CircleRelationService {
     private final CircleRequestRepository circleRequestRepository;
     private final AppUserLookupService appUserLookupService;
     private final CircleRequestMgr circleRequestMgr;
-    private final QuestNewsService questNewsService;
+    private final WorkmarketQuestNewsService questNewsService;
 
     @Transactional
     public CircleRequestResponseDTO createCircleRequest(CircleRequestCreateDTO dto, AppUser currentUser) {

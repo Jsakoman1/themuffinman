@@ -17,6 +17,7 @@ For shared planning rules, read `docs/program-planning-model.md` and `docs/chang
 - Out of scope: TBD
 - Manifest decision: TBD
 - Manifest path: TBD
+- Master plan: TBD when the change is broad enough to need ordered child plans
 
 ## Routing Snapshot
 
@@ -24,6 +25,8 @@ For shared planning rules, read `docs/program-planning-model.md` and `docs/chang
 - Routing commands: TBD
 - Validation commands: TBD
 - Closeout commands: TBD
+- Doc sync commands: TBD
+- Generated artifact commands: TBD
 
 ## Implementation Slices
 
@@ -31,22 +34,27 @@ For shared planning rules, read `docs/program-planning-model.md` and `docs/chang
 - [ ] Slice 2: TBD
 - [ ] Slice 3: TBD
 - [ ] Slice 4: TBD
+- [ ] Slice 5: TBD
 
 ## Validation Plan
 
 - Targeted checks: TBD
 - Broader checks: TBD
 - Skipped checks or reasons: TBD
+- Validation preset: TBD
 
 ## Docs and Artifacts
 
 - Expected docs: TBD
 - Expected generated artifacts: TBD
+- Temporary work products: TBD
 
 ## Closeout Gates
 
 - Required closeout checks: TBD
 - Final response evidence: TBD
+- Backlog follow-up rule: TBD
+- Do not mark the plan complete until the scope is actually implemented, the required validation has passed or been explicitly skipped with a reason, and the completion evidence matches reality.
 
 ## Open Questions
 

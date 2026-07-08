@@ -1,9 +1,9 @@
 package com.themuffinman.app.vision.service;
 
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 
 import java.math.BigDecimal;
 import java.time.Instant;

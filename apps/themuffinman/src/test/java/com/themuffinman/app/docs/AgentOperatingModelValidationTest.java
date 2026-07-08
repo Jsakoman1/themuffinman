@@ -1928,11 +1928,16 @@ class AgentOperatingModelValidationTest {
                 assertTrue(Files.exists(resolvedDocPath), () -> "Missing documentation_sync doc path: " + docPath);
                 String content = Files.readString(resolvedDocPath);
                 String normalizedContent = normalizeDocumentationAssertionText(content);
+                List<String> missingExpectedTexts = new ArrayList<>();
                 for (JsonNode expectedTextNode : ruleNode.path("must_contain_all")) {
                     String expectedText = expectedTextNode.asText();
-                    assertTrue(normalizedContent.contains(normalizeDocumentationAssertionText(expectedText)),
-                            () -> "Missing required documentation text for rule " + ruleId + " in " + docPath + ": " + expectedText);
+                    if (!normalizedContent.contains(normalizeDocumentationAssertionText(expectedText))) {
+                        missingExpectedTexts.add(expectedText);
+                    }
                 }
+                assertTrue(missingExpectedTexts.isEmpty(),
+                        () -> "Missing required documentation text for rule " + ruleId + " in " + docPath
+                                + ":\n- " + String.join("\n- ", missingExpectedTexts));
             }
         }
     }

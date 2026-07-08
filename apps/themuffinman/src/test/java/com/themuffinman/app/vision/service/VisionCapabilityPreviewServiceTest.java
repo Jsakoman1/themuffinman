@@ -17,11 +17,15 @@ import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.things.service.ThingSharingService;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
-import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationPresentationDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.model.QuestApplicationStatus;
-import com.themuffinman.app.vision.mapper.QuestNewsMgr;
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationPresentationDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.mapper.WorkmarketQuestNewsMgr;
+import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -63,19 +67,19 @@ class VisionCapabilityPreviewServiceTest {
     private CircleService circleService;
 
     @Mock
-    private QuestService questService;
+    private WorkmarketQuestReadService questReadService;
 
     @Mock
-    private QuestReadService questReadService;
+    private WorkmarketQuestApplicationReadService questApplicationReadService;
 
     @Mock
-    private QuestApplicationService questApplicationService;
+    private WorkmarketQuestApplicationService questApplicationService;
 
     @Mock
-    private QuestNewsService questNewsService;
+    private WorkmarketQuestNewsService questNewsService;
 
     @Mock
-    private QuestNewsMgr questNewsMgr;
+    private WorkmarketQuestNewsMgr questNewsMgr;
 
     @Mock
     private DashboardNotificationAssembler dashboardNotificationAssembler;
@@ -99,8 +103,8 @@ class VisionCapabilityPreviewServiceTest {
                 chatService,
                 circleReadService,
                 circleService,
-                questService,
                 questReadService,
+                questApplicationReadService,
                 questApplicationService,
                 questNewsService,
                 questNewsMgr,
@@ -215,7 +219,7 @@ class VisionCapabilityPreviewServiceTest {
                         .statusLabel("Pending")
                         .build())
                 .build();
-        when(questApplicationService.getApplicationsForApplicant(currentUser)).thenReturn(List.of(application));
+        when(questApplicationReadService.getApplicationsForApplicant(currentUser)).thenReturn(List.of(application));
 
         VisionCapabilityPreviewDTO preview = service.previewApplications(currentUser);
 

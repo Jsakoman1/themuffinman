@@ -19,8 +19,11 @@ export type BulkCircleMembershipActionDTO = typeof BULK_CIRCLE_MEMBERSHIP_ACTION
 export const CIRCLE_RELATION_STATUS_DTO_VALUES = ["NONE", "CIRCLE", "INCOMING_REQUEST", "OUTGOING_REQUEST", "BLOCKED"] as const
 export type CircleRelationStatusDTO = typeof CIRCLE_RELATION_STATUS_DTO_VALUES[number]
 
-export const DASHBOARD_NOTIFICATION_DESTINATION_TYPE_DTO_VALUES = ["QUEST", "APPLICATION", "QUEST_LIST"] as const
-export type DashboardNotificationDestinationTypeDTO = typeof DASHBOARD_NOTIFICATION_DESTINATION_TYPE_DTO_VALUES[number]
+export const VISION_DASHBOARD_NOTIFICATION_DESTINATION_TYPE_DTO_VALUES = ["QUEST", "APPLICATION", "QUEST_LIST"] as const
+export type VisionDashboardNotificationDestinationTypeDTO = typeof VISION_DASHBOARD_NOTIFICATION_DESTINATION_TYPE_DTO_VALUES[number]
+
+export const WORKMARKET_DASHBOARD_NOTIFICATION_DESTINATION_TYPE_DTO_VALUES = ["QUEST", "APPLICATION", "QUEST_LIST"] as const
+export type WorkmarketDashboardNotificationDestinationTypeDTO = typeof WORKMARKET_DASHBOARD_NOTIFICATION_DESTINATION_TYPE_DTO_VALUES[number]
 
 export const EXACT_LOCATION_VISIBILITY_SCOPE_VALUES = ["NOBODY", "EVERYONE", "CIRCLES", "USERS"] as const
 export type ExactLocationVisibilityScope = typeof EXACT_LOCATION_VISIBILITY_SCOPE_VALUES[number]
@@ -34,17 +37,11 @@ export type NavigationTargetType = typeof NAVIGATION_TARGET_TYPE_VALUES[number]
 export const QUEST_ALLOWED_ACTION_DTO_VALUES = ["EDIT", "VIEW_APPLICATIONS", "DELETE", "APPLY", "START", "COMPLETE", "CONFIRM_TERM_CHANGE", "REJECT_TERM_CHANGE"] as const
 export type QuestAllowedActionDTO = typeof QUEST_ALLOWED_ACTION_DTO_VALUES[number]
 
-export const VISION_QUEST_APPLICATION_STATUS_VALUES = ["PENDING", "APPROVED", "DECLINED", "WITHDRAWN"] as const
-export type VisionQuestApplicationStatus = typeof VISION_QUEST_APPLICATION_STATUS_VALUES[number]
+export const QUEST_APPLICATION_STATUS_VALUES = ["PENDING", "APPROVED", "DECLINED", "WITHDRAWN"] as const
+export type QuestApplicationStatus = typeof QUEST_APPLICATION_STATUS_VALUES[number]
 
-export const WORKMARKET_QUEST_APPLICATION_STATUS_VALUES = ["PENDING", "APPROVED", "DECLINED", "WITHDRAWN"] as const
-export type WorkmarketQuestApplicationStatus = typeof WORKMARKET_QUEST_APPLICATION_STATUS_VALUES[number]
-
-export const VISION_QUEST_AUDIENCE_VALUES = ["CIRCLES", "EVERYONE"] as const
-export type VisionQuestAudience = typeof VISION_QUEST_AUDIENCE_VALUES[number]
-
-export const WORKMARKET_QUEST_AUDIENCE_VALUES = ["EVERYONE", "CIRCLES", "PRIVATE"] as const
-export type WorkmarketQuestAudience = typeof WORKMARKET_QUEST_AUDIENCE_VALUES[number]
+export const QUEST_AUDIENCE_VALUES = ["EVERYONE", "CIRCLES", "PRIVATE"] as const
+export type QuestAudience = typeof QUEST_AUDIENCE_VALUES[number]
 
 export const QUEST_DETAIL_EXECUTION_ACTION_DTO_VALUES = ["START", "COMPLETE"] as const
 export type QuestDetailExecutionActionDTO = typeof QUEST_DETAIL_EXECUTION_ACTION_DTO_VALUES[number]
@@ -58,29 +55,23 @@ export type QuestLocationSource = typeof QUEST_LOCATION_SOURCE_VALUES[number]
 export const QUEST_LOCATION_VISIBILITY_VALUES = ["INHERIT", "OFF", "APPROXIMATE", "EXACT"] as const
 export type QuestLocationVisibility = typeof QUEST_LOCATION_VISIBILITY_VALUES[number]
 
-export const QUEST_NEWS_DESTINATION_TYPE_DTO_VALUES = ["QUEST", "APPLICATION", "QUEST_LIST"] as const
-export type QuestNewsDestinationTypeDTO = typeof QUEST_NEWS_DESTINATION_TYPE_DTO_VALUES[number]
+export const VISION_QUEST_NEWS_DESTINATION_TYPE_DTO_VALUES = ["QUEST", "APPLICATION", "QUEST_LIST"] as const
+export type VisionQuestNewsDestinationTypeDTO = typeof VISION_QUEST_NEWS_DESTINATION_TYPE_DTO_VALUES[number]
 
-export const VISION_QUEST_NEWS_TYPE_VALUES = ["CIRCLE_REQUEST_RECEIVED", "APPLICATION_CREATED", "APPLICATION_UPDATED", "APPLICATION_WITHDRAWN", "APPLICATION_APPROVED", "APPLICATION_DECLINED", "QUEST_TERM_CONFIRMATION_REQUESTED", "QUEST_TERM_CONFIRMED", "QUEST_TERM_REJECTED", "QUEST_STARTED", "QUEST_COMPLETED", "QUEST_REOPENED", "QUEST_DELETED", "CIRCLE_REQUEST_ACCEPTED"] as const
-export type VisionQuestNewsType = typeof VISION_QUEST_NEWS_TYPE_VALUES[number]
+export const WORKMARKET_QUEST_NEWS_DESTINATION_TYPE_DTO_VALUES = ["QUEST", "APPLICATION", "QUEST_LIST"] as const
+export type WorkmarketQuestNewsDestinationTypeDTO = typeof WORKMARKET_QUEST_NEWS_DESTINATION_TYPE_DTO_VALUES[number]
 
-export const WORKMARKET_QUEST_NEWS_TYPE_VALUES = ["QUEST_CREATED", "QUEST_UPDATED", "QUEST_DELETED", "QUEST_APPLICATION_RECEIVED", "QUEST_APPLICATION_APPROVED", "QUEST_APPLICATION_DECLINED", "QUEST_APPLICATION_WITHDRAWN", "QUEST_REOPENED", "QUEST_STARTED", "QUEST_COMPLETED", "QUEST_TERM_CONFIRMATION_REQUESTED", "QUEST_TERM_CONFIRMED", "QUEST_TERM_REJECTED", "CIRCLE_REQUEST_RECEIVED", "CIRCLE_REQUEST_ACCEPTED"] as const
-export type WorkmarketQuestNewsType = typeof WORKMARKET_QUEST_NEWS_TYPE_VALUES[number]
+export const QUEST_NEWS_TYPE_VALUES = ["QUEST_CREATED", "QUEST_UPDATED", "QUEST_DELETED", "APPLICATION_CREATED", "APPLICATION_UPDATED", "APPLICATION_APPROVED", "APPLICATION_DECLINED", "APPLICATION_WITHDRAWN", "QUEST_REOPENED", "QUEST_STARTED", "QUEST_COMPLETED", "QUEST_TERM_CONFIRMATION_REQUESTED", "QUEST_TERM_CONFIRMED", "QUEST_TERM_REJECTED", "CIRCLE_REQUEST_RECEIVED", "CIRCLE_REQUEST_ACCEPTED"] as const
+export type QuestNewsType = typeof QUEST_NEWS_TYPE_VALUES[number]
 
-export const VISION_QUEST_STATUS_VALUES = ["OPEN", "ASSIGNED", "WAITING_CONFIRMATION", "IN_PROGRESS", "COMPLETED", "CANCELLED"] as const
-export type VisionQuestStatus = typeof VISION_QUEST_STATUS_VALUES[number]
-
-export const WORKMARKET_QUEST_STATUS_VALUES = ["OPEN", "ASSIGNED", "IN_PROGRESS", "WAITING_CONFIRMATION", "COMPLETED", "CANCELLED"] as const
-export type WorkmarketQuestStatus = typeof WORKMARKET_QUEST_STATUS_VALUES[number]
+export const QUEST_STATUS_VALUES = ["OPEN", "ASSIGNED", "IN_PROGRESS", "WAITING_CONFIRMATION", "COMPLETED", "CANCELLED"] as const
+export type QuestStatus = typeof QUEST_STATUS_VALUES[number]
 
 export const QUEST_VIEWER_RELATION_DTO_VALUES = ["OWNER", "ADMIN", "APPROVED_APPLICANT", "APPLICANT", "VIEWER"] as const
 export type QuestViewerRelationDTO = typeof QUEST_VIEWER_RELATION_DTO_VALUES[number]
 
-export const VISION_REVIEW_ROLE_VALUES = ["EMPLOYER", "WORKER"] as const
-export type VisionReviewRole = typeof VISION_REVIEW_ROLE_VALUES[number]
-
-export const WORKMARKET_REVIEW_ROLE_VALUES = ["EMPLOYER", "WORKER"] as const
-export type WorkmarketReviewRole = typeof WORKMARKET_REVIEW_ROLE_VALUES[number]
+export const REVIEW_ROLE_VALUES = ["EMPLOYER", "WORKER"] as const
+export type ReviewRole = typeof REVIEW_ROLE_VALUES[number]
 
 export const SEMANTIC_ENTITY_FAMILY_VALUES = ["QUEST", "NOTIFICATIONS", "CIRCLE", "USER", "APPLICATION", "CHAT", "PROFILE", "SETTINGS", "UNKNOWN"] as const
 export type SemanticEntityFamily = typeof SEMANTIC_ENTITY_FAMILY_VALUES[number]
@@ -91,11 +82,8 @@ export type SemanticEntityResolutionStatus = typeof SEMANTIC_ENTITY_RESOLUTION_S
 export const THING_BORROW_REQUEST_STATUS_VALUES = ["PENDING", "CANCELLED"] as const
 export type ThingBorrowRequestStatus = typeof THING_BORROW_REQUEST_STATUS_VALUES[number]
 
-export const VISION_TYPE_VALUES = ["CREATED", "UPDATED", "WITHDRAWN", "APPROVED", "DECLINED"] as const
-export type VisionType = typeof VISION_TYPE_VALUES[number]
-
-export const WORKMARKET_TYPE_VALUES = ["CREATED", "UPDATED", "WITHDRAWN", "APPROVED", "DECLINED"] as const
-export type WorkmarketType = typeof WORKMARKET_TYPE_VALUES[number]
+export const TYPE_VALUES = ["CREATED", "UPDATED", "WITHDRAWN", "APPROVED", "DECLINED"] as const
+export type Type = typeof TYPE_VALUES[number]
 
 export const USER_LOCATION_MODE_VALUES = ["OFF", "APPROXIMATE", "EXACT"] as const
 export type UserLocationMode = typeof USER_LOCATION_MODE_VALUES[number]
@@ -127,23 +115,11 @@ export type VisionReviewTarget = typeof VISION_REVIEW_TARGET_VALUES[number]
 export const VISION_TURN_SOURCE_VALUES = ["TEXT", "VOICE"] as const
 export type VisionTurnSource = typeof VISION_TURN_SOURCE_VALUES[number]
 
-export const QUEST_APPLICATION_STATUS_VALUES = VISION_QUEST_APPLICATION_STATUS_VALUES
-export type QuestApplicationStatus = VisionQuestApplicationStatus
+export const DASHBOARD_NOTIFICATION_DESTINATION_TYPE_DTO_VALUES = VISION_DASHBOARD_NOTIFICATION_DESTINATION_TYPE_DTO_VALUES
+export type DashboardNotificationDestinationTypeDTO = VisionDashboardNotificationDestinationTypeDTO
 
-export const QUEST_AUDIENCE_VALUES = VISION_QUEST_AUDIENCE_VALUES
-export type QuestAudience = VisionQuestAudience
-
-export const QUEST_NEWS_TYPE_VALUES = VISION_QUEST_NEWS_TYPE_VALUES
-export type QuestNewsType = VisionQuestNewsType
-
-export const QUEST_STATUS_VALUES = VISION_QUEST_STATUS_VALUES
-export type QuestStatus = VisionQuestStatus
-
-export const REVIEW_ROLE_VALUES = VISION_REVIEW_ROLE_VALUES
-export type ReviewRole = VisionReviewRole
-
-export const TYPE_VALUES = VISION_TYPE_VALUES
-export type Type = VisionType
+export const QUEST_NEWS_DESTINATION_TYPE_DTO_VALUES = VISION_QUEST_NEWS_DESTINATION_TYPE_DTO_VALUES
+export type QuestNewsDestinationTypeDTO = VisionQuestNewsDestinationTypeDTO
 
 export interface ActionResultDTO {
   action: string
@@ -612,7 +588,7 @@ export interface DashboardNavigationSectionDTO {
   tabs: DashboardNavigationItemDTO[]
 }
 
-export interface DashboardNotificationItemDTO {
+export interface VisionDashboardNotificationItemDTO {
   id: number
   type: QuestNewsType
   typeLabel: string
@@ -635,9 +611,32 @@ export interface DashboardNotificationItemDTO {
   canDeclineCircleRequest: boolean
 }
 
+export interface WorkmarketDashboardNotificationItemDTO {
+  id: number
+  type: QuestNewsType
+  typeLabel: string
+  badgeClass: string
+  iconGlyph: string
+  title: string
+  message: string
+  actorUsername: string
+  questTitle: string | null
+  questId: number | null
+  applicationId: number | null
+  circleRequestId: number | null
+  createdAt: string
+  readAt: string | null
+  destinationType: WorkmarketDashboardNotificationDestinationTypeDTO
+  destinationId: number | null
+  navigation: NavigationTargetDTO | null
+  unread: boolean
+  canAcceptCircleRequest: boolean
+  canDeclineCircleRequest: boolean
+}
+
 export interface DashboardNotificationsSectionDTO {
-  unreadItems: DashboardNotificationItemDTO[]
-  recentItems: DashboardNotificationItemDTO[]
+  unreadItems: WorkmarketDashboardNotificationItemDTO[]
+  recentItems: WorkmarketDashboardNotificationItemDTO[]
 }
 
 export interface DashboardOpenWorkSectionDTO {
@@ -679,7 +678,7 @@ export interface DashboardResponseDTO {
   myQuests: QuestResponseDTO[]
   availableQuests: QuestResponseDTO[]
   myApplications: QuestApplicationResponseDTO[]
-  recentNews: QuestNewsItemResponseDTO[]
+  recentNews: WorkmarketQuestNewsItemResponseDTO[]
   incomingCircleRequests: CircleRequestResponseDTO[]
   circles: CircleGroupResponseDTO[]
   appUsers: AppUserResponseDTO[]
@@ -1067,7 +1066,7 @@ export interface QuestLocationVisibilityOptionDTO {
   description: string
 }
 
-export interface QuestNewsItemResponseDTO {
+export interface VisionQuestNewsItemResponseDTO {
   id: number
   type: QuestNewsType
   typeLabel: string
@@ -1080,6 +1079,32 @@ export interface QuestNewsItemResponseDTO {
   applicationId: number | null
   circleRequestId: number | null
   destinationType: QuestNewsDestinationTypeDTO
+  destinationId: number | null
+  resolutionKey: string
+  resolutionLabel: string
+  exactResolutionEligible: boolean
+  navigation: NavigationTargetDTO
+  actorUserId: number
+  actorUsername: string
+  canAcceptCircleRequest: boolean
+  canDeclineCircleRequest: boolean
+  readAt: string | null
+  createdAt: string
+}
+
+export interface WorkmarketQuestNewsItemResponseDTO {
+  id: number
+  type: QuestNewsType
+  typeLabel: string
+  badgeClass: string
+  iconGlyph: string
+  title: string
+  message: string
+  questId: number | null
+  questTitle: string | null
+  applicationId: number | null
+  circleRequestId: number | null
+  destinationType: WorkmarketQuestNewsDestinationTypeDTO
   destinationId: number | null
   resolutionKey: string
   resolutionLabel: string
@@ -1630,6 +1655,10 @@ export interface VisionSlotSummaryDTO {
   label: string
   value: string
 }
+
+export type DashboardNotificationItemDTO = VisionDashboardNotificationItemDTO
+
+export type QuestNewsItemResponseDTO = VisionQuestNewsItemResponseDTO
 
 export type AdminAgentExecutionRequest = AdminAgentExecutionRequestDTO
 export type AdminAgentExecutionResponse = AdminAgentExecutionResponseDTO

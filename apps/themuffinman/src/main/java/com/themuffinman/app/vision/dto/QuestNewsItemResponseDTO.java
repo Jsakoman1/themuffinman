@@ -1,7 +1,7 @@
 package com.themuffinman.app.vision.dto;
 
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
-import com.themuffinman.app.vision.model.QuestNewsType;
+import com.themuffinman.app.workmarket.model.QuestNewsType;
 import lombok.*;
 import org.springframework.lang.Nullable;
 

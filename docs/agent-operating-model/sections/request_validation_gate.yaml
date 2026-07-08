@@ -35,7 +35,7 @@ request_validation_gate:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java
 - id: quest_request_validation
-  java_class: com.themuffinman.app.vision.dto.QuestRequestDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestRequestDTO
   validated_fields:
   - field: title
     required_annotations:
@@ -64,10 +64,10 @@ request_validation_gate:
   - docs/domain-technical.md
   - docs/business-logic.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
 - id: quest_application_request_validation
-  java_class: com.themuffinman.app.vision.dto.QuestApplicationRequestDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO
   validated_fields:
   - field: message
     required_annotations:
@@ -86,10 +86,10 @@ request_validation_gate:
   - docs/domain-technical.md
   - docs/business-logic.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
 - id: admin_quest_application_update_request_validation
-  java_class: com.themuffinman.app.vision.dto.AdminQuestApplicationUpdateRequestDTO
+  java_class: com.themuffinman.app.workmarket.dto.AdminQuestApplicationUpdateRequestDTO
   validated_fields:
   - field: message
     required_annotations:
@@ -107,7 +107,8 @@ request_validation_gate:
   - docs/domain-technical.md
   - docs/business-logic.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
 - id: circle_group_request_validation
   java_class: com.themuffinman.app.social.dto.CircleGroupRequestDTO
   validated_fields:

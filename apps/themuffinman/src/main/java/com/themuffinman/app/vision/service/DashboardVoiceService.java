@@ -1,9 +1,10 @@
 package com.themuffinman.app.vision.service;
 
-import com.themuffinman.app.vision.dto.DashboardVoiceTranscriptionDTO;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.workmarket.dto.DashboardVoiceTranscriptionDTO;
+import com.themuffinman.app.workmarket.service.WorkmarketDashboardVoiceService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class DashboardVoiceService {
+public class DashboardVoiceService implements WorkmarketDashboardVoiceService {
 
     private final OpenAiVoiceClient openAiVoiceClient;
     private final VoiceProperties voiceProperties;

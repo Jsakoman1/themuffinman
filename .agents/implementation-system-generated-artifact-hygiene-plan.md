@@ -1,11 +1,11 @@
 ---
 machine_kind: plan
 machine_status: complete
-machine_title: Implementation System Generated Artifact Hygiene
-machine_goal: Reduce generated-artifact noise outside the implementation subsystem so audits and control snapshots stay readable and trustworthy.
+machine_title: Generated Artifact Hygiene
+machine_goal: Make generated-artifact hygiene checks easy to target to the exact touched files before widening to global freshness.
 ---
 
-# Implementation System Generated Artifact Hygiene
+# Generated Artifact Hygiene
 
 ## Status
 
@@ -13,27 +13,27 @@ Complete.
 
 ## Goal
 
-Reduce generated-artifact noise outside the implementation subsystem so audits and control snapshots stay readable and trustworthy.
+Make generated-artifact hygiene checks easy to target to the exact touched files before widening to global freshness.
+
+## Parent Master Plan
+
+- Master plan: `.agents/implementation-system-improvement-master-plan-next.md`
 
 ## Scope
 
-- Included: generated artifact inventories, freshness handling, cleanup of stale mirrors, and any guardrails that keep noise from masking real state.
-- Excluded: core control-start gating design, provider registry changes, and batch sequencing logic.
-
-## Checklist
-
-- [x] Identify which generated artifacts should remain durable and which should be cleaned or regenerated.
-- [x] Reduce stale or unrelated noise in the surfaces used by the implementation workflow.
-- [x] Keep the audit signal clear enough that real issues are obvious.
-- [x] Make sure noise reduction does not hide a real validation failure.
+- Included: scope-filtered hygiene checks, touched-file targeting, and freshness widening rules.
+- Excluded: generation logic itself.
 
 ## Validation
 
-- Targeted checks: `make audit-generated-artifact-freshness`
-- Broader checks: `make control-start` and any index refresh command that should reflect the cleaned state
+- Targeted checks: run `make audit-generated-artifact-hygiene files=<csv>`.
+- Broader checks: compare the scope-filtered report with the global freshness audit.
+- Closeout checks: make the exact touched files easy to see in the report.
 
 ## Completion Evidence
 
 - Status: complete
-- Validation evidence: `make implementation-batch topic=implementation-system files=Makefile,scripts/audits/audit-generated-artifact-freshness.rb,scripts/implementation-batch.sh,scripts/audits/local_tooling_extended_tools.rb,scripts/audits/audit-plan-completion.rb`
-- Doc delta summary: the implementation batch now runs a scope-filtered generated-artifact hygiene report before widening to the global freshness audit, reducing unrelated Vision noise in implementation sessions.
+- Changed files: scripts/implementation-batch.sh, scripts/audits/local_tooling_extended_tools.rb, docs/generated/local-tooling/generated-artifact-freshness.json
+- Validation evidence: `make implementation-batch topic=implementation-system`, `make audit-generated-artifact-freshness`
+- Doc delta summary: the batch wrapper now records and reports generated-artifact hygiene alongside the broader implementation batch state.
+- Deferred work: none

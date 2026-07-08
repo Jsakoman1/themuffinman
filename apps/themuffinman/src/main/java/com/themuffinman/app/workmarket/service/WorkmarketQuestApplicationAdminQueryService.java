@@ -3,10 +3,10 @@ package com.themuffinman.app.workmarket.service;
 import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
 import com.themuffinman.app.common.pagination.PageResponseFactory;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.QuestApplicationListResponseDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.model.QuestApplication;
-import com.themuffinman.app.vision.model.QuestApplicationStatus;
+import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import com.themuffinman.app.workmarket.repository.WorkmarketQuestApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class WorkmarketQuestApplicationAdminQueryService {
 
         List<QuestApplicationResponseDTO> filtered = questApplicationRepository.findForAdminApplicationList().stream()
                 .map(this::toManagementResponse)
-                .filter(application -> status == null || application.getStatus() == status)
+                .filter(application -> status == null || application.getStatus().name().equals(status.name()))
                 .filter(application -> matchesAdminQuery(application, normalizedQuery))
                 .sorted(Comparator.comparing(QuestApplicationResponseDTO::getCreatedAt).reversed())
                 .toList();

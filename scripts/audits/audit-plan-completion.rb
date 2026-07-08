@@ -70,6 +70,50 @@ def child_plan_rows(content)
   end.compact
 end
 
+def section_line_range(content, heading)
+  lines = content.lines
+  start_index = lines.find_index { |line| line.strip == heading }
+  return nil unless start_index
+
+  finish_offset = lines[(start_index + 1)..]&.find_index { |line| line.match?(/^##\s+/) }
+  finish_index = finish_offset ? start_index + 1 + finish_offset : lines.length
+  (start_index...finish_index)
+end
+
+def final_status?(status)
+  status.to_s.strip.match?(/\A(?:complete|completed|done|deferred|skipped|n\/a|not applicable)\z/i)
+end
+
+def child_plan_section_status_issues(content)
+  range = section_line_range(content, "## Child Plans")
+  return [] unless range
+
+  content.lines.each_with_index.each_with_object([]) do |(line, index), issues|
+    next unless range.cover?(index)
+
+    status = line[/\bStatus:\s*(.+?)\s*$/i, 1]
+    next unless status
+    next if final_status?(status)
+
+    issues << "child plan status at line #{index + 1} is not final: #{line.strip}"
+  end
+end
+
+def child_completion_status_issues(content)
+  range = section_line_range(content, "## Completion Evidence")
+  return [] unless range
+
+  content.lines.each_with_index.each_with_object([]) do |(line, index), issues|
+    next unless range.cover?(index)
+
+    status = line[/^\s*-\s*Child plan status:\s*(.+?)\s*$/i, 1]
+    next unless status
+    next if final_status?(status)
+
+    issues << "child plan completion status at line #{index + 1} is not final: #{line.strip}"
+  end
+end
+
 def temp_work_product_rows(plan_path)
   Dir.glob(abs(".agents/tmp/*.{yaml,yml,json}")).sort.map do |path|
     payload =
@@ -134,6 +178,8 @@ def analyze_plan(plan_path, nested: false)
   status = completion_status(section)
   open_tasks = open_task_lines(content)
   child_rows = child_plan_rows(content)
+  child_status_issues = child_plan_section_status_issues(content)
+  child_completion_issues = child_completion_status_issues(content)
   temp_rows = temp_work_product_rows(plan_path)
   finalized = machine_status.match?(/\A(?:complete|completed|done)\z/i) || status.to_s.match?(/\A(?:complete|completed|done)\z/i)
 
@@ -145,6 +191,9 @@ def analyze_plan(plan_path, nested: false)
   unresolved_tasks.each do |task|
     issues << "open task at #{plan_path}:#{task[:line]} is not explicitly deferred to a backlog ID"
   end
+
+  issues.concat(child_status_issues)
+  issues.concat(child_completion_issues)
 
   children = child_rows.map do |row|
     child = analyze_plan(row[:path], nested: true)

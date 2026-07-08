@@ -29,19 +29,19 @@ Tighten the control system so planning, validation, closeout, and generated arti
 
 1. Plan index hygiene
 - Role: keep the active-plan index and routing summaries aligned with the real plan set.
-- Status: pending
+- Status: complete
 
 2. Validation and evidence hygiene
 - Role: make validation commands, evidence records, and skipped-check reasons more deterministic.
-- Status: pending
+- Status: complete
 
 3. Temporary work product hygiene
 - Role: make `.agents/tmp/` files easier to own, expire, and close out safely.
-- Status: pending
+- Status: complete
 
 4. Closeout and backlog hygiene
 - Role: keep completed work out of the active control surfaces and defer only durable follow-ups.
-- Status: pending
+- Status: complete
 
 ## Improvement Checklist
 
@@ -86,7 +86,7 @@ Tighten the control system so planning, validation, closeout, and generated arti
 ## Completion Evidence
 
 - Status: complete
-- Child plan status: pending
+- Child plan status: complete
 - Validation evidence: regenerated `docs/generated/local-tooling/plan-index.*` and `docs/generated/local-tooling/control-start.*` through `make plan-index` and `make control-start`; normalized `machine_status` values; refreshed planning templates; updated `docs/program-planning-model.md`, `docs/change-completion-checklist.md`, `docs/validation-memory.md`, `docs/validation-memory.json`, and `docs/validation-memory.schema.json`.
 - Doc delta summary: the control system now has a canonical plan closeout checklist, normalized status vocabulary, explicit temp-work-product metadata, control-system closeout commands, and routing snapshots that point back to the live plan files.
 - Deferred work: none

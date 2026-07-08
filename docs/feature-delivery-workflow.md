@@ -124,7 +124,12 @@ Full flow is mandatory:
 8. Run the required closeout audits before the final response.
 
 If `AGENTS.md` records a standing autonomous continuation preference, do not pause between safe proposed follow-up slices just to ask the user which offered option to pick; continue with the best sequenced slice unless scope changes, approval is needed, or a real blocker appears.
+When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
+For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
+Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
+Never mark a plan, child plan, or master plan complete unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
+When the user asks for a broad safe batch, such as many improvements or an entire workstream, assemble the full safe slice list up front and execute it in order without asking after each slice, unless a real blocker, scope change, or required approval appears.
 
 If `AGENTS.md` records the standing follow-up capture preference, record discovered safe improvements, likely next slices, and repeated failure patterns in the active follow-up or backlog surface during the current slice, then continue with the best sequenced follow-up slice after current validation and closeout finish.
 
@@ -147,6 +152,7 @@ Required closeout:
 - `make validation-memory-closeout-card`
 - `make feature-closeout-audit manifest=<manifest-file>`
 - `make closeout-report manifest=<manifest-file>`
+- Completed master plans must not keep child rows marked `pending`, `draft`, or `in_progress`; `make audit-plan-completion` treats that as a closeout failure.
 
 ### Tier 4: Agent, tooling, or workflow change
 
@@ -188,6 +194,8 @@ This tier is intentionally strict:
 - `make codex-context topic=<topic> intent='<intent>'`
 - `make control-start`
 - `make control-refresh-full` when you need the compact snapshot plus freshness validation
+- `make implementation-batch topic=<topic>` when you want the deterministic wrapper to run discovery, docs-sync preflight, manifest routing, validation preset selection, and closeout if a plan exists
+- make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, and closeout hints when a plan exists.
 - `make context-pack topic=<topic>` only when you need a broader topic slice beyond the one-shot context chain
 - `make codex-context budget=<tokens> mode=<mode> topic=<topic> intent='<intent>'` keeps the same chain but lets you tune the budget
 - `make codex-context` also writes `docs/generated/local-tooling/codex-context/latest.execution.json`, the canonical machine-readable batch manifest for read order, evidence, and next actions, with schema `docs/codex-context-execution-manifest.schema.json`.

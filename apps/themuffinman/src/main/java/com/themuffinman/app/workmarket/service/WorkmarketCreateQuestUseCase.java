@@ -1,7 +1,7 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.QuestRequestDTO;
+import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.workmarket.mapper.WorkmarketQuestMgr;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestAudience;
@@ -26,7 +26,7 @@ public class WorkmarketCreateQuestUseCase {
         }
         questValidationService.applyQuestVisibilityCircles(
                 quest,
-                dto.getAudience() == null ? QuestAudience.CIRCLES : QuestAudience.valueOf(dto.getAudience().name()),
+                dto.getAudience() == null ? QuestAudience.CIRCLES : dto.getAudience(),
                 dto.getSelectedCircleIds(),
                 quest.getCreator()
         );

@@ -1,6 +1,6 @@
 ---
 machine_kind: master-plan
-machine_status: draft
+machine_status: complete
 machine_title: Workmarket Extraction Master Plan
 machine_goal: Extract the quest, application, dashboard, and review domain from the overloaded vision package into a dedicated workmarket module while keeping the current product behavior stable.
 ---
@@ -9,7 +9,7 @@ machine_goal: Extract the quest, application, dashboard, and review domain from 
 
 ## Status
 
-In progress.
+Complete.
 
 ## Goal
 
@@ -29,19 +29,19 @@ Extract the quest, application, dashboard, and review domain from the overloaded
 
 1. `.agents/workmarket-bootstrap-plan.md`
 - Role: establish the first real `com.themuffinman.app.workmarket` entrypoints and fix the layering contract to recognize them.
-- Status: in_progress
+- Status: complete
 
 2. `.agents/workmarket-model-and-repository-plan.md`
 - Role: move the core quest/application entities, repositories, and fetch profiles behind the dedicated workmarket package.
-- Status: pending
+- Status: complete
 
 3. `.agents/workmarket-vision-alignment-plan.md`
 - Role: switch `vision` to consume the new workmarket boundary, then remove duplicated ownership from the vision package.
-- Status: pending
+- Status: complete
 
 4. `.agents/workmarket-closeout-plan.md`
 - Role: validate the migration, reconcile docs, and close the extraction cleanly.
-- Status: pending
+- Status: complete
 
 ## Pros
 
@@ -69,11 +69,11 @@ Extract the quest, application, dashboard, and review domain from the overloaded
 
 ## Completion Evidence
 
-- Status: in progress
-- Child plan status: bootstrap slice advanced to local quest/application/dashboard read and write facades
-- Validation evidence: backend test suite passes
-- Doc delta summary: workmarket ownership now includes quest detail, application detail, application mutations, dashboard sections, and options
-- Deferred work: only shared helper layers remain under vision in the workmarket package
+- Status: complete
+- Child plan status: complete
+- Validation evidence: targeted layering, facade, fetch-profile, generated-artifact, operating-model, and broader quest/application/dashboard/news/review regression validation all pass for the extracted ownership state
+- Doc delta summary: workmarket ownership now includes quest, application, dashboard, news, review, the HTTP entrypoints for those surfaces, and the canonical quest/application repository fetch-profile contract
+- Deferred work: DTO-facing vision adapter types remain an intentional boundary and are not required for this extraction closeout
 
 ## Follow-up Todo
 

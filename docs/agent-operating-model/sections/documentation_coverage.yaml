@@ -138,6 +138,7 @@ documentation_coverage:
     - workmarket_quest_application_mgr
     - workmarket_quest_mgr
     - workmarket_quest_news_mgr
+    - workmarket_vision_contract_bridge
     - workmarket_user_review_mgr
   - id: identity_contract_dtos
     source_refs:
@@ -242,6 +243,7 @@ documentation_coverage:
   - id: workmarket_list_search_options_contract_dtos
     source_refs:
     - admin_applications_query_dto
+    - legacy_vision_admin_applications_query_dto
     - app_user_role_option_dto
     - quest_application_list_response_dto
     - quest_application_response_dto
@@ -258,6 +260,67 @@ documentation_coverage:
     - quest_status_filter_option_dto
     - quest_status_option_dto
     - vision_options_dto
+  - id: workmarket_mutation_contract_dtos
+    source_refs:
+    - quest_request_dto
+    - quest_application_request_dto
+    - admin_quest_application_update_request_dto
+    - user_review_request_dto
+  - id: workmarket_owned_read_contract_dtos
+    source_refs:
+    - workmarket_app_user_role_option_dto
+    - workmarket_application_allowed_action_dto
+    - workmarket_dashboard_application_group_dto
+    - workmarket_dashboard_navigation_item_dto
+    - workmarket_dashboard_navigation_section_dto
+    - workmarket_dashboard_notification_destination_type_dto
+    - workmarket_dashboard_notification_item_dto
+    - workmarket_dashboard_notifications_section_dto
+    - workmarket_dashboard_open_work_section_dto
+    - workmarket_dashboard_planner_item_dto
+    - workmarket_dashboard_planner_section_dto
+    - workmarket_dashboard_quest_group_dto
+    - workmarket_dashboard_response_dto
+    - workmarket_dashboard_sections_dto
+    - workmarket_dashboard_summary_dto
+    - workmarket_dashboard_voice_config_dto
+    - workmarket_quest_allowed_action_dto
+    - workmarket_quest_application_detail_context_section_dto
+    - workmarket_quest_application_detail_navigation_section_dto
+    - workmarket_quest_application_detail_response_dto
+    - workmarket_quest_application_detail_sections_dto
+    - workmarket_quest_application_draft_rules_view_dto
+    - workmarket_quest_application_list_response_dto
+    - workmarket_quest_application_presentation_dto
+    - workmarket_quest_application_response_dto
+    - workmarket_quest_application_status_filter_option_dto
+    - workmarket_quest_applications_view_dto
+    - workmarket_quest_audience_filter_option_dto
+    - workmarket_quest_audience_option_dto
+    - workmarket_quest_detail_execution_action_dto
+    - workmarket_quest_detail_execution_section_dto
+    - workmarket_quest_detail_management_section_dto
+    - workmarket_quest_detail_navigation_section_dto
+    - workmarket_quest_detail_response_dto
+    - workmarket_quest_detail_review_section_dto
+    - workmarket_quest_detail_review_target_dto
+    - workmarket_quest_detail_sections_dto
+    - workmarket_quest_detail_term_change_section_dto
+    - workmarket_quest_list_preset_dto
+    - workmarket_quest_list_response_dto
+    - workmarket_quest_news_destination_type_dto
+    - workmarket_quest_news_item_response_dto
+    - workmarket_quest_presentation_dto
+    - workmarket_quest_response_dto
+    - workmarket_quest_search_defaults_dto
+    - workmarket_quest_search_request_dto
+    - workmarket_quest_sort_option_dto
+    - workmarket_quest_status_filter_option_dto
+    - workmarket_quest_status_option_dto
+    - workmarket_quest_viewer_relation_dto
+    - workmarket_user_rating_summary_dto
+    - workmarket_user_review_response_dto
+    - workmarket_vision_options_dto
   - id: workmarket_news_read_model_contract_dtos
     source_refs:
     - quest_news_destination_type
@@ -273,6 +336,7 @@ documentation_coverage:
     source_refs:
     - auth_service_test
     - request_dto_validation_test
+    - workmarket_request_dto_validation_test
     - quest_use_case_contract_test
     - quest_application_use_case_contract_test
     - quest_workflow_scenario_test

@@ -2,16 +2,15 @@ package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.location.service.LocationQuestPresentationService;
-import com.themuffinman.app.vision.dto.QuestAllowedActionDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationDraftRulesViewDTO;
-import com.themuffinman.app.vision.dto.QuestDetailExecutionActionDTO;
-import com.themuffinman.app.vision.dto.QuestPresentationDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
-import com.themuffinman.app.vision.dto.QuestViewerRelationDTO;
+import com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationDraftRulesViewDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailExecutionActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestPresentationDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO;
+import com.themuffinman.app.workmarket.model.QuestAudience;
+import com.themuffinman.app.workmarket.model.QuestStatus;
 import com.themuffinman.app.workmarket.model.Quest;
-import com.themuffinman.app.vision.model.QuestAudience;
-import com.themuffinman.app.vision.model.QuestStatus;
-import com.themuffinman.app.workmarket.service.WorkmarketPresentationHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +58,7 @@ public class WorkmarketQuestPresentationAssembler {
                 && (questResponse.getAllowedActions().contains(QuestAllowedActionDTO.APPLY)
                 || (questResponse.getStatus() == QuestStatus.OPEN && questResponse.isHasApplied())
                 || questResponse.getMyApplicationId() != null);
-        String visibleToCirclesLabel = resolveVisibleToCirclesLabel(questResponse, canManageQuest);
+        String visibleToCirclesLabel = resolveVisibleToCirclesLabel(quest, questResponse, canManageQuest);
 
         return baseBuilder(quest, currentUser)
                 .slotProgressLabel(questResponse.getApprovedApplicationCount() + " / " + Math.max(questResponse.getAssigneeTarget() == null ? 1 : questResponse.getAssigneeTarget(), 1) + " filled")
@@ -105,11 +104,11 @@ public class WorkmarketQuestPresentationAssembler {
 
     private QuestPresentationDTO.QuestPresentationDTOBuilder baseBuilder(Quest quest, AppUser currentUser) {
         return QuestPresentationDTO.builder()
-                .statusLabel(presentationHelper.formatQuestStatus(toVisionStatus(quest.getStatus())))
-                .statusBadgeClass(presentationHelper.badgeClassForQuestStatus(toVisionStatus(quest.getStatus())))
-                .statusSurfaceClass(presentationHelper.surfaceClassForQuestStatus(toVisionStatus(quest.getStatus())))
+                .statusLabel(presentationHelper.formatQuestStatus(quest.getStatus()))
+                .statusBadgeClass(presentationHelper.badgeClassForQuestStatus(quest.getStatus()))
+                .statusSurfaceClass(presentationHelper.surfaceClassForQuestStatus(quest.getStatus()))
                 .timeTypeLabel(presentationHelper.formatTimeType(quest.isTermFixed()))
-                .audienceLabel(presentationHelper.formatAudience(toVisionAudience(quest.getAudience())))
+                .audienceLabel(presentationHelper.formatAudience(quest.getAudience()))
                 .locationLabel(locationQuestPresentationService.resolveQuestLocationLabel(quest, currentUser))
                 .locationSourceSummary(locationQuestPresentationService.resolveQuestLocationSourceSummary(quest))
                 .locationVisibilitySummary(locationQuestPresentationService.resolveQuestLocationVisibilitySummary(quest, currentUser))
@@ -127,14 +126,6 @@ public class WorkmarketQuestPresentationAssembler {
                 .visibleToCirclesLabel(null);
     }
 
-    private QuestStatus toVisionStatus(com.themuffinman.app.workmarket.model.QuestStatus status) {
-        return status == null ? null : QuestStatus.valueOf(status.name());
-    }
-
-    private QuestAudience toVisionAudience(com.themuffinman.app.workmarket.model.QuestAudience audience) {
-        return audience == null ? null : QuestAudience.valueOf(audience.name());
-    }
-
     private QuestApplicationDraftRulesViewDTO buildApplicationDraftRules(BigDecimal awardAmount) {
         return QuestApplicationDraftRulesViewDTO.builder()
                 .messageRequired(true)
@@ -144,8 +135,8 @@ public class WorkmarketQuestPresentationAssembler {
                 .build();
     }
 
-    private String resolveVisibleToCirclesLabel(QuestResponseDTO questResponse, boolean canManageQuest) {
-        if (!canManageQuest || questResponse.getAudience() != QuestAudience.CIRCLES) {
+    private String resolveVisibleToCirclesLabel(Quest quest, QuestResponseDTO questResponse, boolean canManageQuest) {
+        if (!canManageQuest || quest.getAudience() != com.themuffinman.app.workmarket.model.QuestAudience.CIRCLES) {
             return null;
         }
 

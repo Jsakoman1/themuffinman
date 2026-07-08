@@ -1,7 +1,7 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.mapper.WorkmarketQuestApplicationMgr;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import lombok.RequiredArgsConstructor;

@@ -4,10 +4,10 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
-import com.themuffinman.app.vision.mapper.QuestMgr;
-import com.themuffinman.app.vision.model.QuestStatus;
-import com.themuffinman.app.vision.repository.QuestRepository;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.mapper.WorkmarketQuestMgr;
+import com.themuffinman.app.workmarket.model.QuestStatus;
+import com.themuffinman.app.workmarket.repository.WorkmarketQuestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +22,8 @@ public class AppUserReadService {
 
     private final AppUserRepository appUserRepository;
     private final AppUserLookupService appUserLookupService;
-    private final QuestRepository questRepository;
-    private final QuestMgr questMgr;
+    private final WorkmarketQuestRepository questRepository;
+    private final WorkmarketQuestMgr questMgr;
 
     @Transactional(readOnly = true)
     public List<AppUser> getAllAppUsers(String query) {

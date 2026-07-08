@@ -2,8 +2,8 @@ package com.themuffinman.app.workmarket.mapper;
 
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
-import com.themuffinman.app.vision.dto.QuestNewsDestinationTypeDTO;
-import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestNewsDestinationTypeDTO;
+import com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO;
 import com.themuffinman.app.workmarket.service.WorkmarketPresentationHelper;
 import com.themuffinman.app.workmarket.model.QuestNewsItem;
 import com.themuffinman.app.workmarket.model.QuestNewsType;
@@ -50,10 +50,10 @@ public class WorkmarketQuestNewsMgr {
 
         return QuestNewsItemResponseDTO.builder()
                 .id(item.getId())
-                .type(toVisionType(item.getType()))
-                .typeLabel(presentationHelper.formatQuestNewsType(toVisionType(item.getType())))
-                .badgeClass(presentationHelper.badgeClassForQuestNewsType(toVisionType(item.getType())))
-                .iconGlyph(presentationHelper.iconGlyphForQuestNewsType(toVisionType(item.getType())))
+                .type(item.getType())
+                .typeLabel(presentationHelper.formatQuestNewsType(item.getType()))
+                .badgeClass(presentationHelper.badgeClassForQuestNewsType(item.getType()))
+                .iconGlyph(presentationHelper.iconGlyphForQuestNewsType(item.getType()))
                 .title(item.getTitle())
                 .message(item.getMessage())
                 .questId(item.getQuestId())
@@ -75,20 +75,4 @@ public class WorkmarketQuestNewsMgr {
                 .build();
     }
 
-    private com.themuffinman.app.vision.model.QuestNewsType toVisionType(QuestNewsType type) {
-        if (type == null) {
-            return null;
-        }
-
-        return switch (type) {
-            case QUEST_APPLICATION_RECEIVED -> com.themuffinman.app.vision.model.QuestNewsType.APPLICATION_CREATED;
-            case QUEST_APPLICATION_APPROVED -> com.themuffinman.app.vision.model.QuestNewsType.APPLICATION_APPROVED;
-            case QUEST_APPLICATION_DECLINED -> com.themuffinman.app.vision.model.QuestNewsType.APPLICATION_DECLINED;
-            case QUEST_APPLICATION_WITHDRAWN -> com.themuffinman.app.vision.model.QuestNewsType.APPLICATION_WITHDRAWN;
-            case QUEST_DELETED -> com.themuffinman.app.vision.model.QuestNewsType.QUEST_DELETED;
-            case CIRCLE_REQUEST_RECEIVED -> com.themuffinman.app.vision.model.QuestNewsType.CIRCLE_REQUEST_RECEIVED;
-            case CIRCLE_REQUEST_ACCEPTED -> com.themuffinman.app.vision.model.QuestNewsType.CIRCLE_REQUEST_ACCEPTED;
-            default -> com.themuffinman.app.vision.model.QuestNewsType.QUEST_DELETED;
-        };
-    }
 }

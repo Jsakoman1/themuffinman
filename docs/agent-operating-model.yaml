@@ -71,11 +71,11 @@ source_of_truth:
   - id: register_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java
   - id: dashboard_controller
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java
   - id: vision_conversation_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java
   - id: dashboard_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardService.java
   - id: dashboard_vision_prompt_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVisionPromptService.java
   - id: dashboard_voice_service
@@ -91,33 +91,33 @@ source_of_truth:
   - id: openai_voice_client
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/OpenAiVoiceClient.java
   - id: dashboard_application_group_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardApplicationGroupDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardApplicationGroupDTO.java
   - id: dashboard_navigation_item_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationItemDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java
   - id: dashboard_navigation_section_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationSectionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java
   - id: dashboard_notification_destination_type
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationDestinationTypeDTO.java
   - id: dashboard_notification_item_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationItemDTO.java
   - id: dashboard_notifications_section_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationsSectionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationsSectionDTO.java
   - id: dashboard_open_work_section_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardOpenWorkSectionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardOpenWorkSectionDTO.java
   - id: dashboard_planner_item_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardPlannerItemDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerItemDTO.java
   - id: dashboard_planner_section_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardPlannerSectionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerSectionDTO.java
   - id: dashboard_quest_group_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardQuestGroupDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardQuestGroupDTO.java
   - id: dashboard_voice_speech_request_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceSpeechRequestDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceSpeechRequestDTO.java
   - id: dashboard_voice_transcription_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceTranscriptionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceTranscriptionDTO.java
   - id: dashboard_vision_prompt_request_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVisionPromptRequestDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVisionPromptRequestDTO.java
   - id: dashboard_vision_prompt_response_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVisionPromptResponseDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVisionPromptResponseDTO.java
   - id: vision_conversation_turn_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java
   - id: vision_conversation_turn_response_dto
@@ -131,163 +131,275 @@ source_of_truth:
   - id: vision_quest_review_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestReviewDTO.java
   - id: dashboard_response_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardResponseDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardResponseDTO.java
   - id: dashboard_sections_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardSectionsDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java
   - id: dashboard_summary_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardSummaryDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java
   - id: dashboard_voice_config_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceConfigDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceConfigDTO.java
   - id: quest_controller
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java
   - id: quest_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestService.java
   - id: admin_applications_query_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminApplicationsQueryDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminApplicationsQueryDTO.java
+  - id: legacy_vision_admin_applications_query_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminApplicationsQueryDTO.java
   - id: app_user_role_option_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AppUserRoleOptionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AppUserRoleOptionDTO.java
   - id: quest_application_list_response_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationListResponseDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationListResponseDTO.java
   - id: quest_application_response_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationResponseDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java
   - id: quest_applications_view_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationsViewDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationsViewDTO.java
   - id: quest_application_status_filter_option_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationStatusFilterOptionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationStatusFilterOptionDTO.java
   - id: quest_audience_filter_option_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAudienceFilterOptionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceFilterOptionDTO.java
   - id: quest_audience_option_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAudienceOptionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceOptionDTO.java
   - id: quest_list_preset
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestListPresetDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPresetDTO.java
   - id: quest_list_response_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestListResponseDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListResponseDTO.java
   - id: quest_response_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestResponseDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java
   - id: quest_search_defaults_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSearchDefaultsDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSearchDefaultsDTO.java
   - id: quest_search_request_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSearchRequestDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSearchRequestDTO.java
   - id: quest_sort_option_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSortOptionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSortOptionDTO.java
   - id: quest_status_filter_option_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestStatusFilterOptionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusFilterOptionDTO.java
   - id: quest_status_option_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestStatusOptionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusOptionDTO.java
   - id: vision_options_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/VisionOptionsDTO.java
+  - id: workmarket_app_user_role_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AppUserRoleOptionDTO.java
+  - id: workmarket_application_allowed_action_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedActionDTO.java
+  - id: workmarket_dashboard_application_group_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardApplicationGroupDTO.java
+  - id: workmarket_dashboard_navigation_item_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java
+  - id: workmarket_dashboard_navigation_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java
+  - id: workmarket_dashboard_notification_destination_type_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationTypeDTO.java
+  - id: workmarket_dashboard_notification_item_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java
+  - id: workmarket_dashboard_notifications_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationsSectionDTO.java
+  - id: workmarket_dashboard_open_work_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardOpenWorkSectionDTO.java
+  - id: workmarket_dashboard_planner_item_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerItemDTO.java
+  - id: workmarket_dashboard_planner_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerSectionDTO.java
+  - id: workmarket_dashboard_quest_group_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardQuestGroupDTO.java
+  - id: workmarket_dashboard_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardResponseDTO.java
+  - id: workmarket_dashboard_sections_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java
+  - id: workmarket_dashboard_summary_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java
+  - id: workmarket_dashboard_voice_config_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceConfigDTO.java
+  - id: workmarket_quest_allowed_action_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedActionDTO.java
+  - id: workmarket_quest_application_detail_context_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailContextSectionDTO.java
+  - id: workmarket_quest_application_detail_navigation_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailNavigationSectionDTO.java
+  - id: workmarket_quest_application_detail_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailResponseDTO.java
+  - id: workmarket_quest_application_detail_sections_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailSectionsDTO.java
+  - id: workmarket_quest_application_draft_rules_view_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDraftRulesViewDTO.java
+  - id: workmarket_quest_application_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationListResponseDTO.java
+  - id: workmarket_quest_application_presentation_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationPresentationDTO.java
+  - id: workmarket_quest_application_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java
+  - id: workmarket_quest_application_status_filter_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationStatusFilterOptionDTO.java
+  - id: workmarket_quest_applications_view_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationsViewDTO.java
+  - id: workmarket_quest_audience_filter_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceFilterOptionDTO.java
+  - id: workmarket_quest_audience_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceOptionDTO.java
+  - id: workmarket_quest_detail_execution_action_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionActionDTO.java
+  - id: workmarket_quest_detail_execution_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java
+  - id: workmarket_quest_detail_management_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailManagementSectionDTO.java
+  - id: workmarket_quest_detail_navigation_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailNavigationSectionDTO.java
+  - id: workmarket_quest_detail_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailResponseDTO.java
+  - id: workmarket_quest_detail_review_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewSectionDTO.java
+  - id: workmarket_quest_detail_review_target_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewTargetDTO.java
+  - id: workmarket_quest_detail_sections_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailSectionsDTO.java
+  - id: workmarket_quest_detail_term_change_section_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailTermChangeSectionDTO.java
+  - id: workmarket_quest_list_preset_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPresetDTO.java
+  - id: workmarket_quest_list_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListResponseDTO.java
+  - id: workmarket_quest_news_destination_type_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationTypeDTO.java
+  - id: workmarket_quest_news_item_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java
+  - id: workmarket_quest_presentation_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestPresentationDTO.java
+  - id: workmarket_quest_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java
+  - id: workmarket_quest_search_defaults_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSearchDefaultsDTO.java
+  - id: workmarket_quest_search_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSearchRequestDTO.java
+  - id: workmarket_quest_sort_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSortOptionDTO.java
+  - id: workmarket_quest_status_filter_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusFilterOptionDTO.java
+  - id: workmarket_quest_status_option_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusOptionDTO.java
+  - id: workmarket_quest_viewer_relation_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelationDTO.java
+  - id: workmarket_user_rating_summary_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserRatingSummaryDTO.java
+  - id: workmarket_user_review_response_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewResponseDTO.java
+  - id: workmarket_vision_options_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/VisionOptionsDTO.java
   - id: quest_request_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestRequestDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestRequestDTO.java
   - id: quest_allowed_action
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAllowedActionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedActionDTO.java
   - id: quest_detail_execution_action
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailExecutionActionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionActionDTO.java
   - id: quest_detail_execution_section_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailExecutionSectionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java
   - id: quest_detail_management_section_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailManagementSectionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailManagementSectionDTO.java
   - id: quest_detail_navigation_section_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailNavigationSectionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailNavigationSectionDTO.java
   - id: quest_detail_response_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailResponseDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailResponseDTO.java
   - id: quest_detail_review_section_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailReviewSectionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewSectionDTO.java
   - id: quest_detail_review_target_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailReviewTargetDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewTargetDTO.java
   - id: quest_detail_sections_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailSectionsDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailSectionsDTO.java
   - id: quest_detail_term_change_section_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailTermChangeSectionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailTermChangeSectionDTO.java
   - id: quest_presentation_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestPresentationDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestPresentationDTO.java
   - id: quest_viewer_relation
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestViewerRelationDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelationDTO.java
   - id: quest_application_controller
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java
   - id: quest_application_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationService.java
   - id: quest_application_read_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationReadService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationReadService.java
   - id: quest_application_admin_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationAdminService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationAdminService.java
   - id: quest_application_workflow_support
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationWorkflowSupport.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationWorkflowSupport.java
   - id: quest_application_request_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationRequestDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationRequestDTO.java
+  - id: admin_quest_application_update_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java
   - id: application_allowed_action
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/ApplicationAllowedActionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedActionDTO.java
   - id: quest_application_detail_context_section_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailContextSectionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailContextSectionDTO.java
   - id: quest_application_detail_navigation_section_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailNavigationSectionDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailNavigationSectionDTO.java
   - id: quest_application_detail_response_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailResponseDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailResponseDTO.java
   - id: quest_application_detail_sections_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailSectionsDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailSectionsDTO.java
   - id: quest_application_presentation_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationPresentationDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationPresentationDTO.java
   - id: user_review_controller
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/UserReviewController.java
   - id: quest_news_controller
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java
   - id: user_review_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUserReviewService.java
   - id: user_review_request_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/UserReviewRequestDTO.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewRequestDTO.java
   - id: quest_news_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java
   - id: quest_news_destination_type
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestNewsDestinationTypeDTO.java
   - id: quest_news_item_response_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestNewsItemResponseDTO.java
   - id: quest_access_policy_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestAccessPolicyService.java
   - id: quest_update_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestUpdateService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestUpdateService.java
   - id: quest_state_transition_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestStateTransitionService.java
   - id: quest_validation_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestValidationService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestValidationService.java
   - id: quest_visibility_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestVisibilityService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestVisibilityService.java
   - id: quest_query_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestQueryService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestQueryService.java
   - id: quest_execution_primitive_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestExecutionPrimitiveService.java
   - id: create_quest_use_case
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CreateQuestUseCase.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCreateQuestUseCase.java
   - id: update_quest_use_case
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UpdateQuestUseCase.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUpdateQuestUseCase.java
   - id: delete_quest_use_case
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DeleteQuestUseCase.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDeleteQuestUseCase.java
   - id: start_quest_use_case
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/StartQuestUseCase.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketStartQuestUseCase.java
   - id: complete_quest_use_case
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CompleteQuestUseCase.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCompleteQuestUseCase.java
   - id: confirm_quest_term_change_use_case
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ConfirmQuestTermChangeUseCase.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketConfirmQuestTermChangeUseCase.java
   - id: reject_quest_term_change_use_case
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/RejectQuestTermChangeUseCase.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketRejectQuestTermChangeUseCase.java
   - id: apply_for_quest_use_case
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplyForQuestUseCase.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketApplyForQuestUseCase.java
   - id: update_my_application_use_case
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UpdateMyApplicationUseCase.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUpdateMyApplicationUseCase.java
   - id: withdraw_my_application_use_case
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WithdrawMyApplicationUseCase.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWithdrawMyApplicationUseCase.java
   - id: approve_application_use_case
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApproveApplicationUseCase.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketApproveApplicationUseCase.java
   - id: decline_application_use_case
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DeclineApplicationUseCase.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDeclineApplicationUseCase.java
   - id: quest_mgr
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestMgr.java
   - id: quest_news_mgr
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestNewsMgr.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestNewsMgr.java
   - id: workmarket_quest_news_mgr
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestNewsMgr.java
   - id: workmarket_quest_mgr
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestMgr.java
   - id: workmarket_quest_application_mgr
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestApplicationMgr.java
+  - id: workmarket_vision_contract_bridge
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java
   - id: workmarket_dashboard_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardService.java
   - id: workmarket_dashboard_read_service
@@ -337,7 +449,7 @@ source_of_truth:
   - id: workmarket_quest_application_admin_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationAdminService.java
   - id: quest_application_mgr
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestApplicationMgr.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestApplicationMgr.java
   - id: location_settings_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java
   - id: location_access_policy_service
@@ -523,21 +635,23 @@ source_of_truth:
   - id: chat_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
   - id: quest_mgr_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   - id: quest_news_mgr_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestNewsMgrTest.java
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java
   - id: quest_application_service_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   - id: quest_application_use_case_contract_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   - id: vision_conversation_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
   - id: auth_service_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java
   - id: request_dto_validation_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java
+  - id: workmarket_request_dto_validation_test
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
   - id: quest_use_case_contract_test
-    path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java
+    path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   - id: quest_workflow_scenario_test
     path: apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   - id: agent_operating_model_validation_test
@@ -567,7 +681,7 @@ source_of_truth:
   - id: agent_resolution_requirement_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AgentResolutionRequirementDTO.java
   - id: user_review_mgr
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/UserReviewMgr.java
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketUserReviewMgr.java
   - id: workmarket_user_review_mgr
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketUserReviewMgr.java
   - id: action_result_dto
@@ -735,7 +849,7 @@ backend_audit_coverage:
     - apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/
     - apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/
     - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/
-    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/
   - id: executor_mapper_surface
     tier: executor_critical
     path_contains_any:
@@ -763,17 +877,17 @@ backend_audit_coverage:
     - AppUserService.java
     - AppUserLookupService.java
     - DashboardService.java
-    - QuestService.java
-    - QuestApplicationService.java
+    - WorkmarketQuestService.java
+    - WorkmarketQuestApplicationService.java
     - UserReviewService.java
     - QuestNewsService.java
-    - QuestAccessPolicyService.java
-    - QuestUpdateService.java
-    - QuestStateTransitionService.java
-    - QuestValidationService.java
-    - QuestVisibilityService.java
-    - QuestQueryService.java
-    - QuestExecutionPrimitiveService.java
+    - WorkmarketQuestAccessPolicyService.java
+    - WorkmarketQuestUpdateService.java
+    - WorkmarketQuestStateTransitionService.java
+    - WorkmarketQuestValidationService.java
+    - WorkmarketQuestVisibilityService.java
+    - WorkmarketQuestQueryService.java
+    - WorkmarketQuestExecutionPrimitiveService.java
     - LocationSettingsService.java
     - LocationAccessPolicyService.java
     - LocationLookupService.java
@@ -1088,11 +1202,14 @@ policies:
     - open task checkboxes are complete or explicitly deferred to a stable backlog
       ID
     - master-plan child rows are complete or explicitly deferred
+    - completed master plans do not retain child rows with pending, draft, or in_progress
+      status
     - completed manifests do not reference incomplete plan evidence
     audit_command: make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]
     completion_rule: A plan-backed change is not ready for closeout while its referenced
-      plan has incomplete task checkboxes, missing completion evidence, or an incomplete
-      child plan without an explicit deferred backlog ID.
+      plan has incomplete task checkboxes, missing completion evidence, a child plan
+      without an explicit deferred backlog ID, or a completed master plan that still
+      lists non-final child statuses.
   program_planning_hierarchy:
     applies_to: Broad work that spans several master plans, durable product directions,
       or long-running agent/control-system programs.
@@ -1113,7 +1230,8 @@ policies:
     - make control-refresh-full performs the same snapshot flow and then runs the
       slower generated-artifact freshness pass.
     - make implementation-batch topic=<topic> runs the deterministic implementation
-      wrapper for discovery, recommendations, and closeout when a plan exists.
+      wrapper for discovery, docs-sync preflight, manifest routing, validation preset
+      selection, recommendations, and closeout hints when a plan exists.
     - make temp-work-product-closeout plan=<plan-file> deletes or archives lingering
       temp work products owned by a plan before closeout.
     - make audit-generated-artifact-hygiene files=<csv> provides a scope-filtered
@@ -1647,7 +1765,7 @@ automation_read_models:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
 - id: quest_resolution_view
-  java_class: com.themuffinman.app.vision.dto.QuestResponseDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestResponseDTO
   required_fields:
   - resolutionKey
   - resolutionLabel
@@ -1655,9 +1773,9 @@ automation_read_models:
   producer_source_refs:
   - quest_mgr
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_application_resolution_view
-  java_class: com.themuffinman.app.vision.dto.QuestApplicationResponseDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO
   required_fields:
   - resolutionKey
   - resolutionLabel
@@ -1665,7 +1783,7 @@ automation_read_models:
   producer_source_refs:
   - quest_application_mgr
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_news_resolution_view
   java_class: com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO
   required_fields:
@@ -1675,16 +1793,16 @@ automation_read_models:
   producer_source_refs:
   - quest_news_mgr
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestNewsMgrTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java
 - id: quest_applications_selection_view
-  java_class: com.themuffinman.app.vision.dto.QuestApplicationsViewDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO
   required_fields:
   - pendingApplicationCount
   - oldestPendingApplicationId
   producer_source_refs:
   - quest_application_read_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 mutating_intent_contracts:
 - intent_id: create_user
   preconditions:
@@ -2941,6 +3059,7 @@ documentation_coverage:
     - workmarket_quest_application_mgr
     - workmarket_quest_mgr
     - workmarket_quest_news_mgr
+    - workmarket_vision_contract_bridge
     - workmarket_user_review_mgr
   - id: identity_contract_dtos
     source_refs:
@@ -3045,6 +3164,7 @@ documentation_coverage:
   - id: workmarket_list_search_options_contract_dtos
     source_refs:
     - admin_applications_query_dto
+    - legacy_vision_admin_applications_query_dto
     - app_user_role_option_dto
     - quest_application_list_response_dto
     - quest_application_response_dto
@@ -3061,6 +3181,67 @@ documentation_coverage:
     - quest_status_filter_option_dto
     - quest_status_option_dto
     - vision_options_dto
+  - id: workmarket_mutation_contract_dtos
+    source_refs:
+    - quest_request_dto
+    - quest_application_request_dto
+    - admin_quest_application_update_request_dto
+    - user_review_request_dto
+  - id: workmarket_owned_read_contract_dtos
+    source_refs:
+    - workmarket_app_user_role_option_dto
+    - workmarket_application_allowed_action_dto
+    - workmarket_dashboard_application_group_dto
+    - workmarket_dashboard_navigation_item_dto
+    - workmarket_dashboard_navigation_section_dto
+    - workmarket_dashboard_notification_destination_type_dto
+    - workmarket_dashboard_notification_item_dto
+    - workmarket_dashboard_notifications_section_dto
+    - workmarket_dashboard_open_work_section_dto
+    - workmarket_dashboard_planner_item_dto
+    - workmarket_dashboard_planner_section_dto
+    - workmarket_dashboard_quest_group_dto
+    - workmarket_dashboard_response_dto
+    - workmarket_dashboard_sections_dto
+    - workmarket_dashboard_summary_dto
+    - workmarket_dashboard_voice_config_dto
+    - workmarket_quest_allowed_action_dto
+    - workmarket_quest_application_detail_context_section_dto
+    - workmarket_quest_application_detail_navigation_section_dto
+    - workmarket_quest_application_detail_response_dto
+    - workmarket_quest_application_detail_sections_dto
+    - workmarket_quest_application_draft_rules_view_dto
+    - workmarket_quest_application_list_response_dto
+    - workmarket_quest_application_presentation_dto
+    - workmarket_quest_application_response_dto
+    - workmarket_quest_application_status_filter_option_dto
+    - workmarket_quest_applications_view_dto
+    - workmarket_quest_audience_filter_option_dto
+    - workmarket_quest_audience_option_dto
+    - workmarket_quest_detail_execution_action_dto
+    - workmarket_quest_detail_execution_section_dto
+    - workmarket_quest_detail_management_section_dto
+    - workmarket_quest_detail_navigation_section_dto
+    - workmarket_quest_detail_response_dto
+    - workmarket_quest_detail_review_section_dto
+    - workmarket_quest_detail_review_target_dto
+    - workmarket_quest_detail_sections_dto
+    - workmarket_quest_detail_term_change_section_dto
+    - workmarket_quest_list_preset_dto
+    - workmarket_quest_list_response_dto
+    - workmarket_quest_news_destination_type_dto
+    - workmarket_quest_news_item_response_dto
+    - workmarket_quest_presentation_dto
+    - workmarket_quest_response_dto
+    - workmarket_quest_search_defaults_dto
+    - workmarket_quest_search_request_dto
+    - workmarket_quest_sort_option_dto
+    - workmarket_quest_status_filter_option_dto
+    - workmarket_quest_status_option_dto
+    - workmarket_quest_viewer_relation_dto
+    - workmarket_user_rating_summary_dto
+    - workmarket_user_review_response_dto
+    - workmarket_vision_options_dto
   - id: workmarket_news_read_model_contract_dtos
     source_refs:
     - quest_news_destination_type
@@ -3076,6 +3257,7 @@ documentation_coverage:
     source_refs:
     - auth_service_test
     - request_dto_validation_test
+    - workmarket_request_dto_validation_test
     - quest_use_case_contract_test
     - quest_application_use_case_contract_test
     - quest_workflow_scenario_test
@@ -3269,7 +3451,7 @@ documentation_ownership:
     - docs/generated/automation-read-model-inventory.json
     - docs/generated/source-of-truth-audit.json
     validation_tests:
-    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
     - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   - id: platform
     required_living_docs:
@@ -3610,7 +3792,7 @@ backend_contract_snapshots:
   - apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
 - id: quest_response_snapshot
-  java_class: com.themuffinman.app.vision.dto.QuestResponseDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestResponseDTO
   declared_fields:
   - id
   - creatorId
@@ -3681,10 +3863,9 @@ backend_contract_snapshots:
   - quest_mgr
   - quest_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_application_response_snapshot
-  java_class: com.themuffinman.app.vision.dto.QuestApplicationResponseDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO
   declared_fields:
   - id
   - questId
@@ -3731,10 +3912,10 @@ backend_contract_snapshots:
   - quest_application_mgr
   - quest_application_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
 - id: quest_applications_view_snapshot
-  java_class: com.themuffinman.app.vision.dto.QuestApplicationsViewDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO
   declared_fields:
   - featuredApplication
   - approvedApplications
@@ -3758,7 +3939,7 @@ backend_contract_snapshots:
   source_refs:
   - quest_application_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
 - id: chat_conversation_summary_snapshot
   java_class: com.themuffinman.app.chat.dto.ChatConversationSummaryDTO
@@ -3839,7 +4020,7 @@ service_workflow_inventory:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
 - id: quest_facade_write_flows
-  service_class: com.themuffinman.app.vision.service.QuestService
+  service_class: com.themuffinman.app.workmarket.service.WorkmarketQuestService
   service_methods:
   - createQuest
   - updateQuest
@@ -3879,8 +4060,6 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: circle_group_write_flows
   service_class: com.themuffinman.app.social.service.CircleService
@@ -3906,7 +4085,7 @@ service_workflow_inventory:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java
 - id: quest_create_write_flow
-  service_class: com.themuffinman.app.vision.service.CreateQuestUseCase
+  service_class: com.themuffinman.app.workmarket.service.WorkmarketCreateQuestUseCase
   service_methods:
   - execute
   covered_intents:
@@ -3920,8 +4099,8 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
 - id: vision_create_quest_executor_flow
   service_class: com.themuffinman.app.vision.service.VisionConversationService
   service_methods:
@@ -3970,7 +4149,7 @@ service_workflow_inventory:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java
 - id: quest_update_write_flow
-  service_class: com.themuffinman.app.vision.service.UpdateQuestUseCase
+  service_class: com.themuffinman.app.workmarket.service.WorkmarketUpdateQuestUseCase
   service_methods:
   - execute
   covered_intents:
@@ -3986,10 +4165,10 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
 - id: quest_delete_write_flow
-  service_class: com.themuffinman.app.vision.service.DeleteQuestUseCase
+  service_class: com.themuffinman.app.workmarket.service.WorkmarketDeleteQuestUseCase
   service_methods:
   - execute
   covered_intents:
@@ -4002,9 +4181,9 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_start_write_flow
-  service_class: com.themuffinman.app.vision.service.StartQuestUseCase
+  service_class: com.themuffinman.app.workmarket.service.WorkmarketStartQuestUseCase
   service_methods:
   - execute
   covered_intents:
@@ -4018,10 +4197,9 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_complete_write_flow
-  service_class: com.themuffinman.app.vision.service.CompleteQuestUseCase
+  service_class: com.themuffinman.app.workmarket.service.WorkmarketCompleteQuestUseCase
   service_methods:
   - execute
   covered_intents:
@@ -4035,10 +4213,9 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_confirm_term_change_write_flow
-  service_class: com.themuffinman.app.vision.service.ConfirmQuestTermChangeUseCase
+  service_class: com.themuffinman.app.workmarket.service.WorkmarketConfirmQuestTermChangeUseCase
   service_methods:
   - execute
   covered_intents:
@@ -4052,10 +4229,9 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_reject_term_change_write_flow
-  service_class: com.themuffinman.app.vision.service.RejectQuestTermChangeUseCase
+  service_class: com.themuffinman.app.workmarket.service.WorkmarketRejectQuestTermChangeUseCase
   service_methods:
   - execute
   covered_intents:
@@ -4069,10 +4245,9 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_application_write_flows
-  service_class: com.themuffinman.app.vision.service.QuestApplicationService
+  service_class: com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationService
   service_methods:
   - applyForQuest
   - updateMyApplication
@@ -4107,9 +4282,8 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
 - id: business_profile_write_flows
   service_class: com.themuffinman.app.business.service.BusinessProfileService
   service_methods:
@@ -4175,7 +4349,7 @@ service_workflow_inventory:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
 - id: news_write_flows
-  service_class: com.themuffinman.app.vision.service.QuestNewsService
+  service_class: com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService
   service_methods:
   - markMyNewsAsRead
   - markMyNewsItemAsRead
@@ -4189,9 +4363,9 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestNewsServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java
 - id: review_write_flows
-  service_class: com.themuffinman.app.vision.service.UserReviewService
+  service_class: com.themuffinman.app.workmarket.service.WorkmarketUserReviewService
   service_methods:
   - createOrUpdateReview
   covered_intents:
@@ -4203,7 +4377,7 @@ service_workflow_inventory:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/UserReviewServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 permission_matrix:
   actor_types:
   - anonymous
@@ -4461,7 +4635,7 @@ state_transition_audit:
 - id: quest_assignment_on_approval
   intent_id: approve_application
   entity: quest
-  status_enum_class: com.themuffinman.app.vision.model.QuestStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
   from_states:
   - OPEN
   to_states:
@@ -4482,11 +4656,11 @@ state_transition_audit:
   - quest_application_service
   - quest_state_transition_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: application_approval
   intent_id: approve_application
   entity: quest_application
-  status_enum_class: com.themuffinman.app.vision.model.QuestApplicationStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestApplicationStatus
   from_states:
   - PENDING
   to_states:
@@ -4503,11 +4677,11 @@ state_transition_audit:
   source_refs:
   - quest_application_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: application_decline
   intent_id: decline_application
   entity: quest_application
-  status_enum_class: com.themuffinman.app.vision.model.QuestApplicationStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestApplicationStatus
   from_states:
   - PENDING
   to_states:
@@ -4524,11 +4698,11 @@ state_transition_audit:
   source_refs:
   - quest_application_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: application_withdraw
   intent_id: withdraw_my_application
   entity: quest_application
-  status_enum_class: com.themuffinman.app.vision.model.QuestApplicationStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestApplicationStatus
   from_states:
   - PENDING
   to_states:
@@ -4544,11 +4718,11 @@ state_transition_audit:
   source_refs:
   - quest_application_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_start
   intent_id: start_quest
   entity: quest
-  status_enum_class: com.themuffinman.app.vision.model.QuestStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
   from_states:
   - ASSIGNED
   to_states:
@@ -4569,11 +4743,11 @@ state_transition_audit:
   - quest_service
   - quest_state_transition_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_completion
   intent_id: complete_quest
   entity: quest
-  status_enum_class: com.themuffinman.app.vision.model.QuestStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
   from_states:
   - IN_PROGRESS
   to_states:
@@ -4594,11 +4768,11 @@ state_transition_audit:
   - quest_service
   - quest_state_transition_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: owner_term_change_request
   intent_id: request_owner_term_change
   entity: quest
-  status_enum_class: com.themuffinman.app.vision.model.QuestStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
   from_states:
   - ASSIGNED
   - IN_PROGRESS
@@ -4617,11 +4791,11 @@ state_transition_audit:
   - quest_state_transition_service
   - quest_update_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: worker_or_admin_term_confirmation
   intent_id: confirm_quest_term_change
   entity: quest
-  status_enum_class: com.themuffinman.app.vision.model.QuestStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
   from_states:
   - WAITING_CONFIRMATION
   to_states:
@@ -4641,11 +4815,11 @@ state_transition_audit:
   - quest_service
   - quest_state_transition_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: worker_or_admin_term_rejection
   intent_id: reject_quest_term_change
   entity: quest
-  status_enum_class: com.themuffinman.app.vision.model.QuestStatus
+  status_enum_class: com.themuffinman.app.workmarket.model.QuestStatus
   from_states:
   - WAITING_CONFIRMATION
   to_states:
@@ -4665,7 +4839,7 @@ state_transition_audit:
   - quest_service
   - quest_state_transition_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 request_validation_gate:
 - id: app_user_request_validation
   java_class: com.themuffinman.app.identity.dto.AppUserRequestDTO
@@ -4702,7 +4876,7 @@ request_validation_gate:
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java
 - id: quest_request_validation
-  java_class: com.themuffinman.app.vision.dto.QuestRequestDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestRequestDTO
   validated_fields:
   - field: title
     required_annotations:
@@ -4731,10 +4905,10 @@ request_validation_gate:
   - docs/domain-technical.md
   - docs/business-logic.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
 - id: quest_application_request_validation
-  java_class: com.themuffinman.app.vision.dto.QuestApplicationRequestDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO
   validated_fields:
   - field: message
     required_annotations:
@@ -4753,10 +4927,10 @@ request_validation_gate:
   - docs/domain-technical.md
   - docs/business-logic.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
 - id: admin_quest_application_update_request_validation
-  java_class: com.themuffinman.app.vision.dto.AdminQuestApplicationUpdateRequestDTO
+  java_class: com.themuffinman.app.workmarket.dto.AdminQuestApplicationUpdateRequestDTO
   validated_fields:
   - field: message
     required_annotations:
@@ -4774,7 +4948,8 @@ request_validation_gate:
   - docs/domain-technical.md
   - docs/business-logic.md
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java
 - id: circle_group_request_validation
   java_class: com.themuffinman.app.social.dto.CircleGroupRequestDTO
   validated_fields:
@@ -4869,6 +5044,8 @@ documentation_sync:
     - documentation_sync_policy_doc
     doc_paths:
     - AGENTS.md
+    - docs/codex-fast-path.md
+    - docs/feature-delivery-workflow.md
     - docs/agent-operating-model.md
     - docs/documentation-sync-policy.md
     - docs/change-completion-checklist.md
@@ -4887,6 +5064,10 @@ documentation_sync:
       child slices, phases, or follow-up passes; continue automatically through the
       full planned sequence and only stop for a real blocker, scope change, or required
       approval.
+    - When the user asks for a broad safe batch, such as many improvements or an entire
+      workstream, assemble the full safe slice list up front and execute it in order
+      without asking after each slice, unless a real blocker, scope change, or required
+      approval appears.
     - During a safe master-plan or plan batch, do not stop after one or two phases
       just to ask whether to continue; carry the batch through all planned phases
       in sequence, record any safe follow-up items in the appropriate backlog during
@@ -4894,6 +5075,29 @@ documentation_sync:
     - During broad implementation work, review the product, control-system, and implementation-workflow
       layers before substantial edits, and capture the review in a temporary analysis
       artifact when the batch is broad or high-risk.
+  - id: plan_completion_requires_actual_completion
+    description: Plans and master plans must only be marked complete when the work
+      is actually implemented and validated or explicitly skipped with a recorded
+      reason.
+    source_refs:
+    - agents_doc
+    - codex_fast_path_doc
+    - feature_delivery_workflow_doc
+    - change_completion_checklist_doc
+    - agent_operating_model_doc
+    - documentation_sync_policy_doc
+    doc_paths:
+    - AGENTS.md
+    - docs/codex-fast-path.md
+    - docs/feature-delivery-workflow.md
+    - docs/change-completion-checklist.md
+    - docs/agent-operating-model.md
+    - docs/documentation-sync-policy.md
+    must_contain_all:
+    - Never mark a plan, child plan, or master plan complete unless the work it covers
+      is actually implemented, the required validation has passed or been explicitly
+      skipped with a recorded reason, and the completion evidence matches the real
+      state.
   - id: persistent_backlog_tracks_deferred_work
     description: Deferred implementation and control-system follow-ups must stay in
       persistent backlog files with stable IDs, and resolved items must be removed
@@ -4972,19 +5176,20 @@ enums:
   - USER
   - ADMIN
 - id: quest_status
-  java_class: com.themuffinman.app.vision.model.QuestStatus
+  java_class: com.themuffinman.app.workmarket.model.QuestStatus
   values:
   - OPEN
   - ASSIGNED
-  - WAITING_CONFIRMATION
   - IN_PROGRESS
+  - WAITING_CONFIRMATION
   - COMPLETED
   - CANCELLED
 - id: quest_audience
-  java_class: com.themuffinman.app.vision.model.QuestAudience
+  java_class: com.themuffinman.app.workmarket.model.QuestAudience
   values:
-  - CIRCLES
   - EVERYONE
+  - CIRCLES
+  - PRIVATE
 - id: user_location_mode
   java_class: com.themuffinman.app.location.model.UserLocationMode
   values:
@@ -5080,22 +5285,22 @@ api:
   - id: get_my_news
     method: GET
     path: "/news/me"
-    controller_class: com.themuffinman.app.vision.controller.QuestNewsController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestNewsController
     handler_method: getMyNews
   - id: mark_all_news_read
     method: PATCH
     path: "/news/me/read"
-    controller_class: com.themuffinman.app.vision.controller.QuestNewsController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestNewsController
     handler_method: markMyNewsAsRead
   - id: mark_news_item_read
     method: PATCH
     path: "/news/me/{id}/read"
-    controller_class: com.themuffinman.app.vision.controller.QuestNewsController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestNewsController
     handler_method: markMyNewsItemAsRead
   - id: get_news_unread_count
     method: GET
     path: "/news/me/unread-count"
-    controller_class: com.themuffinman.app.vision.controller.QuestNewsController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestNewsController
     handler_method: getUnreadCount
   - id: run_admin_agent_execution
     method: POST
@@ -5105,22 +5310,22 @@ api:
   - id: get_dashboard
     method: GET
     path: "/dashboard/me"
-    controller_class: com.themuffinman.app.vision.controller.DashboardController
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: getMyDashboard
   - id: get_dashboard_summary
     method: GET
     path: "/dashboard/me/summary"
-    controller_class: com.themuffinman.app.vision.controller.DashboardController
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: getMySummary
   - id: get_dashboard_voice_config
     method: GET
     path: "/dashboard/me/voice-config"
-    controller_class: com.themuffinman.app.vision.controller.DashboardController
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: getMyVoiceConfig
   - id: process_dashboard_vision_prompt
     method: POST
     path: "/dashboard/me/vision/prompt"
-    controller_class: com.themuffinman.app.vision.controller.DashboardController
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: processVisionPrompt
   - id: process_vision_conversation_turn
     method: POST
@@ -5150,42 +5355,42 @@ api:
   - id: transcribe_dashboard_voice
     method: POST
     path: "/dashboard/me/voice/transcribe"
-    controller_class: com.themuffinman.app.vision.controller.DashboardController
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: transcribeVoice
   - id: speak_dashboard_voice
     method: POST
     path: "/dashboard/me/voice/speak"
-    controller_class: com.themuffinman.app.vision.controller.DashboardController
+    controller_class: com.themuffinman.app.workmarket.controller.DashboardController
     handler_method: speakVoice
   - id: create_quest
     method: POST
     path: "/quests"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: createQuest
   - id: get_all_quests
     method: GET
     path: "/quests"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: getAllQuests
   - id: search_quests
     method: GET
     path: "/quests/search"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: searchQuests
   - id: get_quest_preset
     method: GET
     path: "/quests/presets/{preset}"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: getQuestPreset
   - id: get_quest_by_id
     method: GET
     path: "/quests/{id}"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: getQuestById
   - id: get_quest_detail
     method: GET
     path: "/quests/{id}/detail"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: getQuestDetailById
   - id: get_location_debug_status
     method: GET
@@ -5320,97 +5525,97 @@ api:
   - id: apply_to_quest
     method: POST
     path: "/quests/{questId}/applications"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: applyForQuest
   - id: get_quest_applications
     method: GET
     path: "/quests/{questId}/applications"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: getApplicationsForQuest
   - id: get_my_quest_applications
     method: GET
     path: "/quests/applications/me"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: getMyApplications
   - id: get_application_detail
     method: GET
     path: "/applications/{applicationId}/detail"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: getApplicationDetail
   - id: get_admin_applications
     method: GET
     path: "/admin/applications"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: getAllApplicationsForAdmin
   - id: get_quest_applications_view
     method: GET
     path: "/quests/{questId}/applications/view"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: getApplicationsViewForQuest
   - id: update_my_application
     method: PUT
     path: "/quests/{questId}/applications/me"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: updateMyApplication
   - id: withdraw_my_application
     method: PATCH
     path: "/quests/{questId}/applications/me/withdraw"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: withdrawMyApplication
   - id: update_admin_application
     method: PUT
     path: "/admin/applications/{applicationId}"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: updateApplicationForAdmin
   - id: delete_admin_application
     method: DELETE
     path: "/admin/applications/{applicationId}"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: deleteApplicationForAdmin
   - id: approve_application
     method: PATCH
     path: "/quests/{questId}/applications/{applicationId}/approve"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: approveApplication
   - id: decline_application
     method: PATCH
     path: "/quests/{questId}/applications/{applicationId}/decline"
-    controller_class: com.themuffinman.app.vision.controller.QuestApplicationController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestApplicationController
     handler_method: declineApplication
   - id: start_quest
     method: PATCH
     path: "/quests/{id}/start"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: startQuest
   - id: complete_quest
     method: PATCH
     path: "/quests/{id}/complete"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: completeQuest
   - id: confirm_quest_term_change
     method: PATCH
     path: "/quests/{id}/term/confirm"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: confirmQuestTermChange
   - id: reject_quest_term_change
     method: PATCH
     path: "/quests/{id}/term/reject"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: rejectQuestTermChange
   - id: update_quest
     method: PUT
     path: "/quests/{id}"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: updateQuest
   - id: delete_quest
     method: DELETE
     path: "/quests/{id}"
-    controller_class: com.themuffinman.app.vision.controller.QuestController
+    controller_class: com.themuffinman.app.workmarket.controller.QuestController
     handler_method: deleteQuest
   - id: create_or_update_review
     method: POST
     path: "/quests/{questId}/reviews"
-    controller_class: com.themuffinman.app.vision.controller.UserReviewController
+    controller_class: com.themuffinman.app.workmarket.controller.UserReviewController
     handler_method: createOrUpdateReview
   - id: get_chat_workspace
     method: GET

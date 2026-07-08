@@ -1,9 +1,9 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.DashboardResponseDTO;
-import com.themuffinman.app.vision.dto.DashboardSummaryDTO;
-import com.themuffinman.app.vision.dto.DashboardVoiceConfigDTO;
+import com.themuffinman.app.workmarket.dto.DashboardResponseDTO;
+import com.themuffinman.app.workmarket.dto.DashboardSummaryDTO;
+import com.themuffinman.app.workmarket.dto.DashboardVoiceConfigDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

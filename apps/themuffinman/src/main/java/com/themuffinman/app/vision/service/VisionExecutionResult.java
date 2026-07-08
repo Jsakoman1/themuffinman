@@ -1,7 +1,7 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
-import com.themuffinman.app.vision.model.Quest;
+import com.themuffinman.app.workmarket.model.Quest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

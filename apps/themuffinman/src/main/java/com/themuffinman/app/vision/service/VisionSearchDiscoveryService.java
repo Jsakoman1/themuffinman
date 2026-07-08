@@ -10,14 +10,16 @@ import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
 import com.themuffinman.app.things.service.ThingSharingService;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.dto.QuestListPresetDTO;
-import com.themuffinman.app.vision.dto.QuestListResponseDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryItemDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionIntent;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
+import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,25 +30,25 @@ import java.util.Locale;
 @Service
 public class VisionSearchDiscoveryService {
 
-    private final QuestReadService questReadService;
+    private final WorkmarketQuestReadService questReadService;
     private final CircleReadService circleReadService;
     private final ThingSharingService thingSharingService;
-    private final QuestApplicationService questApplicationService;
+    private final WorkmarketQuestApplicationReadService questApplicationReadService;
     private final AppUserRepository appUserRepository;
     private final SemanticAliasRegistry semanticAliasRegistry;
 
     public VisionSearchDiscoveryService(
-            QuestReadService questReadService,
+            WorkmarketQuestReadService questReadService,
             CircleReadService circleReadService,
             ThingSharingService thingSharingService,
-            QuestApplicationService questApplicationService,
+            WorkmarketQuestApplicationReadService questApplicationReadService,
             AppUserRepository appUserRepository,
             SemanticAliasRegistry semanticAliasRegistry
     ) {
         this.questReadService = questReadService;
         this.circleReadService = circleReadService;
         this.thingSharingService = thingSharingService;
-        this.questApplicationService = questApplicationService;
+        this.questApplicationReadService = questApplicationReadService;
         this.appUserRepository = appUserRepository;
         this.semanticAliasRegistry = semanticAliasRegistry;
     }
@@ -165,7 +167,7 @@ public class VisionSearchDiscoveryService {
 
     private List<SearchCandidate> discoverApplications(AppUser currentUser, String query) {
         String normalizedQuery = normalizeFamilyQuery(query, SemanticEntityFamily.APPLICATION);
-        return questApplicationService.getApplicationsForApplicant(currentUser).stream()
+        return questApplicationReadService.getApplicationsForApplicant(currentUser).stream()
                 .filter(application -> matches(application.getQuestTitle(), application.getMessage(), normalizedQuery))
                 .limit(3)
                 .map(application -> scoredItem(

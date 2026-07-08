@@ -1,12 +1,12 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
-import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationPresentationDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
-import com.themuffinman.app.vision.model.QuestApplicationStatus;
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationPresentationDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

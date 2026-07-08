@@ -19,6 +19,7 @@ masterPlans:
 implementationState:
   currentPhase: TBD
   nextPhase: TBD
+  activeBatch: TBD
 pros:
   - TBD
 cons:
@@ -34,5 +35,6 @@ decisions:
 validation:
   requiredChecks:
     - Validate against docs/god-plan.schema.json when the schema is available to local tooling.
-  closeoutRule: Child master plans must be complete or explicitly deferred before this God Plan closes.
-
+    - Keep child master plans in execution order.
+    - Record active decisions and closeout expectations.
+  closeoutRule: Child master plans must be complete or explicitly deferred before this God Plan closes, and `complete` must only be used for child master plans that are actually implemented and validated.

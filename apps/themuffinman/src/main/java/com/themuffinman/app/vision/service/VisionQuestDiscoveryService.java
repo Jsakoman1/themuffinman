@@ -7,10 +7,10 @@ import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryItemDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionIntent;
-import com.themuffinman.app.vision.dto.QuestListPresetDTO;
-import com.themuffinman.app.vision.dto.QuestListResponseDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
-import com.themuffinman.app.vision.service.QuestReadService;
+import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
+import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,10 +21,10 @@ import java.util.stream.IntStream;
 @Service
 public class VisionQuestDiscoveryService {
 
-    private final QuestReadService questReadService;
+    private final WorkmarketQuestReadService questReadService;
     private final SemanticAliasRegistry semanticAliasRegistry;
 
-    public VisionQuestDiscoveryService(QuestReadService questReadService, SemanticAliasRegistry semanticAliasRegistry) {
+    public VisionQuestDiscoveryService(WorkmarketQuestReadService questReadService, SemanticAliasRegistry semanticAliasRegistry) {
         this.questReadService = questReadService;
         this.semanticAliasRegistry = semanticAliasRegistry;
     }

@@ -14,27 +14,26 @@ regression_scenarios:
     risk: high
     scenario: Quest create, update, delete, start, complete, and term-change flows must resolve actors, validate state, persist changes, and publish expected notifications.
     test_files:
-      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java
       - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
     commands:
-      - cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest
+      - cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest
   - id: workmarket-application-lifecycle
     domain: workmarket
     risk: high
     scenario: Application apply, applicant edit, withdraw, owner approve, owner decline, and admin mutation flows must enforce ownership, status, pricing, and notification rules.
     test_files:
-      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java
-      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
     commands:
-      - cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest
+      - cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest
   - id: workmarket-dashboard-read-model
     domain: workmarket
     risk: medium
     scenario: Dashboard sections, applicant actions, open-work groups, and notification destinations must stay backend-prepared and role-aware.
     test_files:
-      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java
     commands:
-      - cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest
+      - cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest
   - id: social-chat-relation-access
     domain: social
     risk: high
@@ -141,8 +140,7 @@ regression_scenarios:
     risk: medium
     scenario: Quest browsing, recommendation ranking, and quest news read state must stay backend-prepared and viewer-aware.
     test_files:
-      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java
-      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestNewsServiceTest.java
-      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java
     commands:
-      - cd apps/themuffinman && ./mvnw test -Dtest=QuestQueryServiceTest,QuestNewsServiceTest,DashboardServiceTest
+      - cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest

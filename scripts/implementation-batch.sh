@@ -30,12 +30,30 @@ mkdir -p "$generated_root"
 
 run_make control-start
 run_make codex-context topic="$topic" intent="$intent"
-run_make audit-generated-artifact-hygiene files="$files_csv"
+
+if [[ -n "$files_csv" ]]; then
+  run_make audit-router files="$files_csv"
+  run_make audit-doc-sync-preflight files="$files_csv"
+  run_make audit-doc-sync-required-surfaces files="$files_csv"
+  run_make audit-manifest-decision files="$files_csv"
+  run_make resolve-manifest-path files="$files_csv"
+  run_make recommend-validation-preset files="$files_csv"
+  run_make audit-generated-artifact-hygiene files="$files_csv"
+else
+  run_make audit-router
+  run_make audit-generated-artifact-freshness
+  run_make audit-doc-sync-preflight
+  run_make audit-doc-sync-required-surfaces
+  run_make audit-manifest-decision
+  run_make resolve-manifest-path
+  run_make recommend-validation-preset
+fi
 
 if [[ -n "$files_csv" ]]; then
   run_make recommend-feature-slices topic="$topic" files="$files_csv"
   run_make recommend-targeted-tests files="$files_csv"
 else
+  run_make recommend-feature-slices topic="$topic"
   run_make recommend-targeted-tests
 fi
 
@@ -50,6 +68,11 @@ fi
 
 run_make audit-todo
 
+generated_artifact_hygiene_summary="docs/generated/local-tooling/generated-artifact-freshness-summary.md"
+if [[ -n "$files_csv" ]]; then
+  generated_artifact_hygiene_summary="docs/generated/local-tooling/generated-artifact-hygiene-summary.md"
+fi
+
 cat >"$json_path" <<EOF
 {
   "generatedAt": "$created_at",
@@ -60,7 +83,12 @@ cat >"$json_path" <<EOF
   "planCompletion": "${plan_completion}",
   "controlStart": "docs/generated/local-tooling/control-start.json",
   "codexContext": "docs/generated/local-tooling/codex-context/latest.review.md",
-  "generatedArtifactHygiene": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
+  "generatedArtifactHygiene": "$generated_artifact_hygiene_summary",
+  "docSyncPreflight": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+  "docSyncRequiredSurfaces": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+  "manifestDecision": "docs/generated/local-tooling/manifest-decision-summary.md",
+  "manifestResolution": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
+  "validationPreset": "docs/generated/local-tooling/validation-preset-summary.md",
   "featureSlices": "docs/generated/local-tooling/feature-slices/${batch_slug}.json",
   "targetedTests": "docs/generated/local-tooling/targeted-tests.json",
   "closeoutStatus": "audit-todo"
@@ -78,7 +106,12 @@ cat >"$summary_path" <<EOF
 - Plan Completion: \`$plan_completion\`
 - Control Start: \`docs/generated/local-tooling/control-start.json\`
 - Codex Context: \`docs/generated/local-tooling/codex-context/latest.review.md\`
-- Generated Artifact Hygiene: \`docs/generated/local-tooling/generated-artifact-hygiene-summary.md\`
+- Doc Sync Preflight: \`docs/generated/local-tooling/doc-sync-preflight-summary.md\`
+- Doc Sync Required Surfaces: \`docs/generated/local-tooling/doc-sync-required-surfaces-summary.md\`
+- Manifest Decision: \`docs/generated/local-tooling/manifest-decision-summary.md\`
+- Manifest Resolution: \`docs/generated/local-tooling/manifest-path-resolution-summary.md\`
+- Validation Preset: \`docs/generated/local-tooling/validation-preset-summary.md\`
+- Generated Artifact Hygiene: \`$generated_artifact_hygiene_summary\`
 - Feature Slices: \`docs/generated/local-tooling/feature-slices/${batch_slug}.json\`
 - Targeted Tests: \`docs/generated/local-tooling/targeted-tests.json\`
 - Closeout Status: \`audit-todo\`

@@ -9,6 +9,7 @@ import com.themuffinman.app.location.dto.LocationLookupResponseDTO;
 import com.themuffinman.app.location.model.LocationLookupEvent;
 import com.themuffinman.app.location.model.LocationLookupEventType;
 import com.themuffinman.app.location.repository.LocationLookupEventRepository;
+import com.themuffinman.app.workmarket.repository.WorkmarketQuestRepository;
 import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,6 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
-import com.themuffinman.app.vision.repository.QuestRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class LocationLookupService {
     private final GeoapifyLocationLookupClient geoapifyLocationLookupClient;
     private final DisabledLocationLookupClient disabledLocationLookupClient;
     private final AppUserRepository appUserRepository;
-    private final QuestRepository questRepository;
+    private final WorkmarketQuestRepository questRepository;
     private final LocationLookupEventRepository locationLookupEventRepository;
     private final AdminDatabaseMetricsService adminDatabaseMetricsService;
     private final LocationDebugStatusAssembler locationDebugStatusAssembler;

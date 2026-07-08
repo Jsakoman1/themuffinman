@@ -2,8 +2,8 @@ package com.themuffinman.app.docs;
 
 import com.themuffinman.app.things.repository.ThingBorrowRequestRepository;
 import com.themuffinman.app.things.repository.ThingListingRepository;
-import com.themuffinman.app.vision.repository.QuestApplicationRepository;
-import com.themuffinman.app.vision.repository.QuestRepository;
+import com.themuffinman.app.workmarket.repository.WorkmarketQuestApplicationRepository;
+import com.themuffinman.app.workmarket.repository.WorkmarketQuestRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class RepositoryFetchProfileContractTest {
 
     private static final Map<Class<?>, List<String>> REQUIRED_FETCH_PROFILES = Map.of(
-            QuestRepository.class,
+            WorkmarketQuestRepository.class,
             List.of("findForQuestList", "findForQuestListByIds", "findForQuestDetail", "findForOwnerStatusList"),
-            QuestApplicationRepository.class,
+            WorkmarketQuestApplicationRepository.class,
             List.of(
                     "findForQuestApplicationManagement",
                     "findForApplicantDashboard",

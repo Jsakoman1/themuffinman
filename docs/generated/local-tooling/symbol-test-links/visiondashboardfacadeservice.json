@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-07-07T18:35:02Z",
+  "symbol": "VisionDashboardFacadeService",
+  "symbol_files": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionDashboardFacadeService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 38
+    }
+  ],
+  "direct_tests": [
+
+  ],
+  "nearby_tests": [
+
+  ],
+  "scenario_hits": [
+
+  ],
+  "recommended_commands": [
+
+  ],
+  "residual_risk": [
+    "No direct test references were found for the symbol.",
+    "No regression scenario catalog entry matched the symbol domain."
+  ]
+}

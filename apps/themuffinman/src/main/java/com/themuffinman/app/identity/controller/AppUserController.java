@@ -12,8 +12,8 @@ import com.themuffinman.app.identity.service.AdminUserDetailService;
 import com.themuffinman.app.identity.service.AppUserReadService;
 import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.identity.service.UserProfileViewService;
-import com.themuffinman.app.vision.dto.VisionOptionsDTO;
-import com.themuffinman.app.vision.service.VisionOptionsService;
+import com.themuffinman.app.workmarket.dto.VisionOptionsDTO;
+import com.themuffinman.app.workmarket.service.WorkmarketOptionsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,7 +30,7 @@ public class AppUserController {
     private final AppUserMgr appUserMgr;
     private final AdminUserDetailService adminUserDetailService;
     private final UserProfileViewService userProfileViewService;
-    private final VisionOptionsService visionOptionsService;
+    private final WorkmarketOptionsService workmarketOptionsService;
 
     @PostMapping
     public ActionResultDTO createAppUser(@Valid @RequestBody AppUserRequestDTO dto) {
@@ -48,7 +48,7 @@ public class AppUserController {
 
     @GetMapping("/options")
     public VisionOptionsDTO getAppUserOptions(@AuthenticationPrincipal AppUser currentUser) {
-        return visionOptionsService.getOptions(currentUser);
+        return workmarketOptionsService.getOptions(currentUser);
     }
 
     @GetMapping("/me")

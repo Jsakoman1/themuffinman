@@ -2,6 +2,8 @@ package com.themuffinman.app.vision.dto;
 
 import com.themuffinman.app.identity.dto.AppUserRequestDTO;
 import com.themuffinman.app.social.dto.CircleGroupRequestDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
+import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;

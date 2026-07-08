@@ -1,8 +1,8 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.vision.dto.DashboardNotificationDestinationTypeDTO;
-import com.themuffinman.app.vision.dto.DashboardNotificationItemDTO;
-import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
+import com.themuffinman.app.workmarket.dto.DashboardNotificationDestinationTypeDTO;
+import com.themuffinman.app.workmarket.dto.DashboardNotificationItemDTO;
+import com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

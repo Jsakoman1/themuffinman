@@ -1,0 +1,83 @@
+{
+  "generated_at": "2026-07-07T17:48:33Z",
+  "symbol": "WorkmarketQuestMgr",
+  "symbol_files": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestMgr.java",
+      "category": "backend_mapper",
+      "domain": "workmarket",
+      "lines": 220
+    }
+  ],
+  "direct_tests": [
+
+  ],
+  "nearby_tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/mapper/WorkmarketVisionContractBridgeTest.java"
+  ],
+  "scenario_hits": [
+    {
+      "id": "workmarket-quest-lifecycle",
+      "domain": "workmarket",
+      "risk": "high",
+      "scenario": "Quest create, update, delete, start, complete, and term-change flows must resolve actors, validate state, persist changes, and publish expected notifications.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest"
+      ]
+    },
+    {
+      "id": "workmarket-application-lifecycle",
+      "domain": "workmarket",
+      "risk": "high",
+      "scenario": "Application apply, applicant edit, withdraw, owner approve, owner decline, and admin mutation flows must enforce ownership, status, pricing, and notification rules.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest"
+      ]
+    },
+    {
+      "id": "workmarket-dashboard-read-model",
+      "domain": "workmarket",
+      "risk": "medium",
+      "scenario": "Dashboard sections, applicant actions, open-work groups, and notification destinations must stay backend-prepared and role-aware.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest"
+      ]
+    },
+    {
+      "id": "workmarket-quest-read-model",
+      "domain": "workmarket",
+      "risk": "medium",
+      "scenario": "Quest browsing, recommendation ranking, and quest news read state must stay backend-prepared and viewer-aware.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestNewsServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=QuestQueryServiceTest,QuestNewsServiceTest,DashboardServiceTest"
+      ]
+    }
+  ],
+  "recommended_commands": [
+    "cd apps/themuffinman && ./mvnw test -Dtest=WorkmarketVisionContractBridgeTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=QuestQueryServiceTest,QuestNewsServiceTest,DashboardServiceTest"
+  ],
+  "residual_risk": [
+    "No direct test references were found for the symbol.",
+    "Only nearby tests were found; symbol-level coverage may still be indirect."
+  ]
+}

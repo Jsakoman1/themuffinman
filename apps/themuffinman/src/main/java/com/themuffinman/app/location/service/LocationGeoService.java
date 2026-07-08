@@ -3,7 +3,7 @@ package com.themuffinman.app.location.service;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.location.model.UserLocationMode;
-import com.themuffinman.app.vision.model.Quest;
+import com.themuffinman.app.workmarket.model.Quest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,10 +34,6 @@ public class LocationGeoService {
     }
 
     public boolean isQuestSearchable(Quest quest) {
-        return hasCoordinates(quest.getLocationLatitude(), quest.getLocationLongitude());
-    }
-
-    public boolean isQuestSearchable(com.themuffinman.app.workmarket.model.Quest quest) {
         return hasCoordinates(quest.getLocationLatitude(), quest.getLocationLongitude());
     }
 

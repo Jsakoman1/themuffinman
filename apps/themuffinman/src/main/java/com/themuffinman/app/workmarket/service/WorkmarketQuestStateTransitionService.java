@@ -2,7 +2,7 @@ package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.QuestRequestDTO;
+import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
@@ -75,7 +75,7 @@ public class WorkmarketQuestStateTransitionService {
         applyConfirmedQuestTermFields(quest, dto.getScheduledAt(), dto.getEndsAt(), dto.getTermFixed());
 
         if (quest.getStatus() == QuestStatus.WAITING_CONFIRMATION
-                && (dto.getStatus() == null || dto.getStatus() == com.themuffinman.app.vision.model.QuestStatus.WAITING_CONFIRMATION)) {
+                && (dto.getStatus() == null || dto.getStatus() == QuestStatus.WAITING_CONFIRMATION)) {
             restoreQuestStatusAfterTermDecision(quest);
         }
 

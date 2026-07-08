@@ -1,31 +1,31 @@
 {
-  "generated_at": "2026-07-07T15:48:22Z",
-  "total_count": 45,
+  "generated_at": "2026-07-08T06:34:38Z",
+  "total_count": 95,
   "open_count": 1,
-  "master_plan_count": 14,
+  "master_plan_count": 20,
   "god_plan_count": 1,
   "open_master_plans": [
+
+  ],
+  "open_plans": [
     {
-      "path": ".agents/workmarket-extraction-master-plan.md",
-      "kind": "master-plan",
-      "status": "active",
-      "title": "Workmarket Extraction Master Plan",
-      "goal": "Extract the quest, application, dashboard, and review domain from the overloaded vision package into a dedicated workmarket module while keeping the current product behavior stable.",
-      "child_plans": 12,
+      "path": ".agents/vision-workmarket-dashboard-boundary-finalization-plan.md",
+      "kind": "plan",
+      "status": "unknown",
+      "title": "Vision Workmarket Dashboard Boundary Finalization Plan",
+      "goal": "Remove the remaining `workmarket -> vision` dashboard prompt and voice compile-time dependency while preserving the existing `/dashboard/me/vision/*` and `/dashboard/me/voice/*` behavior.",
+      "child_plans": 0,
       "open_tasks": 0
     }
   ],
-  "open_plans": [
-
-  ],
   "entries": [
     {
-      "path": ".agents/workmarket-extraction-master-plan.md",
-      "kind": "master-plan",
-      "status": "active",
-      "title": "Workmarket Extraction Master Plan",
-      "goal": "Extract the quest, application, dashboard, and review domain from the overloaded vision package into a dedicated workmarket module while keeping the current product behavior stable.",
-      "child_plans": 12,
+      "path": ".agents/vision-workmarket-dashboard-boundary-finalization-plan.md",
+      "kind": "plan",
+      "status": "unknown",
+      "title": "Vision Workmarket Dashboard Boundary Finalization Plan",
+      "goal": "Remove the remaining `workmarket -> vision` dashboard prompt and voice compile-time dependency while preserving the existing `/dashboard/me/vision/*` and `/dashboard/me/voice/*` behavior.",
+      "child_plans": 0,
       "open_tasks": 0
     }
   ]

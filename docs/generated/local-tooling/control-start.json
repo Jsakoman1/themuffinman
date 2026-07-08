@@ -1,23 +1,23 @@
 {
-  "generated_at": "2026-07-07T15:48:24Z",
+  "generated_at": "2026-07-08T06:34:42Z",
   "plan_index": {
     "path": "docs/generated/local-tooling/plan-index.json",
     "summary_path": "docs/generated/local-tooling/plan-index-summary.md",
-    "total_count": 45,
+    "total_count": 95,
     "open_count": 1,
     "open_master_plans": [
-      {
-        "path": ".agents/workmarket-extraction-master-plan.md",
-        "kind": "master-plan",
-        "status": "active",
-        "title": "Workmarket Extraction Master Plan",
-        "goal": "Extract the quest, application, dashboard, and review domain from the overloaded vision package into a dedicated workmarket module while keeping the current product behavior stable.",
-        "child_plans": 12,
-        "open_tasks": 0
-      }
+
     ],
     "open_plans": [
-
+      {
+        "path": ".agents/vision-workmarket-dashboard-boundary-finalization-plan.md",
+        "kind": "plan",
+        "status": "unknown",
+        "title": "Vision Workmarket Dashboard Boundary Finalization Plan",
+        "goal": "Remove the remaining `workmarket -> vision` dashboard prompt and voice compile-time dependency while preserving the existing `/dashboard/me/vision/*` and `/dashboard/me/voice/*` behavior.",
+        "child_plans": 0,
+        "open_tasks": 0
+      }
     ]
   },
   "audit_summary_index": {
@@ -39,5 +39,5 @@
 
     ]
   },
-  "next_action": "Use `make codex-context topic=<topic> intent='<intent>'` for topic-specific broad work once this control snapshot is fresh."
+  "next_action": "Use `make implementation-batch topic=<topic>` for a deterministic broad-work pass, or `make codex-context topic=<topic> intent='<intent>'` when you only need topic-specific context once this control snapshot is fresh."
 }

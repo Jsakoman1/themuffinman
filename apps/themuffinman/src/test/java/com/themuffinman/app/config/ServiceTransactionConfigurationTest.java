@@ -9,12 +9,11 @@ import com.themuffinman.app.social.service.CircleDiscoveryService;
 import com.themuffinman.app.social.service.CircleMembershipService;
 import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.social.service.CircleRelationService;
-import com.themuffinman.app.vision.service.QuestApplicationService;
-import com.themuffinman.app.vision.service.QuestExecutionPrimitiveService;
-import com.themuffinman.app.vision.service.QuestNewsService;
-import com.themuffinman.app.vision.service.QuestViewAssembler;
 import com.themuffinman.app.vision.service.VisionConversationLifecycleService;
-import com.themuffinman.app.vision.service.VisionOptionsService;
+import com.themuffinman.app.workmarket.service.WorkmarketOptionsService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestExecutionPrimitiveService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,12 +28,11 @@ class ServiceTransactionConfigurationTest {
     void selectedReadServicesUseReadOnlyTransactionalClassCoverage() {
         assertReadOnlyTransactional(AdminUserDetailService.class);
         assertReadOnlyTransactional(UserProfileViewService.class);
-        assertReadOnlyTransactional(VisionOptionsService.class);
+        assertReadOnlyTransactional(WorkmarketOptionsService.class);
         assertReadOnlyTransactional(AdminDatabaseMetricsService.class);
-        assertReadOnlyTransactional(QuestApplicationService.class);
+        assertReadOnlyTransactional(WorkmarketQuestApplicationReadService.class);
         assertReadOnlyTransactional(CircleDiscoveryService.class);
-        assertReadOnlyTransactional(QuestNewsService.class);
-        assertReadOnlyTransactional(QuestViewAssembler.class);
+        assertReadOnlyTransactional(WorkmarketQuestNewsService.class);
     }
 
     @Test
@@ -66,9 +64,9 @@ class ServiceTransactionConfigurationTest {
         assertMethodReadOnlyTransactional(CircleReadService.class, "getRelationWithUser", com.themuffinman.app.identity.model.AppUser.class, Long.class);
         assertMethodReadOnlyTransactional(VisionConversationLifecycleService.class, "loadConversation", Long.class, com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(VisionConversationLifecycleService.class, "listRecentConversations", com.themuffinman.app.identity.model.AppUser.class);
-        assertMethodReadOnlyTransactional(QuestExecutionPrimitiveService.class, "resolveTarget", Long.class);
-        assertMethodReadOnlyTransactional(QuestExecutionPrimitiveService.class, "resolveTargetForTermDecision", Long.class, com.themuffinman.app.identity.model.AppUser.class);
-        assertMethodReadOnlyTransactional(QuestExecutionPrimitiveService.class, "resolveCreator", com.themuffinman.app.vision.dto.QuestRequestDTO.class, com.themuffinman.app.identity.model.AppUser.class);
+        assertMethodReadOnlyTransactional(WorkmarketQuestExecutionPrimitiveService.class, "resolveTarget", Long.class);
+        assertMethodReadOnlyTransactional(WorkmarketQuestExecutionPrimitiveService.class, "resolveTargetForTermDecision", Long.class, com.themuffinman.app.identity.model.AppUser.class);
+        assertMethodReadOnlyTransactional(WorkmarketQuestExecutionPrimitiveService.class, "resolveCreator", com.themuffinman.app.workmarket.dto.QuestRequestDTO.class, com.themuffinman.app.identity.model.AppUser.class);
     }
 
     private void assertReadOnlyTransactional(Class<?> type) {

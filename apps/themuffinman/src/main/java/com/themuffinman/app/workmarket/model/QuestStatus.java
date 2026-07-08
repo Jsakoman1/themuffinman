@@ -6,5 +6,9 @@ public enum QuestStatus {
     IN_PROGRESS,
     WAITING_CONFIRMATION,
     COMPLETED,
-    CANCELLED
+    CANCELLED;
+
+    public boolean isActiveForWorker() {
+        return this == ASSIGNED || this == IN_PROGRESS || this == WAITING_CONFIRMATION;
+    }
 }

@@ -9,7 +9,7 @@ Draft.
 
 ## Goal
 
-TBD.
+TBD. Keep the goal to one durable coordination outcome, not a shopping list.
 
 ## Parent God Plan
 
@@ -29,7 +29,11 @@ TBD.
 
 ## Improvement Checklist
 
-- [ ] TBD
+- [ ] Define one ordered child plan per concrete improvement slice.
+- [ ] Keep the child-plan order stable unless the implementation sequence changes.
+- [ ] Include a short validation and closeout path for the whole batch.
+- [ ] Record any deferred follow-up items in a persistent backlog.
+- [ ] Do not mark the master plan complete until every child plan row is complete or explicitly deferred.
 
 ## Dependencies
 

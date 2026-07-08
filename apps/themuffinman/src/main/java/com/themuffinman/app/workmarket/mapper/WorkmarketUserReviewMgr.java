@@ -2,7 +2,7 @@ package com.themuffinman.app.workmarket.mapper;
 
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
-import com.themuffinman.app.vision.dto.UserReviewResponseDTO;
+import com.themuffinman.app.workmarket.dto.UserReviewResponseDTO;
 import com.themuffinman.app.workmarket.model.UserReview;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +25,7 @@ public class WorkmarketUserReviewMgr {
                 .reviewerUserId(review.getReviewer().getId())
                 .reviewerUsername(review.getReviewer().getUsername())
                 .reviewedUserId(review.getReviewedUser().getId())
-                .reviewedRole(com.themuffinman.app.vision.model.ReviewRole.valueOf(review.getReviewedRole().name()))
+                .reviewedRole(review.getReviewedRole())
                 .stars(review.getStars().intValue())
                 .comment(review.getComment())
                 .createdAt(review.getCreatedAt())

@@ -6,9 +6,12 @@ import com.themuffinman.app.things.dto.ThingListingResponseDTO;
 import com.themuffinman.app.things.service.ThingSharingService;
 import com.themuffinman.app.vision.dto.DashboardNotificationItemDTO;
 import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
+import com.themuffinman.app.vision.dto.QuestNewsDestinationTypeDTO;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
-import com.themuffinman.app.vision.mapper.QuestNewsMgr;
+import com.themuffinman.app.workmarket.model.QuestNewsType;
+import com.themuffinman.app.workmarket.mapper.WorkmarketQuestNewsMgr;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +22,8 @@ import java.util.List;
 @Service
 class VisionFeedPreviewRenderer {
 
-    private final QuestNewsService questNewsService;
-    private final QuestNewsMgr questNewsMgr;
+    private final WorkmarketQuestNewsService questNewsService;
+    private final WorkmarketQuestNewsMgr questNewsMgr;
     private final DashboardNotificationAssembler dashboardNotificationAssembler;
     private final ThingSharingService thingSharingService;
 
@@ -29,7 +32,7 @@ class VisionFeedPreviewRenderer {
             return null;
         }
 
-        List<QuestNewsItemResponseDTO> newsItems = questNewsService.getMyNews(currentUser).stream()
+        List<com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO> newsItems = questNewsService.getMyNews(currentUser).stream()
                 .map(questNewsMgr::toDto)
                 .toList();
 
@@ -38,7 +41,7 @@ class VisionFeedPreviewRenderer {
         long unreadCount = newsItems.stream().filter(item -> item.getReadAt() == null).count();
         VisionCapabilityPreviewSupport.addItem(items, "news_unread", "Unread", String.valueOf(unreadCount));
         for (int index = 0; index < Math.min(newsItems.size(), 4); index++) {
-            QuestNewsItemResponseDTO item = newsItems.get(index);
+            com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO item = newsItems.get(index);
             VisionCapabilityPreviewSupport.addItem(items, "news_" + item.getId(), item.getTitle(), item.getMessage());
         }
 
@@ -61,6 +64,7 @@ class VisionFeedPreviewRenderer {
 
         List<QuestNewsItemResponseDTO> newsItems = questNewsService.getMyNews(currentUser).stream()
                 .map(questNewsMgr::toDto)
+                .map(this::toVisionNewsItem)
                 .toList();
         List<DashboardNotificationItemDTO> recentItems = dashboardNotificationAssembler.toRecentItems(newsItems);
         List<DashboardNotificationItemDTO> unreadItems = recentItems.stream()
@@ -119,6 +123,38 @@ class VisionFeedPreviewRenderer {
                 .summary(summary)
                 .items(items)
                 .tone("info")
+                .build();
+    }
+
+    private QuestNewsItemResponseDTO toVisionNewsItem(com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO item) {
+        if (item == null) {
+            return null;
+        }
+
+        return QuestNewsItemResponseDTO.builder()
+                .id(item.getId())
+                .type(item.getType() == null ? null : QuestNewsType.valueOf(item.getType().name()))
+                .typeLabel(item.getTypeLabel())
+                .badgeClass(item.getBadgeClass())
+                .iconGlyph(item.getIconGlyph())
+                .title(item.getTitle())
+                .message(item.getMessage())
+                .questId(item.getQuestId())
+                .questTitle(item.getQuestTitle())
+                .applicationId(item.getApplicationId())
+                .circleRequestId(item.getCircleRequestId())
+                .destinationType(item.getDestinationType() == null ? null : QuestNewsDestinationTypeDTO.valueOf(item.getDestinationType().name()))
+                .destinationId(item.getDestinationId())
+                .resolutionKey(item.getResolutionKey())
+                .resolutionLabel(item.getResolutionLabel())
+                .exactResolutionEligible(item.isExactResolutionEligible())
+                .navigation(item.getNavigation())
+                .actorUserId(item.getActorUserId())
+                .actorUsername(item.getActorUsername())
+                .canAcceptCircleRequest(item.isCanAcceptCircleRequest())
+                .canDeclineCircleRequest(item.isCanDeclineCircleRequest())
+                .readAt(item.getReadAt())
+                .createdAt(item.getCreatedAt())
                 .build();
     }
 }

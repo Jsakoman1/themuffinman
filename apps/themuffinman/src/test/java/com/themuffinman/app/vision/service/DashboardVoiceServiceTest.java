@@ -1,6 +1,6 @@
 package com.themuffinman.app.vision.service;
 
-import com.themuffinman.app.vision.dto.DashboardVoiceTranscriptionDTO;
+import com.themuffinman.app.workmarket.dto.DashboardVoiceTranscriptionDTO;
 import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import org.junit.jupiter.api.Test;

@@ -6,19 +6,19 @@ import com.themuffinman.app.common.pagination.PageWindow;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.common.dto.NavigationTargetType;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationsViewDTO;
-import com.themuffinman.app.vision.dto.QuestDetailExecutionSectionDTO;
-import com.themuffinman.app.vision.dto.QuestDetailManagementSectionDTO;
-import com.themuffinman.app.vision.dto.QuestDetailNavigationSectionDTO;
-import com.themuffinman.app.vision.dto.QuestDetailReviewSectionDTO;
-import com.themuffinman.app.vision.dto.QuestDetailReviewTargetDTO;
-import com.themuffinman.app.vision.dto.QuestDetailResponseDTO;
-import com.themuffinman.app.vision.dto.QuestDetailSectionsDTO;
-import com.themuffinman.app.vision.dto.QuestDetailTermChangeSectionDTO;
-import com.themuffinman.app.vision.dto.QuestListPresetDTO;
-import com.themuffinman.app.vision.dto.QuestListResponseDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailExecutionSectionDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailManagementSectionDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailNavigationSectionDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailReviewSectionDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailReviewTargetDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailSectionsDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailTermChangeSectionDTO;
+import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
+import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.workmarket.mapper.WorkmarketQuestMgr;
 import com.themuffinman.app.workmarket.mapper.WorkmarketUserReviewMgr;
 import com.themuffinman.app.workmarket.model.Quest;
@@ -71,8 +71,8 @@ public class WorkmarketQuestReadService {
     public QuestListResponseDTO searchQuests(
             AppUser currentUser,
             String query,
-            com.themuffinman.app.vision.model.QuestStatus status,
-            com.themuffinman.app.vision.model.QuestAudience audience,
+            QuestStatus status,
+            QuestAudience audience,
             LocalDate dateFrom,
             LocalDate dateTo,
             String viewerTimeZone,
@@ -90,11 +90,11 @@ public class WorkmarketQuestReadService {
                 scopedQuests.stream()
                         .filter(quest -> questVisibilityService.canViewQuest(currentUser, quest))
                         .filter(quest -> !Boolean.TRUE.equals(excludeMine) || currentUser == null || !quest.getCreator().getId().equals(currentUser.getId()))
-                        .filter(quest -> status == null || QuestStatus.valueOf(status.name()) == quest.getStatus())
+                        .filter(quest -> status == null || status == quest.getStatus())
                         .toList(),
                 currentUser,
                 query,
-                audience == null ? null : QuestAudience.valueOf(audience.name()),
+                audience,
                 dateFrom,
                 dateTo,
                 viewerTimeZone,
@@ -112,7 +112,7 @@ public class WorkmarketQuestReadService {
             QuestListPresetDTO preset,
             AppUser currentUser,
             String query,
-            com.themuffinman.app.vision.model.QuestAudience audience,
+            QuestAudience audience,
             LocalDate dateFrom,
             LocalDate dateTo,
             String viewerTimeZone,
@@ -152,7 +152,7 @@ public class WorkmarketQuestReadService {
                 baseQuests,
                 currentUser,
                 query,
-                audience == null ? null : QuestAudience.valueOf(audience.name()),
+                audience,
                 dateFrom,
                 dateTo,
                 viewerTimeZone,
@@ -205,7 +205,7 @@ public class WorkmarketQuestReadService {
                         .review(buildQuestDetailReviewSection(quest, currentUser, myApplication, applicationsView))
                         .execution(buildQuestDetailExecutionSection(questResponse))
                         .termChange(buildQuestDetailTermChangeSection(quest, questResponse.getAllowedActions()))
-                        .management(buildQuestDetailManagementSection(questResponse))
+                        .management(buildQuestDetailManagementSection(quest, questResponse))
                         .build())
                 .quest(questResponse)
                 .myApplication(myApplication)
@@ -230,7 +230,7 @@ public class WorkmarketQuestReadService {
         QuestApplication viewerApplication = currentUser == null ? null : applicationsByQuestId.get(quest.getId());
         var viewerRelation = questAccessPolicyService.resolveViewerRelation(quest, currentUser, viewerApplication);
         var allowedActions = questAccessPolicyService.resolveAllowedActions(quest, currentUser, viewerApplication);
-        boolean canViewApplications = allowedActions.contains(com.themuffinman.app.vision.dto.QuestAllowedActionDTO.VIEW_APPLICATIONS);
+        boolean canViewApplications = allowedActions.contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.VIEW_APPLICATIONS);
         int workerTarget = Math.max(response.getAssigneeTarget() == null ? 1 : response.getAssigneeTarget(), 1);
         int approvedApplicationCount = Math.toIntExact(questApplicationRepository.countByQuestIdAndStatus(quest.getId(), com.themuffinman.app.workmarket.model.QuestApplicationStatus.APPROVED));
         int remainingAssigneeSlots = Math.max(workerTarget - approvedApplicationCount, 0);
@@ -302,28 +302,28 @@ public class WorkmarketQuestReadService {
     }
 
     private QuestDetailExecutionSectionDTO buildQuestDetailExecutionSection(QuestResponseDTO questResponse) {
-        boolean canStart = questResponse.getAllowedActions().contains(com.themuffinman.app.vision.dto.QuestAllowedActionDTO.START);
-        boolean canComplete = questResponse.getAllowedActions().contains(com.themuffinman.app.vision.dto.QuestAllowedActionDTO.COMPLETE);
-        String helperText = questResponse.getViewerRelation() == com.themuffinman.app.vision.dto.QuestViewerRelationDTO.APPROVED_APPLICANT
+        boolean canStart = questResponse.getAllowedActions().contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.START);
+        boolean canComplete = questResponse.getAllowedActions().contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.COMPLETE);
+        String helperText = questResponse.getViewerRelation() == com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO.APPROVED_APPLICANT
                 ? "You are the approved applicant for this quest."
                 : null;
 
         return QuestDetailExecutionSectionDTO.builder()
                 .visible(canStart || canComplete || helperText != null)
                 .primaryAction(canStart
-                        ? com.themuffinman.app.vision.dto.QuestDetailExecutionActionDTO.START
-                        : (canComplete ? com.themuffinman.app.vision.dto.QuestDetailExecutionActionDTO.COMPLETE : null))
+                        ? com.themuffinman.app.workmarket.dto.QuestDetailExecutionActionDTO.START
+                        : (canComplete ? com.themuffinman.app.workmarket.dto.QuestDetailExecutionActionDTO.COMPLETE : null))
                 .primaryActionLabel(canStart ? "Start work" : (canComplete ? "Mark complete" : null))
                 .helperText(helperText)
                 .build();
     }
 
-    private QuestDetailTermChangeSectionDTO buildQuestDetailTermChangeSection(Quest quest, List<com.themuffinman.app.vision.dto.QuestAllowedActionDTO> allowedActions) {
+    private QuestDetailTermChangeSectionDTO buildQuestDetailTermChangeSection(Quest quest, List<com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO> allowedActions) {
         return QuestDetailTermChangeSectionDTO.builder()
                 .visible(quest.getStatus() == QuestStatus.WAITING_CONFIRMATION)
                 .actionable(
-                        allowedActions.contains(com.themuffinman.app.vision.dto.QuestAllowedActionDTO.CONFIRM_TERM_CHANGE)
-                                || allowedActions.contains(com.themuffinman.app.vision.dto.QuestAllowedActionDTO.REJECT_TERM_CHANGE)
+                        allowedActions.contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.CONFIRM_TERM_CHANGE)
+                                || allowedActions.contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.REJECT_TERM_CHANGE)
                 )
                 .summaryLabel("Term change waiting")
                 .confirmLabel("Confirm term change")
@@ -337,10 +337,10 @@ public class WorkmarketQuestReadService {
                 .build();
     }
 
-    private QuestDetailManagementSectionDTO buildQuestDetailManagementSection(QuestResponseDTO questResponse) {
-        boolean canManageQuest = questResponse.getViewerRelation() == com.themuffinman.app.vision.dto.QuestViewerRelationDTO.OWNER;
+    private QuestDetailManagementSectionDTO buildQuestDetailManagementSection(Quest quest, QuestResponseDTO questResponse) {
+        boolean canManageQuest = questResponse.getViewerRelation() == com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO.OWNER;
         String visibleToCirclesLabel = null;
-        if (canManageQuest && questResponse.getAudience() == com.themuffinman.app.vision.model.QuestAudience.CIRCLES) {
+        if (canManageQuest && quest.getAudience() == QuestAudience.CIRCLES) {
             List<String> circleNames = questResponse.getVisibleToCircles() == null
                     ? List.of()
                     : questResponse.getVisibleToCircles().stream()
@@ -351,10 +351,10 @@ public class WorkmarketQuestReadService {
         }
 
         return QuestDetailManagementSectionDTO.builder()
-                .editVisible(questResponse.getAllowedActions().contains(com.themuffinman.app.vision.dto.QuestAllowedActionDTO.EDIT))
-                .deleteVisible(questResponse.getAllowedActions().contains(com.themuffinman.app.vision.dto.QuestAllowedActionDTO.DELETE))
+                .editVisible(questResponse.getAllowedActions().contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.EDIT))
+                .deleteVisible(questResponse.getAllowedActions().contains(com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO.DELETE))
                 .postingSettingsVisible(canManageQuest)
-                .audienceLabel(canManageQuest ? presentationHelper.formatAudience(questResponse.getAudience()) : null)
+                .audienceLabel(canManageQuest ? presentationHelper.formatAudience(quest.getAudience()) : null)
                 .visibleToCirclesLabel(visibleToCirclesLabel)
                 .build();
     }
@@ -385,7 +385,7 @@ public class WorkmarketQuestReadService {
             return null;
         }
 
-        if (myApplication != null && myApplication.getStatus() == com.themuffinman.app.vision.model.QuestApplicationStatus.APPROVED) {
+        if (myApplication != null && myApplication.getStatus() == com.themuffinman.app.workmarket.model.QuestApplicationStatus.APPROVED) {
             return QuestDetailReviewTargetDTO.builder()
                     .userId(quest.getCreator().getId())
                     .username(quest.getCreator().getUsername())

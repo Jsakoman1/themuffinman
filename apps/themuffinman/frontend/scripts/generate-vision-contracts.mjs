@@ -204,6 +204,46 @@ function buildEnumLookup(enums) {
   return {byName, typeNames}
 }
 
+function buildDtoLookup(dtos) {
+  const byName = new Map()
+
+  for (const entry of dtos) {
+    if (!byName.has(entry.interfaceName)) {
+      byName.set(entry.interfaceName, [])
+    }
+
+    byName.get(entry.interfaceName).push(entry)
+  }
+
+  const domainPriority = new Map(["Vision", "Workmarket", "Common"].map((domain, index) => [domain, index]))
+
+  for (const entries of byName.values()) {
+    entries.sort((left, right) => {
+      const domainDiff = (domainPriority.get(left.sourceDomain) ?? 99) - (domainPriority.get(right.sourceDomain) ?? 99)
+      if (domainDiff !== 0) {
+        return domainDiff
+      }
+
+      return left.filePath.localeCompare(right.filePath)
+    })
+  }
+
+  const typeNames = new Map()
+
+  for (const [interfaceName, entries] of byName.entries()) {
+    if (entries.length === 1) {
+      typeNames.set(entries[0], interfaceName)
+      continue
+    }
+
+    entries.forEach((entry) => {
+      typeNames.set(entry, `${entry.sourceDomain}${interfaceName}`)
+    })
+  }
+
+  return {byName, typeNames}
+}
+
 function buildOutput(enums, enumLookup) {
   const lines = [
     "// Generated from backend Java enums and DTOs by scripts/generate-vision-contracts.mjs.",
@@ -336,18 +376,18 @@ const normalizeJavaType = (value) => removeInlineAnnotations(value)
   .replace(/\?/g, "")
   .trim()
 
-function mapJavaTypeToTs(rawType, enumLookup, sourceDomain) {
+function mapJavaTypeToTs(rawType, enumLookup, dtoLookup, sourceDomain) {
   const typeName = normalizeJavaType(rawType)
   const simpleType = stripPackage(typeName)
 
   if (simpleType.startsWith("List<") || simpleType.startsWith("Set<")) {
     const innerType = simpleType.slice(simpleType.indexOf("<") + 1, -1)
-    return `${mapJavaTypeToTs(innerType, enumLookup, sourceDomain)}[]`
+    return `${mapJavaTypeToTs(innerType, enumLookup, dtoLookup, sourceDomain)}[]`
   }
 
   if (simpleType.startsWith("Map<")) {
     const [, valueType = "unknown"] = splitTopLevel(simpleType.slice(4, -1), ",")
-    return `Record<string, ${mapJavaTypeToTs(valueType, enumLookup, sourceDomain)}>`
+    return `Record<string, ${mapJavaTypeToTs(valueType, enumLookup, dtoLookup, sourceDomain)}>`
   }
 
   if (SIMPLE_TYPE_MAP.has(simpleType)) {
@@ -360,6 +400,18 @@ function mapJavaTypeToTs(rawType, enumLookup, sourceDomain) {
       const matchingEntry = enumEntries.find((entry) => entry.sourceDomain === sourceDomain)
       if (matchingEntry) {
         return matchingEntry === enumEntries[0] ? simpleType : enumLookup.typeNames.get(matchingEntry)
+      }
+    }
+
+    return simpleType
+  }
+
+  const dtoEntries = dtoLookup.byName.get(simpleType)
+  if (dtoEntries?.length > 0) {
+    if (sourceDomain) {
+      const matchingEntry = dtoEntries.find((entry) => entry.sourceDomain === sourceDomain)
+      if (matchingEntry) {
+        return matchingEntry === dtoEntries[0] ? simpleType : dtoLookup.typeNames.get(matchingEntry)
       }
     }
 
@@ -451,7 +503,7 @@ async function parseDtoFile(filePath) {
       ...field,
       nullable: fieldNullableOverrides[`${interfaceName}.${field.name}`] ?? field.nullable
     }))
-    return fields.length > 0 ? {interfaceName, fields, sourceDomain} : null
+    return fields.length > 0 ? {interfaceName, fields, sourceDomain, filePath} : null
   }
 
   const recordMatch = source.match(/public\s+record\s+(\w+)\s*\(/)
@@ -461,24 +513,37 @@ async function parseDtoFile(filePath) {
       ...field,
       nullable: fieldNullableOverrides[`${interfaceName}.${field.name}`] ?? field.nullable
     }))
-    return fields.length > 0 ? {interfaceName, fields, sourceDomain} : null
+    return fields.length > 0 ? {interfaceName, fields, sourceDomain, filePath} : null
   }
 
   return null
 }
 
-function buildDtoOutput(dtos, enumLookup) {
+function buildDtoOutput(dtos, enumLookup, dtoLookup) {
   const lines = []
 
-  for (const {interfaceName, fields, sourceDomain} of dtos) {
-    lines.push(`export interface ${interfaceName} {`)
+  for (const entry of dtos) {
+    const {interfaceName, fields, sourceDomain} = entry
+    const exportedName = dtoLookup.typeNames.get(entry) ?? interfaceName
+    lines.push(`export interface ${exportedName} {`)
     for (const field of fields) {
       const optionalMarker = field.optional ? "?" : ""
       const nullableSuffix = field.nullable ? " | null" : ""
-      const type = fieldTypeOverrides[`${interfaceName}.${field.name}`] ?? mapJavaTypeToTs(field.rawType, enumLookup, sourceDomain)
+      const type = fieldTypeOverrides[`${interfaceName}.${field.name}`] ?? mapJavaTypeToTs(field.rawType, enumLookup, dtoLookup, sourceDomain)
       lines.push(`  ${field.name}${optionalMarker}: ${type}${nullableSuffix}`)
     }
     lines.push("}")
+    lines.push("")
+  }
+
+  for (const [interfaceName, entries] of dtoLookup.byName.entries()) {
+    if (entries.length < 2) {
+      continue
+    }
+
+    const preferred = entries[0]
+    const preferredTypeName = dtoLookup.typeNames.get(preferred)
+    lines.push(`export type ${interfaceName} = ${preferredTypeName}`)
     lines.push("")
   }
 
@@ -500,12 +565,13 @@ async function main() {
   const dtoFiles = javaFiles.filter((filePath) => filePath.includes("/dto/"))
   const parsedDtos = (await Promise.all(dtoFiles.map(parseDtoFile)))
     .filter((entry) => entry !== null)
-    .sort((left, right) => left.interfaceName.localeCompare(right.interfaceName))
+    .sort((left, right) => left.interfaceName.localeCompare(right.interfaceName) || left.filePath.localeCompare(right.filePath))
+  const dtoLookup = buildDtoLookup(parsedDtos)
   const operatingModel = parseYaml(await readFile(operatingModelPath, "utf8"))
 
   const outputLines = [
     ...buildOutput(parsedEnums, enumLookup),
-    ...buildDtoOutput(parsedDtos, enumLookup),
+    ...buildDtoOutput(parsedDtos, enumLookup, dtoLookup),
     ...buildAgentWorkflowOutput(operatingModel)
   ]
   const expectedOutput = `${outputLines.join("\n").trimEnd()}\n`

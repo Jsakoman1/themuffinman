@@ -9,8 +9,8 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.social.service.CircleRelationshipReadService;
 import com.themuffinman.app.social.service.SocialRelationActionHelper;
 import com.themuffinman.app.social.service.SocialPresentationHelper;
-import com.themuffinman.app.vision.model.ReviewRole;
-import com.themuffinman.app.vision.service.UserReviewService;
+import com.themuffinman.app.workmarket.model.ReviewRole;
+import com.themuffinman.app.workmarket.service.WorkmarketUserReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +22,7 @@ public class UserProfileViewService {
     private final AppUserReadService appUserReadService;
     private final CircleRelationshipReadService circleRelationshipReadService;
     private final IdentityUserSummaryAssembler identityUserSummaryAssembler;
-    private final UserReviewService userReviewService;
+    private final WorkmarketUserReviewService userReviewService;
     private final SocialPresentationHelper socialPresentationHelper;
     private final SocialRelationActionHelper socialRelationActionHelper;
 

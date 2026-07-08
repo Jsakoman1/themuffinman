@@ -9,10 +9,12 @@ import com.themuffinman.app.semantic.SemanticEntityFamily;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.service.CircleReadService;
-import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
-import com.themuffinman.app.vision.dto.QuestAllowedActionDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,8 +27,8 @@ final class VisionCapabilityEntityResolutionSupport {
     private final AppUserRepository appUserRepository;
     private final AppUserReadService appUserReadService;
     private final CircleReadService circleReadService;
-    private final QuestApplicationService questApplicationService;
-    private final QuestReadService questReadService;
+    private final WorkmarketQuestApplicationReadService questApplicationReadService;
+    private final WorkmarketQuestReadService questReadService;
     private final SemanticAliasRegistry semanticAliasRegistry;
     private static final Pattern QUEST_ID_PATTERN = Pattern.compile("(?i)(?:quest\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
     private static final Pattern APPLICATION_ID_PATTERN = Pattern.compile("(?i)(?:application\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
@@ -37,14 +39,14 @@ final class VisionCapabilityEntityResolutionSupport {
             AppUserRepository appUserRepository,
             AppUserReadService appUserReadService,
             CircleReadService circleReadService,
-            QuestApplicationService questApplicationService,
-            QuestReadService questReadService,
+            WorkmarketQuestApplicationReadService questApplicationReadService,
+            WorkmarketQuestReadService questReadService,
             SemanticAliasRegistry semanticAliasRegistry
     ) {
         this.appUserRepository = appUserRepository;
         this.appUserReadService = appUserReadService;
         this.circleReadService = circleReadService;
-        this.questApplicationService = questApplicationService;
+        this.questApplicationReadService = questApplicationReadService;
         this.questReadService = questReadService;
         this.semanticAliasRegistry = semanticAliasRegistry;
     }
@@ -195,7 +197,7 @@ final class VisionCapabilityEntityResolutionSupport {
         }
 
         String normalizedApplicantQuery = SearchQueryNormalizer.normalize(applicantQuery).toLowerCase(Locale.ROOT);
-        List<QuestApplicationResponseDTO> candidates = questApplicationService.getApplicationsForQuest(questTarget.questId(), currentUser).stream()
+        List<QuestApplicationResponseDTO> candidates = questApplicationReadService.getApplicationsForQuest(questTarget.questId(), currentUser).stream()
                 .filter(application -> application.getAllowedActions() != null && application.getAllowedActions().contains(requiredAction))
                 .filter(application -> matchesApplicantQuery(application, applicantQuery, normalizedApplicantQuery))
                 .toList();
@@ -234,7 +236,7 @@ final class VisionCapabilityEntityResolutionSupport {
         }
 
         Long questId = extractQuestId(query);
-        List<QuestApplicationResponseDTO> candidates = questApplicationService.getApplicationsForApplicant(currentUser).stream()
+        List<QuestApplicationResponseDTO> candidates = questApplicationReadService.getApplicationsForApplicant(currentUser).stream()
                 .filter(application -> application.getAllowedActions() != null && application.getAllowedActions().contains(requiredAction))
                 .filter(application -> matchesApplicationQuery(application, query, questId))
                 .toList();
@@ -271,7 +273,7 @@ final class VisionCapabilityEntityResolutionSupport {
         }
 
         Long applicationId = extractApplicationId(query);
-        List<QuestApplicationResponseDTO> applications = questApplicationService.getApplicationsForApplicant(currentUser);
+        List<QuestApplicationResponseDTO> applications = questApplicationReadService.getApplicationsForApplicant(currentUser);
         if (applicationId != null) {
             return applications.stream()
                     .filter(application -> applicationId.equals(application.getId()))

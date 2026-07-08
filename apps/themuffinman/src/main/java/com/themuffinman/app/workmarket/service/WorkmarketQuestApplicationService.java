@@ -1,12 +1,12 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.AdminQuestApplicationUpdateRequestDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationListResponseDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationRequestDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.AdminQuestApplicationUpdateRequestDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
 import com.themuffinman.app.workmarket.model.QuestApplication;
-import com.themuffinman.app.vision.model.QuestApplicationStatus;
+import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

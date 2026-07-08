@@ -64,7 +64,7 @@ public class WorkmarketQuestNewsService {
                 null,
                 application.getId(),
                 null,
-                QuestNewsType.QUEST_APPLICATION_RECEIVED,
+                QuestNewsType.APPLICATION_CREATED,
                 "New application",
                 application.getApplicant().getUsername() + " applied for \"" + quest.getTitle() + "\"."
         );
@@ -79,7 +79,7 @@ public class WorkmarketQuestNewsService {
                 null,
                 application.getId(),
                 null,
-                QuestNewsType.QUEST_APPLICATION_RECEIVED,
+                QuestNewsType.APPLICATION_UPDATED,
                 "Application updated",
                 application.getApplicant().getUsername() + " updated their application for \"" + quest.getTitle() + "\"."
         );
@@ -94,7 +94,7 @@ public class WorkmarketQuestNewsService {
                 null,
                 application.getId(),
                 null,
-                QuestNewsType.QUEST_APPLICATION_WITHDRAWN,
+                QuestNewsType.APPLICATION_WITHDRAWN,
                 "Application withdrawn",
                 application.getApplicant().getUsername() + " withdrew their application for \"" + quest.getTitle() + "\"."
         );
@@ -109,7 +109,7 @@ public class WorkmarketQuestNewsService {
                 null,
                 application.getId(),
                 null,
-                QuestNewsType.QUEST_APPLICATION_APPROVED,
+                QuestNewsType.APPLICATION_APPROVED,
                 "Application approved",
                 "Your application for \"" + quest.getTitle() + "\" was approved."
         );
@@ -124,7 +124,7 @@ public class WorkmarketQuestNewsService {
                 null,
                 application.getId(),
                 null,
-                QuestNewsType.QUEST_APPLICATION_DECLINED,
+                QuestNewsType.APPLICATION_DECLINED,
                 "Application declined",
                 "Your application for \"" + quest.getTitle() + "\" was declined."
         );

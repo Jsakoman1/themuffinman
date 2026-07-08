@@ -7,8 +7,8 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.prompt.PromptSemanticsSupport;
 import com.themuffinman.app.identity.repository.AppUserRepository;
-import com.themuffinman.app.vision.model.Quest;
-import com.themuffinman.app.vision.service.QuestService;
+import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +33,7 @@ class AdminAgentExecutionServiceTest {
     private AppUserRepository appUserRepository;
 
     @Mock
-    private QuestService questService;
+    private WorkmarketQuestService questService;
 
     private AgentProperties agentProperties;
     private AdminAgentExecutionService service;
@@ -98,7 +98,7 @@ class AdminAgentExecutionServiceTest {
         when(questService.createQuest(any(), any())).thenAnswer(invocation -> {
             Quest quest = new Quest();
             quest.setId((long) (100 + Math.random() * 100));
-            quest.setTitle(invocation.<com.themuffinman.app.vision.dto.QuestRequestDTO>getArgument(0).getTitle());
+            quest.setTitle(invocation.<com.themuffinman.app.workmarket.dto.QuestRequestDTO>getArgument(0).getTitle());
             return quest;
         });
 
@@ -110,8 +110,8 @@ class AdminAgentExecutionServiceTest {
                 adminUser
         );
 
-        ArgumentCaptor<com.themuffinman.app.vision.dto.QuestRequestDTO> requestCaptor =
-                ArgumentCaptor.forClass(com.themuffinman.app.vision.dto.QuestRequestDTO.class);
+        ArgumentCaptor<com.themuffinman.app.workmarket.dto.QuestRequestDTO> requestCaptor =
+                ArgumentCaptor.forClass(com.themuffinman.app.workmarket.dto.QuestRequestDTO.class);
         verify(questService, times(2)).createQuest(requestCaptor.capture(), any());
 
         assertTrue(response.isExecuted());

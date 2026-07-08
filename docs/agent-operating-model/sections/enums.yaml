@@ -6,19 +6,20 @@ enums:
   - USER
   - ADMIN
 - id: quest_status
-  java_class: com.themuffinman.app.vision.model.QuestStatus
+  java_class: com.themuffinman.app.workmarket.model.QuestStatus
   values:
   - OPEN
   - ASSIGNED
-  - WAITING_CONFIRMATION
   - IN_PROGRESS
+  - WAITING_CONFIRMATION
   - COMPLETED
   - CANCELLED
 - id: quest_audience
-  java_class: com.themuffinman.app.vision.model.QuestAudience
+  java_class: com.themuffinman.app.workmarket.model.QuestAudience
   values:
-  - CIRCLES
   - EVERYONE
+  - CIRCLES
+  - PRIVATE
 - id: user_location_mode
   java_class: com.themuffinman.app.location.model.UserLocationMode
   values:

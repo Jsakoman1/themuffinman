@@ -9,9 +9,9 @@ import com.themuffinman.app.social.dto.CircleContactDTO;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.social.service.CircleRelationshipReadService;
-import com.themuffinman.app.vision.dto.AppUserRoleOptionDTO;
-import com.themuffinman.app.vision.dto.VisionOptionsDTO;
-import com.themuffinman.app.vision.service.VisionOptionsService;
+import com.themuffinman.app.workmarket.dto.AppUserRoleOptionDTO;
+import com.themuffinman.app.workmarket.dto.VisionOptionsDTO;
+import com.themuffinman.app.workmarket.service.WorkmarketOptionsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -45,7 +45,7 @@ class AdminUserDetailServiceTest {
     private CircleRelationshipReadService circleRelationshipReadService;
 
     @Mock
-    private VisionOptionsService visionOptionsService;
+    private WorkmarketOptionsService workmarketOptionsService;
 
     @InjectMocks
     private AdminUserDetailService adminUserDetailService;
@@ -87,7 +87,7 @@ class AdminUserDetailServiceTest {
         when(appUserReadService.countQuestsByCreatorId(7L)).thenReturn(2L);
         when(appUserReadService.getOpenQuestsByCreatorId(7L)).thenReturn(List.of());
         when(identityUserSummaryAssembler.buildProfileSummary(target, 2L, List.of())).thenReturn(dto);
-        when(visionOptionsService.getOptions(target)).thenReturn(options);
+        when(workmarketOptionsService.getOptions(target)).thenReturn(options);
         when(circleReadService.getCirclesForUserAsAdmin(7L, admin)).thenReturn(circles);
         when(circleReadService.getConnectionsForUserAsAdmin(7L, admin)).thenReturn(contacts);
 

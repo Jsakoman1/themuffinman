@@ -20,6 +20,8 @@ Subdomains:
 
 Core files:
 - `src/main/java/com/themuffinman/app/workmarket/README.md`
+- `src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java`
+- `src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCreateQuestUseCase.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationService.java`
@@ -52,8 +54,18 @@ Core files:
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUserReviewService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestAccessPolicyService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestQueryService.java`
+- `src/main/java/com/themuffinman/app/workmarket/dto/QuestRequestDTO.java`
+- `src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationRequestDTO.java`
+- `src/main/java/com/themuffinman/app/workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java`
+- `src/main/java/com/themuffinman/app/workmarket/dto/AdminApplicationsQueryDTO.java`
+- `src/main/java/com/themuffinman/app/workmarket/dto/UserReviewRequestDTO.java`
+- `src/main/java/com/themuffinman/app/workmarket/dto/`
+- `src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java`
+- `src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java`
+- `src/main/java/com/themuffinman/app/workmarket/controller/UserReviewController.java`
 - `src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestMgr.java`
 - `src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestApplicationMgr.java`
+- `src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java`
 - `src/main/java/com/themuffinman/app/workmarket/model/Quest.java`
 - `src/main/java/com/themuffinman/app/workmarket/model/QuestApplication.java`
 - `src/main/java/com/themuffinman/app/workmarket/model/QuestStatus.java`
@@ -177,6 +189,12 @@ Primary schema migrations:
 - `V14__add_app_user_created_at.sql`
 - `V16__enforce_case_insensitive_user_email.sql`
 
+Cross-module contract note:
+- `identity` profile, admin-detail, and options surfaces now consume workmarket-owned quest, review, and options DTOs directly instead of the legacy `vision.dto` read copies.
+- Admin synthetic quest execution now writes through workmarket-owned quest request/service contracts.
+- Vision capability preview, search discovery, quest discovery, and entity-resolution flows now consume workmarket-owned quest/application/news DTOs and read services directly instead of routing those runtime reads through legacy `vision` quest/application DTO copies.
+- Vision create-quest execution now writes through `WorkmarketQuestService` directly, and the old dashboard/quest/application compatibility runtime path has been removed.
+
 ### `location`
 
 Subdomains:
@@ -211,6 +229,9 @@ Primary schema migrations:
 - `V25__add_location_provider_metadata.sql`
 - `V26__add_user_exact_location_visibility.sql`
 - `V28__create_location_lookup_event_table.sql`
+
+Cross-module contract note:
+- `location` metrics and helper ownership now default to `WorkmarketQuestRepository` and workmarket quest contract overloads outside the remaining legacy `vision` compatibility adapters.
 
 ### `common`
 

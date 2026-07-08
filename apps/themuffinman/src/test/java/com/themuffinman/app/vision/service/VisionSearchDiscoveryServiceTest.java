@@ -8,11 +8,13 @@ import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
 import com.themuffinman.app.things.service.ThingSharingService;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.dto.QuestListPresetDTO;
-import com.themuffinman.app.vision.dto.QuestListResponseDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
+import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,7 +42,7 @@ import static org.mockito.Mockito.when;
 class VisionSearchDiscoveryServiceTest {
 
     @Mock
-    private QuestReadService questReadService;
+    private WorkmarketQuestReadService questReadService;
 
     @Mock
     private CircleReadService circleReadService;
@@ -49,7 +51,7 @@ class VisionSearchDiscoveryServiceTest {
     private ThingSharingService thingSharingService;
 
     @Mock
-    private QuestApplicationService questApplicationService;
+    private WorkmarketQuestApplicationReadService questApplicationService;
 
     @Mock
     private AppUserRepository appUserRepository;

@@ -4,11 +4,12 @@ import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.location.model.QuestLocationSource;
 import com.themuffinman.app.location.model.QuestLocationVisibility;
+import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
+import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.workmarket.model.QuestAudience;
 import com.themuffinman.app.vision.model.VisionConversation;
-import com.themuffinman.app.vision.dto.QuestRequestDTO;
-import com.themuffinman.app.vision.model.Quest;
-import com.themuffinman.app.vision.model.QuestAudience;
-import com.themuffinman.app.vision.service.QuestService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestService;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -20,12 +21,18 @@ public class VisionCreateQuestExecutionAdapter implements VisionCapabilityExecut
 
     private static final String CAPABILITY_ID = "create_quest";
 
-    private final QuestService questService;
+    private final WorkmarketQuestService workmarketQuestService;
     private final VisionScheduleParserService visionScheduleParserService;
+    private final EntityManager entityManager;
 
-    public VisionCreateQuestExecutionAdapter(QuestService questService, VisionScheduleParserService visionScheduleParserService) {
-        this.questService = questService;
+    public VisionCreateQuestExecutionAdapter(
+            WorkmarketQuestService workmarketQuestService,
+            VisionScheduleParserService visionScheduleParserService,
+            EntityManager entityManager
+    ) {
+        this.workmarketQuestService = workmarketQuestService;
         this.visionScheduleParserService = visionScheduleParserService;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -64,7 +71,9 @@ public class VisionCreateQuestExecutionAdapter implements VisionCapabilityExecut
                 .locationHouseNumber(resolveLocationHouseNumber(slotData))
                 .build();
 
-        return questService.createQuest(dto, currentUser);
+        Quest createdQuest = workmarketQuestService.createQuest(dto, currentUser);
+        entityManager.clear();
+        return createdQuest;
     }
 
     private String required(Map<String, String> slotData, String slotId) {

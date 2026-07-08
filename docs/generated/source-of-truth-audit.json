@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-07T15:37:16Z",
+  "generatedAt": "2026-07-08T06:34:26Z",
   "summary": {
-    "candidateCount": 209,
+    "candidateCount": 193,
     "domainCounts": {
-      "agent": 104,
+      "agent": 25,
       "business": 2,
       "chat": 11,
       "common": 5,
@@ -12,20 +12,20 @@
       "rides": 2,
       "social": 30,
       "things": 2,
-      "workmarket": 16,
-      "platform": 7
+      "workmarket": 81,
+      "platform": 5
     },
     "ownerCounts": {
-      "agent_platform": 104,
+      "agent_platform": 25,
       "business_domain": 2,
       "chat_domain": 11,
-      "platform_core": 12,
+      "platform_core": 10,
       "identity_domain": 15,
       "location_domain": 15,
       "rides_domain": 2,
       "social_domain": 30,
       "things_domain": 2,
-      "workmarket_domain": 16
+      "workmarket_domain": 81
     },
     "missingSourceRefCount": 0,
     "missingDocumentationCoverageCount": 0,
@@ -1023,121 +1023,11 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_controller",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_application_controller",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestController.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_controller",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_news_controller",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UserReviewController.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "user_review_controller",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
       "candidateType": "backend_executor_critical",
       "domainId": "agent",
       "ownerId": "agent_platform",
       "sourceRefId": "vision_conversation_controller",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AdminApplicationsQueryDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "admin_applications_query_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/AppUserRoleOptionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "app_user_role_option_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/ApplicationAllowedActionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "application_allowed_action",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardApplicationGroupDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_application_group_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationItemDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_navigation_item_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNavigationSectionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_navigation_section_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
@@ -1163,316 +1053,6 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardNotificationsSectionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_notifications_section_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardOpenWorkSectionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_open_work_section_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardPlannerItemDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_planner_item_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardPlannerSectionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_planner_section_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardQuestGroupDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_quest_group_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardResponseDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_response_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardSectionsDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_sections_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardSummaryDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_summary_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAllowedActionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_allowed_action",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailContextSectionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_application_detail_context_section_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailNavigationSectionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_application_detail_navigation_section_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailResponseDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_application_detail_response_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationDetailSectionsDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_application_detail_sections_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationListResponseDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_application_list_response_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationPresentationDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_application_presentation_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationResponseDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_application_response_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationStatusFilterOptionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_application_status_filter_option_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationsViewDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_applications_view_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAudienceFilterOptionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_audience_filter_option_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestAudienceOptionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_audience_option_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailExecutionActionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_detail_execution_action",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailExecutionSectionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_detail_execution_section_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailManagementSectionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_detail_management_section_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailNavigationSectionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_detail_navigation_section_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailResponseDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_detail_response_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailReviewSectionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_detail_review_section_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailReviewTargetDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_detail_review_target_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailSectionsDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_detail_sections_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestDetailTermChangeSectionDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_detail_term_change_section_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestListPresetDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_list_preset",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestListResponseDTO.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_list_response_dto",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestNewsDestinationTypeDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "agent",
@@ -1493,381 +1073,561 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestPresentationDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
       "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "dashboard_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_application_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_news_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/UserReviewController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "user_review_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AdminApplicationsQueryDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "legacy_vision_admin_applications_query_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AppUserRoleOptionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_app_user_role_option_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/ApplicationAllowedActionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "application_allowed_action",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardApplicationGroupDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_application_group_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationItemDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_navigation_item_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNavigationSectionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_navigation_section_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationDestinationTypeDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_notification_destination_type_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationItemDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_notification_item_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardNotificationsSectionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_notifications_section_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardOpenWorkSectionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_open_work_section_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerItemDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_planner_item_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardPlannerSectionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_planner_section_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardQuestGroupDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_quest_group_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardResponseDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_response_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSectionsDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_sections_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_dashboard_summary_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAllowedActionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_allowed_action",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailContextSectionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_application_detail_context_section_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailNavigationSectionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_application_detail_navigation_section_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailResponseDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_application_detail_response_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationDetailSectionsDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_application_detail_sections_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationListResponseDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_application_list_response_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationPresentationDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_application_presentation_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_application_response_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationStatusFilterOptionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_application_status_filter_option_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationsViewDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_applications_view_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceFilterOptionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_audience_filter_option_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestAudienceOptionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_audience_option_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionActionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_detail_execution_action",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailExecutionSectionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_detail_execution_section_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailManagementSectionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_detail_management_section_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailNavigationSectionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_detail_navigation_section_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailResponseDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_detail_response_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewSectionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_detail_review_section_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailReviewTargetDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_detail_review_target_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailSectionsDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_detail_sections_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailTermChangeSectionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_detail_term_change_section_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListPresetDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_list_preset_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestListResponseDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_list_response_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsDestinationTypeDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_news_destination_type_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_news_item_response_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestPresentationDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
       "sourceRefId": "quest_presentation_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestResponseDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java",
       "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_response_dto",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_response_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSearchDefaultsDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSearchDefaultsDTO.java",
       "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_search_defaults_dto",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_search_defaults_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSearchRequestDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSearchRequestDTO.java",
       "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_search_request_dto",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_search_request_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestSortOptionDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestSortOptionDTO.java",
       "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_sort_option_dto",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_sort_option_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestStatusFilterOptionDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusFilterOptionDTO.java",
       "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_status_filter_option_dto",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_status_filter_option_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestStatusOptionDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusOptionDTO.java",
       "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_status_option_dto",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_status_option_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestViewerRelationDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestViewerRelationDTO.java",
       "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
       "sourceRefId": "quest_viewer_relation",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/VisionOptionsDTO.java",
       "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "vision_options_dto",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_vision_options_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestApplicationMgr.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_application_mgr",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestMgr.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_mgr",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/QuestNewsMgr.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_news_mgr",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/mapper/UserReviewMgr.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "user_review_mgr",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApplyForQuestUseCase.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "apply_for_quest_use_case",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ApproveApplicationUseCase.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "approve_application_use_case",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CompleteQuestUseCase.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "complete_quest_use_case",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/ConfirmQuestTermChangeUseCase.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "confirm_quest_term_change_use_case",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CreateQuestUseCase.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "create_quest_use_case",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardService.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "dashboard_service",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DeclineApplicationUseCase.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "decline_application_use_case",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DeleteQuestUseCase.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "delete_quest_use_case",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestAccessPolicyService.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_access_policy_service",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationService.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_application_service",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestExecutionPrimitiveService.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_execution_primitive_service",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestNewsService.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_news_service",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestQueryService.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_query_service",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestService.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_service",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestStateTransitionService.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_state_transition_service",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestUpdateService.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_update_service",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestValidationService.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_validation_service",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestVisibilityService.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "quest_visibility_service",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/RejectQuestTermChangeUseCase.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "reject_quest_term_change_use_case",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/StartQuestUseCase.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "start_quest_use_case",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UpdateMyApplicationUseCase.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "update_my_application_use_case",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UpdateQuestUseCase.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "update_quest_use_case",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserReviewService.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "user_review_service",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/WithdrawMyApplicationUseCase.java",
-      "candidateType": "backend_executor_critical",
-      "domainId": "agent",
-      "ownerId": "agent_platform",
-      "sourceRefId": "withdraw_my_application_use_case",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": true,
-      "serviceWorkflowCovered": true
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestApplicationMgr.java",
       "candidateType": "backend_executor_critical",
       "domainId": "workmarket",
       "ownerId": "workmarket_domain",
-      "sourceRefId": "workmarket_quest_application_mgr",
+      "sourceRefId": "quest_application_mgr",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
@@ -1971,6 +1731,96 @@
       "documentationCovered": true,
       "mutatingServiceCandidate": true,
       "serviceWorkflowCovered": true
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestAccessPolicyService.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_access_policy_service",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationService.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_application_service",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": true
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestExecutionPrimitiveService.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_execution_primitive_service",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": true
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestQueryService.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_query_service",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestService.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_quest_service",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": true
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestStateTransitionService.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_state_transition_service",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestUpdateService.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_update_service",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestValidationService.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_validation_service",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestVisibilityService.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "quest_visibility_service",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketRejectQuestTermChangeUseCase.java",
@@ -2093,31 +1943,21 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java",
-      "candidateType": "tracked_test",
-      "domainId": "platform",
-      "ownerId": "platform_core",
-      "sourceRefId": "quest_application_use_case_contract_test",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
-      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
-      "candidateType": "tracked_test",
-      "domainId": "platform",
-      "ownerId": "platform_core",
-      "sourceRefId": "quest_use_case_contract_test",
-      "documentationCovered": true,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null
-    },
-    {
       "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
       "candidateType": "tracked_test",
       "domainId": "platform",
       "ownerId": "platform_core",
       "sourceRefId": "quest_workflow_scenario_test",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto/WorkmarketRequestDtoValidationTest.java",
+      "candidateType": "tracked_test",
+      "domainId": "workmarket",
+      "ownerId": "workmarket_domain",
+      "sourceRefId": "workmarket_request_dto_validation_test",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null

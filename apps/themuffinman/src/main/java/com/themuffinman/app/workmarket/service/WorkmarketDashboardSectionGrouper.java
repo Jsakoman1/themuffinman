@@ -1,11 +1,11 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.vision.dto.DashboardApplicationGroupDTO;
-import com.themuffinman.app.vision.dto.DashboardQuestGroupDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
-import com.themuffinman.app.vision.model.QuestApplicationStatus;
-import com.themuffinman.app.vision.model.QuestStatus;
+import com.themuffinman.app.workmarket.dto.DashboardApplicationGroupDTO;
+import com.themuffinman.app.workmarket.dto.DashboardQuestGroupDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
+import com.themuffinman.app.workmarket.model.QuestStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

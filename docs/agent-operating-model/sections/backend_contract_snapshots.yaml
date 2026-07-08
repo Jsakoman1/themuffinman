@@ -66,7 +66,7 @@ backend_contract_snapshots:
   - apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
 - id: quest_response_snapshot
-  java_class: com.themuffinman.app.vision.dto.QuestResponseDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestResponseDTO
   declared_fields:
   - id
   - creatorId
@@ -137,10 +137,9 @@ backend_contract_snapshots:
   - quest_mgr
   - quest_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/mapper/QuestMgrTest.java
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
 - id: quest_application_response_snapshot
-  java_class: com.themuffinman.app.vision.dto.QuestApplicationResponseDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO
   declared_fields:
   - id
   - questId
@@ -187,10 +186,10 @@ backend_contract_snapshots:
   - quest_application_mgr
   - quest_application_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
 - id: quest_applications_view_snapshot
-  java_class: com.themuffinman.app.vision.dto.QuestApplicationsViewDTO
+  java_class: com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO
   declared_fields:
   - featuredApplication
   - approvedApplications
@@ -214,7 +213,7 @@ backend_contract_snapshots:
   source_refs:
   - quest_application_service
   verification_tests:
-  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
 - id: chat_conversation_summary_snapshot
   java_class: com.themuffinman.app.chat.dto.ChatConversationSummaryDTO

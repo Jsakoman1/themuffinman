@@ -14,17 +14,18 @@ import com.themuffinman.app.social.service.CircleService;
 import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
 import com.themuffinman.app.things.service.ThingSharingService;
-import com.themuffinman.app.vision.dto.ApplicationAllowedActionDTO;
 import com.themuffinman.app.vision.dto.DashboardNotificationItemDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
-import com.themuffinman.app.vision.dto.QuestAllowedActionDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
-import com.themuffinman.app.vision.model.QuestNewsItem;
-import com.themuffinman.app.vision.mapper.QuestNewsMgr;
-import com.themuffinman.app.vision.service.QuestApplicationService;
-import com.themuffinman.app.vision.service.QuestService;
-import com.themuffinman.app.vision.service.QuestNewsService;
+import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.mapper.WorkmarketQuestNewsMgr;
+import com.themuffinman.app.workmarket.model.QuestNewsItem;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,6 +36,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -57,15 +59,15 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
     @Mock
     private CircleService circleService;
     @Mock
-    private QuestService questService;
+    private WorkmarketQuestReadService questReadService;
     @Mock
-    private QuestReadService questReadService;
+    private WorkmarketQuestApplicationReadService questApplicationReadService;
     @Mock
-    private QuestApplicationService questApplicationService;
+    private WorkmarketQuestApplicationService questApplicationService;
     @Mock
-    private QuestNewsService questNewsService;
+    private WorkmarketQuestNewsService questNewsService;
     @Mock
-    private QuestNewsMgr questNewsMgr;
+    private WorkmarketQuestNewsMgr questNewsMgr;
     @Mock
     private DashboardNotificationAssembler dashboardNotificationAssembler;
     @Mock
@@ -84,8 +86,8 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 chatService,
                 circleReadService,
                 circleService,
-                questService,
                 questReadService,
+                questApplicationReadService,
                 questApplicationService,
                 questNewsService,
                 questNewsMgr,
@@ -137,9 +139,9 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 .questId(42L)
                 .questTitle("Car repair application")
                 .questCreatorUsername("Marta")
-                .allowedActions(List.of(ApplicationAllowedActionDTO.EDIT))
+                .allowedActions(List.of(com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO.EDIT))
                 .build();
-        when(questApplicationService.getApplicationsForApplicant(currentUser)).thenReturn(List.of(application));
+        when(questApplicationReadService.getApplicationsForApplicant(currentUser)).thenReturn(List.of(application));
 
         VisionResolvedApplicationTarget result = service.resolveMyPendingApplication(
                 currentUser,
@@ -167,10 +169,10 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 .questTitle("Car repair")
                 .questCreatorUsername("Marta")
                 .applicantUsername("alex")
-                .allowedActions(List.of(ApplicationAllowedActionDTO.APPROVE))
+                .allowedActions(List.of(com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO.APPROVE))
                 .build();
         when(questReadService.getAllQuestResponses(currentUser)).thenReturn(List.of(quest));
-        when(questApplicationService.getApplicationsForQuest(42L, currentUser)).thenReturn(List.of(application));
+        when(questApplicationReadService.getApplicationsForQuest(42L, currentUser)).thenReturn(List.of(application));
 
         VisionResolvedManagedApplicationTarget result = service.resolveManagedPendingApplication(
                 currentUser,
@@ -220,6 +222,7 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
         unreadItem.setReadAt(null);
         QuestNewsItemResponseDTO unread = QuestNewsItemResponseDTO.builder()
                 .id(31L)
+                .type(com.themuffinman.app.workmarket.model.QuestNewsType.APPLICATION_CREATED)
                 .title("New application")
                 .message("Marta applied for your quest")
                 .readAt(null)
@@ -232,14 +235,31 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
         readItem.setReadAt(java.time.Instant.now());
         QuestNewsItemResponseDTO read = QuestNewsItemResponseDTO.builder()
                 .id(32L)
+                .type(com.themuffinman.app.workmarket.model.QuestNewsType.CIRCLE_REQUEST_RECEIVED)
                 .title("Circle request")
                 .message("Alex sent you a circle request")
                 .readAt(java.time.Instant.now())
                 .build();
         when(questNewsService.getMyNews(currentUser)).thenReturn(List.of(unreadItem, readItem));
-        when(questNewsMgr.toDto(unreadItem)).thenReturn(unread);
-        when(questNewsMgr.toDto(readItem)).thenReturn(read);
-        when(dashboardNotificationAssembler.toRecentItems(List.of(unread, read))).thenReturn(List.of(
+        when(questNewsMgr.toDto(unreadItem)).thenReturn(
+                com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO.builder()
+                        .id(31L)
+                        .type(com.themuffinman.app.workmarket.model.QuestNewsType.APPLICATION_CREATED)
+                        .title("New application")
+                        .message("Marta applied for your quest")
+                        .readAt(null)
+                        .build()
+        );
+        when(questNewsMgr.toDto(readItem)).thenReturn(
+                com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO.builder()
+                        .id(32L)
+                        .type(com.themuffinman.app.workmarket.model.QuestNewsType.CIRCLE_REQUEST_RECEIVED)
+                        .title("Circle request")
+                        .message("Alex sent you a circle request")
+                        .readAt(java.time.Instant.now())
+                        .build()
+        );
+        when(dashboardNotificationAssembler.toRecentItems(anyList())).thenReturn(List.of(
                 DashboardNotificationItemDTO.builder().id(31L).title("New application").message("Marta applied for your quest").unread(true).typeLabel("New application").build(),
                 DashboardNotificationItemDTO.builder().id(32L).title("Circle request").message("Alex sent you a circle request").unread(false).typeLabel("Circle request").build()
         ));

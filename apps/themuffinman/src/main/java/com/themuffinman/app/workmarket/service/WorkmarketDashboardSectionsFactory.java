@@ -1,18 +1,18 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
-import com.themuffinman.app.vision.dto.DashboardNavigationItemDTO;
-import com.themuffinman.app.vision.dto.DashboardNavigationSectionDTO;
-import com.themuffinman.app.vision.dto.DashboardNotificationItemDTO;
-import com.themuffinman.app.vision.dto.DashboardNotificationsSectionDTO;
-import com.themuffinman.app.vision.dto.DashboardOpenWorkSectionDTO;
-import com.themuffinman.app.vision.dto.DashboardPlannerSectionDTO;
-import com.themuffinman.app.vision.dto.DashboardSectionsDTO;
-import com.themuffinman.app.vision.dto.QuestApplicationResponseDTO;
-import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
-import com.themuffinman.app.vision.dto.QuestResponseDTO;
-import com.themuffinman.app.vision.model.QuestApplicationStatus;
-import com.themuffinman.app.vision.model.QuestStatus;
+import com.themuffinman.app.workmarket.dto.DashboardNavigationItemDTO;
+import com.themuffinman.app.workmarket.dto.DashboardNavigationSectionDTO;
+import com.themuffinman.app.workmarket.dto.DashboardNotificationItemDTO;
+import com.themuffinman.app.workmarket.dto.DashboardNotificationsSectionDTO;
+import com.themuffinman.app.workmarket.dto.DashboardOpenWorkSectionDTO;
+import com.themuffinman.app.workmarket.dto.DashboardPlannerSectionDTO;
+import com.themuffinman.app.workmarket.dto.DashboardSectionsDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
+import com.themuffinman.app.workmarket.model.QuestStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

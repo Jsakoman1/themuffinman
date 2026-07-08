@@ -7,12 +7,12 @@ import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
 import com.themuffinman.app.social.service.SocialRelationActionHelper;
 import com.themuffinman.app.social.service.CircleRelationshipReadService;
 import com.themuffinman.app.social.service.SocialPresentationHelper;
-import com.themuffinman.app.vision.dto.UserRatingSummaryDTO;
-import com.themuffinman.app.vision.dto.UserReviewResponseDTO;
+import com.themuffinman.app.workmarket.dto.UserRatingSummaryDTO;
+import com.themuffinman.app.workmarket.dto.UserReviewResponseDTO;
 import com.themuffinman.app.identity.dto.UserProfileViewDTO;
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.model.ReviewRole;
-import com.themuffinman.app.vision.service.UserReviewService;
+import com.themuffinman.app.workmarket.model.ReviewRole;
+import com.themuffinman.app.workmarket.service.WorkmarketUserReviewService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -42,7 +42,7 @@ class UserProfileViewServiceTest {
     private IdentityUserSummaryAssembler identityUserSummaryAssembler;
 
     @Mock
-    private UserReviewService userReviewService;
+    private WorkmarketUserReviewService userReviewService;
 
     @Spy
     private SocialPresentationHelper socialPresentationHelper = new SocialPresentationHelper();

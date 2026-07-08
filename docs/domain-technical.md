@@ -92,8 +92,8 @@ Frontend vision surface note:
 - `VisionIntentRouter` now also recognizes `CREATE_CIRCLE`, and `VisionConversationService` runs a one-slot circle draft/review/confirm flow that executes through `CircleService.createCircle(...)` after explicit confirmation.
 - `VisionIntentRouter` now lets an explicit create-circle prompt override a circles snapshot semantic drift, so phrases like "make new circle of friends" still enter the circle draft flow instead of staying on `VIEW_CIRCLES`.
 - The same snapshot override logic also lets explicit circle requests, application mutations, profile updates, and direct chat prompts escape their matching read-only snapshot intents when the prompt clearly asks for an action.
-- `VisionIntentRouter` now also recognizes `CREATE_APPLICATION`, and `VisionConversationService` runs a review-gated application flow that resolves one applyable quest, collects `application_message`, collects `application_proposed_price` only when the resolved quest is paid, and then executes through `QuestApplicationService.applyForQuest(...)`.
-- `VisionIntentRouter` now also recognizes `UPDATE_APPLICATION` and `WITHDRAW_APPLICATION`; `VisionConversationService` resolves one exact pending self application through `VisionCapabilityPreviewService.resolveMyPendingApplication(...)`, reuses the same review/confirm boundary, and executes through `QuestApplicationService.updateMyApplication(...)` or `QuestApplicationService.withdrawMyApplication(...)` only after explicit confirmation.
+- `VisionIntentRouter` now also recognizes `CREATE_APPLICATION`, and `VisionConversationService` runs a review-gated application flow that resolves one applyable quest, collects `application_message`, collects `application_proposed_price` only when the resolved quest is paid, and then executes through `WorkmarketQuestApplicationService.applyForQuest(...)`.
+- `VisionIntentRouter` now also recognizes `UPDATE_APPLICATION` and `WITHDRAW_APPLICATION`; `VisionConversationService` resolves one exact pending self application through `VisionCapabilityPreviewService.resolveMyPendingApplication(...)`, reuses the same review/confirm boundary, and executes through `WorkmarketQuestApplicationService.updateMyApplication(...)` or `WorkmarketQuestApplicationService.withdrawMyApplication(...)` only after explicit confirmation.
 - `VisionIntentRouter` now also recognizes `UPDATE_PROFILE`, and `VisionConversationService` runs a review-gated self-profile mutation flow for `profile_username` and `profile_description`; `VisionCapabilityPreviewService.updateProfile(...)` preserves the current email, avatar, and location settings when it builds the full `AppUserRequestDTO` for `AppUserService.updateAppUser(...)`.
 - `VisionSurfaceModernView.vue` should use `POST /vision/conversations/turns` as the primary prompt-bearing conversation path, `GET /vision/conversations/recent` and `GET /vision/conversations/{conversationId}` for resume behavior, plus dedicated `POST /vision/conversations/{conversationId}/reset` and `POST /vision/conversations/{conversationId}/cancel` lifecycle endpoints; the backend also short-circuits common free-text shortcut commands like `cancel`, `stop`, and `reset` to that lifecycle flow during an active conversation, and the frontend exposes `Escape` as a local composer cancel shortcut.
 - The `/vision` conversation response now includes backend-driven `canvasMode` plus ordered `blocks`, with the first vocabulary covering `agent_message`, `recognized_prompt`, `field_request`, `result_summary`, `quest_discovery`, `review_summary`, `info`, `success`, and `warning`.
@@ -279,7 +279,7 @@ Technical notes:
 
 Primary files:
 - `apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java`
-- `apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java`
+- `apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java`
 - `apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java`
@@ -764,21 +764,21 @@ Primary files:
 - `workmarket/model/QuestNewsItem.java`
 - `workmarket/model/QuestNewsType.java`
 - `workmarket/model/QuestStatus.java`
-- `workmarket/service/QuestService.java`
-- `workmarket/service/QuestUpdateService.java`
-- `workmarket/service/QuestValidationService.java`
-- `workmarket/service/QuestStateTransitionService.java`
-- `workmarket/service/QuestVisibilityService.java`
-- `workmarket/service/QuestApplicationService.java`
-- `workmarket/service/QuestQueryService.java`
-- `workmarket/service/QuestNewsService.java`
-- `workmarket/service/DashboardService.java`
+- `workmarket/service/WorkmarketQuestService.java`
+- `workmarket/service/WorkmarketQuestUpdateService.java`
+- `workmarket/service/WorkmarketQuestValidationService.java`
+- `workmarket/service/WorkmarketQuestStateTransitionService.java`
+- `workmarket/service/WorkmarketQuestVisibilityService.java`
+- `workmarket/service/WorkmarketQuestApplicationService.java`
+- `workmarket/service/WorkmarketQuestQueryService.java`
+- `workmarket/service/WorkmarketQuestNewsService.java`
+- `workmarket/service/WorkmarketDashboardService.java`
 - `workmarket/service/DashboardVoiceService.java`
 - `workmarket/service/OpenAiVoiceClient.java`
-- `workmarket/service/QuestAccessPolicyService.java`
+- `workmarket/service/WorkmarketQuestAccessPolicyService.java`
 - `workmarket/service/QuestWorkflowNotificationService.java`
 - `workmarket/service/QuestViewAssembler.java`
-- `workmarket/service/VisionOptionsService.java`
+- `workmarket/service/WorkmarketOptionsService.java`
 - `workmarket/service/VisionPresentationHelper.java`
 
 Primary migrations:
@@ -802,16 +802,16 @@ Primary migrations:
 ### Quest core
 
 Primary files:
-- `workmarket/service/QuestService.java`
-- `workmarket/service/CreateQuestUseCase.java`
-- `workmarket/service/UpdateQuestUseCase.java`
-- `workmarket/service/DeleteQuestUseCase.java`
-- `workmarket/service/QuestUpdateService.java`
-- `workmarket/service/QuestValidationService.java`
-- `workmarket/service/QuestVisibilityService.java`
-- `workmarket/service/QuestAccessPolicyService.java`
-- `workmarket/service/QuestQueryService.java`
-- `workmarket/service/QuestExecutionPrimitiveService.java`
+- `workmarket/service/WorkmarketQuestService.java`
+- `workmarket/service/WorkmarketCreateQuestUseCase.java`
+- `workmarket/service/WorkmarketUpdateQuestUseCase.java`
+- `workmarket/service/WorkmarketDeleteQuestUseCase.java`
+- `workmarket/service/WorkmarketQuestUpdateService.java`
+- `workmarket/service/WorkmarketQuestValidationService.java`
+- `workmarket/service/WorkmarketQuestVisibilityService.java`
+- `workmarket/service/WorkmarketQuestAccessPolicyService.java`
+- `workmarket/service/WorkmarketQuestQueryService.java`
+- `workmarket/service/WorkmarketQuestExecutionPrimitiveService.java`
 - `workmarket/service/QuestViewAssembler.java`
 - `workmarket/model/Quest.java`
 - `workmarket/model/QuestStatus.java`
@@ -825,24 +825,24 @@ Primary files:
 
 Technical notes:
 - `QuestRequestDTO` requires `awardAmount`, but the accepted floor is `0.00`, not `0.01`.
-- `QuestValidationService` treats `awardAmount == 0` as a valid free-quest configuration and still rejects negative values.
-- `QuestService` now stays as the facade and read-model entrypoint while create, update, and delete mutations delegate into explicit use-case services.
-- `QuestExecutionPrimitiveService` centralizes quest target resolution, owner or execution authority checks, state gating, persistence, and notification fan-out for agent-safe mutation flows.
+- `WorkmarketQuestValidationService` treats `awardAmount == 0` as a valid free-quest configuration and still rejects negative values.
+- `WorkmarketQuestService` now stays as the controller-facing mutation facade while dedicated workmarket read services own quest detail and list assembly.
+- `WorkmarketQuestExecutionPrimitiveService` centralizes quest target resolution, owner or execution authority checks, state gating, persistence, and notification fan-out for agent-safe mutation flows.
 
 ### Applications
 
 Primary files:
-- `workmarket/service/QuestApplicationService.java`
-- `workmarket/service/QuestApplicationViewAssembler.java`
-- `workmarket/service/QuestApplicationWorkflowSupport.java`
-- `workmarket/service/ApplyForQuestUseCase.java`
-- `workmarket/service/UpdateMyApplicationUseCase.java`
-- `workmarket/service/WithdrawMyApplicationUseCase.java`
-- `workmarket/service/ApproveApplicationUseCase.java`
-- `workmarket/service/DeclineApplicationUseCase.java`
+- `workmarket/service/WorkmarketQuestApplicationService.java`
+- `workmarket/service/WorkmarketQuestApplicationViewAssembler.java`
+- `workmarket/service/WorkmarketQuestApplicationWorkflowSupport.java`
+- `workmarket/service/WorkmarketApplyForQuestUseCase.java`
+- `workmarket/service/WorkmarketUpdateMyApplicationUseCase.java`
+- `workmarket/service/WorkmarketWithdrawMyApplicationUseCase.java`
+- `workmarket/service/WorkmarketApproveApplicationUseCase.java`
+- `workmarket/service/WorkmarketDeclineApplicationUseCase.java`
 - `workmarket/model/QuestApplication.java`
 - `workmarket/model/QuestApplicationStatus.java`
-- `workmarket/mapper/QuestApplicationMgr.java`
+- `workmarket/mapper/WorkmarketQuestApplicationMgr.java`
 - `workmarket/dto/QuestApplicationRequestDTO.java`
 - `workmarket/dto/AdminQuestApplicationUpdateRequestDTO.java`
 - `workmarket/dto/QuestApplicationResponseDTO.java`
@@ -862,28 +862,28 @@ Technical notes:
 - Free quests require `proposedPrice == null`.
 - `QuestApplicationsViewDTO` now carries deterministic owner-side pending selection metadata through `pendingApplicationCount` and `oldestPendingApplicationId`.
 - `QuestResponseDTO` and `QuestApplicationResponseDTO` now carry deterministic resolution metadata for exact target selection.
-- `QuestApplicationService` stays as the controller-facing facade and read-model entrypoint, while applicant and owner application mutations delegate to narrow use-case services.
-- `QuestApplicationViewAssembler` is the single application DTO assembly path for applicant, management, public, and viewer-specific responses; dashboard and detail read surfaces should route viewer-specific application DTOs through `QuestApplicationService.toViewerResponse`.
-- `QuestApplicationWorkflowSupport` centralizes application workflow guards for quest visibility, open-state checks, duplicate applications, pending application resolution, and price/message validation.
-- `QuestAccessPolicyService` owns named workmarket permission decisions such as quest management, application management, application detail access, application eligibility, quest execution, and term-change decisions.
-- `QuestApplicationResponseDTO` read surfaces must map through fetch-safe application repository queries that include the quest, quest creator, and applicant, then apply role-specific assembly through `QuestApplicationService` applicant, management, or public response helpers.
+- `WorkmarketQuestApplicationService` stays as the controller-facing mutation facade, while dedicated read services own applicant, management, public, and detail application assembly.
+- `QuestApplicationViewAssembler` is the single application DTO assembly path for applicant, management, public, and viewer-specific responses; dashboard and detail read surfaces should route viewer-specific application DTOs through the dedicated workmarket read services.
+- `WorkmarketQuestApplicationWorkflowSupport` centralizes application workflow guards for quest visibility, open-state checks, duplicate applications, pending application resolution, and price/message validation.
+- `WorkmarketQuestAccessPolicyService` owns named workmarket permission decisions such as quest management, application management, application detail access, application eligibility, quest execution, and term-change decisions.
+- `QuestApplicationResponseDTO` read surfaces must map through fetch-safe application repository queries that include the quest, quest creator, and applicant, then apply role-specific assembly through the dedicated workmarket application read helpers.
 - Applicant-side pending-application update and withdrawal flows are modeled as exact application resolution followed by the same backend validation rules used by the existing service methods.
-- `QuestService.getQuestDetailResponseById` and `QuestService.getApplicationDetailResponseById` now preserve applicant self-service action flags on self-owned pending applications so the frontend can render withdraw actions consistently on detail surfaces.
+- `WorkmarketQuestReadService.getQuestDetailResponseById` and `WorkmarketQuestApplicationReadService.getApplicationDetailResponseById` preserve applicant self-service action flags on self-owned pending applications so the frontend can render withdraw actions consistently on detail surfaces.
 - `QuestNewsItemResponseDTO` now also carries deterministic resolution metadata so item-specific notification actions can target one exact backend row.
-- `QuestApplicationService.approveApplication` and `QuestApplicationService.declineApplication` both require an `OPEN` quest plus owner-or-admin authority.
-- `QuestApplicationService.declineApplication` only mutates `PENDING` applications and transitions them to `DECLINED`.
+- `WorkmarketQuestApplicationService.approveApplication` and `WorkmarketQuestApplicationService.declineApplication` both require an `OPEN` quest plus owner-or-admin authority.
+- `WorkmarketQuestApplicationService.declineApplication` only mutates `PENDING` applications and transitions them to `DECLINED`.
 
 ### Execution and term negotiation
 
 Primary files:
-- `workmarket/service/QuestStateTransitionService.java`
-- `workmarket/service/QuestService.java`
-- `workmarket/service/StartQuestUseCase.java`
-- `workmarket/service/CompleteQuestUseCase.java`
-- `workmarket/service/ConfirmQuestTermChangeUseCase.java`
-- `workmarket/service/RejectQuestTermChangeUseCase.java`
-- `workmarket/service/QuestExecutionPrimitiveService.java`
-- `workmarket/service/QuestAccessPolicyService.java`
+- `workmarket/service/WorkmarketQuestStateTransitionService.java`
+- `workmarket/service/WorkmarketQuestService.java`
+- `workmarket/service/WorkmarketStartQuestUseCase.java`
+- `workmarket/service/WorkmarketCompleteQuestUseCase.java`
+- `workmarket/service/WorkmarketConfirmQuestTermChangeUseCase.java`
+- `workmarket/service/WorkmarketRejectQuestTermChangeUseCase.java`
+- `workmarket/service/WorkmarketQuestExecutionPrimitiveService.java`
+- `workmarket/service/WorkmarketQuestAccessPolicyService.java`
 - `workmarket/service/QuestWorkflowNotificationService.java`
 - `workmarket/dto/QuestAllowedAction.java`
 - `workmarket/dto/QuestDetailExecutionAction.java`
@@ -899,15 +899,15 @@ Primary files:
 - `workmarket/dto/QuestViewerRelation.java`
 
 Technical notes:
-- `QuestStateTransitionService.validateQuestExecutionAuthority` allows owner, admin, or approved applicant to run execution actions.
-- `StartQuestUseCase.execute` requires `ASSIGNED` and transitions the quest to `IN_PROGRESS`.
-- `CompleteQuestUseCase.execute` requires `IN_PROGRESS` and transitions the quest to `COMPLETED`.
-- `QuestStateTransitionService.validateQuestTermDecisionAuthority` allows only admin or approved applicant to confirm or reject pending term changes.
-- `ConfirmQuestTermChangeUseCase.execute` and `RejectQuestTermChangeUseCase.execute` both enter through the shared execution primitive service before delegating the actual transition to `QuestStateTransitionService`.
-- `QuestStateTransitionService.confirmQuestTermChange` applies pending term fields, restores the previous quest status, and clears the pending state.
-- `QuestStateTransitionService.rejectQuestTermChange` restores the previous quest status without applying pending term fields, then clears the pending state.
+- `WorkmarketQuestStateTransitionService.validateQuestExecutionAuthority` allows owner, admin, or approved applicant to run execution actions.
+- `WorkmarketStartQuestUseCase.execute` requires `ASSIGNED` and transitions the quest to `IN_PROGRESS`.
+- `WorkmarketCompleteQuestUseCase.execute` requires `IN_PROGRESS` and transitions the quest to `COMPLETED`.
+- `WorkmarketQuestStateTransitionService.validateQuestTermDecisionAuthority` allows only admin or approved applicant to confirm or reject pending term changes.
+- `WorkmarketConfirmQuestTermChangeUseCase.execute` and `WorkmarketRejectQuestTermChangeUseCase.execute` both enter through the shared execution primitive service before delegating the actual transition to `WorkmarketQuestStateTransitionService`.
+- `WorkmarketQuestStateTransitionService.confirmQuestTermChange` applies pending term fields, restores the previous quest status, and clears the pending state.
+- `WorkmarketQuestStateTransitionService.rejectQuestTermChange` restores the previous quest status without applying pending term fields, then clears the pending state.
 - If `termChangePreviousStatus` is missing while resolving a term decision, the backend fails instead of inventing a fallback status.
-- `QuestAccessPolicyService` exposes these transitions to the frontend as allowed actions: `START`, `COMPLETE`, `CONFIRM_TERM_CHANGE`, and `REJECT_TERM_CHANGE`.
+- `WorkmarketQuestAccessPolicyService` exposes these transitions to the frontend as allowed actions: `START`, `COMPLETE`, `CONFIRM_TERM_CHANGE`, and `REJECT_TERM_CHANGE`.
 
 Voice-flow notes:
 - Relative schedule input such as `tomorrow at 15:00` must be resolved into an absolute timestamp in caller timezone before `QuestRequestDTO` is sent.
@@ -916,16 +916,16 @@ Voice-flow notes:
 - Approve-the-first-applicant style commands must use deterministic backend pending-selection metadata instead of incidental frontend ordering.
 - A prepare-to-start automation flow still requires separate applicant-side `apply` actions and owner-side `approve` actions before `start`.
 - Unexpected applicants outside the resolved selected-people set must not be auto-approved; they require explicit decline or manual handling.
-- Owner-side term change after `ASSIGNED` or `IN_PROGRESS` can route through `QuestUpdateService` into `WAITING_CONFIRMATION`.
+- Owner-side term change after `ASSIGNED` or `IN_PROGRESS` can route through `WorkmarketQuestUpdateService` into `WAITING_CONFIRMATION`.
 - Review creation is a separate post-completion mutation and must only target the employer or an approved worker of the completed quest.
 
 ### Dashboard and notifications
 
 Primary files:
-- `workmarket/service/DashboardService.java`
-- `workmarket/service/DashboardSummaryAssembler.java`
-- `workmarket/service/DashboardSectionsFactory.java`
-- `workmarket/service/QuestNewsService.java`
+- `workmarket/service/WorkmarketDashboardService.java`
+- `workmarket/service/WorkmarketDashboardSummaryAssembler.java`
+- `workmarket/service/WorkmarketDashboardSectionsFactory.java`
+- `workmarket/service/WorkmarketQuestNewsService.java`
 - `workmarket/model/QuestNewsItem.java`
 - `workmarket/model/QuestNewsType.java`
 - `workmarket/mapper/QuestNewsMgr.java`
@@ -945,14 +945,14 @@ Primary files:
 - `workmarket/dto/QuestNewsItemResponseDTO.java`
 
 Technical notes:
-- `DashboardSummaryAssembler` owns the workmarket dashboard summary counts so `DashboardService` stays focused on orchestration and screen assembly.
-- `DashboardSectionsFactory` owns dashboard navigation section labels and descriptions, plus grouped quest/application, planner, open-work, and notification sections.
+- `WorkmarketDashboardSummaryAssembler` owns the workmarket dashboard summary counts so `WorkmarketDashboardService` stays focused on orchestration and screen assembly.
+- `WorkmarketDashboardSectionsFactory` owns dashboard navigation section labels and descriptions, plus grouped quest/application, planner, open-work, and notification sections.
 - Frontend dashboard selectors should prefer `DashboardSectionsDTO.navigation.tabs` for dashboard section titles and descriptions, with local tab ids kept only for routing fallback before the dashboard response loads.
 
 ### Reviews and ratings
 
 Primary files:
-- `workmarket/service/UserReviewService.java`
+- `workmarket/service/WorkmarketUserReviewService.java`
 - `workmarket/model/UserReview.java`
 - `workmarket/model/ReviewRole.java`
 - `workmarket/mapper/UserReviewMgr.java`
@@ -964,7 +964,7 @@ Primary files:
 ### Options and presentation contracts
 
 Primary files:
-- `workmarket/service/VisionOptionsService.java`
+- `workmarket/service/WorkmarketOptionsService.java`
 - `workmarket/service/VisionPresentationHelper.java`
 - `workmarket/dto/QuestResponseDTO.java`
 - `workmarket/dto/QuestApplicationResponseDTO.java`
@@ -1552,11 +1552,11 @@ Identity coupling:
 - user-profile enrichment pulls open-quest counts and recent open quests from workmarket back into identity read models
 
 Social coupling:
-- circle-only quest visibility is enforced through `QuestVisibilityService`
+- circle-only quest visibility is enforced through `WorkmarketQuestVisibilityService`
 - selected visible circles are resolved from owner-owned circles only
 - fallback circle visibility uses `circleService.isCircleBetween(currentUser, quest.getCreator())`
 - workmarket notifications also carry circle-request events and actions, so the news feed is not quest-only
-- workmarket ownership, admin, application, and execution permissions must route through `QuestAccessPolicyService` instead of duplicating role or owner checks
+- workmarket ownership, admin, application, and execution permissions must route through `WorkmarketQuestAccessPolicyService` instead of duplicating role or owner checks
 
 Location coupling:
 - quest writes delegate location handling to `LocationSettingsService`

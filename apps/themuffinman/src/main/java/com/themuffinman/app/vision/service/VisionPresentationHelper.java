@@ -1,9 +1,9 @@
 package com.themuffinman.app.vision.service;
 
-import com.themuffinman.app.vision.model.QuestApplicationStatus;
-import com.themuffinman.app.vision.model.QuestAudience;
-import com.themuffinman.app.vision.model.QuestNewsType;
-import com.themuffinman.app.vision.model.QuestStatus;
+import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
+import com.themuffinman.app.workmarket.model.QuestAudience;
+import com.themuffinman.app.workmarket.model.QuestNewsType;
+import com.themuffinman.app.workmarket.model.QuestStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
@@ -125,6 +125,8 @@ public class VisionPresentationHelper {
         }
 
         return switch (type) {
+            case QUEST_CREATED -> "Quest created";
+            case QUEST_UPDATED -> "Quest updated";
             case CIRCLE_REQUEST_RECEIVED -> "Circle request";
             case APPLICATION_CREATED -> "New application";
             case APPLICATION_UPDATED -> "Application updated";

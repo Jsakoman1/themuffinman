@@ -1,7 +1,7 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.identity.model.AppUser;
-import com.themuffinman.app.vision.dto.QuestRequestDTO;
+import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.workmarket.model.Quest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

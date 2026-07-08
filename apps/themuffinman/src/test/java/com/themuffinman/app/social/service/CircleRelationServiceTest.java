@@ -10,7 +10,7 @@ import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.mapper.CircleRequestMgr;
 import com.themuffinman.app.social.model.CircleRequest;
 import com.themuffinman.app.social.repository.CircleRequestRepository;
-import com.themuffinman.app.vision.service.QuestNewsService;
+import com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -45,7 +45,7 @@ class CircleRelationServiceTest {
     private CircleRequestMgr circleRequestMgr;
 
     @Mock
-    private QuestNewsService questNewsService;
+    private WorkmarketQuestNewsService questNewsService;
 
     @InjectMocks
     private CircleRelationService circleRelationService;
