@@ -40,6 +40,7 @@ import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadSer
 import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationService;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -48,6 +49,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+@RequiredArgsConstructor
 @Service
 public class VisionCapabilityPreviewService {
 
@@ -65,59 +68,6 @@ public class VisionCapabilityPreviewService {
     private final VisionIdentityPreviewRenderer visionIdentityPreviewRenderer;
     private final VisionFeedPreviewRenderer visionFeedPreviewRenderer;
     private final VisionCapabilityEntityResolutionSupport visionCapabilityEntityResolutionSupport;
-
-    public VisionCapabilityPreviewService(
-            AppUserService appUserService,
-            AppUserReadService appUserReadService,
-            AppUserMgr appUserMgr,
-            AppUserRepository appUserRepository,
-            UserProfileViewService userProfileViewService,
-            ChatService chatService,
-            CircleReadService circleReadService,
-            CircleService circleService,
-            WorkmarketQuestReadService questReadService,
-            WorkmarketQuestApplicationReadService questApplicationReadService,
-            WorkmarketQuestApplicationService questApplicationService,
-            WorkmarketQuestNewsService questNewsService,
-            WorkmarketQuestNewsMgr questNewsMgr,
-            DashboardNotificationAssembler dashboardNotificationAssembler,
-            ThingSharingService thingSharingService,
-            SemanticAliasRegistry semanticAliasRegistry
-    ) {
-        this.appUserService = appUserService;
-        this.appUserReadService = appUserReadService;
-        this.appUserMgr = appUserMgr;
-        this.appUserRepository = appUserRepository;
-        this.userProfileViewService = userProfileViewService;
-        this.chatService = chatService;
-        this.circleReadService = circleReadService;
-        this.circleService = circleService;
-        this.questReadService = questReadService;
-        this.questApplicationReadService = questApplicationReadService;
-        this.questApplicationService = questApplicationService;
-        this.visionIdentityPreviewRenderer = new VisionIdentityPreviewRenderer(
-                appUserService,
-                appUserReadService,
-                appUserMgr,
-                appUserRepository,
-                userProfileViewService,
-                chatService
-        );
-        this.visionFeedPreviewRenderer = new VisionFeedPreviewRenderer(
-                questNewsService,
-                questNewsMgr,
-                dashboardNotificationAssembler,
-                thingSharingService
-        );
-        this.visionCapabilityEntityResolutionSupport = new VisionCapabilityEntityResolutionSupport(
-                appUserRepository,
-                appUserReadService,
-                circleReadService,
-                questApplicationReadService,
-                questReadService,
-                semanticAliasRegistry
-        );
-    }
 
     public VisionCapabilityPreviewDTO previewProfile(AppUser currentUser) {
         return visionIdentityPreviewRenderer.previewProfile(currentUser);

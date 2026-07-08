@@ -61,8 +61,8 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java
   - id: vision_conversation_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java
-  - id: dashboard_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardService.java
+  - id: dashboard_read_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardReadService.java
   - id: dashboard_vision_prompt_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVisionPromptService.java
   - id: dashboard_voice_service
@@ -163,8 +163,8 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusFilterOptionDTO.java
   - id: quest_status_option_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusOptionDTO.java
-  - id: vision_options_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/VisionOptionsDTO.java
+  - id: workmarket_options_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkmarketOptionsDTO.java
   - id: workmarket_app_user_role_option_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AppUserRoleOptionDTO.java
   - id: workmarket_application_allowed_action_dto
@@ -269,8 +269,8 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserRatingSummaryDTO.java
   - id: workmarket_user_review_response_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewResponseDTO.java
-  - id: workmarket_vision_options_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/VisionOptionsDTO.java
+  - id: workmarket_options_contract_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkmarketOptionsDTO.java
   - id: quest_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestRequestDTO.java
   - id: quest_allowed_action
@@ -387,8 +387,6 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestApplicationMgr.java
   - id: workmarket_vision_contract_bridge
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java
-  - id: workmarket_dashboard_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardService.java
   - id: workmarket_dashboard_read_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardReadService.java
   - id: workmarket_dashboard_summary_assembler

@@ -2,6 +2,7 @@
 
 Use this as the compact structure for a durable coordination plan.
 For shared planning rules, read `docs/program-planning-model.md` first.
+Use a normal Plan instead when one bounded implementation slice can carry the work without ordered child plans.
 
 ## Status
 
@@ -30,6 +31,7 @@ TBD. Keep the goal to one durable coordination outcome, not a shopping list.
 ## Improvement Checklist
 
 - [ ] Define one ordered child plan per concrete improvement slice.
+- [ ] Confirm that a Master Plan is really needed and that one durable Plan would not be clearer.
 - [ ] Keep the child-plan order stable unless the implementation sequence changes.
 - [ ] Include a short validation and closeout path for the whole batch.
 - [ ] Record any deferred follow-up items in a persistent backlog.

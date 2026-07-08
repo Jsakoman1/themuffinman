@@ -15,9 +15,12 @@ Use local audits before broad repo discovery when the question can be answered b
 Before broad repository searches, read the compact local context in this order:
 
 1. `docs/generated/local-tooling/diff-summary.md` for the current changed-file shape.
-2. `docs/generated/local-tooling/audit-summary-index.md` to choose the smallest relevant generated report.
-3. `make context-pack topic=<topic>` when the task has a clear feature, domain, or changed-file focus.
-4. `docs/generated/local-tooling/repo-map-summary.md` or `symbol-index-summary.md` only when the first three sources do not identify the needed files.
+2. `docs/generated/local-tooling/control-start-summary.md` for the compact operator snapshot.
+3. `docs/generated/local-tooling/audit-summary-index.md` to choose the smallest relevant generated report from the operator-core targets first.
+4. `make context-pack topic=<topic>` when the task has a clear feature, domain, or changed-file focus.
+5. `docs/generated/local-tooling/repo-map-summary.md` or `symbol-index-summary.md` only when the first four sources do not identify the needed files.
+
+Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support
+material rather than as default session context.
 
 ## Available Targets
-

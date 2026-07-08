@@ -202,6 +202,8 @@ This tier is intentionally strict:
 - `make control-start` writes `docs/generated/local-tooling/control-start.json` and `docs/generated/local-tooling/control-start-summary.md`, the compact control-system snapshot for plan and audit discovery.
 - `make control-refresh-full` performs the same snapshot work and then runs the slower generated-artifact freshness audit.
 - `make control-start`, `make codex-context`, and `make context-pack` surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
+- Treat the operator-core local-tooling surfaces as the default session path: `control-start`, `plan-index`, `audit-summary-index`, `codex-context/latest.*`, and targeted-tests summaries.
+- Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of live control state.
 - When the resolver shape is manifest-backed or closeout-sensitive, `make codex-context` should also surface validation memory so command and evidence expectations are present before the first closeout pass.
 - If the task touches active control state, planning state, or automation-facing rules, open the machine-readable source
   surfaces listed in `docs/control-surface-map.md` before broad narrative docs.

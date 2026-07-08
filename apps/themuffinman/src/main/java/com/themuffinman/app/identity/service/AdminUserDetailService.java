@@ -7,7 +7,7 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.social.service.CircleRelationshipReadService;
-import com.themuffinman.app.workmarket.dto.VisionOptionsDTO;
+import com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO;
 import com.themuffinman.app.workmarket.service.WorkmarketOptionsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class AdminUserDetailService {
                 appUserReadService.countQuestsByCreatorId(targetUser.getId()),
                 appUserReadService.getOpenQuestsByCreatorId(targetUser.getId())
         );
-        VisionOptionsDTO options = workmarketOptionsService.getOptions(targetUser);
+        WorkmarketOptionsDTO options = workmarketOptionsService.getOptions(targetUser);
 
         return AdminUserDetailDTO.builder()
                 .user(user)

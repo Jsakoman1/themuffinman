@@ -1,32 +1,101 @@
 {
-  "generated_at": "2026-07-08T06:34:42Z",
+  "generated_at": "2026-07-08T07:21:11Z",
   "plan_index": {
     "path": "docs/generated/local-tooling/plan-index.json",
     "summary_path": "docs/generated/local-tooling/plan-index-summary.md",
-    "total_count": 95,
-    "open_count": 1,
+    "total_count": 99,
+    "open_count": 0,
     "open_master_plans": [
 
     ],
     "open_plans": [
-      {
-        "path": ".agents/vision-workmarket-dashboard-boundary-finalization-plan.md",
-        "kind": "plan",
-        "status": "unknown",
-        "title": "Vision Workmarket Dashboard Boundary Finalization Plan",
-        "goal": "Remove the remaining `workmarket -> vision` dashboard prompt and voice compile-time dependency while preserving the existing `/dashboard/me/vision/*` and `/dashboard/me/voice/*` behavior.",
-        "child_plans": 0,
-        "open_tasks": 0
-      }
+
     ]
   },
   "audit_summary_index": {
     "path": "docs/generated/local-tooling/audit-summary-index.json",
     "summary_path": "docs/generated/local-tooling/audit-summary-index.md",
-    "registry_entries": null,
-    "tracked_outputs": null,
-    "missing_outputs": null
+    "registry_entries": 69,
+    "tracked_outputs": 25,
+    "missing_outputs": 44,
+    "operator_core_targets": [
+      {
+        "target": "audit-router",
+        "script": "scripts/audits/audit-router.rb",
+        "output": "docs/generated/local-tooling/audit-router-summary.md",
+        "output_exists": true,
+        "surface_class": "operator_core",
+        "operator_default": true
+      },
+      {
+        "target": "codex-context",
+        "script": "scripts/audits/codex-context.rb",
+        "output": "docs/generated/local-tooling/codex-context/latest.review.md",
+        "output_exists": true,
+        "surface_class": "operator_core",
+        "operator_default": true
+      },
+      {
+        "target": "recommend-targeted-tests",
+        "script": "scripts/audits/recommend-targeted-tests.rb",
+        "output": "docs/generated/local-tooling/targeted-tests-summary.md",
+        "output_exists": true,
+        "surface_class": "operator_core",
+        "operator_default": true
+      },
+      {
+        "target": "audit-doc-sync-required-surfaces",
+        "script": "scripts/audits/audit-doc-sync-required-surfaces.rb",
+        "output": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+        "output_exists": true,
+        "surface_class": "operator_core",
+        "operator_default": true
+      },
+      {
+        "target": "audit-manifest-decision",
+        "script": "scripts/audits/audit-manifest-decision.rb",
+        "output": "docs/generated/local-tooling/manifest-decision-summary.md",
+        "output_exists": true,
+        "surface_class": "operator_core",
+        "operator_default": true
+      },
+      {
+        "target": "recommend-validation-preset",
+        "script": "scripts/audits/recommend-validation-preset.rb",
+        "output": "docs/generated/local-tooling/validation-preset-summary.md",
+        "output_exists": true,
+        "surface_class": "operator_core",
+        "operator_default": true
+      },
+      {
+        "target": "diff-summary",
+        "script": "scripts/audits/generate-diff-summary.rb",
+        "output": "docs/generated/local-tooling/diff-summary.md",
+        "output_exists": false,
+        "surface_class": "operator_core",
+        "operator_default": true
+      },
+      {
+        "target": "plan-index",
+        "script": "scripts/audits/generate-plan-index.rb",
+        "output": "docs/generated/local-tooling/plan-index-summary.md",
+        "output_exists": true,
+        "surface_class": "operator_core",
+        "operator_default": true
+      }
+    ]
   },
+  "operator_core_surfaces": [
+    "docs/generated/local-tooling/control-start-summary.md",
+    "docs/generated/local-tooling/plan-index-summary.md",
+    "docs/generated/local-tooling/audit-summary-index.md",
+    "docs/generated/local-tooling/codex-context/latest.review.md",
+    "docs/generated/local-tooling/targeted-tests-summary.md"
+  ],
+  "archive_surfaces": [
+    "docs/generated/local-tooling/.history/",
+    "docs/generated/local-tooling/.cache/"
+  ],
   "codex_context_review": "docs/generated/local-tooling/codex-context/latest.review.md",
   "temp_work_products": {
     "path": ".agents/tmp",

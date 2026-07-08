@@ -6,8 +6,8 @@ import com.themuffinman.app.workmarket.dto.DashboardSummaryDTO;
 import com.themuffinman.app.workmarket.dto.DashboardVisionPromptRequestDTO;
 import com.themuffinman.app.workmarket.dto.DashboardVisionPromptResponseDTO;
 import com.themuffinman.app.workmarket.dto.DashboardVoiceConfigDTO;
-import com.themuffinman.app.workmarket.service.WorkmarketDashboardService;
 import com.themuffinman.app.workmarket.dto.DashboardVoiceSpeechRequestDTO;
+import com.themuffinman.app.workmarket.service.WorkmarketDashboardReadService;
 import com.themuffinman.app.workmarket.dto.DashboardVoiceTranscriptionDTO;
 import com.themuffinman.app.workmarket.service.WorkmarketDashboardVisionPromptService;
 import com.themuffinman.app.workmarket.service.WorkmarketDashboardVoiceService;
@@ -28,23 +28,23 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class DashboardController {
 
-    private final WorkmarketDashboardService dashboardService;
+    private final WorkmarketDashboardReadService dashboardReadService;
     private final WorkmarketDashboardVisionPromptService dashboardVisionPromptService;
     private final WorkmarketDashboardVoiceService dashboardVoiceService;
 
     @GetMapping("/me")
     public DashboardResponseDTO getMyDashboard(@AuthenticationPrincipal AppUser currentUser) {
-        return dashboardService.getMyDashboard(currentUser);
+        return dashboardReadService.getMyDashboard(currentUser);
     }
 
     @GetMapping("/me/summary")
     public DashboardSummaryDTO getMySummary(@AuthenticationPrincipal AppUser currentUser) {
-        return dashboardService.getMySummary(currentUser);
+        return dashboardReadService.getMySummary(currentUser);
     }
 
     @GetMapping("/me/voice-config")
     public DashboardVoiceConfigDTO getMyVoiceConfig(@AuthenticationPrincipal AppUser currentUser) {
-        return dashboardService.getMyVoiceConfig(currentUser);
+        return dashboardReadService.getMyVoiceConfig(currentUser);
     }
 
     @PostMapping("/me/vision/prompt")

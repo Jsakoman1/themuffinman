@@ -86,7 +86,7 @@ const transportAliases = {
   UserRatingSummary: "UserRatingSummaryDTO",
   UserReview: "UserReviewResponseDTO",
   UserReviewRequest: "UserReviewRequestDTO",
-  VisionOptions: "VisionOptionsDTO"
+  VisionOptions: "WorkmarketOptionsDTO"
 }
 
 const fieldTypeOverrides = {

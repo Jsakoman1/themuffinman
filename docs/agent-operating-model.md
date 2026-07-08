@@ -44,6 +44,8 @@ The machine-readable source of truth is:
 - For work that spans several master plans, use a God Plan under `.agents/god-plans/` to coordinate implementation state, pros, cons, risks, decisions, and child Master Plans.
 - Temporary machine-readable work products belong under `.agents/tmp/`, must name their owning plan, and must be deleted, promoted into durable docs, or explicitly archived when the owning plan closes.
 - `make control-start`, `make codex-context`, and `make context-pack` should surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
+- Treat the operator-core local-tooling surfaces as the default session path: `control-start`, `plan-index`, `audit-summary-index`, `codex-context/latest.*`, and targeted-tests summaries.
+- Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state.
 - `make implementation-batch topic=<topic>` should act as the deterministic broad-work wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, and closeout hints when a plan exists.
 - make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, and closeout hints when a plan exists.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
@@ -251,11 +253,13 @@ Context-first session workflow:
   it as a routing aid, not as the source of truth for current behavior
 - read or generate `make control-start` when the task needs the compact plan-and-audit discovery snapshot before
   broader search
+- stay on the operator-core local-tooling surfaces first and open focused review packs only when the compact surfaces do not identify the needed files
 - generate or read a topic context pack with `make codex-context topic=<topic> intent='<intent>'` when the task has a clear feature, domain, or changed-file focus; it now chains the diff summary, audit summary index, the most relevant audit, targeted tests, a concise evidence bundle, and any topic-matched layered-analysis artifact
 - treat `docs/generated/local-tooling/codex-context/latest.execution.json` as the canonical machine-readable manifest for the current context batch and `docs/codex-context-execution-manifest.schema.json` as its contract
 - for product-direction sessions, prepend `docs/product-memory.md` and `docs/product-vision.md` before broader business or technical docs so stable lessons and vision anchor the rest of the search
 - for `/vision` implementation sessions, include `docs/vision-architecture-patterns.md` before deciding backend orchestration, API, frontend canvas, prompt-handling, or executor patterns
 - use `docs/generated/local-tooling/repo-map-summary.md` and `docs/generated/local-tooling/symbol-index-summary.md` only after the compact diff, audit index, and context pack do not identify the needed files
+- ignore `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` during normal session startup unless a retrospective or archive comparison explicitly needs them
 - fall back to broad `rg` exploration only after the compact context path is insufficient
 
 Broad implementation checkpoints:

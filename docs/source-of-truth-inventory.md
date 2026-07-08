@@ -25,7 +25,6 @@ Core files:
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCreateQuestUseCase.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationService.java`
-- `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestReadService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationReadService.java`
 - `src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardReadService.java`

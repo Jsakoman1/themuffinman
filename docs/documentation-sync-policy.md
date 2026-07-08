@@ -45,6 +45,8 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 - make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, and closeout hints when a plan exists.
 - Use `make codex-context topic=<topic> intent='<intent>'` when the task needs topic-specific file context after the broad snapshot.
 - `make control-start`, `make codex-context`, and `make context-pack` should surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
+- Treat operator-core local-tooling surfaces as the default routing path and open focused review packs only when the compact operator surfaces do not answer the question.
+- Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state.
 - When `codex-context` changes, keep the workflow docs, `docs/generated/local-tooling/codex-context/latest.execution.json`, and `docs/codex-context-execution-manifest.schema.json` aligned so the machine-readable batch manifest remains discoverable.
 - Use `docs/feature-delivery-workflow.md` only when the tier or resolver requires the full workflow.
 

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T06:34:54Z",
+  "generated_at": "2026-07-08T07:21:11Z",
   "scope_files": [
 
   ],
@@ -13,9 +13,9 @@
       "artifact": "docs/generated/agent-endpoint-inventory.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-08T06:34:26Z",
-      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
-      "newest_source_mtime": "2026-07-08T06:33:43Z",
+      "artifact_mtime": "2026-07-08T07:19:46Z",
+      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "newest_source_mtime": "2026-07-08T07:16:16Z",
       "source_count": 19,
       "regenerate_command": "ruby scripts/generate-agent-endpoint-inventory.rb"
     },
@@ -24,9 +24,9 @@
       "artifact": "docs/generated/automation-read-model-inventory.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-08T06:34:26Z",
-      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceTranscriptionDTO.java",
-      "newest_source_mtime": "2026-07-08T06:33:43Z",
+      "artifact_mtime": "2026-07-08T07:19:46Z",
+      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardResponseDTO.java",
+      "newest_source_mtime": "2026-07-08T07:16:16Z",
       "source_count": 164,
       "regenerate_command": "ruby scripts/generate-automation-read-model-inventory.rb"
     },
@@ -35,10 +35,10 @@
       "artifact": "docs/generated/source-of-truth-audit.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-08T06:34:26Z",
-      "newest_source": "docs/agent-operating-model/sections/source_of_truth.yaml",
-      "newest_source_mtime": "2026-07-08T06:34:07Z",
-      "source_count": 539,
+      "artifact_mtime": "2026-07-08T07:19:46Z",
+      "newest_source": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java",
+      "newest_source_mtime": "2026-07-08T07:19:38Z",
+      "source_count": 538,
       "regenerate_command": "ruby scripts/generate-source-of-truth-audit.rb"
     },
     {
@@ -46,10 +46,10 @@
       "artifact": "docs/generated/backend-audit-inventory.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-08T06:34:25Z",
-      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVoiceService.java",
-      "newest_source_mtime": "2026-07-08T06:33:43Z",
-      "source_count": 454,
+      "artifact_mtime": "2026-07-08T07:19:46Z",
+      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "newest_source_mtime": "2026-07-08T07:18:56Z",
+      "source_count": 453,
       "regenerate_command": "ruby scripts/generate-backend-audit-inventory.rb"
     },
     {
@@ -57,10 +57,10 @@
       "artifact": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-08T06:34:12Z",
-      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVoiceService.java",
-      "newest_source_mtime": "2026-07-08T06:33:43Z",
-      "source_count": 614,
+      "artifact_mtime": "2026-07-08T07:19:46Z",
+      "newest_source": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "newest_source_mtime": "2026-07-08T07:18:56Z",
+      "source_count": 613,
       "regenerate_command": "node apps/themuffinman/frontend/scripts/generate-workmarket-contracts.mjs"
     },
     {
@@ -68,9 +68,9 @@
       "artifact": "docs/generated/local-tooling/codex-context/latest.execution.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-08T06:34:42Z",
+      "artifact_mtime": "2026-07-08T07:21:11Z",
       "newest_source": "docs/agent-operating-model.yaml",
-      "newest_source_mtime": "2026-07-08T06:34:12Z",
+      "newest_source_mtime": "2026-07-08T07:16:43Z",
       "source_count": 13,
       "regenerate_command": "make codex-context topic=<topic> intent='<intent>'"
     },
@@ -79,9 +79,9 @@
       "artifact": "docs/generated/local-tooling/control-start-summary.md",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-08T06:34:42Z",
-      "newest_source": "docs/generated/local-tooling/audit-summary-index.json",
-      "newest_source_mtime": "2026-07-08T06:34:42Z",
+      "artifact_mtime": "2026-07-08T07:21:11Z",
+      "newest_source": "docs/generated/local-tooling/codex-context/latest.review.md",
+      "newest_source_mtime": "2026-07-08T07:21:11Z",
       "source_count": 7,
       "regenerate_command": "make control-start"
     },
@@ -90,10 +90,10 @@
       "artifact": "docs/generated/local-tooling/plan-index.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-08T06:34:38Z",
-      "newest_source": ".agents/vision-workmarket-dashboard-boundary-finalization-plan.md",
-      "newest_source_mtime": "2026-07-08T06:32:40Z",
-      "source_count": 102,
+      "artifact_mtime": "2026-07-08T07:21:09Z",
+      "newest_source": ".agents/platform-quality-hardening-master-plan.md",
+      "newest_source_mtime": "2026-07-08T07:21:02Z",
+      "source_count": 106,
       "regenerate_command": "make plan-index"
     }
   ]

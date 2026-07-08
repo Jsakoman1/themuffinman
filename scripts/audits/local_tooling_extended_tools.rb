@@ -98,6 +98,46 @@ module LocalToolingExtendedTools
     "rides" => %w[docs/business-logic.md docs/domain-technical.md docs/agent-operating-model.md],
     "agent" => %w[docs/agent-operating-model.md docs/agent-operating-model.yaml docs/domain-technical.md]
   }.freeze
+  OPERATOR_CORE_AUDITS = Set.new(%w[
+    control-start
+    plan-index
+    audit-summary-index
+    codex-context
+    recommend-targeted-tests
+    audit-router
+    audit-doc-sync-required-surfaces
+    audit-manifest-decision
+    recommend-validation-preset
+    diff-summary
+  ]).freeze
+  FOCUSED_REVIEW_AUDITS = Set.new(%w[
+    context-pack
+    recommend-feature-slices
+    repo-map
+    symbol-index
+    endpoint-contract-packs
+    workflow-slice-pack
+    plan-code-map
+    domain-pack
+    dto-usage-pack
+    link-symbol-to-tests
+    changeset-risk
+    audit-change-impact-preflight
+  ]).freeze
+  DIAGNOSTIC_AUDITS = Set.new(%w[
+    diagnose-backend-test
+    diagnose-frontend-type-check
+    diagnose-frontend-build
+    test-history-summary
+    failure-knowledge-base
+    closeout-report
+    closeout-bundle
+    autofill-feature-closeout
+    enforce-feature-closeout
+    post-merge-retrospective
+    audit-delta-report
+  ]).freeze
+  HISTORY_RETENTION_LIMIT = 12
 
   def changeset_snapshot(files = nil, include_generated: false, include_agents: false)
     selected_files = Array(files).compact.map(&:to_s).reject(&:empty?).uniq
@@ -864,9 +904,31 @@ module LocalToolingExtendedTools
       {path: path, mtime: File.exist?(abs(path)) ? File.mtime(abs(path)).utc.iso8601 : nil, bytes: File.exist?(abs(path)) ? File.size(abs(path)) : 0}
     end
     registry = AUDIT_REGISTRY.map do |target, script, output|
-      {target: target, script: script, output: output, output_exists: File.exist?(abs(output))}
+      {
+        target: target,
+        script: script,
+        output: output,
+        output_exists: File.exist?(abs(output)),
+        surface_class: audit_surface_class(target, output),
+        operator_default: operator_default_audit?(target, output)
+      }
     end
-    payload = {generated_at: now, registry: registry, summaries: summaries}
+    payload = {
+      generated_at: now,
+      registry_entries: registry.size,
+      tracked_outputs: registry.count { |entry| entry[:output_exists] },
+      missing_outputs: registry.count { |entry| !entry[:output_exists] },
+      registry: registry,
+      summaries: summaries,
+      operator_core_registry: registry.select { |entry| entry[:operator_default] },
+      focused_review_registry: registry.select { |entry| entry[:surface_class] == "focused_review" },
+      diagnostic_registry: registry.select { |entry| entry[:surface_class] == "diagnostic" },
+      archive_policy: {
+        history_path: "docs/generated/local-tooling/.history/",
+        cache_path: "docs/generated/local-tooling/.cache/",
+        rule: "Treat history and cache outputs as archive-only support material, not as current control state."
+      }
+    }
     write_report("audit-summary-index", "Audit Summary Index", payload, summary_path: "#{OUT}/audit-summary-index.md")
     LocalToolingCommon.write_text("#{OUT}/audit-summary-index.md", audit_summary_index_markdown(payload))
   end
@@ -916,8 +978,20 @@ module LocalToolingExtendedTools
         summary_path: "#{OUT}/audit-summary-index.md",
         registry_entries: audit_summary_index["registry_entries"],
         tracked_outputs: audit_summary_index["tracked_outputs"],
-        missing_outputs: audit_summary_index["missing_outputs"]
+        missing_outputs: audit_summary_index["missing_outputs"],
+        operator_core_targets: Array(audit_summary_index["operator_core_registry"]).first(8)
       },
+      operator_core_surfaces: [
+        "#{OUT}/control-start-summary.md",
+        "#{OUT}/plan-index-summary.md",
+        "#{OUT}/audit-summary-index.md",
+        "#{OUT}/codex-context/latest.review.md",
+        "#{OUT}/targeted-tests-summary.md"
+      ],
+      archive_surfaces: [
+        "#{OUT}/.history/",
+        "#{OUT}/.cache/"
+      ],
       codex_context_review: codex_context_review,
       temp_work_products: {
         path: ".agents/tmp",
@@ -1076,6 +1150,14 @@ module LocalToolingExtendedTools
     lines << "- Codex context review: `#{payload[:codex_context_review] || 'none'}`"
     lines << "- Temp work products: `#{payload.dig(:temp_work_products, :count) || 0}`"
     lines << "- Layered-analysis artifacts: `#{payload.dig(:temp_work_products, :layered_analysis_count) || 0}`"
+    lines << "- Operator-core surfaces: `#{Array(payload[:operator_core_surfaces]).join('`, `')}`"
+    lines << "- Archive-only surfaces: `#{Array(payload[:archive_surfaces]).join('`, `')}`"
+    lines << ""
+    lines << "## Operator-Core Audit Targets"
+    lines << ""
+    Array(payload.dig(:audit_summary_index, :operator_core_targets)).each do |entry|
+      lines << "- `#{entry["target"] || entry[:target]}` -> `#{entry["output"] || entry[:output]}`"
+    end
     lines << ""
     lines << "## Open Master Plans"
     lines << ""
@@ -1196,6 +1278,9 @@ module LocalToolingExtendedTools
   def audit_summary_index_markdown(payload)
     registry = Array(payload[:registry])
     summaries = Array(payload[:summaries])
+    operator_core = Array(payload[:operator_core_registry])
+    focused_review = Array(payload[:focused_review_registry])
+    diagnostics = Array(payload[:diagnostic_registry])
     tracked = registry.count { |entry| entry[:output_exists] }
     missing = registry.count - tracked
     lines = []
@@ -1205,14 +1290,25 @@ module LocalToolingExtendedTools
     lines << "- Tracked outputs: #{tracked}"
     lines << "- Missing outputs: #{missing}"
     lines << "- Summary files: #{summaries.size}"
+    lines << "- Operator-core targets: #{operator_core.size}"
+    lines << "- Focused review targets: #{focused_review.size}"
+    lines << "- Diagnostic targets: #{diagnostics.size}"
     lines << ""
-    lines << "## Registry"
+    lines << "## Operator-Core Targets"
     lines << ""
-    registry.first(12).each do |entry|
+    operator_core.first(12).each do |entry|
       status = entry[:output_exists] ? "tracked" : "missing"
       lines << "- `#{entry[:target]}` -> `#{entry[:output]}` (`#{status}`)"
     end
-    lines << "- ... and #{registry.size - 12} more" if registry.size > 12
+    lines << "- ... and #{operator_core.size - 12} more" if operator_core.size > 12
+    lines << ""
+    lines << "## Focused Review Targets"
+    lines << ""
+    focused_review.first(10).each do |entry|
+      status = entry[:output_exists] ? "tracked" : "missing"
+      lines << "- `#{entry[:target]}` -> `#{entry[:output]}` (`#{status}`)"
+    end
+    lines << "- ... and #{focused_review.size - 10} more" if focused_review.size > 10
     lines << ""
     lines << "## Summary Files"
     lines << ""
@@ -1220,6 +1316,12 @@ module LocalToolingExtendedTools
       lines << "- `#{entry[:path]}` | #{entry[:mtime]} | #{entry[:bytes]} bytes"
     end
     lines << "- ... and #{summaries.size - 12} more" if summaries.size > 12
+    lines << ""
+    lines << "## Archive Policy"
+    lines << ""
+    lines << "- `#{payload.dig(:archive_policy, :history_path)}` is archive-only history."
+    lines << "- `#{payload.dig(:archive_policy, :cache_path)}` is cache-only machine support."
+    lines << "- #{payload.dig(:archive_policy, :rule)}"
     lines << ""
     lines << "_Routing aid only. Use the underlying generated report or source file for current state._"
     lines.join("\n")
@@ -1231,6 +1333,8 @@ module LocalToolingExtendedTools
       yaml << "- target: #{target}"
       yaml << "  script: #{script}"
       yaml << "  primaryOutput: #{output}"
+      yaml << "  surfaceClass: #{audit_surface_class(target, output)}"
+      yaml << "  operatorDefault: #{operator_default_audit?(target, output)}"
     end
     LocalToolingCommon.write_text("docs/tooling/codex-local-audits.yml", yaml.join("\n") + "\n")
     run_audit_summary_index([])
@@ -1870,6 +1974,18 @@ module LocalToolingExtendedTools
 
     timestamp = now.gsub(":", "-")
     LocalToolingCommon.write_text("#{OUT}/.history/#{base_name}/#{timestamp}.json", current_content)
+    prune_history_snapshots(base_name)
+  rescue StandardError
+    nil
+  end
+
+  def prune_history_snapshots(base_name)
+    history_dir = abs("#{OUT}/.history/#{base_name}")
+    return unless Dir.exist?(history_dir)
+
+    snapshots = Dir.glob(File.join(history_dir, "*.json")).sort
+    excess = snapshots[0, [snapshots.size - HISTORY_RETENTION_LIMIT, 0].max]
+    excess.each { |path| FileUtils.rm_f(path) }
   rescue StandardError
     nil
   end
@@ -3256,6 +3372,19 @@ module LocalToolingExtendedTools
 
   def latest_history_snapshot(audit_id)
     history_snapshots_for(audit_id).last
+  end
+
+  def audit_surface_class(target, output)
+    return "operator_core" if OPERATOR_CORE_AUDITS.include?(target)
+    return "focused_review" if FOCUSED_REVIEW_AUDITS.include?(target)
+    return "diagnostic" if DIAGNOSTIC_AUDITS.include?(target)
+    return "historical_archive" if output.include?("/.history/") || output.include?("/.cache/")
+
+    "extended_support"
+  end
+
+  def operator_default_audit?(target, _output)
+    OPERATOR_CORE_AUDITS.include?(target)
   end
 
   def risk_signals_from_report(payload)

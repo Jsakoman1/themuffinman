@@ -128,6 +128,7 @@ Default path:
 - If the change touches entity resolution, capture the canonical aliases, ambiguity cases, and confidence thresholds up front.
 - If the change touches workflow or agent behavior, confirm the machine-readable source of truth before editing human-readable summaries.
 - If the change touches plan files or generated control outputs, refresh `make plan-index` and `make control-start` before closeout.
+- If the change affects local-tooling routing, keep the operator-core surfaces clear and do not treat `.history` or `.cache` outputs as current control state.
 
 3. Plan
 - Tier 2, Tier 3, and Tier 4 work has a current plan in `.agents/`.
@@ -168,6 +169,7 @@ Default path:
 8. Workflow docs
 - Update `AGENTS.md`, `docs/codex-fast-path.md`, `docs/feature-delivery-workflow.md`, `docs/documentation-sync-policy.md`, and this file when startup routing, manifest policy, tier policy, or closeout flow changed.
 - Keep `docs/control-surface-map.md` aligned with the active hierarchy when a file moves between live truth, generated control, or archive.
+- Keep `docs/tooling/codex-local-audits.yml` aligned when audit surfaces change class between operator-core, focused review, diagnostic, or archive-only support.
 
 9. Generated artifacts and schema
 - Regenerate affected generated artifacts when source-of-truth or machine-operational docs changed.

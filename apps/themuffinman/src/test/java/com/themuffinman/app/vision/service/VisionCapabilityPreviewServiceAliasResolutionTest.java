@@ -77,6 +77,29 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
 
     @BeforeEach
     void setUp() {
+        SemanticAliasRegistry semanticAliasRegistry = new SemanticAliasRegistry();
+        VisionIdentityPreviewRenderer identityPreviewRenderer = new VisionIdentityPreviewRenderer(
+                appUserService,
+                appUserReadService,
+                appUserMgr,
+                appUserRepository,
+                userProfileViewService,
+                chatService
+        );
+        VisionFeedPreviewRenderer feedPreviewRenderer = new VisionFeedPreviewRenderer(
+                questNewsService,
+                questNewsMgr,
+                dashboardNotificationAssembler,
+                thingSharingService
+        );
+        VisionCapabilityEntityResolutionSupport entityResolutionSupport = new VisionCapabilityEntityResolutionSupport(
+                appUserRepository,
+                appUserReadService,
+                circleReadService,
+                questApplicationReadService,
+                questReadService,
+                semanticAliasRegistry
+        );
         service = new VisionCapabilityPreviewService(
                 appUserService,
                 appUserReadService,
@@ -89,11 +112,9 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 questReadService,
                 questApplicationReadService,
                 questApplicationService,
-                questNewsService,
-                questNewsMgr,
-                dashboardNotificationAssembler,
-                thingSharingService,
-                new SemanticAliasRegistry()
+                identityPreviewRenderer,
+                feedPreviewRenderer,
+                entityResolutionSupport
         );
     }
 

@@ -18,7 +18,7 @@ import com.themuffinman.app.workmarket.dto.QuestSearchDefaultsDTO;
 import com.themuffinman.app.workmarket.dto.QuestSortOptionDTO;
 import com.themuffinman.app.workmarket.dto.QuestStatusFilterOptionDTO;
 import com.themuffinman.app.workmarket.dto.QuestStatusOptionDTO;
-import com.themuffinman.app.workmarket.dto.VisionOptionsDTO;
+import com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import com.themuffinman.app.workmarket.model.QuestAudience;
 import com.themuffinman.app.workmarket.model.QuestStatus;
@@ -35,13 +35,13 @@ public class WorkmarketOptionsService {
 
     private final LocationGeoService locationGeoService;
 
-    public VisionOptionsDTO getOptions(AppUser currentUser) {
+    public WorkmarketOptionsDTO getOptions(AppUser currentUser) {
         boolean hasViewerLocation = currentUser != null
                 && currentUser.getLocationMode() != null
                 && currentUser.getLocationMode() != UserLocationMode.OFF
                 && locationGeoService.hasCoordinates(currentUser.getLocationLatitude(), currentUser.getLocationLongitude());
 
-        return VisionOptionsDTO.builder()
+        return WorkmarketOptionsDTO.builder()
                 .appUserRoles(List.of(
                         AppUserRoleOptionDTO.builder().value(AppUserRole.USER).label("User").build(),
                         AppUserRoleOptionDTO.builder().value(AppUserRole.ADMIN).label("Admin").build()

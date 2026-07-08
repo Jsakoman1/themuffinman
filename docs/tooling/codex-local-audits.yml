@@ -3,207 +3,345 @@ audits:
 - target: audit-change-impact-preflight
   script: scripts/audits/audit-change-impact-preflight.rb
   primaryOutput: docs/generated/local-tooling/change-impact-preflight-summary.md
+  surfaceClass: focused_review
+  operatorDefault: false
 - target: changeset-risk
   script: scripts/audits/score-changeset-risk.rb
   primaryOutput: docs/generated/local-tooling/changeset-risk-summary.md
+  surfaceClass: focused_review
+  operatorDefault: false
 - target: audit-router
   script: scripts/audits/audit-router.rb
   primaryOutput: docs/generated/local-tooling/audit-router-summary.md
+  surfaceClass: operator_core
+  operatorDefault: true
 - target: codex-context
   script: scripts/audits/codex-context.rb
   primaryOutput: docs/generated/local-tooling/codex-context/latest.review.md
+  surfaceClass: operator_core
+  operatorDefault: true
 - target: codex-context-explain
   script: scripts/audits/codex-context.rb
   primaryOutput: docs/generated/local-tooling/codex-context/latest.explain.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: codex-context-clean
   script: scripts/audits/codex-context.rb
   primaryOutput: docs/generated/local-tooling/codex-context/
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: clean-text-noise
   script: scripts/audits/clean-text-noise.rb
   primaryOutput: docs/generated/local-tooling/clean-text-noise-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: context-pack
   script: scripts/audits/generate-context-pack.rb
   primaryOutput: docs/generated/local-tooling/context-packs
+  surfaceClass: focused_review
+  operatorDefault: false
 - target: recommend-feature-slices
   script: scripts/audits/recommend-feature-slices.rb
   primaryOutput: docs/generated/local-tooling/feature-slices/<topic>-summary.md
+  surfaceClass: focused_review
+  operatorDefault: false
 - target: recommend-targeted-tests
   script: scripts/audits/recommend-targeted-tests.rb
   primaryOutput: docs/generated/local-tooling/targeted-tests-summary.md
+  surfaceClass: operator_core
+  operatorDefault: true
 - target: repo-map
   script: scripts/audits/generate-repo-map.rb
   primaryOutput: docs/generated/local-tooling/repo-map-summary.md
+  surfaceClass: focused_review
+  operatorDefault: false
 - target: symbol-index
   script: scripts/audits/generate-symbol-index.rb
   primaryOutput: docs/generated/local-tooling/symbol-index-summary.md
+  surfaceClass: focused_review
+  operatorDefault: false
 - target: endpoint-contract-packs
   script: scripts/audits/generate-endpoint-contract-packs.rb
   primaryOutput: docs/generated/local-tooling/endpoint-contract-packs
+  surfaceClass: focused_review
+  operatorDefault: false
 - target: validation-matrix
   script: scripts/audits/generate-validation-matrix.rb
   primaryOutput: docs/generated/local-tooling/validation-matrix-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: changeset-playbook
   script: scripts/audits/generate-changeset-playbook.rb
   primaryOutput: docs/generated/local-tooling/changeset-playbook-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: resolve-manifest-path
   script: scripts/audits/resolve-manifest-path.rb
   primaryOutput: docs/generated/local-tooling/manifest-path-resolution-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: link-symbol-to-tests
   script: scripts/audits/link-symbol-to-tests.rb
   primaryOutput: docs/generated/local-tooling/symbol-test-links/<symbol-name>-summary.md
+  surfaceClass: focused_review
+  operatorDefault: false
 - target: dto-usage-pack
   script: scripts/audits/generate-dto-usage-pack.rb
   primaryOutput: docs/generated/local-tooling/dto-usage-packs/<dto-name>-summary.md
+  surfaceClass: focused_review
+  operatorDefault: false
 - target: workflow-slice-pack
   script: scripts/audits/generate-workflow-slice-pack.rb
   primaryOutput: docs/generated/local-tooling/workflow-slices/<workflow-id>-summary.md
+  surfaceClass: focused_review
+  operatorDefault: false
 - target: plan-code-map
   script: scripts/audits/generate-plan-code-map.rb
   primaryOutput: docs/generated/local-tooling/plan-code-maps/<plan-id>-summary.md
+  surfaceClass: focused_review
+  operatorDefault: false
 - target: rank-changeset-hotspots
   script: scripts/audits/rank-changeset-hotspots.rb
   primaryOutput: docs/generated/local-tooling/hotspots-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: domain-pack
   script: scripts/audits/generate-domain-pack.rb
   primaryOutput: docs/generated/local-tooling/domain-packs/<domain-id>-summary.md
+  surfaceClass: focused_review
+  operatorDefault: false
 - target: audit-doc-sync-preflight
   script: scripts/audits/audit-doc-sync-preflight.rb
   primaryOutput: docs/generated/local-tooling/doc-sync-preflight-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-doc-sync-required-surfaces
   script: scripts/audits/audit-doc-sync-required-surfaces.rb
   primaryOutput: docs/generated/local-tooling/doc-sync-required-surfaces-summary.md
+  surfaceClass: operator_core
+  operatorDefault: true
 - target: audit-doc-template-coverage
   script: scripts/audits/audit-doc-template-coverage.rb
   primaryOutput: docs/generated/local-tooling/doc-template-coverage-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-doc-sync-duplicates
   script: scripts/audits/audit-doc-sync-duplicates.rb
   primaryOutput: docs/generated/local-tooling/doc-sync-duplicates-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-manifest-decision
   script: scripts/audits/audit-manifest-decision.rb
   primaryOutput: docs/generated/local-tooling/manifest-decision-summary.md
+  surfaceClass: operator_core
+  operatorDefault: true
 - target: recommend-validation-preset
   script: scripts/audits/recommend-validation-preset.rb
   primaryOutput: docs/generated/local-tooling/validation-preset-summary.md
+  surfaceClass: operator_core
+  operatorDefault: true
 - target: audit-doc-staleness-scoring
   script: scripts/audits/audit-doc-staleness-scoring.rb
   primaryOutput: docs/generated/local-tooling/doc-staleness-scoring-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-architecture-drift
   script: scripts/audits/audit-architecture-drift.rb
   primaryOutput: docs/generated/local-tooling/architecture-drift-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: architecture-decision-index
   script: scripts/audits/generate-architecture-decision-index.rb
   primaryOutput: docs/generated/local-tooling/architecture-decision-index-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-generated-commit-scope
   script: scripts/audits/audit-generated-commit-scope.rb
   primaryOutput: docs/generated/local-tooling/generated-commit-scope-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-migration-entity-drift
   script: scripts/audits/audit-migration-entity-drift.rb
   primaryOutput: docs/generated/local-tooling/migration-entity-drift-audit-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-test-gap-recommendations
   script: scripts/audits/audit-test-gap-recommendations.rb
   primaryOutput: docs/generated/local-tooling/test-gap-recommendations-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-contract-test-gaps
   script: scripts/audits/audit-contract-test-gaps.rb
   primaryOutput: docs/generated/local-tooling/contract-test-gaps-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-mutation-safety
   script: scripts/audits/audit-mutation-safety.rb
   primaryOutput: docs/generated/local-tooling/mutation-safety-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-docs-as-tests
   script: scripts/audits/audit-docs-as-tests.rb
   primaryOutput: docs/generated/local-tooling/docs-as-tests-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-frontend-usage-graph
   script: scripts/audits/audit-frontend-usage-graph.rb
   primaryOutput: docs/generated/local-tooling/frontend-usage-graph-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-backend-dependency-graph
   script: scripts/audits/audit-backend-dependency-graph.rb
   primaryOutput: docs/generated/local-tooling/backend-dependency-graph-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-test-fixture-duplication
   script: scripts/audits/audit-test-fixture-duplication.rb
   primaryOutput: docs/generated/local-tooling/test-fixture-duplication-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: diff-summary
   script: scripts/audits/generate-diff-summary.rb
   primaryOutput: docs/generated/local-tooling/diff-summary.md
+  surfaceClass: operator_core
+  operatorDefault: true
 - target: session-handoff
   script: scripts/audits/generate-session-handoff.rb
   primaryOutput: docs/generated/local-tooling/session-handoffs
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: plan-scaffold-discovery
   script: scripts/audits/generate-plan-scaffold-discovery.rb
   primaryOutput: .agents/<topic>-plan.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: plan-index
   script: scripts/audits/generate-plan-index.rb
   primaryOutput: docs/generated/local-tooling/plan-index-summary.md
+  surfaceClass: operator_core
+  operatorDefault: true
 - target: control-start
   script: scripts/audits/generate-control-start.rb
   primaryOutput: docs/generated/local-tooling/control-start-summary.md
+  surfaceClass: operator_core
+  operatorDefault: true
 - target: audit-summary-index
   script: scripts/audits/generate-audit-summary-index.rb
   primaryOutput: docs/generated/local-tooling/audit-summary-index.md
+  surfaceClass: operator_core
+  operatorDefault: true
 - target: generate-audit-registry-artifacts
   script: scripts/audits/generate-audit-registry-artifacts.rb
   primaryOutput: docs/tooling/codex-local-audits.yml
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: fast-check
   script: scripts/audits/generate-fast-check-report.rb
   primaryOutput: docs/generated/local-tooling/fast-check-report-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: diagnose-backend-test
   script: scripts/audits/diagnose-backend-test.rb
   primaryOutput: docs/generated/local-tooling/diagnostics/backend-test-latest-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false
 - target: diagnose-frontend-type-check
   script: scripts/audits/diagnose-frontend-type-check.rb
   primaryOutput: docs/generated/local-tooling/diagnostics/frontend-type-check-latest-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false
 - target: diagnose-frontend-build
   script: scripts/audits/diagnose-frontend-build.rb
   primaryOutput: docs/generated/local-tooling/diagnostics/frontend-build-latest-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false
 - target: test-history-summary
   script: scripts/audits/generate-test-history-summary.rb
   primaryOutput: docs/generated/local-tooling/test-history-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false
 - target: failure-knowledge-base
   script: scripts/audits/update-failure-knowledge-base.rb
   primaryOutput: docs/generated/local-tooling/failure-knowledge-base-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false
 - target: codebase-capsule
   script: scripts/audits/generate-codebase-capsule.rb
   primaryOutput: docs/generated/local-tooling/codebase-capsule.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: record-validation
   script: scripts/audits/record-validation-evidence.rb
   primaryOutput: docs/generated/local-tooling/validation-evidence/<feature-id>.json
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: api-contract-snapshot
   script: scripts/audits/generate-api-contract-snapshot.rb
   primaryOutput: docs/generated/local-tooling/api-contract-snapshot-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-doc-canonical-phrases
   script: scripts/audits/audit-doc-canonical-phrases.rb
   primaryOutput: docs/generated/local-tooling/doc-canonical-phrases-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-validation-memory-drift
   script: scripts/audits/audit-validation-memory-drift.rb
   primaryOutput: docs/generated/local-tooling/validation-memory-drift-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: validation-memory-closeout-card
   script: scripts/audits/generate-validation-memory-closeout-card.rb
   primaryOutput: docs/generated/local-tooling/validation-memory-closeout-card-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-sandbox-data-coverage-pack
   script: scripts/audits/audit-sandbox-data-coverage-pack.rb
   primaryOutput: docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: smoke-local-authenticated
   script: scripts/audits/smoke-local-authenticated.rb
   primaryOutput: docs/generated/local-tooling/smoke/local-authenticated-latest.json
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: smoke-local-dashboard
   script: scripts/audits/smoke-local-dashboard.rb
   primaryOutput: docs/generated/local-tooling/smoke/local-dashboard-latest.json
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: closeout-bundle
   script: scripts/audits/generate-closeout-bundle.rb
   primaryOutput: docs/generated/local-tooling/closeout-bundle-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false
 - target: closeout-report
   script: scripts/audits/generate-closeout-report.rb
   primaryOutput: docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false
 - target: autofill-feature-closeout
   script: scripts/audits/autofill-feature-closeout.rb
   primaryOutput: docs/generated/local-tooling/closeout-autofill/<feature-id>-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false
 - target: enforce-feature-closeout
   script: scripts/audits/enforce-feature-closeout.rb
   primaryOutput: docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false
 - target: post-merge-retrospective
   script: scripts/audits/generate-post-merge-retrospective.rb
   primaryOutput: docs/generated/local-tooling/post-merge-retrospectives/latest-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false
 - target: audit-plan-completion
   script: scripts/audits/audit-plan-completion.rb
   primaryOutput: docs/generated/local-tooling/plan-completion/<plan-id>-summary.md
+  surfaceClass: extended_support
+  operatorDefault: false
 - target: audit-delta-report
   script: scripts/audits/audit-delta-report.rb
   primaryOutput: docs/generated/local-tooling/audit-deltas/<audit-id>-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false

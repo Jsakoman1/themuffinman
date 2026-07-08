@@ -1929,7 +1929,7 @@
     ]
   },
   {
-    "javaClass": "com.themuffinman.app.workmarket.dto.VisionOptionsDTO",
+    "javaClass": "com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO",
     "fields": [
       "appUserRoles",
       "questStatusFilters",

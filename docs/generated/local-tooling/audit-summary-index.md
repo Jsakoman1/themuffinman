@@ -3,23 +3,37 @@
 - Registry entries: 69
 - Tracked outputs: 25
 - Missing outputs: 44
-- Summary files: 107
+- Summary files: 114
+- Operator-core targets: 10
+- Focused review targets: 12
+- Diagnostic targets: 11
 
-## Registry
+## Operator-Core Targets
+
+- `audit-router` -> `docs/generated/local-tooling/audit-router-summary.md` (`tracked`)
+- `codex-context` -> `docs/generated/local-tooling/codex-context/latest.review.md` (`tracked`)
+- `recommend-targeted-tests` -> `docs/generated/local-tooling/targeted-tests-summary.md` (`tracked`)
+- `audit-doc-sync-required-surfaces` -> `docs/generated/local-tooling/doc-sync-required-surfaces-summary.md` (`tracked`)
+- `audit-manifest-decision` -> `docs/generated/local-tooling/manifest-decision-summary.md` (`tracked`)
+- `recommend-validation-preset` -> `docs/generated/local-tooling/validation-preset-summary.md` (`tracked`)
+- `diff-summary` -> `docs/generated/local-tooling/diff-summary.md` (`missing`)
+- `plan-index` -> `docs/generated/local-tooling/plan-index-summary.md` (`tracked`)
+- `control-start` -> `docs/generated/local-tooling/control-start-summary.md` (`tracked`)
+- `audit-summary-index` -> `docs/generated/local-tooling/audit-summary-index.md` (`tracked`)
+
+## Focused Review Targets
 
 - `audit-change-impact-preflight` -> `docs/generated/local-tooling/change-impact-preflight-summary.md` (`missing`)
 - `changeset-risk` -> `docs/generated/local-tooling/changeset-risk-summary.md` (`missing`)
-- `audit-router` -> `docs/generated/local-tooling/audit-router-summary.md` (`tracked`)
-- `codex-context` -> `docs/generated/local-tooling/codex-context/latest.review.md` (`tracked`)
-- `codex-context-explain` -> `docs/generated/local-tooling/codex-context/latest.explain.md` (`missing`)
-- `codex-context-clean` -> `docs/generated/local-tooling/codex-context/` (`tracked`)
-- `clean-text-noise` -> `docs/generated/local-tooling/clean-text-noise-summary.md` (`missing`)
 - `context-pack` -> `docs/generated/local-tooling/context-packs` (`tracked`)
 - `recommend-feature-slices` -> `docs/generated/local-tooling/feature-slices/<topic>-summary.md` (`missing`)
-- `recommend-targeted-tests` -> `docs/generated/local-tooling/targeted-tests-summary.md` (`tracked`)
 - `repo-map` -> `docs/generated/local-tooling/repo-map-summary.md` (`tracked`)
 - `symbol-index` -> `docs/generated/local-tooling/symbol-index-summary.md` (`tracked`)
-- ... and 57 more
+- `endpoint-contract-packs` -> `docs/generated/local-tooling/endpoint-contract-packs` (`tracked`)
+- `link-symbol-to-tests` -> `docs/generated/local-tooling/symbol-test-links/<symbol-name>-summary.md` (`missing`)
+- `dto-usage-pack` -> `docs/generated/local-tooling/dto-usage-packs/<dto-name>-summary.md` (`missing`)
+- `workflow-slice-pack` -> `docs/generated/local-tooling/workflow-slices/<workflow-id>-summary.md` (`missing`)
+- ... and 2 more
 
 ## Summary Files
 
@@ -31,10 +45,16 @@
 - `docs/generated/local-tooling/audit-registry-artifacts-summary.md` | 2026-07-03T14:48:12Z | 142 bytes
 - `docs/generated/local-tooling/audit-router-summary.md` | 2026-07-07T16:32:18Z | 709 bytes
 - `docs/generated/local-tooling/backend-dependency-graph-summary.md` | 2026-07-05T09:11:22Z | 1136 bytes
-- `docs/generated/local-tooling/control-start-summary.md` | 2026-07-08T06:23:20Z | 496 bytes
+- `docs/generated/local-tooling/control-start-summary.md` | 2026-07-08T07:20:49Z | 1627 bytes
 - `docs/generated/local-tooling/doc-canonical-phrases-summary.md` | 2026-07-05T09:23:05Z | 2154 bytes
 - `docs/generated/local-tooling/doc-sync-preflight-summary.md` | 2026-07-07T16:32:19Z | 711 bytes
 - `docs/generated/local-tooling/doc-sync-required-surfaces-summary.md` | 2026-07-07T16:46:44Z | 1636 bytes
-- ... and 95 more
+- ... and 102 more
+
+## Archive Policy
+
+- `docs/generated/local-tooling/.history/` is archive-only history.
+- `docs/generated/local-tooling/.cache/` is cache-only machine support.
+- Treat history and cache outputs as archive-only support material, not as current control state.
 
 _Routing aid only. Use the underlying generated report or source file for current state._

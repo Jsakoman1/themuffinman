@@ -301,7 +301,7 @@ backend_audit_coverage:
     - QuestSortOptionDTO.java
     - QuestStatusFilterOptionDTO.java
     - QuestStatusOptionDTO.java
-    - VisionOptionsDTO.java
+    - WorkmarketOptionsDTO.java
   - id: workmarket_news_read_model_dto_surface
     tier: automation_relevant
     file_names:

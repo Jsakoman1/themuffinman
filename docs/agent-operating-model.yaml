@@ -74,8 +74,8 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java
   - id: vision_conversation_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java
-  - id: dashboard_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardService.java
+  - id: dashboard_read_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardReadService.java
   - id: dashboard_vision_prompt_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/DashboardVisionPromptService.java
   - id: dashboard_voice_service
@@ -176,8 +176,8 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusFilterOptionDTO.java
   - id: quest_status_option_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestStatusOptionDTO.java
-  - id: vision_options_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/VisionOptionsDTO.java
+  - id: workmarket_options_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkmarketOptionsDTO.java
   - id: workmarket_app_user_role_option_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/AppUserRoleOptionDTO.java
   - id: workmarket_application_allowed_action_dto
@@ -282,8 +282,8 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserRatingSummaryDTO.java
   - id: workmarket_user_review_response_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/UserReviewResponseDTO.java
-  - id: workmarket_vision_options_dto
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/VisionOptionsDTO.java
+  - id: workmarket_options_contract_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkmarketOptionsDTO.java
   - id: quest_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestRequestDTO.java
   - id: quest_allowed_action
@@ -400,8 +400,6 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestApplicationMgr.java
   - id: workmarket_vision_contract_bridge
     path: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java
-  - id: workmarket_dashboard_service
-    path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardService.java
   - id: workmarket_dashboard_read_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardReadService.java
   - id: workmarket_dashboard_summary_assembler
@@ -1007,7 +1005,7 @@ backend_audit_coverage:
     - QuestSortOptionDTO.java
     - QuestStatusFilterOptionDTO.java
     - QuestStatusOptionDTO.java
-    - VisionOptionsDTO.java
+    - WorkmarketOptionsDTO.java
   - id: workmarket_news_read_model_dto_surface
     tier: automation_relevant
     file_names:
@@ -1227,6 +1225,11 @@ policies:
       their owning Plan needs them.
     - make control-start, make codex-context, and make context-pack surface the topic's
       layered-analysis artifact and temp work-product inventory when they exist.
+    - 'Treat the operator-core local-tooling surfaces as the default session path:
+      `control-start`, `plan-index`, `audit-summary-index`, `codex-context/latest.*`,
+      and targeted-tests summaries.'
+    - Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/`
+      as archive-only support material instead of current control state.
     - make control-refresh-full performs the same snapshot flow and then runs the
       slower generated-artifact freshness pass.
     - make implementation-batch topic=<topic> runs the deterministic implementation
@@ -2942,8 +2945,7 @@ documentation_coverage:
     - auth_mgr
     - app_user_service
     - app_user_lookup_service
-    - dashboard_service
-    - workmarket_dashboard_service
+    - dashboard_read_service
     - vision_conversation_service
     - vision_create_quest_execution_adapter
     - quest_service
@@ -3180,7 +3182,7 @@ documentation_coverage:
     - quest_sort_option_dto
     - quest_status_filter_option_dto
     - quest_status_option_dto
-    - vision_options_dto
+    - workmarket_options_dto
   - id: workmarket_mutation_contract_dtos
     source_refs:
     - quest_request_dto
@@ -3241,7 +3243,7 @@ documentation_coverage:
     - workmarket_quest_viewer_relation_dto
     - workmarket_user_rating_summary_dto
     - workmarket_user_review_response_dto
-    - workmarket_vision_options_dto
+    - workmarket_options_contract_dto
   - id: workmarket_news_read_model_contract_dtos
     source_refs:
     - quest_news_destination_type
@@ -6484,7 +6486,7 @@ intents:
     endpoint_id: get_dashboard
     source_refs:
     - dashboard_controller
-    - dashboard_service
+    - dashboard_read_service
     - service_errors
 - id: open_dashboard_summary
   description: Open the authenticated user's dashboard summary.
@@ -6499,7 +6501,7 @@ intents:
     endpoint_id: get_dashboard_summary
     source_refs:
     - dashboard_controller
-    - dashboard_service
+    - dashboard_read_service
     - service_errors
 - id: open_dashboard_voice_config
   description: Open the authenticated user's backend-provided voice capability and
@@ -6516,7 +6518,7 @@ intents:
     endpoint_id: get_dashboard_voice_config
     source_refs:
     - dashboard_controller
-    - dashboard_service
+    - dashboard_read_service
     - dashboard_voice_config_dto
     - service_errors
 - id: process_dashboard_vision_prompt

@@ -12,7 +12,7 @@ import com.themuffinman.app.identity.service.AdminUserDetailService;
 import com.themuffinman.app.identity.service.AppUserReadService;
 import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.identity.service.UserProfileViewService;
-import com.themuffinman.app.workmarket.dto.VisionOptionsDTO;
+import com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO;
 import com.themuffinman.app.workmarket.service.WorkmarketOptionsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +47,7 @@ public class AppUserController {
     }
 
     @GetMapping("/options")
-    public VisionOptionsDTO getAppUserOptions(@AuthenticationPrincipal AppUser currentUser) {
+    public WorkmarketOptionsDTO getAppUserOptions(@AuthenticationPrincipal AppUser currentUser) {
         return workmarketOptionsService.getOptions(currentUser);
     }
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-08T06:34:26Z",
+  "generatedAt": "2026-07-08T07:19:46Z",
   "summary": {
     "candidateCount": 193,
     "domainCounts": {
@@ -1613,11 +1613,11 @@
       "serviceWorkflowCovered": null
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/VisionOptionsDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkmarketOptionsDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "workmarket",
       "ownerId": "workmarket_domain",
-      "sourceRefId": "workmarket_vision_options_dto",
+      "sourceRefId": "workmarket_options_contract_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null

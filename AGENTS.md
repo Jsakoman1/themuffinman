@@ -155,6 +155,8 @@ Planned modules:
 - For work that spans several master plans, use the God Plan hierarchy from `docs/program-planning-model.md`: God Plans live under `.agents/god-plans/`, Master Plans coordinate child plans, Plans execute concrete slices, and temporary machine-readable work products live under `.agents/tmp/` only while their owning plan needs them.
 - Temporary machine-readable work products must name their owning plan and must be deleted, promoted into durable docs, or explicitly archived when the owning plan closes.
 - Broad batches should expect `make control-start`, `make codex-context`, and `make context-pack` to surface layered-analysis artifacts before deeper repository search.
+- Treat the operator-core local-tooling surfaces as the default routing path and open focused review packs only when the compact operator surfaces do not answer the question.
+- Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state.
 - Use `make control-refresh-full` when a batch also needs the slower generated-artifact freshness pass.
 - Use `make implementation-batch topic=<topic>` when you want the deterministic implementation wrapper to run discovery, recommendations, and closeout if a plan exists.
 - Use `make temp-work-product-closeout plan=<plan-file>` when an owning plan still has temp work products that must be deleted or archived before closeout.

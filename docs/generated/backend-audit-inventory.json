@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-07-08T06:34:25Z",
+  "generatedAt": "2026-07-08T07:19:46Z",
   "summary": {
-    "totalFiles": 452,
-    "classifiedFiles": 452,
+    "totalFiles": 451,
+    "classifiedFiles": 451,
     "unclassifiedFileCount": 0,
     "unownedDomainFileCount": 0,
     "tierCounts": {
       "executor_critical": 64,
-      "automation_relevant": 280,
+      "automation_relevant": 279,
       "internal_support": 107,
       "out_of_scope": 1
     },
@@ -22,7 +22,7 @@
       "rides": 8,
       "social": 44,
       "things": 13,
-      "workmarket": 129
+      "workmarket": 128
     },
     "ownerCounts": {
       "platform_core": 34,
@@ -34,7 +34,7 @@
       "rides_domain": 8,
       "social_domain": 44,
       "things_domain": 13,
-      "workmarket_domain": 129
+      "workmarket_domain": 128
     },
     "executorCriticalWithoutSourceRefCount": 0,
     "automationRelevantWithoutSourceRefCount": 108,
@@ -5100,13 +5100,13 @@
       "currentGate": "report_only"
     },
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/VisionOptionsDTO.java",
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkmarketOptionsDTO.java",
       "tier": "automation_relevant",
       "classificationRuleId": "workmarket_list_search_options_dto_surface",
       "domainId": "workmarket",
       "ownerId": "workmarket_domain",
       "registeredInSourceOfTruth": true,
-      "sourceRefId": "workmarket_vision_options_dto",
+      "sourceRefId": "workmarket_options_contract_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null,
@@ -5485,19 +5485,6 @@
       "registeredInSourceOfTruth": false,
       "sourceRefId": null,
       "documentationCovered": false,
-      "mutatingServiceCandidate": false,
-      "serviceWorkflowCovered": null,
-      "currentGate": "report_only"
-    },
-    {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardService.java",
-      "tier": "automation_relevant",
-      "classificationRuleId": "automation_relevant_remaining_service_surface",
-      "domainId": "workmarket",
-      "ownerId": "workmarket_domain",
-      "registeredInSourceOfTruth": true,
-      "sourceRefId": "workmarket_dashboard_service",
-      "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null,
       "currentGate": "report_only"

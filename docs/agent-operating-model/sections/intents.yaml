@@ -748,7 +748,7 @@ intents:
     endpoint_id: get_dashboard
     source_refs:
     - dashboard_controller
-    - dashboard_service
+    - dashboard_read_service
     - service_errors
 - id: open_dashboard_summary
   description: Open the authenticated user's dashboard summary.
@@ -763,7 +763,7 @@ intents:
     endpoint_id: get_dashboard_summary
     source_refs:
     - dashboard_controller
-    - dashboard_service
+    - dashboard_read_service
     - service_errors
 - id: open_dashboard_voice_config
   description: Open the authenticated user's backend-provided voice capability and default-config contract for adaptive surfaces.
@@ -778,7 +778,7 @@ intents:
     endpoint_id: get_dashboard_voice_config
     source_refs:
     - dashboard_controller
-    - dashboard_service
+    - dashboard_read_service
     - dashboard_voice_config_dto
     - service_errors
 - id: process_dashboard_vision_prompt

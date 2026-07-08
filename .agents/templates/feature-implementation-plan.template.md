@@ -10,6 +10,10 @@ machine_goal: TBD
 Track one feature or workflow change from scope selection through final validation.
 For shared planning rules, read `docs/program-planning-model.md` and `docs/change-completion-checklist.md` first.
 
+## Status
+
+Draft.
+
 ## Workflow Frame
 
 - Feature tier: TBD
@@ -18,6 +22,7 @@ For shared planning rules, read `docs/program-planning-model.md` and `docs/chang
 - Manifest decision: TBD
 - Manifest path: TBD
 - Master plan: TBD when the change is broad enough to need ordered child plans
+- Use one durable Plan instead of introducing a Master Plan when the work still fits one bounded implementation surface and one validation story.
 
 ## Routing Snapshot
 

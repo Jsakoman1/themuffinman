@@ -14,7 +14,7 @@ Owns the quest, application, dashboard, and review domain boundary for the work 
 - `service/WorkmarketCreateQuestUseCase.java`
 - `service/WorkmarketQuestService.java`
 - `service/WorkmarketQuestApplicationService.java`
-- `service/WorkmarketDashboardService.java`
+- `service/WorkmarketDashboardReadService.java`
 - `service/WorkmarketQuestNewsService.java`
 - `service/WorkmarketUserReviewService.java`
 - `service/WorkmarketQuestAccessPolicyService.java`

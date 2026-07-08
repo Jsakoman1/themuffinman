@@ -671,7 +671,7 @@ export interface DashboardQuestGroupDTO {
 }
 
 export interface DashboardResponseDTO {
-  options: VisionOptionsDTO
+  options: WorkmarketOptionsDTO
   summary: DashboardSummaryDTO
   sections: DashboardSectionsDTO
   quests: QuestResponseDTO[]
@@ -1585,20 +1585,6 @@ export interface VisionOptionDTO {
   value: string
 }
 
-export interface VisionOptionsDTO {
-  appUserRoles: AppUserRoleOptionDTO[]
-  questStatusFilters: QuestStatusFilterOptionDTO[]
-  questApplicationStatusFilters: QuestApplicationStatusFilterOptionDTO[]
-  questStatuses: QuestStatusOptionDTO[]
-  questAudiences: QuestAudienceOptionDTO[]
-  questAudienceFilters: QuestAudienceFilterOptionDTO[]
-  questSortOptions: QuestSortOptionDTO[]
-  questSearchDefaults: QuestSearchDefaultsDTO
-  locationModes: LocationModeOptionDTO[]
-  exactLocationVisibilityScopes: ExactLocationVisibilityScopeOptionDTO[]
-  questLocationVisibilities: QuestLocationVisibilityOptionDTO[]
-}
-
 export interface VisionQuestDiscoveryDTO {
   capabilityId: string
   query: string
@@ -1654,6 +1640,20 @@ export interface VisionSlotSummaryDTO {
   slotId: string
   label: string
   value: string
+}
+
+export interface WorkmarketOptionsDTO {
+  appUserRoles: AppUserRoleOptionDTO[]
+  questStatusFilters: QuestStatusFilterOptionDTO[]
+  questApplicationStatusFilters: QuestApplicationStatusFilterOptionDTO[]
+  questStatuses: QuestStatusOptionDTO[]
+  questAudiences: QuestAudienceOptionDTO[]
+  questAudienceFilters: QuestAudienceFilterOptionDTO[]
+  questSortOptions: QuestSortOptionDTO[]
+  questSearchDefaults: QuestSearchDefaultsDTO
+  locationModes: LocationModeOptionDTO[]
+  exactLocationVisibilityScopes: ExactLocationVisibilityScopeOptionDTO[]
+  questLocationVisibilities: QuestLocationVisibilityOptionDTO[]
 }
 
 export type DashboardNotificationItemDTO = VisionDashboardNotificationItemDTO
@@ -1726,7 +1726,7 @@ export type UserProfileView = UserProfileViewDTO
 export type UserRatingSummary = UserRatingSummaryDTO
 export type UserReview = UserReviewResponseDTO
 export type UserReviewRequest = UserReviewRequestDTO
-export type VisionOptions = VisionOptionsDTO
+export type VisionOptions = WorkmarketOptionsDTO
 export const AGENT_INTENT_IDS = ["accept_circle_connection", "apply_to_quest", "approve_application", "assign_circle_members", "authenticate_user", "block_user", "browse_business_profiles", "browse_ride_offers", "browse_thing_listings", "cancel_circle_request", "cancel_vision_conversation", "complete_quest", "confirm_quest_term_change", "create_circle", "create_circle_connection", "create_circle_only_quest_for_selected_people", "create_quest", "create_review", "create_ride_offer", "create_thing_listing", "create_user", "create_user_as_admin", "create_user_with_quests", "decline_application", "delete_admin_application", "delete_circle", "delete_circle_as_admin", "delete_quest", "delete_user_as_admin", "execute_admin_agent_capability", "find_admin_application_candidates", "find_my_pending_application_candidates", "find_owned_quest_candidates", "heartbeat_chat_presence", "inspect_owned_quest_pending_applications", "mark_all_news_read", "mark_chat_conversation_read", "mark_news_item_read", "open_admin_circle_overview", "open_admin_user_detail", "open_app_user_options", "open_application_detail", "open_auth_identity", "open_business_profile_by_slug", "open_chat_conversation", "open_chat_conversation_messages", "open_circle_candidates", "open_circle_overview", "open_circle_relation", "open_current_user_account", "open_dashboard", "open_dashboard_summary", "open_dashboard_voice_config", "open_location_debug_status", "open_my_business_profile", "open_my_circle_relations", "open_my_ride_offers", "open_my_thing_listings", "open_news_feed", "open_news_unread_count", "open_quest_applications", "open_quest_feed", "open_quest_preset", "open_quest_record", "open_quest_summary_record", "open_recent_vision_conversations", "open_user_profile", "open_user_record", "open_vision_conversation", "prepare_circle_only_quest_flow_to_start", "process_dashboard_vision_prompt", "process_vision_conversation_turn", "reject_quest_term_change", "request_borrow_thing", "request_owner_term_change", "reset_vision_conversation", "resolve_chat_conversation", "resolve_circle_candidate", "resolve_circle_recipient", "resolve_current_location_input", "resolve_news_item_candidate", "resolve_outgoing_circle_request", "resolve_user_candidate", "save_my_business_profile", "search_nearby_users", "select_oldest_pending_application", "send_chat_message", "set_profile_current_location", "set_profile_details", "set_profile_location", "speak_dashboard_voice", "start_quest", "transcribe_dashboard_voice", "unblock_user", "update_admin_application", "update_circle", "update_my_application", "update_quest", "update_user_as_admin", "voice_prepare_scheduled_circle_only_quest_for_selected_people", "withdraw_my_application"] as const
 export type AgentIntentId = typeof AGENT_INTENT_IDS[number]
 

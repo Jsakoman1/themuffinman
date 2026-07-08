@@ -772,14 +772,14 @@ Primary files:
 - `workmarket/service/WorkmarketQuestApplicationService.java`
 - `workmarket/service/WorkmarketQuestQueryService.java`
 - `workmarket/service/WorkmarketQuestNewsService.java`
-- `workmarket/service/WorkmarketDashboardService.java`
+- `workmarket/service/WorkmarketDashboardReadService.java`
 - `workmarket/service/DashboardVoiceService.java`
 - `workmarket/service/OpenAiVoiceClient.java`
 - `workmarket/service/WorkmarketQuestAccessPolicyService.java`
 - `workmarket/service/QuestWorkflowNotificationService.java`
 - `workmarket/service/QuestViewAssembler.java`
 - `workmarket/service/WorkmarketOptionsService.java`
-- `workmarket/service/VisionPresentationHelper.java`
+- `workmarket/service/WorkmarketPresentationHelper.java`
 
 Primary migrations:
 - `V2__create_quest_tables.sql`
@@ -922,7 +922,7 @@ Voice-flow notes:
 ### Dashboard and notifications
 
 Primary files:
-- `workmarket/service/WorkmarketDashboardService.java`
+- `workmarket/service/WorkmarketDashboardReadService.java`
 - `workmarket/service/WorkmarketDashboardSummaryAssembler.java`
 - `workmarket/service/WorkmarketDashboardSectionsFactory.java`
 - `workmarket/service/WorkmarketQuestNewsService.java`
@@ -945,7 +945,7 @@ Primary files:
 - `workmarket/dto/QuestNewsItemResponseDTO.java`
 
 Technical notes:
-- `WorkmarketDashboardSummaryAssembler` owns the workmarket dashboard summary counts so `WorkmarketDashboardService` stays focused on orchestration and screen assembly.
+- `WorkmarketDashboardSummaryAssembler` owns the workmarket dashboard summary counts while `WorkmarketDashboardReadService` stays focused on dashboard orchestration and screen assembly.
 - `WorkmarketDashboardSectionsFactory` owns dashboard navigation section labels and descriptions, plus grouped quest/application, planner, open-work, and notification sections.
 - Frontend dashboard selectors should prefer `DashboardSectionsDTO.navigation.tabs` for dashboard section titles and descriptions, with local tab ids kept only for routing fallback before the dashboard response loads.
 
@@ -965,7 +965,7 @@ Primary files:
 
 Primary files:
 - `workmarket/service/WorkmarketOptionsService.java`
-- `workmarket/service/VisionPresentationHelper.java`
+- `workmarket/service/WorkmarketPresentationHelper.java`
 - `workmarket/dto/QuestResponseDTO.java`
 - `workmarket/dto/QuestApplicationResponseDTO.java`
 - `workmarket/dto/WorkmarketOptionsDTO.java`

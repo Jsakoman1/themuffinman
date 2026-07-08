@@ -10,7 +10,7 @@ import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.social.service.CircleRelationshipReadService;
 import com.themuffinman.app.workmarket.dto.AppUserRoleOptionDTO;
-import com.themuffinman.app.workmarket.dto.VisionOptionsDTO;
+import com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO;
 import com.themuffinman.app.workmarket.service.WorkmarketOptionsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,7 +75,7 @@ class AdminUserDetailServiceTest {
                 .id(7L)
                 .username("nina")
                 .build();
-        VisionOptionsDTO options = VisionOptionsDTO.builder()
+        WorkmarketOptionsDTO options = WorkmarketOptionsDTO.builder()
                 .appUserRoles(List.of(AppUserRoleOptionDTO.builder().value(AppUserRole.USER).label("User").build()))
                 .locationModes(List.of())
                 .exactLocationVisibilityScopes(List.of())

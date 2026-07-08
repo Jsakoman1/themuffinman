@@ -40,6 +40,31 @@ These outputs are useful for audits, validation, and local tooling, but they are
 - `docs/generated/local-tooling/workflow-slices/*`
 - `docs/generated/local-tooling/plan-code-maps/*`
 
+Treat these as generated operational aids. They may drive routing, audits, or closeout checks, but they do not replace
+the live truth and they are not all equally important during day-to-day work.
+
+### Operator-Core Generated Control
+
+These are the default compact entry surfaces for everyday work:
+
+- `docs/generated/local-tooling/control-start.*`
+- `docs/generated/local-tooling/plan-index.*`
+- `docs/generated/local-tooling/audit-summary-index.*`
+- `docs/generated/local-tooling/codex-context/latest.*`
+- `docs/generated/local-tooling/targeted-tests.*`
+
+### Focused Review Packs
+
+Open these only when the compact operator-core surfaces do not answer the question:
+
+- `docs/generated/local-tooling/context-packs/*`
+- `docs/generated/local-tooling/domain-packs/*`
+- `docs/generated/local-tooling/endpoint-contract-packs/*`
+- `docs/generated/local-tooling/workflow-slices/*`
+- `docs/generated/local-tooling/plan-code-maps/*`
+- `docs/generated/local-tooling/dto-usage-packs/*`
+- `docs/generated/local-tooling/symbol-test-links/*`
+
 ## Historical Archive
 
 These are useful for traceability, but they should not be treated as active behavior definitions or current control state:
@@ -50,6 +75,9 @@ These are useful for traceability, but they should not be treated as active beha
 - `docs/generated/local-tooling/.cache/*`
 - long-form retrospective and summary outputs under `docs/generated/local-tooling/`
 
+History and cache outputs are archive-only support material. They should not be part of the default operator read path
+or the default commit-review signal.
+
 ## Rule Of Thumb
 
 - If a change affects current product behavior, update the live truth first.
@@ -58,3 +86,5 @@ These are useful for traceability, but they should not be treated as active beha
 - If a generated review artifact starts to look like a second source of truth, compact it back into a clearer review surface.
 - If a state can be represented machine-readably, store the operational version in YAML, JSON, or manifest form first
   and use markdown for explanation, review, or curated context.
+- If a generated file only preserves prior snapshots or cache state, treat it as archive noise unless a specific audit
+  or retrospective task is using it on purpose.

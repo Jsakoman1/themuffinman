@@ -15,6 +15,8 @@ import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,6 +24,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@RequiredArgsConstructor
+@Service
 final class VisionCapabilityEntityResolutionSupport {
 
     private final AppUserRepository appUserRepository;
@@ -34,22 +38,6 @@ final class VisionCapabilityEntityResolutionSupport {
     private static final Pattern APPLICATION_ID_PATTERN = Pattern.compile("(?i)(?:application\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
     private static final Pattern CIRCLE_ID_PATTERN = Pattern.compile("(?i)(?:circle\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
     private static final Pattern USER_ID_PATTERN = Pattern.compile("(?i)(?:user\\s*#?\\s*|profile\\s*#?\\s*|#)(\\d+)|^(\\d+)$");
-
-    VisionCapabilityEntityResolutionSupport(
-            AppUserRepository appUserRepository,
-            AppUserReadService appUserReadService,
-            CircleReadService circleReadService,
-            WorkmarketQuestApplicationReadService questApplicationReadService,
-            WorkmarketQuestReadService questReadService,
-            SemanticAliasRegistry semanticAliasRegistry
-    ) {
-        this.appUserRepository = appUserRepository;
-        this.appUserReadService = appUserReadService;
-        this.circleReadService = circleReadService;
-        this.questApplicationReadService = questApplicationReadService;
-        this.questReadService = questReadService;
-        this.semanticAliasRegistry = semanticAliasRegistry;
-    }
 
     VisionResolvedUserTarget resolveCircleRequestRecipient(AppUser currentUser, String query) {
         if (!hasText(query)) {

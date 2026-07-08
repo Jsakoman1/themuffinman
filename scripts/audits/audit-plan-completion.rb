@@ -33,6 +33,17 @@ def completion_section(content)
   match && match[1]
 end
 
+def status_section(content)
+  match = content.match(/^## Status\s*$([\s\S]*?)(?=^## |\z)/)
+  match && match[1]
+end
+
+def top_level_status(section)
+  return nil unless section
+
+  section.lines.map(&:strip).reject(&:empty?).first
+end
+
 def completion_status(section)
   return nil unless section
 
@@ -81,7 +92,8 @@ def section_line_range(content, heading)
 end
 
 def final_status?(status)
-  status.to_s.strip.match?(/\A(?:complete|completed|done|deferred|skipped|n\/a|not applicable)\z/i)
+  normalized = status.to_s.strip.downcase.gsub(/[.\s]+\z/, "")
+  normalized.match?(/\A(?:complete|completed|done|deferred|skipped|n\/a|not applicable)\z/i)
 end
 
 def child_plan_section_status_issues(content)
@@ -174,6 +186,7 @@ def analyze_plan(plan_path, nested: false)
 
   content = read(plan_path)
   machine_status = LocalToolingCommon.markdown_frontmatter_value(content, "machine_status").to_s.strip
+  status_section_value = top_level_status(status_section(content))
   section = completion_section(content)
   status = completion_status(section)
   open_tasks = open_task_lines(content)
@@ -184,16 +197,29 @@ def analyze_plan(plan_path, nested: false)
   finalized = machine_status.match?(/\A(?:complete|completed|done)\z/i) || status.to_s.match?(/\A(?:complete|completed|done)\z/i)
 
   issues << "missing machine status frontmatter" if machine_status.empty?
+  issues << "missing ## Status section" if status_section_value.to_s.strip.empty?
   issues << "missing ## Completion Evidence section" unless section
   issues << "completion evidence status is missing or not final" if weak_status?(status)
+  issues << "plan is not marked complete yet" unless finalized
+
+  if finalized
+    issues << "machine_status is not final: #{machine_status}" unless final_status?(machine_status)
+    issues << "top-level status is not final: #{status_section_value}" unless final_status?(status_section_value)
+  end
 
   unresolved_tasks = open_tasks.reject { |task| deferred_task?(task[:text]) }
   unresolved_tasks.each do |task|
-    issues << "open task at #{plan_path}:#{task[:line]} is not explicitly deferred to a backlog ID"
+    message = "open task at #{plan_path}:#{task[:line]} is not explicitly deferred to a backlog ID"
+    finalized ? issues << message : warnings << message
   end
 
-  issues.concat(child_status_issues)
-  issues.concat(child_completion_issues)
+  if finalized
+    issues.concat(child_status_issues)
+    issues.concat(child_completion_issues)
+  else
+    warnings.concat(child_status_issues)
+    warnings.concat(child_completion_issues)
+  end
 
   children = child_rows.map do |row|
     child = analyze_plan(row[:path], nested: true)
@@ -206,7 +232,8 @@ def analyze_plan(plan_path, nested: false)
         "incomplete"
       end
     if child_status == "incomplete" && !nested
-      issues << "child plan #{row[:path]} at #{plan_path}:#{row[:line]} is incomplete without an explicit deferred backlog ID"
+      message = "child plan #{row[:path]} at #{plan_path}:#{row[:line]} is incomplete without an explicit deferred backlog ID"
+      finalized ? issues << message : warnings << message
     end
     row.merge(status: child_status, child_issues: child[:issues])
   end
@@ -220,6 +247,8 @@ def analyze_plan(plan_path, nested: false)
   {
     plan: plan_path,
     exists: true,
+    machine_status: machine_status,
+    top_level_status: status_section_value,
     completion_evidence: !!section,
     completion_status: status,
     open_tasks: open_tasks,
@@ -242,15 +271,24 @@ def write_report(plan_path, manifest_path, result)
   lines << "- Plan: `#{plan_path}`"
   lines << "- Manifest: `#{manifest_path || 'none'}`"
   lines << "- Status: `#{payload[:status]}`"
+  lines << "- Machine status: `#{payload[:machine_status]}`"
+  lines << "- Top-level status: `#{payload[:top_level_status]}`"
   lines << "- Completion evidence: `#{payload[:completion_evidence]}`"
   lines << "- Open tasks: `#{payload[:open_tasks].size}`"
   lines << "- Temp work products: `#{payload[:temp_work_products].size}`"
   lines << "- Issues: `#{payload[:issues].size}`"
+  lines << "- Warnings: `#{payload[:warnings].size}`"
   lines << ""
   if payload[:issues].any?
     lines << "## Issues"
     lines << ""
     payload[:issues].each { |issue| lines << "- #{issue}" }
+    lines << ""
+  end
+  if payload[:warnings].any?
+    lines << "## Warnings"
+    lines << ""
+    payload[:warnings].each { |warning| lines << "- #{warning}" }
     lines << ""
   end
   if payload[:temp_work_products].any?

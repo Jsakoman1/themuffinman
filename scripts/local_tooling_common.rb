@@ -19,6 +19,11 @@ module LocalToolingCommon
     "apps/themuffinman/frontend/dist/",
     "apps/themuffinman/frontend/src/contracts/generated/"
   ].freeze
+  ARCHIVE_PATH_PREFIXES = [
+    "docs/generated/local-tooling/.history/",
+    "docs/generated/local-tooling/.cache/",
+    ".agents/archive/"
+  ].freeze
   AGENT_TRANSIENT_PATTERNS = [
     %r{\A\.agents/todo-plans/},
     %r{\A\.agents/validation-evidence/},
@@ -221,6 +226,18 @@ module LocalToolingCommon
     GENERATED_PATH_PREFIXES.any? { |prefix| relative_path.start_with?(prefix) }
   end
 
+  def archive_path?(relative_path)
+    ARCHIVE_PATH_PREFIXES.any? { |prefix| relative_path.start_with?(prefix) }
+  end
+
+  def control_surface_class(relative_path)
+    return "historical_archive" if archive_path?(relative_path)
+    return "generated_control" if generated_path?(relative_path)
+    return "agent_transient" if agent_transient_path?(relative_path)
+
+    "live_truth"
+  end
+
   def agent_transient_path?(relative_path)
     AGENT_TRANSIENT_PATTERNS.any? { |pattern| relative_path.match?(pattern) }
   end
@@ -228,6 +245,7 @@ module LocalToolingCommon
   def filter_file_list(files, include_generated: false, include_agents: false)
     rows = files.uniq.map do |path|
       reasons = []
+      reasons << "historical_archive" if archive_path?(path)
       reasons << "generated" if !include_generated && generated_path?(path)
       reasons << "agent_transient" if !include_agents && agent_transient_path?(path)
       {path: path, excluded: reasons.any?, reasons: reasons}

@@ -139,6 +139,8 @@ policies:
     - Plans execute concrete implementation or analysis slices.
     - Temporary machine-readable work products live under `.agents/tmp/` only while their owning Plan needs them.
     - "make control-start, make codex-context, and make context-pack surface the topic's layered-analysis artifact and temp work-product inventory when they exist."
+    - "Treat the operator-core local-tooling surfaces as the default session path: `control-start`, `plan-index`, `audit-summary-index`, `codex-context/latest.*`, and targeted-tests summaries."
+    - "Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state."
     - "make control-refresh-full performs the same snapshot flow and then runs the slower generated-artifact freshness pass."
     - "make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, and closeout hints when a plan exists."
     - "make temp-work-product-closeout plan=<plan-file> deletes or archives lingering temp work products owned by a plan before closeout."

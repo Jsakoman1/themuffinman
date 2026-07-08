@@ -1,32 +1,16 @@
 {
-  "generated_at": "2026-07-08T06:34:38Z",
-  "total_count": 95,
-  "open_count": 1,
-  "master_plan_count": 20,
+  "generated_at": "2026-07-08T07:21:09Z",
+  "total_count": 99,
+  "open_count": 0,
+  "master_plan_count": 21,
   "god_plan_count": 1,
   "open_master_plans": [
 
   ],
   "open_plans": [
-    {
-      "path": ".agents/vision-workmarket-dashboard-boundary-finalization-plan.md",
-      "kind": "plan",
-      "status": "unknown",
-      "title": "Vision Workmarket Dashboard Boundary Finalization Plan",
-      "goal": "Remove the remaining `workmarket -> vision` dashboard prompt and voice compile-time dependency while preserving the existing `/dashboard/me/vision/*` and `/dashboard/me/voice/*` behavior.",
-      "child_plans": 0,
-      "open_tasks": 0
-    }
+
   ],
   "entries": [
-    {
-      "path": ".agents/vision-workmarket-dashboard-boundary-finalization-plan.md",
-      "kind": "plan",
-      "status": "unknown",
-      "title": "Vision Workmarket Dashboard Boundary Finalization Plan",
-      "goal": "Remove the remaining `workmarket -> vision` dashboard prompt and voice compile-time dependency while preserving the existing `/dashboard/me/vision/*` and `/dashboard/me/voice/*` behavior.",
-      "child_plans": 0,
-      "open_tasks": 0
-    }
+
   ]
 }

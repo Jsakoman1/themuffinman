@@ -74,6 +74,10 @@ The schema for the machine-readable shape is `docs/god-plan.schema.json`.
 
 Use a Master Plan when a workstream is broad enough to require ordered child plans and a final closeout pass.
 
+Do not create a Master Plan when one durable Plan can carry the full slice clearly. The extra layer should only exist
+when there are at least two real ordered child slices, materially different implementation surfaces, or a final
+closeout pass that genuinely improves auditability.
+
 Master Plans should track:
 
 - goal and status
@@ -90,6 +94,9 @@ Existing `.agents/*-master-plan.md` files already satisfy this role when they na
 ## Plan Contract
 
 Use a Plan for an implementation or analysis slice that can be executed and validated directly.
+
+Prefer one durable Plan over a Master Plan plus thin child plans when the work still fits one bounded implementation
+surface and one validation story.
 
 Plans should track:
 

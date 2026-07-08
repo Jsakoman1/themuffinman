@@ -21,8 +21,7 @@ documentation_coverage:
     - auth_mgr
     - app_user_service
     - app_user_lookup_service
-    - dashboard_service
-    - workmarket_dashboard_service
+    - dashboard_read_service
     - vision_conversation_service
     - vision_create_quest_execution_adapter
     - quest_service
@@ -259,7 +258,7 @@ documentation_coverage:
     - quest_sort_option_dto
     - quest_status_filter_option_dto
     - quest_status_option_dto
-    - vision_options_dto
+    - workmarket_options_dto
   - id: workmarket_mutation_contract_dtos
     source_refs:
     - quest_request_dto
@@ -320,7 +319,7 @@ documentation_coverage:
     - workmarket_quest_viewer_relation_dto
     - workmarket_user_rating_summary_dto
     - workmarket_user_review_response_dto
-    - workmarket_vision_options_dto
+    - workmarket_options_contract_dto
   - id: workmarket_news_read_model_contract_dtos
     source_refs:
     - quest_news_destination_type

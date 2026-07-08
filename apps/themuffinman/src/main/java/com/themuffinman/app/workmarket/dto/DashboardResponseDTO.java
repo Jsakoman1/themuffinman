@@ -3,7 +3,7 @@ package com.themuffinman.app.workmarket.dto;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
-import com.themuffinman.app.workmarket.dto.VisionOptionsDTO;
+import com.themuffinman.app.workmarket.dto.WorkmarketOptionsDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DashboardResponseDTO {
-    private VisionOptionsDTO options;
+    private WorkmarketOptionsDTO options;
     private DashboardSummaryDTO summary;
     private DashboardSectionsDTO sections;
     private List<QuestResponseDTO> quests;
